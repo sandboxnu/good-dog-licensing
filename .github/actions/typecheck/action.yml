@@ -1,4 +1,5 @@
 name: "Type-check"
+description: "Type-check the project using TSC"
 
 runs:
   using: composite

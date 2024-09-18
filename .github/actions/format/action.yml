@@ -1,4 +1,5 @@
 name: "Lint"
+description: "Lint the project using Prettier"
 
 runs:
   using: composite
