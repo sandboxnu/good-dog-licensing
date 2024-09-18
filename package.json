@@ -1,55 +1,52 @@
 {
-  "name": "good-dog-licensing",
-  "version": "0.1.0",
+  "name": "good-dog",
   "private": true,
-  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "bun@1.1.27",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tooling/*"
+  ],
   "scripts": {
-    "build": "next build",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio",
-    "dev": "next dev",
-    "lint": "next lint",
-    "start": "next start"
+    "__BUILD_____________": "",
+    "build": "turbo run build",
+    "__CLEAN_____________": "",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo run clean",
+    "__DATABASE__________": "",
+    "db:up": "turbo run -F @good-dog/db up",
+    "db:down": "turbo run -F @good-dog/db down",
+    "db:push": "turbo run -F @good-dog/db push",
+    "db:generate": "turbo run -F @good-dog/db generate",
+    "db:migrate": "turbo run -F @good-dog/db migrate",
+    "db:studio": "turbo run -F @good-dog/db studio",
+    "__DEVELOPMENT_______": "",
+    "dev": "turbo run dev",
+    "dev:web": "turbo run -F @good-dog/web dev",
+    "__FORMAT____________": "",
+    "format": "turbo run format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
+    "format:fix": "turbo run format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
+    "__LINT______________": "",
+    "lint": "turbo run lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:ws": "bunx sherif@latest",
+    "__MISC______________": "",
+    "postinstall": "bun run lint:ws",
+    "typecheck": "turbo run typecheck",
+    "shad-add": "turbo run ui-add",
+    "generate:package": "turbo generate package"
   },
-  "dependencies": {
-    "@auth/drizzle-adapter": "^1.1.0",
-    "@t3-oss/env-nextjs": "^0.10.1",
-    "@tanstack/react-query": "^5.50.0",
-    "@trpc/client": "^11.0.0-rc.446",
-    "@trpc/react-query": "^11.0.0-rc.446",
-    "@trpc/server": "^11.0.0-rc.446",
-    "drizzle-orm": "^0.33.0",
-    "geist": "^1.3.0",
-    "next": "^14.2.4",
-    "next-auth": "^4.24.7",
-    "postgres": "^3.4.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "server-only": "^0.0.1",
-    "superjson": "^2.2.1",
-    "zod": "^3.23.3"
-  },
+  "prettier": "@good-dog/prettier",
   "devDependencies": {
-    "@types/eslint": "^8.56.10",
-    "@types/node": "^20.14.10",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.1.0",
-    "@typescript-eslint/parser": "^8.1.0",
-    "drizzle-kit": "^0.24.0",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.4",
-    "eslint-plugin-drizzle": "^0.2.3",
-    "postcss": "^8.4.39",
-    "prettier": "^3.3.2",
-    "prettier-plugin-tailwindcss": "^0.6.5",
-    "tailwindcss": "^3.4.3",
-    "typescript": "^5.5.3"
+    "@good-dog/prettier": "workspace:*",
+    "@turbo/gen": "^2.1.2",
+    "turbo": "2.1.2",
+    "typescript": "5.4.5"
   },
-  "ct3aMetadata": {
-    "initVersion": "7.37.0"
-  },
-  "packageManager": "npm@10.2.3"
+  "trustedDependencies": [
+    "core-js-pure"
+  ]
 }

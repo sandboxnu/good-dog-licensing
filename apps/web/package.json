@@ -1,0 +1,40 @@
+{
+  "name": "@good-dog/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@good-dog/tailwind": "workspace:*",
+    "@t3-oss/env-nextjs": "^0.10.1",
+    "next": "^14.2.12",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "server-only": "^0.0.1",
+    "zod": "3.23.8"
+  },
+  "ct3aMetadata": {
+    "initVersion": "7.37.0"
+  },
+  "devDependencies": {
+    "@good-dog/eslint": "workspace:*",
+    "@good-dog/prettier": "workspace:*",
+    "@good-dog/typescript": "workspace:*",
+    "@good-dog/ui": "workspace:*",
+    "@types/react": "^18.3.7",
+    "eslint": "9.10.0",
+    "prettier": "3.2.5",
+    "tailwindcss": "3.4.12",
+    "typescript": "5.4.5"
+  },
+  "overrides": {
+    "eslint": "9.10.0"
+  }
+}

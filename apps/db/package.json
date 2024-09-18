@@ -1,0 +1,13 @@
+{
+  "name": "@good-dog/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "docker-compose -f compose.yml up",
+    "up": "docker-compose -f compose.yml up -d",
+    "down": "docker-compose -f compose.yml down",
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore"
+  }
+}

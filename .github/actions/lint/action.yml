@@ -1,0 +1,17 @@
+name: "Lint"
+description: "Lint the project using ESLint"
+
+runs:
+  using: composite
+  steps:
+    - uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: 1.1.27
+
+    - shell: bash
+      run: bun install --frozen-lockfile
+
+    - shell: bash
+      run: |
+        bun lint
+        bunx sherif@latest
