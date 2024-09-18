@@ -44,6 +44,9 @@
     "@good-dog/prettier": "workspace:*",
     "@turbo/gen": "^2.1.2",
     "turbo": "2.1.2",
-    "typescript": "5.3.3"
-  }
+    "typescript": "5.4.5"
+  },
+  "trustedDependencies": [
+    "core-js-pure"
+  ]
 }

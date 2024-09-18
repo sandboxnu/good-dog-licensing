@@ -12,4 +12,6 @@ runs:
       run: bun install --frozen-lockfile
 
     - shell: bash
-      run: bun run lint
+      run: |
+        bun lint
+        bun list:ws

@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.3.0",
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@good-dog/typescript": "workspace:*",
-    "typescript": "5.3.3"
+    "typescript": "5.4.5"
   },
   "prettier": "@good-dog/prettier"
 }

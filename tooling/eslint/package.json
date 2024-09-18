@@ -11,7 +11,7 @@
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@next/eslint-plugin-next": "^14.2.11",
@@ -27,7 +27,7 @@
     "@good-dog/typescript": "workspace:*",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
-    "typescript": "5.3.3"
+    "typescript": "5.4.5"
   },
   "prettier": "@good-dog/prettier"
 }
