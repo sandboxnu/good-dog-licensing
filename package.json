@@ -1,23 +1,49 @@
 {
-  "name": "good-dog-licensing",
+  "name": "good-dog",
   "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "prettier": "^3.2.5",
-    "turbo": "^2.1.2",
-    "typescript": "^5.4.5"
-  },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "packageManager": "bun@1.1.27",
   "workspaces": [
     "apps/*",
-    "packages/*"
-  ]
+    "packages/*",
+    "tooling/*"
+  ],
+  "scripts": {
+    "__BUILD_____________": "",
+    "build": "turbo run build",
+    "__CLEAN_____________": "",
+    "clean": "git clean -xdf node_modules",
+    "clean:workspaces": "turbo run clean",
+    "__DATABASE__________": "",
+    "db:up": "turbo run -F @good-dog/db up",
+    "db:down": "turbo run -F @good-dog/db down",
+    "db:push": "turbo run -F @good-dog/db push",
+    "db:generate": "turbo run -F @good-dog/db generate",
+    "db:migrate": "turbo run -F @good-dog/db migrate",
+    "db:studio": "turbo run -F @good-dog/db studio",
+    "__DEVELOPMENT_______": "",
+    "dev": "turbo run dev",
+    "dev:web": "turbo run -F @good-dog/web dev",
+    "__FORMAT____________": "",
+    "format": "turbo run format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
+    "format:fix": "turbo run format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
+    "__LINT______________": "",
+    "lint": "turbo run lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:ws": "bunx sherif@latest",
+    "__MISC______________": "",
+    "postinstall": "bun run lint:ws",
+    "typecheck": "turbo run typecheck",
+    "shad-add": "turbo run ui-add",
+    "generate:package": "turbo generate package"
+  },
+  "prettier": "@good-dog/prettier",
+  "devDependencies": {
+    "@good-dog/prettier": "workspace:*",
+    "@turbo/gen": "^2.1.2",
+    "turbo": "2.1.2",
+    "typescript": "5.3.3"
+  }
 }

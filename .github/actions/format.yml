@@ -1,0 +1,16 @@
+name: "Lint"
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+
+    - uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: 1.1.27
+
+    - shell: bash
+      run: bun install --frozen-lockfile
+
+    - shell: bash
+      run: bun run format

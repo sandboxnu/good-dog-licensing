@@ -1,0 +1,20 @@
+name: Static Pull Request Checks
+
+on:
+  pull_request:
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/typecheck
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/format
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/lint

@@ -1,81 +1,92 @@
-# Turborepo starter
+# Good Dog Monorepo
 
-This is an official starter Turborepo.
+This repository is a monorepo for the Good Dog Licensing project, managed with TurboRepo and Bun.
 
-## Using this example
+## Table of Contents
 
-Run the following command:
+- [Good Dog Monorepo](#good-dog-monorepo)
+  - [Table of Contents](#table-of-contents)
+  - [Structure](#structure)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Running Scripts](#running-scripts)
+
+## Structure
+
+The repository is organized as follows:
+
+- **apps/**: Contains the main applications.
+  - **db/**: Database-related scripts and configurations.
+  - **web/**: The web application built with Next.js.
+- **packages/**: Contains shared packages.
+  - **trpc/**: tRPC-related code.
+  - **ui/**: UI components and utilities.
+- **tooling/**: Contains configuration and tooling for the project.
+  - **eslint/**: ESLint configurations.
+  - **github/**: GitHub Actions and workflows.
+  - **prettier/**: Prettier configurations.
+  - **tailwind/**: Tailwind CSS configurations.
+  - **typescript**: TypeScript configurations.
+- **.vscode/**: Contains Visual Studio Code settings and recommended extensions.
+- **node_modules/**: Contains installed dependencies.
+- **package.json**: Contains project metadata and scripts.
+- **tsconfig.json**: Contains TypeScript configuration.
+- **README.md**: The main documentation file for the project.
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) >= 20
+- [Bun](https://bun.sh/) >= 1.1.27
+- [Docker](https://www.docker.com/) >= 20.10.7
+
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone git@github.com:sandboxnu/good-dog-licensing.git
+   cd good-dog
+   ```
+
+2. Install dependencies:
 
 ```sh
-npx create-turbo@latest
+bun install
 ```
 
-## What's inside?
+3. Create env file
 
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```sh
+cp .env.example .env
 ```
 
-### Develop
+4. Start the dev enviornment:
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+```sh
+bun dev
 ```
 
-### Remote Caching
+### Running Scripts
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+The following scripts are available in the root `package.json`:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+- `build`: Build all packages and applications.
+- `clean`: Clean all `node_modules` and Turbo cache.
+- `db:up`: Start the database.
+- `db:down`: Stop the database.
+- `db:push`: Push database schema changes.
+- `db:generate`: Generate database client.
+- `db:migrate`: Run database migrations.
+- `db:studio`: Open the database Studio.
+- `dev`: Start all the development apps.
+- `dev:web`: Start only the web app.
+- `format`: Check code formatting.
+- `format:fix`: Fix code formatting.
+- `lint`: Run linting.
+- `lint:fix`: Fix linting issues.
+- `typecheck`: Run TypeScript type checks.
+- `shad-add`: Add a new UI component using Shadcn.
+- `generate:package`: Generate a new package.
