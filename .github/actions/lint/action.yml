@@ -14,4 +14,4 @@ runs:
     - shell: bash
       run: |
         bun lint
-        bun list:ws
+        bunx sherif@latest
