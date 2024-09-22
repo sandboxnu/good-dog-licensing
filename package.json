@@ -48,5 +48,8 @@
   },
   "trustedDependencies": [
     "core-js-pure"
-  ]
+  ],
+  "dependencies": {
+    "prisma": "^5.19.1"
+  }
 }
