@@ -9,7 +9,7 @@
     "apps/*",
     "packages/*",
     "tooling/*",
-    "test/*"
+    "test"
   ],
   "scripts": {
     "__BUILD_____________": "",
