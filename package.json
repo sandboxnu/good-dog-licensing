@@ -8,7 +8,8 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "tooling/*"
+    "tooling/*",
+    "test/*"
   ],
   "scripts": {
     "__BUILD_____________": "",
