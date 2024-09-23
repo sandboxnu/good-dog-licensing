@@ -19,12 +19,5 @@
     "prettier": "3.2.5",
     "typescript": "5.4.5"
   },
-  "prettier": "@good-dog/prettier",
-  "dependencies": {
-    "@tanstack/react-query": "^5.56.2",
-    "@trpc/client": "^10.45.2",
-    "@trpc/react-query": "^10.45.2",
-    "@trpc/server": "^10.45.2",
-    "superjson": "^2.2.1"
-  }
+  "prettier": "@good-dog/prettier"
 }
