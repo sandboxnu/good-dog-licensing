@@ -47,7 +47,7 @@
     },
     "generate": {
       "cache": false,
-      "interactive": true
+      "interactive": false
     },
     "migrate": {
       "cache": false,

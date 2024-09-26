@@ -35,7 +35,7 @@
     "lint:fix": "turbo run lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ws": "bunx sherif@latest",
     "__MISC______________": "",
-    "postinstall": "bun run lint:ws && bun run db:generate",
+    "postinstall": "turbo run generate && bun run lint:ws",
     "typecheck": "turbo run typecheck",
     "shad-add": "turbo run ui-add",
     "generate:package": "turbo generate package",
