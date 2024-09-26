@@ -68,6 +68,10 @@
     "down": {
       "cache": false,
       "interactive": false
+    },
+    "env": {
+      "interactive": false,
+      "cache": false
     }
   },
   "globalEnv": ["SKIP_ENV_VALIDATION"],

@@ -57,10 +57,10 @@ The repository is organized as follows:
 bun install
 ```
 
-3. Create env file
+3. Create env files
 
 ```sh
-cp .env.example .env
+bun env:setup
 ```
 
 4. Start the dev enviornment:
@@ -90,3 +90,4 @@ The following scripts are available in the root `package.json`:
 - `typecheck`: Run TypeScript type checks.
 - `shad-add`: Add a new UI component using Shadcn.
 - `generate:package`: Generate a new package.
+- `env:setup`: Setup the default env vars

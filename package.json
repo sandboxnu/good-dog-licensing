@@ -37,7 +37,8 @@
     "postinstall": "bun run lint:ws",
     "typecheck": "turbo run typecheck",
     "shad-add": "turbo run ui-add",
-    "generate:package": "turbo generate package"
+    "generate:package": "turbo generate package",
+    "env:setup": "turbo run env"
   },
   "prettier": "@good-dog/prettier",
   "devDependencies": {
@@ -48,8 +49,5 @@
   },
   "trustedDependencies": [
     "core-js-pure"
-  ],
-  "dependencies": {
-    "prisma": "^5.19.1"
-  }
+  ]
 }
