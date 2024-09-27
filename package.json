@@ -9,7 +9,7 @@
     "apps/*",
     "packages/*",
     "tooling/*",
-    "test"
+    "tests"
   ],
   "scripts": {
     "__BUILD_____________": "",
@@ -48,6 +48,8 @@
     "typescript": "5.4.5"
   },
   "trustedDependencies": [
-    "core-js-pure"
+    "@prisma/client",
+    "@prisma/engines",
+    "prisma"
   ]
 }
