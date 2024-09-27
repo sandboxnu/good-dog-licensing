@@ -26,9 +26,9 @@
   "devDependencies": {
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
+    "@good-dog/trpc": "workspace:*",
     "@good-dog/typescript": "workspace:*",
     "@good-dog/ui": "workspace:*",
-    "@good-dog/trpc": "workspace:*",
     "@types/react": "^18.3.7",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
