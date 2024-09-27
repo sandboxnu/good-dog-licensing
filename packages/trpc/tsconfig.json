@@ -1,7 +1,10 @@
 {
   "extends": "@good-dog/typescript/base.json",
   "compilerOptions": {
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "jsx": "preserve",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "types": ["bun", "react/canary"]
   },
   "include": ["*.ts", "src"],
   "exclude": ["node_modules"]
