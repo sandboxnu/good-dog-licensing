@@ -30,8 +30,7 @@ Closes [story](<!--Copy Trello card link here-->)
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 
-- [ ] My code follows the code style of this project.
-- [ ] My change requires a change to the documentation.
+- [ ] I verified my changes work in the local environment
 - [ ] I verified my changes work in the preview environment
 - [ ] I have updated the documentation accordingly.
 - [ ] I have added tests to cover my changes.
