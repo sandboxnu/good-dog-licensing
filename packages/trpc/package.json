@@ -6,7 +6,7 @@
   "exports": {
     "./client": "./src/client.tsx",
     "./server": "./src/server.ts",
-    "./handler": "./src/handler.ts"
+    "./next": "./src/handler.ts"
   },
   "license": "MIT",
   "scripts": {

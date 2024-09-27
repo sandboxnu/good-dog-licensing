@@ -8,13 +8,7 @@
 
 <!--- Why is this change required? What problem does it solve? -->
 
-Closes [story<!--Copy Trello card link here-->]
-
-## How has this been tested?
-
-<!--- Please describe in detail how you tested your changes. -->
-<!--- Include details of your testing environment, tests ran to see how -->
-<!--- your change affects other areas of the code, etc. -->
+Closes [story](<!--Copy Trello card link here-->)
 
 ## Screenshots (if appropriate):
 
@@ -25,6 +19,11 @@ Closes [story<!--Copy Trello card link here-->]
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] CI/CD changes (changing github actions or deployment scripts)
+- [ ] New package(s)
+- [ ] New dependencies
+- [ ] Global style changes
+- [ ] Project configuration
 
 ## Checklist:
 
@@ -33,6 +32,12 @@ Closes [story<!--Copy Trello card link here-->]
 
 - [ ] My code follows the code style of this project.
 - [ ] My change requires a change to the documentation.
+- [ ] I verified my changes work in the preview environment
 - [ ] I have updated the documentation accordingly.
 - [ ] I have added tests to cover my changes.
-- [ ] All new and existing tests passed.
+
+## How has this been tested?
+
+<!--- Please describe in detail how you tested your changes. -->
+<!--- Include details of your testing environment, tests ran to see how -->
+<!--- your change affects other areas of the code, etc. -->
