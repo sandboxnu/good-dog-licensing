@@ -15,17 +15,15 @@
     "@good-dog/tailwind": "workspace:*",
     "@t3-oss/env-nextjs": "^0.10.1",
     "next": "^14.2.12",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "server-only": "^0.0.1",
     "zod": "3.23.8"
-  },
-  "ct3aMetadata": {
-    "initVersion": "7.37.0"
   },
   "devDependencies": {
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
+    "@good-dog/trpc": "workspace:*",
     "@good-dog/typescript": "workspace:*",
     "@good-dog/ui": "workspace:*",
     "@types/react": "^18.3.7",

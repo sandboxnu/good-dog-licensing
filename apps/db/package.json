@@ -28,7 +28,7 @@
     "@types/bun": "^1.1.10",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
-    "prisma": "^5.19.1",
+    "prisma": "5.19.1",
     "typescript": "5.4.5"
   }
 }

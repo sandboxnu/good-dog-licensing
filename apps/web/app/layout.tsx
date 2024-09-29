@@ -1,3 +1,5 @@
+import { TRPCProvider } from "@good-dog/trpc/client";
+
 import "./globals.css";
 
 export const metadata = {
@@ -10,7 +12,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <TRPCProvider>{children}</TRPCProvider>
+      </body>
     </html>
   );
 }

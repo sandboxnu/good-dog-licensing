@@ -14,4 +14,11 @@ export default [
       "@next/next/no-duplicate-head": "off",
     },
   },
+  // Allows prefetching queries in the background
+  {
+    files: ["**/page.tsx", "**/layout.tsx"],
+    rules: {
+      "@typescript-eslint/require-await": "off",
+    },
+  },
 ];

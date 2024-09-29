@@ -12,6 +12,15 @@ export default [
     rules: {
       ...reactPlugin.configs["jsx-runtime"].rules,
       ...hooksPlugin.configs.recommended.rules,
+      "no-restricted-imports": [
+        "error",
+        {
+          name: "react",
+          importNames: ["cache"],
+          message:
+            "Use `import React from 'React` instead to ensure the module can be mocked during testing",
+        },
+      ],
     },
     languageOptions: {
       globals: {

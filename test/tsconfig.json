@@ -1,8 +1,0 @@
-{
-  "extends": "@good-dog/typescript/base.json",
-  "compilerOptions": {
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
-  },
-  "include": ["**/*.test.ts", "*.ts"],
-  "exclude": ["node_modules"]
-}
