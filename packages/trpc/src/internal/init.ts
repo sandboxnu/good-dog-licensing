@@ -2,14 +2,14 @@ import React from "react";
 import { initTRPC } from "@trpc/server";
 import SuperJSON from "superjson";
 
-// import { prisma } from "@good-dog/db";
+import { prisma } from "@good-dog/db";
 
 export const createTRPCContext = React.cache(() => {
   /**
    * @see: https://trpc.io/docs/server/context
    */
   return {
-    // prisma: prisma,
+    prisma: prisma,
   };
 });
 

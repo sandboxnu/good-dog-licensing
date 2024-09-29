@@ -47,7 +47,7 @@
     },
     "generate": {
       "cache": false,
-      "interactive": true
+      "interactive": false
     },
     "migrate": {
       "cache": false,
@@ -68,6 +68,10 @@
     "down": {
       "cache": false,
       "interactive": false
+    },
+    "env": {
+      "interactive": false,
+      "cache": false
     }
   },
   "globalEnv": ["SKIP_ENV_VALIDATION"],

@@ -3,11 +3,32 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "dev": "docker-compose -f compose.yml up",
     "up": "docker-compose -f compose.yml up -d",
     "down": "docker-compose -f compose.yml down",
     "clean": "rm -rf .turbo node_modules",
-    "format": "prettier --check . --ignore-path ../../.gitignore"
+    "format": " prisma format && prettier --check . --ignore-path ../../.gitignore",
+    "push": "prisma db push",
+    "studio": "prisma studio",
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev",
+    "env": "cp .env.example .env"
+  },
+  "dependencies": {
+    "@prisma/client": "5.19.1"
+  },
+  "devDependencies": {
+    "@good-dog/eslint": "workspace:*",
+    "@good-dog/prettier": "workspace:*",
+    "@good-dog/typescript": "workspace:*",
+    "@types/bun": "^1.1.10",
+    "eslint": "9.10.0",
+    "prettier": "3.2.5",
+    "prisma": "5.19.1",
+    "typescript": "5.4.5"
   }
 }
