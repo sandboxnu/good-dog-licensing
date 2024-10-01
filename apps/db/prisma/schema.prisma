@@ -14,9 +14,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Temporary
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Session {
+  id Int @id @default(autoincrement())
+  userId Int
+  token String @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
 }
