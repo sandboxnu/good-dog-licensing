@@ -26,9 +26,14 @@
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
     "@types/bun": "^1.1.10",
+    "@types/node": "^22.7.4",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
     "prisma": "5.19.1",
+    "ts-node": "^10.9.2",
     "typescript": "5.4.5"
+  },
+  "prisma": {
+    "seed": "npx ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   }
 }
