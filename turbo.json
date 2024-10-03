@@ -55,11 +55,11 @@
     },
     "migrate:reset": {
       "cache": false,
-      "interactive": true
+      "interactive": false
     },
     "migrate:prod": {
       "cache": false,
-      "interactive": true
+      "interactive": false
     },
     "studio": {
       "cache": false,
