@@ -16,7 +16,8 @@
     "studio": "prisma studio",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
-    "env": "cp .env.example .env"
+    "env": "cp .env.example .env",
+    "seed": "prisma db seed"
   },
   "dependencies": {
     "@prisma/client": "5.19.1"
