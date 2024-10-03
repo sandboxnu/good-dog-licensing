@@ -2,8 +2,8 @@ name: Apply Database Migrations
 
 on:
   push:
-    # branches:
-    #   - main
+    branches:
+      - main
 
 jobs:
   migrate:
