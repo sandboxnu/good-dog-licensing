@@ -53,6 +53,14 @@
       "cache": false,
       "interactive": true
     },
+    "migrate:reset": {
+      "cache": false,
+      "interactive": true
+    },
+    "migrate:prod": {
+      "cache": false,
+      "interactive": true
+    },
     "studio": {
       "cache": false,
       "interactive": true

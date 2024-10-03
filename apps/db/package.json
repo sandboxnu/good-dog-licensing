@@ -16,6 +16,8 @@
     "studio": "prisma studio",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
+    "migrate:reset": "prisma migrate reset",
+    "migrate:prod": "prisma migrate deploy",
     "env": "cp .env.example .env"
   },
   "dependencies": {
