@@ -85,11 +85,8 @@
   "globalEnv": ["SKIP_ENV_VALIDATION"],
   "globalPassThroughEnv": [
     "NODE_ENV",
-    "CI",
-    "VERCEL",
     "VERCEL_ENV",
     "VERCEL_URL",
-    "npm_lifecycle_event",
-    "USER"
+    "DATABASE_PRISMA_URL"
   ]
 }
