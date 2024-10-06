@@ -20,6 +20,8 @@ Closes [story](<!--Copy Trello card link here-->)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] CI/CD changes (changing github actions or deployment scripts)
+- [ ] Database migration
+- [ ] Environment variable change
 - [ ] New package(s)
 - [ ] New dependencies
 - [ ] Global style changes
