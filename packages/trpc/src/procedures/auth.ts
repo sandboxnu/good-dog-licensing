@@ -10,15 +10,30 @@ export const signUpProcedure = baseProcedureBuilder
         }),
     )
     .mutation(async ({ ctx, input }) => {
-        await ctx.prisma.user.create({
+        const user = await ctx.prisma.user.create({
             data: {
                 email: input.email,
                 password: input.password,
             },
         });
 
+        const session = await ctx.prisma.session.create({
+            data: {
+                user: {
+                    connect: {
+                        id: user.id,
+                    },
+                },
+                token: crypto.randomUUID(),
+                expiresAt: new Date(),
+            },
+        });
+
         return {
-            response: `Successfully signed up and logged in as ${input.email}`,
+            response: {
+                message: `Successfully logged in as ${input.email}`,
+                sessionToken: session.token,
+            },
         };
     });
 
@@ -55,8 +70,20 @@ export const signInProcedure = baseProcedureBuilder
             },
         });
 
+        const session = await ctx.prisma.session.findFirst({
+            where: {
+                userId: user.id,
+                expiresAt: {
+                    gte: new Date(),
+                },
+            },
+        });
+
         return {
-            response: `Successfully logged in as ${input.email}`,
+            response: {
+                message: `Successfully logged in as ${input.email}`,
+                sessionToken: session?.token,
+            },
         };
     });
 
