@@ -18,6 +18,6 @@ export const signUpProcedure = baseProcedureBuilder
         });
 
         return {
-            response: `Successfully logged in as ${input.email}`,
+            response: `Account successfully created: ${input.email}`,
         };
     });
