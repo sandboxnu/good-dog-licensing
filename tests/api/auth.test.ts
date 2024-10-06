@@ -19,3 +19,21 @@ test("auth/signIn", async () => {
 
     expect(res.response).toEqual(expectedRepsonse);
 });
+
+test("auth/signOut", async () => {
+    const signInResponse = await _trpcCaller.signIn(
+        {
+            email: "test@email.com",
+            password: "test",
+        },
+    );
+    expect(signInResponse.response.message).toEqual("Successfully logged in as test@email.com");
+
+    const res = await _trpcCaller.signOut(
+        {
+            token: signInResponse.sessionToken,
+        },
+    );
+
+    expect(res.response).toEqual("Successfully logged out");
+});
