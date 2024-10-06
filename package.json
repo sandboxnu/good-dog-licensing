@@ -25,6 +25,7 @@
     "db:migrate": "turbo run -F @good-dog/db migrate",
     "db:migrate:reset": "turbo run -F @good-dog/db migrate:reset",
     "db:migrate:prod": "turbo run -F @good-dog/db migrate:prod",
+    "db:migrate:check": "turbo run -F @good-dog/db migrate:check --",
     "db:studio": "turbo run -F @good-dog/db studio",
     "__DEVELOPMENT_______": "",
     "dev": "turbo run dev",
