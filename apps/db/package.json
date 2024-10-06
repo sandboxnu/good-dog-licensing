@@ -19,6 +19,7 @@
     "migrate:reset": "prisma migrate reset",
     "migrate:prod": "prisma migrate deploy",
     "migrate:check": "bun prisma migrate diff --from-migrations ./prisma/migrations --to-schema-datamodel ./prisma/schema.prisma --shadow-database-url",
+    "seed": "prisma db seed",
     "env": "cp .env.example .env"
   },
   "dependencies": {
@@ -33,5 +34,8 @@
     "prettier": "3.2.5",
     "prisma": "5.19.1",
     "typescript": "5.4.5"
+  },
+  "prisma": {
+    "seed": "bun prisma/seed.ts"
   }
 }

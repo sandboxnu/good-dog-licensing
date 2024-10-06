@@ -27,6 +27,7 @@
     "db:migrate:prod": "turbo run -F @good-dog/db migrate:prod",
     "db:migrate:check": "turbo run -F @good-dog/db migrate:check --",
     "db:studio": "turbo run -F @good-dog/db studio",
+    "db:seed": "turbo run -F @good-dog/db seed",
     "__DEVELOPMENT_______": "",
     "dev": "turbo run dev",
     "dev:web": "turbo run -F @good-dog/web dev",

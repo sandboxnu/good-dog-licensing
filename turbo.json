@@ -84,6 +84,10 @@
     "env": {
       "interactive": false,
       "cache": false
+    },
+    "seed": {
+      "cache": false,
+      "interactive": false
     }
   },
   "globalEnv": ["SKIP_ENV_VALIDATION"],
