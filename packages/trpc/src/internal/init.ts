@@ -51,7 +51,7 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
     });
 
     if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
-      // Session likely expired
+      // Session expired or not found
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
 
