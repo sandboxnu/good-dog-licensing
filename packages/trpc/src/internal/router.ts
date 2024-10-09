@@ -1,5 +1,6 @@
 import { helloProcedure } from "../procedures/hello";
 import {
+  deleteAccountIfExistsProcedure,
   signInProcedure,
   signOutProcedure,
   signUpProcedure,
@@ -11,6 +12,7 @@ export const appRouter = createTRPCRouter({
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
+  deleteAccount: deleteAccountIfExistsProcedure,
 });
 
 export type AppRouter = typeof appRouter;
