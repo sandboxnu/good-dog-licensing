@@ -1,6 +1,15 @@
 import { z } from "zod";
-
 import { baseProcedureBuilder } from "../internal/init";
+// const bcrypt = require('bcryptjs');
+
+/*
+const hashPassword = async (password: string) => {
+    const saltRounds = 10; // Number of salt rounds (higher is more secure, but slower)
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(password, salt);
+    return hash;
+}
+*/
 
 export const signUpProcedure = baseProcedureBuilder
     .input(
@@ -10,6 +19,8 @@ export const signUpProcedure = baseProcedureBuilder
         }),
     )
     .mutation(async ({ ctx, input }) => {
+        // const hashedPassword = await hashPassword(input.password);
+
         const user = await ctx.prisma.user.create({
             data: {
                 email: input.email,
@@ -30,10 +41,8 @@ export const signUpProcedure = baseProcedureBuilder
         });
 
         return {
-            response: {
-                message: `Successfully logged in as ${input.email}`,
-                sessionToken: session.token,
-            },
+            message: `Successfully logged in as ${input.email}`,
+            sessionToken: session.token,
         };
     });
 
@@ -51,9 +60,17 @@ export const signInProcedure = baseProcedureBuilder
             },
         });
 
-        if (user?.password !== input.password) {
+        if (!user) {
             throw new Error("Invalid credentials");
         }
+
+        /*
+        const match = await bcrypt.compare(input.password, user.password);
+
+        if (match === false) {
+            throw new Error("Invalid credentials");
+        }
+        */
 
         const date = new Date();
         date.setDate(date.getDate() + 30);
@@ -80,10 +97,8 @@ export const signInProcedure = baseProcedureBuilder
         });
 
         return {
-            response: {
-                message: `Successfully logged in as ${input.email}`,
-                sessionToken: session?.token,
-            },
+            message: `Successfully logged in as ${input.email}`,
+            sessionToken: session?.token,
         };
     });
 
