@@ -51,10 +51,6 @@ export const signInProcedure = baseProcedureBuilder
       },
     });
 
-    console.log("user: ", user);
-    console.log("user password: ", user?.password);
-    console.log("input password: ", input.password);
-
     if (user?.password !== input.password) {
       throw new Error("Invalid credentials");
     }
