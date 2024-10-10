@@ -9,31 +9,42 @@ export const signUpProcedure = baseProcedureBuilder
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    const user = await ctx.prisma.user.create({
-      data: {
+    const existingUser = await ctx.prisma.user.findUnique({
+      where: {
         email: input.email,
-        password: input.password,
       },
     });
 
-    const session = await ctx.prisma.session.create({
-      data: {
-        user: {
-          connect: {
-            id: user.id,
-          },
+    if (existingUser) {
+      throw new Error(`User already exists for ${input.email}`);
+    }
+    else {
+      const user = await ctx.prisma.user.create({
+        data: {
+          email: input.email,
+          password: input.password,
         },
-        token: crypto.randomUUID(),
-        expiresAt: new Date(),
-      },
-    });
+      });
 
-    return {
-      response: {
-        message: `Successfully signed up and logged in as ${input.email}`,
-        sessionToken: session.token,
-      },
-    };
+      const session = await ctx.prisma.session.create({
+        data: {
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+          token: crypto.randomUUID(),
+          expiresAt: new Date(),
+        },
+      });
+  
+      return {
+        response: {
+          message: `Successfully signed up and logged in as ${input.email}`,
+          sessionToken: session.token,
+        },
+      };
+    }
   });
 
 export const signInProcedure = baseProcedureBuilder
@@ -134,5 +145,9 @@ export const deleteAccountIfExistsProcedure = baseProcedureBuilder
       return {
         response: "Successfully deleted account",
       };
+    }
+
+    else {
+      throw new Error(`No user found for ${input.email}`);
     }
   });

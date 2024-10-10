@@ -1,13 +1,18 @@
-import { beforeAll, describe, expect, test } from "bun:test";
+import { beforeEach, describe, expect, test } from "bun:test";
 
 import { _trpcCaller } from "@good-dog/trpc/server";
 
 describe("auth", () => {
-  
-  beforeAll(async () => {
-    await _trpcCaller.deleteAccount({
-      email: "damian@gmail.com",
-    });
+  beforeEach(async () => {
+    try {
+      await _trpcCaller.deleteAccount({
+        email: "damian@gmail.com",
+      });
+    } catch (error) {
+      if (error.message !== `No user found for damian@gmail.com`) {
+        throw new Error(error);
+      }
+    }
   });
 
   test("auth/signUp", async () => {
@@ -22,20 +27,48 @@ describe("auth", () => {
     };
 
     expect(user.response).toEqual(expectedRepsonse);
+
+    expect(
+      _trpcCaller.signUp({
+        email: "damian@gmail.com",
+        password: "password",
+      }),
+    ).rejects.toThrow("User already exists for damian@gmail.com");
   });
 
   test("auth/signIn", async () => {
-    const res = await _trpcCaller.signIn({
+    await _trpcCaller.signUp({
       email: "damian@gmail.com",
       password: "password",
     });
 
-    expect(res.response.message).toEqual(
+    const signInResponse = await _trpcCaller.signIn({
+      email: "damian@gmail.com",
+      password: "password",
+    });
+
+    expect(signInResponse.response.message).toEqual(
       "Successfully logged in as damian@gmail.com",
     );
+
+    await _trpcCaller.signOut({
+      token: signInResponse.response.sessionToken ?? "",
+    });
+
+    expect(
+      _trpcCaller.signIn({
+        email: "damian@gmail.com",
+        password: "thisIsTheWrongPassword",
+      }),
+    ).rejects.toThrow("Invalid credentials");
   });
 
   test("auth/signOut", async () => {
+    await _trpcCaller.signUp({
+      email: "damian@gmail.com",
+      password: "password",
+    });
+
     const signInResponse = await _trpcCaller.signIn({
       email: "damian@gmail.com",
       password: "password",
@@ -49,5 +82,20 @@ describe("auth", () => {
     });
 
     expect(res.response).toEqual("Successfully logged out");
+  });
+
+  test("auth/deleteAccount", async () => {
+    await _trpcCaller.signUp({
+      email: "damian@gmail.com",
+      password: "password",
+    });
+
+    const deleteAccountResponse = await _trpcCaller.deleteAccount({
+      email: "damian@gmail.com",
+    });
+
+    expect(deleteAccountResponse.response).toEqual(
+      "Successfully deleted account",
+    );
   });
 });
