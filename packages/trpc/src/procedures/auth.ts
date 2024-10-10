@@ -2,8 +2,6 @@ import { z } from "zod";
 import { baseProcedureBuilder } from "../internal/init";
 const bcrypt = require('bcryptjs');
 
-/*
-*/
 const hashPassword = async (password: string) => {
     const saltRounds = 10; // Number of salt rounds (higher is more secure, but slower)
     const salt = await bcrypt.genSalt(saltRounds);
@@ -19,6 +17,16 @@ export const signUpProcedure = baseProcedureBuilder
         }),
     )
     .mutation(async ({ ctx, input }) => {
+        const existingUser = await ctx.prisma.user.findUnique({
+            where: {
+                email: input.email,
+            },
+        });
+
+        if (existingUser) {
+            throw new Error(`User already exists for ${input.email}`);
+        }
+
         const hashedPassword = await hashPassword(input.password);
 
         const user = await ctx.prisma.user.create({
@@ -41,7 +49,7 @@ export const signUpProcedure = baseProcedureBuilder
         });
 
         return {
-            message: `Successfully logged in as ${input.email}`,
+            message: `Successfully signed up and logged in as ${input.email}`,
             sessionToken: session.token,
         };
     });
@@ -64,11 +72,9 @@ export const signInProcedure = baseProcedureBuilder
             throw new Error("Invalid credentials");
         }
 
-        /*
-        */
         const match = await bcrypt.compare(input.password, user.password);
 
-        if (match === false) {
+        if (!match) {
             throw new Error("Invalid credentials");
         }
 
@@ -116,6 +122,40 @@ export const signOutProcedure = baseProcedureBuilder
         });
 
         return {
-            response: "Successfully logged out",
+            message: "Successfully logged out",
+        };
+    });
+
+export const deleteAccountIfExistsProcedure = baseProcedureBuilder
+    .input(
+        z.object({
+            email: z.string(),
+        }),
+    )
+    .mutation(async ({ ctx, input }) => {
+        const user = await ctx.prisma.user.findUnique({
+            where: {
+                email: input.email,
+            },
+        });
+
+        if (!user) {
+            throw new Error(`No user found for ${input.email}`);
+        }
+
+        await ctx.prisma.session.deleteMany({
+            where: {
+                userId: user.id,
+            },
+        });
+
+        await ctx.prisma.user.delete({
+            where: {
+                email: input.email,
+            },
+        });
+
+        return {
+            message: "Successfully deleted account",
         };
     });

@@ -1,35 +1,101 @@
-import { expect, test } from "bun:test";
+import { beforeEach, describe, expect, test } from "bun:test";
+
 import { _trpcCaller } from "@good-dog/trpc/server";
 
-test("auth/signUp", async () => {
-    console.log("MY ENV", process.env)
-    const user = await _trpcCaller.signUp({
-        email: "damian@gmail.com",
-        password: "password",
+describe("auth", () => {
+    beforeEach(async () => {
+        try {
+            await _trpcCaller.deleteAccount({
+                email: "damian@gmail.com",
+            });
+        } catch (error: any) {
+            if (error.message !== `No user found for damian@gmail.com`) {
+                throw new Error(error);
+            }
+        }
     });
 
-    const expectedRepsonse = {
-        message: "Successfully signed up and logged in as damian@gmail.com",
-        sessionToken: "",
-    };
-});
+    test("auth/signUp", async () => {
+        const user = await _trpcCaller.signUp({
+            email: "damian@gmail.com",
+            password: "password",
+        });
 
+        const expectedRepsonse = {
+            message: "Successfully signed up and logged in as damian@gmail.com",
+            sessionToken: user.sessionToken,
+        };
 
-test("auth/signIn", async () => {
-    const user = await _trpcCaller.signUp({
-        email: "damian@gmail.com",
-        password: "password",
+        expect(user).toEqual(expectedRepsonse);
+
+        expect(
+            _trpcCaller.signUp({
+                email: "damian@gmail.com",
+                password: "password",
+            }),
+        ).rejects.toThrow("User already exists for damian@gmail.com");
     });
 
-    const res = await _trpcCaller.signIn({
-        email: "damian@gmail.com",
-        password: "password",
+    test("auth/signIn", async () => {
+        await _trpcCaller.signUp({
+            email: "damian@gmail.com",
+            password: "password",
+        });
+
+        const signInResponse = await _trpcCaller.signIn({
+            email: "damian@gmail.com",
+            password: "password",
+        });
+
+        expect(signInResponse.message).toEqual(
+            "Successfully logged in as damian@gmail.com",
+        );
+
+        await _trpcCaller.signOut({
+            token: signInResponse.sessionToken ?? "",
+        });
+
+        expect(
+            _trpcCaller.signIn({
+                email: "damian@gmail.com",
+                password: "thisIsTheWrongPassword",
+            }),
+        ).rejects.toThrow("Invalid credentials");
     });
 
-    const expectedRepsonse = {
-        message: "Successfully signed up and logged in as damian@gmail.com",
-        sessionToken: user.sessionToken,
-    };
+    test("auth/signOut", async () => {
+        await _trpcCaller.signUp({
+            email: "damian@gmail.com",
+            password: "password",
+        });
 
-    expect(res).toEqual(expectedRepsonse);
+        const signInResponse = await _trpcCaller.signIn({
+            email: "damian@gmail.com",
+            password: "password",
+        });
+        expect(signInResponse.message).toEqual(
+            "Successfully logged in as damian@gmail.com",
+        );
+
+        const res = await _trpcCaller.signOut({
+            token: signInResponse.sessionToken ?? "",
+        });
+
+        expect(res.message).toEqual("Successfully logged out");
+    });
+
+    test("auth/deleteAccount", async () => {
+        await _trpcCaller.signUp({
+            email: "damian@gmail.com",
+            password: "password",
+        });
+
+        const deleteAccountResponse = await _trpcCaller.deleteAccount({
+            email: "damian@gmail.com",
+        });
+
+        expect(deleteAccountResponse.message).toEqual(
+            "Successfully deleted account",
+        );
+    });
 });
