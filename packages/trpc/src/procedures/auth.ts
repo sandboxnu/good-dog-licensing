@@ -1,15 +1,15 @@
 import { z } from "zod";
 import { baseProcedureBuilder } from "../internal/init";
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 /*
+*/
 const hashPassword = async (password: string) => {
     const saltRounds = 10; // Number of salt rounds (higher is more secure, but slower)
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
     return hash;
 }
-*/
 
 export const signUpProcedure = baseProcedureBuilder
     .input(
@@ -19,12 +19,12 @@ export const signUpProcedure = baseProcedureBuilder
         }),
     )
     .mutation(async ({ ctx, input }) => {
-        // const hashedPassword = await hashPassword(input.password);
+        const hashedPassword = await hashPassword(input.password);
 
         const user = await ctx.prisma.user.create({
             data: {
                 email: input.email,
-                password: input.password,
+                password: hashedPassword,
             },
         });
 
@@ -65,12 +65,12 @@ export const signInProcedure = baseProcedureBuilder
         }
 
         /*
+        */
         const match = await bcrypt.compare(input.password, user.password);
 
         if (match === false) {
             throw new Error("Invalid credentials");
         }
-        */
 
         const date = new Date();
         date.setDate(date.getDate() + 30);
