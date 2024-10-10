@@ -92,3 +92,4 @@ The following scripts are available in the root `package.json`:
 - `shad-add`: Add a new UI component using Shadcn.
 - `generate:package`: Generate a new package.
 - `env:setup`: Setup the default env vars
+- `bun test`: Run the test suites
