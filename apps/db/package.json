@@ -16,8 +16,11 @@
     "studio": "prisma studio",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
-    "env": "cp .env.example .env",
-    "seed": "prisma db seed"
+    "migrate:reset": "prisma migrate reset",
+    "migrate:prod": "prisma migrate deploy",
+    "migrate:check": "bun prisma migrate diff --exit-code --from-migrations ./prisma/migrations --to-schema-datamodel ./prisma/schema.prisma --shadow-database-url",
+    "seed": "prisma db seed",
+    "env": "cp .env.example .env"
   },
   "dependencies": {
     "@prisma/client": "5.19.1"
