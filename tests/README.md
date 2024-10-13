@@ -9,6 +9,6 @@ a new MockNextCookies object and set whichever cookies you like. The rest is han
 
 Example usage:
 
-<pre>const cookies = new MockNextCookies()
-cookies.set("myKey", "myValue")
+<pre>const cookies = new MockNextCookies();
+cookies.set("myKey", "myValue");
 ... rest of your test</pre>
