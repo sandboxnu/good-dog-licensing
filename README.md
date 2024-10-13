@@ -82,6 +82,7 @@ The following scripts are available in the root `package.json`:
 - `db:migrate`: Run database migrations.
 - `db:studio`: Open the database Studio.
 - `db:seed` : Seeds the database.
+- `test:seed`: Seeds the database and runs all the tests.
 - `dev`: Start all the development apps.
 - `dev:web`: Start only the web app.
 - `format`: Check code formatting.
