@@ -53,6 +53,18 @@
       "cache": false,
       "interactive": true
     },
+    "migrate:reset": {
+      "cache": false,
+      "interactive": false
+    },
+    "migrate:prod": {
+      "cache": false,
+      "interactive": false
+    },
+    "migrate:check": {
+      "cache": false,
+      "interactive": false
+    },
     "studio": {
       "cache": false,
       "interactive": true
@@ -81,11 +93,8 @@
   "globalEnv": ["SKIP_ENV_VALIDATION"],
   "globalPassThroughEnv": [
     "NODE_ENV",
-    "CI",
-    "VERCEL",
     "VERCEL_ENV",
     "VERCEL_URL",
-    "npm_lifecycle_event",
-    "USER"
+    "DATABASE_PRISMA_URL"
   ]
 }
