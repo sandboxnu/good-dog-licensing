@@ -43,14 +43,13 @@ export const signUpProcedure = baseProcedureBuilder
             id: user.id,
           },
         },
-        token: crypto.randomUUID(),
         expiresAt: new Date(),
       },
     });
 
     return {
       message: `Successfully signed up and logged in as ${input.email}`,
-      sessionToken: session.token,
+      sessionId: session.id,
     };
   });
 
@@ -88,7 +87,6 @@ export const signInProcedure = baseProcedureBuilder
             id: user.id,
           },
         },
-        token: crypto.randomUUID(),
         expiresAt: date,
       },
     });
@@ -104,20 +102,20 @@ export const signInProcedure = baseProcedureBuilder
 
     return {
       message: `Successfully logged in as ${input.email}`,
-      sessionToken: session?.token,
+      sessionId: session?.id,
     };
   });
 
 export const signOutProcedure = baseProcedureBuilder
   .input(
     z.object({
-      token: z.string(),
+      id: z.number(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
     await ctx.prisma.session.delete({
       where: {
-        token: input.token,
+        id: input.id,
       },
     });
 
