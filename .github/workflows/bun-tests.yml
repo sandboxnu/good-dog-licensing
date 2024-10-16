@@ -32,5 +32,5 @@ jobs:
 
       - name: Run tests
         env:
-          DATABASE_URL: postgres://user:password@localhost:5432/test_db
+          DATABASE_PRISMA_URL: postgres://user:password@localhost:5432/test_db
         run: bun test
