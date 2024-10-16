@@ -1,11 +1,5 @@
 {
   "name": "good-dog",
-  "devDependencies": {
-    "@good-dog/prettier": "workspace:*",
-    "@turbo/gen": "^2.1.2",
-    "turbo": "2.1.2",
-    "typescript": "5.4.5"
-  },
   "engines": {
     "node": ">=20"
   },
@@ -45,6 +39,12 @@
     "shad-add": "turbo run ui-add",
     "generate:package": "turbo generate package",
     "env:setup": "turbo run env"
+  },
+  "devDependencies": {
+    "@good-dog/prettier": "workspace:*",
+    "@turbo/gen": "^2.1.2",
+    "turbo": "2.1.2",
+    "typescript": "5.4.5"
   },
   "trustedDependencies": [
     "@prisma/client",
