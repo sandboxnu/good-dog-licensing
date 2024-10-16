@@ -1,16 +1,17 @@
 {
   "name": "good-dog",
-  "private": true,
+  "devDependencies": {
+    "@good-dog/prettier": "workspace:*",
+    "@turbo/gen": "^2.1.2",
+    "turbo": "2.1.2",
+    "typescript": "5.4.5"
+  },
   "engines": {
     "node": ">=20"
   },
   "packageManager": "bun@1.1.27",
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "tooling/*",
-    "tests"
-  ],
+  "prettier": "@good-dog/prettier",
+  "private": true,
   "scripts": {
     "__BUILD_____________": "",
     "build": "turbo run build",
@@ -45,16 +46,15 @@
     "generate:package": "turbo generate package",
     "env:setup": "turbo run env"
   },
-  "prettier": "@good-dog/prettier",
-  "devDependencies": {
-    "@good-dog/prettier": "workspace:*",
-    "@turbo/gen": "^2.1.2",
-    "turbo": "2.1.2",
-    "typescript": "5.4.5"
-  },
   "trustedDependencies": [
     "@prisma/client",
     "@prisma/engines",
     "prisma"
+  ],
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tooling/*",
+    "tests"
   ]
 }
