@@ -6,7 +6,12 @@ export class MockNextCookies {
 
   constructor() {
     this.cookiesMap = new Map<string, string>();
-    mock.module("next/headers", () => ({
+  }
+
+  // Applies this mock to be the cookies used by the next/header module. This method
+  // must be called in order for this mock to be applied.
+  async apply(): Promise<void> {
+    await mock.module("next/headers", () => ({
       cookies: () => this,
     }));
   }
