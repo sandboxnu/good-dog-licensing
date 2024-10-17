@@ -1,12 +1,10 @@
 {
-  "name": "@good-dog/trpc",
+  "name": "@good-dog/auth",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    "./client": "./src/client.tsx",
-    "./server": "./src/server.ts",
-    "./next": "./src/handler.ts"
+    ".": "./src/index.ts"
   },
   "license": "MIT",
   "scripts": {
@@ -16,25 +14,16 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "devDependencies": {
-    "@good-dog/auth": "workspace:*",
-    "@good-dog/db": "workspace:*",
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
+    "@types/bcryptjs": "^2.4.6",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
     "typescript": "5.4.5"
   },
   "prettier": "@good-dog/prettier",
   "dependencies": {
-    "@tanstack/react-query": "5.56.2",
-    "@trpc/client": "11.0.0-rc.544",
-    "@trpc/react-query": "11.0.0-rc.544",
-    "@trpc/server": "11.0.0-rc.544",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "server-only": "^0.0.1",
-    "superjson": "^2.2.1",
-    "zod": "3.23.8"
+    "bcryptjs": "^2.4.3"
   }
 }
