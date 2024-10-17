@@ -1,14 +1,10 @@
-import { compare, genSalt, hash } from "bcryptjs";
 import { z } from "zod";
+
+import { comparePassword, hashPassword } from "@good-dog/auth";
 
 import { baseProcedureBuilder } from "../internal/init";
 
-const hashPassword = async (password: string) => {
-  const saltRounds = 10; // Number of salt rounds (higher is more secure, but slower)
-  const salt = await genSalt(saltRounds);
-  return await hash(password, salt);
-};
-
+// TODO: refactor to use cookies
 export const signUpProcedure = baseProcedureBuilder
   .input(
     z.object({
@@ -53,6 +49,7 @@ export const signUpProcedure = baseProcedureBuilder
     };
   });
 
+// TODO: refactor to use cookies
 export const signInProcedure = baseProcedureBuilder
   .input(
     z.object({
@@ -71,7 +68,7 @@ export const signInProcedure = baseProcedureBuilder
       throw new Error("Invalid credentials");
     }
 
-    const match = await compare(input.password, user.password);
+    const match = await comparePassword(input.password, user.password);
 
     if (!match) {
       throw new Error("Invalid credentials");
@@ -80,7 +77,7 @@ export const signInProcedure = baseProcedureBuilder
     const date = new Date();
     date.setDate(date.getDate() + 30);
 
-    await ctx.prisma.session.create({
+    const session = await ctx.prisma.session.create({
       data: {
         user: {
           connect: {
@@ -91,21 +88,13 @@ export const signInProcedure = baseProcedureBuilder
       },
     });
 
-    const session = await ctx.prisma.session.findFirst({
-      where: {
-        userId: user.id,
-        expiresAt: {
-          gte: new Date(),
-        },
-      },
-    });
-
     return {
       message: `Successfully logged in as ${input.email}`,
-      sessionId: session?.id,
+      sessionId: session.id,
     };
   });
 
+// TODO: refactor to use cookies
 export const signOutProcedure = baseProcedureBuilder
   .input(
     z.object({
@@ -124,6 +113,7 @@ export const signOutProcedure = baseProcedureBuilder
     };
   });
 
+// TODO: refactor to use cookies
 export const deleteAccountIfExistsProcedure = baseProcedureBuilder
   .input(
     z.object({
