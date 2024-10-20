@@ -41,7 +41,7 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
 
     const sessionOrNull = await ctx.prisma.session.findUnique({
       where: {
-        token: sessionToken.value,
+        id: parseInt(sessionToken.value),
       },
       include: {
         user: true,

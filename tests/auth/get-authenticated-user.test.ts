@@ -17,7 +17,7 @@ beforeAll(async () => {
     },
   });
   await prisma.session.upsert({
-    where: { token: "person1Token" },
+    where: { id: 500 },
     update: {
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
@@ -25,7 +25,7 @@ beforeAll(async () => {
     },
     create: {
       userId: person1.id,
-      token: "person1Token",
+      id: 500,
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
@@ -42,18 +42,18 @@ beforeAll(async () => {
     },
   });
   await prisma.session.upsert({
-    where: { token: "person2Token1" },
+    where: { id: 501 },
     update: {
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
     create: {
       userId: person2.id,
-      token: "person2Token1",
+      id: 501,
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
   });
   await prisma.session.upsert({
-    where: { token: "person2Token2" },
+    where: { id: 502 },
     update: {
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
@@ -61,7 +61,7 @@ beforeAll(async () => {
     },
     create: {
       userId: person2.id,
-      token: "person2Token2",
+      id: 502,
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
@@ -72,7 +72,7 @@ beforeAll(async () => {
 test("Correct user is returned when they have a valid session.", async () => {
   // Set the cookies
   const cookies = new MockNextCookies();
-  cookies.set("sessionToken", "person1Token");
+  cookies.set("sessionToken", "500");
   await cookies.apply();
 
   const user = await _trpcCaller.user();
@@ -83,7 +83,7 @@ test("Correct user is returned when they have a valid session.", async () => {
 test("Correct user is returned when they have multiple sessions and one is valid.", async () => {
   // Set the cookies
   const cookies = new MockNextCookies();
-  cookies.set("sessionToken", "person2Token2");
+  cookies.set("sessionToken", "502");
   await cookies.apply();
 
   const user = await _trpcCaller.user();
@@ -94,7 +94,7 @@ test("Correct user is returned when they have multiple sessions and one is valid
 test("'UNAUTHORIZED' error is thrown when no session is found for the token.", async () => {
   // Set the cookies
   const cookies = new MockNextCookies();
-  cookies.set("sessionToken", "kjhakhouadakjs");
+  cookies.set("sessionToken", "503");
   await cookies.apply();
 
   const getUser = async () => await _trpcCaller.user();
@@ -114,7 +114,7 @@ test("'UNAUTHORIZED' error is thrown when there is no 'sessionToken' cookie.", a
 test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
   // Set the cookies
   const cookies = new MockNextCookies();
-  cookies.set("sessionToken", "person2Token1");
+  cookies.set("sessionToken", "501");
   await cookies.apply();
 
   const getUser = async () => await _trpcCaller.user();
@@ -125,13 +125,13 @@ test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
 // Delete the records created for these tests
 afterAll(async () => {
   await prisma.session.delete({
-    where: { token: "person1Token" },
+    where: { id: 500 },
   });
   await prisma.session.delete({
-    where: { token: "person2Token1" },
+    where: { id: 501 },
   });
   await prisma.session.delete({
-    where: { token: "person2Token2" },
+    where: { id: 502 },
   });
   await prisma.user.delete({
     where: { email: "person1@prisma.io" },
