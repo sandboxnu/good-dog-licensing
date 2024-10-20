@@ -8,7 +8,7 @@ import { baseProcedureBuilder } from "../internal/init";
 export const signUpProcedure = baseProcedureBuilder
   .input(
     z.object({
-      email: z.string(),
+      email: z.string().email(),
       password: z.string(),
     }),
   )
@@ -53,7 +53,7 @@ export const signUpProcedure = baseProcedureBuilder
 export const signInProcedure = baseProcedureBuilder
   .input(
     z.object({
-      email: z.string(),
+      email: z.string().email(),
       password: z.string(),
     }),
   )
@@ -117,7 +117,7 @@ export const signOutProcedure = baseProcedureBuilder
 export const deleteAccountIfExistsProcedure = baseProcedureBuilder
   .input(
     z.object({
-      email: z.string(),
+      email: z.string().email(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
