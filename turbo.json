@@ -43,7 +43,7 @@
     },
     "push": {
       "cache": false,
-      "interactive": true
+      "interactive": false
     },
     "generate": {
       "cache": false,
