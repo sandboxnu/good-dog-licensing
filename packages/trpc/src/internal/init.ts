@@ -1,6 +1,7 @@
 import React from "react";
 import { initTRPC } from "@trpc/server";
 import SuperJSON from "superjson";
+import { ZodError } from "zod";
 
 import { prisma } from "@good-dog/db";
 
@@ -22,6 +23,26 @@ const t = initTRPC.context<ReturnType<typeof createTRPCContext>>().create({
    * @see https://trpc.io/docs/server/data-transformers
    */
   transformer: SuperJSON,
+  errorFormatter: ({ shape, error }) => ({
+    ...shape,
+    data: {
+      ...shape.data,
+      zodError:
+        error.code === "BAD_REQUEST" && error.cause instanceof ZodError
+          ? error.cause.flatten()
+          : null,
+      ...(process.env.NODE_ENV === "production"
+        ? {}
+        : {
+            prismaError:
+              error.code === "INTERNAL_SERVER_ERROR" &&
+              error.cause &&
+              "clientVersion" in error.cause
+                ? error.cause
+                : null,
+          }),
+    },
+  }),
 });
 
 // Base router and procedure helpers
