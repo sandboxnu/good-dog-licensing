@@ -1,9 +1,17 @@
-import { helloProcedure } from "../procedures/hello";
+import {
+  deleteAccountIfExistsProcedure,
+  signInProcedure,
+  signOutProcedure,
+  signUpProcedure,
+} from "../procedures/auth";
 import { getAuthenticatedUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
-  hello: helloProcedure,
+  signIn: signInProcedure,
+  signOut: signOutProcedure,
+  signUp: signUpProcedure,
+  deleteAccount: deleteAccountIfExistsProcedure,
   user: getAuthenticatedUserProcedure,
 });
 
