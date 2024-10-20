@@ -35,8 +35,6 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
     const sessionToken = cookies().get("sessionToken");
 
-    console.log("sessionToken", sessionToken);
-
     if (!sessionToken) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
