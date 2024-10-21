@@ -12,4 +12,11 @@ export default {
   ],
   presets: [baseConfig],
   plugins: [require("tailwindcss-animate")],
+  theme: {
+    extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
+    },
+  },
 } satisfies Config;
