@@ -20,10 +20,14 @@ export class MockNextCookies {
     this.cookiesMap.set(key, value);
   }
 
-  get(key: string): { value: string | undefined } {
-    const requestCookie = {
-      value: this.cookiesMap.get(key),
+  get(key: string): { value: string } | undefined {
+    const cookieValue = this.cookiesMap.get(key);
+    if (cookieValue === undefined) {
+      return undefined;
+    }
+
+    return {
+      value: cookieValue,
     };
-    return requestCookie;
   }
 }
