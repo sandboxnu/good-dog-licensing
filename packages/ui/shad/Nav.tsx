@@ -3,7 +3,7 @@ import React from "react";
 export default function Nav() {
   return (
     <nav>
-      <ul className="mx-9 mt-12 flex flex-row items-center justify-between font-poppins font-semibold">
+      <ul className="font-poppins mx-9 mt-12 flex flex-row items-center justify-between font-semibold">
         <li>
           <a href="/">Home</a>
         </li>
