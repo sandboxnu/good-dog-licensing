@@ -69,58 +69,70 @@ beforeAll(async () => {
   });
 });
 
-test("Correct user is returned when they have a valid session.", async () => {
-  // Set the cookies
-  const cookies = new MockNextCookies();
-  cookies.set("sessionToken", "500");
-  await cookies.apply();
+void Promise.all([
+  test("Correct user is returned when they have a valid session.", async () => {
+    // Set the cookies
+    const cookies = new MockNextCookies();
+    cookies.set("sessionId", "500");
+    await cookies.apply();
 
-  const user = await _trpcCaller.user();
+    const user = await _trpcCaller.user();
 
-  expect(user.email).toEqual("person1@prisma.io");
-});
+    expect(user.email).toEqual("person1@prisma.io");
+  }),
 
-test("Correct user is returned when they have multiple sessions and one is valid.", async () => {
-  // Set the cookies
-  const cookies = new MockNextCookies();
-  cookies.set("sessionToken", "502");
-  await cookies.apply();
+  test("Correct user is returned when they have multiple sessions and one is valid.", async () => {
+    // Set the cookies
+    const cookies = new MockNextCookies();
+    cookies.set("sessionId", "502");
+    await cookies.apply();
 
-  const user = await _trpcCaller.user();
+    const user = await _trpcCaller.user();
 
-  expect(user.email).toEqual("person2@gmail.com");
-});
+    expect(user.email).toEqual("person2@gmail.com");
+  }),
 
-test("'UNAUTHORIZED' error is thrown when no session is found for the token.", async () => {
-  // Set the cookies
-  const cookies = new MockNextCookies();
-  cookies.set("sessionToken", "503");
-  await cookies.apply();
+  test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.", async () => {
+    // Set the cookies
+    const cookies = new MockNextCookies();
+    cookies.set("sessionId", "503");
+    await cookies.apply();
 
-  const getUser = async () => await _trpcCaller.user();
+    const getUser = async () => await _trpcCaller.user();
 
-  expect(getUser).toThrow("UNAUTHORIZED");
-});
+    expect(getUser).toThrow("UNAUTHORIZED");
+  }),
 
-test("'UNAUTHORIZED' error is thrown when there is no 'sessionToken' cookie.", async () => {
-  const cookies = new MockNextCookies();
-  await cookies.apply();
+  test("'UNAUTHORIZED' error is thrown when there is no 'sessionId' cookie.", async () => {
+    const cookies = new MockNextCookies();
+    await cookies.apply();
 
-  const getUser = async () => await _trpcCaller.user();
+    const getUser = async () => await _trpcCaller.user();
+    expect(getUser).toThrow("UNAUTHORIZED");
+  }),
 
-  expect(getUser).toThrow("UNAUTHORIZED");
-});
+  test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
+    // Set the cookies
+    const cookies = new MockNextCookies();
+    cookies.set("sessionId", "501");
+    await cookies.apply();
 
-test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
-  // Set the cookies
-  const cookies = new MockNextCookies();
-  cookies.set("sessionToken", "501");
-  await cookies.apply();
+    const getUser = async () => await _trpcCaller.user();
 
-  const getUser = async () => await _trpcCaller.user();
+    expect(getUser).toThrow("UNAUTHORIZED");
+  }),
 
-  expect(getUser).toThrow("UNAUTHORIZED");
-});
+  test("Endpoint does not return the user's password.", async () => {
+    // Set the cookies
+    const cookies = new MockNextCookies();
+    cookies.set("sessionId", "502");
+    await cookies.apply();
+
+    const user = await _trpcCaller.user();
+
+    expect(user).not.toHaveProperty("password");
+  }),
+]);
 
 // Delete the records created for these tests
 afterAll(async () => {

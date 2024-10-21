@@ -33,18 +33,27 @@ export const createCallerFactory = t.createCallerFactory;
 export const baseProcedureBuilder = t.procedure;
 export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
-    const sessionToken = cookies().get("sessionToken");
+    const sessionId = cookies().get("sessionId");
 
-    if (!sessionToken) {
+    if (!sessionId?.value) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
 
     const sessionOrNull = await ctx.prisma.session.findUnique({
       where: {
-        id: parseInt(sessionToken.value),
+        id: parseInt(sessionId.value),
       },
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            sessions: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
       },
     });
 
