@@ -19,4 +19,10 @@ export default {
       },
     },
   },
+  safelist: [
+    "bg-good-dog-violet",
+    "text-good-dog-violet",
+    "border-good-dog-violet",
+    "ring-good-dog-violet",
+  ],
 } satisfies Config;
