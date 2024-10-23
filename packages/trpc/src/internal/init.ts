@@ -1,9 +1,9 @@
 import React from "react";
-import { cookies } from "next/headers";
 import { initTRPC, TRPCError } from "@trpc/server";
 import SuperJSON from "superjson";
 import { ZodError } from "zod";
 
+import { getSessionCookie } from "@good-dog/auth/cookies";
 import { prisma } from "@good-dog/db";
 
 export const createTRPCContext = React.cache(() => {
@@ -54,7 +54,7 @@ export const createCallerFactory = t.createCallerFactory;
 export const baseProcedureBuilder = t.procedure;
 export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
-    const sessionId = cookies().get("sessionId");
+    const sessionId = getSessionCookie();
 
     if (!sessionId?.value) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -86,8 +86,45 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
     return next({
       ctx: {
         ...ctx,
-        user: sessionOrNull.user,
+        session: sessionOrNull,
       },
     });
+  },
+);
+
+// This middleware is used to prevent authenticated users from accessing a resource
+export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
+  async ({ ctx, next }) => {
+    const sessionId = getSessionCookie();
+
+    if (!sessionId?.value) {
+      return next({ ctx });
+    }
+
+    const sessionOrNull = await ctx.prisma.session.findUnique({
+      where: {
+        id: sessionId.value,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            sessions: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+
+    if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
+      return next({
+        ctx,
+      });
+    }
+
+    throw new TRPCError({ code: "FORBIDDEN" });
   },
 );

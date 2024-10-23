@@ -1,9 +1,15 @@
 import { cookies } from "next/headers";
 
+export const SESSION_COOKIE_NAME = "sessionId";
+
+export const getSessionCookie = () => {
+  return cookies().get(SESSION_COOKIE_NAME);
+};
+
 export const setSessionCookie = (sessionId: string, expires: Date) => {
-  cookies().set("sessionId", sessionId, {
+  cookies().set(SESSION_COOKIE_NAME, sessionId, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production", // todo!
     sameSite: "lax",
     path: "/",
     expires,
@@ -11,5 +17,5 @@ export const setSessionCookie = (sessionId: string, expires: Date) => {
 };
 
 export const deleteSessionCookie = () => {
-  cookies().delete("sessionId");
+  cookies().delete(SESSION_COOKIE_NAME);
 };

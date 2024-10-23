@@ -4,13 +4,15 @@ import { z } from "zod";
 import { comparePassword, hashPassword } from "@good-dog/auth";
 import { deleteSessionCookie, setSessionCookie } from "@good-dog/auth/cookies";
 
-import { baseProcedureBuilder } from "../internal/init";
+import {
+  authenticatedProcedureBuilder,
+  notAuthenticatedProcedureBuilder,
+} from "../internal/init";
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
 
-// TODO: ensure already authenticated users can't sign up
-export const signUpProcedure = baseProcedureBuilder
+export const signUpProcedure = notAuthenticatedProcedureBuilder
   .input(
     z.object({
       email: z.string().email(),
@@ -66,8 +68,7 @@ export const signUpProcedure = baseProcedureBuilder
     };
   });
 
-// TODO: ensure already authenticated users can't sign in
-export const signInProcedure = baseProcedureBuilder
+export const signInProcedure = notAuthenticatedProcedureBuilder
   .input(
     z.object({
       email: z.string().email(),
@@ -117,7 +118,7 @@ export const signInProcedure = baseProcedureBuilder
   });
 
 // TODO: refactor to use middleware
-export const signOutProcedure = baseProcedureBuilder.mutation(
+export const signOutProcedure = authenticatedProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.session.delete({
       where: {
@@ -133,8 +134,7 @@ export const signOutProcedure = baseProcedureBuilder.mutation(
   },
 );
 
-// TODO: refactor to use middleware
-export const deleteAccountProcedure = baseProcedureBuilder.mutation(
+export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.user.delete({
       where: {
