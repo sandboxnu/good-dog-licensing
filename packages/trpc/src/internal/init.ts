@@ -118,12 +118,12 @@ export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
       },
     });
 
-    if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
-      return next({
-        ctx,
-      });
+    if (sessionOrNull && sessionOrNull.expiresAt > new Date()) {
+      throw new TRPCError({ code: "FORBIDDEN" });
     }
 
-    throw new TRPCError({ code: "FORBIDDEN" });
+    return next({
+      ctx,
+    });
   },
 );
