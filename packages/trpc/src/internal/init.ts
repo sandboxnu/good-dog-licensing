@@ -111,7 +111,6 @@ export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
             id: true,
             email: true,
             name: true,
-            sessions: true,
             createdAt: true,
             updatedAt: true,
           },
