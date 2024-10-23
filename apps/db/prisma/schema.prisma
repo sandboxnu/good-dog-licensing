@@ -15,7 +15,7 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
+  id        String       @id @default(uuid())
   email     String    @unique
   name      String
   password  String
@@ -27,7 +27,7 @@ model User {
 model Session {
   id        String      @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
+  userId    String
   createdAt DateTime @default(now())
   expiresAt DateTime
 }

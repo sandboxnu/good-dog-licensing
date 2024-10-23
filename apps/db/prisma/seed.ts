@@ -6,14 +6,14 @@ async function main() {
     where: { email: "alice@prisma.io" },
     update: {},
     create: {
-      id: 7,
+      id: "7",
       email: "alice@prisma.io",
       name: "Alice",
       password: "alicePasswod",
     },
   });
   const aliceSession = await prisma.session.upsert({
-    where: { id: 23 },
+    where: { id: "23" },
     update: {
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
@@ -21,7 +21,7 @@ async function main() {
     },
     create: {
       userId: alice.id,
-      id: 23,
+      id: "23",
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
@@ -32,25 +32,25 @@ async function main() {
     where: { email: "bob@gmail.com" },
     update: {},
     create: {
-      id: 9,
+      id: "9",
       email: "bob@gmail.com",
       name: "Bob Jones",
       password: "bobPassword",
     },
   });
   const bobSession1 = await prisma.session.upsert({
-    where: { id: 12 },
+    where: { id: "12" },
     update: {
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
     create: {
       userId: bob.id,
-      id: 12,
+      id: "12",
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
   });
   const bobSession2 = await prisma.session.upsert({
-    where: { id: 45 },
+    where: { id: "45" },
     update: {
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
@@ -58,7 +58,7 @@ async function main() {
     },
     create: {
       userId: bob.id,
-      id: 45,
+      id: "45",
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
@@ -69,20 +69,20 @@ async function main() {
     where: { email: "eve@outlook.com" },
     update: {},
     create: {
-      id: 56,
+      id: "56",
       email: "eve@outlook.com",
       name: "Eve Smith",
       password: "evePassword",
     },
   });
   const eveSession = await prisma.session.upsert({
-    where: { id: 78 },
+    where: { id: "78" },
     update: {
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
     create: {
       userId: eve.id,
-      id: 78,
+      id: "78",
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
   });

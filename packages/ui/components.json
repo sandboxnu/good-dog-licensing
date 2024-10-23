@@ -11,6 +11,6 @@
   "aliases": {
     "utils": "@good-dog/ui",
     "components": "@good-dog/ui",
-    "ui": "src/"
+    "ui": "shad/"
   }
 }
