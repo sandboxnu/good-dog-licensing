@@ -17,7 +17,7 @@ beforeAll(async () => {
     },
   });
   await prisma.session.upsert({
-    where: { id: 500 },
+    where: { id: "500" },
     update: {
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
@@ -25,7 +25,7 @@ beforeAll(async () => {
     },
     create: {
       userId: person1.id,
-      id: 500,
+      id: "500",
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
@@ -42,18 +42,18 @@ beforeAll(async () => {
     },
   });
   await prisma.session.upsert({
-    where: { id: 501 },
+    where: { id: "501" },
     update: {
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
     create: {
       userId: person2.id,
-      id: 501,
+      id: "501",
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
   });
   await prisma.session.upsert({
-    where: { id: 502 },
+    where: { id: "502" },
     update: {
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
@@ -61,7 +61,7 @@ beforeAll(async () => {
     },
     create: {
       userId: person2.id,
-      id: 502,
+      id: "502",
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
@@ -69,86 +69,77 @@ beforeAll(async () => {
   });
 });
 
-void Promise.all([
-  test("Correct user is returned when they have a valid session.", async () => {
-    // Set the cookies
-    const cookies = new MockNextCookies();
-    cookies.set("sessionId", "500");
-    await cookies.apply();
+test("Correct user is returned when they have a valid session.", async () => {
+  // Set the cookies
+  const cookies = new MockNextCookies();
+  cookies.set("sessionId", "500");
+  await cookies.apply();
 
-    const user = await _trpcCaller.user();
+  const user = await _trpcCaller.user();
 
-    expect(user.email).toEqual("person1@prisma.io");
-  }),
+  expect(user.email).toEqual("person1@prisma.io");
+});
 
-  test("Correct user is returned when they have multiple sessions and one is valid.", async () => {
-    // Set the cookies
-    const cookies = new MockNextCookies();
-    cookies.set("sessionId", "502");
-    await cookies.apply();
+test("Correct user is returned when they have multiple sessions and one is valid.", async () => {
+  // Set the cookies
+  const cookies = new MockNextCookies();
+  cookies.set("sessionId", "502");
+  await cookies.apply();
 
-    const user = await _trpcCaller.user();
+  const user = await _trpcCaller.user();
 
-    expect(user.email).toEqual("person2@gmail.com");
-  }),
+  expect(user.email).toEqual("person2@gmail.com");
+});
 
-  test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.", async () => {
-    // Set the cookies
-    const cookies = new MockNextCookies();
-    cookies.set("sessionId", "503");
-    await cookies.apply();
+test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.", async () => {
+  // Set the cookies
+  const cookies = new MockNextCookies();
+  cookies.set("sessionId", "503");
+  await cookies.apply();
 
-    const getUser = async () => await _trpcCaller.user();
+  const getUser = async () => await _trpcCaller.user();
 
-    expect(getUser).toThrow("UNAUTHORIZED");
-  }),
+  expect(getUser).toThrow("UNAUTHORIZED");
+});
 
-  test("'UNAUTHORIZED' error is thrown when there is no 'sessionId' cookie.", async () => {
-    const cookies = new MockNextCookies();
-    await cookies.apply();
+test("'UNAUTHORIZED' error is thrown when there is no 'sessionId' cookie.", async () => {
+  const cookies = new MockNextCookies();
+  await cookies.apply();
 
-    const getUser = async () => await _trpcCaller.user();
-    expect(getUser).toThrow("UNAUTHORIZED");
-  }),
+  const getUser = async () => await _trpcCaller.user();
+  expect(getUser).toThrow("UNAUTHORIZED");
+});
 
-  test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
-    // Set the cookies
-    const cookies = new MockNextCookies();
-    cookies.set("sessionId", "501");
-    await cookies.apply();
+test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
+  // Set the cookies
+  const cookies = new MockNextCookies();
+  cookies.set("sessionId", "501");
+  await cookies.apply();
 
-    const getUser = async () => await _trpcCaller.user();
+  const getUser = async () => await _trpcCaller.user();
 
-    expect(getUser).toThrow("UNAUTHORIZED");
-  }),
+  expect(getUser).toThrow("UNAUTHORIZED");
+});
 
-  test("Endpoint does not return the user's password.", async () => {
-    // Set the cookies
-    const cookies = new MockNextCookies();
-    cookies.set("sessionId", "502");
-    await cookies.apply();
+test("Endpoint does not return the user's password.", async () => {
+  // Set the cookies
+  const cookies = new MockNextCookies();
+  cookies.set("sessionId", "502");
+  await cookies.apply();
 
-    const user = await _trpcCaller.user();
+  const user = await _trpcCaller.user();
 
-    expect(user).not.toHaveProperty("password");
-  }),
-]);
+  expect(user).not.toHaveProperty("password");
+});
 
 // Delete the records created for these tests
 afterAll(async () => {
-  await prisma.session.delete({
-    where: { id: 500 },
-  });
-  await prisma.session.delete({
-    where: { id: 501 },
-  });
-  await prisma.session.delete({
-    where: { id: 502 },
-  });
-  await prisma.user.delete({
-    where: { email: "person1@prisma.io" },
-  });
-  await prisma.user.delete({
-    where: { email: "person2@gmail.com" },
-  });
+  await Promise.all([
+    prisma.user.delete({
+      where: { email: "person1@prisma.io" },
+    }),
+    prisma.user.delete({
+      where: { email: "person2@gmail.com" },
+    }),
+  ]);
 });
