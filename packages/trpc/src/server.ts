@@ -9,7 +9,7 @@ import { appRouter } from "./internal/router";
 
 /**
  * This caller is not intended to be used directly.
- * Use `exclusively` for testing purposes with the `_trpcCaller` export.
+ * Use `exclusively` for testing purposes with the `$trpcCaller` export.
  */
 const caller = createCallerFactory(appRouter)(createTRPCContext);
 
@@ -18,4 +18,4 @@ export const { trpc, HydrateClient } = createHydrationHelpers<AppRouter>(
   QueryClientFactory.stable,
 );
 
-export { caller as _trpcCaller };
+export { caller as $trpcCaller };

@@ -1,5 +1,5 @@
 import {
-  deleteAccountIfExistsProcedure,
+  deleteAccountProcedure,
   signInProcedure,
   signOutProcedure,
   signUpProcedure,
@@ -11,7 +11,7 @@ export const appRouter = createTRPCRouter({
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
-  deleteAccount: deleteAccountIfExistsProcedure,
+  deleteAccount: deleteAccountProcedure,
   user: getAuthenticatedUserProcedure,
 });
 

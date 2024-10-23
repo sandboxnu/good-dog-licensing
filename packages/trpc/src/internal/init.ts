@@ -1,8 +1,9 @@
 import React from "react";
-import { cookies } from "next/headers";
 import { initTRPC, TRPCError } from "@trpc/server";
 import SuperJSON from "superjson";
+import { ZodError } from "zod";
 
+import { getSessionCookie } from "@good-dog/auth/cookies";
 import { prisma } from "@good-dog/db";
 
 export const createTRPCContext = React.cache(() => {
@@ -23,6 +24,26 @@ const t = initTRPC.context<ReturnType<typeof createTRPCContext>>().create({
    * @see https://trpc.io/docs/server/data-transformers
    */
   transformer: SuperJSON,
+  errorFormatter: ({ shape, error }) => ({
+    ...shape,
+    data: {
+      ...shape.data,
+      zodError:
+        error.code === "BAD_REQUEST" && error.cause instanceof ZodError
+          ? error.cause.flatten()
+          : null,
+      ...(process.env.NODE_ENV === "production"
+        ? {}
+        : {
+            prismaError:
+              error.code === "INTERNAL_SERVER_ERROR" &&
+              error.cause &&
+              "clientVersion" in error.cause
+                ? error.cause
+                : null,
+          }),
+    },
+  }),
 });
 
 // Base router and procedure helpers
@@ -33,7 +54,7 @@ export const createCallerFactory = t.createCallerFactory;
 export const baseProcedureBuilder = t.procedure;
 export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
-    const sessionId = cookies().get("sessionId");
+    const sessionId = getSessionCookie();
 
     if (!sessionId?.value) {
       throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -65,8 +86,44 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
     return next({
       ctx: {
         ...ctx,
-        user: sessionOrNull.user,
+        session: sessionOrNull,
       },
+    });
+  },
+);
+
+// This middleware is used to prevent authenticated users from accessing a resource
+export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
+  async ({ ctx, next }) => {
+    const sessionId = getSessionCookie();
+
+    if (!sessionId?.value) {
+      return next({ ctx });
+    }
+
+    const sessionOrNull = await ctx.prisma.session.findUnique({
+      where: {
+        id: sessionId.value,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+
+    if (sessionOrNull && sessionOrNull.expiresAt > new Date()) {
+      throw new TRPCError({ code: "FORBIDDEN" });
+    }
+
+    return next({
+      ctx,
     });
   },
 );
