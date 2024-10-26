@@ -31,43 +31,46 @@ describe("auth", () => {
       },
     });
 
+  const cleanupAccount = async () => {
+    const sessionId = mockCookies.get("sessionId")?.value;
+
+    if (!sessionId) {
+      throw new Error("sessionId not found in cookies");
+    }
+
+    const session = await prisma.session.findUniqueOrThrow({
+      where: {
+        id: sessionId,
+      },
+    });
+
+    await prisma.user.delete({
+      where: {
+        id: session.userId,
+      },
+    });
+  };
+
   beforeEach(async () => {
     await mockCookies.apply();
   });
 
   describe("with account deletion", () => {
     afterEach(async () => {
-      const sessionId = mockCookies.get("sessionId")?.value;
-
-      if (!sessionId) {
-        throw new Error("sessionId not found in cookies");
-      }
-
-      const session = await prisma.session.findUniqueOrThrow({
-        where: {
-          id: sessionId,
-        },
-      });
-
-      await prisma.user.delete({
-        where: {
-          id: session.userId,
-        },
-      });
+      await cleanupAccount();
     });
 
     test("auth/signUp", async () => {
-      const user = await $trpcCaller.signUp({
+      const response = await $trpcCaller.signUp({
         name: "Damian",
         email: "damian@gmail.com",
         password: "password123",
       });
 
-      const expectedResponse = {
-        message: "Successfully signed up and logged in as damian@gmail.com",
-      };
-
-      expect(user).toEqual(expectedResponse);
+      expect(response.message).toEqual(
+        "Successfully signed up and logged in as damian@gmail.com",
+      );
+      expect(mockCookies.set).toBeCalledWith("sessionId");
     });
 
     test("auth/signIn", async () => {
@@ -81,6 +84,7 @@ describe("auth", () => {
       expect(signInResponse.message).toEqual(
         "Successfully logged in as damian@gmail.com",
       );
+      expect(mockCookies.set).toBeCalledWith("sessionId");
     });
 
     test("auth/signIn failure", async () => {
@@ -92,6 +96,8 @@ describe("auth", () => {
           password: "thisIsTheWrongPassword",
         }),
       ).rejects.toThrow("Invalid credentials");
+
+      expect(mockCookies.set).not.toBeCalled();
     });
 
     test("auth/signOut", async () => {
@@ -100,20 +106,25 @@ describe("auth", () => {
 
       const res = await $trpcCaller.signOut();
 
+      expect(mockCookies.delete).toBeCalledWith("sessionId");
       expect(res.message).toEqual("Successfully logged out");
+
+      // Reset the cookies to prepare for deletion
+      mockCookies.set("sessionId", session.id);
     });
-  });
 
-  test("auth/signUp failure", async () => {
-    await createAccount();
+    test("auth/signUp failure", async () => {
+      await createAccount();
 
-    expect(
-      $trpcCaller.signUp({
-        name: "Damian",
-        email: "damian@gmail.com",
-        password: "password",
-      }),
-    ).rejects.toThrow("User already exists for damian@gmail.com");
+      expect(
+        $trpcCaller.signUp({
+          name: "Damian",
+          email: "damian@gmail.com",
+          password: "password",
+        }),
+      ).rejects.toThrow("User already exists for damian@gmail.com");
+      expect(mockCookies.set).not.toBeCalled();
+    });
   });
 
   test("auth/deleteAccount", async () => {
@@ -125,5 +136,6 @@ describe("auth", () => {
     expect(deleteAccountResponse.message).toEqual(
       "Successfully deleted account",
     );
+    expect(mockCookies.delete).toBeCalledWith("sessionId");
   });
 });

@@ -20,13 +20,13 @@ export class MockNextCookies {
     }));
   }
 
-  set = mock<(key: string, value: string) => void>().mockImplementation(
-    (key, value) => {
-      this.cookiesMap.set(key, value);
-    },
-  );
+  readonly set = mock<
+    (key: string, value: string) => void
+  >().mockImplementation((key, value) => {
+    this.cookiesMap.set(key, value);
+  });
 
-  get = mock<
+  readonly get = mock<
     (key: string) => MockReadonlyRequestCookies | undefined
   >().mockImplementation((key) => {
     const cookieValue = this.cookiesMap.get(key);
@@ -37,5 +37,9 @@ export class MockNextCookies {
     return {
       value: cookieValue,
     };
+  });
+
+  readonly delete = mock<(key: string) => void>().mockImplementation((key) => {
+    this.cookiesMap.delete(key);
   });
 }
