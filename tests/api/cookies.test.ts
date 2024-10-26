@@ -8,7 +8,7 @@ import {
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
 
-describe("cookies", async () => {
+describe("cookies", () => {
   const cookies = new MockNextCookies();
 
   beforeAll(async () => {

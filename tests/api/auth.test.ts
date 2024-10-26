@@ -84,7 +84,6 @@ describe("auth", () => {
         secure: true,
         sameSite: "lax",
         path: "/",
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         expires: expect.any(Date),
       });
     });
@@ -105,7 +104,6 @@ describe("auth", () => {
         secure: true,
         sameSite: "lax",
         path: "/",
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         expires: expect.any(Date),
       });
     });
