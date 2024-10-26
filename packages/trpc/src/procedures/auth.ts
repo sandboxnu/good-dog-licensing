@@ -117,7 +117,6 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
     };
   });
 
-// TODO: refactor to use middleware
 export const signOutProcedure = authenticatedProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.session.delete({
