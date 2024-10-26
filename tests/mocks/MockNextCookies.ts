@@ -1,5 +1,9 @@
 import { mock } from "bun:test";
 
+interface MockReadonlyRequestCookies {
+  value: string;
+}
+
 // A mock for the cookies function in the NextJS next/header module.
 export class MockNextCookies {
   private cookiesMap: Map<string, string>;
@@ -16,11 +20,15 @@ export class MockNextCookies {
     }));
   }
 
-  set(key: string, value: string): void {
-    this.cookiesMap.set(key, value);
-  }
+  set = mock<(key: string, value: string) => void>().mockImplementation(
+    (key, value) => {
+      this.cookiesMap.set(key, value);
+    },
+  );
 
-  get(key: string): { value: string } | undefined {
+  get = mock<
+    (key: string) => MockReadonlyRequestCookies | undefined
+  >().mockImplementation((key) => {
     const cookieValue = this.cookiesMap.get(key);
     if (cookieValue === undefined) {
       return undefined;
@@ -29,5 +37,5 @@ export class MockNextCookies {
     return {
       value: cookieValue,
     };
-  }
+  });
 }
