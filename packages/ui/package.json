@@ -8,9 +8,7 @@
     "./tailwind": "./tailwind.config.ts",
     "./*": [
       "./shad/*.tsx",
-      "./shad/*.ts",
-      "./src/*.tsx",
-      "./src/*.ts"
+      "./shad/*.ts"
     ]
   },
   "license": "MIT",

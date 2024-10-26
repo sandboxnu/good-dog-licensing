@@ -1,6 +1,6 @@
 import { TRPCProvider } from "@good-dog/trpc/client";
 
-import "./globals.css";
+import "../globals.css";
 
 export const metadata = {
   title: "Good Dog Licensing",
