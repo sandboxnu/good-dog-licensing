@@ -10,43 +10,47 @@ describe("auth", () => {
   const mockCookies = new MockNextCookies();
 
   const createAccount = async () =>
-    prisma.user.create({
-      data: {
+    prisma.user.upsert({
+      create: {
+        id: "testId124389124",
         name: "Damian",
         email: "damian@gmail.com",
         hashedPassword: await hashPassword("password123"),
       },
+      update: {
+        id: "testId124389124",
+        email: "damian@gmail.com",
+        hashedPassword: await hashPassword("password123"),
+      },
+      where: {
+        email: "damian@gmail.com",
+      },
     });
+
   const createSession = async () =>
     prisma.session.create({
       data: {
         expiresAt: new Date("2099-01-01"),
         user: {
-          create: {
-            name: "Damian",
-            email: "damian@gmail.com",
-            hashedPassword: await hashPassword("password123"),
+          connectOrCreate: {
+            create: {
+              id: "testId124389124",
+              name: "Damian",
+              email: "damian@gmail.com",
+              hashedPassword: await hashPassword("password123"),
+            },
+            where: {
+              id: "testId124389124",
+            },
           },
         },
       },
     });
 
   const cleanupAccount = async () => {
-    const sessionId = mockCookies.get("sessionId")?.value;
-
-    if (!sessionId) {
-      throw new Error("sessionId not found in cookies");
-    }
-
-    const session = await prisma.session.findUniqueOrThrow({
-      where: {
-        id: sessionId,
-      },
-    });
-
     await prisma.user.delete({
       where: {
-        id: session.userId,
+        email: "damian@gmail.com",
       },
     });
   };
@@ -70,7 +74,14 @@ describe("auth", () => {
       expect(response.message).toEqual(
         "Successfully signed up and logged in as damian@gmail.com",
       );
-      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String));
+
+      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        path: "/",
+        expires: expect.any(Date),
+      });
     });
 
     test("auth/signIn", async () => {
@@ -84,7 +95,13 @@ describe("auth", () => {
       expect(signInResponse.message).toEqual(
         "Successfully logged in as damian@gmail.com",
       );
-      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String));
+      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        path: "/",
+        expires: expect.any(Date),
+      });
     });
 
     test("auth/signIn failure", async () => {
@@ -100,19 +117,6 @@ describe("auth", () => {
       expect(mockCookies.set).not.toBeCalled();
     });
 
-    test("auth/signOut", async () => {
-      const session = await createSession();
-      mockCookies.set("sessionId", session.id);
-
-      const res = await $trpcCaller.signOut();
-
-      expect(mockCookies.delete).toBeCalledWith("sessionId");
-      expect(res.message).toEqual("Successfully logged out");
-
-      // Reset the cookies to prepare for deletion
-      mockCookies.set("sessionId", session.id);
-    });
-
     test("auth/signUp failure", async () => {
       await createAccount();
 
@@ -122,8 +126,24 @@ describe("auth", () => {
           email: "damian@gmail.com",
           password: "password",
         }),
-      ).rejects.toThrow("User already exists for damian@gmail.com");
+      ).rejects.toThrow("User already exists with email damian@gmail.com");
       expect(mockCookies.set).not.toBeCalled();
+    });
+  });
+
+  test("auth/signOut", async () => {
+    const session = await createSession();
+    mockCookies.set("sessionId", session.id);
+
+    const res = await $trpcCaller.signOut();
+
+    expect(mockCookies.delete).toBeCalledWith("sessionId");
+    expect(res.message).toEqual("Successfully logged out");
+
+    await prisma.user.delete({
+      where: {
+        id: session.userId,
+      },
     });
   });
 
