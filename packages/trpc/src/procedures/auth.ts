@@ -1,8 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { comparePassword, hashPassword } from "@good-dog/auth";
 import { deleteSessionCookie, setSessionCookie } from "@good-dog/auth/cookies";
+import { comparePassword, hashPassword } from "@good-dog/auth/password";
 
 import {
   authenticatedProcedureBuilder,

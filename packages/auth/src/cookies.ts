@@ -9,7 +9,7 @@ export const getSessionCookie = () => {
 export const setSessionCookie = (sessionId: string, expires: Date) => {
   cookies().set(SESSION_COOKIE_NAME, sessionId, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // todo!
+    secure: true,
     sameSite: "lax",
     path: "/",
     expires,

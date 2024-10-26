@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, expect, test } from "bun:test";
 
 import { prisma } from "@good-dog/db";
-import { _trpcCaller } from "@good-dog/trpc/server";
+import { $trpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
 
@@ -75,7 +75,7 @@ test("Correct user is returned when they have a valid session.", async () => {
   cookies.set("sessionId", "500");
   await cookies.apply();
 
-  const user = await _trpcCaller.user();
+  const user = await $trpcCaller.user();
 
   expect(user.email).toEqual("person1@prisma.io");
 });
@@ -86,7 +86,7 @@ test("Correct user is returned when they have multiple sessions and one is valid
   cookies.set("sessionId", "502");
   await cookies.apply();
 
-  const user = await _trpcCaller.user();
+  const user = await $trpcCaller.user();
 
   expect(user.email).toEqual("person2@gmail.com");
 });
@@ -97,7 +97,7 @@ test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.
   cookies.set("sessionId", "503");
   await cookies.apply();
 
-  const getUser = async () => await _trpcCaller.user();
+  const getUser = async () => await $trpcCaller.user();
 
   expect(getUser).toThrow("UNAUTHORIZED");
 });
@@ -106,7 +106,7 @@ test("'UNAUTHORIZED' error is thrown when there is no 'sessionId' cookie.", asyn
   const cookies = new MockNextCookies();
   await cookies.apply();
 
-  const getUser = async () => await _trpcCaller.user();
+  const getUser = async () => await $trpcCaller.user();
   expect(getUser).toThrow("UNAUTHORIZED");
 });
 
@@ -116,7 +116,7 @@ test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
   cookies.set("sessionId", "501");
   await cookies.apply();
 
-  const getUser = async () => await _trpcCaller.user();
+  const getUser = async () => await $trpcCaller.user();
 
   expect(getUser).toThrow("UNAUTHORIZED");
 });
@@ -127,7 +127,7 @@ test("Endpoint does not return the user's password.", async () => {
   cookies.set("sessionId", "502");
   await cookies.apply();
 
-  const user = await _trpcCaller.user();
+  const user = await $trpcCaller.user();
 
   expect(user).not.toHaveProperty("password");
 });

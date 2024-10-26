@@ -105,17 +105,6 @@ export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
       where: {
         id: sessionId.value,
       },
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-            name: true,
-            createdAt: true,
-            updatedAt: true,
-          },
-        },
-      },
     });
 
     if (sessionOrNull && sessionOrNull.expiresAt > new Date()) {

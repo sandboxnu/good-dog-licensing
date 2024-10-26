@@ -1,61 +1,92 @@
-import { afterEach, describe, expect, test } from "bun:test";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 
-import { _trpcCaller } from "@good-dog/trpc/server";
+import { prisma } from "@good-dog/db";
+import { $trpcCaller } from "@good-dog/trpc/server";
+
+import { MockNextCookies } from "../mocks/MockNextCookies";
 
 describe("auth", () => {
+  const mockCookies = new MockNextCookies();
+
+  const createAccount = async () =>
+    prisma.user.create({
+      data: {
+        name: "Damian",
+        email: "damian@gmail.com",
+        password: "password123",
+      },
+    });
+  const createSession = async () =>
+    prisma.session.create({
+      data: {
+        expiresAt: new Date("2099-01-01"),
+        user: {
+          create: {
+            name: "Damian",
+            email: "damian@gmail.com",
+            password: "password123",
+          },
+        },
+      },
+    });
+
+  beforeEach(async () => {
+    await mockCookies.apply();
+  });
+
   describe("with account deletion", () => {
     afterEach(async () => {
-      await _trpcCaller.deleteAccount({
-        email: "damian@gmail.com",
+      const sessionId = mockCookies.get("sessionId")?.value;
+
+      if (!sessionId) {
+        throw new Error("sessionId not found in cookies");
+      }
+
+      const session = await prisma.session.findUniqueOrThrow({
+        where: {
+          id: sessionId,
+        },
+      });
+
+      await prisma.user.delete({
+        where: {
+          id: session.userId,
+        },
       });
     });
 
     test("auth/signUp", async () => {
-      const user = await _trpcCaller.signUp({
+      const user = await $trpcCaller.signUp({
+        name: "Damian",
         email: "damian@gmail.com",
         password: "password",
       });
 
       const expectedResponse = {
         message: "Successfully signed up and logged in as damian@gmail.com",
-        sessionId: user.sessionId,
       };
 
       expect(user).toEqual(expectedResponse);
-
-      expect(
-        _trpcCaller.signUp({
-          email: "damian@gmail.com",
-          password: "password",
-        }),
-      ).rejects.toThrow("User already exists for damian@gmail.com");
     });
 
     test("auth/signIn", async () => {
-      await _trpcCaller.signUp({
-        email: "damian@gmail.com",
-        password: "password",
-      });
+      await createAccount();
 
-      const signInResponse = await _trpcCaller.signIn({
+      const signInResponse = await $trpcCaller.signIn({
         email: "damian@gmail.com",
-        password: "password",
+        password: "password123",
       });
 
       expect(signInResponse.message).toEqual(
         "Successfully logged in as damian@gmail.com",
       );
+    });
 
-      expect(signInResponse.sessionId).toBeTruthy();
-
-      if (signInResponse.sessionId) {
-        await _trpcCaller.signOut({
-          id: signInResponse.sessionId,
-        });
-      }
+    test("auth/signIn failure", async () => {
+      await createAccount();
 
       expect(
-        _trpcCaller.signIn({
+        $trpcCaller.signIn({
           email: "damian@gmail.com",
           password: "thisIsTheWrongPassword",
         }),
@@ -63,40 +94,32 @@ describe("auth", () => {
     });
 
     test("auth/signOut", async () => {
-      await _trpcCaller.signUp({
-        email: "damian@gmail.com",
-        password: "password",
-      });
+      const session = await createSession();
+      mockCookies.set("sessionId", session.id);
 
-      const signInResponse = await _trpcCaller.signIn({
-        email: "damian@gmail.com",
-        password: "password",
-      });
-      expect(signInResponse.message).toEqual(
-        "Successfully logged in as damian@gmail.com",
-      );
+      const res = await $trpcCaller.signOut();
 
-      expect(signInResponse.sessionId).toBeTruthy();
-
-      if (signInResponse.sessionId) {
-        const res = await _trpcCaller.signOut({
-          id: signInResponse.sessionId,
-        });
-
-        expect(res.message).toEqual("Successfully logged out");
-      }
+      expect(res.message).toEqual("Successfully logged out");
     });
   });
 
-  test("auth/deleteAccount", async () => {
-    await _trpcCaller.signUp({
-      email: "damian@gmail.com",
-      password: "password",
-    });
+  test("auth/sigUup failure", async () => {
+    await createAccount();
 
-    const deleteAccountResponse = await _trpcCaller.deleteAccount({
-      email: "damian@gmail.com",
-    });
+    expect(
+      $trpcCaller.signUp({
+        name: "Damian",
+        email: "damian@gmail.com",
+        password: "password",
+      }),
+    ).rejects.toThrow("User already exists for damian@gmail.com");
+  });
+
+  test("auth/deleteAccount", async () => {
+    const session = await createSession();
+    mockCookies.set("sessionId", session.id);
+
+    const deleteAccountResponse = await $trpcCaller.deleteAccount();
 
     expect(deleteAccountResponse.message).toEqual(
       "Successfully deleted account",
