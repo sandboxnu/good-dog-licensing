@@ -15,6 +15,9 @@ export class MockNextCookies {
   // Applies this mock to be the cookies used by the next/header module. This method
   // must be called in order for this mock to be applied.
   async apply(): Promise<void> {
+    this.set.mockClear();
+    this.get.mockClear();
+    this.delete.mockClear();
     await mock.module("next/headers", () => ({
       cookies: () => this,
     }));

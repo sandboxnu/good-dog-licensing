@@ -70,7 +70,7 @@ describe("auth", () => {
       expect(response.message).toEqual(
         "Successfully signed up and logged in as damian@gmail.com",
       );
-      expect(mockCookies.set).toBeCalledWith("sessionId");
+      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String));
     });
 
     test("auth/signIn", async () => {
@@ -84,7 +84,7 @@ describe("auth", () => {
       expect(signInResponse.message).toEqual(
         "Successfully logged in as damian@gmail.com",
       );
-      expect(mockCookies.set).toBeCalledWith("sessionId");
+      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String));
     });
 
     test("auth/signIn failure", async () => {
