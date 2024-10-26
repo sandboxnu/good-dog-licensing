@@ -15,17 +15,17 @@ datasource db {
 }
 
 model User {
-  id        String       @id @default(uuid())
-  email     String    @unique
-  name      String
-  password  String
-  sessions  Session[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id             String    @id @default(uuid())
+  email          String    @unique
+  name           String
+  hashedPassword String    @map("password")
+  sessions       Session[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 }
 
 model Session {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())

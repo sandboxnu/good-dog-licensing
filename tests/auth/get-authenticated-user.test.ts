@@ -13,7 +13,7 @@ beforeAll(async () => {
     create: {
       email: "person1@prisma.io",
       name: "Person 1",
-      password: "person1Password",
+      hashedPassword: "person1Password",
     },
   });
   await prisma.session.upsert({
@@ -38,7 +38,7 @@ beforeAll(async () => {
     create: {
       email: "person2@gmail.com",
       name: "Person2 Jones",
-      password: "person2Password",
+      hashedPassword: "person2Password",
     },
   });
   await prisma.session.upsert({
@@ -129,6 +129,7 @@ test("Endpoint does not return the user's password.", async () => {
 
   const user = await $trpcCaller.user();
 
+  expect(user).not.toHaveProperty("hashedPassword");
   expect(user).not.toHaveProperty("password");
 });
 

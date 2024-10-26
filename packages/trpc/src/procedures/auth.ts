@@ -40,7 +40,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       data: {
         name: input.name,
         email: input.email,
-        password: hashedPassword,
+        hashedPassword: hashedPassword,
         sessions: {
           create: {
             expiresAt: getNewSessionExpirationDate(),
@@ -93,7 +93,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
       throw error();
     }
 
-    const match = await comparePassword(input.password, user.password);
+    const match = await comparePassword(input.password, user.hashedPassword);
 
     if (!match) {
       throw error();

@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 
+import { hashPassword } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
 import { $trpcCaller } from "@good-dog/trpc/server";
 
@@ -13,7 +14,7 @@ describe("auth", () => {
       data: {
         name: "Damian",
         email: "damian@gmail.com",
-        password: "password123",
+        hashedPassword: await hashPassword("password123"),
       },
     });
   const createSession = async () =>
@@ -24,7 +25,7 @@ describe("auth", () => {
           create: {
             name: "Damian",
             email: "damian@gmail.com",
-            password: "password123",
+            hashedPassword: await hashPassword("password123"),
           },
         },
       },
@@ -59,7 +60,7 @@ describe("auth", () => {
       const user = await $trpcCaller.signUp({
         name: "Damian",
         email: "damian@gmail.com",
-        password: "password",
+        password: "password123",
       });
 
       const expectedResponse = {
@@ -103,7 +104,7 @@ describe("auth", () => {
     });
   });
 
-  test("auth/sigUup failure", async () => {
+  test("auth/signUp failure", async () => {
     await createAccount();
 
     expect(
