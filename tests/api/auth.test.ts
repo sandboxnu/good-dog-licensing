@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { afterEach, beforeAll, describe, expect, test } from "bun:test";
 
 import { hashPassword } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
@@ -55,8 +55,12 @@ describe("auth", () => {
     });
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await mockCookies.apply();
+  });
+
+  afterEach(() => {
+    mockCookies.clear();
   });
 
   describe("with account deletion", () => {
