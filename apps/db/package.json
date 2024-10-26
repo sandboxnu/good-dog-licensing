@@ -12,6 +12,8 @@
     "down": "docker-compose -f compose.yml down",
     "clean": "rm -rf .turbo node_modules",
     "format": " prisma format && prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
     "push": "prisma db push",
     "studio": "prisma studio",
     "generate": "prisma generate",
@@ -26,6 +28,7 @@
     "@prisma/client": "5.19.1"
   },
   "devDependencies": {
+    "@good-dog/auth": "workspace:*",
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
