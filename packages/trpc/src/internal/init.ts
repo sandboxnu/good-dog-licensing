@@ -32,16 +32,13 @@ const t = initTRPC.context<ReturnType<typeof createTRPCContext>>().create({
         error.code === "BAD_REQUEST" && error.cause instanceof ZodError
           ? error.cause.flatten()
           : null,
-      ...(process.env.NODE_ENV === "production"
-        ? {}
-        : {
-            prismaError:
-              error.code === "INTERNAL_SERVER_ERROR" &&
-              error.cause &&
-              "clientVersion" in error.cause
-                ? error.cause
-                : null,
-          }),
+      prismaError:
+        process.env.VERCEL_ENV !== "production" &&
+        error.code === "INTERNAL_SERVER_ERROR" &&
+        error.cause &&
+        "clientVersion" in error.cause
+          ? error.cause
+          : null,
     },
   }),
 });
