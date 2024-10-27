@@ -1,5 +1,6 @@
 import React from "react";
-import { initTRPC } from "@trpc/server";
+import { cookies } from "next/headers";
+import { initTRPC, TRPCError } from "@trpc/server";
 import SuperJSON from "superjson";
 
 import { prisma } from "@good-dog/db";
@@ -26,5 +27,46 @@ const t = initTRPC.context<ReturnType<typeof createTRPCContext>>().create({
 
 // Base router and procedure helpers
 export const createTRPCRouter = t.router;
-export const baseProcedureBuilder = t.procedure;
 export const createCallerFactory = t.createCallerFactory;
+
+// Procedure builders
+export const baseProcedureBuilder = t.procedure;
+export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
+  async ({ ctx, next }) => {
+    const sessionId = cookies().get("sessionId");
+
+    if (!sessionId?.value) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    const sessionOrNull = await ctx.prisma.session.findUnique({
+      where: {
+        id: sessionId.value,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            sessions: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+
+    if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
+      // Session expired or not found
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        user: sessionOrNull.user,
+      },
+    });
+  },
+);

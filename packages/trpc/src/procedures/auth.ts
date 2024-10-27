@@ -98,7 +98,7 @@ export const signInProcedure = baseProcedureBuilder
 export const signOutProcedure = baseProcedureBuilder
   .input(
     z.object({
-      id: z.number(),
+      id: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
