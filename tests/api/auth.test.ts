@@ -1,4 +1,11 @@
-import { afterEach, beforeAll, describe, expect, test } from "bun:test";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 
 import { hashPassword } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
@@ -63,34 +70,37 @@ describe("auth", () => {
     mockCookies.clear();
   });
 
-  describe("with account deletion", () => {
-    afterEach(async () => {
+  test("auth/signUp", async () => {
+    const response = await $trpcCaller.signUp({
+      name: "Damian",
+      email: "damian@gmail.com",
+      password: "password123",
+    });
+
+    expect(response.message).toEqual(
+      "Successfully signed up and logged in as damian@gmail.com",
+    );
+
+    expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      expires: expect.any(Date),
+    });
+
+    await cleanupAccount();
+  });
+
+  describe("with existing account", () => {
+    beforeAll(async () => {
+      await createAccount();
+    });
+    afterAll(async () => {
       await cleanupAccount();
     });
 
-    test("auth/signUp", async () => {
-      const response = await $trpcCaller.signUp({
-        name: "Damian",
-        email: "damian@gmail.com",
-        password: "password123",
-      });
-
-      expect(response.message).toEqual(
-        "Successfully signed up and logged in as damian@gmail.com",
-      );
-
-      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        path: "/",
-        expires: expect.any(Date),
-      });
-    });
-
     test("auth/signIn", async () => {
-      await createAccount();
-
       const signInResponse = await $trpcCaller.signIn({
         email: "damian@gmail.com",
         password: "password123",
@@ -108,9 +118,7 @@ describe("auth", () => {
       });
     });
 
-    test("auth/signIn failure", async () => {
-      await createAccount();
-
+    test("auth/signIn failure", () => {
       expect(
         $trpcCaller.signIn({
           email: "damian@gmail.com",
@@ -121,9 +129,7 @@ describe("auth", () => {
       expect(mockCookies.set).not.toBeCalled();
     });
 
-    test("auth/signUp failure", async () => {
-      await createAccount();
-
+    test("auth/signUp failure", () => {
       expect(
         $trpcCaller.signUp({
           name: "Damian",
@@ -144,11 +150,7 @@ describe("auth", () => {
     expect(mockCookies.delete).toBeCalledWith("sessionId");
     expect(res.message).toEqual("Successfully logged out");
 
-    await prisma.user.delete({
-      where: {
-        id: session.userId,
-      },
-    });
+    await cleanupAccount();
   });
 
   test("auth/deleteAccount", async () => {
