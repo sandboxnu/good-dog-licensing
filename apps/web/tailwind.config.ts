@@ -8,8 +8,7 @@ export default {
   content: [
     ...baseConfig.content,
     "../../packages/ui/shad/**/*.{ts,tsx}",
-    "../../packages/ui/src/**/*.{ts,tsx}",
-    "./app/_components/**/*.{ts,tsx}",
+    "../../packages/components/src/**/*.{ts,tsx}",
   ],
   presets: [baseConfig],
   plugins: [require("tailwindcss-animate")],

@@ -4,10 +4,12 @@ export default function Footer() {
   return (
     <footer>
       <Image
-        className="relative w-full"
+        className="relative"
         src="/bg-assets/footer_checker.svg"
         alt="footer-checker"
-        layout="fill"
+        width={0}
+        height={0}
+        style={{ width: "100%", height: "auto" }}
       />
       <div className="flex flex-row justify-center space-x-4 bg-good-dog-celadon pb-16 pt-36">
         <Image

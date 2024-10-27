@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Nav() {
   return (
-    <nav className="font-poppins px-9 py-12 items-center font-semibold">
+    <nav className="font-poppins items-center px-9 py-12 font-semibold">
       <ul className="flex flex-row justify-between text-white">
         <li>
           <a href="/">Home</a>
@@ -14,7 +14,7 @@ export default function Nav() {
           <li>
             <a href="/login">LOGIN</a>
           </li>
-          <li className="rounded-full bg-good-dog-celadon text-good-dog-violet px-4 py-1">
+          <li className="rounded-full bg-good-dog-celadon px-4 py-1 text-good-dog-violet">
             <a href="/submit">SUBMIT</a>
           </li>
         </div>
