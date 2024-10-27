@@ -36,7 +36,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
 
     const hashedPassword = await hashPassword(input.password);
 
-    const userWithSesion = await ctx.prisma.user.create({
+    const userWithSession = await ctx.prisma.user.create({
       data: {
         name: input.name,
         email: input.email,
@@ -52,7 +52,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       },
     });
 
-    const session = userWithSesion.sessions[0];
+    const session = userWithSession.sessions[0];
 
     if (!session) {
       throw new TRPCError({
