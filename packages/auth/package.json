@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    "./password": "./src/password.ts",
+    "./cookies": "./src/cookies.ts"
   },
   "license": "MIT",
   "scripts": {
@@ -24,6 +25,7 @@
   },
   "prettier": "@good-dog/prettier",
   "dependencies": {
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "next": "14.2.12"
   }
 }
