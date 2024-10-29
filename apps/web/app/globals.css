@@ -93,7 +93,7 @@
 .react-horizontal-scrolling-menu--scroll-container {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 .react-horizontal-scrolling-menu--item:first-child {
