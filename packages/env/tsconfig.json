@@ -6,6 +6,6 @@
     "types": ["bun"],
     "allowJs": true
   },
-  "include": ["env.js", "env.d.ts"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
