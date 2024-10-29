@@ -81,16 +81,19 @@
       "cache": false,
       "interactive": false
     },
-    "env": {
-      "interactive": false,
-      "cache": false
-    },
     "seed": {
       "cache": false,
       "interactive": false
     }
   },
-  "globalEnv": ["SKIP_ENV_VALIDATION"],
+  "globalEnv": [
+    "SKIP_ENV_VALIDATION",
+    "DATABASE_PRISMA_URL",
+    "POSTGRES_USER",
+    "POSTGRES_PASSWORD",
+    "POSTGRES_DATABASE",
+    "POSTGRES_PORT"
+  ],
   "globalPassThroughEnv": [
     "NODE_ENV",
     "VERCEL_ENV",

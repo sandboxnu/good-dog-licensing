@@ -36,9 +36,9 @@
     "__MISC______________": "",
     "postinstall": "turbo run generate && bun run lint:ws",
     "typecheck": "turbo run typecheck",
-    "shad-add": "turbo run ui-add",
+    "shad:add": "turbo run ui-add",
     "generate:package": "turbo generate package",
-    "env:setup": "turbo run env"
+    "env:setup": "cp .env.example .env"
   },
   "devDependencies": {
     "@good-dog/prettier": "workspace:*",

@@ -1,12 +1,10 @@
 {
-  "name": "@good-dog/trpc",
+  "name": "@good-dog/env",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    "./client": "./src/client.tsx",
-    "./server": "./src/server.ts",
-    "./next": "./src/handler.ts"
+    ".": "./env.js"
   },
   "license": "MIT",
   "scripts": {
@@ -25,17 +23,6 @@
   },
   "prettier": "@good-dog/prettier",
   "dependencies": {
-    "@good-dog/auth": "workspace:*",
-    "@good-dog/db": "workspace:*",
-    "@good-dog/env": "workspace:*",
-    "@tanstack/react-query": "5.56.2",
-    "@trpc/client": "11.0.0-rc.544",
-    "@trpc/react-query": "11.0.0-rc.544",
-    "@trpc/server": "11.0.0-rc.544",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "server-only": "^0.0.1",
-    "superjson": "^2.2.1",
-    "zod": "3.23.8"
+    "@t3-oss/env-nextjs": "^0.11.1"
   }
 }

@@ -1,0 +1,11 @@
+{
+  "extends": "@good-dog/typescript/base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "lib": ["es2022"],
+    "types": ["bun"],
+    "allowJs": true
+  },
+  "include": ["env.js", "env.d.ts"],
+  "exclude": ["node_modules"]
+}

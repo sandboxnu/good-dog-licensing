@@ -6,6 +6,8 @@ import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import SuperJSON from "superjson";
 
+import { env } from "@good-dog/env";
+
 import type { AppRouter } from "./internal/router";
 import { QueryClientFactory } from "./internal/query-client-factory";
 
@@ -22,7 +24,7 @@ const getQueryClient = () => {
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return "";
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`;
   return "http://localhost:3000";
 };
 
