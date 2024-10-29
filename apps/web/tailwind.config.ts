@@ -15,7 +15,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        afacad: ["Afacad", "sans-serif"],
+        righteous: ["Righteous"],
       },
     },
   },
