@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Afacad&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -77,6 +79,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Afacad", sans-serif;
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
