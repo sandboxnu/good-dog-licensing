@@ -7,9 +7,6 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "dev": "docker-compose -f compose.yml up",
-    "up": "docker-compose -f compose.yml up -d",
-    "down": "docker-compose -f compose.yml down",
     "clean": "rm -rf .turbo node_modules",
     "format": " prisma format && prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",

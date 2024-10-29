@@ -69,18 +69,6 @@
       "cache": false,
       "interactive": true
     },
-    "start": {
-      "cache": false,
-      "interactive": true
-    },
-    "up": {
-      "cache": false,
-      "interactive": false
-    },
-    "down": {
-      "cache": false,
-      "interactive": false
-    },
     "seed": {
       "cache": false,
       "interactive": false
