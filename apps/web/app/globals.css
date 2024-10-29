@@ -85,3 +85,17 @@
       "calt" 1;
   }
 }
+
+.react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.react-horizontal-scrolling-menu--scroll-container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow-x: hidden;
+}
+
+.react-horizontal-scrolling-menu--item:first-child {
+  margin-left: 4rem;
+}
