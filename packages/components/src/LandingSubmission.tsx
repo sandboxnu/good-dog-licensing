@@ -33,7 +33,7 @@ export default function LandingSubmission({
           paddingRight: "10vh",
         }}
       >
-        <h1 className="text-5xl font-semibold text-good-dog-pale-yellow">
+        <h1 className="font-righteous text-5xl text-good-dog-pale-yellow">
           {title}
         </h1>
         <p style={{ paddingTop: "3vh" }} className="text-white">
