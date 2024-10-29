@@ -44,13 +44,15 @@ export default function Footer() {
             alt="good-dog-youtube"
           />
         </div>
-        <Image
-          className="ml-auto mr-12"
-          src="/icons/Dark Mode Logo.svg"
-          width={120}
-          height={120}
-          alt="good-dog-logo"
-        />
+        <a href="/">
+          <Image
+            className="ml-auto mr-12"
+            src="/icons/Dark Mode Logo.svg"
+            width={120}
+            height={120}
+            alt="good-dog-logo"
+          />
+        </a>
       </div>
     </footer>
   );

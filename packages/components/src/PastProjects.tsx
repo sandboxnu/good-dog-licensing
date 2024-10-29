@@ -9,12 +9,12 @@ import "react-horizontal-scrolling-menu/dist/styles.css";
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
 function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
-  const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+  // const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 
-  if (isThouchpad) {
-    ev.stopPropagation();
-    return;
-  }
+  // if (isThouchpad) {
+  //   ev.stopPropagation();
+  //   return;
+  // }
 
   if (ev.deltaY < 0) {
     apiObj.scrollNext();
@@ -76,7 +76,7 @@ const ProjectCard = (props: ProjectCardProps) => {
 };
 
 const PastProjects = () => {
-  const getItems = () => Array(15).fill(0);
+  const getItems = () => Array(10).fill(0);
   const [items, setItems] = useState(getItems);
   const { disableScroll, enableScroll } = usePreventBodyScroll();
 
