@@ -7,9 +7,6 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "dev": "docker-compose -f compose.yml up",
-    "up": "docker-compose -f compose.yml up -d",
-    "down": "docker-compose -f compose.yml down",
     "clean": "rm -rf .turbo node_modules",
     "format": " prisma format && prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
@@ -21,8 +18,7 @@
     "migrate:reset": "prisma migrate reset",
     "migrate:prod": "prisma migrate deploy",
     "migrate:check": "bun prisma migrate diff --exit-code --from-migrations ./prisma/migrations --to-schema-datamodel ./prisma/schema.prisma --shadow-database-url",
-    "seed": "prisma db seed",
-    "env": "cp .env.example .env"
+    "seed": "prisma db seed"
   },
   "dependencies": {
     "@prisma/client": "5.19.1"

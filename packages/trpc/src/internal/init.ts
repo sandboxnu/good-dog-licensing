@@ -5,6 +5,7 @@ import { ZodError } from "zod";
 
 import { getSessionCookie } from "@good-dog/auth/cookies";
 import { prisma } from "@good-dog/db";
+import { env } from "@good-dog/env";
 
 export const createTRPCContext = React.cache(() => {
   /**
@@ -33,7 +34,7 @@ const t = initTRPC.context<ReturnType<typeof createTRPCContext>>().create({
           ? error.cause.flatten()
           : null,
       prismaError:
-        process.env.VERCEL_ENV !== "production" &&
+        env.VERCEL_ENV !== "production" &&
         error.code === "INTERNAL_SERVER_ERROR" &&
         error.cause &&
         "clientVersion" in error.cause

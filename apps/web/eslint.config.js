@@ -1,4 +1,4 @@
-import baseConfig, { restrictEnvAccess } from "@good-dog/eslint/base";
+import baseConfig from "@good-dog/eslint/base";
 import nextjsConfig from "@good-dog/eslint/nextjs";
 import reactConfig from "@good-dog/eslint/react";
 
@@ -10,5 +10,4 @@ export default [
   ...baseConfig,
   ...reactConfig,
   ...nextjsConfig,
-  ...restrictEnvAccess,
 ];
