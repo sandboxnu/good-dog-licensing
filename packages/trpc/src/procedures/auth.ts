@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { comparePassword, hashPassword } from "@good-dog/auth";
+import { sendEmailVerification } from "@good-dog/email";
 
 import { baseProcedureBuilder } from "../internal/init";
 
@@ -42,6 +43,9 @@ export const signUpProcedure = baseProcedureBuilder
         expiresAt: new Date(),
       },
     });
+
+    // THINK ABOUT PROPER WAY TO HANDLE ERRORS HERE (or handle in the email function)
+    await sendEmailVerification(user.email, "123456");
 
     return {
       message: `Successfully signed up and logged in as ${input.email}`,
