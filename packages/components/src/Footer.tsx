@@ -12,7 +12,7 @@ export default function Footer() {
         style={{ width: "100%", height: "auto" }}
       />
       <div className="flex flex-row items-end justify-between py-16 px-12">
-        <div className="flex flex-grow justify-center space-x-4 ml-12">
+        <div className="flex flex-grow justify-center space-x-4 ml-24">
           <Image
             src="/icons/facebook_icon.svg"
             width={70}
