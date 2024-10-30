@@ -11,8 +11,8 @@ export default function Footer() {
         height={0}
         style={{ width: "100%", height: "auto" }}
       />
-      <div className="flex flex-row items-center justify-between pb-16 pt-36">
-        <div className="flex flex-grow flex-row justify-center space-x-4">
+      <div className="flex flex-row items-end justify-between py-16 px-12">
+        <div className="flex flex-grow justify-center space-x-4 ml-12">
           <Image
             src="/icons/facebook_icon.svg"
             width={70}
@@ -46,7 +46,6 @@ export default function Footer() {
         </div>
         <a href="/">
           <Image
-            className="ml-auto mr-12"
             src="/icons/Dark Mode Logo.svg"
             width={120}
             height={120}
@@ -57,9 +56,3 @@ export default function Footer() {
     </footer>
   );
 }
-
-/**
- * issues rendering pictures
- * issues rendering colors
- * unsure where to put pictures in file tree
- */
