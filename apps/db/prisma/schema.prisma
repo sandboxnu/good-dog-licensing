@@ -20,6 +20,8 @@ model User {
   name           String
   hashedPassword String    @map("password")
   sessions       Session[]
+  emailVerificationCode EmailVerificationCode?
+  confirmedEmail Boolean   @default(false)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
@@ -30,4 +32,11 @@ model Session {
   userId    String
   createdAt DateTime @default(now())
   expiresAt DateTime
+}
+
+model EmailVerificationCode {
+  userId    String   @id @unique
+  code      String   
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }

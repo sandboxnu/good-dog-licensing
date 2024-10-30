@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { deleteSessionCookie, setSessionCookie } from "@good-dog/auth/cookies";
 import { comparePassword, hashPassword } from "@good-dog/auth/password";
+import { sendEmailVerification } from "@good-dog/email";
 
 import {
   authenticatedProcedureBuilder,
@@ -34,6 +35,22 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       });
     }
 
+    // DO WE WANT THE USER TO BE CREATED IF THE EMAIL FAILS? OR FAIL BEFORE USER IS CREATED?
+
+    // Generate 6 digit code for email verification
+    let emailCode = "";
+    for (let i = 0; i < 6; i++) {
+      emailCode += Math.floor(Math.random() * 10);
+    }
+
+    if (!(await sendEmailVerification(input.email, emailCode))) {
+      // Email failed to send
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Email confirmation to ${input.email} failed to send.`,
+      });
+    }
+
     const hashedPassword = await hashPassword(input.password);
 
     const userWithSession = await ctx.prisma.user.create({
@@ -44,6 +61,11 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
         sessions: {
           create: {
             expiresAt: getNewSessionExpirationDate(),
+          },
+        },
+        emailVerificationCode: {
+          create: {
+            code: emailCode,
           },
         },
       },
@@ -63,11 +85,45 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
 
     setSessionCookie(session.id, session.expiresAt);
 
-    // THINK ABOUT PROPER WAY TO HANDLE ERRORS HERE (or handle in the email function)
-    await sendEmailVerification(user.email, "123456");
+    return {
+      message: `Successfully signed up as ${input.email}. User's email must still be verified.`,
+    };
+  });
+
+export const confirmEmailProcedure = authenticatedProcedureBuilder
+  .input(
+    z.object({
+      code: z.string(),
+    }),
+  )
+  .mutation(async ({ ctx, input }) => {
+    // Need to first check if there is an emailVerificationCode, if not throw error?
+    if (ctx.session.user.emailVerificationCode == null) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message:
+          "User does not have an assiocated email verification code or the user has already verifed email.",
+      });
+    }
+
+    const expectedCode = ctx.session.user.emailVerificationCode.code;
+    if (expectedCode != input.code) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message:
+          "User does not have an assiocated email verification code or the user has already verifed email.",
+      });
+    }
+
+    // If here, the given code was correct, so we can delete the emailVerificationCode.
+    await ctx.prisma.emailVerificationCode.delete({
+      where: {
+        userId: ctx.session.userId,
+      },
+    });
 
     return {
-      message: `Successfully signed up and logged in as ${input.email}`,
+      message: `Email was successfully verified. Email: ${ctx.session.user.email}.`,
     };
   });
 

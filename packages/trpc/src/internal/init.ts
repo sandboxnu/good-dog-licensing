@@ -68,6 +68,8 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
             email: true,
             name: true,
             sessions: true,
+            emailVerificationCode: true,
+            confirmedEmail: true,
             createdAt: true,
             updatedAt: true,
           },
