@@ -22,9 +22,11 @@ export default function Nav() {
           <li>
             <a href="/login">LOGIN</a>
           </li>
-          <li className="rounded-full bg-good-dog-celadon px-4 py-1 text-good-dog-violet">
-            <a href="/submit">SUBMIT</a>
-          </li>
+          <a href="/submit">
+            <li className="rounded-full bg-good-dog-celadon px-4 py-1 text-good-dog-violet">
+              SUBMIT
+            </li>
+          </a>
         </div>
       </ul>
     </nav>

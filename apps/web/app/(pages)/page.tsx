@@ -4,7 +4,6 @@ import Image from "next/image";
 import LandingSubmission from "@good-dog/components/LandingSubmission";
 import PastProjects from "@good-dog/components/PastProjects";
 
-
 export default function Home() {
   const Splash = () => {
     return (
@@ -17,16 +16,18 @@ export default function Home() {
           style={{ margin: "auto", display: "block", marginBottom: "2.5rem" }}
         />
         <div
-          className="font-righteous rounded-full bg-good-dog-celadon px-4 py-1 font-semibold text-good-dog-violet"
+          className="font-righteous font-semibold text-good-dog-violet"
           style={{ margin: "auto", width: "fit-content" }}
         >
-          <a href="/submit">SUBMIT A BRIEF</a>
+          <a href="/submit">
+            <div className="rounded-full bg-good-dog-celadon px-4 py-1">
+              SUBMIT A BRIEF
+            </div>
+          </a>
         </div>
       </div>
     );
   };
-
-  
 
   return (
     <main className="bg-good-dog-violet">

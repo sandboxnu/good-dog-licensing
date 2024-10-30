@@ -40,12 +40,14 @@ export default function LandingSubmission({
           {description}
         </p>
         <div style={{ paddingTop: "5vh" }}>
-          <div
-            className="font-righteous rounded-full bg-good-dog-celadon px-4 py-1 font-semibold text-good-dog-violet"
-            style={{ width: "fit-content" }}
-          >
-            <a href="/submit">{button}</a>
-          </div>
+          <a href="/submit">
+            <div
+              className="font-righteous rounded-full bg-good-dog-celadon px-4 py-1 font-semibold text-good-dog-violet"
+              style={{ width: "fit-content" }}
+            >
+              {button}
+            </div>
+          </a>
         </div>
       </div>
     </div>
