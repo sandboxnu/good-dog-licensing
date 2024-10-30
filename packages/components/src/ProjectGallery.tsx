@@ -75,7 +75,7 @@ const ProjectCard = (props: ProjectCardProps) => {
   );
 };
 
-const PastProjects = () => {
+const ProjectGallery = () => {
   const getItems = () => Array(10).fill(0);
   const [items, setItems] = useState(getItems);
   const { disableScroll, enableScroll } = usePreventBodyScroll();
@@ -86,7 +86,7 @@ const PastProjects = () => {
         className="font-righteous text-good-dog-pale-yellow"
         style={{ fontSize: "40px", margin: "4rem" }}
       >
-        Past Projects:
+        Project Gallery:
       </h2>
       <div
         className="scroll-container"
@@ -107,4 +107,4 @@ const PastProjects = () => {
   );
 };
 
-export default PastProjects;
+export default ProjectGallery;

@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 import LandingSubmission from "@good-dog/components/LandingSubmission";
-import PastProjects from "@good-dog/components/PastProjects";
+import ProjectGallery from "@good-dog/components/ProjectGallery";
 
 export default function Home() {
   const Splash = () => {
@@ -40,7 +40,7 @@ export default function Home() {
         title="Music Makers"
         button="SEND US YOUR MUSIC"
       />
-      <PastProjects />
+      <ProjectGallery />
     </main>
   );
 }
