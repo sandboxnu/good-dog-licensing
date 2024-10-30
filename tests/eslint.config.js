@@ -4,10 +4,14 @@ import reactConfig from "@good-dog/eslint/react";
 
 /** @type {import('typescript-eslint').Config} */
 export default [
-  {
-    ignores: [],
-  },
   ...baseConfig,
   ...nextjsConfig,
   ...reactConfig,
+  {
+    ignores: [],
+    rules: {
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+    },
+  },
 ];

@@ -1,11 +1,16 @@
 import { mock } from "bun:test";
 
+interface MockReadonlyRequestCookies {
+  value: string;
+  data?: Record<string, unknown>;
+}
+
 // A mock for the cookies function in the NextJS next/header module.
 export class MockNextCookies {
-  private cookiesMap: Map<string, string>;
+  private cookieJar: Map<string, MockReadonlyRequestCookies>;
 
   constructor() {
-    this.cookiesMap = new Map<string, string>();
+    this.cookieJar = new Map();
   }
 
   // Applies this mock to be the cookies used by the next/header module. This method
@@ -16,18 +21,34 @@ export class MockNextCookies {
     }));
   }
 
-  set(key: string, value: string): void {
-    this.cookiesMap.set(key, value);
+  // Clears the cookie jar and clears the mock functions.
+  clear() {
+    this.cookieJar.clear();
+    this.set.mockClear();
+    this.get.mockClear();
+    this.delete.mockClear();
   }
 
-  get(key: string): { value: string } | undefined {
-    const cookieValue = this.cookiesMap.get(key);
-    if (cookieValue === undefined) {
-      return undefined;
-    }
+  readonly set = mock<
+    (
+      key: string,
+      value: string,
+      data?: MockReadonlyRequestCookies["data"],
+    ) => void
+  >().mockImplementation((key, value, data) => {
+    this.cookieJar.set(key, {
+      value,
+      data,
+    });
+  });
 
-    return {
-      value: cookieValue,
-    };
-  }
+  readonly get = mock<
+    (key: string) => MockReadonlyRequestCookies | undefined
+  >().mockImplementation((key) => {
+    return this.cookieJar.get(key);
+  });
+
+  readonly delete = mock<(key: string) => void>().mockImplementation((key) => {
+    this.cookieJar.delete(key);
+  });
 }
