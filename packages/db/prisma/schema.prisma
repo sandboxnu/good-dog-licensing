@@ -11,17 +11,26 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_PRISMA_URL")
+  url      = "postgresql://user:password@localhost:5432/good-dog" //env("DATABASE_PRISMA_URL")
+}
+
+enum Role {
+  MUSICIAN
+  MEDIA_MAKER
+  ADMIN
 }
 
 model User {
-  id             String    @id @default(uuid())
-  email          String    @unique
-  name           String
-  hashedPassword String    @map("password")
+  id             String        @id @default(uuid())
+  email          String        @unique
+  firstName      String
+  lastName       String
+  hashedPassword String        @map("password")
+  role           Role
+  groups         UserToGroup[]
   sessions       Session[]
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }
 
 model Session {
@@ -30,4 +39,21 @@ model Session {
   userId    String
   createdAt DateTime @default(now())
   expiresAt DateTime
+}
+
+model Group {
+  groupId    String        @id @default(uuid())
+  name       String?
+  userGroups UserToGroup[]
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model UserToGroup {
+  groupId String
+  email   String
+  group   Group  @relation(fields: [groupId], references: [groupId])
+  user    User?  @relation(fields: [email], references: [email])
+
+  @@unique([groupId, email])
 }
