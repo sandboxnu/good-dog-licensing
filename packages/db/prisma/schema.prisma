@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://user:password@localhost:5432/good-dog" //env("DATABASE_PRISMA_URL")
+  url      = env("DATABASE_PRISMA_URL")
 }
 
 enum Role {
