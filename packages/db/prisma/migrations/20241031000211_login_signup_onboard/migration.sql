@@ -21,7 +21,7 @@ CREATE TABLE "Group" (
     "groupId" TEXT NOT NULL,
     "name" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "updatedAt" TIMESTAMP(3) NOT NULL
 
     CONSTRAINT "Group_pkey" PRIMARY KEY ("groupId")
 );
