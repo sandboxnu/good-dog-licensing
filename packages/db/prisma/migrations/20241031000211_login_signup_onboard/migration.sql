@@ -12,17 +12,19 @@ CREATE TYPE "Role" AS ENUM ('MUSICIAN', 'MEDIA_MAKER', 'ADMIN');
 
 -- AlterTable
 ALTER TABLE "User"
-RENAME COLUMN "name" TO "firstName",
-ADD COLUMN     "lastName" TEXT NOT NULL,
-ADD COLUMN     "role" "Role" NOT NULL;
+RENAME COLUMN "name" TO "firstName";
+
+-- AlterTable
+ALTER TABLE "User"
+ADD COLUMN "lastName" TEXT NOT NULL,
+ADD COLUMN "role" "Role" NOT NULL;
 
 -- CreateTable
 CREATE TABLE "Group" (
     "groupId" TEXT NOT NULL,
     "name" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL
-
+    "updatedAt" TIMESTAMP(3) NOT NULL,
     CONSTRAINT "Group_pkey" PRIMARY KEY ("groupId")
 );
 
