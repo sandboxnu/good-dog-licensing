@@ -34,7 +34,9 @@ describe("middleware", () => {
       data: {
         id: "middleware-test-user",
         email: "test@testing.com",
-        name: "test user",
+        firstName: "test",
+        lastName: "user",
+        role: "MEDIA_MAKER",
         hashedPassword: await hashPassword("passwordABC"),
         sessions: {
           createMany: {

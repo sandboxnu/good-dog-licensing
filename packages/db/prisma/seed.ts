@@ -22,7 +22,9 @@ async function main() {
     create: {
       id: "7",
       email: "alice@prisma.io",
-      name: "Alice",
+      firstName: "Alice",
+      lastName: "Smith",
+      role: "MEDIA_MAKER",
       hashedPassword: await hashPassword("alicePassword"),
       sessions: {
         create: {
@@ -63,7 +65,9 @@ async function main() {
     create: {
       id: "9",
       email: "bob@gmail.com",
-      name: "Bob Jones",
+      firstName: "Bob",
+      lastName: "Jones",
+      role: "MUSICIAN",
       hashedPassword: await hashPassword("bobPassword"),
       sessions: {
         createMany: {
@@ -104,7 +108,9 @@ async function main() {
     create: {
       id: "56",
       email: "eve@outlook.com",
-      name: "Eve Smith",
+      firstName: "Eve",
+      lastName: "Brown",
+      role: "MEDIA_MAKER",
       hashedPassword: await hashPassword("evePassword"),
       sessions: {
         create: {

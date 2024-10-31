@@ -15,9 +15,11 @@ const getNewSessionExpirationDate = () =>
 export const signUpProcedure = notAuthenticatedProcedureBuilder
   .input(
     z.object({
+      firstName: z.string(),
+      lastName: z.string(),
+      role: z.enum(["MEDIA_MAKER", "MUSICIAN"]),
       email: z.string().email(),
       password: z.string(),
-      name: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -38,7 +40,9 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
 
     const userWithSession = await ctx.prisma.user.create({
       data: {
-        name: input.name,
+        firstName: input.firstName,
+        lastName: input.lastName,
+        role: input.role,
         email: input.email,
         hashedPassword: hashedPassword,
         sessions: {

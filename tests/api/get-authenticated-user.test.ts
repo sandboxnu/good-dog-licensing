@@ -12,7 +12,9 @@ beforeAll(async () => {
     update: {},
     create: {
       email: "person1@prisma.io",
-      name: "Person 1",
+      firstName: "Person 1",
+      lastName: "Smith",
+      role: "MUSICIAN",
       hashedPassword: "person1Password",
     },
   });
@@ -37,7 +39,9 @@ beforeAll(async () => {
     update: {},
     create: {
       email: "person2@gmail.com",
-      name: "Person2 Jones",
+      firstName: "Person2",
+      lastName: "Jones",
+      role: "MUSICIAN",
       hashedPassword: "person2Password",
     },
   });

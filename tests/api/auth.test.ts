@@ -20,7 +20,9 @@ describe("auth", () => {
     prisma.user.upsert({
       create: {
         id: "testId124389124",
-        name: "Damian",
+        firstName: "Damian",
+        lastName: "Smith",
+        role: "MEDIA_MAKER",
         email: "damian@gmail.com",
         hashedPassword: await hashPassword("password123"),
       },
@@ -42,7 +44,9 @@ describe("auth", () => {
           connectOrCreate: {
             create: {
               id: "testId124389124",
-              name: "Damian",
+              firstName: "Damian",
+              lastName: "Smith",
+              role: "MEDIA_MAKER",
               email: "damian@gmail.com",
               hashedPassword: await hashPassword("password123"),
             },
@@ -72,7 +76,9 @@ describe("auth", () => {
 
   test("auth/signUp", async () => {
     const response = await $trpcCaller.signUp({
-      name: "Damian",
+      firstName: "Damian",
+      lastName: "Smith",
+      role: "MEDIA_MAKER",
       email: "damian@gmail.com",
       password: "password123",
     });
@@ -132,7 +138,9 @@ describe("auth", () => {
     test("auth/signUp failure", () => {
       expect(
         $trpcCaller.signUp({
-          name: "Damian",
+          firstName: "Damian",
+          lastName: "Smith",
+          role: "MEDIA_MAKER",
           email: "damian@gmail.com",
           password: "password",
         }),
