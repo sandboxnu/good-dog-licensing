@@ -13,6 +13,93 @@ import {
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
 
+const getNewEmailVerificationCodeExpirationDate = () =>
+  new Date(Date.now() + 60_000 * 15);
+
+export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
+  .input(
+    z.object({
+      email: z.string().email(),
+    }),
+  )
+  .mutation(async ({ ctx, input }) => {
+    // Generate 6 digit code for email verification
+    let emailCode = "";
+    for (let i = 0; i < 6; i++) {
+      emailCode += Math.floor(Math.random() * 10);
+    }
+
+    // Send email. If sending fails, throw error.
+    if (!(await sendEmailVerification(input.email, emailCode))) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Email confirmation to ${input.email} failed to send.`,
+      });
+    }
+
+    // Create the email verification code in the database
+    await ctx.prisma.emailVerificationCode.create({
+      data: {
+        code: emailCode,
+        email: input.email,
+        expiresAt: getNewEmailVerificationCodeExpirationDate(),
+      },
+    });
+
+    return {
+      message: `Email verification code sent to ${input.email}`,
+    };
+  });
+
+export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
+  .input(
+    z.object({
+      email: z.string().email(),
+      code: z.string(),
+    }),
+  )
+  .mutation(async ({ ctx, input }) => {
+    // Get email verification from database
+    const emailVerificationCode =
+      await ctx.prisma.emailVerificationCode.findUnique({
+        where: {
+          email: input.email,
+        },
+      });
+
+    // If email verification not found, throw error
+    if (emailVerificationCode == null) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: `${input.email} is not waiting to be confirmed.`,
+      });
+    }
+
+    // TODO: Check email verification code is not expired.
+
+    // If given code is wrong, throw error
+    if (input.code != emailVerificationCode.code) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: `Given code is incorrect for ${input.email}`,
+      });
+    }
+
+    // If here, the given code was correct, so we can delete the emailVerificationCode.
+    await ctx.prisma.emailVerificationCode.update({
+      where: {
+        email: input.email,
+      },
+      data: {
+        emailConfirmed: true,
+      },
+    });
+
+    return {
+      message: `Email was successfully verified. Email: ${ctx.session.user.email}.`,
+    };
+  });
+
 export const signUpProcedure = notAuthenticatedProcedureBuilder
   .input(
     z.object({
@@ -35,22 +122,6 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       });
     }
 
-    // DO WE WANT THE USER TO BE CREATED IF THE EMAIL FAILS? OR FAIL BEFORE USER IS CREATED?
-
-    // Generate 6 digit code for email verification
-    let emailCode = "";
-    for (let i = 0; i < 6; i++) {
-      emailCode += Math.floor(Math.random() * 10);
-    }
-
-    if (!(await sendEmailVerification(input.email, emailCode))) {
-      // Email failed to send
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: `Email confirmation to ${input.email} failed to send.`,
-      });
-    }
-
     const hashedPassword = await hashPassword(input.password);
 
     const userWithSession = await ctx.prisma.user.create({
@@ -61,11 +132,6 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
         sessions: {
           create: {
             expiresAt: getNewSessionExpirationDate(),
-          },
-        },
-        emailVerificationCode: {
-          create: {
-            code: emailCode,
           },
         },
       },
@@ -87,43 +153,6 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
 
     return {
       message: `Successfully signed up as ${input.email}. User's email must still be verified.`,
-    };
-  });
-
-export const confirmEmailProcedure = authenticatedProcedureBuilder
-  .input(
-    z.object({
-      code: z.string(),
-    }),
-  )
-  .mutation(async ({ ctx, input }) => {
-    // Need to first check if there is an emailVerificationCode, if not throw error?
-    if (ctx.session.user.emailVerificationCode == null) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message:
-          "User does not have an assiocated email verification code or the user has already verifed email.",
-      });
-    }
-
-    const expectedCode = ctx.session.user.emailVerificationCode.code;
-    if (expectedCode != input.code) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message:
-          "User does not have an assiocated email verification code or the user has already verifed email.",
-      });
-    }
-
-    // If here, the given code was correct, so we can delete the emailVerificationCode.
-    await ctx.prisma.emailVerificationCode.delete({
-      where: {
-        userId: ctx.session.userId,
-      },
-    });
-
-    return {
-      message: `Email was successfully verified. Email: ${ctx.session.user.email}.`,
     };
   });
 
