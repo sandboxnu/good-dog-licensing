@@ -23,20 +23,43 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
     }),
   )
   .mutation(async ({ ctx, input }) => {
+    // Check if there is already an email verification code for the given email
+    const existingEmailVerificationCode =
+      await ctx.prisma.emailVerificationCode.findUnique({
+        where: {
+          email: input.email,
+        },
+      });
+    // If email already verified, throw error
+    if (existingEmailVerificationCode?.emailConfirmed) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Email already verified.",
+        cause: "Email already verified",
+      });
+    }
+    // If email not verified, delete current email verification code to create a new one
+    if (existingEmailVerificationCode !== null) {
+      await ctx.prisma.emailVerificationCode.delete({
+        where: {
+          email: input.email,
+        },
+      });
+    }
+
     // Generate 6 digit code for email verification
     let emailCode = "";
     for (let i = 0; i < 6; i++) {
       emailCode += Math.floor(Math.random() * 10);
     }
-
     // Send email. If sending fails, throw error.
     if (!(await sendEmailVerification(input.email, emailCode))) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: `Email confirmation to ${input.email} failed to send.`,
+        cause: "Email send failure",
       });
     }
-
     // Create the email verification code in the database
     await ctx.prisma.emailVerificationCode.create({
       data: {
@@ -68,24 +91,31 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
       });
 
     // If email verification not found, throw error
-    if (emailVerificationCode == null) {
+    if (emailVerificationCode === null) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: `${input.email} is not waiting to be confirmed.`,
+        cause: "Email not found",
       });
     }
-
-    // TODO: Check email verification code is not expired.
-
     // If given code is wrong, throw error
-    if (input.code != emailVerificationCode.code) {
+    if (input.code !== emailVerificationCode.code) {
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: `Given code is incorrect for ${input.email}`,
+        cause: "Incorrect code",
+      });
+    }
+    // If given code is expired, throw error
+    if (emailVerificationCode.expiresAt < new Date()) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Given code is expired.",
+        cause: "Code expired",
       });
     }
 
-    // If here, the given code was correct, so we can delete the emailVerificationCode.
+    // If here, the given code was valid, so we can update the emailVerificationCode.
     await ctx.prisma.emailVerificationCode.update({
       where: {
         email: input.email,
@@ -96,7 +126,7 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
     });
 
     return {
-      message: `Email was successfully verified. Email: ${ctx.session.user.email}.`,
+      message: `Email was successfully verified. Email: ${input.email}.`,
     };
   });
 
