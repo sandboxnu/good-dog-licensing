@@ -10,6 +10,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+    VERIFICATION_FROM_EMAIL: process.env.VERIFICATION_FROM_EMAIL,
   },
 
   /**
@@ -21,6 +23,7 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
     SENDGRID_API_KEY: z.string(),
+    VERIFICATION_FROM_EMAIL: z.string().email(),
   },
 
   /**
@@ -31,18 +34,7 @@ export const env = createEnv({
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
-<<<<<<< HEAD:apps/web/env.js
 
-  /**
-   * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.
-   * middlewares) or client-side so we need to destruct manually.
-   */
-  runtimeEnv: {
-    NODE_ENV: process.env.NODE_ENV,
-    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
-  },
-=======
->>>>>>> main:packages/env/src/env.js
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
    * useful for Docker builds.

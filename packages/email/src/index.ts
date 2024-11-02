@@ -1,29 +1,16 @@
 import sgMail from "@sendgrid/mail";
-import dotenv from "dotenv";
 
-// TODO: Implement this later?
-// import { env } from "../../../apps/web/env";
+import { env } from "../../env/src/env";
 
 export async function sendEmailVerification(
   toEmail: string,
   code: string,
 ): Promise<boolean> {
-  // TODO: Implement this later?
-  // sgMail.setApiKey(env.SENDGRID_API_KEY);
-
-  // This code is just for using dotenv, should be removed later
-  dotenv.config({ path: "../.env" });
-  const sendGridAPIKey = process.env.SENDGRID_API_KEY;
-  if (sendGridAPIKey === undefined) {
-    console.log("Undefined");
-    return false;
-  }
-  sgMail.setApiKey(sendGridAPIKey);
-  // End here
+  sgMail.setApiKey(env.SENDGRID_API_KEY);
 
   const msg = {
     to: toEmail,
-    from: "jordanpraissman@gmail.com",
+    from: env.VERIFICATION_FROM_EMAIL,
     subject: "Verify Your Email - Good Dog Licensing",
     html: `<p>Your Verification Code: <strong>${code}</strong></p>`,
   };
@@ -37,5 +24,3 @@ export async function sendEmailVerification(
 
   return true;
 }
-
-void sendEmailVerification("jordanpraissman@gmail.com", "123456");
