@@ -90,6 +90,13 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
         },
       });
 
+    // If email already verified, return a success
+    if (emailVerificationCode?.emailConfirmed) {
+      return {
+        message: `Email was successfully verified. Email: ${input.email}.`,
+      };
+    }
+
     // If email verification not found, throw error
     if (emailVerificationCode === null) {
       throw new TRPCError({
@@ -139,6 +146,20 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     }),
   )
   .mutation(async ({ ctx, input }) => {
+    // Throw error if email is not verified
+    const emailVerificationCode =
+      await ctx.prisma.emailVerificationCode.findUnique({
+        where: {
+          email: input.email,
+        },
+      });
+    if (!emailVerificationCode?.emailConfirmed) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Email has not been verified.",
+      });
+    }
+
     const existingUserWithEmail = await ctx.prisma.user.findUnique({
       where: {
         email: input.email,
@@ -182,7 +203,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     setSessionCookie(session.id, session.expiresAt);
 
     return {
-      message: `Successfully signed up as ${input.email}. User's email must still be verified.`,
+      message: `Successfully signed up as ${input.email}.`,
     };
   });
 
