@@ -19,15 +19,15 @@ beforeAll(async () => {
     },
   });
   await prisma.session.upsert({
-    where: { id: "500" },
+    where: { sessionId: "500" },
     update: {
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
     },
     create: {
-      userId: person1.id,
-      id: "500",
+      userId: person1.userId,
+      sessionId: "500",
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
@@ -46,26 +46,26 @@ beforeAll(async () => {
     },
   });
   await prisma.session.upsert({
-    where: { id: "501" },
+    where: { sessionId: "501" },
     update: {
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
     create: {
-      userId: person2.id,
-      id: "501",
+      userId: person2.userId,
+      sessionId: "501",
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
   });
   await prisma.session.upsert({
-    where: { id: "502" },
+    where: { sessionId: "502" },
     update: {
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
     },
     create: {
-      userId: person2.id,
-      id: "502",
+      userId: person2.userId,
+      sessionId: "502",
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),

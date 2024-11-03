@@ -60,7 +60,7 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
 
     const sessionOrNull = await ctx.prisma.session.findUnique({
       where: {
-        id: sessionId.value,
+        sessionId: sessionId.value,
       },
       include: {
         user: {
@@ -96,7 +96,7 @@ export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
 
     const sessionOrNull = await ctx.prisma.session.findUnique({
       where: {
-        id: sessionId.value,
+        sessionId: sessionId.value,
       },
     });
 

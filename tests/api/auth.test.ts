@@ -19,7 +19,6 @@ describe("auth", () => {
   const createAccount = async () =>
     prisma.user.upsert({
       create: {
-        id: "testId124389124",
         firstName: "Damian",
         lastName: "Smith",
         role: "MEDIA_MAKER",
@@ -27,7 +26,6 @@ describe("auth", () => {
         hashedPassword: await hashPassword("password123"),
       },
       update: {
-        id: "testId124389124",
         email: "damian@gmail.com",
         hashedPassword: await hashPassword("password123"),
       },
@@ -43,7 +41,6 @@ describe("auth", () => {
         user: {
           connectOrCreate: {
             create: {
-              id: "testId124389124",
               firstName: "Damian",
               lastName: "Smith",
               role: "MEDIA_MAKER",
@@ -51,7 +48,7 @@ describe("auth", () => {
               hashedPassword: await hashPassword("password123"),
             },
             where: {
-              id: "testId124389124",
+              email: "damian@gmail.com",
             },
           },
         },
@@ -151,7 +148,7 @@ describe("auth", () => {
 
   test("auth/signOut", async () => {
     const session = await createSession();
-    mockCookies.set("sessionId", session.id);
+    mockCookies.set("sessionId", session.sessionId);
 
     const res = await $trpcCaller.signOut();
 
@@ -163,7 +160,7 @@ describe("auth", () => {
 
   test("auth/deleteAccount", async () => {
     const session = await createSession();
-    mockCookies.set("sessionId", session.id);
+    mockCookies.set("sessionId", session.sessionId);
 
     const deleteAccountResponse = await $trpcCaller.deleteAccount();
 

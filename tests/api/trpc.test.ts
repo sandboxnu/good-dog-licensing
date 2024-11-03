@@ -32,7 +32,7 @@ describe("middleware", () => {
   beforeAll(async () => {
     await prisma.user.create({
       data: {
-        id: "middleware-test-user",
+        userId: "middleware-test-user",
         email: "test@testing.com",
         firstName: "test",
         lastName: "user",
@@ -42,11 +42,11 @@ describe("middleware", () => {
           createMany: {
             data: [
               {
-                id: "middleware-test-session",
+                sessionId: "middleware-test-session",
                 expiresAt: new Date(Date.now() + 200_000),
               },
               {
-                id: "middleware-test-session-expired",
+                sessionId: "middleware-test-session-expired",
                 expiresAt: new Date(Date.now() - 200_000),
               },
             ],
@@ -54,7 +54,7 @@ describe("middleware", () => {
         },
       },
       select: {
-        id: true,
+        userId: true,
         sessions: true,
       },
     });
@@ -69,7 +69,7 @@ describe("middleware", () => {
   afterAll(async () => {
     await prisma.user.delete({
       where: {
-        id: "middleware-test-user",
+        userId: "middleware-test-user",
       },
     });
   });

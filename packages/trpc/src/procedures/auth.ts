@@ -65,7 +65,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       });
     }
 
-    setSessionCookie(session.id, session.expiresAt);
+    setSessionCookie(session.sessionId, session.expiresAt);
 
     return {
       message: `Successfully signed up and logged in as ${input.email}`,
@@ -107,14 +107,14 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
       data: {
         user: {
           connect: {
-            id: user.id,
+            userId: user.userId,
           },
         },
         expiresAt: getNewSessionExpirationDate(),
       },
     });
 
-    setSessionCookie(session.id, session.expiresAt);
+    setSessionCookie(session.sessionId, session.expiresAt);
 
     return {
       message: `Successfully logged in as ${input.email}`,
@@ -125,7 +125,7 @@ export const signOutProcedure = authenticatedProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.session.delete({
       where: {
-        id: ctx.session.id,
+        sessionId: ctx.session.sessionId,
       },
     });
 
@@ -141,7 +141,7 @@ export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.user.delete({
       where: {
-        id: ctx.session.userId,
+        userId: ctx.session.userId,
       },
     });
 
