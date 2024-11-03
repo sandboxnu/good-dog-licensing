@@ -1,5 +1,7 @@
 import {
+  confirmEmailProcedure,
   deleteAccountProcedure,
+  sendEmailVerificationProcedure,
   signInProcedure,
   signOutProcedure,
   signUpProcedure,
@@ -8,6 +10,8 @@ import { getAuthenticatedUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
+  sendEmailVerification: sendEmailVerificationProcedure,
+  confirmEmail: confirmEmailProcedure,
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,

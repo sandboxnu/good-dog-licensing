@@ -34,8 +34,7 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
     if (existingEmailVerificationCode?.emailConfirmed) {
       throw new TRPCError({
         code: "BAD_REQUEST",
-        message: "Email already verified.",
-        cause: "Email already verified",
+        message: "Email already verified",
       });
     }
     // If email not verified, delete current email verification code to create a new one
@@ -57,7 +56,6 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: `Email confirmation to ${input.email} failed to send.`,
-        cause: "Email send failure",
       });
     }
     // Create the email verification code in the database
@@ -102,7 +100,6 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
       throw new TRPCError({
         code: "NOT_FOUND",
         message: `${input.email} is not waiting to be confirmed.`,
-        cause: "Email not found",
       });
     }
     // If given code is wrong, throw error
@@ -110,7 +107,6 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: `Given code is incorrect for ${input.email}`,
-        cause: "Incorrect code",
       });
     }
     // If given code is expired, throw error
@@ -118,7 +114,6 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: "Given code is expired.",
-        cause: "Code expired",
       });
     }
 
@@ -153,6 +148,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
           email: input.email,
         },
       });
+
     if (!emailVerificationCode?.emailConfirmed) {
       throw new TRPCError({
         code: "FORBIDDEN",
@@ -203,7 +199,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     setSessionCookie(session.id, session.expiresAt);
 
     return {
-      message: `Successfully signed up as ${input.email}.`,
+      message: `Successfully signed up and logged in as ${input.email}.`,
     };
   });
 
