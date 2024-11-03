@@ -22,8 +22,8 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    SENDGRID_API_KEY: z.string(),
-    VERIFICATION_FROM_EMAIL: z.string().email(),
+    SENDGRID_API_KEY: z.string().optional(),
+    VERIFICATION_FROM_EMAIL: z.string().email().optional(),
   },
 
   /**

@@ -6,11 +6,11 @@ export async function sendEmailVerification(
   toEmail: string,
   code: string,
 ): Promise<boolean> {
-  sgMail.setApiKey(env.SENDGRID_API_KEY);
+  sgMail.setApiKey(env.SENDGRID_API_KEY ?? "");
 
   const msg = {
     to: toEmail,
-    from: env.VERIFICATION_FROM_EMAIL,
+    from: env.VERIFICATION_FROM_EMAIL ?? "",
     subject: "Verify Your Email - Good Dog Licensing",
     html: `<p>Your Verification Code: <strong>${code}</strong></p>`,
   };
