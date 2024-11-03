@@ -5,9 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider      = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["omitApi"]
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  binaryTargets   = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -22,39 +22,44 @@ enum Role {
 }
 
 model User {
-  id             String        @id @default(uuid())
+  userId         String        @id @default(uuid()) @map("id")
   email          String        @unique
   firstName      String
   lastName       String
   hashedPassword String        @map("password")
   role           Role
-  groups         UserToGroup[]
+  groups         Group[]
   sessions       Session[]
+  sentInvites    GroupInvite[]
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
 }
 
 model Session {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId String   @id @default(uuid()) @map("id")
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())
   expiresAt DateTime
 }
 
 model Group {
-  groupId    String        @id @default(uuid())
-  name       String?
-  userGroups UserToGroup[]
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+  groupId   String        @id @default(uuid())
+  name      String
+  users     User[]
+  invites   GroupInvite[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
-model UserToGroup {
-  groupId String
-  email   String
-  group   Group  @relation(fields: [groupId], references: [groupId])
-  user    User?  @relation(fields: [email], references: [email])
+model GroupInvite {
+  groupId      String
+  intitiatorId String
+  email        String
+  firstName    String
+  lastName     String
+  group        Group  @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  intitiator   User   @relation(fields: [intitiatorId], references: [userId], onDelete: Cascade)
 
   @@unique([groupId, email])
 }

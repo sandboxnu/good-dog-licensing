@@ -18,6 +18,7 @@
     "db:push": "dotenv -e .env -- turbo run -F @good-dog/db push",
     "db:generate": "turbo run -F @good-dog/db generate",
     "db:migrate": "dotenv -e .env -- turbo run -F @good-dog/db migrate",
+    "db:migrate:create": "dotenv -e .env -- turbo run -F @good-dog/db migrate:create",
     "db:migrate:reset": "dotenv -e .env -- turbo run -F @good-dog/db migrate:reset",
     "db:migrate:prod": "dotenv -e .env -- turbo run -F @good-dog/db migrate:prod",
     "db:migrate:check": "dotenv -e .env -- turbo run -F @good-dog/db migrate:check --",
