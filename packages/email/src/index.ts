@@ -1,6 +1,6 @@
 import sgMail from "@sendgrid/mail";
 
-import { env } from "../../env/src/env";
+import { env } from "@good-dog/env";
 
 export async function sendEmailVerification(
   toEmail: string,
