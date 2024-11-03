@@ -23,7 +23,7 @@
   },
   "prettier": "@good-dog/prettier",
   "dependencies": {
-    "@sendgrid/mail": "^8.1.4",
-    "@good-dog/env": "workspace:*"
+    "@good-dog/env": "workspace:*",
+    "@sendgrid/mail": "^8.1.4"
   }
 }
