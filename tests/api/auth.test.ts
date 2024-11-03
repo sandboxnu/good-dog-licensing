@@ -74,7 +74,9 @@ describe("auth", () => {
           email: "damian@gmail.com",
         },
       });
-    } catch (ignored) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const cleanupEmailVerificationCode = async () => {
@@ -84,7 +86,9 @@ describe("auth", () => {
           email: "damian@gmail.com",
         },
       });
-    } catch (ignored) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   beforeAll(async () => {
