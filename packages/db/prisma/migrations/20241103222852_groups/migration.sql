@@ -10,6 +10,7 @@ CREATE TABLE "Group" (
 
 -- CreateTable
 CREATE TABLE "GroupInvite" (
+    "id" TEXT NOT NULL,
     "groupId" TEXT NOT NULL,
     "intitiatorId" TEXT NOT NULL,
     "email" TEXT NOT NULL,

@@ -37,10 +37,10 @@ model User {
 
 model Session {
   sessionId String   @id @default(uuid()) @map("id")
-  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now())
   expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 model Group {
@@ -53,6 +53,7 @@ model Group {
 }
 
 model GroupInvite {
+  inviteId     String   @default(cuid()) @map("id")
   groupId      String
   intitiatorId String
   email        String
