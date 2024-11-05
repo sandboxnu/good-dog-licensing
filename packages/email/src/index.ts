@@ -1,12 +1,12 @@
-import sgMail from "@sendgrid/mail";
-
 import { env } from "@good-dog/env";
+
+import emailService from "./email-service";
 
 export async function sendEmailVerification(
   toEmail: string,
   code: string,
 ): Promise<boolean> {
-  sgMail.setApiKey(env.SENDGRID_API_KEY ?? "");
+  emailService.setApiKey(env.SENDGRID_API_KEY ?? "");
 
   const msg = {
     to: toEmail,
@@ -15,12 +15,5 @@ export async function sendEmailVerification(
     html: `<p>Your Verification Code: <strong>${code}</strong></p>`,
   };
 
-  try {
-    await sgMail.send(msg);
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-
-  return true;
+  return await emailService.send(msg);
 }

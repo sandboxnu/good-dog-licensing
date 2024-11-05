@@ -4,12 +4,12 @@ import { hashPassword } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
 import { $trpcCaller } from "@good-dog/trpc/server";
 
+import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
-import { MockSendGridEmails } from "../mocks/MockSendGridEmails";
 
 describe("auth", () => {
   const mockCookies = new MockNextCookies();
-  const mockEmails = new MockSendGridEmails();
+  const mockEmails = new MockEmailService();
 
   const createEmailVerificationCode = async (emailConfirmed: boolean) =>
     prisma.emailVerificationCode.upsert({
@@ -124,6 +124,23 @@ describe("auth", () => {
       );
 
       await cleanupEmailVerificationCode();
+    });
+
+    test("Email sending error", async () => {
+      await cleanupEmailVerificationCode();
+      mockEmails.setSendError(true);
+
+      const sendEmailVerification = async () =>
+        $trpcCaller.sendEmailVerification({
+          email: "damian@gmail.com",
+        });
+
+      expect(sendEmailVerification).toThrow(
+        "Email confirmation to damian@gmail.com failed to send.",
+      );
+
+      await cleanupEmailVerificationCode();
+      mockEmails.setSendError(false);
     });
 
     test("Email is already in database (not verified)", async () => {
