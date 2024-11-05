@@ -1,6 +1,5 @@
+import emailService from "@good-dog/email/email-service";
 import { env } from "@good-dog/env";
-
-import emailService from "./email-service";
 
 export async function sendEmailVerification(
   toEmail: string,

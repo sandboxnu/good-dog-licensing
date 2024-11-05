@@ -15,16 +15,14 @@ export class MockEmailService {
   // Applies this mock to be the cookies used by the next/header module. This method
   // must be called in order for this mock to be applied.
   async apply(): Promise<void> {
-    await mock.module("@sendgrid/mail", () => ({
+    await mock.module("@good-dog/email/email-service", () => ({
       default: {
         setApiKey: () => {
           console.log("Mock setting api key.");
         },
         send: () => {
-          if (this.haveSendError) {
-            throw new Error("Mock Sending Error");
-          }
           console.log("Mock email send.");
+          return !this.haveSendError;
         },
       },
     }));

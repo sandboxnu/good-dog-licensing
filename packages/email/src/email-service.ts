@@ -28,7 +28,7 @@ async function send(msg: EmailMessage): Promise<boolean> {
     await sgMail.send(msg);
     return true;
   } catch (error) {
-    console.log(error);
+    void error;
     return false;
   }
 }

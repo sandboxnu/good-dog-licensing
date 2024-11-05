@@ -75,7 +75,7 @@ describe("auth", () => {
         },
       });
     } catch (error) {
-      console.log(error);
+      void error;
     }
   };
 
@@ -87,7 +87,7 @@ describe("auth", () => {
         },
       });
     } catch (error) {
-      console.log(error);
+      void error;
     }
   };
 

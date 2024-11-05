@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { deleteSessionCookie, setSessionCookie } from "@good-dog/auth/cookies";
 import { comparePassword, hashPassword } from "@good-dog/auth/password";
-import { sendEmailVerification } from "@good-dog/email";
+import { sendEmailVerification } from "@good-dog/email/verification-email";
 
 import {
   authenticatedProcedureBuilder,
@@ -52,6 +52,7 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
       emailCode += Math.floor(Math.random() * 10);
     }
     // Send email. If sending fails, throw error.
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (!(await sendEmailVerification(input.email, emailCode))) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
