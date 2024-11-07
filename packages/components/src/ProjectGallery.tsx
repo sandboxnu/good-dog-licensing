@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
@@ -8,59 +8,57 @@ import "react-horizontal-scrolling-menu/dist/styles.css";
 
 type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
-function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
-  // const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+// function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
+//   const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
 
-  // if (isThouchpad) {
-  //   ev.stopPropagation();
-  //   return;
-  // }
+//   //var isTouchPad = ev.wheelDeltaY ? ev.wheelDeltaY === -3 * ev.deltaY : ev.deltaMode === 0
 
-  if (ev.deltaY < 0) {
-    apiObj.scrollNext();
-  } else if (ev.deltaY > 0) {
-    apiObj.scrollPrev();
-  }
-}
+//   if (isThouchpad) {
+//     ev.stopPropagation();
+//     return;
+//   }
 
-const preventDefault = (ev: Event) => {
-  if (ev.preventDefault) {
-    ev.preventDefault();
-  }
-  ev.returnValue = false;
-};
+//   if (ev.deltaY < 0) {
+//     apiObj.scrollNext();
+//   } else if (ev.deltaY > 0) {
+//     apiObj.scrollPrev();
+//   }
+// }
 
-const enableBodyScroll = () => {
-  document && document.removeEventListener("wheel", preventDefault, false);
-};
-const disableBodyScroll = () => {
-  document &&
-    document.addEventListener("wheel", preventDefault, {
-      passive: false,
-    });
-};
+// const preventDefault = (ev: Event) => {
+//   if (ev.preventDefault) {
+//     ev.preventDefault();
+//   }
+//   ev.returnValue = false;
+// };
 
-function usePreventBodyScroll() {
-  const [hidden, setHidden] = React.useState(false);
+// const enableBodyScroll = () => {
+//   document && document.removeEventListener("wheel", preventDefault, false);
+// };
+// const disableBodyScroll = () => {
+//   document &&
+//     document.addEventListener("wheel", preventDefault, {
+//       passive: false,
+//     });
+// };
 
-  React.useEffect(() => {
-    hidden ? disableBodyScroll() : enableBodyScroll();
+// function usePreventBodyScroll() {
+//   const [hidden, setHidden] = React.useState(false);
 
-    return enableBodyScroll;
-  }, [hidden]);
+//   React.useEffect(() => {
+//     hidden ? disableBodyScroll() : enableBodyScroll();
 
-  const disableScroll = React.useCallback(() => setHidden(true), []);
-  const enableScroll = React.useCallback(() => setHidden(false), []);
-  return { disableScroll, enableScroll };
-}
+//     return enableBodyScroll;
+//   }, [hidden]);
 
-interface ProjectCardProps {
-  key: number;
-}
+//   const disableScroll = React.useCallback(() => setHidden(true), []);
+//   const enableScroll = React.useCallback(() => setHidden(false), []);
+//   return { disableScroll, enableScroll };
+// }
 
-const ProjectCard = (props: ProjectCardProps) => {
+const ProjectCard = () => {
   return (
-    <div style={{ paddingRight: "2rem" }} tabIndex={props.key}>
+    <div style={{ display: "inline-block", paddingRight: "2rem" }}>
       <Image
         src="/icons/Project_Leaf.svg"
         alt="project background"
@@ -78,7 +76,66 @@ const ProjectCard = (props: ProjectCardProps) => {
 const ProjectGallery = () => {
   const getItems = () => Array(10).fill(0);
   const [items, setItems] = useState(getItems);
-  const { disableScroll, enableScroll } = usePreventBodyScroll();
+  // const { disableScroll, enableScroll } = usePreventBodyScroll();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isMouse, setIsMouse] = useState(true);
+
+  // useEffect(() => {
+  //   const handleWheel = (event: WheelEvent) => {
+  //     if (event.deltaY) {
+  //       if (Math.abs(event.deltaY) < 15) {
+  //         setIsTrackpad(true);
+  //       }
+  //       // } else {
+  //       //   setIsTrackpad(false);
+  //       // }
+  //     }
+
+  //     if (scrollContainerRef.current) {
+  //       event.preventDefault();
+  //       const scrollAmount = isTrackpad ? event.deltaY : event.deltaY * 3;
+  //       scrollContainerRef.current.scrollLeft += scrollAmount;
+  //     }
+  //   };
+
+  //   const container = scrollContainerRef.current;
+  //   if (container) {
+  //     container.addEventListener("wheel", handleWheel);
+  //   }
+
+  //   return () => {
+  //     if (container) {
+  //       container.removeEventListener("wheel", handleWheel);
+  //     }
+  //   };
+  // }, [isTrackpad]);
+
+  const handleWheelScroll = useCallback((event: WheelEvent) => {
+    console.log(event);
+    if (scrollContainerRef.current) {
+      if (event.deltaMode !== 0) {
+        console.log("Not a touchpad");
+        // Use customized horizontal scroll only for mouse wheel
+        //event.preventDefault();
+        setIsMouse(true);
+        event.preventDefault();
+        scrollContainerRef.current.scrollLeft += event.deltaY * 500;
+      }
+    } else console.log("yes touchpad");
+  }, []);
+
+  useEffect(() => {
+    console.log("I am here.");
+    if (isMouse) {
+      console.log("Mouse wheel detected");
+      const container = scrollContainerRef.current;
+      container?.addEventListener("wheel", handleWheelScroll);
+
+      return () => {
+        container?.removeEventListener("wheel", handleWheelScroll);
+      };
+    }
+  }, [isMouse, handleWheelScroll]);
 
   return (
     <div style={{ paddingBottom: "8rem" }}>
@@ -89,19 +146,26 @@ const ProjectGallery = () => {
         Project Gallery:
       </h2>
       <div
-        className="scroll-container"
-        onMouseEnter={disableScroll}
-        onMouseLeave={enableScroll}
+        className="scroll-container scroll-smooth"
         style={{
-          overflowX: "auto",
+          overflowY: "hidden",
+          overflowX: "scroll",
           whiteSpace: "nowrap",
+          scrollbarWidth: "none",
         }}
+        ref={scrollContainerRef}
       >
-        <ScrollMenu onWheel={onWheel}>
-          {items.map((item, index) => (
-            <ProjectCard key={index} />
-          ))}
-        </ScrollMenu>
+        {items.map((index) => (
+          <div
+            key={index}
+            style={{
+              display: "inline-block",
+              marginLeft: index === 0 ? "4rem" : "0",
+            }}
+          >
+            <ProjectCard />
+          </div>
+        ))}
       </div>
     </div>
   );
