@@ -55,7 +55,11 @@
     },
     "migrate:reset": {
       "cache": false,
-      "interactive": false
+      "interactive": true
+    },
+    "migrate:create": {
+      "cache": false,
+      "interactive": true
     },
     "migrate:prod": {
       "cache": false,

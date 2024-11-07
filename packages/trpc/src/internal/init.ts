@@ -60,17 +60,12 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
 
     const sessionOrNull = await ctx.prisma.session.findUnique({
       where: {
-        id: sessionId.value,
+        sessionId: sessionId.value,
       },
       include: {
         user: {
-          select: {
-            id: true,
-            email: true,
-            name: true,
-            sessions: true,
-            createdAt: true,
-            updatedAt: true,
+          omit: {
+            hashedPassword: true,
           },
         },
       },
@@ -101,7 +96,7 @@ export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
 
     const sessionOrNull = await ctx.prisma.session.findUnique({
       where: {
-        id: sessionId.value,
+        sessionId: sessionId.value,
       },
     });
 
