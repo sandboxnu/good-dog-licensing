@@ -1,56 +1,74 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { comparePassword, hashPassword } from "@good-dog/auth";
+import { deleteSessionCookie, setSessionCookie } from "@good-dog/auth/cookies";
+import { comparePassword, hashPassword } from "@good-dog/auth/password";
 
-import { baseProcedureBuilder } from "../internal/init";
+import {
+  authenticatedProcedureBuilder,
+  notAuthenticatedProcedureBuilder,
+} from "../internal/init";
 
-// TODO: refactor to use cookies
-export const signUpProcedure = baseProcedureBuilder
+const getNewSessionExpirationDate = () =>
+  new Date(Date.now() + 60_000 * 60 * 24 * 30);
+
+export const signUpProcedure = notAuthenticatedProcedureBuilder
   .input(
     z.object({
       email: z.string().email(),
       password: z.string(),
+      name: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    const existingUser = await ctx.prisma.user.findUnique({
+    const existingUserWithEmail = await ctx.prisma.user.findUnique({
       where: {
         email: input.email,
       },
     });
 
-    if (existingUser) {
-      throw new Error(`User already exists for ${input.email}`);
+    if (existingUserWithEmail) {
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: `User already exists with email ${input.email}`,
+      });
     }
 
     const hashedPassword = await hashPassword(input.password);
 
-    const user = await ctx.prisma.user.create({
+    const userWithSession = await ctx.prisma.user.create({
       data: {
+        name: input.name,
         email: input.email,
-        password: hashedPassword,
+        hashedPassword: hashedPassword,
+        sessions: {
+          create: {
+            expiresAt: getNewSessionExpirationDate(),
+          },
+        },
+      },
+      select: {
+        sessions: true,
       },
     });
 
-    const session = await ctx.prisma.session.create({
-      data: {
-        user: {
-          connect: {
-            id: user.id,
-          },
-        },
-        expiresAt: new Date(),
-      },
-    });
+    const session = userWithSession.sessions[0];
+
+    if (!session) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to create session",
+      });
+    }
+
+    setSessionCookie(session.id, session.expiresAt);
 
     return {
       message: `Successfully signed up and logged in as ${input.email}`,
-      sessionId: session.id,
     };
   });
 
-// TODO: refactor to use cookies
-export const signInProcedure = baseProcedureBuilder
+export const signInProcedure = notAuthenticatedProcedureBuilder
   .input(
     z.object({
       email: z.string().email(),
@@ -64,18 +82,22 @@ export const signInProcedure = baseProcedureBuilder
       },
     });
 
+    const error = () =>
+      new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Invalid credentials",
+      });
+
     if (!user) {
-      throw new Error("Invalid credentials");
+      // Failed loggin attempt, don't reveal if user exists
+      throw error();
     }
 
-    const match = await comparePassword(input.password, user.password);
+    const match = await comparePassword(input.password, user.hashedPassword);
 
     if (!match) {
-      throw new Error("Invalid credentials");
+      throw error();
     }
-
-    const date = new Date();
-    date.setDate(date.getDate() + 30);
 
     const session = await ctx.prisma.session.create({
       data: {
@@ -84,66 +106,45 @@ export const signInProcedure = baseProcedureBuilder
             id: user.id,
           },
         },
-        expiresAt: date,
+        expiresAt: getNewSessionExpirationDate(),
       },
     });
+
+    setSessionCookie(session.id, session.expiresAt);
 
     return {
       message: `Successfully logged in as ${input.email}`,
-      sessionId: session.id,
     };
   });
 
-// TODO: refactor to use cookies
-export const signOutProcedure = baseProcedureBuilder
-  .input(
-    z.object({
-      id: z.number(),
-    }),
-  )
-  .mutation(async ({ ctx, input }) => {
+export const signOutProcedure = authenticatedProcedureBuilder.mutation(
+  async ({ ctx }) => {
     await ctx.prisma.session.delete({
       where: {
-        id: input.id,
+        id: ctx.session.id,
       },
     });
+
+    deleteSessionCookie();
 
     return {
       message: "Successfully logged out",
     };
-  });
+  },
+);
 
-// TODO: refactor to use cookies
-export const deleteAccountIfExistsProcedure = baseProcedureBuilder
-  .input(
-    z.object({
-      email: z.string().email(),
-    }),
-  )
-  .mutation(async ({ ctx, input }) => {
-    const user = await ctx.prisma.user.findUnique({
-      where: {
-        email: input.email,
-      },
-    });
-
-    if (!user) {
-      throw new Error(`No user found for ${input.email}`);
-    }
-
-    await ctx.prisma.session.deleteMany({
-      where: {
-        userId: user.id,
-      },
-    });
-
+export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
+  async ({ ctx }) => {
     await ctx.prisma.user.delete({
       where: {
-        email: input.email,
+        id: ctx.session.userId,
       },
     });
+
+    deleteSessionCookie();
 
     return {
       message: "Successfully deleted account",
     };
-  });
+  },
+);

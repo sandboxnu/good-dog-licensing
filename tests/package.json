@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "devDependencies": {
+    "@good-dog/auth": "workspace:*",
     "@good-dog/db": "workspace:*",
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
@@ -18,7 +19,8 @@
     "@types/bun": "^1.1.10",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "zod": "3.23.8"
   },
   "prettier": "@good-dog/prettier"
 }
