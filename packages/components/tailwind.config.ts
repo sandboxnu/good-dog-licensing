@@ -7,6 +7,6 @@ import type { Config } from "tailwindcss";
 import baseConfig from "@good-dog/tailwind/web";
 
 export default {
-  content: ["./shad/**/*.{ts,tsx}"],
+  content: ["./src/**/*.{ts,tsx}"],
   presets: [baseConfig],
 } satisfies Config;

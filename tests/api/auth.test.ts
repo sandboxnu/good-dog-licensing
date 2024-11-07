@@ -30,13 +30,13 @@ describe("auth", () => {
   const createAccount = async () =>
     prisma.user.upsert({
       create: {
-        id: "testId124389124",
-        name: "Damian",
+        firstName: "Damian",
+        lastName: "Smith",
+        role: "MEDIA_MAKER",
         email: "damian@gmail.com",
         hashedPassword: await hashPassword("password123"),
       },
       update: {
-        id: "testId124389124",
         email: "damian@gmail.com",
         hashedPassword: await hashPassword("password123"),
       },
@@ -52,13 +52,14 @@ describe("auth", () => {
         user: {
           connectOrCreate: {
             create: {
-              id: "testId124389124",
-              name: "Damian",
+              firstName: "Damian",
+              lastName: "Smith",
+              role: "MEDIA_MAKER",
               email: "damian@gmail.com",
               hashedPassword: await hashPassword("password123"),
             },
             where: {
-              id: "testId124389124",
+              email: "damian@gmail.com",
             },
           },
         },
@@ -103,7 +104,9 @@ describe("auth", () => {
       await cleanupAccount();
 
       const response = await $trpcCaller.signUp({
-        name: "Damian",
+        firstName: "Damian",
+        lastName: "Smith",
+        role: "MEDIA_MAKER",
         email: "damian@gmail.com",
         password: "password123",
       });
@@ -130,7 +133,9 @@ describe("auth", () => {
 
       const createAccountHelp = async () =>
         await $trpcCaller.signUp({
-          name: "Damian",
+          firstName: "Damian",
+          lastName: "Smith",
+          role: "MEDIA_MAKER",
           email: "damian@gmail.com",
           password: "password123",
         });
@@ -146,7 +151,9 @@ describe("auth", () => {
 
       const createAccountHelp = async () =>
         await $trpcCaller.signUp({
-          name: "Damian",
+          firstName: "Damian",
+          lastName: "Smith",
+          role: "MEDIA_MAKER",
           email: "damian@gmail.com",
           password: "password123",
         });
@@ -203,16 +210,15 @@ describe("auth", () => {
       await createEmailVerificationCode(true);
       await createAccount();
 
-      const createAccountHelp = async () =>
-        await $trpcCaller.signUp({
-          name: "Damian",
+      expect(
+        $trpcCaller.signUp({
+          firstName: "Damian",
+          lastName: "Smith",
+          role: "MEDIA_MAKER",
           email: "damian@gmail.com",
           password: "password123",
-        });
-
-      expect(createAccountHelp).toThrow(
-        "User already exists with email damian@gmail.com",
-      );
+        }),
+      ).rejects.toThrow("User already exists with email damian@gmail.com");
       expect(mockCookies.set).not.toBeCalled();
 
       await cleanupEmailVerificationCode();
@@ -222,7 +228,7 @@ describe("auth", () => {
 
   test("auth/signOut", async () => {
     const session = await createSession();
-    mockCookies.set("sessionId", session.id);
+    mockCookies.set("sessionId", session.sessionId);
 
     const res = await $trpcCaller.signOut();
 
@@ -234,7 +240,7 @@ describe("auth", () => {
 
   test("auth/deleteAccount", async () => {
     const session = await createSession();
-    mockCookies.set("sessionId", session.id);
+    mockCookies.set("sessionId", session.sessionId);
 
     const deleteAccountResponse = await $trpcCaller.deleteAccount();
 

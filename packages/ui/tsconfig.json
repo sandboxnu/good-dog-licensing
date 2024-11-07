@@ -5,6 +5,6 @@
     "jsx": "preserve",
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
   },
-  "include": ["*.ts", "shad", "src"],
+  "include": ["*.ts", "*.tsx", "shad", "declarations.d.ts"],
   "exclude": ["node_modules"]
 }
