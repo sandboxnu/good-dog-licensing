@@ -77,8 +77,8 @@ const ProjectCard = () => {
 };
 
 const ProjectGallery = () => {
-  const getItems = () => Array(10).fill(0);
-  const [items, setItems] = useState(getItems);
+  // filler items before we have actual projects to fill in
+  const items = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isMouse, setIsMouse] = useState(true);
 
