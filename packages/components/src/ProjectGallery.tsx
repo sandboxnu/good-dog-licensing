@@ -2,11 +2,14 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
 
 import "react-horizontal-scrolling-menu/dist/styles.css";
 
-type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
+//commented out scroll logic to handle scrolling with touchpad vs mouse (broken) - tracy and sanjana
+
+//import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+
+//type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
 // function onWheel(apiObj: scrollVisibilityApiType, ev: React.WheelEvent): void {
 //   const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
@@ -76,9 +79,12 @@ const ProjectCard = () => {
 const ProjectGallery = () => {
   const getItems = () => Array(10).fill(0);
   const [items, setItems] = useState(getItems);
-  // const { disableScroll, enableScroll } = usePreventBodyScroll();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isMouse, setIsMouse] = useState(true);
+
+  //commented out scroll logic to handle scrolling with touchpad vs mouse (broken) - tracy and sanjana
+
+  // const { disableScroll, enableScroll } = usePreventBodyScroll();
 
   // useEffect(() => {
   //   const handleWheel = (event: WheelEvent) => {
@@ -111,23 +117,19 @@ const ProjectGallery = () => {
   // }, [isTrackpad]);
 
   const handleWheelScroll = useCallback((event: WheelEvent) => {
-    console.log(event);
     if (scrollContainerRef.current) {
       if (event.deltaMode !== 0) {
-        console.log("Not a touchpad");
         // Use customized horizontal scroll only for mouse wheel
         //event.preventDefault();
         setIsMouse(true);
         event.preventDefault();
         scrollContainerRef.current.scrollLeft += event.deltaY * 500;
       }
-    } else console.log("yes touchpad");
+    }
   }, []);
 
   useEffect(() => {
-    console.log("I am here.");
     if (isMouse) {
-      console.log("Mouse wheel detected");
       const container = scrollContainerRef.current;
       container?.addEventListener("wheel", handleWheelScroll);
 
