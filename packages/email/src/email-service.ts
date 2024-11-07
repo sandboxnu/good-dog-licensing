@@ -4,36 +4,33 @@ import sgMail from "@sendgrid/mail";
 // purpose is to throw runtime errors for blank api keys/from emails so we are alerted of
 // the issue ahead of time.
 
-function setApiKey(apiKey: string) {
-  if (apiKey == "") {
+export function setApiKey(apiKey: string) {
+  if (!apiKey) {
     throw new TypeError("Invalid api key: Expected a non-empty string.");
   }
 
   sgMail.setApiKey(apiKey);
 }
 
-interface EmailMessage {
+export interface EmailMessage {
   to: string;
-  from: string;
   subject: string;
   html: string;
 }
 
-async function send(msg: EmailMessage): Promise<boolean> {
-  if (msg.from == "") {
+export async function send(msg: EmailMessage, fromEmail?: string) {
+  if (!fromEmail) {
     throw new TypeError("Invalid from email: Expected a non-empty string.");
   }
 
-  try {
-    await sgMail.send(msg);
-    return true;
-  } catch (error) {
-    void error;
-    return false;
-  }
+  return await sgMail.send({ ...msg, from: fromEmail });
 }
 
-export default {
-  setApiKey,
-  send,
-};
+// Generate 6 digit code. For example: 71236.
+export function generateSixDigitCode() {
+  let code = "";
+  for (let i = 0; i < 6; i++) {
+    code += Math.floor(Math.random() * 10);
+  }
+  return code;
+}

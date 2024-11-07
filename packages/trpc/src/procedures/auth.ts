@@ -3,7 +3,6 @@ import { z } from "zod";
 
 import { deleteSessionCookie, setSessionCookie } from "@good-dog/auth/cookies";
 import { comparePassword, hashPassword } from "@good-dog/auth/password";
-import { sendEmailVerification } from "@good-dog/email/verification-email";
 
 import {
   authenticatedProcedureBuilder,
@@ -12,126 +11,6 @@ import {
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
-
-const getNewEmailVerificationCodeExpirationDate = () =>
-  new Date(Date.now() + 60_000 * 15);
-
-export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
-  .input(
-    z.object({
-      email: z.string().email(),
-    }),
-  )
-  .mutation(async ({ ctx, input }) => {
-    // Check if there is already an email verification code for the given email
-    const existingEmailVerificationCode =
-      await ctx.prisma.emailVerificationCode.findUnique({
-        where: {
-          email: input.email,
-        },
-      });
-    // If email already verified, throw error
-    if (existingEmailVerificationCode?.emailConfirmed) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "Email already verified",
-      });
-    }
-    // If email not verified, delete current email verification code to create a new one
-    if (existingEmailVerificationCode !== null) {
-      await ctx.prisma.emailVerificationCode.delete({
-        where: {
-          email: input.email,
-        },
-      });
-    }
-
-    // Generate 6 digit code for email verification
-    let emailCode = "";
-    for (let i = 0; i < 6; i++) {
-      emailCode += Math.floor(Math.random() * 10);
-    }
-    // Send email. If sending fails, throw error.
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    if (!(await sendEmailVerification(input.email, emailCode))) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: `Email confirmation to ${input.email} failed to send.`,
-      });
-    }
-    // Create the email verification code in the database
-    await ctx.prisma.emailVerificationCode.create({
-      data: {
-        code: emailCode,
-        email: input.email,
-        expiresAt: getNewEmailVerificationCodeExpirationDate(),
-      },
-    });
-
-    return {
-      message: `Email verification code sent to ${input.email}`,
-    };
-  });
-
-export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
-  .input(
-    z.object({
-      email: z.string().email(),
-      code: z.string(),
-    }),
-  )
-  .mutation(async ({ ctx, input }) => {
-    // Get email verification from database
-    const emailVerificationCode =
-      await ctx.prisma.emailVerificationCode.findUnique({
-        where: {
-          email: input.email,
-        },
-      });
-
-    // If email already verified, return a success
-    if (emailVerificationCode?.emailConfirmed) {
-      return {
-        message: `Email was successfully verified. Email: ${input.email}.`,
-      };
-    }
-
-    // If email verification not found, throw error
-    if (emailVerificationCode === null) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: `${input.email} is not waiting to be confirmed.`,
-      });
-    }
-    // If given code is wrong, throw error
-    if (input.code !== emailVerificationCode.code) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: `Given code is incorrect for ${input.email}`,
-      });
-    }
-    // If given code is expired, throw error
-    if (emailVerificationCode.expiresAt < new Date()) {
-      throw new TRPCError({
-        code: "BAD_REQUEST",
-        message: "Given code is expired.",
-      });
-    }
-
-    // If here, the given code was valid, so we can update the emailVerificationCode.
-    await ctx.prisma.emailVerificationCode.update({
-      where: {
-        email: input.email,
-      },
-      data: {
-        emailConfirmed: true,
-      },
-    });
-
-    return {
-      message: `Email was successfully verified. Email: ${input.email}.`,
-    };
-  });
 
 export const signUpProcedure = notAuthenticatedProcedureBuilder
   .input(

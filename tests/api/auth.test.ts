@@ -4,12 +4,10 @@ import { hashPassword } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
 import { $trpcCaller } from "@good-dog/trpc/server";
 
-import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 
 describe("auth", () => {
   const mockCookies = new MockNextCookies();
-  const mockEmails = new MockEmailService();
 
   const createEmailVerificationCode = async (emailConfirmed: boolean) =>
     prisma.emailVerificationCode.upsert({
@@ -93,188 +91,10 @@ describe("auth", () => {
 
   beforeAll(async () => {
     await mockCookies.apply();
-    await mockEmails.apply();
   });
 
   afterEach(() => {
     mockCookies.clear();
-  });
-
-  describe("auth/sendEmailVerification", () => {
-    test("Email is not in database", async () => {
-      await cleanupEmailVerificationCode();
-
-      const response = await $trpcCaller.sendEmailVerification({
-        email: "damian@gmail.com",
-      });
-
-      const emailVerificationCode =
-        await prisma.emailVerificationCode.findUnique({
-          where: {
-            email: "damian@gmail.com",
-          },
-        });
-
-      expect(emailVerificationCode?.email).toEqual("damian@gmail.com");
-      expect(emailVerificationCode?.code.length).toEqual(6);
-      expect(emailVerificationCode?.emailConfirmed).toEqual(false);
-
-      expect(response.message).toEqual(
-        "Email verification code sent to damian@gmail.com",
-      );
-
-      await cleanupEmailVerificationCode();
-    });
-
-    test("Email sending error", async () => {
-      await cleanupEmailVerificationCode();
-      mockEmails.setSendError(true);
-
-      const sendEmailVerification = async () =>
-        $trpcCaller.sendEmailVerification({
-          email: "damian@gmail.com",
-        });
-
-      expect(sendEmailVerification).toThrow(
-        "Email confirmation to damian@gmail.com failed to send.",
-      );
-
-      await cleanupEmailVerificationCode();
-      mockEmails.setSendError(false);
-    });
-
-    test("Email is already in database (not verified)", async () => {
-      await createEmailVerificationCode(false);
-
-      const response = await $trpcCaller.sendEmailVerification({
-        email: "damian@gmail.com",
-      });
-
-      const emailVerificationCode =
-        await prisma.emailVerificationCode.findUnique({
-          where: {
-            email: "damian@gmail.com",
-          },
-        });
-
-      expect(emailVerificationCode?.email).toEqual("damian@gmail.com");
-      expect(emailVerificationCode?.code.length).toEqual(6);
-      expect(emailVerificationCode?.code).not.toEqual("019821");
-      expect(emailVerificationCode?.emailConfirmed).toEqual(false);
-
-      expect(response.message).toEqual(
-        "Email verification code sent to damian@gmail.com",
-      );
-
-      await cleanupEmailVerificationCode();
-    });
-
-    test("Email is already in database (verified)", async () => {
-      await createEmailVerificationCode(true);
-
-      const sendEmailVerification = async () =>
-        $trpcCaller.sendEmailVerification({
-          email: "damian@gmail.com",
-        });
-
-      expect(sendEmailVerification).toThrow("Email already verified");
-
-      await cleanupEmailVerificationCode();
-    });
-  });
-
-  describe("auth/confirmEmail", () => {
-    test("Email already verified", async () => {
-      await createEmailVerificationCode(true);
-
-      const response = await $trpcCaller.confirmEmail({
-        email: "damian@gmail.com",
-        code: "019821",
-      });
-
-      expect(response.message).toEqual(
-        "Email was successfully verified. Email: damian@gmail.com.",
-      );
-
-      await cleanupEmailVerificationCode();
-    });
-
-    test("No email verification code entry", async () => {
-      await cleanupEmailVerificationCode();
-
-      const confirmEmail = async () =>
-        $trpcCaller.confirmEmail({
-          email: "damian@gmail.com",
-          code: "123456",
-        });
-
-      expect(confirmEmail).toThrow(
-        "damian@gmail.com is not waiting to be confirmed.",
-      );
-    });
-
-    test("Given code is incorrect", async () => {
-      await createEmailVerificationCode(false);
-
-      const confirmEmail = async () =>
-        $trpcCaller.confirmEmail({
-          email: "damian@gmail.com",
-          code: "123456",
-        });
-
-      expect(confirmEmail).toThrow(
-        "Given code is incorrect for damian@gmail.com",
-      );
-
-      await cleanupEmailVerificationCode();
-    });
-
-    test("Given code is expired", async () => {
-      await createEmailVerificationCode(false);
-
-      await prisma.emailVerificationCode.update({
-        where: {
-          email: "damian@gmail.com",
-        },
-        data: {
-          expiresAt: new Date(Date.now() + 60_000 * -15),
-        },
-      });
-
-      const confirmEmail = async () =>
-        $trpcCaller.confirmEmail({
-          email: "damian@gmail.com",
-          code: "019821",
-        });
-
-      expect(confirmEmail).toThrow("Given code is expired.");
-
-      await cleanupEmailVerificationCode();
-    });
-
-    test("Given code is valid", async () => {
-      await createEmailVerificationCode(false);
-
-      const response = await $trpcCaller.confirmEmail({
-        email: "damian@gmail.com",
-        code: "019821",
-      });
-
-      const emailVerificationCode =
-        await prisma.emailVerificationCode.findUnique({
-          where: {
-            email: "damian@gmail.com",
-          },
-        });
-
-      expect(emailVerificationCode?.emailConfirmed).toBe(true);
-
-      expect(response.message).toEqual(
-        "Email was successfully verified. Email: damian@gmail.com.",
-      );
-
-      await cleanupEmailVerificationCode();
-    });
   });
 
   describe("auth/signUp", () => {
