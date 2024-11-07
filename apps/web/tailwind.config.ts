@@ -23,5 +23,6 @@ export default {
     "bg-good-dog-violet",
     "text-good-dog-violet",
     "text-good-dog-pale-yellow",
+    "text-good-dog-celadon",
   ],
 } satisfies Config;
