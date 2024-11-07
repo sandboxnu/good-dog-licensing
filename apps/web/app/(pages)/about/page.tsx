@@ -1,3 +1,5 @@
+import MediaMusicianAbout from "@good-dog/components/MediaMusicianAbout";
+
 export default function AboutUs() {
   const InitialHeader = () => {
     return (
@@ -41,6 +43,7 @@ export default function AboutUs() {
   return (
     <main className="bg-good-dog-violet">
       <InitialHeader />
+      <MediaMusicianAbout />
     </main>
   );
 }

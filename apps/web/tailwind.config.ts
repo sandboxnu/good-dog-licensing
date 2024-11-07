@@ -17,6 +17,10 @@ export default {
       fontFamily: {
         righteous: ["Righteous"],
       },
+      fontSize: {
+        "8.5xl": "112px",
+        "10xl": "150px",
+      },
     },
   },
   safelist: [
