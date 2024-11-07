@@ -10,7 +10,7 @@ async function main() {
     update: {
       sessions: {
         update: {
-          where: { id: "23" },
+          where: { sessionId: "23" },
           data: {
             expiresAt: new Date(
               new Date().setFullYear(new Date().getFullYear() + 10),
@@ -20,13 +20,15 @@ async function main() {
       },
     },
     create: {
-      id: "7",
+      userId: "7",
       email: "alice@prisma.io",
-      name: "Alice",
+      firstName: "Alice",
+      lastName: "Smith",
+      role: "MEDIA_MAKER",
       hashedPassword: await hashPassword("alicePassword"),
       sessions: {
         create: {
-          id: "23",
+          sessionId: "23",
           expiresAt: new Date(
             new Date().setFullYear(new Date().getFullYear() + 10),
           ),
@@ -42,7 +44,7 @@ async function main() {
       sessions: {
         updateMany: [
           {
-            where: { id: "12" },
+            where: { sessionId: "12" },
             data: {
               expiresAt: new Date(
                 new Date().setFullYear(new Date().getFullYear() - 1),
@@ -50,7 +52,7 @@ async function main() {
             },
           },
           {
-            where: { id: "45" },
+            where: { sessionId: "45" },
             data: {
               expiresAt: new Date(
                 new Date().setFullYear(new Date().getFullYear() + 10),
@@ -61,21 +63,23 @@ async function main() {
       },
     },
     create: {
-      id: "9",
+      userId: "9",
       email: "bob@gmail.com",
-      name: "Bob Jones",
+      firstName: "Bob",
+      lastName: "Jones",
+      role: "MUSICIAN",
       hashedPassword: await hashPassword("bobPassword"),
       sessions: {
         createMany: {
           data: [
             {
-              id: "12",
+              sessionId: "12",
               expiresAt: new Date(
                 new Date().setFullYear(new Date().getFullYear() - 1),
               ),
             },
             {
-              id: "45",
+              sessionId: "45",
               expiresAt: new Date(
                 new Date().setFullYear(new Date().getFullYear() + 10),
               ),
@@ -92,7 +96,7 @@ async function main() {
     update: {
       sessions: {
         update: {
-          where: { id: "78" },
+          where: { sessionId: "78" },
           data: {
             expiresAt: new Date(
               new Date().setFullYear(new Date().getFullYear() - 1),
@@ -102,13 +106,15 @@ async function main() {
       },
     },
     create: {
-      id: "56",
+      userId: "56",
       email: "eve@outlook.com",
-      name: "Eve Smith",
+      firstName: "Eve",
+      lastName: "Brown",
+      role: "MEDIA_MAKER",
       hashedPassword: await hashPassword("evePassword"),
       sessions: {
         create: {
-          id: "78",
+          sessionId: "78",
           expiresAt: new Date(
             new Date().setFullYear(new Date().getFullYear() - 1),
           ),
