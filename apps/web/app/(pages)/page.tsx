@@ -34,9 +34,9 @@ export default function Home() {
       <Splash />
       <LandingSubmission />
       <LandingSubmission
-        flipX={true}
-        flipY={true}
-        reverseLayout={true}
+        flipX
+        flipY
+        reverseLayout
         title="Music Makers"
         button="SEND US YOUR MUSIC"
       />

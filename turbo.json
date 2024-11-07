@@ -55,7 +55,11 @@
     },
     "migrate:reset": {
       "cache": false,
-      "interactive": false
+      "interactive": true
+    },
+    "migrate:create": {
+      "cache": false,
+      "interactive": true
     },
     "migrate:prod": {
       "cache": false,
@@ -69,28 +73,19 @@
       "cache": false,
       "interactive": true
     },
-    "start": {
-      "cache": false,
-      "interactive": true
-    },
-    "up": {
-      "cache": false,
-      "interactive": false
-    },
-    "down": {
-      "cache": false,
-      "interactive": false
-    },
-    "env": {
-      "interactive": false,
-      "cache": false
-    },
     "seed": {
       "cache": false,
       "interactive": false
     }
   },
-  "globalEnv": ["SKIP_ENV_VALIDATION"],
+  "globalEnv": [
+    "SKIP_ENV_VALIDATION",
+    "DATABASE_PRISMA_URL",
+    "POSTGRES_USER",
+    "POSTGRES_PASSWORD",
+    "POSTGRES_DATABASE",
+    "POSTGRES_PORT"
+  ],
   "globalPassThroughEnv": [
     "NODE_ENV",
     "VERCEL_ENV",

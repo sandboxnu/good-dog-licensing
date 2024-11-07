@@ -12,7 +12,7 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        '10xl': '150px',
+        "10xl": "150px",
       },
     },
   },

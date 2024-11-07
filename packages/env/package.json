@@ -1,11 +1,10 @@
 {
-  "name": "@good-dog/auth",
+  "name": "@good-dog/env",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    "./password": "./src/password.ts",
-    "./cookies": "./src/cookies.ts"
+    ".": "./src/env.js"
   },
   "license": "MIT",
   "scripts": {
@@ -18,14 +17,12 @@
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "@types/bcryptjs": "^2.4.6",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
     "typescript": "5.4.5"
   },
   "prettier": "@good-dog/prettier",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "next": "14.2.12"
+    "@t3-oss/env-nextjs": "^0.11.1"
   }
 }
