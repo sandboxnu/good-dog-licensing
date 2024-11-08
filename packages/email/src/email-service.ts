@@ -26,7 +26,7 @@ export async function send(msg: EmailMessage, fromEmail?: string) {
   return await sgMail.send({ ...msg, from: fromEmail });
 }
 
-// Generate 6 digit code. For example: 71236.
+// Generate 6 digit code. For example: 712364.
 export function generateSixDigitCode() {
   let code = "";
   for (let i = 0; i < 6; i++) {

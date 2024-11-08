@@ -9,6 +9,3 @@ CREATE TABLE "EmailVerificationCode" (
 
     CONSTRAINT "EmailVerificationCode_pkey" PRIMARY KEY ("email")
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "EmailVerificationCode_email_key" ON "EmailVerificationCode"("email");

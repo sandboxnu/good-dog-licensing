@@ -67,7 +67,7 @@ model GroupInvite {
 }
 
 model EmailVerificationCode {
-  email          String   @id @unique
+  email          String   @id
   code           String
   emailConfirmed Boolean  @default(false)
   createdAt      DateTime @default(now())
