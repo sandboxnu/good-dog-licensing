@@ -1,11 +1,4 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-} from "bun:test";
+import { afterEach, beforeAll, describe, expect, test } from "bun:test";
 
 import { hashPassword } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
@@ -15,6 +8,24 @@ import { MockNextCookies } from "../mocks/MockNextCookies";
 
 describe("auth", () => {
   const mockCookies = new MockNextCookies();
+
+  const createEmailVerificationCode = async (emailConfirmed: boolean) =>
+    prisma.emailVerificationCode.upsert({
+      create: {
+        email: "damian@gmail.com",
+        code: "019821",
+        expiresAt: new Date(Date.now() + 60_000 * 100000),
+        emailConfirmed: emailConfirmed,
+      },
+      update: {
+        code: "019821",
+        expiresAt: new Date(Date.now() + 60_000 * 100000),
+        emailConfirmed: emailConfirmed,
+      },
+      where: {
+        email: "damian@gmail.com",
+      },
+    });
 
   const createAccount = async () =>
     prisma.user.upsert({
@@ -56,11 +67,27 @@ describe("auth", () => {
     });
 
   const cleanupAccount = async () => {
-    await prisma.user.delete({
-      where: {
-        email: "damian@gmail.com",
-      },
-    });
+    try {
+      await prisma.user.delete({
+        where: {
+          email: "damian@gmail.com",
+        },
+      });
+    } catch (error) {
+      void error;
+    }
+  };
+
+  const cleanupEmailVerificationCode = async () => {
+    try {
+      await prisma.emailVerificationCode.delete({
+        where: {
+          email: "damian@gmail.com",
+        },
+      });
+    } catch (error) {
+      void error;
+    }
   };
 
   beforeAll(async () => {
@@ -71,39 +98,77 @@ describe("auth", () => {
     mockCookies.clear();
   });
 
-  test("auth/signUp", async () => {
-    const response = await $trpcCaller.signUp({
-      firstName: "Damian",
-      lastName: "Smith",
-      role: "MEDIA_MAKER",
-      email: "damian@gmail.com",
-      password: "password123",
+  describe("auth/signUp", () => {
+    test("Email is verified", async () => {
+      await createEmailVerificationCode(true);
+      await cleanupAccount();
+
+      const response = await $trpcCaller.signUp({
+        firstName: "Damian",
+        lastName: "Smith",
+        role: "MEDIA_MAKER",
+        email: "damian@gmail.com",
+        password: "password123",
+      });
+
+      expect(response.message).toEqual(
+        "Successfully signed up and logged in as damian@gmail.com.",
+      );
+
+      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        path: "/",
+        expires: expect.any(Date),
+      });
+
+      await cleanupAccount();
+      await cleanupEmailVerificationCode();
     });
 
-    expect(response.message).toEqual(
-      "Successfully signed up and logged in as damian@gmail.com",
-    );
+    test("Email is not verified (awaiting)", async () => {
+      await createEmailVerificationCode(false);
+      await cleanupAccount();
 
-    expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      expires: expect.any(Date),
+      const createAccountHelp = async () =>
+        await $trpcCaller.signUp({
+          firstName: "Damian",
+          lastName: "Smith",
+          role: "MEDIA_MAKER",
+          email: "damian@gmail.com",
+          password: "password123",
+        });
+
+      expect(createAccountHelp).toThrow("Email has not been verified.");
+
+      await cleanupEmailVerificationCode();
     });
 
-    await cleanupAccount();
+    test("Email is not verified (not awaiting)", async () => {
+      await cleanupEmailVerificationCode();
+      await cleanupAccount();
+
+      const createAccountHelp = async () =>
+        await $trpcCaller.signUp({
+          firstName: "Damian",
+          lastName: "Smith",
+          role: "MEDIA_MAKER",
+          email: "damian@gmail.com",
+          password: "password123",
+        });
+
+      expect(createAccountHelp).toThrow("Email has not been verified.");
+
+      await cleanupEmailVerificationCode();
+    });
   });
 
   describe("with existing account", () => {
-    beforeAll(async () => {
-      await createAccount();
-    });
-    afterAll(async () => {
-      await cleanupAccount();
-    });
-
     test("auth/signIn", async () => {
+      await createEmailVerificationCode(true);
+      await createAccount();
+
       const signInResponse = await $trpcCaller.signIn({
         email: "damian@gmail.com",
         password: "password123",
@@ -119,9 +184,15 @@ describe("auth", () => {
         path: "/",
         expires: expect.any(Date),
       });
+
+      await cleanupEmailVerificationCode();
+      await cleanupAccount();
     });
 
-    test("auth/signIn failure", () => {
+    test("auth/signIn failure", async () => {
+      await createEmailVerificationCode(true);
+      await createAccount();
+
       expect(
         $trpcCaller.signIn({
           email: "damian@gmail.com",
@@ -130,19 +201,28 @@ describe("auth", () => {
       ).rejects.toThrow("Invalid credentials");
 
       expect(mockCookies.set).not.toBeCalled();
+
+      await cleanupEmailVerificationCode();
+      await cleanupAccount();
     });
 
-    test("auth/signUp failure", () => {
+    test("auth/signUp failure", async () => {
+      await createEmailVerificationCode(true);
+      await createAccount();
+
       expect(
         $trpcCaller.signUp({
           firstName: "Damian",
           lastName: "Smith",
           role: "MEDIA_MAKER",
           email: "damian@gmail.com",
-          password: "password",
+          password: "password123",
         }),
       ).rejects.toThrow("User already exists with email damian@gmail.com");
       expect(mockCookies.set).not.toBeCalled();
+
+      await cleanupEmailVerificationCode();
+      await cleanupAccount();
     });
   });
 
