@@ -17,8 +17,6 @@ const CreatorData = [
 ];
 
 export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
-  const [flipX, setFlipX] = useState(false);
-  const [flipY, setFlipY] = useState(false);
   // const [visible, setVisible] = useState(true); // commented out code is an attempt to animate the content
   const [reverseLayout, setReverseLayout] = useState(
     creator === "MUSICIANS" ? true : false,
@@ -26,18 +24,13 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
   const creatorObj = CreatorData.find(
     (creatorObj) => creatorObj.creatorType === creator,
   );
-  const imageFlipClasses = `
-    ${flipX ? "scale-x-[-1]" : ""}
-    ${flipY ? "scale-y-[-1]" : ""}
-  `;
 
   useEffect(() => {
     // commented out code is an attempt to animate the content
     // setVisible(false);
     // const timer = setTimeout(() => {
     setReverseLayout(creator === "MUSICIANS");
-    setFlipX(creator === "MUSICIANS");
-    setFlipY(creator === "MUSICIANS");
+
     // setVisible(true);
     // }, 500); // Duration of the fade-out transition
 
