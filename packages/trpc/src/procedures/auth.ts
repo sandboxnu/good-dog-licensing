@@ -23,6 +23,21 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     }),
   )
   .mutation(async ({ ctx, input }) => {
+    // Throw error if email is not verified
+    const emailVerificationCode =
+      await ctx.prisma.emailVerificationCode.findUnique({
+        where: {
+          email: input.email,
+        },
+      });
+
+    if (!emailVerificationCode?.emailConfirmed) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Email has not been verified.",
+      });
+    }
+
     const existingUserWithEmail = await ctx.prisma.user.findUnique({
       where: {
         email: input.email,
@@ -68,7 +83,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     setSessionCookie(session.sessionId, session.expiresAt);
 
     return {
-      message: `Successfully signed up and logged in as ${input.email}`,
+      message: `Successfully signed up and logged in as ${input.email}.`,
     };
   });
 

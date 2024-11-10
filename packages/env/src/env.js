@@ -10,6 +10,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+    VERIFICATION_FROM_EMAIL: process.env.VERIFICATION_FROM_EMAIL,
   },
 
   /**
@@ -20,6 +22,8 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    SENDGRID_API_KEY: z.string().optional(),
+    VERIFICATION_FROM_EMAIL: z.string().email().optional(),
   },
 
   /**
@@ -30,6 +34,7 @@ export const env = createEnv({
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
+
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
    * useful for Docker builds.
