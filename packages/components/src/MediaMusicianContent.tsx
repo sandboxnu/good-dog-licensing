@@ -49,7 +49,7 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
         alt="creator image"
         width={593}
         height={676}
-        style={{ width: "593px", height: "676px" }}
+        style={{ width: "593px", height: "676px", float: "left" }}
       />
       <div className="m-9">
         <h1
