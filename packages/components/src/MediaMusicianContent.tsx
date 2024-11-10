@@ -1,4 +1,4 @@
-"use cient";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -19,6 +19,7 @@ const CreatorData = [
 export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
   const [flipX, setFlipX] = useState(false);
   const [flipY, setFlipY] = useState(false);
+  // const [visible, setVisible] = useState(true); // commented out code is an attempt to animate the content
   const [reverseLayout, setReverseLayout] = useState(
     creator === "MUSICIANS" ? true : false,
   );
@@ -31,26 +32,53 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
   `;
 
   useEffect(() => {
-    if (creator === "MUSICIANS") {
-      setReverseLayout(true);
-      setFlipX(true);
-      setFlipY(true);
-    } else {
-      setReverseLayout(false);
-      setFlipX(false);
-      setFlipY(false);
-    }
+    // commented out code is an attempt to animate the content
+    // setVisible(false);
+    // const timer = setTimeout(() => {
+    setReverseLayout(creator === "MUSICIANS");
+    setFlipX(creator === "MUSICIANS");
+    setFlipY(creator === "MUSICIANS");
+    // setVisible(true);
+    // }, 500); // Duration of the fade-out transition
+
+    // return () => clearTimeout(timer);
   }, [creator]);
 
   return (
     <div className={`flex flex-row ${reverseLayout ? "flex-row-reverse" : ""}`}>
+      {/* 
+      commented out divs are attempts to animate the content; 
+      <div
+        className={`duration-350 transition-all ${visible ? "opacity-100" : "opacity-0"} ${reverseLayout ? "right-50" : "left-50"}`}
+        style={{
+          transform: visible
+            ? "translateX(0)"
+            : reverseLayout
+              ? "translateX(100%)"
+              : "translateX(-100%)",
+        }}
+      > */}
       <Image
-        src={creatorObj?.imageSrc || ""}
+        src={creatorObj?.imageSrc ?? ""}
         alt="creator image"
         width={593}
         height={676}
-        style={{ width: "593px", height: "676px", float: "left" }}
+        style={{
+          width: "593px",
+          height: "676px",
+        }}
       />
+      {/* </div>
+      <div
+        className={`duration-350 transition-all ${visible ? "opacity-100" : "opacity-0"} ${reverseLayout ? "left-50" : "right-50"}`}
+        style={{
+          transform: visible
+            ? "translateX(0)"
+            : reverseLayout
+              ? "translateX(-100%)"
+              : "translateX(100%)",
+        }}
+      > */}
       <div className="m-9">
         <h1
           className={`font-righteous leading-none text-good-dog-celadon ${creator === "MUSICIANS" ? `text-8.5xl` : `text-10xl`}`}
@@ -77,6 +105,7 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
           </a>
         </div>
       </div>
+      {/* </div> */}
     </div>
   );
 }

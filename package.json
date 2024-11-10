@@ -58,8 +58,5 @@
     "packages/*",
     "tooling/*",
     "tests"
-  ],
-  "dependencies": {
-    "react-horizontal-scrolling-menu": "7.1.1"
-  }
+  ]
 }
