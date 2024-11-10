@@ -16,6 +16,7 @@ datasource db {
 }
 
 enum Role {
+  ONBOARDING
   MUSICIAN
   MEDIA_MAKER
   ADMIN

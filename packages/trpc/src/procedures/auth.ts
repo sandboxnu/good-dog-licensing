@@ -17,7 +17,6 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     z.object({
       firstName: z.string(),
       lastName: z.string(),
-      role: z.enum(["MEDIA_MAKER", "MUSICIAN"]),
       email: z.string().email(),
       password: z.string(),
     }),
@@ -57,7 +56,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       data: {
         firstName: input.firstName,
         lastName: input.lastName,
-        role: input.role,
+        role: "ONBOARDING",
         email: input.email,
         hashedPassword: hashedPassword,
         sessions: {
