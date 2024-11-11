@@ -79,7 +79,7 @@ test("Correct user is returned when they have a valid session.", async () => {
   cookies.set("sessionId", "500");
   await cookies.apply();
 
-  const user = await $trpcCaller.user();
+  const user = await $trpcCaller.authenticatedUser();
 
   expect(user.email).toEqual("person1@prisma.io");
 });
@@ -90,7 +90,7 @@ test("Correct user is returned when they have multiple sessions and one is valid
   cookies.set("sessionId", "502");
   await cookies.apply();
 
-  const user = await $trpcCaller.user();
+  const user = await $trpcCaller.authenticatedUser();
 
   expect(user.email).toEqual("person2@gmail.com");
 });
@@ -101,7 +101,7 @@ test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.
   cookies.set("sessionId", "503");
   await cookies.apply();
 
-  const getUser = async () => await $trpcCaller.user();
+  const getUser = async () => await $trpcCaller.authenticatedUser();
 
   expect(getUser).toThrow("UNAUTHORIZED");
 });
@@ -110,7 +110,7 @@ test("'UNAUTHORIZED' error is thrown when there is no 'sessionId' cookie.", asyn
   const cookies = new MockNextCookies();
   await cookies.apply();
 
-  const getUser = async () => await $trpcCaller.user();
+  const getUser = async () => await $trpcCaller.authenticatedUser();
   expect(getUser).toThrow("UNAUTHORIZED");
 });
 
@@ -120,7 +120,7 @@ test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
   cookies.set("sessionId", "501");
   await cookies.apply();
 
-  const getUser = async () => await $trpcCaller.user();
+  const getUser = async () => await $trpcCaller.authenticatedUser();
 
   expect(getUser).toThrow("UNAUTHORIZED");
 });
@@ -131,7 +131,7 @@ test("Endpoint does not return the user's password.", async () => {
   cookies.set("sessionId", "502");
   await cookies.apply();
 
-  const user = await $trpcCaller.user();
+  const user = await $trpcCaller.authenticatedUser();
 
   expect(user).not.toHaveProperty("hashedPassword");
   expect(user).not.toHaveProperty("password");
