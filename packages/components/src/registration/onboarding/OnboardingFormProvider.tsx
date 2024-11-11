@@ -17,7 +17,7 @@ interface BaseValues {
   discovery?: string;
 }
 
-export default function OnboardingForm<
+export default function OnboardingFormProvider<
   Values extends FieldValues & BaseValues,
   T extends z.ZodObject<
     Record<keyof Values, z.ZodTypeAny>,

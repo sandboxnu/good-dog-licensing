@@ -1,7 +1,7 @@
-import { TRPCClientErrorLike } from "@trpc/client";
+import type { TRPCClientErrorLike } from "@trpc/client";
 import { z } from "zod";
 
-import { AppRouter } from "./internal/router";
+import type { AppRouter } from "./internal/router";
 
 export type TRPCErrorLike = TRPCClientErrorLike<AppRouter>;
 

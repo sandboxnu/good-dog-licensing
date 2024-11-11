@@ -8,7 +8,7 @@ import { Switch } from "@good-dog/ui/switch";
 import MediaMakerForm from "./MediaMakerForm";
 import MusicianForm from "./MusicianForm";
 
-export default function OnboardingFormWrapper(
+export default function OnboardingFormSwitcher(
   props: Readonly<{
     firstName: string;
     lastName: string;

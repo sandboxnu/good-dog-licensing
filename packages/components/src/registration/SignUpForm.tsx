@@ -2,14 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
-import { Input } from "@good-dog/ui/input";
 
 import EmailVerifyModal from "./EmailVerifyModal";
+import RegistrationInput from "./inputs/RegistrationInput";
 
 const zSignUpValues = z.object({
   email: z.string().email(),
@@ -28,9 +28,13 @@ const zSignUpValues = z.object({
   lastName: z.string(),
 });
 
+type FormValues = z.infer<typeof zSignUpValues>;
+
+const TypedRegistrationInput = RegistrationInput<FormValues>;
+
 export default function SignUpForm() {
   const router = useRouter();
-  const signUpForm = useForm<z.infer<typeof zSignUpValues>>({
+  const signUpForm = useForm<FormValues>({
     resolver: zodResolver(
       zSignUpValues.refine((data) => data.password === data.confirmPassword, {
         message: "Passwords do not match",
@@ -88,101 +92,68 @@ export default function SignUpForm() {
   const email = signUpForm.watch("email");
 
   return (
-    <div>
-      <EmailVerifyModal
-        isOpen={verifyEmailMutation.data?.status === "EMAIL_SENT"}
-        email={signUpForm.getValues().email}
-      />
-      <form onSubmit={onSubmitSignUp} className="text-white">
-        <div>
-          <Input
-            {...signUpForm.register("email")}
-            placeholder="Email"
+    <FormProvider {...signUpForm}>
+      <div>
+        <EmailVerifyModal
+          isOpen={verifyEmailMutation.data?.status === "EMAIL_SENT"}
+          email={signUpForm.getValues().email}
+        />
+        <form onSubmit={onSubmitSignUp} className="text-white">
+          <TypedRegistrationInput
+            fieldName="email"
             type="email"
-            disabled={verifyEmailMutation.isSuccess}
+            placeholder="Email"
           />
           {verifyEmailMutation.isSuccess && (
             <p className="text-green-500">Email verified</p>
           )}
-          {signUpForm.formState.errors.email && (
-            <p className="text-red-500">
-              {signUpForm.formState.errors.email.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <Input
-            {...signUpForm.register("password")}
+          <TypedRegistrationInput
+            fieldName="password"
+            type="password"
             placeholder="Password"
-            type="password"
           />
-          {signUpForm.formState.errors.password && (
-            <p className="text-red-500">
-              {signUpForm.formState.errors.password.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <Input
-            {...signUpForm.register("confirmPassword")}
+          <TypedRegistrationInput
+            fieldName="confirmPassword"
+            type="password"
             placeholder="Confirm Password"
-            type="password"
           />
-          {signUpForm.formState.errors.confirmPassword && (
-            <p className="text-red-500">
-              {signUpForm.formState.errors.confirmPassword.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <Input
-            {...signUpForm.register("firstName")}
+          <TypedRegistrationInput
+            fieldName="firstName"
             placeholder="First Name"
             type="text"
           />
-          {signUpForm.formState.errors.firstName && (
-            <p className="text-red-500">
-              {signUpForm.formState.errors.firstName.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <Input
-            {...signUpForm.register("lastName")}
+          <TypedRegistrationInput
+            fieldName="lastName"
             placeholder="Last Name"
             type="text"
           />
-          {signUpForm.formState.errors.lastName && (
-            <p className="text-red-500">
-              {signUpForm.formState.errors.lastName.message}
-            </p>
-          )}
-        </div>
-        <Button
-          className="text-green-500"
-          disabled={
-            verifyEmailMutation.isPending || verifyEmailMutation.isSuccess
-          }
-          onClick={(e) => {
-            // prevent actual form submission
-            e.preventDefault();
-            // Send the email verification email
-            // Should disable the email Input permanently
-            verifyEmailMutation.mutate({
-              email,
-            });
-          }}
-        >
-          Verify Email
-        </Button>
-        <Button
-          type="submit"
-          className="text-green-500"
-          disabled={!verifyEmailMutation.isSuccess || signUpMutation.isPending}
-        >
-          Sign Up
-        </Button>
-      </form>
-    </div>
+          <Button
+            className="text-green-500"
+            disabled={
+              verifyEmailMutation.isPending || verifyEmailMutation.isSuccess
+            }
+            onClick={(e) => {
+              // prevent actual form submission
+              e.preventDefault();
+              // Send the email verification email
+              verifyEmailMutation.mutate({
+                email,
+              });
+            }}
+          >
+            Verify Email
+          </Button>
+          <Button
+            type="submit"
+            className="text-green-500"
+            disabled={
+              !verifyEmailMutation.isSuccess || signUpMutation.isPending
+            }
+          >
+            Sign Up
+          </Button>
+        </form>
+      </div>
+    </FormProvider>
   );
 }
