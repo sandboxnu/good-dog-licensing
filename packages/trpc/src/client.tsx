@@ -1,6 +1,5 @@
 "use client";
 
-import type { TRPCClientErrorLike } from "@trpc/client";
 import { useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
@@ -13,8 +12,6 @@ import type { AppRouter } from "./internal/router";
 import { QueryClientFactory } from "./internal/query-client-factory";
 
 export const trpc = createTRPCReact<AppRouter>();
-
-export type TRPCErrorLike = TRPCClientErrorLike<AppRouter>;
 
 const getQueryClient = () => {
   if (typeof window === "undefined") {

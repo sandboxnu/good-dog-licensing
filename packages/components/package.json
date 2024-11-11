@@ -4,10 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    "./*": [
-      "./src/*.tsx",
-      "./src/*.ts"
-    ]
+    "./*": "./src/*.tsx",
+    "./registration": "./src/registration/index.tsx"
   },
   "license": "MIT",
   "scripts": {

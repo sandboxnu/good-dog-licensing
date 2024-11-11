@@ -61,7 +61,7 @@ export default function SignUpForm() {
 
   const signUpMutation = trpc.signUp.useMutation({
     onSuccess: () => {
-      router.push("/onboard");
+      router.push("/onboarding");
     },
     onError: (err) => {
       // Set server error as an error on the form
@@ -84,6 +84,8 @@ export default function SignUpForm() {
   const onSubmitSignUp = signUpForm.handleSubmit((values) => {
     signUpMutation.mutate(values);
   });
+
+  const email = signUpForm.watch("email");
 
   return (
     <div>
@@ -167,7 +169,7 @@ export default function SignUpForm() {
             // Send the email verification email
             // Should disable the email Input permanently
             verifyEmailMutation.mutate({
-              email: signUpForm.getValues().email,
+              email,
             });
           }}
         >
@@ -176,7 +178,7 @@ export default function SignUpForm() {
         <Button
           type="submit"
           className="text-green-500"
-          disabled={!verifyEmailMutation.isSuccess}
+          disabled={!verifyEmailMutation.isSuccess || signUpMutation.isPending}
         >
           Sign Up
         </Button>

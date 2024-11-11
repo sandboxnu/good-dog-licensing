@@ -6,7 +6,8 @@
   "exports": {
     "./client": "./src/client.tsx",
     "./server": "./src/server.ts",
-    "./next": "./src/handler.ts"
+    "./next": "./src/handler.ts",
+    "./utils": "./src/utils.ts"
   },
   "license": "MIT",
   "scripts": {
@@ -33,6 +34,7 @@
     "@trpc/client": "11.0.0-rc.544",
     "@trpc/react-query": "11.0.0-rc.544",
     "@trpc/server": "11.0.0-rc.544",
+    "next": "14.2.12",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "server-only": "^0.0.1",

@@ -64,8 +64,12 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
       },
       include: {
         user: {
-          omit: {
-            hashedPassword: true,
+          select: {
+            userId: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            role: true,
           },
         },
       },
