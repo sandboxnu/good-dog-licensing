@@ -6,7 +6,7 @@ import { notAuthenticatedProcedureBuilder } from "../internal/init";
 import { generateSixDigitCode } from "@good-dog/email/email-service";
 import { sendEmailVerification } from "@good-dog/email/verification-email";
 
-// click forgot passwd -> enter email -> receive email with code -> enter code -> enter new passwd
+// click forgot passwd -> enter email -> receive email with code -> enter code & new passwd
 
 const getNewEmailVerificationCodeExpirationDate = () =>
   new Date(Date.now() + 60_000 * 15);
@@ -68,7 +68,7 @@ export const sendForgotPasswordEmailProcedure = notAuthenticatedProcedureBuilder
     };
   });
 
-// when the code is successfully verified,
+// when the user clicks the link in the email, they are taken to a page where they can enter the code and new password.
 export const confirmedPasswordResetProcedure = notAuthenticatedProcedureBuilder
   .input(
     z.object({
