@@ -39,7 +39,7 @@ export default function OnboardingFormProvider<
   const onboardingForm = useForm<BaseValues>({
     resolver: zodResolver(props.schema),
     defaultValues: {
-      role: "MEDIA_MAKER",
+      role: props.role,
       firstName: props.firstName,
       lastName: props.lastName,
     },

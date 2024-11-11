@@ -150,7 +150,6 @@ const GroupMemberForm = () => {
           groupMembersFieldArray.append({
             firstName: "",
             lastName: "",
-            stageName: "",
             email: "",
           })
         }

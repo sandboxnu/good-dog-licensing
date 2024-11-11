@@ -18,6 +18,7 @@ export default function OnboardingFormSwitcher(
   const [isChecked, setIsChecked] = useState(true);
 
   const roleName = isChecked ? "Musician" : "Media Maker";
+  const FormComponent = isChecked ? MusicianForm : MediaMakerForm;
 
   return (
     <main>
@@ -34,7 +35,7 @@ export default function OnboardingFormSwitcher(
           onCheckedChange={setIsChecked}
         />
       </div>
-      {isChecked ? <MediaMakerForm {...props} /> : <MusicianForm {...props} />}
+      <FormComponent {...props} />
     </main>
   );
 }

@@ -96,7 +96,7 @@ export default function SignUpForm() {
       <div>
         <EmailVerifyModal
           isOpen={verifyEmailMutation.data?.status === "EMAIL_SENT"}
-          email={signUpForm.getValues().email}
+          email={email}
         />
         <form onSubmit={onSubmitSignUp} className="text-white">
           <TypedRegistrationInput

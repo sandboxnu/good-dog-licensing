@@ -1,6 +1,5 @@
 import {
   deleteAccountProcedure,
-  onboardingProcedure,
   signInProcedure,
   signOutProcedure,
   signUpProcedure,
@@ -9,6 +8,7 @@ import {
   confirmEmailProcedure,
   sendEmailVerificationProcedure,
 } from "../procedures/email-verification";
+import { onboardingProcedure } from "../procedures/onboarding";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
