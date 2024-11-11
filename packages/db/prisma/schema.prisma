@@ -74,3 +74,12 @@ model EmailVerificationCode {
   updatedAt      DateTime @updatedAt
   expiresAt      DateTime
 }
+
+model PasswordResetCode {
+  email          String   @id
+  newHashedPassword       String
+  code           String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  expiresAt      DateTime
+}
