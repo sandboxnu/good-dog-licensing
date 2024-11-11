@@ -19,7 +19,6 @@ export const sendForgotPasswordEmailProcedure = notAuthenticatedProcedureBuilder
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    // Check if there is already an email verification code for the given email
     const user = await ctx.prisma.user.findUnique({
       where: {
         email: input.email,
