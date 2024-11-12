@@ -98,7 +98,7 @@ describe("get user", () => {
     ]);
   });
 
-  test("Throws FORBIDDEN error when user has already onboarded", async () => {
+  test("Throws FORBIDDEN error when user has already onboarded", () => {
     cookies.set("sessionId", "isabelle-session-id");
 
     expect(
