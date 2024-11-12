@@ -43,11 +43,7 @@ export default function SignInForm() {
 
   return (
     <FormProvider {...signInForm}>
-      <form
-        onSubmit={onSubmit}
-        className="text-white"
-        data-testid="sign-in-form"
-      >
+      <form onSubmit={onSubmit} data-testid="sign-in-form">
         <TypedRegistrationInput
           fieldName="email"
           type="email"

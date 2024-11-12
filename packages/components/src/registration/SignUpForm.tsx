@@ -98,7 +98,7 @@ export default function SignUpForm() {
           isOpen={verifyEmailMutation.data?.status === "EMAIL_SENT"}
           email={email}
         />
-        <form onSubmit={onSubmitSignUp} className="text-white">
+        <form onSubmit={onSubmitSignUp}>
           <TypedRegistrationInput
             fieldName="email"
             type="email"
