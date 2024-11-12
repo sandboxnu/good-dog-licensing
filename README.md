@@ -11,28 +11,32 @@ This repository is a monorepo for the Good Dog Licensing project, managed with T
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
     - [Running Scripts](#running-scripts)
+    - [Testing](#testing)
 
 ## Structure
 
 The repository is organized as follows:
 
 - **apps/**: Contains the main applications.
-  - **db/**: Database-related scripts and configurations.
   - **web/**: The web application built with Next.js.
 - **packages/**: Contains shared packages.
+  - **auth/**: Authentication-related code.
+  - **components/**: Shared React components.
+  - **db/**: Database-related scripts and configurations.
+  - **email/**: Email-related utilities.
+  - **env/**: Environment variable configurations.
   - **trpc/**: tRPC-related code.
   - **ui/**: UI components and utilities.
+- **tests/**: Contains test-related files and configurations.
+  - **api/**: API tests.
+  - **frontend/**: Frontend tests.
+  - **mocks/**: Mock implementations for testing.
 - **tooling/**: Contains configuration and tooling for the project.
   - **eslint/**: ESLint configurations.
   - **github/**: GitHub Actions and workflows.
   - **prettier/**: Prettier configurations.
   - **tailwind/**: Tailwind CSS configurations.
-  - **typescript**: TypeScript configurations.
-- **.vscode/**: Contains Visual Studio Code settings and recommended extensions.
-- **node_modules/**: Contains installed dependencies.
-- **package.json**: Contains project metadata and scripts.
-- **tsconfig.json**: Contains TypeScript configuration.
-- **README.md**: The main documentation file for the project.
+  - **typescript/**: TypeScript configurations.
 
 ## Getting Started
 
@@ -93,3 +97,7 @@ The following scripts are available in the root `package.json`:
 - `generate:package`: Generate a new package.
 - `env:setup`: Setup the default env vars
 - `bun test`: Run the test suites
+
+### Testing
+
+You can run the entire test suite using `bun test` or run the tests for a specific entrypoint, `bun test <file-path>`. To filter tests by name, use `bun test <file-path> -t <test-name>`. For example, to run all tests for the `frontend` folder, you can run `bun test frontend`.
