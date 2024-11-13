@@ -93,3 +93,23 @@ The following scripts are available in the root `package.json`:
 - `generate:package`: Generate a new package.
 - `env:setup`: Setup the default env vars
 - `bun test`: Run the test suites
+
+## Tesing in Preview
+
+To test the application in a the environment, follow these steps:
+
+1. Create a PR with the changes you want to test.
+
+2. Push the changes to the branch.
+
+3. Navigate to the PR on GitHub.
+
+4. Look for the "Deploy preview ready" status check.
+
+5. If you have database migrations, click the "Actions" tab on GitHub and look for the "Apply Preview Database Migrations" workflow.
+
+   - You should see a "Run workflow" button. Click it to run the workflow. Make sure to select the correct branch.
+
+   - One the workflow is complete, you can access your preview branch with the database migrations applied
+
+   - Note that we only have one database instance for all preview branches, so if someone else runs the workflow, it may interfere with your preview branch.
