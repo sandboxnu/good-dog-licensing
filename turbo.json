@@ -61,14 +61,6 @@
       "cache": false,
       "interactive": true
     },
-    "migrate:prod": {
-      "cache": false,
-      "interactive": false
-    },
-    "migrate:check": {
-      "cache": false,
-      "interactive": false
-    },
     "studio": {
       "cache": false,
       "interactive": true
