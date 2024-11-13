@@ -19,9 +19,27 @@ jobs:
         with:
           bun-version: 1.1.27
 
-      - name: Apply Changes
+      # Generate a down migration script back to the current production database, then generate an up migration script to the current branch's migrations directory
+      # This 2-step process allows us to apply our migrations in the same way they will be applied in production
+      - name: Generate Migrations
         run: |
-          bunx prisma db push \
-            --schema=./packages/db/prisma/schema.prisma \
-            --accept-data-loss \
-            --skip-generate
+          bunx prisma migrate diff \
+            --from-url "${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}" \
+            --to-url "${{ secrets.DATABASE_PRISMA_URL }}" \
+            --script > down.sql
+
+          bunx prisma migrate diff \
+            --from-url "${{ secrets.DATABASE_PRISMA_URL }}" \
+            --to-migrations "./packages/db/prisma/migrations" \
+            --shadow-database-url postgres://user:password@localhost:5432/shadow_db \
+            --script > up.sql
+
+      - name: Apply Migrations
+        run: |
+          bunx prisma db execute \
+            --file down.sql \
+            --url "${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}"
+
+          bunx prisma db execute \
+            --file up.sql \
+            --url "${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}"
