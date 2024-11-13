@@ -2,7 +2,6 @@ name: Apply Preview Database Migrations
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   apply-preview-migrations:
