@@ -27,12 +27,9 @@ jobs:
         with:
           bun-version: 1.1.27
 
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
-
       - name: Check migrations
         run: |
-          bun prisma migrate diff \
+          bunx prisma migrate diff \
           --exit-code \
           --from-migrations ./packages/db/prisma/migrations \
           --to-schema-datamodel ./packages/db/prisma/schema.prisma \
