@@ -1,7 +1,6 @@
 name: Apply Preview Database Migrations
 
 on:
-  pull_request:
   workflow_dispatch:
 
 jobs:
