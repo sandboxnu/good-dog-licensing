@@ -36,12 +36,12 @@ jobs:
       - name: Generate Migrations
         run: |
           bun prisma migrate diff \
-            --from-url ${{ secrets.PREVIEW_DATABASE_PRISMA_URL }} \
-            --to-url ${{ secrets.DATABASE_PRISMA_URL }} \
+            --from-url "${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}" \
+            --to-url "${{ secrets.DATABASE_PRISMA_URL }}" \
             --script > down.sql
 
           bun prisma migrate diff \
-            --from-url ${{ secrets.DATABASE_PRISMA_URL }} \
+            --from-url "${{ secrets.DATABASE_PRISMA_URL }}" \
             --to-migrations "./packages/db/prisma/migrations" \
             --shadow-database-url postgres://user:password@localhost:5432/shadow_db \
             --script > up.sql
@@ -50,8 +50,8 @@ jobs:
         run: |
           bun prisma db execute \
             --file down.sql \
-            --url ${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}
+            --url "${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}"
 
           bun prisma db execute \
             --file up.sql \
-            --url ${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}
+            --url "${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}"
