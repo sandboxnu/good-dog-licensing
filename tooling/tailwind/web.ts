@@ -18,21 +18,15 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
+        righteous: ["Righteous"],
+      },
+      fontSize: {
+        "10xl": "150px",
+        "8.5xl": "112px",
+        "7xl": "72px",
+        "4xl": "48px",
       },
       colors: {
-        "good-dog-gray-100": "#DDE8F0",
-        "good-dog-gray-200": "#64748B",
-        "good-dog-blue-800": "#5A9478",
-        "good-dog-blue-700": "#1D679C",
-        "good-dog-blue-600": "#436F8E",
-        "good-dog-blue-400": "#5E8BAB",
-        "good-dog-blue-200": "#DEEAF8",
-        "good-dog-yellow-300": "#FFBF47",
-        "good-dog-yellow-500": "#FFA400",
-        "good-dog-yellow-600": "#AFA800",
-        "good-dog-pink-500": "#EA8FBA",
-        "good-dog-green-500": "#619518",
-        "good-dog-red-500": "#F05833",
         "good-dog-violet": "#0D0039",
         "good-dog-teal": "#538687",
         "good-dog-pale-yellow": "#F6F8DE",

@@ -9,11 +9,4 @@ import baseConfig from "@good-dog/tailwind/web";
 export default {
   content: ["./src/**/*.{ts,tsx}"],
   presets: [baseConfig],
-  theme: {
-    extend: {
-      fontSize: {
-        "10xl": "150px",
-      },
-    },
-  },
 } satisfies Config;

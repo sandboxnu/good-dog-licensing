@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 const CreatorData = [
@@ -18,24 +18,19 @@ const CreatorData = [
 
 export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
   // const [visible, setVisible] = useState(true); // commented out code is an attempt to animate the content
-  const [reverseLayout, setReverseLayout] = useState(
-    creator === "MUSICIANS" ? true : false,
-  );
+  const reverseLayout = creator === "MUSICIANS";
   const creatorObj = CreatorData.find(
     (creatorObj) => creatorObj.creatorType === creator,
   );
 
-  useEffect(() => {
-    // commented out code is an attempt to animate the content
-    // setVisible(false);
-    // const timer = setTimeout(() => {
-    setReverseLayout(creator === "MUSICIANS");
+  // commented out code is an attempt to animate the content, used to be in a useEffect
+  // setVisible(false);
+  // const timer = setTimeout(() => {
 
-    // setVisible(true);
-    // }, 500); // Duration of the fade-out transition
+  // setVisible(true);
+  // }, 500); // Duration of the fade-out transition
 
-    // return () => clearTimeout(timer);
-  }, [creator]);
+  // return () => clearTimeout(timer);
 
   return (
     <div className={`flex flex-row ${reverseLayout ? "flex-row-reverse" : ""}`}>
