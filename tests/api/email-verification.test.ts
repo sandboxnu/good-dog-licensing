@@ -126,6 +126,7 @@ describe("email-verification", () => {
       expect(response.message).toEqual(
         "Email verification code sent to damian@gmail.com",
       );
+      expect(response.status).toEqual("EMAIL_SENT");
 
       await cleanupEmailVerificationCode();
     });
@@ -133,11 +134,14 @@ describe("email-verification", () => {
     test("Email is already in database (verified)", async () => {
       await createEmailVerificationCode(true);
 
-      expect(
-        $trpcCaller.sendEmailVerification({
-          email: "damian@gmail.com",
-        }),
-      ).rejects.toThrow("Email already verified");
+      const response = await $trpcCaller.sendEmailVerification({
+        email: "damian@gmail.com",
+      });
+
+      expect(response.message).toEqual(
+        "Email damian@gmail.com has already been verified",
+      );
+      expect(response.status).toEqual("ALREADY_VERIFIED");
 
       expect(mockEmails.setApiKey).not.toBeCalled();
       expect(mockEmails.send).not.toBeCalled();
@@ -223,7 +227,7 @@ describe("email-verification", () => {
       expect(emailVerificationCode?.emailConfirmed).toEqual(false);
       expect(emailVerificationCode?.expiresAt).not.toEqual(expiredDate);
 
-      expect(response.type).toEqual("RESENT");
+      expect(response.status).toEqual("RESENT");
 
       await cleanupEmailVerificationCode();
     });

@@ -16,23 +16,28 @@ datasource db {
 }
 
 enum Role {
+  ONBOARDING
   MUSICIAN
   MEDIA_MAKER
   ADMIN
 }
 
 model User {
-  userId         String        @id @default(uuid()) @map("id")
-  email          String        @unique
-  firstName      String
-  lastName       String
-  hashedPassword String        @map("password")
-  role           Role
-  groups         Group[]
-  sessions       Session[]
-  sentInvites    GroupInvite[]
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
+  userId            String        @id @default(uuid()) @map("id")
+  email             String        @unique
+  hashedPassword    String        @map("password")
+  firstName         String
+  lastName          String
+  stageName         String?
+  role              Role
+  isSongWriter      Boolean       @default(false)
+  isAscapAffiliated Boolean       @default(false)
+  isBmiAffiliated   Boolean       @default(false)
+  groups            Group[]
+  sessions          Session[]
+  sentInvites       GroupInvite[]
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 }
 
 model Session {
@@ -53,15 +58,20 @@ model Group {
 }
 
 model GroupInvite {
-  inviteId     String   @default(cuid()) @map("id")
-  groupId      String
-  intitiatorId String
-  email        String
-  firstName    String
-  lastName     String
-  group        Group    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  intitiator   User     @relation(fields: [intitiatorId], references: [userId], onDelete: Cascade)
-  createdAt    DateTime @default(now())
+  inviteId          String   @default(cuid()) @map("id")
+  groupId           String
+  intitiatorId      String
+  email             String
+  firstName         String
+  lastName          String
+  stageName         String?
+  role              Role
+  isSongWriter      Boolean  @default(false)
+  isAscapAffiliated Boolean  @default(false)
+  isBmiAffiliated   Boolean  @default(false)
+  group             Group    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  intitiator        User     @relation(fields: [intitiatorId], references: [userId], onDelete: Cascade)
+  createdAt         DateTime @default(now())
 
   @@unique([groupId, email])
 }

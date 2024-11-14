@@ -6,6 +6,6 @@
     "types": ["bun", "react/canary"],
     "jsx": "preserve"
   },
-  "include": ["**/*.test.ts", "**/*.ts"],
+  "include": ["**/*.tsx", "**/*.ts"],
   "exclude": ["node_modules"]
 }
