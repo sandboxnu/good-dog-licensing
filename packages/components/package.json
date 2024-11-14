@@ -4,10 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    "./*": [
-      "./src/*.tsx",
-      "./src/*.ts"
-    ]
+    "./*": "./src/*.tsx",
+    "./registration": "./src/registration/index.tsx"
   },
   "license": "MIT",
   "scripts": {
@@ -17,9 +15,12 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@good-dog/trpc": "workspace:*",
+    "@hookform/resolvers": "^3.9.1",
     "next": "14.2.12",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-horizontal-scrolling-menu": "7.1.1"
   },
   "devDependencies": {
     "@good-dog/eslint": "workspace:*",
@@ -28,7 +29,12 @@
     "eslint": "9.10.0",
     "prettier": "3.2.5",
     "tailwindcss": "3.4.12",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "zod": "3.23.8"
+  },
+  "peerDependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "prettier": "@good-dog/prettier"
 }

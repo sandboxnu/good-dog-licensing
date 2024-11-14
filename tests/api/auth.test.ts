@@ -106,7 +106,6 @@ describe("auth", () => {
       const response = await $trpcCaller.signUp({
         firstName: "Damian",
         lastName: "Smith",
-        role: "MEDIA_MAKER",
         email: "damian@gmail.com",
         password: "password123",
       });
@@ -135,7 +134,6 @@ describe("auth", () => {
         await $trpcCaller.signUp({
           firstName: "Damian",
           lastName: "Smith",
-          role: "MEDIA_MAKER",
           email: "damian@gmail.com",
           password: "password123",
         });
@@ -153,7 +151,6 @@ describe("auth", () => {
         await $trpcCaller.signUp({
           firstName: "Damian",
           lastName: "Smith",
-          role: "MEDIA_MAKER",
           email: "damian@gmail.com",
           password: "password123",
         });
@@ -214,7 +211,6 @@ describe("auth", () => {
         $trpcCaller.signUp({
           firstName: "Damian",
           lastName: "Smith",
-          role: "MEDIA_MAKER",
           email: "damian@gmail.com",
           password: "password123",
         }),

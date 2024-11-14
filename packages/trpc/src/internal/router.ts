@@ -8,7 +8,11 @@ import {
   confirmEmailProcedure,
   sendEmailVerificationProcedure,
 } from "../procedures/email-verification";
-import { getAuthenticatedUserProcedure } from "../procedures/user";
+import { onboardingProcedure } from "../procedures/onboarding";
+import {
+  getAuthenticatedUserProcedure,
+  getUserProcedure,
+} from "../procedures/user";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
@@ -17,8 +21,10 @@ export const appRouter = createTRPCRouter({
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
+  onboarding: onboardingProcedure,
   deleteAccount: deleteAccountProcedure,
-  user: getAuthenticatedUserProcedure,
+  authenticatedUser: getAuthenticatedUserProcedure,
+  user: getUserProcedure,
 });
 
 export type AppRouter = typeof appRouter;
