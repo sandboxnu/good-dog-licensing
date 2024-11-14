@@ -139,7 +139,7 @@ const ProjectGallery = () => {
 
   return (
     <div className="pb-32">
-      <h2 className="font-righteous m-16 text-4xl text-good-dog-pale-yellow">
+      <h2 className="m-16 font-righteous text-4xl text-good-dog-pale-yellow">
         Project Gallery:
       </h2>
       <div

@@ -33,7 +33,7 @@ export default function LandingSubmission({
         <div className="pt-12">
           <a href="/submit">
             <div
-              className="font-righteous rounded-full bg-good-dog-celadon px-4 py-1 font-semibold text-good-dog-violet"
+              className="rounded-full bg-good-dog-celadon px-4 py-1 font-righteous font-semibold text-good-dog-violet"
               style={{ width: "fit-content" }}
             >
               {button}

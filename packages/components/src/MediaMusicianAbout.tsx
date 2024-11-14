@@ -15,7 +15,7 @@ export default function MediaMusicianAbout() {
 
   return (
     <div className="py-20">
-      <div className="font-righteous mb-9 flex flex-row justify-center">
+      <div className="mb-9 flex flex-row justify-center font-righteous">
         <button
           className={`rounded-l-full border px-4 ${selectedCreator === "MEDIA MAKERS" ? `border-good-dog-celadon bg-good-dog-celadon text-good-dog-violet` : `border-good-dog-pale-yellow text-good-dog-pale-yellow`}`}
           onClick={() => setSelectedCreator("MEDIA MAKERS")}
