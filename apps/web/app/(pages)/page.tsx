@@ -7,7 +7,7 @@ import ProjectGallery from "@good-dog/components/ProjectGallery";
 export default function Home() {
   const Splash = () => {
     return (
-      <div style={{ paddingTop: "10vh", paddingBottom: "15rem" }}>
+      <div className="pb-60 pt-36">
         <Image
           src="/icons/Good Dog With Logo.svg"
           width={789}
@@ -15,10 +15,7 @@ export default function Home() {
           alt="good-dog-logo"
           style={{ margin: "auto", display: "block", marginBottom: "2.5rem" }}
         />
-        <div
-          className="font-righteous font-semibold text-good-dog-violet"
-          style={{ margin: "auto", width: "fit-content" }}
-        >
+        <div className="font-righteous m-auto w-fit font-semibold text-good-dog-violet">
           <a href="/submit">
             <div className="rounded-full bg-good-dog-celadon px-4 py-1">
               SUBMIT A BRIEF
