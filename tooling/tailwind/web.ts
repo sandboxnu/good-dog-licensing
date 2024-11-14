@@ -24,7 +24,7 @@ export default {
         "10xl": "150px",
         "8.5xl": "112px",
         "7xl": "72px",
-        "4xl": "48px",
+        "4.1xl": "48px",
       },
       colors: {
         "good-dog-violet": "#0D0039",
