@@ -22,14 +22,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: 1.1.27
+      - uses: ./.github/actions/setup-bun
 
       - name: Check migrations
         run: |
-          bunx prisma migrate diff \
+          bun prisma migrate diff \
           --exit-code \
           --from-migrations ./packages/db/prisma/migrations \
           --to-schema-datamodel ./packages/db/prisma/schema.prisma \

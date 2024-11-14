@@ -1,5 +1,5 @@
 name: "Setup and install"
-description: "Common setup steps for Actions"
+description: "Setup and install Bun"
 
 runs:
   using: composite
