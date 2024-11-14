@@ -3,8 +3,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-import "react-horizontal-scrolling-menu/dist/styles.css";
-
 //commented out scroll logic to handle scrolling with touchpad vs mouse (broken) - tracy and sanjana
 
 //import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";

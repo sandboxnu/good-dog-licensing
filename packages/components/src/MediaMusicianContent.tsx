@@ -73,7 +73,7 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
         >
           {creator}
         </h1>
-        <p style={{ paddingTop: "3vh" }} className="text-white">
+        <p className="py-8 text-white">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
           pharetra lacus sit amet turpis suscipit, eget convallis elit
           condimentum. Etiam ac tortor ac lectus scelerisque mollis. Fusce
@@ -82,12 +82,9 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
           molestie euismod mollis, sapien nisi aliquet diam, vitae porta augue
           lacus eget elit. Mauris diam.
         </p>
-        <div className="m-16 flex items-center justify-center">
+        <div className="m-12 flex items-center justify-center">
           <a href="/submit">
-            <div
-              className="font-righteous rounded-full bg-good-dog-celadon px-4 py-1 font-semibold text-good-dog-violet"
-              style={{ width: "fit-content" }}
-            >
+            <div className="rounded-full bg-good-dog-celadon px-4 py-1 font-righteous font-semibold text-good-dog-violet">
               {creatorObj?.buttonText}
             </div>
           </a>
