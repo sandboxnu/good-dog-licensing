@@ -3,8 +3,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-import "react-horizontal-scrolling-menu/dist/styles.css";
-
 //commented out scroll logic to handle scrolling with touchpad vs mouse (broken) - tracy and sanjana
 
 //import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
@@ -61,7 +59,7 @@ import "react-horizontal-scrolling-menu/dist/styles.css";
 
 const ProjectCard = () => {
   return (
-    <div style={{ display: "inline-block", paddingRight: "2rem" }}>
+    <div className="inline-block pr-8">
       <Image
         src="/icons/Project_Leaf.svg"
         alt="project background"
@@ -140,28 +138,20 @@ const ProjectGallery = () => {
   }, [isMouse, handleWheelScroll]);
 
   return (
-    <div style={{ paddingBottom: "8rem" }}>
-      <h2
-        className="font-righteous text-good-dog-pale-yellow"
-        style={{ fontSize: "40px", margin: "4rem" }}
-      >
+    <div className="pb-32">
+      <h2 className="m-16 font-righteous text-4xl text-good-dog-pale-yellow">
         Project Gallery:
       </h2>
       <div
-        className="scroll-container scroll-smooth"
-        style={{
-          overflowY: "hidden",
-          overflowX: "scroll",
-          whiteSpace: "nowrap",
-          scrollbarWidth: "none",
-        }}
+        style={{ scrollbarWidth: "none" }}
+        className="scroll-container overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap"
         ref={scrollContainerRef}
       >
         {items.map((index) => (
           <div
             key={index}
+            className="inline-block"
             style={{
-              display: "inline-block",
               marginLeft: index === 0 ? "4rem" : "0",
             }}
           >
