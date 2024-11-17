@@ -21,7 +21,7 @@ enum Role {
   ADMIN
 }
 
-model User {
+model  User {
   userId         String        @id @default(uuid()) @map("id")
   email          String        @unique
   firstName      String
