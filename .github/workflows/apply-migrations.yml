@@ -8,11 +8,14 @@ on:
 jobs:
   migrate:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_PRISMA_URL: ${{ secrets.DATABASE_PRISMA_URL }}
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/bun
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-bun
 
       - name: Apply Migrations
-        env:
-          DATABASE_PRISMA_URL: ${{ secrets.DATABASE_PRISMA_URL }}
-        run: bun db:migrate:prod
+        run: bun prisma migrate deploy --schema=./packages/db/prisma/schema.prisma

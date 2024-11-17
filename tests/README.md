@@ -14,3 +14,7 @@ Example usage:
 cookies.set("myKey", "myValue");
 cookies.apply();
 ... rest of your test</pre>
+
+## Running Tests
+
+You can run the entire test suite using `bun test` or run the tests for a specific entrypoint, `bun test <file-path>`. To filter tests by name, use `bun test <file-path> -t <test-name>`. For example, to run all tests for the `frontend` folder, you can run `bun test frontend`.

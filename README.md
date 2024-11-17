@@ -11,7 +11,8 @@ This repository is a monorepo for the Good Dog Licensing project, managed with T
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
     - [Running Scripts](#running-scripts)
-    - [Testing](#testing)
+  - [Running Tests](#running-tests)
+  - [Tesing in Preview](#tesing-in-preview)
 
 ## Structure
 
@@ -98,6 +99,26 @@ The following scripts are available in the root `package.json`:
 - `env:setup`: Setup the default env vars
 - `bun test`: Run the test suites
 
-### Testing
+## Running Tests
 
 You can run the entire test suite using `bun test` or run the tests for a specific entrypoint, `bun test <file-path>`. To filter tests by name, use `bun test <file-path> -t <test-name>`. For example, to run all tests for the `frontend` folder, you can run `bun test frontend`.
+
+## Tesing in Preview
+
+To test the application in a the environment, follow these steps:
+
+1. Create a PR with the changes you want to test.
+
+2. Push the changes to the branch.
+
+3. Navigate to the PR on GitHub.
+
+4. Look for the "Deploy preview ready" status check.
+
+5. If you have database migrations, click the "Actions" tab on GitHub and look for the "Apply Preview Database Migrations" workflow.
+
+   - You should see a "Run workflow" button. Click it to run the workflow. Make sure to select the correct branch.
+
+   - One the workflow is complete, you can access your preview branch with the database migrations applied
+
+   - Note that we only have one database instance for all preview branches, so if someone else runs the workflow, it may interfere with your preview branch.
