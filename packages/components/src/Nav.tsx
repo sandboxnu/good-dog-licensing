@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Nav() {
   return (
-    <nav className="font-righteous items-center bg-good-dog-violet px-9 py-12 font-semibold">
+    <nav className="items-center bg-good-dog-violet px-9 py-12 font-righteous font-semibold">
       <ul className="flex flex-row justify-between text-white">
         <li>
           <a href="/">

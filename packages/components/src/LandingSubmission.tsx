@@ -25,24 +25,15 @@ export default function LandingSubmission({
         height={492}
         className={imageFlipClasses}
       />
-      <div
-        className="grid justify-items-start"
-        style={{
-          paddingTop: "10vh",
-          paddingLeft: "10vh",
-          paddingRight: "10vh",
-        }}
-      >
+      <div className="grid justify-items-start px-24 pt-24">
         <h1 className="font-righteous text-5xl text-good-dog-pale-yellow">
           {title}
         </h1>
-        <p style={{ paddingTop: "3vh" }} className="text-white">
-          {description}
-        </p>
-        <div style={{ paddingTop: "5vh" }}>
+        <p className="pt-8 text-white">{description}</p>
+        <div className="pt-12">
           <a href="/submit">
             <div
-              className="font-righteous rounded-full bg-good-dog-celadon px-4 py-1 font-semibold text-good-dog-violet"
+              className="rounded-full bg-good-dog-celadon px-4 py-1 font-righteous font-semibold text-good-dog-violet"
               style={{ width: "fit-content" }}
             >
               {button}

@@ -4,7 +4,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { notAuthenticatedProcedureBuilder } from "../internal/init";
 import { generateSixDigitCode } from "@good-dog/email/email-service";
-import { sendEmailVerification } from "@good-dog/email/verification-email";
+import { sendPasswordResetEmail } from "@good-dog/email/password-reset-email";
 
 // click forgot passwd -> enter email -> receive email with code -> enter code & new passwd
 
@@ -32,11 +32,21 @@ export const sendForgotPasswordEmailProcedure = notAuthenticatedProcedureBuilder
       });
     }
 
-    // Send email. If sending fails, throw error.
-    const emailCode = generateSixDigitCode();
+    // create reset reques. if it exists then delete then create a new one
+    const pwdResetReq = await ctx.prisma.passwordResetReq.create({
+      data: {
+        user: {
+          connect: {
+            userId: user.userId,
+          }
+        },
+        expiresAt: getNewEmailVerificationCodeExpirationDate(),
+      },
+    });
 
     try {
-      await sendEmailVerification(input.email, emailCode);
+      //await sendEmailVerification(input.email, emailCode);
+      await sendPasswordResetEmail(input.email,);
     } catch (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
@@ -116,4 +126,3 @@ export const confirmedPasswordResetProcedure = notAuthenticatedProcedureBuilder
       message: "Code verified",
     };
   });
-

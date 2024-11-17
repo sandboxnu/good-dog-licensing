@@ -76,26 +76,26 @@ describe("middleware", () => {
 
   describe("authenticatedProcedure", () => {
     it("should reject with no session id", () => {
-      expect($trpcCaller.user()).rejects.toMatchObject({
+      expect($trpcCaller.authenticatedUser()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });
 
     it("should reject bad session id", () => {
       cookies.set("sessionId", "XXX");
-      expect($trpcCaller.user()).rejects.toMatchObject({
+      expect($trpcCaller.authenticatedUser()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });
 
     it("should accept valid session id", () => {
       cookies.set("sessionId", "middleware-test-session");
-      expect($trpcCaller.user()).resolves.toBeTruthy();
+      expect($trpcCaller.authenticatedUser()).resolves.toBeTruthy();
     });
 
     it("should reject expired session id", () => {
       cookies.set("sessionId", "middleware-test-session-expired");
-      expect($trpcCaller.user()).rejects.toMatchObject({
+      expect($trpcCaller.authenticatedUser()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });

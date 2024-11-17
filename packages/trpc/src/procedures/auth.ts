@@ -17,32 +17,31 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     z.object({
       firstName: z.string(),
       lastName: z.string(),
-      role: z.enum(["MEDIA_MAKER", "MUSICIAN"]),
       email: z.string().email(),
       password: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    // Throw error if email is not verified
-    const emailVerificationCode =
-      await ctx.prisma.emailVerificationCode.findUnique({
+    const [emailVerificationCode, existingUserWithEmail] = await Promise.all([
+      ctx.prisma.emailVerificationCode.findUnique({
         where: {
           email: input.email,
         },
-      });
+      }),
+      ctx.prisma.user.findUnique({
+        where: {
+          email: input.email,
+        },
+      }),
+    ]);
 
+    // Throw error if email is not verified
     if (!emailVerificationCode?.emailConfirmed) {
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "Email has not been verified.",
       });
     }
-
-    const existingUserWithEmail = await ctx.prisma.user.findUnique({
-      where: {
-        email: input.email,
-      },
-    });
 
     if (existingUserWithEmail) {
       throw new TRPCError({
@@ -53,23 +52,30 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
 
     const hashedPassword = await hashPassword(input.password);
 
-    const userWithSession = await ctx.prisma.user.create({
-      data: {
-        firstName: input.firstName,
-        lastName: input.lastName,
-        role: input.role,
-        email: input.email,
-        hashedPassword: hashedPassword,
-        sessions: {
-          create: {
-            expiresAt: getNewSessionExpirationDate(),
+    const [userWithSession] = await ctx.prisma.$transaction([
+      ctx.prisma.user.create({
+        data: {
+          firstName: input.firstName,
+          lastName: input.lastName,
+          role: "ONBOARDING",
+          email: input.email,
+          hashedPassword: hashedPassword,
+          sessions: {
+            create: {
+              expiresAt: getNewSessionExpirationDate(),
+            },
           },
         },
-      },
-      select: {
-        sessions: true,
-      },
-    });
+        select: {
+          sessions: true,
+        },
+      }),
+      ctx.prisma.emailVerificationCode.delete({
+        where: {
+          email: input.email,
+        },
+      }),
+    ]);
 
     const session = userWithSession.sessions[0];
 
