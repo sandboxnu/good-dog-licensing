@@ -50,6 +50,7 @@ export const createCallerFactory = t.createCallerFactory;
 
 // Procedure builders
 export const baseProcedureBuilder = t.procedure;
+
 export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
     const sessionId = getSessionCookie();
@@ -88,6 +89,15 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
     });
   },
 );
+
+export const adminAuthenticatedProcedureBuilder =
+  authenticatedProcedureBuilder.use(async ({ ctx, next }) => {
+    if (ctx.session.user.role !== "ADMIN") {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    return next();
+  });
 
 // This middleware is used to prevent authenticated users from accessing a resource
 export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
