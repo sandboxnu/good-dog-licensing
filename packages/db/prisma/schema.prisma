@@ -34,9 +34,7 @@ model User {
   isAscapAffiliated Boolean       @default(false)
   isBmiAffiliated   Boolean       @default(false)
   groups            Group[]
-  
-  passwordResetId PasswordResetReq?
-
+  passwordResetReq  PasswordResetReq?
   sessions          Session[]
   sentInvites       GroupInvite[]
   createdAt         DateTime      @default(now())
@@ -91,9 +89,6 @@ model EmailVerificationCode {
 model PasswordResetReq {
   passwordResetId       String   @id @default(cuid())
   user                  User     @relation(fields: [passwordResetId], references: [userId], onDelete: Cascade)
-  // newHashedPassword     String
-  // code                  String
   createdAt             DateTime @default(now())
-  // updatedAt             DateTime @updatedAt
   expiresAt             DateTime
 }
