@@ -1,23 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { trpc } from "@good-dog/trpc/client";
 
 export default function Nav() {
-  const [user] = trpc.user.useSuspenseQuery();
+  const userQuery = trpc.user.useQuery();
   const signOutMutation = trpc.signOut.useMutation({
     onSuccess: () => {
       window.location.reload();
     },
   });
 
-  // TODO: remove this eventually, useful for debugging
   useEffect(() => {
-    console.log(user);
-  }, [user]);
+    console.log(userQuery.data);
+  }, [userQuery.data]);
 
   return (
     <nav className="items-center bg-good-dog-violet px-9 py-12 font-righteous font-semibold">
@@ -36,7 +35,7 @@ export default function Nav() {
           <li>
             <Link href="/about">ABOUT US</Link>
           </li>
-          {user ? (
+          {userQuery.data ? (
             <>
               <li>
                 <Link href="/profile">PROFILE</Link>
