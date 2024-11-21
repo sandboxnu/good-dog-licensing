@@ -7,7 +7,7 @@ import Link from "next/link";
 import { trpc } from "@good-dog/trpc/client";
 
 export default function Nav() {
-  const userQuery = trpc.user.useQuery();
+  const [user] = trpc.user.useSuspenseQuery();
   const signOutMutation = trpc.signOut.useMutation({
     onSuccess: () => {
       window.location.reload();
@@ -15,8 +15,8 @@ export default function Nav() {
   });
 
   useEffect(() => {
-    console.log(userQuery.data);
-  }, [userQuery.data]);
+    console.log(user);
+  }, [user]);
 
   return (
     <nav className="items-center bg-good-dog-violet px-9 py-12 font-righteous font-semibold">
@@ -35,7 +35,7 @@ export default function Nav() {
           <li>
             <Link href="/about">ABOUT US</Link>
           </li>
-          {userQuery.data ? (
+          {user ? (
             <>
               <li>
                 <Link href="/profile">PROFILE</Link>
