@@ -1,32 +1,66 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+
+import { trpc } from "@good-dog/trpc/client";
 
 export default function Nav() {
+  const [user] = trpc.user.useSuspenseQuery();
+  const signOutMutation = trpc.signOut.useMutation({
+    onSuccess: () => {
+      window.location.reload();
+    },
+  });
+
+  // TODO: remove this eventually, useful for debugging
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   return (
     <nav className="items-center bg-good-dog-violet px-9 py-12 font-righteous font-semibold">
       <ul className="flex flex-row justify-between text-white">
         <li>
-          <a href="/">
+          <Link href="/">
             <Image
               src="/icons/Minimalist Logo.svg"
               width={64}
               height={64}
               alt="good-dog-logo"
             />
-          </a>
+          </Link>
         </li>
         <div className="flex flex-row items-center space-x-16">
           <li>
-            <a href="/about">ABOUT US</a>
+            <Link href="/about">ABOUT US</Link>
           </li>
-          <li>
-            <a href="/login">LOGIN</a>
-          </li>
-          <a href="/submit">
+          {user ? (
+            <>
+              <li>
+                <Link href="/profile">PROFILE</Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    signOutMutation.mutate();
+                  }}
+                >
+                  LOGOUT
+                </button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link href="/login">LOGIN</Link>
+            </li>
+          )}
+          <Link href="/submit">
             <li className="rounded-full bg-good-dog-celadon px-4 py-1 text-good-dog-violet">
               SUBMIT
             </li>
-          </a>
+          </Link>
         </div>
       </ul>
     </nav>

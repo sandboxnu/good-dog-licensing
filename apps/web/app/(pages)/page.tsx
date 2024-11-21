@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import LandingSubmission from "@good-dog/components/LandingSubmission";
 import ProjectGallery from "@good-dog/components/ProjectGallery";
@@ -32,11 +33,11 @@ const Splash = () => {
         style={{ margin: "auto", display: "block", marginBottom: "2.5rem" }}
       />
       <div className="m-auto w-fit font-righteous font-semibold text-good-dog-violet">
-        <a href="/submit">
+        <Link href="/submit">
           <div className="rounded-full bg-good-dog-celadon px-4 py-1">
             SUBMIT A BRIEF
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   );
