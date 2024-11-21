@@ -1,3 +1,4 @@
+import { getAdminViewProcedure } from "../procedures/admin-view";
 import {
   deleteAccountProcedure,
   signInProcedure,
@@ -25,6 +26,7 @@ export const appRouter = createTRPCRouter({
   deleteAccount: deleteAccountProcedure,
   authenticatedUser: getAuthenticatedUserProcedure,
   user: getUserProcedure,
+  adminData: getAdminViewProcedure,
 });
 
 export type AppRouter = typeof appRouter;

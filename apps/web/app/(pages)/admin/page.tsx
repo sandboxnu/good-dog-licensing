@@ -1,16 +1,9 @@
-//dont use use client
-
-// import { HydrateClient, trpc } from "@good-dog/trpc/server";
-
-// export default function AdminPage() {
-//   void trpc.user.prefetch();
-//   <HydrateClient>{/* your component here */}</HydrateClient>;
-// }
 "use client";
 
 import { useState } from "react";
 
 import { DataTable } from "@good-dog/components/admin/DataTable";
+import { trpc } from "@good-dog/trpc/client";
 import { Badge } from "@good-dog/ui/badge";
 import {
   Card,
@@ -80,16 +73,23 @@ const columns = {
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");
+  const adminData = trpc.adminData;
 
   return (
     <div className="bg-good-dog-violet py-10">
       <div className="mx-10">
-        <h1 className="mb-6 text-4xl font-bold text-white">Admin Dashboard</h1>
+        <h1 className="mb-6 text-7xl font-bold text-white">Admin Dashboard</h1>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList>
-            <TabsTrigger value="users">Users</TabsTrigger>
-            <TabsTrigger value="groups">Groups</TabsTrigger>
-            <TabsTrigger value="invites">Invites</TabsTrigger>
+            <TabsTrigger className="text-xl" value="users">
+              Users
+            </TabsTrigger>
+            <TabsTrigger className="text-xl" value="groups">
+              Groups
+            </TabsTrigger>
+            <TabsTrigger className="text-xl" value="invites">
+              Invites
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="users">
             <Card>
