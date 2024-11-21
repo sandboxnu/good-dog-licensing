@@ -88,8 +88,6 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
 
     setSessionCookie(session.sessionId, session.expiresAt);
 
-    // delete the verification code after successful sign up
-
     return {
       message: `Successfully signed up and logged in as ${input.email}.`,
     };
