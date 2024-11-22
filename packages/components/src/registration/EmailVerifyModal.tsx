@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from "@good-dog/ui/dialog";
 import { Input } from "@good-dog/ui/input";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
 import { Label } from "@good-dog/ui/label";
 
 const zConfirmEmail = z.object({
@@ -70,30 +71,41 @@ export default function EmailVerifyModal({
 
   return (
     <Dialog open={isOpen && confirmEmailMutation.data?.status !== "SUCCESS"}>
-      <DialogContent className="sm:max-w-[425px]" hideCloseButton>
+      <DialogContent className="border-black sm:max-w-[512px]">
         <DialogHeader>
-          <DialogTitle>Email Verification</DialogTitle>
-          <DialogDescription>
-            Enter the 6-digit code sent to your email address.
+          <DialogDescription className="font-afacad p-7 text-center text-2xl font-normal text-good-dog-violet">
+            A 6-digit code has been sent to your email. Please enter the code
+            below.
           </DialogDescription>
+          <a
+            href="/resend-email"
+            className="text-center text-2xl text-good-dog-violet underline"
+          >
+            Resend code
+          </a>
         </DialogHeader>
         <form onSubmit={onSubmit}>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="verification-code" className="text-right">
-                Code
-              </Label>
-              <Input
-                {...confirmEmailForm.register("code")}
-                type="text"
-                placeholder="Enter 6-digit code"
-                maxLength={6}
-                className="col-span-3"
-              />
-            </div>
+          <div className="flex items-center justify-center py-4">
+            <InputOTP
+              //{...confirmEmailForm.register("code")}
+
+              maxLength={6}
+            >
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
           </div>
           <DialogFooter>
-            <Button type="submit" disabled={confirmEmailMutation.isPending}>
+            <Button
+              type="submit"
+              disabled={confirmEmailMutation.isPending}
+            >
               {confirmEmailMutation.isPending ? "Verifying..." : "Verify"}
             </Button>
           </DialogFooter>

@@ -98,37 +98,43 @@ export default function SignUpForm() {
           isOpen={verifyEmailMutation.data?.status === "EMAIL_SENT"}
           email={email}
         />
-        <form onSubmit={onSubmitSignUp}>
-          <TypedRegistrationInput
-            fieldName="email"
-            type="email"
-            placeholder="Email"
-          />
+        <form onSubmit={onSubmitSignUp} className="font-afacad mx-28">
+          <div>
+            <h3 className="mb-3 mt-4 text-good-dog-violet">Email</h3>
+            <TypedRegistrationInput fieldName="email" type="email" />
+          </div>
           {verifyEmailMutation.isSuccess && (
             <p className="text-green-500">Email verified</p>
           )}
-          <TypedRegistrationInput
-            fieldName="password"
-            type="password"
-            placeholder="Password"
-          />
-          <TypedRegistrationInput
-            fieldName="confirmPassword"
-            type="password"
-            placeholder="Confirm Password"
-          />
-          <TypedRegistrationInput
-            fieldName="firstName"
-            placeholder="First Name"
-            type="text"
-          />
-          <TypedRegistrationInput
-            fieldName="lastName"
-            placeholder="Last Name"
-            type="text"
-          />
+          <div>
+            <h3 className="mb-3 mt-4 text-good-dog-violet">Password</h3>
+            <TypedRegistrationInput fieldName="password" type="password" />
+          </div>
+          <div>
+            <h3 className="mb-3 mt-4 text-good-dog-violet">Confirm Password</h3>
+            <TypedRegistrationInput
+              fieldName="confirmPassword"
+              type="password"
+            />
+          </div>
+          <div className="flex flex-row space-x-2">
+            <div className="flex flex-1 flex-col">
+              <h3 className="mb-3 mt-4 text-good-dog-violet">First Name</h3>
+              <TypedRegistrationInput fieldName="firstName" type="text" />
+            </div>
+            <div className="flex flex-1 flex-col">
+              <h3 className="mb-3 mt-4 text-good-dog-violet">Last Name</h3>
+              <TypedRegistrationInput fieldName="lastName" type="text" />
+            </div>
+          </div>
+          <div className="mb-3 mt-4 flex flex-row justify-center space-x-1 text-2xl">
+            <h3 className="text-good-dog-violet">Already have an account?</h3>
+            <a href="/login" className="text-good-dog-violet hover:underline">
+              Sign in
+            </a>
+          </div>
           <Button
-            className="text-green-500"
+            className="h-16 w-full rounded-full font-righteous text-2xl text-white"
             disabled={
               verifyEmailMutation.isPending || verifyEmailMutation.isSuccess
             }
@@ -141,16 +147,17 @@ export default function SignUpForm() {
               });
             }}
           >
-            Verify Email
+            VERIFY YOUR EMAIL
           </Button>
           <Button
             type="submit"
             className="text-green-500"
-            disabled={
-              !verifyEmailMutation.isSuccess || signUpMutation.isPending
-            }
+
+            // disabled={
+            //   !verifyEmailMutation.isSuccess || signUpMutation.isPending
+            // }
           >
-            Sign Up
+            <a href="/onboarding">Sign Up</a>
           </Button>
         </form>
       </div>
