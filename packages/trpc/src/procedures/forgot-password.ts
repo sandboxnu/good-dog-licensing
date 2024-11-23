@@ -29,7 +29,7 @@ export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
     if (!user) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: `No user found with email ${input.email}`,
+        message: `No user found with given email.`,
       });
     }
 
