@@ -85,31 +85,31 @@ export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
 export const confirmePasswordResetProcedure = baseProcedureBuilder
   .input(
     z.object({
-      email: z.string().email(),
+      passwordResetId: z.string(),
       newPassword: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    // Find user with the given email
-    const user = await ctx.prisma.user.findUnique({
+    // Find password reset request for given passwordResetId
+    const passwordResetReq = await ctx.prisma.passwordResetReq.findUnique({
       where: {
-        email: input.email,
+        passwordResetId: input.passwordResetId,
       },
       include: {
-        passwordResetReq: true,
+        user: true,
       },
     });
 
-    // If user with that email doesn't exist or they don't have a password reset request, throw error
-    if (!user?.passwordResetReq) {
+    // If password reset request doesn't exist, throw error
+    if (!passwordResetReq) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: `No password reset request for the given email.`,
+        message: `No password reset request found for given id.`,
       });
     }
 
     // If password reset request is expired, throw error
-    if (user.passwordResetReq.expiresAt < new Date()) {
+    if (passwordResetReq.expiresAt < new Date()) {
       throw new TRPCError({
         code: "UNAUTHORIZED",
         message: `Password reset request is expired.`,
@@ -119,7 +119,7 @@ export const confirmePasswordResetProcedure = baseProcedureBuilder
     // Update user's password
     await ctx.prisma.user.update({
       where: {
-        email: input.email,
+        email: passwordResetReq.user.email,
       },
       data: {
         hashedPassword: await hashPassword(input.newPassword),
@@ -127,9 +127,9 @@ export const confirmePasswordResetProcedure = baseProcedureBuilder
     });
 
     // Delete the password reset request
-    await ctx.prisma.passwordResetReq.deleteMany({
+    await ctx.prisma.passwordResetReq.delete({
       where: {
-        user: user,
+        passwordResetId: passwordResetReq.passwordResetId,
       },
     });
 
