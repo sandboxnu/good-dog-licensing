@@ -38,7 +38,7 @@ export default function Nav() {
           {user ? (
             <>
               <li>
-                <Link href="/profile">PROFILE</Link>
+                <Link href="/account">ACCOUNT</Link>
               </li>
               <li>
                 <button
