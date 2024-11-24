@@ -26,6 +26,6 @@
   "prettier": "@good-dog/prettier",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "next": "14.2.12"
+    "next": "14.2.18"
   }
 }
