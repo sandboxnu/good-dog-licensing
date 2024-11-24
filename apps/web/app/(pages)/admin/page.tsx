@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { DataTable } from "@good-dog/components/admin/DataTable";
 import { trpc } from "@good-dog/trpc/client";
+import { GetProcedureOutput } from "@good-dog/trpc/utils";
 import { Badge } from "@good-dog/ui/badge";
 import {
   Card,
@@ -14,66 +15,56 @@ import {
 } from "@good-dog/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
 
-// Mock data (replace with actual data fetching logic)
-const mockUsers = [
-  { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User" },
-  // Add more mock users...
-];
-
-const mockGroups = [
-  { id: 1, name: "Administrators", memberCount: 5 },
-  { id: 2, name: "Users", memberCount: 100 },
-  // Add more mock groups...
-];
-
-const mockInvites = [
-  {
-    id: 1,
-    email: "newuser@example.com",
-    status: "Pending",
-    expiresAt: "2023-12-31",
-  },
-  {
-    id: 2,
-    email: "anotheruser@example.com",
-    status: "Expired",
-    expiresAt: "2023-11-30",
-  },
-  // Add more mock invites...
-];
+type AdminDataTypes = GetProcedureOutput<"adminData">;
+type DataColumn<T extends keyof AdminDataTypes> = {
+  accessorKey: keyof AdminDataTypes[T][number];
+  header: string;
+  cell?: (value: string) => JSX.Element;
+};
 
 const columns = {
   users: [
-    { accessorKey: "id", header: "ID" },
-    { accessorKey: "name", header: "Name" },
+    { accessorKey: "firstName", header: "First Name" },
+    { accessorKey: "lastName", header: "Last Name" },
     { accessorKey: "email", header: "Email" },
     { accessorKey: "role", header: "Role" },
+    { accessorKey: "stageName", header: "Stage Name" },
+    { accessorKey: "isSongWriter", header: "Songwriter?" },
+    { accessorKey: "isAscapAffiliated", header: "ASCAP Affiliated?" },
+    { accessorKey: "isBmiAffiliated", header: "BMI Affiliated?" },
+    { accessorKey: "createdAt", header: "Date of Creation" },
+    { accessorKey: "updatedAt", header: "Date Last Updated" },
   ],
   groups: [
-    { accessorKey: "id", header: "ID" },
     { accessorKey: "name", header: "Name" },
-    { accessorKey: "memberCount", header: "Members" },
+    { accessorKey: "createdAt", header: "Date of Creation" },
+    { accessorKey: "updatedAt", header: "Date Last Updated" },
   ],
-  invites: [
-    { accessorKey: "id", header: "ID" },
+  groupInvites: [
     { accessorKey: "email", header: "Email" },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: (value: string) => (
-        <Badge variant={value === "Pending" ? "default" : "secondary"}>
-          {value}
-        </Badge>
-      ),
-    },
-    { accessorKey: "expiresAt", header: "Expires At" },
+    { accessorKey: "firstName", header: "First Name" },
+    { accessorKey: "lastName", header: "Last Name" },
+    { accessorKey: "stageName", header: "Stage Name" },
+    { accessorKey: "role", header: "Role" },
+    { accessorKey: "isSongWriter", header: "Songwriter?" },
+    { accessorKey: "isAscapAffiliated", header: "ASCAP Affiliated?" },
+    { accessorKey: "isBmiAffiliated", header: "BMI Affiliated?" },
+    { accessorKey: "createdAt", header: "Date of Creation" },
   ],
-};
+} as const satisfies { [T in keyof AdminDataTypes]: DataColumn<T>[] };
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");
-  const adminData = trpc.adminData;
+  const { data, isPending, isError } = trpc.adminData.useQuery();
+  if (isPending) {
+    return <div>Loading Page</div>;
+  }
+  if (isError) {
+    return <div>Error Page</div>;
+  }
+  const userData = data.users;
+  const groupData = data.groups;
+  const groupInvitesData = data.groupInvites;
 
   return (
     <div className="bg-good-dog-violet py-10">
@@ -100,7 +91,7 @@ export default function AdminDashboard() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <DataTable columns={columns.users} data={mockUsers} />
+                <DataTable columns={columns.users} data={userData} />
               </CardContent>
             </Card>
           </TabsContent>
@@ -113,7 +104,7 @@ export default function AdminDashboard() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <DataTable columns={columns.groups} data={mockGroups} />
+                <DataTable columns={columns.groups} data={groupData} />
               </CardContent>
             </Card>
           </TabsContent>
@@ -124,7 +115,10 @@ export default function AdminDashboard() {
                 <CardDescription>Manage pending invitations.</CardDescription>
               </CardHeader>
               <CardContent>
-                <DataTable columns={columns.invites} data={mockInvites} />
+                <DataTable
+                  columns={columns.groupInvites}
+                  data={groupInvitesData}
+                />
               </CardContent>
             </Card>
           </TabsContent>
