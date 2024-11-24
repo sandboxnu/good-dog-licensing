@@ -1,6 +1,6 @@
 import { afterEach, beforeAll, describe, expect, test } from "bun:test";
 
-import { hashPassword } from "@good-dog/auth/password";
+import { comparePassword, hashPassword } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
 import { $trpcCaller } from "@good-dog/trpc/server";
 
@@ -41,10 +41,13 @@ describe("forgot-password", () => {
     }
   };
 
-  const createPasswordResetRequest = async (userEmail: string) =>
+  const createPasswordResetRequest = async (
+    userEmail: string,
+    expiresAt: Date,
+  ) =>
     prisma.passwordResetReq.create({
       data: {
-        expiresAt: new Date(Date.now() + 60_000 * 100000),
+        expiresAt: expiresAt,
         user: {
           connect: {
             email: userEmail,
@@ -111,6 +114,9 @@ describe("forgot-password", () => {
         where: {
           email: "walter@gmail.com",
         },
+        include: {
+          passwordResetReq: true,
+        },
       });
       if (!user) {
         throw new Error("User should not be null.");
@@ -127,6 +133,9 @@ describe("forgot-password", () => {
 
       expect(passwordResetReq.length).toBe(1);
       expect(passwordResetReq[0]?.expiresAt > new Date()).toBe(true);
+      expect(user.passwordResetReq?.passwordResetId).toBe(
+        passwordResetReq[0].passwordResetId,
+      );
 
       await cleanupAccount("walter@gmail.com");
       await cleanupPasswordResetRequest("walter@gmail.com");
@@ -135,7 +144,10 @@ describe("forgot-password", () => {
     test("Valid user. Pending password reset request.", async () => {
       await cleanupPasswordResetRequest("walter@gmail.com");
       await createAccount("walter@gmail.com");
-      await createPasswordResetRequest("walter@gmail.com");
+      await createPasswordResetRequest(
+        "walter@gmail.com",
+        new Date(Date.now() + 60_000 * 100000),
+      );
 
       const user = await prisma.user.findUnique({
         where: {
@@ -163,9 +175,20 @@ describe("forgot-password", () => {
         "Password reset email sent to walter@gmail.com.",
       );
 
+      const userUpdated = await prisma.user.findUnique({
+        where: {
+          email: "walter@gmail.com",
+        },
+        include: {
+          passwordResetReq: true,
+        },
+      });
+      if (!userUpdated) {
+        throw new Error("User should not be null.");
+      }
       passwordResetReqs = await prisma.passwordResetReq.findMany({
         where: {
-          user: user,
+          user: userUpdated,
         },
       });
       if (!passwordResetReqs[0]?.expiresAt) {
@@ -174,6 +197,81 @@ describe("forgot-password", () => {
 
       expect(passwordResetReqs.length).toBe(1);
       expect(passwordResetReqs[0]?.expiresAt > new Date()).toBe(true);
+      expect(userUpdated.passwordResetReq?.passwordResetId).toBe(
+        passwordResetReqs[0].passwordResetId,
+      );
+
+      await cleanupAccount("walter@gmail.com");
+      await cleanupPasswordResetRequest("walter@gmail.com");
+    });
+  });
+
+  describe("forgot-password/confirmPasswordReset", () => {
+    test("Given cuid doesn't exist", () => {
+      expect(
+        $trpcCaller.confirmtPasswordReset({
+          passwordResetId: "12345",
+          newPassword: "password",
+        }),
+      ).rejects.toThrow("No password reset request found for given id.");
+    });
+
+    test("Password reset request is expired", async () => {
+      await cleanupPasswordResetRequest("walter@gmail.com");
+      await createAccount("walter@gmail.com");
+      const passwordResetReq = await createPasswordResetRequest(
+        "walter@gmail.com",
+        new Date(Date.now() - 10000),
+      );
+
+      expect(
+        $trpcCaller.confirmtPasswordReset({
+          passwordResetId: passwordResetReq.passwordResetId,
+          newPassword: "password",
+        }),
+      ).rejects.toThrow("Password reset request is expired.");
+
+      await cleanupAccount("walter@gmail.com");
+      await cleanupPasswordResetRequest("walter@gmail.com");
+    });
+
+    test("Password reset request is valid", async () => {
+      await cleanupPasswordResetRequest("walter@gmail.com");
+      await createAccount("walter@gmail.com");
+      const passwordResetReq = await createPasswordResetRequest(
+        "walter@gmail.com",
+        new Date(Date.now() + 60_000 * 100000),
+      );
+
+      const response = await $trpcCaller.confirmtPasswordReset({
+        passwordResetId: passwordResetReq.passwordResetId,
+        newPassword: "newPassword",
+      });
+
+      expect(response.message).toBe("Password reset.");
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email: "walter@gmail.com",
+        },
+        include: {
+          passwordResetReq: true,
+        },
+      });
+      if (!user) {
+        throw new Error("User should not be null.");
+      }
+      expect(await comparePassword("newPassword", user.hashedPassword)).toBe(
+        true,
+      );
+      expect(user.passwordResetReq).toBe(null);
+
+      const oldPasswordResetReq = await prisma.passwordResetReq.findUnique({
+        where: {
+          passwordResetId: passwordResetReq.passwordResetId,
+        },
+      });
+      expect(oldPasswordResetReq).toBe(null);
 
       await cleanupAccount("walter@gmail.com");
       await cleanupPasswordResetRequest("walter@gmail.com");
