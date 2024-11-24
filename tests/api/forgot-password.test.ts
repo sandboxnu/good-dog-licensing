@@ -1,4 +1,11 @@
-import { afterEach, beforeAll, describe, expect, test } from "bun:test";
+import {
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 
 import { comparePassword, hashPassword } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
@@ -71,18 +78,27 @@ describe("forgot-password", () => {
   };
 
   beforeAll(async () => {
-    await mockCookies.apply();
-    await mockEmails.apply();
+    await Promise.all([mockCookies.apply(), mockEmails.apply()]);
   });
 
-  afterEach(() => {
+  beforeEach(async () => {
+    await Promise.all([
+      cleanupPasswordResetRequest("walter@gmail.com"),
+      createAccount("walter@gmail.com"),
+    ]);
+  });
+
+  afterEach(async () => {
     mockCookies.clear();
     mockEmails.clear();
+    await Promise.all([
+      cleanupPasswordResetRequest("walter@gmail.com"),
+      cleanupAccount("walter@gmail.com"),
+    ]);
   });
 
   describe("forgot-password/sendForgotPasswordEmail", () => {
     test("No user with given email", async () => {
-      await cleanupPasswordResetRequest("walter@gmail.com");
       await cleanupAccount("walter@gmail.com");
 
       const response = await $trpcCaller.sendForgotPasswordEmail({
@@ -98,9 +114,6 @@ describe("forgot-password", () => {
     });
 
     test("Valid user. No pending password reset request.", async () => {
-      await cleanupPasswordResetRequest("walter@gmail.com");
-      await createAccount("walter@gmail.com");
-
       const response = await $trpcCaller.sendForgotPasswordEmail({
         email: "walter@gmail.com",
       });
@@ -134,14 +147,9 @@ describe("forgot-password", () => {
       expect(user?.passwordResetReq?.passwordResetId).toBe(
         passwordResetReq[0]?.passwordResetId ?? "",
       );
-
-      await cleanupAccount("walter@gmail.com");
-      await cleanupPasswordResetRequest("walter@gmail.com");
     });
 
     test("Valid user. Pending password reset request.", async () => {
-      await cleanupPasswordResetRequest("walter@gmail.com");
-      await createAccount("walter@gmail.com");
       await createPasswordResetRequest(
         "walter@gmail.com",
         new Date(Date.now() + 60_000 * 100000),
@@ -192,9 +200,6 @@ describe("forgot-password", () => {
       expect(userUpdated?.passwordResetReq?.passwordResetId).toBe(
         passwordResetReqs[0]?.passwordResetId ?? "",
       );
-
-      await cleanupAccount("walter@gmail.com");
-      await cleanupPasswordResetRequest("walter@gmail.com");
     });
   });
 
@@ -209,8 +214,6 @@ describe("forgot-password", () => {
     });
 
     test("Password reset request is expired", async () => {
-      await cleanupPasswordResetRequest("walter@gmail.com");
-      await createAccount("walter@gmail.com");
       const passwordResetReq = await createPasswordResetRequest(
         "walter@gmail.com",
         new Date(Date.now() - 10000),
@@ -222,14 +225,9 @@ describe("forgot-password", () => {
           newPassword: "password",
         }),
       ).rejects.toThrow("Password reset request is expired.");
-
-      await cleanupAccount("walter@gmail.com");
-      await cleanupPasswordResetRequest("walter@gmail.com");
     });
 
     test("Password reset request is valid", async () => {
-      await cleanupPasswordResetRequest("walter@gmail.com");
-      await createAccount("walter@gmail.com");
       const passwordResetReq = await createPasswordResetRequest(
         "walter@gmail.com",
         new Date(Date.now() + 60_000 * 100000),
@@ -263,11 +261,6 @@ describe("forgot-password", () => {
         },
       });
       expect(oldPasswordResetReq).toBe(null);
-
-      await Promise.all([
-        cleanupAccount("walter@gmail.com"),
-        cleanupPasswordResetRequest("walter@gmail.com"),
-      ]);
     });
   });
 });
