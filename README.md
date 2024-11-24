@@ -13,6 +13,7 @@ This repository is a monorepo for the Good Dog Licensing project, managed with T
     - [Running Scripts](#running-scripts)
   - [Running Tests](#running-tests)
   - [Tesing in Preview](#tesing-in-preview)
+  - [X feature isn't working... HELP!!](#x-feature-isnt-working-help)
 
 ## Structure
 
@@ -122,3 +123,10 @@ To test the application in a the environment, follow these steps:
    - One the workflow is complete, you can access your preview branch with the database migrations applied
 
    - Note that we only have one database instance for all preview branches, so if someone else runs the workflow, it may interfere with your preview branch.
+
+## X feature isn't working... HELP!!
+
+1. Are your dependencies up to date? Run `bun install` to make sure you have the latest versions of everything.
+2. Is your prisma schema pushed? Run `bun db:push` to make sure your database schema is up to date, or `db:migrate:dev` to apply migrations locally
+3. Did your branch up to date? Make sure to pull/merge/rebase from main.
+4. Confusing linting errors? Restart your IDE, sometimes the editor gets confused and doesn't pick up on changes.

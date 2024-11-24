@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const CreatorData = [
   {
@@ -83,11 +84,11 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
           lacus eget elit. Mauris diam.
         </p>
         <div className="m-12 flex items-center justify-center">
-          <a href="/submit">
+          <Link href="/submit">
             <div className="rounded-full bg-good-dog-celadon px-4 py-1 font-righteous font-semibold text-good-dog-violet">
               {creatorObj?.buttonText}
             </div>
-          </a>
+          </Link>
         </div>
       </div>
       {/* </div> */}
