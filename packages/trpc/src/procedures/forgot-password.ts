@@ -82,7 +82,7 @@ export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
     };
   });
 
-export const confirmePasswordResetProcedure = baseProcedureBuilder
+export const confirmPasswordResetProcedure = baseProcedureBuilder
   .input(
     z.object({
       passwordResetId: z.string(),

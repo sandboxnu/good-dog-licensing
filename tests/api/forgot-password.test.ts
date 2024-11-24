@@ -209,7 +209,7 @@ describe("forgot-password", () => {
   describe("forgot-password/confirmPasswordReset", () => {
     test("Given cuid doesn't exist", () => {
       expect(
-        $trpcCaller.confirmtPasswordReset({
+        $trpcCaller.confirmPasswordReset({
           passwordResetId: "12345",
           newPassword: "password",
         }),
@@ -225,7 +225,7 @@ describe("forgot-password", () => {
       );
 
       expect(
-        $trpcCaller.confirmtPasswordReset({
+        $trpcCaller.confirmPasswordReset({
           passwordResetId: passwordResetReq.passwordResetId,
           newPassword: "password",
         }),
@@ -243,7 +243,7 @@ describe("forgot-password", () => {
         new Date(Date.now() + 60_000 * 100000),
       );
 
-      const response = await $trpcCaller.confirmtPasswordReset({
+      const response = await $trpcCaller.confirmPasswordReset({
         passwordResetId: passwordResetReq.passwordResetId,
         newPassword: "newPassword",
       });
