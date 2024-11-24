@@ -85,11 +85,13 @@ describe("forgot-password", () => {
       await cleanupPasswordResetRequest("walter@gmail.com");
       await cleanupAccount("walter@gmail.com");
 
-      expect(
-        $trpcCaller.sendForgotPasswordEmail({
-          email: "walter@gmail.com",
-        }),
-      ).rejects.toThrow("No user found with given email.");
+      const response = await $trpcCaller.sendForgotPasswordEmail({
+        email: "walter@gmail.com",
+      });
+
+      expect(response.message).toBe(
+        "If a user exists for walter@gmail.com, a password reset link was sent to the email.",
+      );
 
       expect(mockEmails.setApiKey).not.toBeCalled();
       expect(mockEmails.send).not.toBeCalled();
@@ -107,7 +109,7 @@ describe("forgot-password", () => {
       expect(mockEmails.send).toBeCalled();
 
       expect(response.message).toBe(
-        "Password reset email sent to walter@gmail.com.",
+        "If a user exists for walter@gmail.com, a password reset link was sent to the email.",
       );
 
       const user = await prisma.user.findUnique({
@@ -118,23 +120,19 @@ describe("forgot-password", () => {
           passwordResetReq: true,
         },
       });
-      if (!user) {
-        throw new Error("User should not be null.");
-      }
-
       const passwordResetReq = await prisma.passwordResetReq.findMany({
         where: {
-          user: user,
+          user: user ?? {},
         },
       });
-      if (!passwordResetReq[0]?.expiresAt) {
-        throw new Error("There should be a password reset request.");
-      }
 
       expect(passwordResetReq.length).toBe(1);
-      expect(passwordResetReq[0]?.expiresAt > new Date()).toBe(true);
-      expect(user.passwordResetReq?.passwordResetId).toBe(
-        passwordResetReq[0].passwordResetId,
+      expect(
+        (passwordResetReq[0]?.expiresAt ?? new Date(Date.now() - 10000000)) >
+          new Date(),
+      ).toBe(true);
+      expect(user?.passwordResetReq?.passwordResetId).toBe(
+        passwordResetReq[0]?.passwordResetId ?? "",
       );
 
       await cleanupAccount("walter@gmail.com");
@@ -154,12 +152,9 @@ describe("forgot-password", () => {
           email: "walter@gmail.com",
         },
       });
-      if (!user) {
-        throw new Error("User should not be null.");
-      }
       let passwordResetReqs = await prisma.passwordResetReq.findMany({
         where: {
-          user: user,
+          user: user ?? {},
         },
       });
       expect(passwordResetReqs.length).toBe(1);
@@ -172,7 +167,7 @@ describe("forgot-password", () => {
       expect(mockEmails.send).toBeCalled();
 
       expect(response.message).toBe(
-        "Password reset email sent to walter@gmail.com.",
+        "If a user exists for walter@gmail.com, a password reset link was sent to the email.",
       );
 
       const userUpdated = await prisma.user.findUnique({
@@ -183,22 +178,19 @@ describe("forgot-password", () => {
           passwordResetReq: true,
         },
       });
-      if (!userUpdated) {
-        throw new Error("User should not be null.");
-      }
       passwordResetReqs = await prisma.passwordResetReq.findMany({
         where: {
-          user: userUpdated,
+          user: userUpdated ?? {},
         },
       });
-      if (!passwordResetReqs[0]?.expiresAt) {
-        throw new Error("There should be a password reset request.");
-      }
 
       expect(passwordResetReqs.length).toBe(1);
-      expect(passwordResetReqs[0]?.expiresAt > new Date()).toBe(true);
-      expect(userUpdated.passwordResetReq?.passwordResetId).toBe(
-        passwordResetReqs[0].passwordResetId,
+      expect(
+        (passwordResetReqs[0]?.expiresAt ?? new Date(Date.now() - 100000)) >
+          new Date(),
+      ).toBe(true);
+      expect(userUpdated?.passwordResetReq?.passwordResetId).toBe(
+        passwordResetReqs[0]?.passwordResetId ?? "",
       );
 
       await cleanupAccount("walter@gmail.com");
@@ -258,13 +250,12 @@ describe("forgot-password", () => {
           passwordResetReq: true,
         },
       });
-      if (!user) {
-        throw new Error("User should not be null.");
-      }
-      expect(await comparePassword("newPassword", user.hashedPassword)).toBe(
-        true,
+      const passwordUpdated = await comparePassword(
+        "newPassword",
+        user?.hashedPassword ?? "",
       );
-      expect(user.passwordResetReq).toBe(null);
+      expect(passwordUpdated).toBe(true);
+      expect(user?.passwordResetReq).toBe(null);
 
       const oldPasswordResetReq = await prisma.passwordResetReq.findUnique({
         where: {
@@ -273,8 +264,10 @@ describe("forgot-password", () => {
       });
       expect(oldPasswordResetReq).toBe(null);
 
-      await cleanupAccount("walter@gmail.com");
-      await cleanupPasswordResetRequest("walter@gmail.com");
+      await Promise.all([
+        cleanupAccount("walter@gmail.com"),
+        cleanupPasswordResetRequest("walter@gmail.com"),
+      ]);
     });
   });
 });

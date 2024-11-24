@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { hashPassword } from "@good-dog/auth/password";
 import { sendPasswordResetEmail } from "@good-dog/email/password-reset-email";
+import { env } from "@good-dog/env";
 
 import { baseProcedureBuilder } from "../internal/init";
 
@@ -25,60 +26,50 @@ export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
       },
     });
 
-    // If user with that email doesn't exist, throw error
+    // If user with that email doesn't exist, return.
     if (!user) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: `No user found with given email.`,
-      });
+      return {
+        message: `If a user exists for ${input.email}, a password reset link was sent to the email.`,
+      };
     }
 
-    // Delete any existing password reset requests for the user
-    await ctx.prisma.passwordResetReq.deleteMany({
-      where: {
-        user: user,
-      },
-    });
-
-    // Create new password reset request with updated expired at time
-    const pwdResetReq = await ctx.prisma.passwordResetReq.create({
-      data: {
-        user: {
-          connect: {
-            userId: user.userId,
-          },
+    const [_, pwdResetReq] = await ctx.prisma.$transaction([
+      // Delete any existing password reset requests for the user
+      ctx.prisma.passwordResetReq.deleteMany({
+        where: {
+          user: user,
         },
-        expiresAt: getNewPasswordResetExpirationDate(),
-      },
-    });
-
-    // Update the user to include the new password reset request
-    await ctx.prisma.user.update({
-      where: {
-        email: input.email,
-      },
-      data: {
-        passwordResetReq: {
-          connect: {
-            passwordResetId: pwdResetReq.passwordResetId,
+      }),
+      // Create new password reset request with updated expired at time
+      ctx.prisma.passwordResetReq.create({
+        data: {
+          user: {
+            connect: {
+              userId: user.userId,
+            },
           },
+          expiresAt: getNewPasswordResetExpirationDate(),
         },
-      },
-    });
+      }),
+    ]);
 
     // Send the password reset email
     try {
       await sendPasswordResetEmail(input.email, pwdResetReq.passwordResetId);
     } catch (error) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: `Password reset email to ${input.email} failed to send.`,
-        cause: error,
-      });
+      if (env.NODE_ENV === "development") {
+        console.error(error);
+      } else {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `Password reset email to ${input.email} failed to send.`,
+          cause: error,
+        });
+      }
     }
 
     return {
-      message: `Password reset email sent to ${input.email}.`,
+      message: `If a user exists for ${input.email}, a password reset link was sent to the email.`,
     };
   });
 
@@ -116,22 +107,24 @@ export const confirmPasswordResetProcedure = baseProcedureBuilder
       });
     }
 
-    // Update user's password
-    await ctx.prisma.user.update({
-      where: {
-        email: passwordResetReq.user.email,
-      },
-      data: {
-        hashedPassword: await hashPassword(input.newPassword),
-      },
-    });
+    await ctx.prisma.$transaction([
+      // Update user's password
+      ctx.prisma.user.update({
+        where: {
+          email: passwordResetReq.user.email,
+        },
+        data: {
+          hashedPassword: await hashPassword(input.newPassword),
+        },
+      }),
 
-    // Delete the password reset request
-    await ctx.prisma.passwordResetReq.delete({
-      where: {
-        passwordResetId: passwordResetReq.passwordResetId,
-      },
-    });
+      // Delete the password reset request
+      ctx.prisma.passwordResetReq.delete({
+        where: {
+          passwordResetId: passwordResetReq.passwordResetId,
+        },
+      }),
+    ]);
 
     return {
       message: "Password reset.",

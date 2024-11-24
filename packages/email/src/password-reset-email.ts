@@ -12,7 +12,7 @@ export async function sendPasswordResetEmail(toEmail: string, cuid: string) {
   const msg = {
     to: toEmail,
     subject: "Reset Your Password - Good Dog Licensing",
-    html: `<p>Follow the link to reset your password: <strong>${baseURL}/pwdreset/reset_id?=${cuid}</strong></p>`,
+    html: `<p>Follow <a href="${baseURL}/pwdreset/reset_id?=${cuid}">this link</a> to reset your password.`,
   };
 
   return await send(msg, env.VERIFICATION_FROM_EMAIL ?? "");
