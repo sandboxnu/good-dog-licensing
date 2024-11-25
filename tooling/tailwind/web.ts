@@ -33,6 +33,7 @@ export default {
         "good-dog-celadon": "#ACDD92",
         "good-dog-orange": "#EF946C",
         "good-dog-purple": "#574AE2",
+        "good-dog-error": "#800000",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

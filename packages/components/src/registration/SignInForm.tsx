@@ -47,7 +47,7 @@ export default function SignInForm() {
       <form
         onSubmit={onSubmit}
         data-testid="sign-in-form"
-        className="font-afacad mx-20"
+        className="font-afacad mx-20 flex flex-col gap-6"
       >
         <div>
           <h3 className="text-white">Email</h3>
@@ -57,7 +57,7 @@ export default function SignInForm() {
           <h3 className="text-white">Password</h3>
           <TypedRegistrationInput fieldName="password" type="password" />
         </div>
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between flex-wrap">
           <div className="flex flex-row items-center space-x-1">
             <Checkbox className="border-good-dog-celadon" />
             <p className="text-good-dog-celadon">Remember me</p>
@@ -74,8 +74,8 @@ export default function SignInForm() {
         >
           CONTINUE
         </Button>
-        <div className="flex flex-row justify-center space-x-1 text-2xl">
-          <h3 className="text-white">Don't have an account?</h3>
+        <div className="flex flex-row justify-center space-x-1 text-2xl flex-wrap">
+          <h3 className="text-white text-center">Don't have an account?</h3>
           <a href="/signup" className="text-good-dog-celadon hover:underline">
             Sign up
           </a>

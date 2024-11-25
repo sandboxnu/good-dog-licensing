@@ -23,7 +23,9 @@ export default function OnboardingFormSwitcher(
 
   return (
     <main className="bg-good-dog-celadon">
-      <div className="flex max-h-screen overflow-hidden">
+      <div
+        className={`flex max-h-screen bg-good-dog-celadon ${roleName === "Media Maker" ? "overflow-hidden" : ""}`}
+      >
         <div className="flex-1">
           <a href="/" className="ml-10 mt-10 inline-block">
             <Image
@@ -42,7 +44,8 @@ export default function OnboardingFormSwitcher(
           />
         </div>
 
-        <div className="m-auto flex flex-1 flex-col items-center">
+        <div className="mt-24 flex flex-1 flex-col items-center">
+          <h1 className="font-righteous text-5xl">SIGN UP AS A...</h1>
           <Label
             htmlFor="role-toggle"
             className="text-lg font-medium text-foreground"

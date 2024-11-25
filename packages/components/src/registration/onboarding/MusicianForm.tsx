@@ -1,11 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
 import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
 import { Button } from "@good-dog/ui/button";
-import { Label } from "@good-dog/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@good-dog/ui/select";
 
 import RegistrationCheckbox from "../inputs/RegistrationCheckbox";
 import RegistrationInput from "../inputs/RegistrationInput";
@@ -55,39 +63,79 @@ export default function MusicianForm(
       firstName={user.firstName}
       lastName={user.lastName}
     >
-      <TypedRegistrationInput
-        fieldName="firstName"
-        placeholder="First Name"
-        type="text"
-      />
-      <TypedRegistrationInput
-        fieldName="lastName"
-        placeholder="Last Name"
-        type="text"
-      />
-      <TypedRegistrationInput
-        fieldName="stageName"
-        placeholder="Stage Name"
-        type="text"
-      />
+      <p>
+        A Media Maker is a Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit. Mauris pharetra lacus sit amet turpis suscipit, eget convallis
+        elit. Etiam ac tortor ac lectus scelerisque mollis.{" "}
+      </p>
+      <div className="flex flex-row space-x-3">
+        <div className="flex flex-1 flex-col">
+          <h3 className="mb-3 mt-4 text-good-dog-violet">
+            First Name<span className="text-good-dog-error">*</span>
+          </h3>
+          <TypedRegistrationInput
+            fieldName="firstName"
+            placeholder="Jane"
+            type="text"
+          />
+        </div>
+        <div className="flex flex-1 flex-col">
+          <h3 className="mb-3 mt-4 text-good-dog-violet">
+            Last Name<span className="text-good-dog-error">*</span>
+          </h3>
+          <TypedRegistrationInput
+            fieldName="lastName"
+            placeholder="Doe"
+            type="text"
+          />
+        </div>
+      </div>
+      <div>
+        <h3 className="mb-3 mt-4 text-good-dog-violet">
+          Stage Name<span className="text-good-dog-error">*</span>
+        </h3>
+        <TypedRegistrationInput fieldName="stageName" type="text" />
+      </div>
+
       <TypedRegistrationInput
         fieldName="groupName"
         placeholder="Group Name"
         type="text"
       />
-      <TypedRegistrationCheckbox
-        fieldName="isSongWriter"
-        label="Are you a songwriter?"
-      />
-      <TypedRegistrationCheckbox
-        fieldName="isAscapAffiliated"
-        label="Are you affiliated with ASCAP?"
-      />
-      <TypedRegistrationCheckbox
-        fieldName="isBmiAffiliated"
-        label="Are you affiliated with BMI?"
-      />
+      <div className="mb-3 mt-4 space-y-2 text-2xl">
+        <TypedRegistrationCheckbox
+          fieldName="isSongWriter"
+          label="This person is a songwriter"
+        />
+        <TypedRegistrationCheckbox
+          fieldName="isAscapAffiliated"
+          label="This person is affiliated with ASCAP"
+        />
+        <TypedRegistrationCheckbox
+          fieldName="isBmiAffiliated"
+          label="This person is affiliated with BMI"
+        />
+      </div>
+      <hr className="mx-auto w-60 border-good-dog-violet" />
       <GroupMemberForm />
+      <div>
+        <h3 className="mb-3 mt-4">How did you hear about Good Dog?</h3>
+        <Select>
+          <SelectTrigger className="border-black bg-white">
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="friend">Friend</SelectItem>
+              <SelectItem value="social media">Social media</SelectItem>
+              <SelectItem value="green line records">
+                Green Line Records
+              </SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
     </OnboardingFormProvider>
   );
 }
@@ -101,61 +149,95 @@ const GroupMemberForm = () => {
 
   return (
     <div>
-      <Label htmlFor="groupMembers">Group Members</Label>
       {groupMembersFieldArray.fields.map((field, index) => (
         <div key={field.id} className="mb-4">
-          <TypedRegistrationInput
-            fieldName={`groupMembers.${index}.firstName`}
-            placeholder="First Name"
-            type="text"
-          />
-          <TypedRegistrationInput
-            fieldName={`groupMembers.${index}.lastName`}
-            placeholder="Last Name"
-            type="text"
-          />
-          <TypedRegistrationInput
-            fieldName={`groupMembers.${index}.stageName`}
-            placeholder="Stage Name"
-            type="text"
-          />
+          <div className="flex flex-row space-x-3">
+            <div className="flex flex-1 flex-col">
+              <h3 className="mb-3 mt-4 text-good-dog-violet">
+                First Name<span className="text-good-dog-error">*</span>
+              </h3>
+              <TypedRegistrationInput
+                fieldName="firstName"
+                placeholder="Jane"
+                type="text"
+              />
+            </div>
+            <div className="flex flex-1 flex-col">
+              <div className="flex flex-row">
+                <h3 className="mb-3 mt-4 text-good-dog-violet">
+                  Last Name<span className="text-good-dog-error">*</span>
+                </h3>
+                <Button
+                  style={{ all: "unset", marginLeft: "auto" }}
+                  type="button"
+                  onClick={() => groupMembersFieldArray.remove(index)}
+                >
+                  <Image
+                    alt="Remove member"
+                    src="/icons/clear-x.svg"
+                    width={24}
+                    height={24}
+                    className="hover:cursor-pointer"
+                  />
+                </Button>
+              </div>
+
+              <TypedRegistrationInput
+                fieldName="lastName"
+                placeholder="Doe"
+                type="text"
+              />
+            </div>
+          </div>
           <TypedRegistrationInput
             fieldName={`groupMembers.${index}.email`}
             placeholder="Email"
             type="text"
           />
-          <TypedRegistrationCheckbox
-            fieldName={`groupMembers.${index}.isSongWriter`}
-            label="Are they a songwriter?"
+
+          <TypedRegistrationInput
+            fieldName={`groupMembers.${index}.stageName`}
+            placeholder="Stage Name"
+            type="text"
           />
-          <TypedRegistrationCheckbox
-            fieldName={`groupMembers.${index}.isAscapAffiliated`}
-            label="Are they affiliated with ASCAP?"
-          />
-          <TypedRegistrationCheckbox
-            fieldName={`groupMembers.${index}.isBmiAffiliated`}
-            label="Are they affiliated with BMI?"
-          />
-          <Button
-            type="button"
-            onClick={() => groupMembersFieldArray.remove(index)}
-          >
-            Remove
-          </Button>
+          <div className="mb-3 mt-4 space-y-2 text-2xl">
+            <TypedRegistrationCheckbox
+              fieldName="isSongWriter"
+              label="This person is a songwriter"
+            />
+            <TypedRegistrationCheckbox
+              fieldName="isAscapAffiliated"
+              label="This person is affiliated with ASCAP"
+            />
+            <TypedRegistrationCheckbox
+              fieldName="isBmiAffiliated"
+              label="This person is affiliated with BMI"
+            />
+          </div>
         </div>
       ))}
-      <Button
-        type="button"
-        onClick={() =>
-          groupMembersFieldArray.append({
-            firstName: "",
-            lastName: "",
-            email: "",
-          })
-        }
-      >
-        Add Member
-      </Button>
+      <div className="float-right flex flex-row">
+        <p className="mx-1">Add a Member</p>
+        <Button
+          style={{ all: "unset" }}
+          type="button"
+          onClick={() =>
+            groupMembersFieldArray.append({
+              firstName: "",
+              lastName: "",
+              email: "",
+            })
+          }
+        >
+          <Image
+            alt="Add member"
+            src="/icons/plus-circle.svg"
+            width={24}
+            height={24}
+            className="hover:cursor-pointer"
+          ></Image>
+        </Button>
+      </div>
     </div>
   );
 };
