@@ -1,6 +1,3 @@
-import { useState } from "react";
-
-import { Pagination } from "@good-dog/ui/pagination";
 import {
   Table,
   TableBody,
@@ -25,28 +22,20 @@ interface DataTableProps<T> {
 export function DataTable<T extends object>({
   columns,
   data,
-  itemsPerPage = 10,
 }: DataTableProps<T>) {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentData = data.slice(startIndex, endIndex);
-
   return (
     <div className="space-y-4">
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="text-nowrap text-lg">
             <TableRow>
               {columns.map((column) => (
                 <TableHead key={column.accessorKey}>{column.header}</TableHead>
               ))}
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {currentData.map((row, rowIndex) => (
+          <TableBody className="text-base">
+            {data.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {columns.map((column) => (
                   <TableCell key={column.accessorKey}>
@@ -60,11 +49,6 @@ export function DataTable<T extends object>({
           </TableBody>
         </Table>
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
     </div>
   );
 }

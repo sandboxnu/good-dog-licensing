@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 
+import type { GetProcedureOutput } from "@good-dog/trpc/utils";
 import { DataTable } from "@good-dog/components/admin/DataTable";
 import { trpc } from "@good-dog/trpc/client";
-import { GetProcedureOutput } from "@good-dog/trpc/utils";
-import { Badge } from "@good-dog/ui/badge";
 import {
   Card,
   CardContent,
@@ -16,11 +15,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
 
 type AdminDataTypes = GetProcedureOutput<"adminData">;
-type DataColumn<T extends keyof AdminDataTypes> = {
+interface DataColumn<T extends keyof AdminDataTypes> {
   accessorKey: keyof AdminDataTypes[T][number];
   header: string;
   cell?: (value: string) => JSX.Element;
-};
+}
 
 const columns = {
   users: [
@@ -67,7 +66,7 @@ export default function AdminDashboard() {
   const groupInvitesData = data.groupInvites;
 
   return (
-    <div className="bg-good-dog-violet py-10">
+    <div className="bg-good-dog-violet pb-10">
       <div className="mx-10">
         <h1 className="mb-6 text-7xl font-bold text-white">Admin Dashboard</h1>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -82,46 +81,50 @@ export default function AdminDashboard() {
               Invites
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="users">
-            <Card>
-              <CardHeader>
-                <CardTitle>Users</CardTitle>
-                <CardDescription>
-                  Manage user accounts in the system.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <DataTable columns={columns.users} data={userData} />
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="groups">
-            <Card>
-              <CardHeader>
-                <CardTitle>Groups</CardTitle>
-                <CardDescription>
-                  Manage user groups and permissions.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <DataTable columns={columns.groups} data={groupData} />
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="invites">
-            <Card>
-              <CardHeader>
-                <CardTitle>Invites</CardTitle>
-                <CardDescription>Manage pending invitations.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <DataTable
-                  columns={columns.groupInvites}
-                  data={groupInvitesData}
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
+          <div className="pt-2">
+            <TabsContent className="text-3xl" value="users">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Users</CardTitle>
+                  <CardDescription className="text-xl">
+                    Manage user accounts in the system.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <DataTable columns={columns.users} data={userData} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent className="text-3xl" value="groups">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Groups</CardTitle>
+                  <CardDescription className="text-xl">
+                    Manage user groups and permissions.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <DataTable columns={columns.groups} data={groupData} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent className="text-3xl" value="invites">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Invites</CardTitle>
+                  <CardDescription className="text-xl">
+                    Manage pending invitations.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <DataTable
+                    columns={columns.groupInvites}
+                    data={groupInvitesData}
+                  />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </div>
         </Tabs>
       </div>
     </div>
