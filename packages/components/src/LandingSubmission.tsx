@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LandingSubmission({
   flipX = false,
@@ -31,14 +32,14 @@ export default function LandingSubmission({
         </h1>
         <p className="pt-8 text-white">{description}</p>
         <div className="pt-12">
-          <a href="/submit">
+          <Link href="/submit">
             <div
               className="rounded-full bg-good-dog-celadon px-4 py-1 font-righteous font-semibold text-good-dog-violet"
               style={{ width: "fit-content" }}
             >
               {button}
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

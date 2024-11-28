@@ -9,6 +9,10 @@ import {
   confirmEmailProcedure,
   sendEmailVerificationProcedure,
 } from "../procedures/email-verification";
+import {
+  confirmPasswordResetProcedure,
+  sendForgotPasswordEmailProcedure,
+} from "../procedures/forgot-password";
 import { onboardingProcedure } from "../procedures/onboarding";
 import {
   getAuthenticatedUserProcedure,
@@ -26,6 +30,8 @@ export const appRouter = createTRPCRouter({
   deleteAccount: deleteAccountProcedure,
   authenticatedUser: getAuthenticatedUserProcedure,
   user: getUserProcedure,
+  sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
+  confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
 });
 

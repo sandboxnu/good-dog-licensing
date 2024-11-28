@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -44,14 +45,14 @@ export default function Footer() {
             alt="good-dog-youtube"
           />
         </div>
-        <a href="/">
+        <Link href="/">
           <Image
             src="/icons/Dark Mode Logo.svg"
             width={120}
             height={120}
             alt="good-dog-logo"
           />
-        </a>
+        </Link>
       </div>
     </footer>
   );
