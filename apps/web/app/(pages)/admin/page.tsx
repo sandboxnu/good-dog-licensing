@@ -15,6 +15,8 @@ import {
 } from "@good-dog/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
 
+import NotFound from "~/not-found";
+
 type AdminDataTypes = GetProcedureOutput<"adminData">;
 interface DataColumn<T extends keyof AdminDataTypes> {
   accessorKey: keyof AdminDataTypes[T][number];
@@ -60,7 +62,7 @@ export default function AdminDashboard() {
     return <Loading />;
   }
   if (isError) {
-    return <div>Error Page</div>;
+    return NotFound;
   }
   const userData = data.users;
   const groupData = data.groups;
