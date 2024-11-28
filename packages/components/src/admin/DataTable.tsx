@@ -7,14 +7,14 @@ import {
   TableRow,
 } from "@good-dog/ui/table";
 
-interface ColumnDef {
-  accessorKey: string;
+interface ColumnDef<T> {
+  accessorKey: keyof T;
   header: string;
-  cell?: (value: any) => React.ReactNode;
+  cell?: (value: T[keyof T]) => React.ReactNode;
 }
 
 interface DataTableProps<T> {
-  columns: ColumnDef[];
+  columns: ColumnDef<T>[];
   data: T[];
   itemsPerPage?: number;
 }
@@ -30,7 +30,9 @@ export function DataTable<T extends object>({
           <TableHeader className="text-nowrap text-lg">
             <TableRow>
               {columns.map((column) => (
-                <TableHead key={column.accessorKey}>{column.header}</TableHead>
+                <TableHead key={column.accessorKey as string}>
+                  {column.header}
+                </TableHead>
               ))}
             </TableRow>
           </TableHeader>
@@ -38,10 +40,10 @@ export function DataTable<T extends object>({
             {data.map((row, rowIndex) => (
               <TableRow key={rowIndex}>
                 {columns.map((column) => (
-                  <TableCell key={column.accessorKey}>
+                  <TableCell key={column.accessorKey as string}>
                     {column.cell
-                      ? column.cell(row[column.accessorKey as keyof T])
-                      : row[column.accessorKey as keyof T]?.toString()}
+                      ? column.cell(row[column.accessorKey])
+                      : row[column.accessorKey]?.toString()}
                   </TableCell>
                 ))}
               </TableRow>
