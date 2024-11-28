@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/utils";
 import { DataTable } from "@good-dog/components/admin/DataTable";
+import Loading from "@good-dog/components/loading/Loading";
 import { trpc } from "@good-dog/trpc/client";
 import {
   Card,
@@ -56,7 +57,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");
   const { data, isPending, isError } = trpc.adminData.useQuery();
   if (isPending) {
-    return <div>Loading Page</div>;
+    return <Loading />;
   }
   if (isError) {
     return <div>Error Page</div>;
