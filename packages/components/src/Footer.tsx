@@ -14,36 +14,30 @@ export default function Footer() {
       />
       <div className="flex flex-row items-end justify-between px-12 py-16">
         <div className="ml-24 flex flex-grow justify-center space-x-4">
-          <Image
-            src="/icons/facebook_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-facebook"
-          />
-          <Image
-            src="/icons/twitter_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-twitter"
-          />
-          <Image
-            src="/icons/instagram_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-instagram"
-          />
-          <Image
-            src="/icons/email_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-email"
-          />
-          <Image
-            src="/icons/youtube_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-youtube"
-          />
+          <a href="https://twitter.com/gdlicensing">
+            <Image
+              src="/icons/twitter_icon.svg"
+              width={70}
+              height={70}
+              alt="good-dog-twitter"
+            />
+          </a>
+          <a href="https://www.instagram.com/gooddoglicensing/">
+            <Image
+              src="/icons/instagram_icon.svg"
+              width={70}
+              height={70}
+              alt="good-dog-instagram"
+            />
+          </a>
+          <a href="mailto:gooddoglicensing@gmail.com">
+            <Image
+              src="/icons/email_icon.svg"
+              width={70}
+              height={70}
+              alt="good-dog-email"
+            />
+          </a>
         </div>
         <Link href="/">
           <Image
