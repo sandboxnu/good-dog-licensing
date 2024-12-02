@@ -7,9 +7,9 @@ export const dynamic = "force-dynamic";
 export default async function Page() {
   const user = await trpc.user();
 
-  // if (!user || user.role !== "ONBOARDING") {
-  //   return <p>Forbidden</p>;
-  // }
+  if (!user || user.role !== "ONBOARDING") {
+    return <p>Forbidden</p>;
+  }
 
   return <OnboardingForm {...user} />;
 }

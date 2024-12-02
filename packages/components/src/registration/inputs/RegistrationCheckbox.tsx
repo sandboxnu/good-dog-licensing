@@ -21,18 +21,16 @@ export default function RegistrationCheckbox<Values extends FieldValues>(
         name={props.fieldName}
         control={control}
         render={({ field }) => (
-          <Checkbox className="mr-2 bg-white" />
-          // <Input
-          //   id={props.fieldName}
-          //   type="checkbox"
-          //   checked={field.value}
-          //   onChange={(e) => field.onChange(e.target.checked)}
-          // />
+          <Checkbox
+            className="mr-2 bg-white"
+            checked={field.value}
+            onChange={field.onChange}
+          />
         )}
       />
       <Label htmlFor={props.fieldName}>{props.label}</Label>
       {typeof errors?.message === "string" && (
-        <p className="text-red-500">{errors.message}</p>
+        <p className="text-good-dog-error">{errors.message}</p>
       )}
     </div>
   );

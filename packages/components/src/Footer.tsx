@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -13,45 +14,39 @@ export default function Footer() {
       />
       <div className="flex flex-row items-end justify-between px-12 py-16">
         <div className="ml-24 flex flex-grow justify-center space-x-4">
-          <Image
-            src="/icons/facebook_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-facebook"
-          />
-          <Image
-            src="/icons/twitter_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-twitter"
-          />
-          <Image
-            src="/icons/instagram_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-instagram"
-          />
-          <Image
-            src="/icons/email_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-email"
-          />
-          <Image
-            src="/icons/youtube_icon.svg"
-            width={70}
-            height={70}
-            alt="good-dog-youtube"
-          />
+          <Link href="https://x.com/gdlicensing">
+            <Image
+              src="/icons/twitter_icon.svg"
+              width={70}
+              height={70}
+              alt="good-dog-twitter"
+            />
+          </Link>
+          <Link href="https://www.instagram.com/gooddoglicensing/">
+            <Image
+              src="/icons/instagram_icon.svg"
+              width={70}
+              height={70}
+              alt="good-dog-instagram"
+            />
+          </Link>
+          <Link href="mailto:gooddoglicensing@gmail.com">
+            <Image
+              src="/icons/email_icon.svg"
+              width={70}
+              height={70}
+              alt="good-dog-email"
+            />
+          </Link>
         </div>
-        <a href="/">
+        <Link href="/">
           <Image
             src="/icons/Dark Mode Logo.svg"
             width={120}
             height={120}
             alt="good-dog-logo"
           />
-        </a>
+        </Link>
       </div>
     </footer>
   );

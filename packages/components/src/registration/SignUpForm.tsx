@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -9,9 +10,11 @@ import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
 
 import EmailVerifyModal from "./EmailVerifyModal";
+import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
 
 const zSignUpValues = z.object({
+  emailConfirmed: z.string(),
   email: z.string().email(),
   password: z
     .string()
@@ -43,10 +46,13 @@ export default function SignUpForm() {
     ),
   });
 
-  const verifyEmailMutation = trpc.sendEmailVerification.useMutation({
+  const [isEmailVerificationModalOpen, setIsEmailVerificationModalOpen] =
+    useState(false);
+  const sendVerificationEmailMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: (data) => {
       switch (data.status) {
         case "EMAIL_SENT":
+          setIsEmailVerificationModalOpen(true);
           // TODO
           // alert somehow that a verification email was sent
           break;
@@ -90,77 +96,93 @@ export default function SignUpForm() {
   });
 
   const email = signUpForm.watch("email");
+  const isEmailVerified =
+    sendVerificationEmailMutation.isSuccess &&
+    signUpForm.watch("emailConfirmed") === email;
 
   return (
     <FormProvider {...signUpForm}>
-      <div>
+      {isEmailVerificationModalOpen && (
         <EmailVerifyModal
-          isOpen={verifyEmailMutation.data?.status === "EMAIL_SENT"}
           email={email}
+          close={() => {
+            setIsEmailVerificationModalOpen(false);
+          }}
         />
-        <form onSubmit={onSubmitSignUp} className="font-afacad mx-28">
+      )}
+      <GenericRegistrationForm
+        title="Sign Up"
+        variant="dark"
+        ctaTitle="Sign Up"
+        onSubmit={onSubmitSignUp}
+        disabled={!isEmailVerified}
+        secondaryAction="Already have an account?"
+        secondaryActionLink="Sign In"
+        secondaryActionUrl="/login"
+        error={
           <div>
-            <h3 className="mb-3 mt-4 text-good-dog-violet">Email</h3>
-            <TypedRegistrationInput fieldName="email" type="email" />
+            {sendVerificationEmailMutation.isError && (
+              <p className="text-good-dog-error">
+                Failed to send verification email:{" "}
+                {sendVerificationEmailMutation.error.message}
+              </p>
+            )}
+            {signUpMutation.isError && (
+              <p className="text-good-dog-error">
+                Failed to ssign up: {signUpMutation.error.message}
+              </p>
+            )}
           </div>
-          {verifyEmailMutation.isSuccess && (
-            <p className="text-green-500">Email verified</p>
-          )}
-          <div>
-            <h3 className="mb-3 mt-4 text-good-dog-violet">Password</h3>
-            <TypedRegistrationInput fieldName="password" type="password" />
-          </div>
-          <div>
-            <h3 className="mb-3 mt-4 text-good-dog-violet">Confirm Password</h3>
-            <TypedRegistrationInput
-              fieldName="confirmPassword"
-              type="password"
-            />
-          </div>
-          <div className="flex flex-row space-x-2">
-            <div className="flex flex-1 flex-col">
-              <h3 className="mb-3 mt-4 text-good-dog-violet">First Name</h3>
-              <TypedRegistrationInput fieldName="firstName" type="text" />
-            </div>
-            <div className="flex flex-1 flex-col">
-              <h3 className="mb-3 mt-4 text-good-dog-violet">Last Name</h3>
-              <TypedRegistrationInput fieldName="lastName" type="text" />
-            </div>
-          </div>
-          <div className="mb-3 mt-4 flex flex-row justify-center space-x-1 text-2xl">
-            <h3 className="text-good-dog-violet">Already have an account?</h3>
-            <a href="/login" className="text-good-dog-violet hover:underline">
-              Sign in
-            </a>
-          </div>
-          <Button
-            className="h-16 w-full rounded-full font-righteous text-2xl text-white"
-            disabled={
-              verifyEmailMutation.isPending || verifyEmailMutation.isSuccess
-            }
-            onClick={(e) => {
-              // prevent actual form submission
-              e.preventDefault();
-              // Send the email verification email
-              verifyEmailMutation.mutate({
+        }
+      >
+        <TypedRegistrationInput fieldName="email" type="email" label="Email" />
+        <Button
+          className="h-4 w-full rounded-full"
+          disabled={sendVerificationEmailMutation.isPending}
+          onClick={(e) => {
+            // prevent actual <form/> submission
+            e.preventDefault();
+            // Send the email verification email
+            if (
+              sendVerificationEmailMutation.isSuccess &&
+              email === sendVerificationEmailMutation.data.email
+            ) {
+              setIsEmailVerificationModalOpen(true);
+            } else {
+              sendVerificationEmailMutation.mutate({
                 email,
               });
-            }}
-          >
-            VERIFY YOUR EMAIL
-          </Button>
-          <Button
-            type="submit"
-            className="text-green-500"
-
-            // disabled={
-            //   !verifyEmailMutation.isSuccess || signUpMutation.isPending
-            // }
-          >
-            <a href="/onboarding">Sign Up</a>
-          </Button>
-        </form>
-      </div>
+            }
+          }}
+        >
+          Verify Email
+        </Button>
+        {isEmailVerified && <p className="text-green-500">Email verified</p>}
+        <TypedRegistrationInput
+          fieldName="password"
+          type="password"
+          label="Password"
+        />
+        <TypedRegistrationInput
+          fieldName="confirmPassword"
+          type="password"
+          label="Confirm Password"
+        />
+        <div className="flex flex-row space-x-2">
+          <TypedRegistrationInput
+            fieldName="firstName"
+            type="text"
+            label="First Name"
+            classname="flex-1"
+          />
+          <TypedRegistrationInput
+            fieldName="lastName"
+            type="text"
+            label="Last Name"
+            classname="flex-1"
+          />
+        </div>
+      </GenericRegistrationForm>
     </FormProvider>
   );
 }

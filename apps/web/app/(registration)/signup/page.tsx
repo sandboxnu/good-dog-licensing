@@ -1,54 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 
-import { SignUpForm } from "@good-dog/components/registration";
+import {
+  RegistrationPageLayout,
+  SignUpForm,
+} from "@good-dog/components/registration";
 
 export default function Page() {
-  return (
-    <div className="flex max-h-screen flex-row">
-      <div className="flex flex-1 flex-col bg-good-dog-celadon">
-        <a href="/" className="m-10 inline-block">
-          <Image
-            src="/icons/back_button.svg"
-            width={40}
-            height={40}
-            alt="back button"
-          />
-        </a>
-        <h1 className="mx-28 font-righteous text-5xl text-good-dog-violet">
-          SIGN UP
-        </h1>
-        <SignUpForm />
-      </div>
-      <Image
-        src="/bg-assets/checker_divider.svg"
-        alt="footer-checker"
-        width={0}
-        height={0}
-        className="h-screen w-auto"
-      />
-      <div className="max-h-screen flex-1 overflow-hidden bg-good-dog-violet">
-        <div>
-          <ul className="float-right m-9 flex flex-row items-center space-x-16 font-righteous">
-            <li>
-              <a className="text-white" href="/about">
-                ABOUT US
-              </a>
-            </li>
-            <a href="/submit">
-              <li className="rounded-full bg-good-dog-celadon px-4 py-1 text-good-dog-violet">
-                SUBMIT
-              </li>
-            </a>
-          </ul>
-        </div>
-        <Image
-          src="/icons/Green Logo.svg"
-          width={828}
-          height={828}
-          alt="good-dog-logo"
-          className="mt-38 float-right -mr-16"
-        />
-      </div>
-    </div>
-  );
+  return <RegistrationPageLayout form={<SignUpForm />} formLocation="left" />;
 }

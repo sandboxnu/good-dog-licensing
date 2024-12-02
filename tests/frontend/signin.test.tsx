@@ -20,16 +20,16 @@ afterEach(() => {
 test("Renders the sign in form with email and password fields", () => {
   renderWithShell(<SignInForm />);
 
-  const signInForm = screen.getByTestId("sign-in-form");
+  const signInForm = screen.getByRole("form");
   expect(signInForm).toBeInTheDocument();
 
-  const emailField = screen.getByPlaceholderText(/email/i);
+  const emailField = screen.getByLabelText(/email/i);
   expect(emailField).toBeInTheDocument();
 
-  const passwordField = screen.getByPlaceholderText(/password/i);
+  const passwordField = screen.getByLabelText(/password/i);
   expect(passwordField).toBeInTheDocument();
 
-  const submitButton = screen.getByRole("button", { name: /sign in/i });
+  const submitButton = screen.getByRole("button", { name: /continue/i });
 
   fireEvent.change(emailField, { target: { value: "test@example.com" } });
   fireEvent.change(passwordField, { target: { value: "password123" } });
