@@ -12,9 +12,9 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@good-dog/tailwind": "workspace:*",
     "@good-dog/components": "workspace:*",
     "@good-dog/env": "workspace:*",
+    "@good-dog/tailwind": "workspace:*",
     "@good-dog/trpc": "workspace:*",
     "@good-dog/ui": "workspace:*",
     "next": "14.2.18",
