@@ -27,8 +27,16 @@ export default function SignInForm() {
     resolver: zodResolver(zSignInValues),
   });
 
+  const trpcUtils = trpc.useUtils();
+
   const signInMutation = trpc.signIn.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      // Reset the user and authenticatedUser queries
+      await Promise.all([
+        trpcUtils.user.reset(),
+        trpcUtils.authenticatedUser.reset(),
+      ]);
+
       // TODO, alert the user that they have successfully signed in
       router.push("/");
     },

@@ -8,19 +8,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/bun
-      - uses: ./.github/actions/typecheck
+      - uses: ./.github/actions/setup-bun
+
+      - run: bun typecheck
 
   format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/bun
-      - uses: ./.github/actions/format
+      - uses: ./.github/actions/setup-bun
+
+      - run: bun format
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/bun
-      - uses: ./.github/actions/lint
+      - uses: ./.github/actions/setup-bun
+
+      - run: |
+          bun lint
+          bun lint:ws
