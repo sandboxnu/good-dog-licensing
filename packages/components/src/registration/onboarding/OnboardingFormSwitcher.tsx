@@ -24,7 +24,7 @@ export default function OnboardingFormSwitcher(
   return (
     <main className="bg-good-dog-celadon">
       <div
-        className={`flex max-h-screen bg-good-dog-celadon ${roleName === "Media Maker" ? "overflow-hidden" : ""}`}
+        className={`flex bg-good-dog-celadon ${roleName === "Media Maker" ? "max-h-screen overflow-hidden" : ""}`}
       >
         <div className="flex-1">
           <a href="/" className="ml-10 mt-10 inline-block">
