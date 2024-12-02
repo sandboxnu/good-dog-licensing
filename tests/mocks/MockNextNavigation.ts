@@ -10,12 +10,14 @@ export class MockNextNavigation {
     this.useParams.mockClear();
     this.usePathname.mockClear();
     this.useSearchParams.mockClear();
-    this.useRouter.clear();
+    this.mockRouter.clear();
   }
+
+  readonly mockRouter = new MockRouter();
 
   readonly useSearchParams = mock();
   readonly usePathname = mock();
-  readonly useRouter = new MockRouter();
+  readonly useRouter = () => this.mockRouter;
   readonly useParams = mock();
 }
 
