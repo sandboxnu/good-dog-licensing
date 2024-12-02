@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 
 import CheckerColumn from "../CheckerColumn";
-import { GoodDogLogo } from "../GoodDogLogo";
+import GoodDogLogo from "../GoodDogLogo";
 
 const Side = ({
   children,

@@ -8,7 +8,7 @@ import { Label } from "@good-dog/ui/label";
 import { Switch } from "@good-dog/ui/switch";
 
 import CheckerColumn from "../../CheckerColumn";
-import { GoodDogLogo } from "../../GoodDogLogo";
+import GoodDogLogo from "../../GoodDogLogo";
 import MediaMakerForm from "./MediaMakerForm";
 import MusicianForm from "./MusicianForm";
 
