@@ -66,14 +66,14 @@ export function DataTable<T extends keyof AdminDataTypes>({
 }: DataTableProps<T>) {
   return (
     <Table>
-      <TableHeader>
+      <TableHeader className="text-nowrap text-lg">
         <TableRow>
           {columns[table].map((column) => (
             <TableHead key={column.accessorKey}>{column.header}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
-      <TableBody>
+      <TableBody className="text-base">
         {data.map((entry, idx) => (
           <TableRow key={idx}>
             {columns[table].map((column) => (
