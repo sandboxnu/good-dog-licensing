@@ -12,47 +12,74 @@ import {
   TableRow,
 } from "@good-dog/ui/table";
 
-type AdminDataTypes = GetProcedureOutput<"adminData">;
-// interface DataColumn<T extends keyof AdminDataTypes> {
-//   accessorKey: keyof AdminDataTypes[T][number];
-//   header: string;
-//   cell?: (value: string) => JSX.Element;
-// }
+export type AdminDataTypes = {
+  [T in keyof GetProcedureOutput<"adminData">]: GetProcedureOutput<"adminData">[T][number];
+};
 
 interface DataColumn<T extends keyof AdminDataTypes> {
-  accessorKey: keyof AdminDataTypes[T];
+  accessorKey: keyof AdminDataTypes[T] & string;
   header: string;
-  cell?: (value: AdminDataTypes[T][keyof AdminDataTypes[T]]) => JSX.Element;
+  cell?: (
+    value: AdminDataTypes[T][keyof AdminDataTypes[T] & string],
+  ) => React.ReactNode;
 }
 
+const columns: { [T in keyof AdminDataTypes]: DataColumn<T>[] } = {
+  users: [
+    { accessorKey: "firstName", header: "First Name" },
+    { accessorKey: "lastName", header: "Last Name" },
+    { accessorKey: "email", header: "Email" },
+    { accessorKey: "role", header: "Role" },
+    { accessorKey: "stageName", header: "Stage Name" },
+    { accessorKey: "isSongWriter", header: "Songwriter?" },
+    { accessorKey: "isAscapAffiliated", header: "ASCAP Affiliated?" },
+    { accessorKey: "isBmiAffiliated", header: "BMI Affiliated?" },
+    { accessorKey: "createdAt", header: "Date of Creation" },
+    { accessorKey: "updatedAt", header: "Date Last Updated" },
+  ],
+  groups: [
+    { accessorKey: "name", header: "Name" },
+    { accessorKey: "createdAt", header: "Date of Creation" },
+    { accessorKey: "updatedAt", header: "Date Last Updated" },
+  ],
+  groupInvites: [
+    { accessorKey: "email", header: "Email" },
+    { accessorKey: "firstName", header: "First Name" },
+    { accessorKey: "lastName", header: "Last Name" },
+    { accessorKey: "stageName", header: "Stage Name" },
+    { accessorKey: "role", header: "Role" },
+    { accessorKey: "isSongWriter", header: "Songwriter?" },
+    { accessorKey: "isAscapAffiliated", header: "ASCAP Affiliated?" },
+    { accessorKey: "isBmiAffiliated", header: "BMI Affiliated?" },
+    { accessorKey: "createdAt", header: "Date of Creation" },
+  ],
+};
+
 interface DataTableProps<T extends keyof AdminDataTypes> {
-  columns: DataColumn<T>[];
+  table: T;
   data: AdminDataTypes[T][];
 }
 
 export function DataTable<T extends keyof AdminDataTypes>({
-  columns,
+  table,
   data,
 }: DataTableProps<T>) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          {columns.map((column) => (
-            <TableHead key={String(column.accessorKey)}>
-              {column.header}
-            </TableHead>
+          {columns[table].map((column) => (
+            <TableHead key={column.accessorKey}>{column.header}</TableHead>
           ))}
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((row, rowIndex) => (
-          <TableRow key={rowIndex}>
-            {columns.map((column) => (
-              <TableCell key={String(column.accessorKey)}>
-                {column.cell
-                  ? column.cell(row[column.accessorKey])
-                  : (row[column.accessorKey] as React.ReactNode)}
+        {data.map((entry, idx) => (
+          <TableRow key={idx}>
+            {columns[table].map((column) => (
+              <TableCell key={column.accessorKey}>
+                {column.cell?.(entry[column.accessorKey]) ??
+                  String(entry[column.accessorKey])}
               </TableCell>
             ))}
           </TableRow>
