@@ -21,7 +21,7 @@ type AdminDataTypes = GetProcedureOutput<"adminData">;
 interface DataColumn<T extends keyof AdminDataTypes> {
   accessorKey: keyof AdminDataTypes[T][number];
   header: string;
-  cell?: (value: string) => JSX.Element;
+  cell?: (value: AdminDataTypes[T][keyof AdminDataTypes[T]]) => JSX.Element;
 }
 
 const columns = {
