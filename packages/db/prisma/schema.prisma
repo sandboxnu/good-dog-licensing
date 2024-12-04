@@ -61,7 +61,7 @@ model Group {
 model GroupInvite {
   inviteId          String   @default(cuid()) @map("id")
   groupId           String
-  intitiatorId      String
+  initiatorId      String
   email             String
   firstName         String
   lastName          String
@@ -71,7 +71,7 @@ model GroupInvite {
   isAscapAffiliated Boolean  @default(false)
   isBmiAffiliated   Boolean  @default(false)
   group             Group    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  intitiator        User     @relation(fields: [intitiatorId], references: [userId], onDelete: Cascade)
+  intitiator        User     @relation(fields: [initiatorId], references: [userId], onDelete: Cascade)
   createdAt         DateTime @default(now())
 
   @@unique([groupId, email])
