@@ -1,4 +1,5 @@
 import type { TRPCClientErrorLike } from "@trpc/client";
+import type { inferProcedureOutput } from "@trpc/server";
 import { z } from "zod";
 
 import type { AppRouter } from "./internal/router";
@@ -13,3 +14,6 @@ export const zPreProcessEmptyString = <I extends z.ZodTypeAny>(schema: I) =>
       return arg;
     }
   }, schema);
+
+export type GetProcedureOutput<T extends keyof AppRouter> =
+  inferProcedureOutput<AppRouter[T]>;
