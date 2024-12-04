@@ -1,13 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
-import { Button } from "@good-dog/ui/button";
+import { Checkbox } from "@good-dog/ui/checkbox";
 
+import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
 
 const zSignInValues = z.object({
@@ -51,32 +53,50 @@ export default function SignInForm() {
 
   return (
     <FormProvider {...signInForm}>
-      <form onSubmit={onSubmit} data-testid="sign-in-form">
-        <TypedRegistrationInput
-          fieldName="email"
-          type="email"
-          placeholder="Email"
-        />
-        <TypedRegistrationInput
-          fieldName="password"
-          type="password"
-          placeholder="Password"
-        />
-        <Button
-          type="submit"
-          className="text-green-500"
-          disabled={signInMutation.isPending}
-        >
-          Sign In
-        </Button>
-      </form>
-      <div>
-        {signInMutation.isError && (
-          <p className="text-red-500">
-            Error signing in: {signInMutation.error.message}
-          </p>
-        )}
-      </div>
+      <GenericRegistrationForm
+        title="Login"
+        variant="light"
+        error={
+          signInMutation.isError && (
+            <p className="text-good-dog-error">
+              Error signing in: {signInMutation.error.message}
+            </p>
+          )
+        }
+        ctaTitle="Continue"
+        onSubmit={onSubmit}
+        disabled={signInMutation.isPending}
+        secondaryAction="Don't have an account?"
+        secondaryActionLink="Sign up"
+        secondaryActionUrl="/signup"
+      >
+        <div className="flex flex-col gap-3">
+          <TypedRegistrationInput
+            fieldName="email"
+            type="email"
+            label="Email"
+          />
+          <TypedRegistrationInput
+            fieldName="password"
+            type="password"
+            label="Password"
+          />
+
+          <div className="flex flex-row flex-wrap justify-between">
+            <div className="flex flex-row items-center space-x-1">
+              <Checkbox className="border-good-dog-celadon" />
+              <p className="text-good-dog-celadon">Remember me</p>
+            </div>
+
+            <Link
+              href="/forgot-password"
+              className="text-white hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
+        </div>
+      </GenericRegistrationForm>
     </FormProvider>
   );
 }

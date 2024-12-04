@@ -27,7 +27,9 @@ jobs:
       - uses: ./.github/actions/setup-bun
 
       - name: Apply database schema
-        run: bun db:push
+        run: |
+          bun prisma db push \
+          --schema=./packages/db/prisma/schema.prisma
 
       - name: Run tests
         run: bun test

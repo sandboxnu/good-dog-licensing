@@ -3,7 +3,7 @@
 import type { FieldPath, FieldValues } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 
-import { Input } from "@good-dog/ui/input";
+import { Checkbox } from "@good-dog/ui/checkbox";
 import { Label } from "@good-dog/ui/label";
 
 export default function RegistrationCheckbox<Values extends FieldValues>(
@@ -16,22 +16,21 @@ export default function RegistrationCheckbox<Values extends FieldValues>(
   const errors = formState.errors[props.fieldName];
 
   return (
-    <div>
-      <Label htmlFor={props.fieldName}>{props.label}</Label>
+    <div className="flex flex-row">
       <Controller
         name={props.fieldName}
         control={control}
         render={({ field }) => (
-          <Input
-            id={props.fieldName}
-            type="checkbox"
+          <Checkbox
+            className="mr-2 bg-white"
             checked={field.value}
-            onChange={(e) => field.onChange(e.target.checked)}
+            onChange={field.onChange}
           />
         )}
       />
+      <Label htmlFor={props.fieldName}>{props.label}</Label>
       {typeof errors?.message === "string" && (
-        <p className="text-red-500">{errors.message}</p>
+        <p className="text-good-dog-error">{errors.message}</p>
       )}
     </div>
   );

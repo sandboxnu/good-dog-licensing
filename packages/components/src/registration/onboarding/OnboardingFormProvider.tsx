@@ -76,14 +76,14 @@ export default function OnboardingFormProvider<
 
   return (
     <FormProvider {...onboardingForm}>
-      <form onSubmit={onSubmit}>
-        {props.children}
+      <form onSubmit={onSubmit} className="flex flex-col justify-between">
+        <div className="mb-10">{props.children}</div>
         <Button
+          className="bottom-16 h-16 w-full rounded-full font-righteous text-2xl text-white"
           type="submit"
-          className="text-green-500"
           disabled={onboardingMutation.isPending}
         >
-          Sign Up
+          SIGN UP
         </Button>
       </form>
     </FormProvider>

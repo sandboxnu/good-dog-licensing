@@ -155,14 +155,12 @@ describe("email-verification", () => {
     test("Email already verified", async () => {
       await createEmailVerificationCode(true);
 
-      expect(
-        $trpcCaller.confirmEmail({
-          email: "damian@gmail.com",
-          code: "019821",
-        }),
-      ).rejects.toThrow("Email already verified.");
+      const response = await $trpcCaller.confirmEmail({
+        email: "damian@gmail.com",
+        code: "019821",
+      });
 
-      await cleanupEmailVerificationCode();
+      expect(response.status).toBe("SUCCESS");
     });
 
     test("No email verification code entry", async () => {

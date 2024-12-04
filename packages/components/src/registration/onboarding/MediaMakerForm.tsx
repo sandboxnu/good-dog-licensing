@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
 
 import RegistrationInput from "../inputs/RegistrationInput";
+import DiscoveryDropdown from "./DiscoveryDropdown";
 import OnboardingFormProvider from "./OnboardingFormProvider";
 
 const Schema = z.object({
@@ -31,16 +32,26 @@ export default function MediaMakerForm(
       firstName={props.firstName}
       lastName={props.lastName}
     >
-      <TypedRegistrationInput
-        fieldName="firstName"
-        placeholder="First Name"
-        type="text"
-      />
-      <TypedRegistrationInput
-        fieldName="lastName"
-        placeholder="Last Name"
-        type="text"
-      />
+      <p>
+        A Media Maker is a Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit. Mauris pharetra lacus sit amet turpis suscipit, eget convallis
+        elit. Etiam ac tortor ac lectus scelerisque mollis.
+      </p>
+      <div className="flex flex-row space-x-3">
+        <TypedRegistrationInput
+          fieldName="firstName"
+          placeholder="Jane"
+          type="text"
+          label="First Name"
+        />
+        <TypedRegistrationInput
+          fieldName="lastName"
+          placeholder="Doe"
+          type="text"
+          label="Last Name"
+        />
+      </div>
+      <DiscoveryDropdown />
     </OnboardingFormProvider>
   );
 }

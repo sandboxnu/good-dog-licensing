@@ -23,12 +23,28 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
   )
   .mutation(async ({ ctx, input }) => {
     // Check if there is already an email verification code for the given email
-    const existingEmailVerificationCode =
-      await ctx.prisma.emailVerificationCode.findUnique({
+    const [existingUser, existingEmailVerificationCode] = await Promise.all([
+      ctx.prisma.user.findUnique({
         where: {
           email: input.email,
         },
+      }),
+      ctx.prisma.emailVerificationCode.findUnique({
+        where: {
+          email: input.email,
+        },
+      }),
+    ]);
+
+    if (existingUser) {
+      // TODO
+      // we don't want to leak details that the email already exists for a user,
+      // but we should still fail
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Email confirmation to ${input.email} failed to send.`,
       });
+    }
 
     // If email already verified, throw error
     if (existingEmailVerificationCode?.emailConfirmed) {
@@ -55,7 +71,7 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
       }
     }
     // Create/update the email verification code in the database
-    await ctx.prisma.emailVerificationCode.upsert({
+    const result = await ctx.prisma.emailVerificationCode.upsert({
       where: {
         email: input.email,
       },
@@ -71,9 +87,9 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
     });
 
     return {
-      email: input.email,
+      email: result.email,
       status: "EMAIL_SENT" as const,
-      message: `Email verification code sent to ${input.email}`,
+      message: `Email verification code sent to ${result.email}`,
     };
   });
 
@@ -102,17 +118,18 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
     // If user already exists
     if (existingUser) {
       throw new TRPCError({
-        code: "CONFLICT",
-        message: `User already exists with email ${input.email}`,
+        code: "UNAUTHORIZED",
+        message: `${input.email} is not verified.`,
       });
     }
 
     // If email already verified
     if (existingEmailVerificationCode?.emailConfirmed) {
-      throw new TRPCError({
-        code: "CONFLICT",
-        message: `Email already verified.`,
-      });
+      return {
+        status: "SUCCESS" as const,
+        email: existingEmailVerificationCode.email,
+        message: `Email was successfully verified. Email: ${input.email}.`,
+      };
     }
 
     // If email verification not found or given code is wrong, throw UNAUTHORIZED error
@@ -144,7 +161,7 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
         }
       }
       // Create/update the email verification code in the database
-      await ctx.prisma.emailVerificationCode.update({
+      const result = await ctx.prisma.emailVerificationCode.update({
         where: {
           email: input.email,
         },
@@ -156,12 +173,13 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
 
       return {
         status: "RESENT" as const,
+        email: result.email,
         message: `Code is expired. A new code was sent to ${input.email}.`,
       };
     }
 
     // If here, the given code was valid, so we can update the emailVerificationCode.
-    await ctx.prisma.emailVerificationCode.update({
+    const result = await ctx.prisma.emailVerificationCode.update({
       where: {
         email: input.email,
       },
@@ -173,6 +191,7 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
 
     return {
       status: "SUCCESS" as const,
+      email: result.email,
       message: `Email was successfully verified. Email: ${input.email}.`,
     };
   });

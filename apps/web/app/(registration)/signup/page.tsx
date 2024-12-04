@@ -1,5 +1,8 @@
-import { SignUpForm } from "@good-dog/components/registration";
+import {
+  RegistrationPageLayout,
+  SignUpForm,
+} from "@good-dog/components/registration";
 
 export default function Page() {
-  return <SignUpForm />;
+  return <RegistrationPageLayout form={<SignUpForm />} formLocation="left" />;
 }
