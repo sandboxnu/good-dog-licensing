@@ -15,6 +15,7 @@ export default function Home() {
         flipY
         reverseLayout
         title="Musicians"
+        description="Your music should be heard! Good Dog Licensing is all about expanding your audience and bringing your music to new heights. Artists retain 100% of all rights when they license through Good Dog! All filmmakers are required to fill out cue sheets as well, so we offer artists a chance at earning backend royalties. With no extra work for you whatsoever, Good Dog can help you reach new listeners and make great new connections within the entertainment industry!"
         button="SEND US YOUR MUSIC"
       />
       <ProjectGallery />
