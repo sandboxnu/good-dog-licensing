@@ -6,7 +6,7 @@ export default function LandingSubmission({
   flipY = false,
   reverseLayout = false,
   title = "Media Makers",
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pharetra lacus sit amet turpis suscipit, eget convallis elit condimentum. Etiam ac tortor ac lectus scelerisque mollis. Fusce tempus ornare rutrum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras congue, orci molestie euismod mollis, sapien nisi aliquet diam, vitae porta augue lacus eget elit. Mauris diam diam.",
+  description = "Music can be one of the most powerful tools a storyteller can use. Here at Good Dog Licensing, we offer the extremely unique opportunity to license top quality music for no cost whatsoever! Beyond licensing, Good Dog will also conduct thorough music searches for you and assist you with all things music supervision making the whole process of obtaining music seamless and easy! Whether you’re working on a film, video game, podcast, or anything at all Good Dog is there to help you.",
   button = "SUBMIT A BRIEF",
 }) {
   const imageFlipClasses = `
