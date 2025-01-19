@@ -12,7 +12,7 @@ export default function Footer() {
         height={0}
         style={{ width: "100%", height: "auto" }}
       />
-      <div className="flex flex-row content-center items-center justify-between px-12 pt-16 pb-4">
+      <div className="flex flex-row content-center items-center justify-between px-12 pb-4 pt-16">
         <div className="absolute left-1/2 flex -translate-x-1/2 transform space-x-4">
           <Link href="https://x.com/gdlicensing">
             <Image
@@ -48,7 +48,7 @@ export default function Footer() {
           />
         </Link>
       </div>
-      <div className="text-[#0D0039] text-center pb-4 text-lg">
+      <div className="pb-4 text-center text-lg text-[#0D0039]">
         <p>
           Operated by&nbsp;
           <a className="underline" href="https://www.greenlinerecords.com/">
