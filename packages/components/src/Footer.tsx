@@ -49,11 +49,17 @@ export default function Footer() {
         </Link>
       </div>
       <div className="text-[#0D0039] text-center pb-4 text-lg">
-        <p>Operated by&nbsp;
-          <a className="underline" href="https://www.greenlinerecords.com/">Green Line Records</a>
+        <p>
+          Operated by&nbsp;
+          <a className="underline" href="https://www.greenlinerecords.com/">
+            Green Line Records
+          </a>
         </p>
-        <p className="text-center text-lg">Made by students @&nbsp;
-          <a className="underline" href="https://www.sandboxnu.com/">Sandbox</a>
+        <p className="text-center text-lg">
+          Made by students @&nbsp;
+          <a className="underline" href="https://www.sandboxnu.com/">
+            Sandbox
+          </a>
         </p>
       </div>
     </footer>
