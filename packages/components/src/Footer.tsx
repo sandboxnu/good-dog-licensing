@@ -12,8 +12,8 @@ export default function Footer() {
         height={0}
         style={{ width: "100%", height: "auto" }}
       />
-      <div className="flex flex-row items-end justify-between px-12 py-16">
-        <div className="ml-24 flex flex-grow justify-center space-x-4">
+      <div className="flex flex-row content-center items-center justify-between px-12 py-16">
+        <div className="absolute left-1/2 flex -translate-x-1/2 transform space-x-4">
           <Link href="https://x.com/gdlicensing">
             <Image
               src="/icons/twitter_icon.svg"
