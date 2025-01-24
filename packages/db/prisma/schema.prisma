@@ -61,7 +61,7 @@ model Group {
 model GroupInvite {
   inviteId          String   @default(cuid()) @map("id")
   groupId           String
-  initiatorId      String
+  initiatorId       String
   email             String
   firstName         String
   lastName          String
