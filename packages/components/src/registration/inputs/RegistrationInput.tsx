@@ -26,7 +26,7 @@ export default function RegistrationInput<Values extends FieldValues>(
       <Input
         id={props.fieldName}
         {...register(props.fieldName)}
-        className="border-good-dog-violet bg-white file:bg-white"
+        className="border-good-dog-violet bg-white file:bg-white text-black"
         placeholder={props.placeholder}
         type={props.type}
       />
