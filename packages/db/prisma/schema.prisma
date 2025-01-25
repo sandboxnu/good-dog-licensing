@@ -66,8 +66,8 @@ model PasswordResetReq {
 
 model MusicianGroup {
   groupId      String                @id @default(uuid())
-  organizerId       String // The user that created the group
-  organizer         User                  @relation(fields: [organizerId], references: [userId], onDelete: Cascade)
+  organizerId  String // The user that created the group
+  organizer    User                  @relation(fields: [organizerId], references: [userId], onDelete: Cascade)
   name         String
   groupMembers MusicianGroupMember[] // Does not contain the user that created the group
   createdAt    DateTime              @default(now())
