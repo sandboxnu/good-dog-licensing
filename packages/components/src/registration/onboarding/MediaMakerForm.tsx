@@ -5,14 +5,20 @@ import { z } from "zod";
 import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
 
 import RegistrationInput from "../inputs/RegistrationInput";
-import DiscoveryDropdown from "./DiscoveryDropdown";
 import OnboardingFormProvider from "./OnboardingFormProvider";
+import ReferralDropdown from "./ReferralDropdown";
+import { ReferralSource } from ".prisma/client";
 
 const Schema = z.object({
   role: z.literal("MEDIA_MAKER"),
   firstName: zPreProcessEmptyString(z.string()),
   lastName: zPreProcessEmptyString(z.string()),
-  discovery: z.string().optional(),
+  referral: z
+    .object({
+      source: z.nativeEnum(ReferralSource),
+      customSource: zPreProcessEmptyString(z.string().optional()),
+    })
+    .optional(),
 });
 
 type FormValues = z.infer<typeof Schema>;
@@ -51,7 +57,7 @@ export default function MediaMakerForm(
           label="Last Name"
         />
       </div>
-      <DiscoveryDropdown />
+      <ReferralDropdown />
     </OnboardingFormProvider>
   );
 }
