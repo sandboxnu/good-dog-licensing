@@ -39,6 +39,8 @@ model User {
   sentInvites       GroupInvite[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+  project           Project[]
+  musicSubmission   MusicSubmission[]
 }
 
 model Session {
@@ -56,10 +58,11 @@ model Group {
   invites   GroupInvite[]
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+  musicSubmissions    MusicSubmission[]
 }
 
 model GroupInvite {
-  inviteId          String   @default(cuid()) @map("id")
+  inviteId          String   @id @default(cuid()) @map("id")
   groupId           String
   initiatorId      String
   email             String
@@ -73,6 +76,7 @@ model GroupInvite {
   group             Group    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
   intitiator        User     @relation(fields: [initiatorId], references: [userId], onDelete: Cascade)
   createdAt         DateTime @default(now())
+  musicSubmission   MusicSubmission[] @relation("songWriters")
 
   @@unique([groupId, email])
 }
@@ -92,3 +96,39 @@ model PasswordResetReq {
   createdAt       DateTime @default(now())
   expiresAt       DateTime
 }
+
+model Project {
+  projectId      String @id @default(uuid())
+  projectOwner   User   @relation(fields: [projectId], references: [userId], onDelete: Cascade)
+  description    String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  scenes         Scene[] 
+  deadline       DateTime
+  videoLink      String @default("")
+  additionalInfo String @default("")
+}
+
+model Scene {
+  sceneId        String    @id @default(uuid())
+  description    String
+  musicType      String
+  similarSongs   String    @default("")
+  additionalInfo String    @default("")
+  projectId      String
+  Project        Project   @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+}
+
+model MusicSubmission {
+  musicId        String @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  artist         User   @relation(fields: [artistId], references: [userId], onDelete: Cascade)
+  artistId       String
+  songLink       String
+  genre          String
+  group          Group @relation(fields: [groupId], references: [groupId])
+  groupId        String
+  songwriters    GroupInvite[] @relation("songWriters")
+}
+
