@@ -84,7 +84,6 @@ export const onboardingProcedure = authenticatedProcedureBuilder
                       isSongWriter: member.isSongWriter,
                       isAscapAffiliated: member.isAscapAffiliated,
                       isBmiAffiliated: member.isBmiAffiliated,
-                      role: "MUSICIAN",
                     })) ?? [],
                 },
               },
