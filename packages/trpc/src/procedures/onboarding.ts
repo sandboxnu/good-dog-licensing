@@ -70,10 +70,10 @@ export const onboardingProcedure = authenticatedProcedureBuilder
           isSongWriter: input.isSongWriter,
           isAscapAffiliated: input.isAscapAffiliated,
           isBmiAffiliated: input.isBmiAffiliated,
-          groups: {
+          musicianGroups: {
             create: {
               name: input.groupName,
-              invites: {
+              groupMembers: {
                 createMany: {
                   data:
                     input.groupMembers?.map((member) => ({

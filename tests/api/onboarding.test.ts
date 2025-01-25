@@ -90,7 +90,7 @@ describe("get user", () => {
           },
         },
       }),
-      prisma.group.deleteMany({
+      prisma.musicianGroup.deleteMany({
         where: {
           name: "Owen's Group",
         },
@@ -136,18 +136,18 @@ describe("get user", () => {
     expect(response.message).toEqual("Successfully onboarded");
     expect(mockCache.revalidatePath).toHaveBeenCalledWith("/onboarding");
 
-    const group = await prisma.group.findFirst({
+    const group = await prisma.musicianGroup.findFirst({
       where: {
         name: "Owen's Group",
       },
       include: {
-        invites: true,
+        groupMembers: true,
       },
     });
 
     expect(group).not.toBeNull();
-    expect(group?.invites).toHaveLength(1);
-    expect(group?.invites[0]?.email).toEqual("damian@test.org");
+    expect(group?.groupMembers).toHaveLength(1);
+    expect(group?.groupMembers[0]?.email).toEqual("damian@test.org");
   });
 
   test("Onboards media maker", async () => {

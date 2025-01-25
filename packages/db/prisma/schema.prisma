@@ -33,10 +33,9 @@ model User {
   isSongWriter      Boolean           @default(false)
   isAscapAffiliated Boolean           @default(false)
   isBmiAffiliated   Boolean           @default(false)
-  groups            Group[]
+  musicianGroups    MusicianGroup[]
   passwordResetReq  PasswordResetReq?
   sessions          Session[]
-  sentInvites       GroupInvite[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
 }
@@ -47,34 +46,6 @@ model Session {
   createdAt DateTime @default(now())
   expiresAt DateTime
   user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
-}
-
-model Group {
-  groupId   String        @id @default(uuid())
-  name      String
-  users     User[]
-  invites   GroupInvite[]
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-}
-
-model GroupInvite {
-  inviteId          String   @default(cuid()) @map("id")
-  groupId           String
-  initiatorId       String
-  email             String
-  firstName         String
-  lastName          String
-  stageName         String?
-  role              Role
-  isSongWriter      Boolean  @default(false)
-  isAscapAffiliated Boolean  @default(false)
-  isBmiAffiliated   Boolean  @default(false)
-  group             Group    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  intitiator        User     @relation(fields: [initiatorId], references: [userId], onDelete: Cascade)
-  createdAt         DateTime @default(now())
-
-  @@unique([groupId, email])
 }
 
 model EmailVerificationCode {
@@ -91,4 +62,31 @@ model PasswordResetReq {
   user            User     @relation(fields: [passwordResetId], references: [userId], onDelete: Cascade)
   createdAt       DateTime @default(now())
   expiresAt       DateTime
+}
+
+model MusicianGroup {
+  groupId      String                @id @default(uuid())
+  userId       String // The user that created the group
+  user         User                  @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  name         String
+  groupMembers MusicianGroupMember[] // Does not contain the user that created the group
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+}
+
+model MusicianGroupMember {
+  groupId           String
+  group             MusicianGroup @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  firstName         String
+  lastName          String
+  stageName         String?
+  email             String
+  role              Role
+  isSongWriter      Boolean       @default(false)
+  isAscapAffiliated Boolean       @default(false)
+  isBmiAffiliated   Boolean       @default(false)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@unique([groupId, email])
 }
