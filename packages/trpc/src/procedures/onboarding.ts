@@ -60,7 +60,6 @@ export const onboardingProcedure = authenticatedProcedureBuilder
         },
       });
     } else {
-      // TODO: Actually send the group invites
       await ctx.prisma.user.update({
         data: {
           role: "MUSICIAN",
