@@ -6,7 +6,7 @@ export const getAdminViewProcedure = adminAuthenticatedProcedureBuilder.query(
       ctx.prisma.user.findMany({ omit: { hashedPassword: true } }),
       ctx.prisma.musicianGroup.findMany({
         include: {
-          user: true,
+          organizer: true,
           groupMembers: true,
         },
       }),

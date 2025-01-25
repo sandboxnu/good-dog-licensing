@@ -77,7 +77,7 @@ export const onboardingProcedure = authenticatedProcedureBuilder
                 createMany: {
                   data:
                     input.groupMembers?.map((member) => ({
-                      initiatorId: ctx.session.userId,
+                      organizerId: ctx.session.userId,
                       email: member.email,
                       firstName: member.firstName,
                       lastName: member.lastName,
