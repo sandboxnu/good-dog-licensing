@@ -81,7 +81,6 @@ model MusicianGroupMember {
   lastName          String
   stageName         String?
   email             String
-  role              Role
   isSongWriter      Boolean       @default(false)
   isAscapAffiliated Boolean       @default(false)
   isBmiAffiliated   Boolean       @default(false)
