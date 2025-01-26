@@ -33,10 +33,9 @@ model User {
   isSongWriter      Boolean           @default(false)
   isAscapAffiliated Boolean           @default(false)
   isBmiAffiliated   Boolean           @default(false)
-  groups            Group[]
+  musicianGroups    MusicianGroup[]
   passwordResetReq  PasswordResetReq?
   sessions          Session[]
-  sentInvites       GroupInvite[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   project           Project[]
@@ -49,36 +48,6 @@ model Session {
   createdAt DateTime @default(now())
   expiresAt DateTime
   user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
-}
-
-model Group {
-  groupId   String        @id @default(uuid())
-  name      String
-  users     User[]
-  invites   GroupInvite[]
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  musicSubmissions    MusicSubmission[]
-}
-
-model GroupInvite {
-  inviteId          String   @id @default(cuid()) @map("id")
-  groupId           String
-  initiatorId      String
-  email             String
-  firstName         String
-  lastName          String
-  stageName         String?
-  role              Role
-  isSongWriter      Boolean  @default(false)
-  isAscapAffiliated Boolean  @default(false)
-  isBmiAffiliated   Boolean  @default(false)
-  group             Group    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  intitiator        User     @relation(fields: [initiatorId], references: [userId], onDelete: Cascade)
-  createdAt         DateTime @default(now())
-  musicSubmission   MusicSubmission[] @relation("songWriters")
-
-  @@unique([groupId, email])
 }
 
 model EmailVerificationCode {
@@ -97,18 +66,46 @@ model PasswordResetReq {
   expiresAt       DateTime
 }
 
+model MusicianGroup {
+  groupId      String                @id @default(uuid())
+  organizerId  String // The user that created the group
+  organizer    User                  @relation(fields: [organizerId], references: [userId], onDelete: Cascade)
+  name         String
+  groupMembers MusicianGroupMember[] // Does not contain the user that created the group
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+  musicSubmissions MusicSubmission[]
+}
+
+model MusicianGroupMember {
+  id                String @id @default(uuid()) @map("id")
+  groupId           String
+  group             MusicianGroup @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  firstName         String
+  lastName          String
+  stageName         String?
+  email             String
+  isSongWriter      Boolean       @default(false)
+  isAscapAffiliated Boolean       @default(false)
+  isBmiAffiliated   Boolean       @default(false)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  musicSubmissions MusicSubmission[] @relation("songWriters")
+
+  @@unique([groupId, email])
+}
+
 model Project {
   projectId      String @id @default(uuid())
   projectOwner   User   @relation(fields: [projectId], references: [userId], onDelete: Cascade)
   description    String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  scenes         Scene[] 
+  scenes         Scene[]
   deadline       DateTime
   videoLink      String @default("")
   additionalInfo String @default("")
 }
-
 model Scene {
   sceneId        String    @id @default(uuid())
   description    String
@@ -118,7 +115,6 @@ model Scene {
   projectId      String
   Project        Project   @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
 }
-
 model MusicSubmission {
   musicId        String @id @default(uuid())
   createdAt      DateTime @default(now())
@@ -127,8 +123,7 @@ model MusicSubmission {
   artistId       String
   songLink       String
   genre          String
-  group          Group @relation(fields: [groupId], references: [groupId])
+  group          MusicianGroup @relation(fields: [groupId], references: [groupId])
   groupId        String
-  songwriters    GroupInvite[] @relation("songWriters")
+  songwriters    MusicianGroupMember[] @relation("songWriters")
 }
-
