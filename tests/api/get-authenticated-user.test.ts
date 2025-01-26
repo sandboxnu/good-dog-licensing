@@ -12,6 +12,7 @@ beforeAll(async () => {
     update: {},
     create: {
       email: "person1@prisma.io",
+      phoneNumber: "1234567890",
       firstName: "Person 1",
       lastName: "Smith",
       role: "MUSICIAN",
@@ -39,6 +40,7 @@ beforeAll(async () => {
     update: {},
     create: {
       email: "person2@gmail.com",
+      phoneNumber: "1234567890",
       firstName: "Person2",
       lastName: "Jones",
       role: "MUSICIAN",
