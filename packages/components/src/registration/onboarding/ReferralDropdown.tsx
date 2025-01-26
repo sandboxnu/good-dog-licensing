@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
-import { ReferralSource } from "@good-dog/db";
+import { referralDisplay, ReferralSource } from "@good-dog/db";
 import {
   Select,
   SelectContent,
@@ -46,7 +46,7 @@ export default function ReferralDropdown() {
               <SelectGroup>
                 {referralOptions.map((option) => (
                   <SelectItem key={option} value={option}>
-                    {option}
+                    {referralDisplay(option)}
                   </SelectItem>
                 ))}
               </SelectGroup>
