@@ -9,7 +9,7 @@ ALTER TABLE "MusicianGroupMember" ADD COLUMN     "id" TEXT NOT NULL,
 ADD CONSTRAINT "MusicianGroupMember_pkey" PRIMARY KEY ("id");
 
 -- CreateTable
-CREATE TABLE "Project" (
+CREATE TABLE "ProjectSubmission" (
     "projectId" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -18,11 +18,11 @@ CREATE TABLE "Project" (
     "videoLink" TEXT NOT NULL DEFAULT '',
     "additionalInfo" TEXT NOT NULL DEFAULT '',
 
-    CONSTRAINT "Project_pkey" PRIMARY KEY ("projectId")
+    CONSTRAINT "ProjectSubmission_pkey" PRIMARY KEY ("projectId")
 );
 
 -- CreateTable
-CREATE TABLE "Scene" (
+CREATE TABLE "SceneSubmission" (
     "sceneId" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "musicType" TEXT NOT NULL,
@@ -30,18 +30,20 @@ CREATE TABLE "Scene" (
     "additionalInfo" TEXT NOT NULL DEFAULT '',
     "projectId" TEXT NOT NULL,
 
-    CONSTRAINT "Scene_pkey" PRIMARY KEY ("sceneId")
+    CONSTRAINT "SceneSubmission_pkey" PRIMARY KEY ("sceneId")
 );
 
 -- CreateTable
 CREATE TABLE "MusicSubmission" (
     "musicId" TEXT NOT NULL,
+    "songName" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "artistId" TEXT NOT NULL,
     "songLink" TEXT NOT NULL,
     "genre" TEXT NOT NULL,
     "groupId" TEXT NOT NULL,
+    "additionalInfo" TEXT NOT NULL DEFAULT '',
 
     CONSTRAINT "MusicSubmission_pkey" PRIMARY KEY ("musicId")
 );
@@ -59,10 +61,10 @@ CREATE UNIQUE INDEX "_songWriters_AB_unique" ON "_songWriters"("A", "B");
 CREATE INDEX "_songWriters_B_index" ON "_songWriters"("B");
 
 -- AddForeignKey
-ALTER TABLE "Project" ADD CONSTRAINT "Project_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "ProjectSubmission" ADD CONSTRAINT "ProjectSubmission_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Scene" ADD CONSTRAINT "Scene_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("projectId") ON DELETE NO ACTION ON UPDATE CASCADE;
+ALTER TABLE "SceneSubmission" ADD CONSTRAINT "SceneSubmission_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "ProjectSubmission"("projectId") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MusicSubmission" ADD CONSTRAINT "MusicSubmission_artistId_fkey" FOREIGN KEY ("artistId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

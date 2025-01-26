@@ -23,22 +23,22 @@ enum Role {
 }
 
 model User {
-  userId            String            @id @default(uuid()) @map("id")
-  email             String            @unique
-  hashedPassword    String            @map("password")
+  userId            String              @id @default(uuid()) @map("id")
+  email             String              @unique
+  hashedPassword    String              @map("password")
   firstName         String
   lastName          String
   stageName         String?
   role              Role
-  isSongWriter      Boolean           @default(false)
-  isAscapAffiliated Boolean           @default(false)
-  isBmiAffiliated   Boolean           @default(false)
+  isSongWriter      Boolean             @default(false)
+  isAscapAffiliated Boolean             @default(false)
+  isBmiAffiliated   Boolean             @default(false)
   musicianGroups    MusicianGroup[]
   passwordResetReq  PasswordResetReq?
   sessions          Session[]
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  project           Project[]
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  project           ProjectSubmission[]
   musicSubmission   MusicSubmission[]
 }
 
@@ -67,63 +67,67 @@ model PasswordResetReq {
 }
 
 model MusicianGroup {
-  groupId      String                @id @default(uuid())
-  organizerId  String // The user that created the group
-  organizer    User                  @relation(fields: [organizerId], references: [userId], onDelete: Cascade)
-  name         String
-  groupMembers MusicianGroupMember[] // Does not contain the user that created the group
-  createdAt    DateTime              @default(now())
-  updatedAt    DateTime              @updatedAt
+  groupId          String                @id @default(uuid())
+  organizerId      String // The user that created the group
+  organizer        User                  @relation(fields: [organizerId], references: [userId], onDelete: Cascade)
+  name             String
+  groupMembers     MusicianGroupMember[] // Does not contain the user that created the group
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
   musicSubmissions MusicSubmission[]
 }
 
 model MusicianGroupMember {
-  id                String @id @default(uuid()) @map("id")
+  id                String            @id @default(uuid()) @map("id")
   groupId           String
-  group             MusicianGroup @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  group             MusicianGroup     @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
   firstName         String
   lastName          String
   stageName         String?
   email             String
-  isSongWriter      Boolean       @default(false)
-  isAscapAffiliated Boolean       @default(false)
-  isBmiAffiliated   Boolean       @default(false)
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-  musicSubmissions MusicSubmission[] @relation("songWriters")
+  isSongWriter      Boolean           @default(false)
+  isAscapAffiliated Boolean           @default(false)
+  isBmiAffiliated   Boolean           @default(false)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  musicSubmissions  MusicSubmission[] @relation("songWriters")
 
   @@unique([groupId, email])
 }
 
-model Project {
-  projectId      String @id @default(uuid())
-  projectOwner   User   @relation(fields: [projectId], references: [userId], onDelete: Cascade)
+model ProjectSubmission {
+  projectId      String            @id @default(uuid())
+  projectOwner   User              @relation(fields: [projectId], references: [userId], onDelete: Cascade)
   description    String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  scenes         Scene[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  scenes         SceneSubmission[]
   deadline       DateTime
-  videoLink      String @default("")
-  additionalInfo String @default("")
+  videoLink      String            @default("")
+  additionalInfo String            @default("")
 }
-model Scene {
-  sceneId        String    @id @default(uuid())
+
+model SceneSubmission {
+  sceneId        String            @id @default(uuid())
   description    String
   musicType      String
-  similarSongs   String    @default("")
-  additionalInfo String    @default("")
+  similarSongs   String            @default("")
+  additionalInfo String            @default("")
   projectId      String
-  Project        Project   @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+  Project        ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
 }
+
 model MusicSubmission {
-  musicId        String @id @default(uuid())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  artist         User   @relation(fields: [artistId], references: [userId], onDelete: Cascade)
+  musicId        String                @id @default(uuid())
+  songName       String
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  artist         User                  @relation(fields: [artistId], references: [userId], onDelete: Cascade)
   artistId       String
   songLink       String
   genre          String
-  group          MusicianGroup @relation(fields: [groupId], references: [groupId])
+  group          MusicianGroup         @relation(fields: [groupId], references: [groupId])
   groupId        String
   songwriters    MusicianGroupMember[] @relation("songWriters")
+  additionalInfo String                @default("")
 }
