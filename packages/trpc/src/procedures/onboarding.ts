@@ -60,7 +60,6 @@ export const onboardingProcedure = authenticatedProcedureBuilder
         },
       });
     } else {
-      // TODO: Actually send the group invites
       await ctx.prisma.user.update({
         data: {
           role: "MUSICIAN",
@@ -70,14 +69,13 @@ export const onboardingProcedure = authenticatedProcedureBuilder
           isSongWriter: input.isSongWriter,
           isAscapAffiliated: input.isAscapAffiliated,
           isBmiAffiliated: input.isBmiAffiliated,
-          groups: {
+          musicianGroups: {
             create: {
               name: input.groupName,
-              invites: {
+              groupMembers: {
                 createMany: {
                   data:
                     input.groupMembers?.map((member) => ({
-                      initiatorId: ctx.session.userId,
                       email: member.email,
                       firstName: member.firstName,
                       lastName: member.lastName,
@@ -85,7 +83,6 @@ export const onboardingProcedure = authenticatedProcedureBuilder
                       isSongWriter: member.isSongWriter,
                       isAscapAffiliated: member.isAscapAffiliated,
                       isBmiAffiliated: member.isBmiAffiliated,
-                      role: "MUSICIAN",
                     })) ?? [],
                 },
               },
