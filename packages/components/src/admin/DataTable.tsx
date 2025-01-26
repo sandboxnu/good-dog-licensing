@@ -42,17 +42,6 @@ const columns: { [T in keyof AdminDataTypes]: DataColumn<T>[] } = {
     { accessorKey: "createdAt", header: "Date of Creation" },
     { accessorKey: "updatedAt", header: "Date Last Updated" },
   ],
-  groupInvites: [
-    { accessorKey: "email", header: "Email" },
-    { accessorKey: "firstName", header: "First Name" },
-    { accessorKey: "lastName", header: "Last Name" },
-    { accessorKey: "stageName", header: "Stage Name" },
-    { accessorKey: "role", header: "Role" },
-    { accessorKey: "isSongWriter", header: "Songwriter?" },
-    { accessorKey: "isAscapAffiliated", header: "ASCAP Affiliated?" },
-    { accessorKey: "isBmiAffiliated", header: "BMI Affiliated?" },
-    { accessorKey: "createdAt", header: "Date of Creation" },
-  ],
 };
 
 interface DataTableProps<T extends keyof AdminDataTypes> {

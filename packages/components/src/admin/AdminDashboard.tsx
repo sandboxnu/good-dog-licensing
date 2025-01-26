@@ -20,7 +20,6 @@ export default function AdminDashboard() {
 
   const userData = data.users;
   const groupData = data.groups;
-  const groupInvitesData = data.groupInvites;
 
   return (
     <div className="bg-good-dog-violet pb-10">
@@ -62,19 +61,6 @@ export default function AdminDashboard() {
                 </CardHeader>
                 <CardContent>
                   <DataTable table="groups" data={groupData} />
-                </CardContent>
-              </Card>
-            </TabsContent>
-            <TabsContent className="text-3xl" value="invites">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Invites</CardTitle>
-                  <CardDescription className="text-xl">
-                    Manage pending invitations.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <DataTable table="groupInvites" data={groupInvitesData} />
                 </CardContent>
               </Card>
             </TabsContent>
