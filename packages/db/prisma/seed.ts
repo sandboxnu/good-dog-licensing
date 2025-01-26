@@ -22,6 +22,7 @@ async function main() {
     create: {
       userId: "7",
       email: "alice@prisma.io",
+      phoneNumber: "1234567890",
       firstName: "Alice",
       lastName: "Smith",
       role: "MEDIA_MAKER",
@@ -65,6 +66,7 @@ async function main() {
     create: {
       userId: "9",
       email: "bob@gmail.com",
+      phoneNumber: "(234)567-8901",
       firstName: "Bob",
       lastName: "Jones",
       role: "MUSICIAN",
@@ -108,6 +110,7 @@ async function main() {
     create: {
       userId: "56",
       email: "eve@outlook.com",
+      phoneNumber: "345-678-9012",
       firstName: "Eve",
       lastName: "Brown",
       role: "MEDIA_MAKER",

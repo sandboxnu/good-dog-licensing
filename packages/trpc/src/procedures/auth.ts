@@ -18,6 +18,12 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       firstName: z.string(),
       lastName: z.string(),
       email: z.string().email(),
+      phoneNumber: z
+        .string()
+        .regex(
+          /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
+          "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
+        ),
       password: z.string(),
     }),
   )
@@ -59,6 +65,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
           lastName: input.lastName,
           role: "ONBOARDING",
           email: input.email,
+          phoneNumber: input.phoneNumber,
           hashedPassword: hashedPassword,
           sessions: {
             create: {
