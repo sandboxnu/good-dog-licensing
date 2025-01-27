@@ -84,6 +84,7 @@ test("Correct user is returned when they have a valid session.", async () => {
   const user = await $trpcCaller.authenticatedUser();
 
   expect(user.email).toEqual("person1@prisma.io");
+  expect(user.phoneNumber).toEqual("1234567890");
 });
 
 test("Correct user is returned when they have multiple sessions and one is valid.", async () => {
@@ -95,6 +96,7 @@ test("Correct user is returned when they have multiple sessions and one is valid
   const user = await $trpcCaller.authenticatedUser();
 
   expect(user.email).toEqual("person2@gmail.com");
+  expect(user.phoneNumber).toEqual("1234567890");
 });
 
 test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.", async () => {

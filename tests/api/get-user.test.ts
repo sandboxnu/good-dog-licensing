@@ -104,6 +104,7 @@ describe("get user", () => {
     expect(user).not.toBeNull();
     if (user) {
       expect(user.email).toEqual("owen@test.org");
+      expect(user.phoneNumber).toEqual("1234567890");
     }
   });
 });
