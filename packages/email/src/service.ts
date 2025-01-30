@@ -22,6 +22,11 @@ export class EmailService {
     }
   }
 
+  setApiKey(apiKey: string) {
+    this.apiKey = apiKey;
+    sgMail.setApiKey(apiKey);
+  }
+
   generateSixDigitCode() {
     let code = "";
     for (let i = 0; i < 6; i++) {
