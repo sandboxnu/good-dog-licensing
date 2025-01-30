@@ -1,9 +1,9 @@
-import { afterEach, beforeAll, describe, expect, test } from "bun:test";
+import { afterEach, describe, expect, test } from "bun:test";
 
 import {
-  deleteSessionCookie,
-  getSessionCookie,
-  setSessionCookie,
+  deleteSessionCookieBuilder,
+  getSessionCookieBuilder,
+  setSessionCookieBuilder,
 } from "@good-dog/auth/cookies";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
@@ -11,13 +11,13 @@ import { MockNextCookies } from "../mocks/MockNextCookies";
 describe("cookies", () => {
   const cookies = new MockNextCookies();
 
-  beforeAll(async () => {
-    await cookies.apply();
-  });
-
   afterEach(() => {
     cookies.clear();
   });
+
+  const getSessionCookie = getSessionCookieBuilder(cookies);
+  const setSessionCookie = setSessionCookieBuilder(cookies);
+  const deleteSessionCookie = deleteSessionCookieBuilder(cookies);
 
   describe("session cookie", () => {
     test("get unset cookie", () => {

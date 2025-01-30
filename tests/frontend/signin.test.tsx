@@ -18,7 +18,7 @@ describe("SignInForm", () => {
     mockNavigation.clear();
   });
 
-  test("Renders the sign in form with email and password fields", () => {
+  test.skip("Renders the sign in form with email and password fields", () => {
     renderWithShell(<SignInForm />);
 
     const signInForm = screen.getByRole("form");

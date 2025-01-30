@@ -1,21 +1,29 @@
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { mock } from "bun:test";
 
-interface MockReadonlyRequestCookies {
+interface CookieItem {
   value: string;
-  data?: Record<string, unknown>;
+  name: string;
 }
 
 // A mock for the cookies function in the NextJS next/header module.
-export class MockNextCookies {
-  private cookieJar: Map<string, MockReadonlyRequestCookies>;
+export class MockNextCookies implements ReadonlyRequestCookies {
+  private cookieJar: Map<string, CookieItem>;
+
+  [Symbol.iterator](): IterableIterator<[string, CookieItem]> {
+    return this.cookieJar.entries();
+  }
+
+  get size(): number {
+    return this.cookieJar.size;
+  }
 
   constructor() {
     this.cookieJar = new Map();
   }
 
-  // Applies this mock to be the cookies used by the next/header module. This method
-  // must be called in order for this mock to be applied.
-  async apply(): Promise<void> {
+  // Overrides the cookies function in the next/headers module.
+  async mockModule(): Promise<void> {
     await mock.module("next/headers", () => ({
       cookies: () => this,
     }));
@@ -29,26 +37,51 @@ export class MockNextCookies {
     this.delete.mockClear();
   }
 
-  readonly set = mock<
-    (
-      key: string,
-      value: string,
-      data?: MockReadonlyRequestCookies["data"],
-    ) => void
-  >().mockImplementation((key, value, data) => {
-    this.cookieJar.set(key, {
-      value,
-      data,
-    });
-  });
+  readonly set = mock<ReadonlyRequestCookies["set"]>().mockImplementation(
+    (...args) => {
+      if (args.length != 1) {
+        const [key, value] = args;
+        this.cookieJar.set(key, {
+          value,
+          name: key,
+        });
+        return this;
+      } else {
+        throw new Error("Not yet implemented");
+      }
+    },
+  );
 
-  readonly get = mock<
-    (key: string) => MockReadonlyRequestCookies | undefined
-  >().mockImplementation((key) => {
-    return this.cookieJar.get(key);
-  });
+  readonly get = mock<ReadonlyRequestCookies["get"]>().mockImplementation(
+    (arg) => {
+      if (typeof arg === "string") {
+        return this.cookieJar.get(arg);
+      } else {
+        throw new Error("Not yet implemented");
+      }
+    },
+  );
 
-  readonly delete = mock<(key: string) => void>().mockImplementation((key) => {
-    this.cookieJar.delete(key);
-  });
+  readonly delete = mock<ReadonlyRequestCookies["delete"]>().mockImplementation(
+    (arg) => {
+      if (typeof arg === "string") {
+        this.cookieJar.delete(arg);
+        return this;
+      } else {
+        throw new Error("Not yet implemented");
+      }
+    },
+  );
+
+  readonly getAll = mock<ReadonlyRequestCookies["getAll"]>().mockImplementation(
+    () => {
+      return Array.from(this.cookieJar.values());
+    },
+  );
+
+  readonly has = mock<ReadonlyRequestCookies["has"]>().mockImplementation(
+    (name: string) => {
+      return this.cookieJar.has(name);
+    },
+  );
 }

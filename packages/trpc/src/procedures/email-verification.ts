@@ -1,11 +1,9 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { generateSixDigitCode } from "@good-dog/email/email-service";
-import { sendEmailVerification } from "@good-dog/email/verification-email";
 import { env } from "@good-dog/env";
 
-import { notAuthenticatedProcedureBuilder } from "../internal/init";
+import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
 // Expiration date for email verification codes is 15 minutes
 const getNewEmailVerificationCodeExpirationDate = () =>
@@ -56,9 +54,9 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
     }
 
     // Send email. If sending fails, throw error.
-    const emailCode = generateSixDigitCode();
+    const emailCode = ctx.emailService.generateSixDigitCode();
     try {
-      await sendEmailVerification(input.email, emailCode);
+      await ctx.emailService.sendVerificationEmail(input.email, emailCode);
     } catch (error) {
       if (env.NODE_ENV === "development") {
         console.error(error);
@@ -146,9 +144,9 @@ export const confirmEmailProcedure = notAuthenticatedProcedureBuilder
     // If given code is expired, send new verification code and return RESENT
     if (existingEmailVerificationCode.expiresAt < new Date()) {
       // Send email. If sending fails, throw error.
-      const emailCode = generateSixDigitCode();
+      const emailCode = ctx.emailService.generateSixDigitCode();
       try {
-        await sendEmailVerification(input.email, emailCode);
+        await ctx.emailService.sendVerificationEmail(input.email, emailCode);
       } catch (error) {
         if (env.NODE_ENV === "development") {
           console.error(error);

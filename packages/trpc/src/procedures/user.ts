@@ -1,9 +1,5 @@
-import { getSessionCookie } from "@good-dog/auth/cookies";
-
-import {
-  authenticatedProcedureBuilder,
-  baseProcedureBuilder,
-} from "../internal/init";
+import { baseProcedureBuilder } from "../internal/init";
+import { authenticatedProcedureBuilder } from "../middleware/authentictated";
 
 export const getAuthenticatedUserProcedure =
   authenticatedProcedureBuilder.query(({ ctx }) => {
@@ -11,7 +7,7 @@ export const getAuthenticatedUserProcedure =
   });
 
 export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
-  const sessionId = getSessionCookie();
+  const sessionId = ctx.cookiesService.getSessionCookie();
 
   if (!sessionId?.value) {
     return null;

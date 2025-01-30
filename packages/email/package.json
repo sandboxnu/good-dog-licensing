@@ -4,9 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    "./verification-email": "./src/verification-email.ts",
-    "./email-service": "./src/email-service.ts",
-    "./password-reset-email": "./src/password-reset-email.ts"
+    ".": "./src/index.ts"
   },
   "license": "MIT",
   "scripts": {
