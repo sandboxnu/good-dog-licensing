@@ -101,10 +101,11 @@ To add a new procedure, follow these steps:
 
 ## Best Practices
 
-- **Type Safety:** Always define input types using `zod` to ensure type safety, use zod internally or define the output type if calling a third party library.
-- **Error Handling:** Use tRPC's built-in error handling mechanisms to provide meaningful error messages.
-- **Code Organization:** Keep the procedures organized in the `procedures` directory.
-- **Testing:** Write tests for all procedures to ensure they work as expected.
+- **Organization:** Keep the procedures organized in the `procedures` directory.
+- **Type Safety:** Input types are defined using `zod` to ensure type safety, use zod internally or define the output type if calling a third party library.
+- **Error Handling:** Use tRPC's built-in error handling mechanisms, i.e. throwing TRPCErrors, to ensure consistent error handling our procedures.
+- **Service Context Layer:** Import services into the context to be used in procedures, rather than importing them directly in the procedure. This allows for easier testing and mocking of services.
+- **Testing:** Write integration tests for all procedures to ensure they work as expected.
 
 ## Testing with tRPC
 
