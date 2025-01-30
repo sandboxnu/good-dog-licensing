@@ -108,17 +108,4 @@ To add a new procedure, follow these steps:
 
 ## Testing with tRPC
 
-### Unit Testing
-
-You can write unit tests for your tRPC procedures using the `$trpcCaller` export. Here is an example test for the `hello` procedure:
-
-```ts
-import { expect, test } from "bun:test";
-
-import { $trpcCaller } from "@good-dog/trpc/server";
-
-test("hello world", async () => {
-  const result = await $trpcCaller.hello({ text: "world" });
-  expect(result.greeting).toEqual("hello world");
-});
-```
+See documentation for tRPC [testing](../../tests/README.md).
