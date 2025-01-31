@@ -23,23 +23,23 @@ enum Role {
 }
 
 model User {
-  userId            String              @id @default(uuid()) @map("id")
-  email             String              @unique
-  hashedPassword    String              @map("password")
-  firstName         String
-  lastName          String
-  stageName         String?
-  role              Role
-  isSongWriter      Boolean             @default(false)
-  isAscapAffiliated Boolean             @default(false)
-  isBmiAffiliated   Boolean             @default(false)
-  musicianGroups    MusicianGroup[]
-  passwordResetReq  PasswordResetReq?
-  sessions          Session[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  project           ProjectSubmission[]
-  musicSubmission   MusicSubmission[]
+  userId             String              @id @default(uuid()) @map("id")
+  email              String              @unique
+  hashedPassword     String              @map("password")
+  firstName          String
+  lastName           String
+  stageName          String?
+  role               Role
+  isSongWriter       Boolean             @default(false)
+  isAscapAffiliated  Boolean             @default(false)
+  isBmiAffiliated    Boolean             @default(false)
+  musicianGroups     MusicianGroup[]
+  passwordResetReq   PasswordResetReq?
+  sessions           Session[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  projectSubmissions ProjectSubmission[]
+  musicSubmissions   MusicSubmission[]
 }
 
 model Session {
@@ -108,13 +108,13 @@ model ProjectSubmission {
 }
 
 model SceneSubmission {
-  sceneId        String            @id @default(uuid())
-  description    String
-  musicType      String
-  similarSongs   String            @default("")
-  additionalInfo String            @default("")
-  projectId      String
-  Project        ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+  sceneId           String            @id @default(uuid())
+  description       String
+  musicType         String
+  similarSongs      String            @default("")
+  additionalInfo    String            @default("")
+  projectId         String
+  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
 }
 
 model MusicSubmission {
