@@ -1,19 +1,63 @@
 # Tests
 
+## Endpoint Integration Testing
+
+You can write integrations tests for your tRPC procedures using the `$createTrpcCaller` export.
+
+This will return an api caller function that with the specified context and services.
+
+```ts
+import { expect, test } from "bun:test";
+
+import { $createTrpcCaller } from "@good-dog/trpc/server";
+
+const $api = $createTrpcCaller({
+  /**
+   * Here you attach your services you need.
+   *
+   * Let's say we wanted to mock a service used by the hello procedure
+   * used to generate a greeting. We can mock the service here.
+   */
+  helloService: (str: string) => `hello ${str}`,
+});
+
+test("hello world", async () => {
+  const result = await $trpcCaller.hello({ text: "world" });
+  expect(result.greeting).toEqual("hello world");
+});
+```
+
 ## Mocks
 
 ### MockNextCookies
 
-This is a mock for the cookies function in next/headers. In your tests, just instantiate
-a new MockNextCookies object, set the cookies you would like, and run the apply() method
-on the newly created object.
+This module implements all functionality of the `cookies()` function from Next.js, but in a mockable way. This is useful for testing components that rely on cookies.
 
 Example usage:
 
-<pre>const cookies = new MockNextCookies();
-cookies.set("myKey", "myValue");
-cookies.apply();
-... rest of your test</pre>
+```ts
+const cookies = new MockNextCookies();
+
+const $api = $createTrpcCaller({
+  cookiesService: createMockCookieService(mockCookies),
+});
+
+afterEach(() => {
+  cookies.clear();
+});
+
+test(() => {
+  await $api.someProcedure();
+
+  expect(cookies.get).toHaveBeenCalledWith("cookie-name");
+});
+```
+
+## MockEmailService
+
+This module extends our email service to allow for mocking of the actual "send" function. This is useful for testing components that rely on sending emails.
+
+It also overrides the default behavior of the randomized 6-digit code generator to always return the same code.
 
 ## Running Tests
 

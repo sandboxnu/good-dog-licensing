@@ -1,4 +1,4 @@
-import { adminAuthenticatedProcedureBuilder } from "../internal/init";
+import { adminAuthenticatedProcedureBuilder } from "../middleware/admin";
 
 export const getAdminViewProcedure = adminAuthenticatedProcedureBuilder.query(
   async ({ ctx }) => {

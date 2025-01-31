@@ -12,7 +12,7 @@ This repository is a monorepo for the Good Dog Licensing project, managed with T
     - [Installation](#installation)
     - [Running Scripts](#running-scripts)
   - [Running Tests](#running-tests)
-  - [Tesing in Preview](#tesing-in-preview)
+  - [Testing in Preview](#testing-in-preview)
   - [X feature isn't working... HELP!!](#x-feature-isnt-working-help)
 
 ## Structure
@@ -44,9 +44,12 @@ The repository is organized as follows:
 
 ### Prerequisites
 
+Install all these tools before you start:
+
 - [Node.js](https://nodejs.org/) >= 20
 - [Bun](https://bun.sh/) >= 1.1.27
-- [Docker](https://www.docker.com/) >= 20.10.7
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Installation
 
@@ -98,13 +101,13 @@ The following scripts are available in the root `package.json`:
 - `shad-add`: Add a new UI component using Shadcn.
 - `generate:package`: Generate a new package.
 - `env:setup`: Setup the default env vars
-- `bun test`: Run the test suites
+- `test`: Run the test suites
 
 ## Running Tests
 
 You can run the entire test suite using `bun test` or run the tests for a specific entrypoint, `bun test <file-path>`. To filter tests by name, use `bun test <file-path> -t <test-name>`. For example, to run all tests for the `frontend` folder, you can run `bun test frontend`.
 
-## Tesing in Preview
+## Testing in Preview
 
 To test the application in a the environment, follow these steps:
 

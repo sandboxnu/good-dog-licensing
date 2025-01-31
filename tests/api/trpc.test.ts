@@ -1,21 +1,23 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "bun:test";
 import { ZodError } from "zod";
 
-import { hashPassword } from "@good-dog/auth/password";
+import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
-import { $trpcCaller } from "@good-dog/trpc/server";
+import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
+import { createMockCookieService } from "../mocks/util";
 
 describe("error formatting", () => {
   const cookies = new MockNextCookies();
-  beforeAll(async () => {
-    await cookies.apply();
+
+  const $api = $createTrpcCaller({
+    cookiesService: createMockCookieService(cookies),
   });
 
   it("should format error with cause", () => {
     expect(
-      $trpcCaller.signIn({
+      $api.signIn({
         email: "not-an-email",
         password: "grrrr",
       }),
@@ -29,6 +31,12 @@ describe("error formatting", () => {
 describe("middleware", () => {
   const cookies = new MockNextCookies();
 
+  const $api = $createTrpcCaller({
+    cookiesService: createMockCookieService(cookies),
+    prisma: prisma,
+    passwordService: passwordService,
+  });
+
   beforeAll(async () => {
     await prisma.user.create({
       data: {
@@ -37,7 +45,7 @@ describe("middleware", () => {
         firstName: "test",
         lastName: "user",
         role: "MEDIA_MAKER",
-        hashedPassword: await hashPassword("passwordABC"),
+        hashedPassword: await passwordService.hashPassword("passwordABC"),
         sessions: {
           createMany: {
             data: [
@@ -58,8 +66,6 @@ describe("middleware", () => {
         sessions: true,
       },
     });
-
-    await cookies.apply();
   });
 
   afterEach(() => {
@@ -76,26 +82,26 @@ describe("middleware", () => {
 
   describe("authenticatedProcedure", () => {
     it("should reject with no session id", () => {
-      expect($trpcCaller.authenticatedUser()).rejects.toMatchObject({
+      expect($api.authenticatedUser()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });
 
     it("should reject bad session id", () => {
       cookies.set("sessionId", "XXX");
-      expect($trpcCaller.authenticatedUser()).rejects.toMatchObject({
+      expect($api.authenticatedUser()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });
 
     it("should accept valid session id", () => {
       cookies.set("sessionId", "middleware-test-session");
-      expect($trpcCaller.authenticatedUser()).resolves.toBeTruthy();
+      expect($api.authenticatedUser()).resolves.toBeTruthy();
     });
 
     it("should reject expired session id", () => {
       cookies.set("sessionId", "middleware-test-session-expired");
-      expect($trpcCaller.authenticatedUser()).rejects.toMatchObject({
+      expect($api.authenticatedUser()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });
@@ -104,7 +110,7 @@ describe("middleware", () => {
   describe("notAuthenticatedProcedure", () => {
     it("should accept no session id", () => {
       expect(
-        $trpcCaller.signIn({
+        $api.signIn({
           email: "test@testing.com",
           password: "passwordABC",
         }),
@@ -114,7 +120,7 @@ describe("middleware", () => {
     it("should reject with valid session id", () => {
       cookies.set("sessionId", "middleware-test-session");
       expect(
-        $trpcCaller.signIn({
+        $api.signIn({
           email: "test@testing.com",
           password: "passwordABC",
         }),
@@ -124,7 +130,7 @@ describe("middleware", () => {
     it("should accept expired session id", () => {
       cookies.set("sessionId", "middleware-test-session-expired");
       expect(
-        $trpcCaller.signIn({
+        $api.signIn({
           email: "test@testing.com",
           password: "passwordABC",
         }),
@@ -134,7 +140,7 @@ describe("middleware", () => {
     it("should accept bad session id", () => {
       cookies.set("sessionId", "XXX");
       expect(
-        $trpcCaller.signIn({
+        $api.signIn({
           email: "test@testing.com",
           password: "passwordABC",
         }),

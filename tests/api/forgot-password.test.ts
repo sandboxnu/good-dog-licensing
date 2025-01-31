@@ -1,22 +1,23 @@
-import {
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  test,
-} from "bun:test";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 
-import { comparePassword, hashPassword } from "@good-dog/auth/password";
+import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
-import { $trpcCaller } from "@good-dog/trpc/server";
+import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
+import { createMockCookieService } from "../mocks/util";
 
 describe("forgot-password", () => {
   const mockCookies = new MockNextCookies();
   const mockEmails = new MockEmailService();
+
+  const $api = $createTrpcCaller({
+    cookiesService: createMockCookieService(mockCookies),
+    emailService: mockEmails,
+    prisma: prisma,
+    passwordService: passwordService,
+  });
 
   const createAccount = async (email: string) =>
     prisma.user.upsert({
@@ -25,11 +26,11 @@ describe("forgot-password", () => {
         lastName: "White",
         role: "MEDIA_MAKER",
         email: email,
-        hashedPassword: await hashPassword("password123"),
+        hashedPassword: await passwordService.hashPassword("password123"),
       },
       update: {
         email: email,
-        hashedPassword: await hashPassword("password123"),
+        hashedPassword: await passwordService.hashPassword("password123"),
       },
       where: {
         email: email,
@@ -77,10 +78,6 @@ describe("forgot-password", () => {
     }
   };
 
-  beforeAll(async () => {
-    await Promise.all([mockCookies.apply(), mockEmails.apply()]);
-  });
-
   beforeEach(async () => {
     await Promise.all([
       cleanupPasswordResetRequest("walter@gmail.com"),
@@ -101,7 +98,7 @@ describe("forgot-password", () => {
     test("No user with given email", async () => {
       await cleanupAccount("walter@gmail.com");
 
-      const response = await $trpcCaller.sendForgotPasswordEmail({
+      const response = await $api.sendForgotPasswordEmail({
         email: "walter@gmail.com",
       });
 
@@ -109,16 +106,14 @@ describe("forgot-password", () => {
         "If a user exists for walter@gmail.com, a password reset link was sent to the email.",
       );
 
-      expect(mockEmails.setApiKey).not.toBeCalled();
       expect(mockEmails.send).not.toBeCalled();
     });
 
     test("Valid user. No pending password reset request.", async () => {
-      const response = await $trpcCaller.sendForgotPasswordEmail({
+      const response = await $api.sendForgotPasswordEmail({
         email: "walter@gmail.com",
       });
 
-      expect(mockEmails.setApiKey).toBeCalled();
       expect(mockEmails.send).toBeCalled();
 
       expect(response.message).toBe(
@@ -167,11 +162,10 @@ describe("forgot-password", () => {
       });
       expect(passwordResetReqs.length).toBe(1);
 
-      const response = await $trpcCaller.sendForgotPasswordEmail({
+      const response = await $api.sendForgotPasswordEmail({
         email: "walter@gmail.com",
       });
 
-      expect(mockEmails.setApiKey).toBeCalled();
       expect(mockEmails.send).toBeCalled();
 
       expect(response.message).toBe(
@@ -206,7 +200,7 @@ describe("forgot-password", () => {
   describe("forgot-password/confirmPasswordReset", () => {
     test("Given cuid doesn't exist", () => {
       expect(
-        $trpcCaller.confirmPasswordReset({
+        $api.confirmPasswordReset({
           passwordResetId: "12345",
           newPassword: "password",
         }),
@@ -220,7 +214,7 @@ describe("forgot-password", () => {
       );
 
       expect(
-        $trpcCaller.confirmPasswordReset({
+        $api.confirmPasswordReset({
           passwordResetId: passwordResetReq.passwordResetId,
           newPassword: "password",
         }),
@@ -233,7 +227,7 @@ describe("forgot-password", () => {
         new Date(Date.now() + 60_000 * 100000),
       );
 
-      const response = await $trpcCaller.confirmPasswordReset({
+      const response = await $api.confirmPasswordReset({
         passwordResetId: passwordResetReq.passwordResetId,
         newPassword: "newPassword",
       });
@@ -248,7 +242,7 @@ describe("forgot-password", () => {
           passwordResetReq: true,
         },
       });
-      const passwordUpdated = await comparePassword(
+      const passwordUpdated = await passwordService.comparePassword(
         "newPassword",
         user?.hashedPassword ?? "",
       );
