@@ -99,6 +99,15 @@ export const adminAuthenticatedProcedureBuilder =
     return next({ ctx });
   });
 
+  export const adminOrModeratorAuthenticatedProcedureBuilder =
+  authenticatedProcedureBuilder.use(async ({ ctx, next }) => {
+    if (ctx.session.user.role !== "MODERATOR" && ctx.session.user.role !== "ADMIN") {
+      throw new TRPCError({ code: "FORBIDDEN" });
+    }
+
+    return next({ ctx });
+  });
+
 // This middleware is used to prevent authenticated users from accessing a resource
 export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
