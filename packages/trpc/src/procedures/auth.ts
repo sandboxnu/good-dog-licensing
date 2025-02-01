@@ -173,3 +173,32 @@ export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
     };
   },
 );
+
+export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
+  async ({ ctx }) => {
+    const sessionId = ctx.session.sessionId;
+
+    const updatedSession = await ctx.prisma.session.update({
+      where: {
+        sessionId: sessionId,
+      },
+      data: {
+        expiresAt: getNewSessionExpirationDate(),
+      },
+      select: {
+        sessionId: true,
+        expiresAt: true,
+      },
+    });
+
+    ctx.cookiesService.setSessionCookie(
+      updatedSession.sessionId,
+      updatedSession.expiresAt,
+    );
+
+    return {
+      message: "Session refreshed",
+      expiresAt: updatedSession.expiresAt,
+    };
+  },
+);

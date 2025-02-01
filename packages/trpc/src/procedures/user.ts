@@ -17,7 +17,8 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
     where: {
       sessionId: sessionId.value,
     },
-    include: {
+    select: {
+      expiresAt: true,
       user: {
         select: {
           userId: true,
@@ -35,5 +36,13 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
     return null;
   }
 
-  return sessionOrNull.user;
+  return {
+    ...sessionOrNull.user,
+    session: {
+      expiresAt: sessionOrNull.expiresAt,
+      refreshRequired:
+        // Refresh session if it expires in less than 29 days
+        sessionOrNull.expiresAt.getTime() - Date.now() < 60_000 * 60 * 24 * 29,
+    },
+  };
 });
