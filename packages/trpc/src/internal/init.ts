@@ -42,3 +42,85 @@ export const createCallerFactory = t.createCallerFactory;
 
 // Procedure builders
 export const baseProcedureBuilder = t.procedure;
+
+export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
+  async ({ ctx, next }) => {
+    const sessionId = getSessionCookie();
+
+    if (!sessionId?.value) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    const sessionOrNull = await ctx.prisma.session.findUnique({
+      where: {
+        sessionId: sessionId.value,
+      },
+      include: {
+        user: {
+          select: {
+            userId: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            role: true,
+          },
+        },
+      },
+    });
+
+    if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
+      // Session expired or not found
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        session: sessionOrNull,
+      },
+    });
+  },
+);
+
+export const adminAuthenticatedProcedureBuilder =
+  authenticatedProcedureBuilder.use(async ({ ctx, next }) => {
+    if (ctx.session.user.role !== "ADMIN") {
+      throw new TRPCError({ code: "FORBIDDEN" });
+    }
+
+    return next({ ctx });
+  });
+
+  export const adminOrModeratorAuthenticatedProcedureBuilder =
+  authenticatedProcedureBuilder.use(async ({ ctx, next }) => {
+    if (ctx.session.user.role !== "MODERATOR" && ctx.session.user.role !== "ADMIN") {
+      throw new TRPCError({ code: "FORBIDDEN" });
+    }
+
+    return next({ ctx });
+  });
+
+// This middleware is used to prevent authenticated users from accessing a resource
+export const notAuthenticatedProcedureBuilder = baseProcedureBuilder.use(
+  async ({ ctx, next }) => {
+    const sessionId = getSessionCookie();
+
+    if (!sessionId?.value) {
+      return next({ ctx });
+    }
+
+    const sessionOrNull = await ctx.prisma.session.findUnique({
+      where: {
+        sessionId: sessionId.value,
+      },
+    });
+
+    if (sessionOrNull && sessionOrNull.expiresAt > new Date()) {
+      throw new TRPCError({ code: "FORBIDDEN" });
+    }
+
+    return next({
+      ctx,
+    });
+  },
+);

@@ -14,6 +14,7 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
+import { getProjectScenesProcedure } from "../procedures/get-project-scenes";
 import { onboardingProcedure } from "../procedures/onboarding";
 import {
   getAuthenticatedUserProcedure,
@@ -35,6 +36,7 @@ export const appRouter = createTRPCRouter({
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
+  getProjects: getProjectScenesProcedure,
 });
 
 export type AppRouter = typeof appRouter;
