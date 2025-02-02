@@ -21,6 +21,7 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
             firstName: true,
             lastName: true,
             email: true,
+            phoneNumber: true,
             role: true,
           },
         },
