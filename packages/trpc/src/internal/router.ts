@@ -13,6 +13,7 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
+import { getMusicSubmissionsProcedure } from "../procedures/get-music";
 import { getProjectScenesProcedure } from "../procedures/get-project-scenes";
 import { onboardingProcedure } from "../procedures/onboarding";
 import {
@@ -35,6 +36,7 @@ export const appRouter = createTRPCRouter({
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
   getProjects: getProjectScenesProcedure,
+  getMusic: getMusicSubmissionsProcedure,
 });
 
 export type AppRouter = typeof appRouter;
