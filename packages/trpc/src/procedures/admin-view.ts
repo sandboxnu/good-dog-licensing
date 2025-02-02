@@ -1,12 +1,16 @@
-import { adminAuthenticatedProcedureBuilder } from "../internal/init";
+import { adminAuthenticatedProcedureBuilder } from "../middleware/admin";
 
 export const getAdminViewProcedure = adminAuthenticatedProcedureBuilder.query(
   async ({ ctx }) => {
-    const [users, groups, groupInvites] = await Promise.all([
+    const [users, groups] = await Promise.all([
       ctx.prisma.user.findMany({ omit: { hashedPassword: true } }),
-      ctx.prisma.group.findMany(),
-      ctx.prisma.groupInvite.findMany(),
+      ctx.prisma.musicianGroup.findMany({
+        include: {
+          organizer: true,
+          groupMembers: true,
+        },
+      }),
     ]);
-    return { users, groups, groupInvites };
+    return { users, groups };
   },
 );

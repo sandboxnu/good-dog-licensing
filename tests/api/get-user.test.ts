@@ -8,9 +8,10 @@ import {
 } from "bun:test";
 
 import { prisma } from "@good-dog/db";
-import { $trpcCaller } from "@good-dog/trpc/server";
+import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
+import { createMockCookieService } from "../mocks/util";
 
 describe("get user", () => {
   // Seeds the database before running the tests
@@ -55,8 +56,9 @@ describe("get user", () => {
 
   const cookies = new MockNextCookies();
 
-  beforeAll(async () => {
-    await cookies.apply();
+  const $api = $createTrpcCaller({
+    cookiesService: createMockCookieService(cookies),
+    prisma: prisma,
   });
 
   afterEach(() => {
@@ -75,7 +77,7 @@ describe("get user", () => {
   });
 
   test("Null is returned when the user does not have a session cookie", async () => {
-    const user = await $trpcCaller.user();
+    const user = await $api.user();
 
     expect(user).toBeNull();
   });
@@ -83,7 +85,7 @@ describe("get user", () => {
   test("Null is returned when the session has expired", async () => {
     cookies.set("sessionId", "isabelle-session-id");
 
-    const user = await $trpcCaller.user();
+    const user = await $api.user();
 
     expect(user).toBeNull();
   });
@@ -91,7 +93,7 @@ describe("get user", () => {
   test("Null is returned when the session is invalid", async () => {
     cookies.set("sessionId", "invalid-session-id");
 
-    const user = await $trpcCaller.user();
+    const user = await $api.user();
 
     expect(user).toBeNull();
   });
@@ -99,7 +101,7 @@ describe("get user", () => {
   test("Correct user is returned when they have a valid session.", async () => {
     cookies.set("sessionId", "owen-session-id");
 
-    const user = await $trpcCaller.user();
+    const user = await $api.user();
 
     expect(user).not.toBeNull();
     if (user) {

@@ -1,8 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { hashPassword } from "@good-dog/auth/password";
-import { sendPasswordResetEmail } from "@good-dog/email/password-reset-email";
 import { env } from "@good-dog/env";
 
 import { baseProcedureBuilder } from "../internal/init";
@@ -55,7 +53,10 @@ export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
 
     // Send the password reset email
     try {
-      await sendPasswordResetEmail(input.email, pwdResetReq.passwordResetId);
+      await ctx.emailService.sendPasswordResetEmail(
+        input.email,
+        pwdResetReq.passwordResetId,
+      );
     } catch (error) {
       if (env.NODE_ENV === "development") {
         console.error(error);
@@ -114,7 +115,9 @@ export const confirmPasswordResetProcedure = baseProcedureBuilder
           email: passwordResetReq.user.email,
         },
         data: {
-          hashedPassword: await hashPassword(input.newPassword),
+          hashedPassword: await ctx.passwordService.hashPassword(
+            input.newPassword,
+          ),
         },
       }),
 

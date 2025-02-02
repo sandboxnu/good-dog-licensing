@@ -1,9 +1,17 @@
-import { afterAll, beforeAll, expect, test } from "bun:test";
+import { afterAll, afterEach, beforeAll, expect, test } from "bun:test";
 
 import { prisma } from "@good-dog/db";
-import { $trpcCaller } from "@good-dog/trpc/server";
+import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
+import { createMockCookieService } from "../mocks/util";
+
+const cookies = new MockNextCookies();
+
+const $api = $createTrpcCaller({
+  cookiesService: createMockCookieService(cookies),
+  prisma: prisma,
+});
 
 // Seeds the database before running the tests
 beforeAll(async () => {
@@ -75,13 +83,15 @@ beforeAll(async () => {
   });
 });
 
+afterEach(() => {
+  cookies.clear();
+});
+
 test("Correct user is returned when they have a valid session.", async () => {
   // Set the cookies
-  const cookies = new MockNextCookies();
   cookies.set("sessionId", "500");
-  await cookies.apply();
 
-  const user = await $trpcCaller.authenticatedUser();
+  const user = await $api.authenticatedUser();
 
   expect(user.email).toEqual("person1@prisma.io");
   expect(user.phoneNumber).toEqual("1234567890");
@@ -89,53 +99,42 @@ test("Correct user is returned when they have a valid session.", async () => {
 
 test("Correct user is returned when they have multiple sessions and one is valid.", async () => {
   // Set the cookies
-  const cookies = new MockNextCookies();
   cookies.set("sessionId", "502");
-  await cookies.apply();
 
-  const user = await $trpcCaller.authenticatedUser();
+  const user = await $api.authenticatedUser();
 
   expect(user.email).toEqual("person2@gmail.com");
   expect(user.phoneNumber).toEqual("1234567890");
 });
 
-test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.", async () => {
+test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.", () => {
   // Set the cookies
-  const cookies = new MockNextCookies();
   cookies.set("sessionId", "503");
-  await cookies.apply();
 
-  const getUser = async () => await $trpcCaller.authenticatedUser();
+  const getUser = async () => await $api.authenticatedUser();
 
   expect(getUser).toThrow("UNAUTHORIZED");
 });
 
-test("'UNAUTHORIZED' error is thrown when there is no 'sessionId' cookie.", async () => {
-  const cookies = new MockNextCookies();
-  await cookies.apply();
-
-  const getUser = async () => await $trpcCaller.authenticatedUser();
+test("'UNAUTHORIZED' error is thrown when there is no 'sessionId' cookie.", () => {
+  const getUser = async () => await $api.authenticatedUser();
   expect(getUser).toThrow("UNAUTHORIZED");
 });
 
-test("'UNAUTHORIZED' error is thrown when session is expired.", async () => {
+test("'UNAUTHORIZED' error is thrown when session is expired.", () => {
   // Set the cookies
-  const cookies = new MockNextCookies();
   cookies.set("sessionId", "501");
-  await cookies.apply();
 
-  const getUser = async () => await $trpcCaller.authenticatedUser();
+  const getUser = async () => await $api.authenticatedUser();
 
   expect(getUser).toThrow("UNAUTHORIZED");
 });
 
 test("Endpoint does not return the user's password.", async () => {
   // Set the cookies
-  const cookies = new MockNextCookies();
   cookies.set("sessionId", "502");
-  await cookies.apply();
 
-  const user = await $trpcCaller.authenticatedUser();
+  const user = await $api.authenticatedUser();
 
   expect(user).not.toHaveProperty("hashedPassword");
   expect(user).not.toHaveProperty("password");

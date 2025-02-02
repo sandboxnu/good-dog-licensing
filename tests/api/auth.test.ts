@@ -1,13 +1,20 @@
-import { afterEach, beforeAll, describe, expect, test } from "bun:test";
+import { afterEach, describe, expect, test } from "bun:test";
 
-import { hashPassword } from "@good-dog/auth/password";
+import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
-import { $trpcCaller } from "@good-dog/trpc/server";
+import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
+import { createMockCookieService } from "../mocks/util";
 
 describe("auth", () => {
   const mockCookies = new MockNextCookies();
+
+  const $api = $createTrpcCaller({
+    cookiesService: createMockCookieService(mockCookies),
+    prisma: prisma,
+    passwordService: passwordService,
+  });
 
   const createEmailVerificationCode = async (emailConfirmed: boolean) =>
     prisma.emailVerificationCode.upsert({
@@ -35,11 +42,11 @@ describe("auth", () => {
         role: "MEDIA_MAKER",
         phoneNumber: "1234567890",
         email: "damian@gmail.com",
-        hashedPassword: await hashPassword("password123"),
+        hashedPassword: await passwordService.hashPassword("password123"),
       },
       update: {
         email: "damian@gmail.com",
-        hashedPassword: await hashPassword("password123"),
+        hashedPassword: await passwordService.hashPassword("password123"),
       },
       where: {
         email: "damian@gmail.com",
@@ -58,7 +65,7 @@ describe("auth", () => {
               role: "MEDIA_MAKER",
               phoneNumber: "2345678901",
               email: "damian@gmail.com",
-              hashedPassword: await hashPassword("password123"),
+              hashedPassword: await passwordService.hashPassword("password123"),
             },
             where: {
               email: "damian@gmail.com",
@@ -92,10 +99,6 @@ describe("auth", () => {
     }
   };
 
-  beforeAll(async () => {
-    await mockCookies.apply();
-  });
-
   afterEach(() => {
     mockCookies.clear();
   });
@@ -105,7 +108,7 @@ describe("auth", () => {
       await createEmailVerificationCode(true);
       await cleanupAccount();
 
-      const response = await $trpcCaller.signUp({
+      const response = await $api.signUp({
         firstName: "Damian",
         lastName: "Smith",
         phoneNumber: "1234567890",
@@ -134,7 +137,7 @@ describe("auth", () => {
       await cleanupAccount();
 
       const createAccountHelp = async () =>
-        await $trpcCaller.signUp({
+        await $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
           phoneNumber: "1234567890",
@@ -152,7 +155,7 @@ describe("auth", () => {
       await cleanupAccount();
 
       const createAccountHelp = async () =>
-        await $trpcCaller.signUp({
+        await $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
           phoneNumber: "1234567890",
@@ -171,7 +174,7 @@ describe("auth", () => {
       await createEmailVerificationCode(true);
       await createAccount();
 
-      const signInResponse = await $trpcCaller.signIn({
+      const signInResponse = await $api.signIn({
         email: "damian@gmail.com",
         password: "password123",
       });
@@ -196,7 +199,7 @@ describe("auth", () => {
       await createAccount();
 
       expect(
-        $trpcCaller.signIn({
+        $api.signIn({
           email: "damian@gmail.com",
           password: "thisIsTheWrongPassword",
         }),
@@ -213,7 +216,7 @@ describe("auth", () => {
       await createAccount();
 
       expect(
-        $trpcCaller.signUp({
+        $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
           phoneNumber: "1234567890",
@@ -232,7 +235,7 @@ describe("auth", () => {
     const session = await createSession();
     mockCookies.set("sessionId", session.sessionId);
 
-    const res = await $trpcCaller.signOut();
+    const res = await $api.signOut();
 
     expect(mockCookies.delete).toBeCalledWith("sessionId");
     expect(res.message).toEqual("Successfully logged out");
@@ -244,7 +247,7 @@ describe("auth", () => {
     const session = await createSession();
     mockCookies.set("sessionId", session.sessionId);
 
-    const deleteAccountResponse = await $trpcCaller.deleteAccount();
+    const deleteAccountResponse = await $api.deleteAccount();
 
     expect(deleteAccountResponse.message).toEqual(
       "Successfully deleted account",

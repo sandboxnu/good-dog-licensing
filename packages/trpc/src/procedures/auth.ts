@@ -1,13 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { deleteSessionCookie, setSessionCookie } from "@good-dog/auth/cookies";
-import { comparePassword, hashPassword } from "@good-dog/auth/password";
-
-import {
-  authenticatedProcedureBuilder,
-  notAuthenticatedProcedureBuilder,
-} from "../internal/init";
+import { authenticatedProcedureBuilder } from "../middleware/authentictated";
+import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
@@ -56,7 +51,9 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       });
     }
 
-    const hashedPassword = await hashPassword(input.password);
+    const hashedPassword = await ctx.passwordService.hashPassword(
+      input.password,
+    );
 
     const [userWithSession] = await ctx.prisma.$transaction([
       ctx.prisma.user.create({
@@ -93,7 +90,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       });
     }
 
-    setSessionCookie(session.sessionId, session.expiresAt);
+    ctx.cookiesService.setSessionCookie(session.sessionId, session.expiresAt);
 
     return {
       message: `Successfully signed up and logged in as ${input.email}.`,
@@ -125,7 +122,10 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
       throw error();
     }
 
-    const match = await comparePassword(input.password, user.hashedPassword);
+    const match = await ctx.passwordService.comparePassword(
+      input.password,
+      user.hashedPassword,
+    );
 
     if (!match) {
       throw error();
@@ -142,7 +142,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
       },
     });
 
-    setSessionCookie(session.sessionId, session.expiresAt);
+    ctx.cookiesService.setSessionCookie(session.sessionId, session.expiresAt);
 
     return {
       message: `Successfully logged in as ${input.email}`,
@@ -157,7 +157,7 @@ export const signOutProcedure = authenticatedProcedureBuilder.mutation(
       },
     });
 
-    deleteSessionCookie();
+    ctx.cookiesService.deleteSessionCookie();
 
     return {
       message: "Successfully logged out",
@@ -173,7 +173,7 @@ export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
       },
     });
 
-    deleteSessionCookie();
+    ctx.cookiesService.deleteSessionCookie();
 
     return {
       message: "Successfully deleted account",

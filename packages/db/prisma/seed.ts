@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-import { hashPassword } from "@good-dog/auth/password";
+import { passwordService } from "@good-dog/auth/password";
 
 const prisma = new PrismaClient();
 async function main() {
@@ -26,7 +26,7 @@ async function main() {
       firstName: "Alice",
       lastName: "Smith",
       role: "MEDIA_MAKER",
-      hashedPassword: await hashPassword("alicePassword"),
+      hashedPassword: await passwordService.hashPassword("alicePassword"),
       sessions: {
         create: {
           sessionId: "23",
@@ -70,7 +70,7 @@ async function main() {
       firstName: "Bob",
       lastName: "Jones",
       role: "MUSICIAN",
-      hashedPassword: await hashPassword("bobPassword"),
+      hashedPassword: await passwordService.hashPassword("bobPassword"),
       sessions: {
         createMany: {
           data: [
@@ -114,7 +114,7 @@ async function main() {
       firstName: "Eve",
       lastName: "Brown",
       role: "MEDIA_MAKER",
-      hashedPassword: await hashPassword("evePassword"),
+      hashedPassword: await passwordService.hashPassword("evePassword"),
       sessions: {
         create: {
           sessionId: "78",

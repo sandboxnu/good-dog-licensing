@@ -1,10 +1,13 @@
+import type { NextConfig } from "next";
+
+import { env } from "@good-dog/env";
+
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
  */
-await import("@good-dog/env");
+env;
 
-/** @type {import("next").NextConfig} */
-const config = {};
+const config: NextConfig = {};
 
 export default config;

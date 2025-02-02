@@ -1,14 +1,21 @@
-import { afterEach, beforeAll, describe, expect, test } from "bun:test";
+import { afterEach, describe, expect, test } from "bun:test";
 
 import { prisma } from "@good-dog/db";
-import { $trpcCaller } from "@good-dog/trpc/server";
+import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
+import { createMockCookieService } from "../mocks/util";
 
 describe("email-verification", () => {
   const mockCookies = new MockNextCookies();
   const mockEmails = new MockEmailService();
+
+  const $api = $createTrpcCaller({
+    cookiesService: createMockCookieService(mockCookies),
+    emailService: mockEmails,
+    prisma: prisma,
+  });
 
   const createEmailVerificationCode = async (emailConfirmed: boolean) =>
     prisma.emailVerificationCode.upsert({
@@ -40,11 +47,6 @@ describe("email-verification", () => {
     }
   };
 
-  beforeAll(async () => {
-    await mockCookies.apply();
-    await mockEmails.apply();
-  });
-
   afterEach(() => {
     mockCookies.clear();
     mockEmails.clear();
@@ -54,7 +56,7 @@ describe("email-verification", () => {
     test("Email is not in database", async () => {
       await cleanupEmailVerificationCode();
 
-      const response = await $trpcCaller.sendEmailVerification({
+      const response = await $api.sendEmailVerification({
         email: "damian@gmail.com",
       });
 
@@ -65,7 +67,6 @@ describe("email-verification", () => {
           },
         });
 
-      expect(mockEmails.setApiKey).toBeCalled();
       expect(mockEmails.send).toBeCalled();
       expect(mockEmails.generateSixDigitCode).toBeCalled();
 
@@ -87,14 +88,13 @@ describe("email-verification", () => {
       });
 
       expect(
-        $trpcCaller.sendEmailVerification({
+        $api.sendEmailVerification({
           email: "damian@gmail.com",
         }),
       ).rejects.toThrow(
         "Email confirmation to damian@gmail.com failed to send.",
       );
 
-      expect(mockEmails.setApiKey).toBeCalled();
       expect(mockEmails.send).toBeCalled();
       expect(mockEmails.generateSixDigitCode).toBeCalled();
 
@@ -104,7 +104,7 @@ describe("email-verification", () => {
     test("Email is already in database (not verified)", async () => {
       await createEmailVerificationCode(false);
 
-      const response = await $trpcCaller.sendEmailVerification({
+      const response = await $api.sendEmailVerification({
         email: "damian@gmail.com",
       });
 
@@ -115,7 +115,6 @@ describe("email-verification", () => {
           },
         });
 
-      expect(mockEmails.setApiKey).toBeCalled();
       expect(mockEmails.send).toBeCalled();
       expect(mockEmails.generateSixDigitCode).toBeCalled();
 
@@ -134,7 +133,7 @@ describe("email-verification", () => {
     test("Email is already in database (verified)", async () => {
       await createEmailVerificationCode(true);
 
-      const response = await $trpcCaller.sendEmailVerification({
+      const response = await $api.sendEmailVerification({
         email: "damian@gmail.com",
       });
 
@@ -143,7 +142,6 @@ describe("email-verification", () => {
       );
       expect(response.status).toEqual("ALREADY_VERIFIED");
 
-      expect(mockEmails.setApiKey).not.toBeCalled();
       expect(mockEmails.send).not.toBeCalled();
       expect(mockEmails.generateSixDigitCode).not.toBeCalled();
 
@@ -155,7 +153,7 @@ describe("email-verification", () => {
     test("Email already verified", async () => {
       await createEmailVerificationCode(true);
 
-      const response = await $trpcCaller.confirmEmail({
+      const response = await $api.confirmEmail({
         email: "damian@gmail.com",
         code: "019821",
       });
@@ -167,7 +165,7 @@ describe("email-verification", () => {
       await cleanupEmailVerificationCode();
 
       expect(
-        $trpcCaller.confirmEmail({
+        $api.confirmEmail({
           email: "damian@gmail.com",
           code: "123456",
         }),
@@ -178,7 +176,7 @@ describe("email-verification", () => {
       await createEmailVerificationCode(false);
 
       expect(
-        $trpcCaller.confirmEmail({
+        $api.confirmEmail({
           email: "damian@gmail.com",
           code: "123456",
         }),
@@ -204,7 +202,7 @@ describe("email-verification", () => {
         return "987654";
       });
 
-      const response = await $trpcCaller.confirmEmail({
+      const response = await $api.confirmEmail({
         email: "damian@gmail.com",
         code: "019821",
       });
@@ -216,7 +214,6 @@ describe("email-verification", () => {
           },
         });
 
-      expect(mockEmails.setApiKey).toBeCalled();
       expect(mockEmails.send).toBeCalled();
       expect(mockEmails.generateSixDigitCode).toBeCalled();
 
@@ -233,7 +230,7 @@ describe("email-verification", () => {
     test("Given code is valid", async () => {
       await createEmailVerificationCode(false);
 
-      const response = await $trpcCaller.confirmEmail({
+      const response = await $api.confirmEmail({
         email: "damian@gmail.com",
         code: "019821",
       });

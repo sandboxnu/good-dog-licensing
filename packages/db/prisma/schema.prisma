@@ -5,9 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["omitApi"]
-  binaryTargets   = ["native", "debian-openssl-3.0.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -23,23 +22,24 @@ enum Role {
 }
 
 model User {
-  userId            String            @id @default(uuid()) @map("id")
-  email             String            @unique
-  phoneNumber       String
-  hashedPassword    String            @map("password")
-  firstName         String
-  lastName          String
-  stageName         String?
-  role              Role
-  isSongWriter      Boolean           @default(false)
-  isAscapAffiliated Boolean           @default(false)
-  isBmiAffiliated   Boolean           @default(false)
-  groups            Group[]
-  passwordResetReq  PasswordResetReq?
-  sessions          Session[]
-  sentInvites       GroupInvite[]
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  userId             String              @id @default(uuid()) @map("id")
+  email              String              @unique
+  phoneNumber        String
+  hashedPassword     String              @map("password")
+  firstName          String
+  lastName           String
+  stageName          String?
+  role               Role
+  isSongWriter       Boolean             @default(false)
+  isAscapAffiliated  Boolean             @default(false)
+  isBmiAffiliated    Boolean             @default(false)
+  musicianGroups     MusicianGroup[]
+  passwordResetReq   PasswordResetReq?
+  sessions           Session[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  projectSubmissions ProjectSubmission[]
+  musicSubmissions   MusicSubmission[]
 }
 
 model Session {
@@ -48,34 +48,6 @@ model Session {
   createdAt DateTime @default(now())
   expiresAt DateTime
   user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
-}
-
-model Group {
-  groupId   String        @id @default(uuid())
-  name      String
-  users     User[]
-  invites   GroupInvite[]
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-}
-
-model GroupInvite {
-  inviteId          String   @default(cuid()) @map("id")
-  groupId           String
-  initiatorId       String
-  email             String
-  firstName         String
-  lastName          String
-  stageName         String?
-  role              Role
-  isSongWriter      Boolean  @default(false)
-  isAscapAffiliated Boolean  @default(false)
-  isBmiAffiliated   Boolean  @default(false)
-  group             Group    @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  intitiator        User     @relation(fields: [initiatorId], references: [userId], onDelete: Cascade)
-  createdAt         DateTime @default(now())
-
-  @@unique([groupId, email])
 }
 
 model EmailVerificationCode {
@@ -92,4 +64,70 @@ model PasswordResetReq {
   user            User     @relation(fields: [passwordResetId], references: [userId], onDelete: Cascade)
   createdAt       DateTime @default(now())
   expiresAt       DateTime
+}
+
+model MusicianGroup {
+  groupId          String                @id @default(uuid())
+  organizerId      String // The user that created the group
+  organizer        User                  @relation(fields: [organizerId], references: [userId], onDelete: Cascade)
+  name             String
+  groupMembers     MusicianGroupMember[] // Does not contain the user that created the group
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  musicSubmissions MusicSubmission[]
+}
+
+model MusicianGroupMember {
+  id                String            @id @default(uuid()) @map("id")
+  groupId           String
+  group             MusicianGroup     @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
+  firstName         String
+  lastName          String
+  stageName         String?
+  email             String
+  isSongWriter      Boolean           @default(false)
+  isAscapAffiliated Boolean           @default(false)
+  isBmiAffiliated   Boolean           @default(false)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  musicSubmissions  MusicSubmission[] @relation("songWriters")
+
+  @@unique([groupId, email])
+}
+
+model ProjectSubmission {
+  projectId      String            @id @default(uuid())
+  projectOwner   User              @relation(fields: [projectId], references: [userId], onDelete: Cascade)
+  description    String
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  scenes         SceneSubmission[]
+  deadline       DateTime
+  videoLink      String            @default("")
+  additionalInfo String            @default("")
+}
+
+model SceneSubmission {
+  sceneId           String            @id @default(uuid())
+  description       String
+  musicType         String
+  similarSongs      String            @default("")
+  additionalInfo    String            @default("")
+  projectId         String
+  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+}
+
+model MusicSubmission {
+  musicId        String                @id @default(uuid())
+  songName       String
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  artist         User                  @relation(fields: [artistId], references: [userId], onDelete: Cascade)
+  artistId       String
+  songLink       String
+  genre          String
+  group          MusicianGroup         @relation(fields: [groupId], references: [groupId])
+  groupId        String
+  songwriters    MusicianGroupMember[] @relation("songWriters")
+  additionalInfo String                @default("")
 }

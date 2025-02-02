@@ -8,10 +8,11 @@ import {
 } from "bun:test";
 
 import { prisma } from "@good-dog/db";
-import { $trpcCaller } from "@good-dog/trpc/server";
+import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCache } from "../mocks/MockNextCache";
 import { MockNextCookies } from "../mocks/MockNextCookies";
+import { createMockCookieService } from "../mocks/util";
 
 describe("get user", () => {
   // Seeds the database before running the tests
@@ -74,8 +75,13 @@ describe("get user", () => {
   const cookies = new MockNextCookies();
   const mockCache = new MockNextCache();
 
+  const $api = $createTrpcCaller({
+    cookiesService: createMockCookieService(cookies),
+    prisma: prisma,
+  });
+
   beforeAll(async () => {
-    await Promise.all([cookies.apply(), mockCache.apply()]);
+    await mockCache.apply();
   });
 
   afterEach(() => {
@@ -93,7 +99,7 @@ describe("get user", () => {
           },
         },
       }),
-      prisma.group.deleteMany({
+      prisma.musicianGroup.deleteMany({
         where: {
           name: "Owen's Group",
         },
@@ -105,7 +111,7 @@ describe("get user", () => {
     cookies.set("sessionId", "isabelle-session-id");
 
     expect(
-      $trpcCaller.onboarding({
+      $api.onboarding({
         role: "MEDIA_MAKER",
         firstName: "Isabelle",
         lastName: "Papa",
@@ -116,7 +122,7 @@ describe("get user", () => {
   test("Onboards musician", async () => {
     cookies.set("sessionId", "owen-session-id");
 
-    const response = await $trpcCaller.onboarding({
+    const response = await $api.onboarding({
       role: "MUSICIAN",
       firstName: "Owen",
       lastName: "Simpson",
@@ -139,24 +145,24 @@ describe("get user", () => {
     expect(response.message).toEqual("Successfully onboarded");
     expect(mockCache.revalidatePath).toHaveBeenCalledWith("/onboarding");
 
-    const group = await prisma.group.findFirst({
+    const group = await prisma.musicianGroup.findFirst({
       where: {
         name: "Owen's Group",
       },
       include: {
-        invites: true,
+        groupMembers: true,
       },
     });
 
     expect(group).not.toBeNull();
-    expect(group?.invites).toHaveLength(1);
-    expect(group?.invites[0]?.email).toEqual("damian@test.org");
+    expect(group?.groupMembers).toHaveLength(1);
+    expect(group?.groupMembers[0]?.email).toEqual("damian@test.org");
   });
 
   test("Onboards media maker", async () => {
     cookies.set("sessionId", "tracy-session-id");
 
-    const response = await $trpcCaller.onboarding({
+    const response = await $api.onboarding({
       role: "MEDIA_MAKER",
       firstName: "Tracy",
       lastName: "Huang",
