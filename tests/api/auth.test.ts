@@ -40,6 +40,7 @@ describe("auth", () => {
         firstName: "Damian",
         lastName: "Smith",
         role: "MEDIA_MAKER",
+        phoneNumber: "1234567890",
         email: "damian@gmail.com",
         hashedPassword: await passwordService.hashPassword("password123"),
       },
@@ -62,6 +63,7 @@ describe("auth", () => {
               firstName: "Damian",
               lastName: "Smith",
               role: "MEDIA_MAKER",
+              phoneNumber: "2345678901",
               email: "damian@gmail.com",
               hashedPassword: await passwordService.hashPassword("password123"),
             },
@@ -109,6 +111,7 @@ describe("auth", () => {
       const response = await $api.signUp({
         firstName: "Damian",
         lastName: "Smith",
+        phoneNumber: "1234567890",
         email: "damian@gmail.com",
         password: "password123",
       });
@@ -137,6 +140,7 @@ describe("auth", () => {
         await $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
+          phoneNumber: "1234567890",
           email: "damian@gmail.com",
           password: "password123",
         });
@@ -154,6 +158,7 @@ describe("auth", () => {
         await $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
+          phoneNumber: "1234567890",
           email: "damian@gmail.com",
           password: "password123",
         });
@@ -214,6 +219,7 @@ describe("auth", () => {
         $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
+          phoneNumber: "1234567890",
           email: "damian@gmail.com",
           password: "password123",
         }),

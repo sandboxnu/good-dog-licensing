@@ -21,6 +21,7 @@ describe("get user", () => {
         data: {
           userId: "owen-user-id",
           email: "owen@test.org",
+          phoneNumber: "1234567890",
           hashedPassword: "xxxx",
           firstName: "Owen",
           lastName: "Simpson",
@@ -37,6 +38,7 @@ describe("get user", () => {
         data: {
           userId: "isabelle-user-id",
           email: "isabelle@test.org",
+          phoneNumber: "2345678901",
           hashedPassword: "xxxx",
           firstName: "Isabelle",
           lastName: "Papa",
@@ -104,6 +106,7 @@ describe("get user", () => {
     expect(user).not.toBeNull();
     if (user) {
       expect(user.email).toEqual("owen@test.org");
+      expect(user.phoneNumber).toEqual("1234567890");
     }
   });
 });

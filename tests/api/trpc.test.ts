@@ -42,6 +42,7 @@ describe("middleware", () => {
       data: {
         userId: "middleware-test-user",
         email: "test@testing.com",
+        phoneNumber: "1234567890",
         firstName: "test",
         lastName: "user",
         role: "MEDIA_MAKER",

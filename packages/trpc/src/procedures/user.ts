@@ -24,6 +24,7 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
           firstName: true,
           lastName: true,
           email: true,
+          phoneNumber: true,
           role: true,
         },
       },
