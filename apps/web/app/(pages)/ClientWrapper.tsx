@@ -31,11 +31,16 @@ const useSessionRefresh = () => {
   const [user, userQuery] = trpc.user.useSuspenseQuery();
   const refreshSessionMutation = trpc.refreshSession.useMutation({
     onSuccess: () => {
+      console.log("re-fetching user query");
       void userQuery.refetch();
     },
   });
 
   useEffect(() => {
+    console.log({
+      refreshRequired: user?.session.refreshRequired,
+      isPending: refreshSessionMutation.isPending,
+    });
     if (user?.session.refreshRequired && !refreshSessionMutation.isPending) {
       refreshSessionMutation.mutate();
     }
