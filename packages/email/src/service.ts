@@ -61,6 +61,20 @@ export class EmailService {
     });
   }
 
+  sendPRInviteEmail(toEmail: string, cuid: string) {
+    let baseURL = "http://localhost:3000";
+    if (env.VERCEL_URL) {
+      baseURL = `https://${env.VERCEL_URL}`;
+    }
+
+    return this.send({
+      to: toEmail,
+      subject: "Sign Up For PR - Good Dog Licensing",
+      html: `<p>Follow <a href="${baseURL}/pr_invite/?id=${cuid}">this link</a> to sign up as a PR.`,
+      from: env.VERIFICATION_FROM_EMAIL ?? "",
+    });
+  }
+
   sendVerificationEmail(toEmail: string, code: string) {
     return this.send({
       to: toEmail,

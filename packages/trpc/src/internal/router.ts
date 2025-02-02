@@ -13,11 +13,11 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
-import { onboardingProcedure } from "../procedures/onboarding";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
 } from "../procedures/user";
+import { onboardingProcedure } from "../procedures/user_onboarding";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
