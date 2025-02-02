@@ -1,9 +1,34 @@
+import type { Role } from "@good-dog/db";
+
 import { baseProcedureBuilder } from "../internal/init";
 import { authenticatedProcedureBuilder } from "../middleware/authentictated";
 
+// Represents the object we send to the frontend for an authenticated user
+interface UserWithSession {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: Role;
+  session: {
+    expiresAt: Date;
+    refreshRequired: boolean;
+  };
+}
+
 export const getAuthenticatedUserProcedure =
   authenticatedProcedureBuilder.query(({ ctx }) => {
-    return ctx.session.user;
+    const result: UserWithSession = {
+      ...ctx.session.user,
+      session: {
+        expiresAt: ctx.session.expiresAt,
+        refreshRequired:
+          // Refresh session if it expires in less than 29 days
+          ctx.session.expiresAt.getTime() - Date.now() < 60_000 * 60 * 24 * 29,
+      },
+    };
+
+    return result;
   });
 
 export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
@@ -36,7 +61,7 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
     return null;
   }
 
-  return {
+  const result: UserWithSession = {
     ...sessionOrNull.user,
     session: {
       expiresAt: sessionOrNull.expiresAt,
@@ -45,4 +70,6 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
         sessionOrNull.expiresAt.getTime() - Date.now() < 60_000 * 60 * 24 * 29,
     },
   };
+
+  return result;
 });

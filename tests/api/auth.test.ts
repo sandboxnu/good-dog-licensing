@@ -248,4 +248,23 @@ describe("auth", () => {
     );
     expect(mockCookies.delete).toBeCalledWith("sessionId");
   });
+
+  test("auth/refreshSession", async () => {
+    const session = await createSession();
+    mockCookies.set("sessionId", session.sessionId);
+    mockCookies.set.mockRestore();
+
+    const refreshSessionResponse = await $api.refreshSession();
+
+    expect(refreshSessionResponse.message).toEqual("Session refreshed");
+    expect(mockCookies.set).toBeCalledWith("sessionId", session.sessionId, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      expires: expect.any(Date),
+    });
+
+    await cleanupAccount();
+  });
 });

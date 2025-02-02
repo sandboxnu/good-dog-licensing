@@ -19,8 +19,10 @@ export const ClientWrapper = (
 };
 
 /**
- * Due to limitations in Next.js, we can't use set cookies during page load.
- * So, we need to refresh the session manually with a POST request.
+ * Due to limitations in the Next.js rendering engine, we can't set cookies during page load.
+ *
+ * That means we need shouldn't set any cookies in tRPC *queries*, and instead should use *procedures*
+ * which will never be run at render time.
  *
  * This component will automatically refresh the session if the session is
  * marked as `refreshRequired`.
