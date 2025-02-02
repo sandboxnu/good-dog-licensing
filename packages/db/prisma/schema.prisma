@@ -41,8 +41,8 @@ model User {
   updatedAt          DateTime            @updatedAt
   projectSubmissions ProjectSubmission[]
   musicSubmissions   MusicSubmission[]
-  suggestedMatches SuggestedMatches[]
-  matchComments MatchComments[] 
+  suggestedMatches   SuggestedMatches[]
+  matchComments      MatchComments[]
 }
 
 model Session {
@@ -99,29 +99,29 @@ model MusicianGroupMember {
 }
 
 model ProjectSubmission {
-  projectId      String            @id @default(uuid())
-  projectOwner   User              @relation(fields: [projectId], references: [userId], onDelete: Cascade)
-  description    String
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  scenes         SceneSubmission[]
-  deadline       DateTime
-  videoLink      String            @default("")
-  additionalInfo String            @default("")
+  projectId        String             @id @default(uuid())
+  projectOwner     User               @relation(fields: [projectId], references: [userId], onDelete: Cascade)
+  description      String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  scenes           SceneSubmission[]
+  deadline         DateTime
+  videoLink        String             @default("")
+  additionalInfo   String             @default("")
   suggestedMatches SuggestedMatches[]
 }
 
 model SceneSubmission {
-  sceneId           String            @id @default(uuid())
+  sceneId           String             @id @default(uuid())
   description       String
   musicType         String
-  similarSongs      String            @default("")
-  additionalInfo    String            @default("")
+  similarSongs      String             @default("")
+  additionalInfo    String             @default("")
   projectId         String
-  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
-  suggestedMatches SuggestedMatches[]
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
+  projectSubmission ProjectSubmission  @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+  suggestedMatches  SuggestedMatches[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 }
 
 model MusicSubmission {
@@ -140,25 +140,25 @@ model MusicSubmission {
 }
 
 model SuggestedMatches {
-  matchId           String               @id @default(uuid())
-  projectId         String               
+  matchId           String            @id @default(uuid())
+  projectId         String
   projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
   sceneId           String
-  sceneSubmission SceneSubmission     @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
+  sceneSubmission   SceneSubmission   @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
-  comments MatchComments[]
-  userId String
-  user User @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  comments          MatchComments[]
+  userId            String
+  user              User              @relation(fields: [userId], references: [userId], onDelete: NoAction)
 }
 
 model MatchComments {
-  commentId   String   @id @default(uuid())
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  commentText String
-  userId String
-  user User @relation(fields: [userId], references: [userId], onDelete: NoAction)
-  matchId String
+  commentId      String           @id @default(uuid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  commentText    String
+  userId         String
+  user           User             @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  matchId        String
   suggestedMatch SuggestedMatches @relation(fields: [matchId], references: [matchId], onDelete: NoAction)
 }
