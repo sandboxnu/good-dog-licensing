@@ -20,6 +20,7 @@ beforeAll(async () => {
     update: {},
     create: {
       email: "person1@prisma.io",
+      phoneNumber: "1234567890",
       firstName: "Person 1",
       lastName: "Smith",
       role: "MUSICIAN",
@@ -47,6 +48,7 @@ beforeAll(async () => {
     update: {},
     create: {
       email: "person2@gmail.com",
+      phoneNumber: "1234567890",
       firstName: "Person2",
       lastName: "Jones",
       role: "MUSICIAN",
@@ -92,6 +94,7 @@ test("Correct user is returned when they have a valid session.", async () => {
   const user = await $api.authenticatedUser();
 
   expect(user.email).toEqual("person1@prisma.io");
+  expect(user.phoneNumber).toEqual("1234567890");
 });
 
 test("Correct user is returned when they have multiple sessions and one is valid.", async () => {
@@ -101,6 +104,7 @@ test("Correct user is returned when they have multiple sessions and one is valid
   const user = await $api.authenticatedUser();
 
   expect(user.email).toEqual("person2@gmail.com");
+  expect(user.phoneNumber).toEqual("1234567890");
 });
 
 test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.", () => {
