@@ -35,6 +35,22 @@ describe("get user", () => {
       }),
       prisma.user.create({
         data: {
+          userId: "gavin-user-id",
+          email: "gavin@test.org",
+          hashedPassword: "xxxx",
+          firstName: "Gavin",
+          lastName: "Normand",
+          role: "MEDIA_MAKER",
+          sessions: {
+            create: {
+              sessionId: "gavin-session-id",
+              expiresAt: new Date(Date.now() + 600_000),
+            },
+          },
+        },
+      }),
+      prisma.user.create({
+        data: {
           userId: "isabelle-user-id",
           email: "isabelle@test.org",
           hashedPassword: "xxxx",
@@ -104,6 +120,19 @@ describe("get user", () => {
     expect(user).not.toBeNull();
     if (user) {
       expect(user.email).toEqual("owen@test.org");
+      expect(user.session.refreshRequired).toBeFalse();
+    }
+  });
+
+  test("User with session.refreshRequired", async () => {
+    cookies.set("sessionId", "gavin-session-id");
+
+    const user = await $api.user();
+
+    expect(user).not.toBeNull();
+    if (user) {
+      expect(user.email).toEqual("gavin@test.org");
+      expect(user.session.refreshRequired).toBeTrue();
     }
   });
 });
