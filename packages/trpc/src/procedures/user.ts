@@ -9,6 +9,7 @@ interface UserWithSession {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
   role: Role;
   session: {
     expiresAt: Date;

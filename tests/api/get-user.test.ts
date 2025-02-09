@@ -38,6 +38,7 @@ describe("get user", () => {
         data: {
           userId: "gavin-user-id",
           email: "gavin@test.org",
+          phoneNumber: "4173843849",
           hashedPassword: "xxxx",
           firstName: "Gavin",
           lastName: "Normand",
