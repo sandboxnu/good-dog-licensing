@@ -123,11 +123,19 @@ export const reviewSuggestedMatchProcedure = adminAuthenticatedProcedureBuilder
     });
   });
 
-export const getMatchesScenesProcedure =
-  adminOrModeratorAuthenticatedProcedureBuilder
-    .input(
-      z.object({
-        matchState: z.nativeEnum(MatchState),
+export const getMatchesProcedure = adminOrModeratorAuthenticatedProcedureBuilder
+  .input(
+    z.object({
+      matchState: z.nativeEnum(MatchState),
+    }),
+  )
+  .query(async ({ ctx, input }) => {
+    const [matches] = await Promise.all([
+      ctx.prisma.suggestedMatch.findMany({
+        where: {
+          matchState: input.matchState,
+        },
       }),
-    )
-    .mutation(async({ ctx, input }));
+    ]);
+    return { matches };
+  });
