@@ -22,6 +22,12 @@ enum Role {
   MODERATOR
 }
 
+enum MatchState {
+  APPROVED
+  REJECTED
+  PENDING
+}
+
 model User {
   userId             String              @id @default(uuid()) @map("id")
   email              String              @unique
@@ -41,8 +47,8 @@ model User {
   updatedAt          DateTime            @updatedAt
   projectSubmissions ProjectSubmission[]
   musicSubmissions   MusicSubmission[]
-  suggestedMatches   SuggestedMatch[]
-  approvedMatches    ApprovedMatch[]
+  suggestedMatches   SuggestedMatch[]    @relation("Matcher")
+  reviewedMatches    SuggestedMatch[]    @relation("Reviewer")
   matchComments      MatchComments[]
 }
 
@@ -102,7 +108,6 @@ model MusicianGroupMember {
 model ProjectSubmission {
   projectId        String            @id @default(uuid())
   projectOwner     User              @relation(fields: [projectId], references: [userId], onDelete: Cascade)
-  projectTitle     String
   description      String
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -115,7 +120,6 @@ model ProjectSubmission {
 
 model SceneSubmission {
   sceneId           String            @id @default(uuid())
-  sceneTitle        String
   description       String
   musicType         String
   similarSongs      String            @default("")
@@ -156,23 +160,13 @@ model SuggestedMatch {
   description       String
   matchComments     MatchComments[]
   matcherUserId     String
-  matcherUser       User              @relation(fields: [matcherUserId], references: [userId], onDelete: NoAction)
-  approved          Boolean           @default(false)
-  approvedMatchId   String?
-  approvedMatch     ApprovedMatch?
+  matcherUser       User              @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
+  matchState        MatchState
+  reviewerId        String?
+  reviewer          User?             @relation("Reviewer", fields: [reviewerId], references: [userId], onDelete: NoAction)
 
-  @@map("SuggestedMatches")
   @@unique([sceneId, musicId])
-}
-
-model ApprovedMatch {
-  approvedMatchId String         @id @default(uuid())
-  matchId         String         @unique
-  suggestedMatch  SuggestedMatch @relation(fields: [matchId], references: [matchId], onDelete: NoAction)
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  approverUserId          String
-  approver        User           @relation(fields: [approverUserId], references: [userId], onDelete: NoAction)
+  @@map("SuggestedMatches")
 }
 
 model MatchComments {
