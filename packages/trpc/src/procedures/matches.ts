@@ -40,26 +40,62 @@ export const createUpdateMatchCommentsProcedure =
       }
     });
 
-export const createSuggestedMatchProcedure =
+export const suggestedMatchProcedure =
   adminOrModeratorAuthenticatedProcedureBuilder
     .input(
       z.object({
-        projectId: z.string(),
-        sceneId: z.string(),
-        musicId: z.string(),
+        matchId: z.string().optional(), // If provided, update; otherwise, create
+        projectId: z.string().optional(), // Required for creation
+        sceneId: z.string().optional(), // Required for creation
+        musicId: z.string().optional(), // Required for creation
         description: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.suggestedMatch.create({
-        data: {
-          projectId: input.projectId,
-          sceneId: input.sceneId,
-          musicId: input.musicId,
-          matcherUserId: ctx.session.userId,
-          description: input.description,
-        },
-      });
+      //update a match
+      if (input.matchId) {
+        const match = await ctx.prisma.suggestedMatch.findUnique({
+          where: { matchId: input.matchId },
+          select: { matcherUserId: true },
+        });
+
+        if (!match) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Match not found.",
+          });
+        }
+
+        if (ctx.session.userId !== match.matcherUserId) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "Not authorized to update this match.",
+          });
+        }
+
+        await ctx.prisma.suggestedMatch.update({
+          where: { matchId: input.matchId },
+          data: { description: input.description },
+        });
+      } else {
+        //create new match
+        if (!input.projectId || !input.sceneId || !input.musicId) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Missing required fields for creating a match.",
+          });
+        }
+
+        await ctx.prisma.suggestedMatch.create({
+          data: {
+            projectId: input.projectId,
+            sceneId: input.sceneId,
+            musicId: input.musicId,
+            matcherUserId: ctx.session.userId,
+            description: input.description,
+          },
+        });
+      }
     });
 
 export const approveSuggestedMatchProcedure =
@@ -83,35 +119,4 @@ export const approveSuggestedMatchProcedure =
           },
         },
       });
-    });
-
-export const updateSuggestedMatchProcedure =
-  adminOrModeratorAuthenticatedProcedureBuilder
-    .input(
-      z.object({
-        description: z.string(),
-        matchId: z.string(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      const userId = await ctx.prisma.suggestedMatch.findUnique({
-        where: {
-          matchId: input.matchId,
-        },
-        select: {
-          matcherUserId: true,
-        },
-      });
-      if (ctx.session.userId === userId?.matcherUserId) {
-        await ctx.prisma.suggestedMatch.update({
-          where: {
-            matchId: input.matchId,
-          },
-          data: {
-            description: input.description,
-          },
-        });
-      } else {
-        throw new TRPCError({ code: "FORBIDDEN" });
-      }
     });
