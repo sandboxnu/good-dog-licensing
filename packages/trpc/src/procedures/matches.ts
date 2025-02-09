@@ -1,7 +1,12 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { adminOrModeratorAuthenticatedProcedureBuilder } from "../internal/init";
+import { MatchState } from "@good-dog/db";
+
+import {
+  adminAuthenticatedProcedureBuilder,
+  adminOrModeratorAuthenticatedProcedureBuilder,
+} from "../internal/init";
 
 const MatchCommentsSchema = z.object({
   matchId: z.string(),
@@ -52,7 +57,7 @@ export const suggestedMatchProcedure =
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      //update a match
+      //update a match -- only in the case of editing description
       if (input.matchId) {
         const match = await ctx.prisma.suggestedMatch.findUnique({
           where: { matchId: input.matchId },
@@ -93,30 +98,36 @@ export const suggestedMatchProcedure =
             musicId: input.musicId,
             matcherUserId: ctx.session.userId,
             description: input.description,
+            matchState: MatchState.PENDING,
           },
         });
       }
     });
 
-export const approveSuggestedMatchProcedure =
+export const reviewSuggestedMatchProcedure = adminAuthenticatedProcedureBuilder
+  .input(
+    z.object({
+      matchId: z.string(),
+      matchState: z.nativeEnum(MatchState),
+    }),
+  )
+  .mutation(async ({ ctx, input }) => {
+    await ctx.prisma.suggestedMatch.update({
+      where: {
+        matchId: input.matchId,
+      },
+      data: {
+        matchState: input.matchState,
+        reviewerId: ctx.session.userId,
+      },
+    });
+  });
+
+export const getMatchesScenesProcedure =
   adminOrModeratorAuthenticatedProcedureBuilder
     .input(
       z.object({
-        matchId: z.string(),
+        matchState: z.nativeEnum(MatchState),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.suggestedMatch.update({
-        where: {
-          matchId: input.matchId,
-        },
-        data: {
-          approved: true,
-          approvedMatch: {
-            create: {
-              approverUserId: ctx.session.userId,
-            },
-          },
-        },
-      });
-    });
+    .mutation(async({ ctx, input }));
