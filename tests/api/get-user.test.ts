@@ -136,7 +136,7 @@ describe("get user", () => {
     if (user) {
       expect(user.email).toEqual("gavin@test.org");
       expect(user.session.refreshRequired).toBeTrue();
-      expect(user.phoneNumber).toEqual("1234567890");
+      expect(user.phoneNumber).toEqual("4173843849");
     }
   });
 });
