@@ -21,7 +21,7 @@ export const ClientWrapper = (
 /**
  * Due to limitations in the Next.js rendering engine, we can't set cookies during page load.
  *
- * That means we need shouldn't set any cookies in tRPC *queries*, and instead should use *procedures*
+ * That means we need shouldn't set any cookies in tRPC *queries*, and instead should use *mutations*
  * which will never be run at render time.
  *
  * This component will automatically refresh the session if the session is
