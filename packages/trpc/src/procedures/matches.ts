@@ -1,88 +1,117 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { adminOrModeratorAuthenticatedProcedureBuilder } from "../internal/init";
 
 const MatchCommentsSchema = z.object({
-  matchId: z.string().optional(),
+  matchId: z.string(),
   commentId: z.string().optional(),
   commentText: z.string(),
   userId: z.string(),
 });
 
-//create a new suggested match
-//add comments to a suggested match
-//create an approved match
-
-export const suggestMatchesProcedure =
+export const createUpdateMatchCommentsProcedure =
   adminOrModeratorAuthenticatedProcedureBuilder
     .input(
       z.object({
-        sceneId: z.string(),
-        musicId: z.string(),
-        matchComments: z.array(MatchCommentsSchema),
+        matchComment: MatchCommentsSchema,
         matchUserId: z.string(),
-        approved: z.boolean(),
-        approvedMatchId: z.string().optional(),
-        approveUserId: z.string().optional(),
-        matchId: z.string().optional(),
+        matchId: z.string(),
+        commentId: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // Check if there is already an suggested match for the given scenes and music
-      const existingMatch = await ctx.prisma.suggestedMatch.findUnique({
-        where: {
-          matchId: input.matchId,
+      if (ctx.session.userId === input.matchComment.userId) {
+        await ctx.prisma.matchComments.upsert({
+          where: {
+            commentId: input.commentId,
+          },
+          update: {
+            commentText: input.matchComment.commentText,
+          },
+          create: {
+            commentText: input.matchComment.commentText,
+            matchId: input.matchId,
+            userId: input.matchComment.userId,
+          },
+        });
+      } else {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+    });
+
+export const createSuggestedMatchProcedure =
+  adminOrModeratorAuthenticatedProcedureBuilder
+    .input(
+      z.object({
+        projectId: z.string(),
+        sceneId: z.string(),
+        musicId: z.string(),
+        description: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.suggestedMatch.create({
+        data: {
+          projectId: input.projectId,
           sceneId: input.sceneId,
           musicId: input.musicId,
+          matcherUserId: ctx.session.userId,
+          description: input.description,
         },
       });
+    });
 
-      if (existingMatch) {
-        const newComments = await Promise.all(
-          input.matchComments.map(async (comment) => {
-            if (!comment.commentId) {
-              const commentUser = ctx.prisma.user.findUnique({
-                where: {
-                  userId: comment.userId,
-                },
-              });
-
-              const commentMatch = ctx.prisma.suggestedMatch.findUnique({
-                where: {
-                  matchId: comment.matchId,
-                },
-              });
-
-              return {
-                comment: comment,
-                commentUser: commentUser,
-                commentMatch: commentMatch,
-              };
-            }
-          }),
-        );
-
-        if (newComments.length > 0) {
-          ctx.prisma.suggestedMatch.update({
-            data: {
-              matchComments: {
-                createMany: {
-                  data: newComments.map((com) => ({
-                    commentText: com.comment.commentText,
-                    userId: com.comment?.userId,
-                    user: com.commentUser,
-                    matchId: com.comment?.matchId,
-                    match: com.commentMatch,
-                  })),
-                },
-              },
+export const approveSuggestedMatchProcedure =
+  adminOrModeratorAuthenticatedProcedureBuilder
+    .input(
+      z.object({
+        matchId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.suggestedMatch.update({
+        where: {
+          matchId: input.matchId,
+        },
+        data: {
+          approved: true,
+          approvedMatch: {
+            create: {
+              approverUserId: ctx.session.userId,
             },
-            where: {
-              matchId: input.matchId,
-            },
-          });
-        }
+          },
+        },
+      });
+    });
+
+export const updateSuggestedMatchProcedure =
+  adminOrModeratorAuthenticatedProcedureBuilder
+    .input(
+      z.object({
+        description: z.string(),
+        matchId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = await ctx.prisma.suggestedMatch.findUnique({
+        where: {
+          matchId: input.matchId,
+        },
+        select: {
+          matcherUserId: true,
+        },
+      });
+      if (ctx.session.userId === userId?.matcherUserId) {
+        await ctx.prisma.suggestedMatch.update({
+          where: {
+            matchId: input.matchId,
+          },
+          data: {
+            description: input.description,
+          },
+        });
+      } else {
+        throw new TRPCError({ code: "FORBIDDEN" });
       }
-
-      //creating a new match
     });

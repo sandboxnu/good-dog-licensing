@@ -151,6 +151,7 @@ model SuggestedMatch {
   musicSubmission   MusicSubmission   @relation(fields: [musicId], references: [musicId], onDelete: NoAction)
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+  description       String
   matchComments     MatchComments[]
   matcherUserId     String
   matcherUser       User              @relation(fields: [matcherUserId], references: [userId], onDelete: NoAction)
@@ -168,8 +169,8 @@ model ApprovedMatch {
   suggestedMatch  SuggestedMatch @relation(fields: [matchId], references: [matchId], onDelete: NoAction)
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
-  userId          String
-  approver        User           @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  approverUserId          String
+  approver        User           @relation(fields: [approverUserId], references: [userId], onDelete: NoAction)
 }
 
 model MatchComments {
