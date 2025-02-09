@@ -17,7 +17,7 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false",
-    "ui-add": "bunx shadcn add && prettier shad --write --list-different"
+    "ui:add": "bunx shadcn add && prettier shad --write --list-different"
   },
   "prettier": "@good-dog/prettier",
   "devDependencies": {

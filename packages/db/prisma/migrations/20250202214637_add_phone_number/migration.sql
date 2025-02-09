@@ -1,11 +1,7 @@
-/*
-  Warnings:
-
-  - Added the required column `phoneNumber` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- AlterTable
-ALTER TABLE "User" ADD COLUMN     "phoneNumber" TEXT NOT NULL;
+ALTER TABLE "User" ADD COLUMN     "phoneNumber" TEXT NOT NULL DEFAULT '';
+-- AlterTable remove default value
+ALTER TABLE "User" ALTER COLUMN "phoneNumber" DROP DEFAULT;
 
 -- AlterTable
 ALTER TABLE "_songWriters" ADD CONSTRAINT "_songWriters_AB_pkey" PRIMARY KEY ("A", "B");
