@@ -3,13 +3,14 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
+import { ReferralSource } from "@good-dog/db";
 import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
 import { Button } from "@good-dog/ui/button";
 
 import RegistrationCheckbox from "../inputs/RegistrationCheckbox";
 import RegistrationInput from "../inputs/RegistrationInput";
-import DiscoveryDropdown from "./DiscoveryDropdown";
 import OnboardingFormProvider from "./OnboardingFormProvider";
+import ReferralDropdown from "./ReferralDropdown";
 
 const Schema = z.object({
   role: z.literal("MUSICIAN"),
@@ -33,7 +34,12 @@ const Schema = z.object({
       }),
     )
     .optional(),
-  discovery: z.string().optional(),
+  referral: z
+    .object({
+      source: z.nativeEnum(ReferralSource),
+      customSource: zPreProcessEmptyString(z.string().optional()),
+    })
+    .optional(),
 });
 
 type FormValues = z.infer<typeof Schema>;
@@ -103,7 +109,7 @@ export default function MusicianForm(
       </div>
       <hr className="mx-auto my-6 w-full border-good-dog-violet" />
       <GroupMemberForm />
-      <DiscoveryDropdown />
+      <ReferralDropdown />
     </OnboardingFormProvider>
   );
 }

@@ -36,10 +36,29 @@ model User {
   musicianGroups     MusicianGroup[]
   passwordResetReq   PasswordResetReq?
   sessions           Session[]
+  referral          Referral?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   projectSubmissions ProjectSubmission[]
   musicSubmissions   MusicSubmission[]
+}
+
+model Referral {
+  id           String         @id @default(uuid())
+  user         User           @relation(fields: [userId], references: [userId])
+  userId       String         @unique
+  source       ReferralSource
+  customSource String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+enum ReferralSource {
+  FRIEND
+  COLLEAGUE
+  GREEN_LINE_RECORDS
+  SOCIAL_MEDIA
+  OTHER
 }
 
 model Session {
