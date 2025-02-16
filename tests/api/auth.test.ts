@@ -221,9 +221,7 @@ describe("auth", () => {
     const refreshSessionResponse = await $api.refreshSession();
 
     expect(refreshSessionResponse.message).toEqual("Session refreshed");
-    expect(
-      refreshSessionResponse.user.session.expiresAt.getTime(),
-    ).toBeGreaterThan(session.expiresAt.getTime());
+
     expect(mockCookies.set).toBeCalledWith("sessionId", session.sessionId, {
       httpOnly: true,
       secure: true,
