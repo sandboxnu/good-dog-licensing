@@ -1,6 +1,5 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
   "tasks": {
     "topo": {
       "dependsOn": ["^topo"]
@@ -34,10 +33,7 @@
     "clean": {
       "cache": false
     },
-    "//#clean": {
-      "cache": false
-    },
-    "ui-add": {
+    "ui:add": {
       "cache": false,
       "interactive": true
     },
@@ -46,8 +42,7 @@
       "interactive": true
     },
     "generate": {
-      "cache": false,
-      "interactive": false
+      "cache": false
     },
     "migrate": {
       "cache": false,
@@ -62,12 +57,10 @@
       "interactive": true
     },
     "studio": {
-      "cache": false,
-      "interactive": true
+      "cache": false
     },
     "seed": {
-      "cache": false,
-      "interactive": false
+      "cache": false
     }
   },
   "globalEnv": [
