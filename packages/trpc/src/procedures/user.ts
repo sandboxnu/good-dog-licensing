@@ -1,21 +1,6 @@
-import type { Role } from "@good-dog/db";
-
+import type { UserWithSession } from "../internal/common-types";
 import { baseProcedureBuilder } from "../internal/init";
 import { authenticatedProcedureBuilder } from "../middleware/authentictated";
-
-// Represents the object we send to the frontend for an authenticated user
-interface UserWithSession {
-  userId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  role: Role;
-  session: {
-    expiresAt: Date;
-    refreshRequired: boolean;
-  };
-}
 
 export const getAuthenticatedUserProcedure =
   authenticatedProcedureBuilder.query(({ ctx }) => {

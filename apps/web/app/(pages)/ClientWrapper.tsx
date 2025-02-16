@@ -25,13 +25,18 @@ export const ClientWrapper = (
  * which will never be run at render time.
  *
  * This component will automatically refresh the session if the session is
- * marked as `refreshRequired`.
+ * marked as `refreshRequired`, as determined by the server.
  */
 const useSessionRefresh = () => {
-  const [user, userQuery] = trpc.user.useSuspenseQuery();
+  const [user] = trpc.user.useSuspenseQuery();
+  const tUtils = trpc.useUtils();
   const refreshSessionMutation = trpc.refreshSession.useMutation({
-    onSuccess: () => {
-      void userQuery.refetch();
+    onSuccess: (response) => {
+      // Override the session with the new session data *if* there is already existing session data
+      tUtils.user.setData(undefined, (old) => (old ? response.user : old));
+      tUtils.authenticatedUser.setData(undefined, (old) =>
+        old ? response.user : old,
+      );
     },
   });
 

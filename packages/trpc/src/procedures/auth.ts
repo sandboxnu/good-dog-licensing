@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import type { UserWithSession } from "../internal/common-types";
 import { authenticatedProcedureBuilder } from "../middleware/authentictated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
@@ -195,6 +196,16 @@ export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
       select: {
         sessionId: true,
         expiresAt: true,
+        user: {
+          select: {
+            userId: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
+            role: true,
+          },
+        },
       },
     });
 
@@ -203,9 +214,17 @@ export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
       updatedSession.expiresAt,
     );
 
+    const user: UserWithSession = {
+      ...updatedSession.user,
+      session: {
+        expiresAt: updatedSession.expiresAt,
+        refreshRequired: false,
+      },
+    };
+
     return {
       message: "Session refreshed",
-      expiresAt: updatedSession.expiresAt,
+      user,
     };
   },
 );
