@@ -13,7 +13,7 @@ export const ClientWrapper = (
     children: React.ReactNode;
   }>,
 ) => {
-  useSessionRefresh();
+  // useSessionRefresh();
 
   return <>{props.children}</>;
 };
