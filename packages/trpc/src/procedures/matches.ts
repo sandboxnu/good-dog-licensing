@@ -3,10 +3,8 @@ import { z } from "zod";
 
 import { MatchState } from "@good-dog/db";
 
-import {
-  adminAuthenticatedProcedureBuilder,
-  adminOrModeratorAuthenticatedProcedureBuilder,
-} from "../internal/init";
+import { adminAuthenticatedProcedureBuilder } from "../middleware/admin";
+import { adminOrModeratorAuthenticatedProcedureBuilder } from "../middleware/moderator-admin-authenticated";
 
 const MatchCommentsSchema = z.object({
   matchId: z.string(),
@@ -66,7 +64,7 @@ export const suggestedMatchProcedure =
 
         if (!match) {
           throw new TRPCError({
-            code: "NOT_FOUND",
+            code: "BAD_REQUEST",
             message: "Match not found.",
           });
         }
@@ -130,12 +128,10 @@ export const getMatchesProcedure = adminOrModeratorAuthenticatedProcedureBuilder
     }),
   )
   .query(async ({ ctx, input }) => {
-    const [matches] = await Promise.all([
-      ctx.prisma.suggestedMatch.findMany({
-        where: {
-          matchState: input.matchState,
-        },
-      }),
-    ]);
+    const [matches] = await ctx.prisma.suggestedMatch.findMany({
+      where: {
+        matchState: input.matchState,
+      },
+    });
     return { matches };
   });

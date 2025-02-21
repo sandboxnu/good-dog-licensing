@@ -1,10 +1,12 @@
 import { TRPCError } from "@trpc/server";
-
 import { authenticatedProcedureBuilder } from "./authenticated";
 
-export const adminAuthenticatedProcedureBuilder =
+export const adminOrModeratorAuthenticatedProcedureBuilder =
   authenticatedProcedureBuilder.use(async ({ ctx, next }) => {
-    if (ctx.session.user.role !== "ADMIN") {
+    if (
+      ctx.session.user.role !== "MODERATOR" &&
+      ctx.session.user.role !== "ADMIN"
+    ) {
       throw new TRPCError({ code: "FORBIDDEN" });
     }
 

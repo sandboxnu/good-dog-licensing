@@ -1,4 +1,4 @@
-import { adminOrModeratorAuthenticatedProcedureBuilder } from "../internal/init";
+import { adminOrModeratorAuthenticatedProcedureBuilder } from "../middleware/moderator-admin-authenticated";
 
 export const getProjectScenesProcedure =
   adminOrModeratorAuthenticatedProcedureBuilder.query(async ({ ctx }) => {
