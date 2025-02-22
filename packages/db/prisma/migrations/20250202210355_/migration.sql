@@ -1,15 +1,13 @@
-/*
-  Warnings:
-
-  - Added the required column `updatedAt` to the `SceneSubmission` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- AlterEnum
 ALTER TYPE "Role" ADD VALUE 'MODERATOR';
 
 -- AlterTable
 ALTER TABLE "SceneSubmission" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL;
+ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+-- AlterTable
+ALTER TABLE "SceneSubmission" ALTER COLUMN "updatedAt" DROP DEFAULT;
+
 
 -- CreateTable
 CREATE TABLE "SuggestedMatches" (
