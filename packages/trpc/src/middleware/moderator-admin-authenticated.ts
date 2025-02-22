@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+
 import { authenticatedProcedureBuilder } from "./authenticated";
 
 export const adminOrModeratorAuthenticatedProcedureBuilder =
