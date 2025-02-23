@@ -1,6 +1,6 @@
 import type { UserWithSession } from "../internal/common-types";
 import { baseProcedureBuilder } from "../internal/init";
-import { authenticatedProcedureBuilder } from "../middleware/authentictated";
+import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 
 export const getAuthenticatedUserProcedure =
   authenticatedProcedureBuilder.query(({ ctx }) => {

@@ -2,7 +2,7 @@ import { revalidatePath } from "next/cache";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { authenticatedProcedureBuilder } from "../middleware/authentictated";
+import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { zPreProcessEmptyString } from "../utils";
 
 export const onboardingProcedure = authenticatedProcedureBuilder
