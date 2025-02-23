@@ -7,8 +7,6 @@ import { adminAuthenticatedProcedureBuilder } from "../middleware/admin";
 import { adminOrModeratorAuthenticatedProcedureBuilder } from "../middleware/moderator-admin-authenticated";
 
 const MatchCommentsSchema = z.object({
-  matchId: z.string(),
-  commentId: z.string().optional(),
   commentText: z.string(),
   userId: z.string(),
 });
@@ -18,26 +16,34 @@ export const createUpdateMatchCommentsProcedure =
     .input(
       z.object({
         matchComment: MatchCommentsSchema,
-        matchUserId: z.string(),
         matchId: z.string(),
         commentId: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       if (ctx.session.userId === input.matchComment.userId) {
-        await ctx.prisma.matchComments.upsert({
-          where: {
-            commentId: input.commentId,
-          },
-          update: {
-            commentText: input.matchComment.commentText,
-          },
-          create: {
-            commentText: input.matchComment.commentText,
-            matchId: input.matchId,
-            userId: input.matchComment.userId,
-          },
-        });
+        if (input.commentId) {
+          await ctx.prisma.matchComments.update({
+            where: {
+              commentId: input.commentId,
+              userId: input.matchComment.userId,
+            },
+            data: {
+              commentText: input.matchComment.commentText,
+            },
+          });
+        } else {
+          await ctx.prisma.matchComments.create({
+            data: {
+              commentText: input.matchComment.commentText,
+              matchId: input.matchId,
+              userId: input.matchComment.userId,
+            },
+          });
+        }
+        return {
+          message: "Comments successfully updated.",
+        };
       } else {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
@@ -80,6 +86,10 @@ export const suggestedMatchProcedure =
           where: { matchId: input.matchId },
           data: { description: input.description },
         });
+
+        return {
+          message: "Match successfully updated.",
+        };
       } else {
         //create new match
         if (!input.projectId || !input.sceneId || !input.musicId) {
@@ -99,6 +109,9 @@ export const suggestedMatchProcedure =
             matchState: MatchState.PENDING,
           },
         });
+        return {
+          message: "Match successfully suggested.",
+        };
       }
     });
 
@@ -128,7 +141,7 @@ export const getMatchesProcedure = adminOrModeratorAuthenticatedProcedureBuilder
     }),
   )
   .query(async ({ ctx, input }) => {
-    const [matches] = await ctx.prisma.suggestedMatch.findMany({
+    const matches = await ctx.prisma.suggestedMatch.findMany({
       where: {
         matchState: input.matchState,
       },

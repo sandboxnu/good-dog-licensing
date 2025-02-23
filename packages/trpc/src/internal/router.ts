@@ -18,6 +18,7 @@ import { getMusicSubmissionsProcedure } from "../procedures/get-music";
 import { getProjectScenesProcedure } from "../procedures/get-project-scenes";
 import {
   createUpdateMatchCommentsProcedure,
+  getMatchesProcedure,
   reviewSuggestedMatchProcedure,
   suggestedMatchProcedure,
 } from "../procedures/matches";
@@ -44,6 +45,7 @@ export const appRouter = createTRPCRouter({
   adminData: getAdminViewProcedure,
   projects: getProjectScenesProcedure,
   music: getMusicSubmissionsProcedure,
+  match: getMatchesProcedure,
   comment: createUpdateMatchCommentsProcedure,
   suggestMatch: suggestedMatchProcedure,
   reviewMatch: reviewSuggestedMatchProcedure,
