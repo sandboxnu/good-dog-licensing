@@ -150,6 +150,7 @@ export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
           role: "MODERATOR",
           email: moderatorInvite.email,
           hashedPassword: hashedPassword,
+          phoneNumber: input.phoneNumber,
           sessions: {
             create: {
               expiresAt: getNewSessionExpirationDate(),

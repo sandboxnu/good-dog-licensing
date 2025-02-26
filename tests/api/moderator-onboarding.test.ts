@@ -28,6 +28,7 @@ describe("moderator-onboarding", () => {
         firstName: "Jordan",
         lastName: "TestPerson",
         role: "ADMIN",
+        phoneNumber: "123-456-7890",
         sessions: {
           create: {
             sessionId: "jordan-session-id",
@@ -310,6 +311,7 @@ describe("moderator-onboarding", () => {
     expect(moderatorUser?.lastName).toEqual("GoodDog");
     expect(moderatorUser?.role).toEqual("MODERATOR");
     expect(moderatorUser?.email).toEqual("test@gmail.com");
+    expect(moderatorUser?.phoneNumber).toEqual("123-456-7890");
 
     expect(response.message).toEqual(
       "Successfully signed up and logged in as test@gmail.com.",
