@@ -1,6 +1,5 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-
 import { authenticatedProcedureBuilder } from "../middleware/authentictated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
