@@ -66,11 +66,11 @@ model PasswordResetReq {
   expiresAt       DateTime
 }
 
-model PRInvite {
-  prInviteId      String @id @default(cuid())
-  email           String @unique
-  createdAt       DateTime @default(now())
-  expiresAt       DateTime
+model ModeratorInvite {
+  moderatorInviteId      String @id @default(cuid())
+  email                  String @unique
+  createdAt              DateTime @default(now())
+  expiresAt              DateTime
 }
 
 model MusicianGroup {
