@@ -3,7 +3,6 @@ import { z } from "zod";
 
 import { env } from "@good-dog/env";
 
-import { adminAuthenticatedProcedureBuilder } from "../middleware/admin";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
 // Expiration date for Moderator Invite is one week
@@ -12,60 +11,6 @@ const getModeratorInviteExpirationDate = () =>
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
-
-export const sendModeratorInviteEmailProcedure =
-  adminAuthenticatedProcedureBuilder
-    .input(
-      z.object({
-        moderatorEmail: z.string().email(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      // Delete any existing Moderator Invites
-      const existingModeratorInvite =
-        await ctx.prisma.moderatorInvite.findUnique({
-          where: {
-            email: input.moderatorEmail,
-          },
-        });
-      if (existingModeratorInvite) {
-        await ctx.prisma.moderatorInvite.delete({
-          where: {
-            email: input.moderatorEmail,
-          },
-        });
-      }
-
-      // Create a Moderator Invite
-      const createdModeratorInvite = await ctx.prisma.moderatorInvite.create({
-        data: {
-          email: input.moderatorEmail,
-          expiresAt: getModeratorInviteExpirationDate(),
-        },
-      });
-
-      // Send email. If sending fails, throw error.
-      try {
-        await ctx.emailService.sendPRInviteEmail(
-          input.moderatorEmail,
-          createdModeratorInvite.moderatorInviteId,
-        );
-      } catch (error) {
-        if (env.NODE_ENV === "development") {
-          console.error(error);
-        } else {
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: `Moderator Invite Email to ${input.moderatorEmail} failed to send.`,
-            cause: error,
-          });
-        }
-      }
-
-      return {
-        message: `Moderator Invite sent to ${input.moderatorEmail}`,
-      };
-    });
 
 export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
   .input(
@@ -98,20 +43,20 @@ export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
     }
     // If moderator invite is expired, resend it
     if (moderatorInvite.expiresAt < new Date()) {
-      // Delete current moderator invite
-      await ctx.prisma.moderatorInvite.delete({
-        where: {
-          moderatorInviteId: input.moderatorInviteId,
-        },
-      });
-
-      // Create a Moderator Invite
-      const createdModeratorInvite = await ctx.prisma.moderatorInvite.create({
-        data: {
-          email: moderatorInvite.email,
-          expiresAt: getModeratorInviteExpirationDate(),
-        },
-      });
+      // Delete current moderator invite and create a new one
+      const [createdModeratorInvite] = await ctx.prisma.$transaction([
+        ctx.prisma.moderatorInvite.delete({
+          where: {
+            moderatorInviteId: input.moderatorInviteId,
+          },
+        }),
+        ctx.prisma.moderatorInvite.create({
+          data: {
+            email: moderatorInvite.email,
+            expiresAt: getModeratorInviteExpirationDate(),
+          },
+        }),
+      ]);
 
       // Send email. If sending fails, throw error.
       try {

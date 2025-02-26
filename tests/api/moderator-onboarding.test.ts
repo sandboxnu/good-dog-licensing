@@ -40,39 +40,27 @@ describe("moderator-onboarding", () => {
   };
 
   const cleanupAdmin = async () => {
-    try {
-      await prisma.user.delete({
-        where: {
-          email: "jordan@gmail.com",
-        },
-      });
-    } catch (error) {
-      void error;
-    }
+    await prisma.user.deleteMany({
+      where: {
+        email: "jordan@gmail.com",
+      },
+    });
   };
 
   const cleanupUser = async (email: string) => {
-    try {
-      await prisma.user.delete({
-        where: {
-          email: email,
-        },
-      });
-    } catch (error) {
-      void error;
-    }
+    await prisma.user.deleteMany({
+      where: {
+        email: email,
+      },
+    });
   };
 
   const cleanupModeratorInvites = async (email: string) => {
-    try {
-      await prisma.moderatorInvite.delete({
-        where: {
-          email: email,
-        },
-      });
-    } catch (error) {
-      void error;
-    }
+    await prisma.moderatorInvite.deleteMany({
+      where: {
+        email: email,
+      },
+    });
   };
 
   const createModeratorInvite = async (email: string, expiresAt: Date) => {
@@ -86,16 +74,18 @@ describe("moderator-onboarding", () => {
     return moderatorInvite;
   };
 
-  afterEach(() => {
+  afterEach(async () => {
     mockCookies.clear();
     mockEmails.clear();
+    await cleanupModeratorInvites("testing@gmail.com");
+    await cleanupModeratorInvites("test@gmail.com");
+    await cleanupAdmin();
+    await cleanupUser("test@gmail.com");
   });
 
   describe("moderator-onboarding/sendModeratorInvite", () => {
     test("No pending moderator invite.", async () => {
-      await cleanupAdmin();
       await createAdmin();
-      await cleanupModeratorInvites("testing@gmail.com");
 
       mockCookies.set("sessionId", "jordan-session-id");
 
@@ -116,15 +106,10 @@ describe("moderator-onboarding", () => {
       expect(response.message).toEqual(
         "Moderator Invite sent to testing@gmail.com",
       );
-
-      await cleanupModeratorInvites("testing@gmail.com");
-      await cleanupAdmin();
     });
 
     test("Pending moderator invite.", async () => {
-      await cleanupAdmin();
       await createAdmin();
-      await cleanupModeratorInvites("testing@gmail.com");
       const oldModeratorInvite = await createModeratorInvite(
         "testing@gmail.com",
         new Date(Date.now() - 15 * 60 * 1000),
@@ -159,15 +144,10 @@ describe("moderator-onboarding", () => {
       expect(response.message).toEqual(
         "Moderator Invite sent to testing@gmail.com",
       );
-
-      await cleanupModeratorInvites("testing@gmail.com");
-      await cleanupAdmin();
     });
 
     test("Email sending error.", async () => {
-      await cleanupAdmin();
       await createAdmin();
-      await cleanupModeratorInvites("testing@gmail.com");
 
       mockCookies.set("sessionId", "jordan-session-id");
 
@@ -183,15 +163,11 @@ describe("moderator-onboarding", () => {
       );
 
       expect(mockEmails.send).toBeCalled();
-
-      await cleanupAdmin();
     });
   });
 
   describe("moderator-onboarding/onboardModerator", () => {
-    test("No moderator invite in database.", async () => {
-      await cleanupModeratorInvites("testing@gmail.com");
-
+    test("No moderator invite in database.", () => {
       expect(
         $api.onboardModerator({
           moderatorInviteId: "1",
@@ -205,7 +181,6 @@ describe("moderator-onboarding", () => {
   });
 
   test("Moderator invite is expired. Email send works.", async () => {
-    await cleanupModeratorInvites("testing@gmail.com");
     const expiredInvite = await createModeratorInvite(
       "testing@gmail.com",
       new Date(Date.now() - 15 * 60 * 1000),
@@ -239,12 +214,9 @@ describe("moderator-onboarding", () => {
       "Invite is expired. A new invite was sent to testing@gmail.com.",
     );
     expect(response.status).toEqual("RESENT");
-
-    await cleanupModeratorInvites("testing@gmail.com");
   });
 
   test("Moderator invite is expired. Email send fails.", async () => {
-    await cleanupModeratorInvites("testing@gmail.com");
     const expiredInvite = await createModeratorInvite(
       "testing@gmail.com",
       new Date(Date.now() - 15 * 60 * 1000),
@@ -275,13 +247,9 @@ describe("moderator-onboarding", () => {
       expiredInvite.moderatorInviteId,
     );
     expect(mockEmails.send).toBeCalled();
-
-    await cleanupModeratorInvites("testing@gmail.com");
   });
 
   test("Moderator invite is valid.", async () => {
-    await cleanupModeratorInvites("test@gmail.com");
-    await cleanupUser("test@gmail.com");
     const moderatorInvite = await createModeratorInvite(
       "test@gmail.com",
       new Date(Date.now() + 15 * 60 * 1000),
@@ -319,7 +287,5 @@ describe("moderator-onboarding", () => {
       "Successfully signed up and logged in as test@gmail.com.",
     );
     expect(response.status).toEqual("SUCCESS");
-
-    await cleanupUser("test@gmail.com");
   });
 });

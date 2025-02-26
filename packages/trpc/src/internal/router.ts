@@ -14,10 +14,8 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
-import {
-  onboardModeratorProcedure,
-  sendModeratorInviteEmailProcedure,
-} from "../procedures/moderator_onboarding";
+import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
+import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
