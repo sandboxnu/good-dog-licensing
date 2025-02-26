@@ -275,6 +275,8 @@ describe("moderator-onboarding", () => {
       expiredInvite.moderatorInviteId,
     );
     expect(mockEmails.send).toBeCalled();
+
+    await cleanupModeratorInvites("testing@gmail.com");
   });
 
   test("Moderator invite is valid.", async () => {
