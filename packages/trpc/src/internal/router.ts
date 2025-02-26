@@ -1,6 +1,7 @@
 import { getAdminViewProcedure } from "../procedures/admin-view";
 import {
   deleteAccountProcedure,
+  refreshSessionProcedure,
   signInProcedure,
   signOutProcedure,
   signUpProcedure,
@@ -30,6 +31,7 @@ export const appRouter = createTRPCRouter({
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
+  refreshSession: refreshSessionProcedure,
   onboarding: onboardingProcedure,
   deleteAccount: deleteAccountProcedure,
   authenticatedUser: getAuthenticatedUserProcedure,

@@ -21,6 +21,7 @@ describe("get user", () => {
         data: {
           userId: "owen-user-id",
           email: "owen@test.org",
+          phoneNumber: "1234567890",
           hashedPassword: "xxxx",
           firstName: "Owen",
           lastName: "Simpson",
@@ -35,8 +36,26 @@ describe("get user", () => {
       }),
       prisma.user.create({
         data: {
+          userId: "gavin-user-id",
+          email: "gavin@test.org",
+          phoneNumber: "4173843849",
+          hashedPassword: "xxxx",
+          firstName: "Gavin",
+          lastName: "Normand",
+          role: "MEDIA_MAKER",
+          sessions: {
+            create: {
+              sessionId: "gavin-session-id",
+              expiresAt: new Date(Date.now() + 600_000),
+            },
+          },
+        },
+      }),
+      prisma.user.create({
+        data: {
           userId: "isabelle-user-id",
           email: "isabelle@test.org",
+          phoneNumber: "2345678901",
           hashedPassword: "xxxx",
           firstName: "Isabelle",
           lastName: "Papa",
@@ -104,6 +123,20 @@ describe("get user", () => {
     expect(user).not.toBeNull();
     if (user) {
       expect(user.email).toEqual("owen@test.org");
+      expect(user.session.refreshRequired).toBeFalse();
+    }
+  });
+
+  test("User with session.refreshRequired", async () => {
+    cookies.set("sessionId", "gavin-session-id");
+
+    const user = await $api.user();
+
+    expect(user).not.toBeNull();
+    if (user) {
+      expect(user.email).toEqual("gavin@test.org");
+      expect(user.session.refreshRequired).toBeTrue();
+      expect(user.phoneNumber).toEqual("4173843849");
     }
   });
 });

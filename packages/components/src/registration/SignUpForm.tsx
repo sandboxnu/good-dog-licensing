@@ -16,6 +16,12 @@ import RegistrationInput from "./inputs/RegistrationInput";
 const zSignUpValues = z.object({
   emailConfirmed: z.string(),
   email: z.string().email(),
+  phoneNumber: z
+    .string()
+    .regex(
+      /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
+      "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
+    ),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -129,7 +135,7 @@ export default function SignUpForm() {
             )}
             {signUpMutation.isError && (
               <p className="text-good-dog-error">
-                Failed to ssign up: {signUpMutation.error.message}
+                Failed to sign up: {signUpMutation.error.message}
               </p>
             )}
           </div>
@@ -158,6 +164,11 @@ export default function SignUpForm() {
           Verify Email
         </Button>
         {isEmailVerified && <p className="text-green-500">Email verified</p>}
+        <TypedRegistrationInput
+          fieldName="phoneNumber"
+          type="text"
+          label="Phone Number"
+        />
         <TypedRegistrationInput
           fieldName="password"
           type="password"

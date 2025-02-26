@@ -25,6 +25,7 @@ describe("forgot-password", () => {
         firstName: "Walter",
         lastName: "White",
         role: "MEDIA_MAKER",
+        phoneNumber: "1234567890",
         email: email,
         hashedPassword: await passwordService.hashPassword("password123"),
       },
