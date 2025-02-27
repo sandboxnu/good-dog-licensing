@@ -2,6 +2,7 @@ import { afterEach, describe, expect, test } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
+import { env } from "@good-dog/env";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockEmailService } from "../mocks/MockEmailService";
@@ -77,10 +78,12 @@ describe("moderator-onboarding", () => {
   afterEach(async () => {
     mockCookies.clear();
     mockEmails.clear();
-    await cleanupModeratorInvites("testing@gmail.com");
-    await cleanupModeratorInvites("test@gmail.com");
-    await cleanupAdmin();
-    await cleanupUser("test@gmail.com");
+    await Promise.all([
+      cleanupModeratorInvites("testing@gmail.com"),
+      cleanupModeratorInvites("test@gmail.com"),
+      cleanupAdmin(),
+      cleanupUser("test@gmail.com"),
+    ]);
   });
 
   describe("moderator-onboarding/sendModeratorInvite", () => {
@@ -99,7 +102,12 @@ describe("moderator-onboarding", () => {
         },
       });
 
-      expect(mockEmails.send).toBeCalled();
+      expect(mockEmails.send).toHaveBeenCalledWith({
+        to: "testing@gmail.com",
+        subject: "Sign Up For PR - Good Dog Licensing",
+        html: `<p>Follow <a href="http://localhost:3000/pr_invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
+        from: env.VERIFICATION_FROM_EMAIL,
+      });
 
       expect(moderatorInvite?.email).toEqual("testing@gmail.com");
 
@@ -127,7 +135,12 @@ describe("moderator-onboarding", () => {
         },
       });
 
-      expect(mockEmails.send).toBeCalled();
+      expect(mockEmails.send).toHaveBeenCalledWith({
+        to: "testing@gmail.com",
+        subject: "Sign Up For PR - Good Dog Licensing",
+        html: `<p>Follow <a href="http://localhost:3000/pr_invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
+        from: env.VERIFICATION_FROM_EMAIL,
+      });
 
       expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
       expect(newModeratorInvite?.email).toEqual(oldModeratorInvite.email);
@@ -162,7 +175,18 @@ describe("moderator-onboarding", () => {
         "Moderator Invite Email to testing@gmail.com failed to send.",
       );
 
-      expect(mockEmails.send).toBeCalled();
+      const moderatorInvite = await prisma.moderatorInvite.findUnique({
+        where: {
+          email: "testing@gmail.com",
+        },
+      });
+
+      expect(mockEmails.send).toHaveBeenCalledWith({
+        to: "testing@gmail.com",
+        subject: "Sign Up For PR - Good Dog Licensing",
+        html: `<p>Follow <a href="http://localhost:3000/pr_invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
+        from: env.VERIFICATION_FROM_EMAIL,
+      });
     });
   });
 
@@ -178,114 +202,128 @@ describe("moderator-onboarding", () => {
         }),
       ).rejects.toThrow("FORBIDDEN");
     });
-  });
 
-  test("Moderator invite is expired. Email send works.", async () => {
-    const expiredInvite = await createModeratorInvite(
-      "testing@gmail.com",
-      new Date(Date.now() - 15 * 60 * 1000),
-    );
+    test("Moderator invite is expired. Email send works.", async () => {
+      const expiredInvite = await createModeratorInvite(
+        "testing@gmail.com",
+        new Date(Date.now() - 15 * 60 * 1000),
+      );
 
-    const response = await $api.onboardModerator({
-      moderatorInviteId: expiredInvite.moderatorInviteId,
-      firstName: "Jordan",
-      lastName: "GoodDog",
-      phoneNumber: "123-456-7890",
-      password: "mypassword",
-    });
-
-    const newModeratorInvite = await prisma.moderatorInvite.findUnique({
-      where: {
-        email: "testing@gmail.com",
-      },
-    });
-
-    expect(mockEmails.send).toBeCalled();
-
-    expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
-    expect(newModeratorInvite?.email).toEqual(expiredInvite.email);
-    expect(newModeratorInvite?.moderatorInviteId).not.toEqual(
-      expiredInvite.moderatorInviteId,
-    );
-    expect(newModeratorInvite?.expiresAt).not.toEqual(expiredInvite.expiresAt);
-    expect(newModeratorInvite?.createdAt).not.toEqual(expiredInvite.createdAt);
-
-    expect(response.message).toEqual(
-      "Invite is expired. A new invite was sent to testing@gmail.com.",
-    );
-    expect(response.status).toEqual("RESENT");
-  });
-
-  test("Moderator invite is expired. Email send fails.", async () => {
-    const expiredInvite = await createModeratorInvite(
-      "testing@gmail.com",
-      new Date(Date.now() - 15 * 60 * 1000),
-    );
-
-    mockEmails.send.mockImplementationOnce(() => {
-      throw new Error("Mock email failure.");
-    });
-    expect(
-      $api.onboardModerator({
+      const response = await $api.onboardModerator({
         moderatorInviteId: expiredInvite.moderatorInviteId,
         firstName: "Jordan",
         lastName: "GoodDog",
         phoneNumber: "123-456-7890",
         password: "mypassword",
-      }),
-    ).rejects.toThrow(
-      "Moderator Invite Email to testing@gmail.com failed to resend.",
-    );
+      });
 
-    const newModeratorInvite = await prisma.moderatorInvite.findUnique({
-      where: {
-        email: "testing@gmail.com",
-      },
+      const newModeratorInvite = await prisma.moderatorInvite.findUnique({
+        where: {
+          email: "testing@gmail.com",
+        },
+      });
+
+      expect(mockEmails.send).toHaveBeenCalledWith({
+        to: "testing@gmail.com",
+        subject: "Sign Up For PR - Good Dog Licensing",
+        html: `<p>Follow <a href="http://localhost:3000/pr_invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
+        from: env.VERIFICATION_FROM_EMAIL,
+      });
+
+      expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
+      expect(newModeratorInvite?.email).toEqual(expiredInvite.email);
+      expect(newModeratorInvite?.moderatorInviteId).not.toEqual(
+        expiredInvite.moderatorInviteId,
+      );
+      expect(newModeratorInvite?.expiresAt).not.toEqual(
+        expiredInvite.expiresAt,
+      );
+      expect(newModeratorInvite?.createdAt).not.toEqual(
+        expiredInvite.createdAt,
+      );
+
+      expect(response.message).toEqual(
+        "Invite is expired. A new invite was sent to testing@gmail.com.",
+      );
+      expect(response.status).toEqual("RESENT");
     });
 
-    expect(newModeratorInvite?.moderatorInviteId).not.toEqual(
-      expiredInvite.moderatorInviteId,
-    );
-    expect(mockEmails.send).toBeCalled();
-  });
+    test("Moderator invite is expired. Email send fails.", async () => {
+      const expiredInvite = await createModeratorInvite(
+        "testing@gmail.com",
+        new Date(Date.now() - 15 * 60 * 1000),
+      );
 
-  test("Moderator invite is valid.", async () => {
-    const moderatorInvite = await createModeratorInvite(
-      "test@gmail.com",
-      new Date(Date.now() + 15 * 60 * 1000),
-    );
+      mockEmails.send.mockImplementationOnce(() => {
+        throw new Error("Mock email failure.");
+      });
+      expect(
+        $api.onboardModerator({
+          moderatorInviteId: expiredInvite.moderatorInviteId,
+          firstName: "Jordan",
+          lastName: "GoodDog",
+          phoneNumber: "123-456-7890",
+          password: "mypassword",
+        }),
+      ).rejects.toThrow(
+        "Moderator Invite Email to testing@gmail.com failed to resend.",
+      );
 
-    const response = await $api.onboardModerator({
-      moderatorInviteId: moderatorInvite.moderatorInviteId,
-      firstName: "Jordan",
-      lastName: "GoodDog",
-      phoneNumber: "123-456-7890",
-      password: "mypassword",
+      const newModeratorInvite = await prisma.moderatorInvite.findUnique({
+        where: {
+          email: "testing@gmail.com",
+        },
+      });
+
+      expect(newModeratorInvite?.moderatorInviteId).not.toEqual(
+        expiredInvite.moderatorInviteId,
+      );
+      expect(mockEmails.send).toHaveBeenCalledWith({
+        to: "testing@gmail.com",
+        subject: "Sign Up For PR - Good Dog Licensing",
+        html: `<p>Follow <a href="http://localhost:3000/pr_invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
+        from: env.VERIFICATION_FROM_EMAIL,
+      });
     });
 
-    const moderatorUser = await prisma.user.findUnique({
-      where: {
-        email: "test@gmail.com",
-      },
-    });
-    const newModeratorInvite = await prisma.moderatorInvite.findUnique({
-      where: {
+    test("Moderator invite is valid.", async () => {
+      const moderatorInvite = await createModeratorInvite(
+        "test@gmail.com",
+        new Date(Date.now() + 15 * 60 * 1000),
+      );
+
+      const response = await $api.onboardModerator({
         moderatorInviteId: moderatorInvite.moderatorInviteId,
-      },
+        firstName: "Jordan",
+        lastName: "GoodDog",
+        phoneNumber: "123-456-7890",
+        password: "mypassword",
+      });
+
+      const moderatorUser = await prisma.user.findUnique({
+        where: {
+          email: "test@gmail.com",
+        },
+      });
+      const newModeratorInvite = await prisma.moderatorInvite.findUnique({
+        where: {
+          moderatorInviteId: moderatorInvite.moderatorInviteId,
+        },
+      });
+      expect(newModeratorInvite).toBe(null);
+
+      expect(mockEmails.send).not.toBeCalled();
+
+      expect(moderatorUser?.firstName).toEqual("Jordan");
+      expect(moderatorUser?.lastName).toEqual("GoodDog");
+      expect(moderatorUser?.role).toEqual("MODERATOR");
+      expect(moderatorUser?.email).toEqual("test@gmail.com");
+      expect(moderatorUser?.phoneNumber).toEqual("123-456-7890");
+
+      expect(response.message).toEqual(
+        "Successfully signed up and logged in as test@gmail.com.",
+      );
+      expect(response.status).toEqual("SUCCESS");
     });
-    expect(newModeratorInvite).toBe(null);
-
-    expect(mockEmails.send).not.toBeCalled();
-
-    expect(moderatorUser?.firstName).toEqual("Jordan");
-    expect(moderatorUser?.lastName).toEqual("GoodDog");
-    expect(moderatorUser?.role).toEqual("MODERATOR");
-    expect(moderatorUser?.email).toEqual("test@gmail.com");
-    expect(moderatorUser?.phoneNumber).toEqual("123-456-7890");
-
-    expect(response.message).toEqual(
-      "Successfully signed up and logged in as test@gmail.com.",
-    );
-    expect(response.status).toEqual("SUCCESS");
   });
 });

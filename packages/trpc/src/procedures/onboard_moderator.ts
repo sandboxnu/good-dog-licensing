@@ -44,7 +44,7 @@ export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
     // If moderator invite is expired, resend it
     if (moderatorInvite.expiresAt < new Date()) {
       // Delete current moderator invite and create a new one
-      const [createdModeratorInvite] = await ctx.prisma.$transaction([
+      const [, createdModeratorInvite] = await ctx.prisma.$transaction([
         ctx.prisma.moderatorInvite.delete({
           where: {
             moderatorInviteId: input.moderatorInviteId,
