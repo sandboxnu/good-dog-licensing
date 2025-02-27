@@ -115,7 +115,7 @@ describe("moderator-onboarding", () => {
         to: "testing@gmail.com",
         subject: "Sign Up For PR - Good Dog Licensing",
         html: `<p>Follow <a href="${getBaseUrl()}/pr_invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        from: env.VERIFICATION_FROM_EMAIL,
+        from: env.VERIFICATION_FROM_EMAIL ?? "",
       });
 
       expect(moderatorInvite?.email).toEqual("testing@gmail.com");
@@ -148,7 +148,7 @@ describe("moderator-onboarding", () => {
         to: "testing@gmail.com",
         subject: "Sign Up For PR - Good Dog Licensing",
         html: `<p>Follow <a href="${getBaseUrl()}/pr_invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        from: env.VERIFICATION_FROM_EMAIL,
+        from: env.VERIFICATION_FROM_EMAIL ?? "",
       });
 
       expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
@@ -194,7 +194,7 @@ describe("moderator-onboarding", () => {
         to: "testing@gmail.com",
         subject: "Sign Up For PR - Good Dog Licensing",
         html: `<p>Follow <a href="${getBaseUrl()}/pr_invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        from: env.VERIFICATION_FROM_EMAIL,
+        from: env.VERIFICATION_FROM_EMAIL ?? "",
       });
     });
   });
@@ -236,7 +236,7 @@ describe("moderator-onboarding", () => {
         to: "testing@gmail.com",
         subject: "Sign Up For PR - Good Dog Licensing",
         html: `<p>Follow <a href="${getBaseUrl()}/pr_invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        from: env.VERIFICATION_FROM_EMAIL,
+        from: env.VERIFICATION_FROM_EMAIL ?? "",
       });
 
       expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
@@ -291,7 +291,7 @@ describe("moderator-onboarding", () => {
         to: "testing@gmail.com",
         subject: "Sign Up For PR - Good Dog Licensing",
         html: `<p>Follow <a href="${getBaseUrl()}/pr_invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        from: env.VERIFICATION_FROM_EMAIL,
+        from: env.VERIFICATION_FROM_EMAIL ?? "",
       });
     });
 
