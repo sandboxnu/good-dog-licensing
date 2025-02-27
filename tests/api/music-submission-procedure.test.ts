@@ -135,12 +135,5 @@ test("A Musician can submit music", async () => {
   const user = await $api.authenticatedUser();
 
   expect(response.message).toEqual("Music submitted successfully");
-
-  /*
-  expect(musicSubmission).not.toBeNull();
-  expect(musicSubmission!.songName).toEqual("Test Song");
-  expect(musicSubmission?.songLink).toEqual("https://example.com");
-  expect(musicSubmission?.genre).toEqual("Rock");
-  expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
-  */
+  expect(response).not.toBeNull();
 });
