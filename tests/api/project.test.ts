@@ -7,6 +7,12 @@ import {
   test,
 } from "bun:test";
 
+import {
+  deleteSessionCookieBuilder,
+  getSessionCookieBuilder,
+  setSessionCookieBuilder,
+} from "@good-dog/auth/cookies";
+import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
@@ -14,48 +20,94 @@ import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
 
 describe("projectSubmission", () => {
-  //create a mock user
-  beforeAll(async () => {
-    await prisma.$transaction([
-      prisma.user.create({
-        data: {
-          userId: "meggan-user-id",
-          email: "meggan@test.org",
-          hashedPassword: "xxxx",
-          firstName: "Meggan",
-          lastName: "Shvartsberg",
-          role: "ADMIN",
-          sessions: {
-            create: {
-              sessionId: "meggan-session-id",
-              expiresAt: new Date(Date.now() + 5_000_000_000),
-            },
-          },
-        },
-      }),
-    ]);
-  });
   const mockCookies = new MockNextCookies();
+
   const $api = $createTrpcCaller({
     cookiesService: createMockCookieService(mockCookies),
     prisma: prisma,
   });
+
+  const createSession = async () =>
+    prisma.session.create({
+      data: {
+        expiresAt: new Date("2099-01-01"),
+        user: {
+          connectOrCreate: {
+            create: {
+              firstName: "Damian",
+              lastName: "Smith",
+              role: "MEDIA_MAKER",
+              email: "damian@gmail.com",
+              hashedPassword: await passwordService.hashPassword("password123"),
+            },
+            where: {
+              email: "damian@gmail.com",
+            },
+          },
+        },
+      },
+    });
+
+  const cleanupAccount = async () => {
+    try {
+      await prisma.user.delete({
+        where: {
+          email: "damian@gmail.com",
+        },
+      });
+    } catch (error) {
+      void error;
+    }
+  };
+
+  //   //create a mock user
+  //   beforeAll(async () => {
+  //     await prisma.$transaction([
+  //       prisma.user.create({
+  //         data: {
+  //           userId: "meggan-user-id",
+  //           email: "meggan@test.org",
+  //           hashedPassword: "xxxx",
+  //           firstName: "Meggan",
+  //           lastName: "Shvartsberg",
+  //           role: "ADMIN",
+  //           sessions: {
+  //             create: {
+  //               sessionId: "meggan-session-id",
+  //               expiresAt: new Date(Date.now() + 5_000_000_000),
+  //             },
+  //           },
+  //         },
+  //       }),
+  //     ]);
+  //   });
+
   afterEach(() => {
     mockCookies.clear();
   });
 
-  // Delete the records created for these tests
-  afterAll(async () => {
-    await prisma.user.deleteMany({
-      where: {
-        userId: {
-          in: ["meggan-user-id"],
-        },
-      },
-    });
-  });
+  //   afterAll(async () => {
+  //     await prisma.projectSubmission.deleteMany({
+  //       where: { projectOwner: { userId: "meggan-user-id" } },
+  //     });
+  //     await prisma.user.delete({ where: { userId: "meggan-user-id" } });
+  //   });
+
+  // //Delete the records created for these tests
+  // afterAll(async () => {
+  //   await prisma.user.deleteMany({
+  //     where: {
+  //       userId: {
+  //         in: ["meggan-user-id"],
+  //       },
+  //     },
+  //   });
+  // });
 
   test("create a project submission", async () => {
+    const session = await createSession();
+    mockCookies.set("sessionId", session.sessionId);
+
     const input = {
       projectTitle: "Test Project",
       description: "A test project for submission",
@@ -77,13 +129,14 @@ describe("projectSubmission", () => {
       videoLink: "https://test.com/video",
       additionalInfo: "General additional info",
     };
+
     const response = await $api.projectSubmission(input);
     expect(response).toEqual({
       message: "Project submission created successfully",
     });
 
     const storedProject = await prisma.projectSubmission.findFirst({
-      where: { projectOwner: { userId: "meggan-user-id" } },
+      where: { projectOwner: { userId: session.userId } },
       include: { scenes: true },
     });
 
@@ -113,15 +166,6 @@ describe("projectSubmission", () => {
     expect(storedProject.scenes[1]?.sceneTitle).toBe("Scene 2");
     expect(storedProject.scenes[1]?.description).toBe("Scene 2 description");
     expect(storedProject.scenes[1]?.musicType).toBe("Indie");
+    await cleanupAccount();
   });
 });
-
-//before all: create a user DONE
-//make api request $api.endpoint
-//pass in all the data fields for the project submission
-//response = message
-//expect to equal
-//prisma quer to get data that u just inserted
-//check that data to make sure it matches (testing sideffect)
-//check that the fields were correct
-// ?? const data = prisma.projectSubmission.find
