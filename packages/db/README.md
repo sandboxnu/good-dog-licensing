@@ -11,6 +11,7 @@ This package contains all the database-related stuff for the project. We use the
   - [Migrations](#migrations)
     - [Creating/Applying Migrations](#creatingapplying-migrations)
     - [Prisma Studio](#prisma-studio)
+    - [Fixing failed production migrations](#fixing-failed-production-migrations)
 
 ## Setup
 
@@ -59,3 +60,15 @@ bun db:studio
 ```
 
 This will open a web interface where you can view and edit your database records.
+
+### Fixing failed production migrations
+
+1. Get the production database URL from the Vercel storage dashboard
+2. Change the DATABASE_PRISMA_URL in your .env file to the production database URL
+3. Run the following command to resolve the migration
+
+```sh
+bun prisma migrate resolve --rolled-back <migration name> --schema=./packages/db/prisma/schema.prisma
+```
+
+4. Change the DATABASE_PRISMA_URL in your .env file back to the development database URL

@@ -1,9 +1,20 @@
+import type { UserWithSession } from "../internal/common-types";
 import { baseProcedureBuilder } from "../internal/init";
 import { authenticatedProcedureBuilder } from "../middleware/authentictated";
 
 export const getAuthenticatedUserProcedure =
   authenticatedProcedureBuilder.query(({ ctx }) => {
-    return ctx.session.user;
+    const result: UserWithSession = {
+      ...ctx.session.user,
+      session: {
+        expiresAt: ctx.session.expiresAt,
+        refreshRequired:
+          // Refresh session if it expires in less than 29 days
+          ctx.session.expiresAt.getTime() - Date.now() < 60_000 * 60 * 24 * 29,
+      },
+    };
+
+    return result;
   });
 
 export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
@@ -17,13 +28,15 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
     where: {
       sessionId: sessionId.value,
     },
-    include: {
+    select: {
+      expiresAt: true,
       user: {
         select: {
           userId: true,
           firstName: true,
           lastName: true,
           email: true,
+          phoneNumber: true,
           role: true,
         },
       },
@@ -35,5 +48,15 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
     return null;
   }
 
-  return sessionOrNull.user;
+  const result: UserWithSession = {
+    ...sessionOrNull.user,
+    session: {
+      expiresAt: sessionOrNull.expiresAt,
+      refreshRequired:
+        // Refresh session if it expires in less than 29 days
+        sessionOrNull.expiresAt.getTime() - Date.now() < 60_000 * 60 * 24 * 29,
+    },
+  };
+
+  return result;
 });

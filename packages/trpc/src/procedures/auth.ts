@@ -1,5 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+
+import type { UserWithSession } from "../internal/common-types";
+
 import { authenticatedProcedureBuilder } from "../middleware/authentictated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
@@ -12,6 +15,12 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       firstName: z.string(),
       lastName: z.string(),
       email: z.string().email(),
+      phoneNumber: z
+        .string()
+        .regex(
+          /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
+          "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
+        ),
       password: z.string(),
     }),
   )
@@ -55,6 +64,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
           lastName: input.lastName,
           role: "ONBOARDING",
           email: input.email,
+          phoneNumber: input.phoneNumber,
           hashedPassword: hashedPassword,
           sessions: {
             create: {
@@ -169,6 +179,53 @@ export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
 
     return {
       message: "Successfully deleted account",
+    };
+  },
+);
+
+export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
+  async ({ ctx }) => {
+    const sessionId = ctx.session.sessionId;
+
+    const updatedSession = await ctx.prisma.session.update({
+      where: {
+        sessionId: sessionId,
+      },
+      data: {
+        expiresAt: getNewSessionExpirationDate(),
+      },
+      select: {
+        sessionId: true,
+        expiresAt: true,
+        user: {
+          select: {
+            userId: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
+            role: true,
+          },
+        },
+      },
+    });
+
+    ctx.cookiesService.setSessionCookie(
+      updatedSession.sessionId,
+      updatedSession.expiresAt,
+    );
+
+    const user: UserWithSession = {
+      ...updatedSession.user,
+      session: {
+        expiresAt: updatedSession.expiresAt,
+        refreshRequired: false,
+      },
+    };
+
+    return {
+      message: "Session refreshed",
+      user,
     };
   },
 );

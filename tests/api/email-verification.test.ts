@@ -17,45 +17,34 @@ describe("email-verification", () => {
     prisma: prisma,
   });
 
-  const createEmailVerificationCode = async (emailConfirmed: boolean) =>
-    prisma.emailVerificationCode.upsert({
-      create: {
+  const createEmailVerificationCode = async ({
+    emailConfirmed,
+  }: {
+    emailConfirmed: boolean;
+  }) =>
+    prisma.emailVerificationCode.create({
+      data: {
         email: "damian@gmail.com",
         code: "019821",
         expiresAt: new Date(Date.now() + 60_000 * 100000),
         emailConfirmed: emailConfirmed,
       },
-      update: {
-        code: "019821",
-        expiresAt: new Date(Date.now() + 60_000 * 100000),
-        emailConfirmed: emailConfirmed,
-      },
+    });
+
+  afterEach(async () => {
+    mockCookies.clear();
+    mockEmails.clear();
+
+    // delete many used to prevent error if email verification code does not exist
+    await prisma.emailVerificationCode.deleteMany({
       where: {
         email: "damian@gmail.com",
       },
     });
-
-  const cleanupEmailVerificationCode = async () => {
-    try {
-      await prisma.emailVerificationCode.delete({
-        where: {
-          email: "damian@gmail.com",
-        },
-      });
-    } catch (error) {
-      void error;
-    }
-  };
-
-  afterEach(() => {
-    mockCookies.clear();
-    mockEmails.clear();
   });
 
   describe("email-verification/sendEmailVerification", () => {
     test("Email is not in database", async () => {
-      await cleanupEmailVerificationCode();
-
       const response = await $api.sendEmailVerification({
         email: "damian@gmail.com",
       });
@@ -77,12 +66,9 @@ describe("email-verification", () => {
       expect(response.message).toEqual(
         "Email verification code sent to damian@gmail.com",
       );
-
-      await cleanupEmailVerificationCode();
     });
 
-    test("Email sending error", async () => {
-      await cleanupEmailVerificationCode();
+    test("Email sending error", () => {
       mockEmails.send.mockImplementationOnce(() => {
         throw new Error("Mock email failure.");
       });
@@ -97,12 +83,10 @@ describe("email-verification", () => {
 
       expect(mockEmails.send).toBeCalled();
       expect(mockEmails.generateSixDigitCode).toBeCalled();
-
-      await cleanupEmailVerificationCode();
     });
 
     test("Email is already in database (not verified)", async () => {
-      await createEmailVerificationCode(false);
+      await createEmailVerificationCode({ emailConfirmed: false });
 
       const response = await $api.sendEmailVerification({
         email: "damian@gmail.com",
@@ -126,12 +110,12 @@ describe("email-verification", () => {
         "Email verification code sent to damian@gmail.com",
       );
       expect(response.status).toEqual("EMAIL_SENT");
-
-      await cleanupEmailVerificationCode();
     });
 
     test("Email is already in database (verified)", async () => {
-      await createEmailVerificationCode(true);
+      await createEmailVerificationCode({
+        emailConfirmed: true,
+      });
 
       const response = await $api.sendEmailVerification({
         email: "damian@gmail.com",
@@ -144,14 +128,14 @@ describe("email-verification", () => {
 
       expect(mockEmails.send).not.toBeCalled();
       expect(mockEmails.generateSixDigitCode).not.toBeCalled();
-
-      await cleanupEmailVerificationCode();
     });
   });
 
   describe("email-verification/confirmEmail", () => {
     test("Email already verified", async () => {
-      await createEmailVerificationCode(true);
+      await createEmailVerificationCode({
+        emailConfirmed: true,
+      });
 
       const response = await $api.confirmEmail({
         email: "damian@gmail.com",
@@ -161,9 +145,7 @@ describe("email-verification", () => {
       expect(response.status).toBe("SUCCESS");
     });
 
-    test("No email verification code entry", async () => {
-      await cleanupEmailVerificationCode();
-
+    test("No email verification code entry", () => {
       expect(
         $api.confirmEmail({
           email: "damian@gmail.com",
@@ -173,7 +155,9 @@ describe("email-verification", () => {
     });
 
     test("Given code is incorrect", async () => {
-      await createEmailVerificationCode(false);
+      await createEmailVerificationCode({
+        emailConfirmed: false,
+      });
 
       expect(
         $api.confirmEmail({
@@ -181,12 +165,12 @@ describe("email-verification", () => {
           code: "123456",
         }),
       ).rejects.toThrow("damian@gmail.com is not verified.");
-
-      await cleanupEmailVerificationCode();
     });
 
     test("Given code is expired", async () => {
-      await createEmailVerificationCode(false);
+      await createEmailVerificationCode({
+        emailConfirmed: false,
+      });
       const expiredDate = new Date(Date.now() + 60_000 * -15);
 
       await prisma.emailVerificationCode.update({
@@ -223,12 +207,12 @@ describe("email-verification", () => {
       expect(emailVerificationCode?.expiresAt).not.toEqual(expiredDate);
 
       expect(response.status).toEqual("RESENT");
-
-      await cleanupEmailVerificationCode();
     });
 
     test("Given code is valid", async () => {
-      await createEmailVerificationCode(false);
+      await createEmailVerificationCode({
+        emailConfirmed: false,
+      });
 
       const response = await $api.confirmEmail({
         email: "damian@gmail.com",
@@ -247,8 +231,6 @@ describe("email-verification", () => {
       expect(response.message).toEqual(
         "Email was successfully verified. Email: damian@gmail.com.",
       );
-
-      await cleanupEmailVerificationCode();
     });
   });
 });
