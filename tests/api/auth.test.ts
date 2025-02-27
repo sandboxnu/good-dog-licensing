@@ -35,20 +35,14 @@ describe("auth", () => {
     });
 
   const createAccount = async () =>
-    prisma.user.upsert({
-      create: {
+    prisma.user.create({
+      data: {
         firstName: "Damian",
         lastName: "Smith",
         role: "MEDIA_MAKER",
+        phoneNumber: "1234567890",
         email: "damian@gmail.com",
         hashedPassword: await passwordService.hashPassword("password123"),
-      },
-      update: {
-        email: "damian@gmail.com",
-        hashedPassword: await passwordService.hashPassword("password123"),
-      },
-      where: {
-        email: "damian@gmail.com",
       },
     });
 
@@ -62,6 +56,7 @@ describe("auth", () => {
               firstName: "Damian",
               lastName: "Smith",
               role: "MEDIA_MAKER",
+              phoneNumber: "2345678901",
               email: "damian@gmail.com",
               hashedPassword: await passwordService.hashPassword("password123"),
             },
@@ -73,29 +68,20 @@ describe("auth", () => {
       },
     });
 
-  const cleanupAccount = async () => {
-    try {
-      await prisma.user.delete({
+  afterEach(async () => {
+    await Promise.all([
+      prisma.user.deleteMany({
         where: {
           email: "damian@gmail.com",
         },
-      });
-    } catch (error) {
-      void error;
-    }
-  };
-
-  const cleanupEmailVerificationCode = async () => {
-    try {
-      await prisma.emailVerificationCode.delete({
+      }),
+      prisma.emailVerificationCode.deleteMany({
         where: {
           email: "damian@gmail.com",
         },
-      });
-    } catch (error) {
-      void error;
-    }
-  };
+      }),
+    ]);
+  });
 
   afterEach(() => {
     mockCookies.clear();
@@ -104,11 +90,11 @@ describe("auth", () => {
   describe("auth/signUp", () => {
     test("Email is verified", async () => {
       await createEmailVerificationCode(true);
-      await cleanupAccount();
 
       const response = await $api.signUp({
         firstName: "Damian",
         lastName: "Smith",
+        phoneNumber: "1234567890",
         email: "damian@gmail.com",
         password: "password123",
       });
@@ -124,50 +110,40 @@ describe("auth", () => {
         path: "/",
         expires: expect.any(Date),
       });
-
-      await cleanupAccount();
-      await cleanupEmailVerificationCode();
     });
 
     test("Email is not verified (awaiting)", async () => {
       await createEmailVerificationCode(false);
-      await cleanupAccount();
 
       const createAccountHelp = async () =>
         await $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
+          phoneNumber: "1234567890",
           email: "damian@gmail.com",
           password: "password123",
         });
 
       expect(createAccountHelp).toThrow("Email has not been verified.");
-
-      await cleanupEmailVerificationCode();
     });
 
-    test("Email is not verified (not awaiting)", async () => {
-      await cleanupEmailVerificationCode();
-      await cleanupAccount();
-
+    test("Email is not verified (not awaiting)", () => {
       const createAccountHelp = async () =>
         await $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
+          phoneNumber: "1234567890",
           email: "damian@gmail.com",
           password: "password123",
         });
 
       expect(createAccountHelp).toThrow("Email has not been verified.");
-
-      await cleanupEmailVerificationCode();
     });
   });
 
   describe("with existing account", () => {
     test("auth/signIn", async () => {
-      await createEmailVerificationCode(true);
-      await createAccount();
+      await Promise.all([createEmailVerificationCode(true), createAccount()]);
 
       const signInResponse = await $api.signIn({
         email: "damian@gmail.com",
@@ -184,14 +160,10 @@ describe("auth", () => {
         path: "/",
         expires: expect.any(Date),
       });
-
-      await cleanupEmailVerificationCode();
-      await cleanupAccount();
     });
 
     test("auth/signIn failure", async () => {
-      await createEmailVerificationCode(true);
-      await createAccount();
+      await Promise.all([createEmailVerificationCode(true), createAccount()]);
 
       expect(
         $api.signIn({
@@ -201,27 +173,21 @@ describe("auth", () => {
       ).rejects.toThrow("Invalid credentials");
 
       expect(mockCookies.set).not.toBeCalled();
-
-      await cleanupEmailVerificationCode();
-      await cleanupAccount();
     });
 
     test("auth/signUp failure", async () => {
-      await createEmailVerificationCode(true);
-      await createAccount();
+      await Promise.all([createEmailVerificationCode(true), createAccount()]);
 
       expect(
         $api.signUp({
           firstName: "Damian",
           lastName: "Smith",
+          phoneNumber: "1234567890",
           email: "damian@gmail.com",
           password: "password123",
         }),
       ).rejects.toThrow("User already exists with email damian@gmail.com");
       expect(mockCookies.set).not.toBeCalled();
-
-      await cleanupEmailVerificationCode();
-      await cleanupAccount();
     });
   });
 
@@ -233,8 +199,6 @@ describe("auth", () => {
 
     expect(mockCookies.delete).toBeCalledWith("sessionId");
     expect(res.message).toEqual("Successfully logged out");
-
-    await cleanupAccount();
   });
 
   test("auth/deleteAccount", async () => {
@@ -247,5 +211,23 @@ describe("auth", () => {
       "Successfully deleted account",
     );
     expect(mockCookies.delete).toBeCalledWith("sessionId");
+  });
+
+  test("auth/refreshSession", async () => {
+    const session = await createSession();
+    mockCookies.set("sessionId", session.sessionId);
+    mockCookies.set.mockRestore();
+
+    const refreshSessionResponse = await $api.refreshSession();
+
+    expect(refreshSessionResponse.message).toEqual("Session refreshed");
+
+    expect(mockCookies.set).toBeCalledWith("sessionId", session.sessionId, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      expires: expect.any(Date),
+    });
   });
 });

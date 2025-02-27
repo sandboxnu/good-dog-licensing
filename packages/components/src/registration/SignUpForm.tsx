@@ -12,10 +12,17 @@ import { Button } from "@good-dog/ui/button";
 import EmailVerifyModal from "./EmailVerifyModal";
 import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
+import TOSModal from "./TOSModal";
 
 const zSignUpValues = z.object({
   emailConfirmed: z.string(),
   email: z.string().email(),
+  phoneNumber: z
+    .string()
+    .regex(
+      /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
+      "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
+    ),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -48,6 +55,7 @@ export default function SignUpForm() {
 
   const [isEmailVerificationModalOpen, setIsEmailVerificationModalOpen] =
     useState(false);
+  const [isTOSModalOpen, setIsTOSModalOpen] = useState(false);
   const sendVerificationEmailMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: (data) => {
       switch (data.status) {
@@ -99,6 +107,7 @@ export default function SignUpForm() {
   const isEmailVerified =
     sendVerificationEmailMutation.isSuccess &&
     signUpForm.watch("emailConfirmed") === email;
+  const [acceptedTOS, setAcceptedTOS] = useState(false);
 
   return (
     <FormProvider {...signUpForm}>
@@ -110,12 +119,23 @@ export default function SignUpForm() {
           }}
         />
       )}
+      {isTOSModalOpen && (
+        <TOSModal
+          close={() => {
+            setIsTOSModalOpen(false);
+          }}
+          accept={() => {
+            setIsTOSModalOpen(false);
+            setAcceptedTOS(true);
+          }}
+        />
+      )}
       <GenericRegistrationForm
         title="Sign Up"
         variant="dark"
         ctaTitle="Sign Up"
         onSubmit={onSubmitSignUp}
-        disabled={!isEmailVerified}
+        disabled={!isEmailVerified || !acceptedTOS}
         secondaryAction="Already have an account?"
         secondaryActionLink="Sign In"
         secondaryActionUrl="/login"
@@ -129,7 +149,7 @@ export default function SignUpForm() {
             )}
             {signUpMutation.isError && (
               <p className="text-good-dog-error">
-                Failed to ssign up: {signUpMutation.error.message}
+                Failed to sign up: {signUpMutation.error.message}
               </p>
             )}
           </div>
@@ -159,6 +179,11 @@ export default function SignUpForm() {
         </Button>
         {isEmailVerified && <p className="text-green-500">Email verified</p>}
         <TypedRegistrationInput
+          fieldName="phoneNumber"
+          type="text"
+          label="Phone Number"
+        />
+        <TypedRegistrationInput
           fieldName="password"
           type="password"
           label="Password"
@@ -182,6 +207,17 @@ export default function SignUpForm() {
             classname="flex-1"
           />
         </div>
+        <Button
+          className="h-4 w-full rounded-full"
+          onClick={(e) => {
+            // prevent actual <form/> submission
+            e.preventDefault();
+            // Open TOS modal
+            setIsTOSModalOpen(true);
+          }}
+        >
+          View & Accept TOS
+        </Button>
       </GenericRegistrationForm>
     </FormProvider>
   );
