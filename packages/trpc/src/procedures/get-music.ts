@@ -2,7 +2,7 @@ import { adminOrModeratorAuthenticatedProcedureBuilder } from "../middleware/mod
 
 export const getMusicSubmissionsProcedure =
   adminOrModeratorAuthenticatedProcedureBuilder.query(async ({ ctx }) => {
-    const [music] = await ctx.prisma.musicSubmission.findMany({
+    const music = await ctx.prisma.musicSubmission.findMany({
       include: {
         artist: true,
         group: true,
