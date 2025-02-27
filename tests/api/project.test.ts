@@ -21,11 +21,14 @@ import { createMockCookieService } from "../mocks/util";
 
 describe("projectSubmission", () => {
   const mockCookies = new MockNextCookies();
+  const setSessionCookie = setSessionCookieBuilder(mockCookies);
+  const getSessionCookie = getSessionCookieBuilder(mockCookies);
+  const deleteSessionCookie = deleteSessionCookieBuilder(mockCookies);
 
-  const $api = $createTrpcCaller({
-    cookiesService: createMockCookieService(mockCookies),
-    prisma: prisma,
-  });
+  //   const $api = $createTrpcCaller({
+  //     cookiesService: createMockCookieService(mockCookies),
+  //     prisma: prisma,
+  //   });
 
   const createSession = async () =>
     prisma.session.create({
@@ -45,6 +48,9 @@ describe("projectSubmission", () => {
             },
           },
         },
+      },
+      include: {
+        user: true,
       },
     });
 
@@ -106,7 +112,16 @@ describe("projectSubmission", () => {
 
   test("create a project submission", async () => {
     const session = await createSession();
-    mockCookies.set("sessionId", session.sessionId);
+    if (!session.sessionId) {
+      throw new Error("Session creation failed: No sessionId returned.");
+    }
+    setSessionCookie(session.sessionId, new Date("2099-01-01"));
+    expect(getSessionCookie()?.value).toBe(session.sessionId);
+    //mockCookies.set("sessionId", session.sessionId);
+    const $api = $createTrpcCaller({
+      cookiesService: createMockCookieService(mockCookies),
+      prisma,
+    });
 
     const input = {
       projectTitle: "Test Project",
@@ -136,7 +151,7 @@ describe("projectSubmission", () => {
     });
 
     const storedProject = await prisma.projectSubmission.findFirst({
-      where: { projectOwner: { userId: session.userId } },
+      where: { projectOwner: { userId: session.user.userId } },
       include: { scenes: true },
     });
 
@@ -166,6 +181,9 @@ describe("projectSubmission", () => {
     expect(storedProject.scenes[1]?.sceneTitle).toBe("Scene 2");
     expect(storedProject.scenes[1]?.description).toBe("Scene 2 description");
     expect(storedProject.scenes[1]?.musicType).toBe("Indie");
+
+    deleteSessionCookie();
+    expect(getSessionCookie()).toBeUndefined();
     await cleanupAccount();
   });
 });
