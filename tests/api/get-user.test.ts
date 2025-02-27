@@ -87,7 +87,7 @@ describe("get user", () => {
     await prisma.user.deleteMany({
       where: {
         userId: {
-          in: ["owen-user-id", "isabelle-user-id"],
+          in: ["owen-user-id", "isabelle-user-id", "gavin-user-id"],
         },
       },
     });
