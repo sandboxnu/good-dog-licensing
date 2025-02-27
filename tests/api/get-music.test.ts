@@ -171,12 +171,19 @@ describe("get user", () => {
     });
 
     await prisma.user.deleteMany({
-        where: {
-          userId: {
-            in: ["owen-user-id", "gavin-user-id", "amoli-user-id", "artists-user-id-1", "artists-user-id-2", "artists-user-id-3"],
-          },
+      where: {
+        userId: {
+          in: [
+            "owen-user-id",
+            "gavin-user-id",
+            "amoli-user-id",
+            "artists-user-id-1",
+            "artists-user-id-2",
+            "artists-user-id-3",
+          ],
         },
-      });
+      },
+    });
   });
 
   test("Correct music is returned when they have an ADMIN session.", async () => {
@@ -201,7 +208,6 @@ describe("get user", () => {
 
   test("No music is returned when they have a NON MODERATOR OR ADMIN session.", () => {
     cookies.set("sessionId", "amoli-session-id");
-    expect(
-        $api.music()).rejects.toThrow("FORBIDDEN");
+    expect($api.music()).rejects.toThrow("FORBIDDEN");
   });
 });
