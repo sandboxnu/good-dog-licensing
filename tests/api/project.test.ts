@@ -1,17 +1,5 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-} from "bun:test";
+import { afterEach, describe, expect, test } from "bun:test";
 
-import {
-  deleteSessionCookieBuilder,
-  getSessionCookieBuilder,
-  setSessionCookieBuilder,
-} from "@good-dog/auth/cookies";
 import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
@@ -21,14 +9,11 @@ import { createMockCookieService } from "../mocks/util";
 
 describe("projectSubmission", () => {
   const mockCookies = new MockNextCookies();
-  const setSessionCookie = setSessionCookieBuilder(mockCookies);
-  const getSessionCookie = getSessionCookieBuilder(mockCookies);
-  const deleteSessionCookie = deleteSessionCookieBuilder(mockCookies);
 
-  //   const $api = $createTrpcCaller({
-  //     cookiesService: createMockCookieService(mockCookies),
-  //     prisma: prisma,
-  //   });
+  const $api = $createTrpcCaller({
+    cookiesService: createMockCookieService(mockCookies),
+    prisma,
+  });
 
   const createSession = async () =>
     prisma.session.create({
@@ -41,6 +26,7 @@ describe("projectSubmission", () => {
               lastName: "Smith",
               role: "MEDIA_MAKER",
               email: "damian@gmail.com",
+              phoneNumber: "123-456-7890",
               hashedPassword: await passwordService.hashPassword("password123"),
             },
             where: {
@@ -54,17 +40,13 @@ describe("projectSubmission", () => {
       },
     });
 
-  const cleanupAccount = async () => {
-    try {
-      await prisma.user.delete({
-        where: {
-          email: "damian@gmail.com",
-        },
-      });
-    } catch (error) {
-      void error;
-    }
-  };
+  afterEach(async () => {
+    await prisma.user.deleteMany({
+      where: {
+        email: "damian@gmail.com",
+      },
+    });
+  });
 
   //   //create a mock user
   //   beforeAll(async () => {
@@ -112,16 +94,8 @@ describe("projectSubmission", () => {
 
   test("create a project submission", async () => {
     const session = await createSession();
-    if (!session.sessionId) {
-      throw new Error("Session creation failed: No sessionId returned.");
-    }
-    setSessionCookie(session.sessionId, new Date("2099-01-01"));
-    expect(getSessionCookie()?.value).toBe(session.sessionId);
-    //mockCookies.set("sessionId", session.sessionId);
-    const $api = $createTrpcCaller({
-      cookiesService: createMockCookieService(mockCookies),
-      prisma,
-    });
+
+    mockCookies.set("sessionId", session.sessionId);
 
     const input = {
       projectTitle: "Test Project",
@@ -181,9 +155,5 @@ describe("projectSubmission", () => {
     expect(storedProject.scenes[1]?.sceneTitle).toBe("Scene 2");
     expect(storedProject.scenes[1]?.description).toBe("Scene 2 description");
     expect(storedProject.scenes[1]?.musicType).toBe("Indie");
-
-    deleteSessionCookie();
-    expect(getSessionCookie()).toBeUndefined();
-    await cleanupAccount();
   });
 });

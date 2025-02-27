@@ -15,6 +15,7 @@ import {
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
 import { onboardingProcedure } from "../procedures/onboarding";
+import { projectSubmissionProcedure } from "../procedures/project-submission";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
@@ -35,6 +36,7 @@ export const appRouter = createTRPCRouter({
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
+  projectSubmission: projectSubmissionProcedure,
 });
 
 export type AppRouter = typeof appRouter;

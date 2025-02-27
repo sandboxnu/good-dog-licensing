@@ -116,7 +116,7 @@ model SceneSubmission {
   similarSongs      String            @default("")
   additionalInfo    String            @default("")
   projectId         String
-  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
 }
 
 model MusicSubmission {
