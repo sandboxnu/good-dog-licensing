@@ -17,20 +17,20 @@ export const sendModeratorInviteEmailProcedure =
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // Delete any existing Moderator Invites
-      await ctx.prisma.moderatorInvite.deleteMany({
-        where: {
-          email: input.moderatorEmail,
-        },
-      });
-
-      // Create a Moderator Invite
-      const createdModeratorInvite = await ctx.prisma.moderatorInvite.create({
-        data: {
-          email: input.moderatorEmail,
-          expiresAt: getModeratorInviteExpirationDate(),
-        },
-      });
+      // Delete any exisiting moderator invites and create a new one
+      const [, createdModeratorInvite] = await ctx.prisma.$transaction([
+        ctx.prisma.moderatorInvite.deleteMany({
+          where: {
+            email: input.moderatorEmail,
+          },
+        }),
+        ctx.prisma.moderatorInvite.create({
+          data: {
+            email: input.moderatorEmail,
+            expiresAt: getModeratorInviteExpirationDate(),
+          },
+        }),
+      ]);
 
       // Send email. If sending fails, throw error.
       try {
