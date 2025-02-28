@@ -19,6 +19,7 @@ enum Role {
   MUSICIAN
   MEDIA_MAKER
   ADMIN
+  MODERATOR
 }
 
 model User {
@@ -64,6 +65,13 @@ model PasswordResetReq {
   user            User     @relation(fields: [passwordResetId], references: [userId], onDelete: Cascade)
   createdAt       DateTime @default(now())
   expiresAt       DateTime
+}
+
+model ModeratorInvite {
+  moderatorInviteId      String @id @default(cuid())
+  email                  String @unique
+  createdAt              DateTime @default(now())
+  expiresAt              DateTime
 }
 
 model MusicianGroup {

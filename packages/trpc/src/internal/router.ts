@@ -14,11 +14,13 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
-import { onboardingProcedure } from "../procedures/onboarding";
+import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
+import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
 } from "../procedures/user";
+import { onboardingProcedure } from "../procedures/user_onboarding";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
@@ -35,6 +37,8 @@ export const appRouter = createTRPCRouter({
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
+  sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
+  onboardModerator: onboardModeratorProcedure,
 });
 
 export type AppRouter = typeof appRouter;

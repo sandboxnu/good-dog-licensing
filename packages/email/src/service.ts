@@ -48,10 +48,7 @@ export class EmailService {
   }
 
   sendPasswordResetEmail(toEmail: string, cuid: string) {
-    let baseURL = "http://localhost:3000";
-    if (env.VERCEL_URL) {
-      baseURL = `https://${env.VERCEL_URL}`;
-    }
+    const baseURL = this.getBaseUrl();
 
     return this.send({
       to: toEmail,
@@ -59,6 +56,26 @@ export class EmailService {
       html: `<p>Follow <a href="${baseURL}/pwdreset/reset_id?=${cuid}">this link</a> to reset your password.`,
       from: env.VERIFICATION_FROM_EMAIL ?? "",
     });
+  }
+
+  sendPRInviteEmail(toEmail: string, cuid: string) {
+    const baseURL = this.getBaseUrl();
+
+    return this.send({
+      to: toEmail,
+      subject: "Sign Up For PR - Good Dog Licensing",
+      html: `<p>Follow <a href="${baseURL}/pr_invite/?id=${cuid}">this link</a> to sign up as a PR.`,
+      from: env.VERIFICATION_FROM_EMAIL ?? "",
+    });
+  }
+
+  private getBaseUrl() {
+    let baseURL = "http://localhost:3000";
+    if (env.VERCEL_URL) {
+      baseURL = `https://${env.VERCEL_URL}`;
+    }
+
+    return baseURL;
   }
 
   sendVerificationEmail(toEmail: string, code: string) {
