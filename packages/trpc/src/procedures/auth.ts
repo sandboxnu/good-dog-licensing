@@ -1,7 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { authenticatedProcedureBuilder } from "../middleware/authentictated";
+import type { UserWithSession } from "../internal/common-types";
+import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
 const getNewSessionExpirationDate = () =>
@@ -177,6 +178,53 @@ export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
 
     return {
       message: "Successfully deleted account",
+    };
+  },
+);
+
+export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
+  async ({ ctx }) => {
+    const sessionId = ctx.session.sessionId;
+
+    const updatedSession = await ctx.prisma.session.update({
+      where: {
+        sessionId: sessionId,
+      },
+      data: {
+        expiresAt: getNewSessionExpirationDate(),
+      },
+      select: {
+        sessionId: true,
+        expiresAt: true,
+        user: {
+          select: {
+            userId: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
+            role: true,
+          },
+        },
+      },
+    });
+
+    ctx.cookiesService.setSessionCookie(
+      updatedSession.sessionId,
+      updatedSession.expiresAt,
+    );
+
+    const user: UserWithSession = {
+      ...updatedSession.user,
+      session: {
+        expiresAt: updatedSession.expiresAt,
+        refreshRequired: false,
+      },
+    };
+
+    return {
+      message: "Session refreshed",
+      user,
     };
   },
 );
