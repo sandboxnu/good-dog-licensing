@@ -206,3 +206,14 @@ model MatchComments {
   matchId        String
   suggestedMatch SuggestedMatch @relation(fields: [matchId], references: [matchId], onDelete: NoAction)
 }
+
+model UnlicensedMusic {
+  musicId        String   @id @default(uuid())
+  songName       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  artist         String
+  songLink       String
+  genre          String
+  additionalInfo String   @default("")
+}
