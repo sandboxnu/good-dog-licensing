@@ -2,12 +2,12 @@
 
 import { z } from "zod";
 
+import { ReferralSource } from "@good-dog/db";
 import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
 
 import RegistrationInput from "../inputs/RegistrationInput";
 import OnboardingFormProvider from "./OnboardingFormProvider";
 import ReferralDropdown from "./ReferralDropdown";
-import { ReferralSource } from ".prisma/client";
 
 const Schema = z.object({
   role: z.literal("MEDIA_MAKER"),

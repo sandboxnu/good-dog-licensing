@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
-import { referralDisplay, ReferralSource } from "@good-dog/db";
+import { ReferralSource } from "@good-dog/db";
 import {
   Select,
   SelectContent,
@@ -11,13 +11,21 @@ import {
   SelectValue,
 } from "@good-dog/ui/select";
 
+const referalDisplay: Record<ReferralSource, string> = {
+  FRIEND: "Friend",
+  COLLEAGUE: "Colleague",
+  GREEN_LINE_RECORDS: "Green Line Records",
+  SOCIAL_MEDIA: "Social Media",
+  OTHER: "Other",
+};
+
+const referralOptions = Object.values(ReferralSource);
+
 export default function ReferralDropdown() {
   const { control, register } = useFormContext<{
     source?: string;
     customSource?: string;
   }>();
-
-  const referralOptions = Object.values(ReferralSource);
 
   const [isOtherSelected, setIsOtherSelected] = useState(false);
 
@@ -46,7 +54,7 @@ export default function ReferralDropdown() {
               <SelectGroup>
                 {referralOptions.map((option) => (
                   <SelectItem key={option} value={option}>
-                    {referralDisplay(option)}
+                    {referalDisplay[option]}
                   </SelectItem>
                 ))}
               </SelectGroup>
