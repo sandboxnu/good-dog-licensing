@@ -2,6 +2,8 @@ import { revalidatePath } from "next/cache";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import { ReferralSource } from "@good-dog/db";
+
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { zPreProcessEmptyString } from "../utils";
 
@@ -12,12 +14,23 @@ export const onboardingProcedure = authenticatedProcedureBuilder
         role: z.literal("MEDIA_MAKER"),
         firstName: z.string(),
         lastName: z.string(),
-        discovery: z.string().optional(),
+        referral: z
+          .object({
+            source: z.nativeEnum(ReferralSource),
+            customSource: zPreProcessEmptyString(z.string().optional()),
+          })
+          .optional(),
       }),
       z.object({
         role: z.literal("MUSICIAN"),
         firstName: zPreProcessEmptyString(z.string()),
         lastName: zPreProcessEmptyString(z.string()),
+        referral: z
+          .object({
+            source: z.nativeEnum(ReferralSource),
+            customSource: zPreProcessEmptyString(z.string().optional()),
+          })
+          .optional(),
         groupName: zPreProcessEmptyString(z.string()),
         stageName: zPreProcessEmptyString(z.string().optional()),
         isSongWriter: z.boolean().optional(),
@@ -36,7 +49,6 @@ export const onboardingProcedure = authenticatedProcedureBuilder
             }),
           )
           .optional(),
-        discovery: z.string().optional(),
       }),
     ]),
   )
@@ -65,6 +77,14 @@ export const onboardingProcedure = authenticatedProcedureBuilder
           role: "MUSICIAN",
           firstName: input.firstName,
           lastName: input.lastName,
+          referral: input.referral
+            ? {
+                create: {
+                  source: input.referral.source,
+                  customSource: input.referral.customSource,
+                },
+              }
+            : undefined,
           stageName: input.stageName,
           isSongWriter: input.isSongWriter,
           isAscapAffiliated: input.isAscapAffiliated,
