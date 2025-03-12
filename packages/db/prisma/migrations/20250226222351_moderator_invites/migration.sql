@@ -1,6 +1,3 @@
--- AlterEnum
-ALTER TYPE "Role" ADD VALUE 'MODERATOR';
-
 -- CreateTable
 CREATE TABLE "ModeratorInvite" (
     "moderatorInviteId" TEXT NOT NULL,
