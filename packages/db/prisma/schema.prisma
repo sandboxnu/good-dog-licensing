@@ -139,3 +139,14 @@ model MusicSubmission {
   songwriters    MusicianGroupMember[] @relation("songWriters")
   additionalInfo String                @default("")
 }
+
+model UnlicensedMusic {
+  musicId        String   @id @default(uuid())
+  songName       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  artist         String
+  songLink       String
+  genre          String
+  additionalInfo String   @default("")
+}
