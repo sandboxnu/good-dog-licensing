@@ -76,6 +76,13 @@ model PasswordResetReq {
   expiresAt       DateTime
 }
 
+model ModeratorInvite {
+  moderatorInviteId      String @id @default(cuid())
+  email                  String @unique
+  createdAt              DateTime @default(now())
+  expiresAt              DateTime
+}
+
 model MusicianGroup {
   groupId          String                @id @default(uuid())
   organizerId      String // The user that created the group
