@@ -16,7 +16,7 @@ export const submitMusicProcedure = authenticatedProcedureBuilder
       genre: z.string(),
       songwriters: z.array(
         z.object({
-          userId: z.string(),
+          email: z.string(),
         }),
       ),
       additionalInfo: z.string().optional(),
@@ -53,7 +53,7 @@ export const submitMusicProcedure = authenticatedProcedureBuilder
           connect: input.songwriters.map((_songwriter) => ({
             groupId_email: {
               groupId: input.groupId,
-              email: ctx.session.user.email,
+              email: _songwriter.email,
             },
           })),
         },

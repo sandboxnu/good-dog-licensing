@@ -8,8 +8,6 @@ import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
 
-//bun db:studio
-
 const mockCookies = new MockNextCookies();
 const mockEmails = new MockEmailService();
 
@@ -29,6 +27,30 @@ beforeAll(async () => {
       role: "MUSICIAN",
       hashedPassword: "person1Password",
       userId: "musician-id",
+      phoneNumber: "1234567890",
+      musicianGroups: {
+        create: {
+          groupId: "person1-group-id",
+          name: "Person 1 Group",
+
+          groupMembers: {
+            createMany: {
+              data: [
+                {
+                  firstName: "Person 2",
+                  lastName: "Jones",
+                  email: "person2@gmail.com",
+                },
+                {
+                  firstName: "Person 3",
+                  lastName: "Doe",
+                  email: "person3@gmail.com",
+                },
+              ],
+            },
+          },
+        },
+      },
     },
   });
   await prisma.session.upsert({
@@ -47,6 +69,7 @@ beforeAll(async () => {
     },
   });
 
+  /*
   const person2 = await prisma.user.upsert({
     where: { email: "person2@gmail.com" },
     update: {},
@@ -56,6 +79,7 @@ beforeAll(async () => {
       lastName: "Jones",
       role: "ADMIN",
       hashedPassword: "person2Password",
+      phoneNumber: "1234566543",
     },
   });
   await prisma.session.upsert({
@@ -69,21 +93,6 @@ beforeAll(async () => {
       expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
     },
   });
-  await prisma.session.upsert({
-    where: { sessionId: "502" },
-    update: {
-      expiresAt: new Date(
-        new Date().setFullYear(new Date().getFullYear() + 10),
-      ),
-    },
-    create: {
-      userId: person2.userId,
-      sessionId: "502",
-      expiresAt: new Date(
-        new Date().setFullYear(new Date().getFullYear() + 10),
-      ),
-    },
-  });
 
   const person3 = await prisma.user.upsert({
     where: { email: "person3@prisma.io" },
@@ -94,6 +103,7 @@ beforeAll(async () => {
       lastName: "Doe",
       role: "MEDIA_MAKER",
       hashedPassword: "person3Password",
+      phoneNumber: "1234563456",
     },
   });
   await prisma.session.upsert({
@@ -104,13 +114,14 @@ beforeAll(async () => {
       ),
     },
     create: {
-      userId: person1.userId,
+      userId: person3.userId,
       sessionId: "503",
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
     },
   });
+  */
 });
 
 afterEach(() => {
@@ -118,22 +129,32 @@ afterEach(() => {
   mockEmails.clear();
 });
 
-test("A Musician can submit music", async () => {
-  //Set the cookies
-  mockCookies.set("sessionId", "500");
+describe("music-submission-procedure", () => {
+  test("A Musician can submit music", async () => {
+    // Set the cookies
+    mockCookies.set("sessionId", "500");
 
-  //Create music submission
-  const response = await $api.submitMusic({
-    groupId: "group-id",
-    songName: "Test Song",
-    songLink: "https://example.com",
-    genre: "Rock",
-    songwriters: [{ userId: "musician-id" }],
-    additionalInfo: "Some additional info",
+    // Create music submission
+    const response = await $api.submitMusic({
+      groupId: "person1-group-id",
+      songName: "Test Song",
+      songLink: "https://example.com",
+      genre: "Rock",
+      songwriters: [{ email: "person2@gmail.com" }],
+      additionalInfo: "Some additional info",
+    });
+
+    const user = await $api.authenticatedUser();
+
+    expect(response.message).toEqual("Music submitted successfully");
+
+    const musicSubmission = await prisma.musicSubmission.findFirst({
+      where: { songName: "Test Song" },
+    });
+
+    expect(musicSubmission?.songName).toEqual("Test Song");
+    expect(musicSubmission?.songLink).toEqual("https://example.com");
+    expect(musicSubmission?.genre).toEqual("Rock");
+    expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
   });
-
-  const user = await $api.authenticatedUser();
-
-  expect(response.message).toEqual("Music submitted successfully");
-  expect(response).not.toBeNull();
 });
