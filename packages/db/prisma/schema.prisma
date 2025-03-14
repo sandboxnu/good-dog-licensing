@@ -96,10 +96,10 @@ model PasswordResetReq {
 }
 
 model ModeratorInvite {
-  moderatorInviteId      String @id @default(cuid())
-  email                  String @unique
-  createdAt              DateTime @default(now())
-  expiresAt              DateTime
+  moderatorInviteId String   @id @default(cuid())
+  email             String   @unique
+  createdAt         DateTime @default(now())
+  expiresAt         DateTime
 }
 
 model MusicianGroup {
@@ -205,4 +205,15 @@ model MatchComments {
   user           User           @relation(fields: [userId], references: [userId], onDelete: NoAction)
   matchId        String
   suggestedMatch SuggestedMatch @relation(fields: [matchId], references: [matchId], onDelete: NoAction)
+}
+
+model UnlicensedMusic {
+  musicId        String   @id @default(uuid())
+  songName       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  artist         String
+  songLink       String
+  genre          String
+  additionalInfo String   @default("")
 }
