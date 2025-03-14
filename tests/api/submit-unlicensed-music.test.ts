@@ -101,30 +101,31 @@ describe("submit unlicensed music", () => {
 
   // Delete the records created for these tests
   afterAll(async () => {
-    await prisma.unlicensedMusic.deleteMany({
-      where: {
-        songName: {
-          in: [
-            "unlicensed-music-name-1",
-            "unlicensed-music-name-2",
-            "unlicensed-music-name-3",
-          ],
+    await prisma.$transaction([
+      prisma.unlicensedMusic.deleteMany({
+        where: {
+          songName: {
+            in: [
+              "unlicensed-music-name-1",
+              "unlicensed-music-name-2",
+              "unlicensed-music-name-3",
+            ],
+          },
         },
-      },
-    });
-
-    await prisma.user.deleteMany({
-      where: {
-        userId: {
-          in: [
-            "admin-user-id",
-            "mod-user-id",
-            "media-user-id",
-            "musician-user-id",
-          ],
+      }),
+      prisma.user.deleteMany({
+        where: {
+          userId: {
+            in: [
+              "admin-user-id",
+              "mod-user-id",
+              "media-user-id",
+              "musician-user-id",
+            ],
+          },
         },
-      },
-    });
+      }),
+    ]);
   });
 
   test("Music is successfully submitted when the user is an Admin", async () => {
