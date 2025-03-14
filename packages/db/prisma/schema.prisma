@@ -68,10 +68,10 @@ model PasswordResetReq {
 }
 
 model ModeratorInvite {
-  moderatorInviteId      String @id @default(cuid())
-  email                  String @unique
-  createdAt              DateTime @default(now())
-  expiresAt              DateTime
+  moderatorInviteId String   @id @default(cuid())
+  email             String   @unique
+  createdAt         DateTime @default(now())
+  expiresAt         DateTime
 }
 
 model MusicianGroup {
