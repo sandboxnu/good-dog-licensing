@@ -171,11 +171,21 @@ import {
 
     test("Music is not successfully submitted when the user is a Media Maker", () => {
         cookies.set("sessionId", "media-session-id");
-        expect($api.submitUnlicensedMusic).rejects.toThrow("FORBIDDEN");
+        expect($api.submitUnlicensedMusic({
+          songName: "unlicensed-music-name-3",
+          artist: "unlicensed-music-artist-3",
+          songLink: "https://unlicensed-music-link-3.com",
+          genre: "unlicensed-music-genre-3",
+      })).rejects.toThrow("FORBIDDEN");
     });
 
     test("Music is not successfully submitted when the user is a Musician", () => {
         cookies.set("sessionId", "musician-session-id");
-        expect($api.submitUnlicensedMusic).rejects.toThrow("FORBIDDEN");
+        expect($api.submitUnlicensedMusic({
+            songName: "unlicensed-music-name-3",
+            artist: "unlicensed-music-artist-3",
+            songLink: "https://unlicensed-music-link-3.com",
+            genre: "unlicensed-music-genre-3",
+        })).rejects.toThrow("FORBIDDEN");
     });
   });
