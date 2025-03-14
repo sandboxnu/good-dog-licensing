@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
+import type { ReferralSource } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
 
@@ -14,7 +15,10 @@ interface BaseValues {
   role: "MEDIA_MAKER" | "MUSICIAN";
   firstName: string;
   lastName: string;
-  discovery?: string;
+  referral?: {
+    source: ReferralSource;
+    customSource?: string;
+  };
 }
 
 export default function OnboardingFormProvider<
