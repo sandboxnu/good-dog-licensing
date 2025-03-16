@@ -39,7 +39,7 @@ export const projectSubmissionProcedure = authenticatedProcedureBuilder
     }
 
     // Create the project submission
-    const projectSubmission = await ctx.prisma.projectSubmission.create({
+    await ctx.prisma.projectSubmission.create({
       data: {
         projectOwner: {
           connect: { userId: ctx.session.userId },
@@ -51,13 +51,13 @@ export const projectSubmissionProcedure = authenticatedProcedureBuilder
             sceneTitle: scene.sceneTitle,
             description: scene.description,
             musicType: scene.musicType,
-            similarSongs: scene.similarSongs || "",
-            additionalInfo: scene.additionalInfo || "",
+            similarSongs: scene.similarSongs,
+            additionalInfo: scene.additionalInfo,
           })),
         },
         deadline: new Date(input.deadline),
-        videoLink: input.videoLink || "",
-        additionalInfo: input.additionalInfo || "",
+        videoLink: input.videoLink,
+        additionalInfo: input.additionalInfo,
       },
       include: {
         scenes: true,

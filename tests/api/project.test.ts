@@ -1,6 +1,12 @@
-import { afterEach, describe, expect, test } from "bun:test";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 
-import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
@@ -15,47 +21,65 @@ describe("projectSubmission", () => {
     prisma,
   });
 
-  const createSession = async () =>
-    prisma.session.create({
-      data: {
-        expiresAt: new Date("2099-01-01"),
-        user: {
-          connectOrCreate: {
+  beforeAll(async () => {
+    await prisma.$transaction([
+      prisma.user.create({
+        data: {
+          userId: "damian-user-id",
+          firstName: "Damian",
+          lastName: "Smith",
+          role: "MEDIA_MAKER",
+          email: "damian@test.org",
+          phoneNumber: "123-456-7890",
+          hashedPassword: "password123",
+          sessions: {
             create: {
-              firstName: "Damian",
-              lastName: "Smith",
-              role: "MEDIA_MAKER",
-              email: "damian@gmail.com",
-              phoneNumber: "123-456-7890",
-              hashedPassword: await passwordService.hashPassword("password123"),
-            },
-            where: {
-              email: "damian@gmail.com",
+              sessionId: "damian-session-id",
+              expiresAt: new Date("2099-01-01"),
             },
           },
         },
-      },
-      include: {
-        user: true,
-      },
-    });
-
-  afterEach(async () => {
-    await prisma.user.deleteMany({
-      where: {
-        email: "damian@gmail.com",
-      },
-    });
+      }),
+      prisma.user.create({
+        data: {
+          firstName: "Meggan",
+          lastName: "Shvartsberg",
+          role: "MUSICIAN",
+          email: "meggan@test.org",
+          phoneNumber: "123-456-7890",
+          hashedPassword: "password123",
+          sessions: {
+            create: {
+              sessionId: "meggan-session-id",
+              expiresAt: new Date("2099-01-01"),
+            },
+          },
+        },
+      }),
+    ]);
   });
 
   afterEach(() => {
     mockCookies.clear();
   });
 
-  test("create a project submission", async () => {
-    const session = await createSession();
+  afterAll(async () => {
+    await prisma.user.deleteMany({
+      where: {
+        OR: [
+          {
+            email: "damian@test.org",
+          },
+          {
+            email: "meggan@test.org",
+          },
+        ],
+      },
+    });
+  });
 
-    mockCookies.set("sessionId", session.sessionId);
+  test("create a project submission", async () => {
+    mockCookies.set("sessionId", "damian-session-id");
 
     const input = {
       projectTitle: "Test Project",
@@ -85,7 +109,7 @@ describe("projectSubmission", () => {
     });
 
     const storedProject = await prisma.projectSubmission.findFirst({
-      where: { projectOwner: { userId: session.user.userId } },
+      where: { projectOwner: { userId: "damian-user-id" } },
       include: { scenes: true },
     });
 
@@ -115,5 +139,22 @@ describe("projectSubmission", () => {
     expect(storedProject.scenes[1]?.sceneTitle).toBe("Scene 2");
     expect(storedProject.scenes[1]?.description).toBe("Scene 2 description");
     expect(storedProject.scenes[1]?.musicType).toBe("Indie");
+  });
+
+  test("create a project submission as a musician", () => {
+    mockCookies.set("sessionId", "meggan-session-id");
+
+    const input = {
+      projectTitle: "Test Project",
+      description: "A test project for submission",
+      scenes: [],
+      deadline: new Date().toISOString(),
+      videoLink: "https://test.com/video",
+      additionalInfo: "General additional info",
+    };
+
+    expect($api.projectSubmission(input)).rejects.toThrow(
+      "Only media makers can submit projects.",
+    );
   });
 });
