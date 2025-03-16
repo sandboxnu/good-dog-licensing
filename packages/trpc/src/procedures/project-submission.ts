@@ -22,7 +22,6 @@ export const projectSubmissionProcedure = authenticatedProcedureBuilder
       deadline: z.string().refine((val) => !isNaN(Date.parse(val)), {
         message: "Invalid date format",
       }),
-      //add relation for projectowner(user) and scenes
       videoLink: z.string().optional(),
       additionalInfo: z.string().optional(),
     }),

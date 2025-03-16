@@ -48,49 +48,9 @@ describe("projectSubmission", () => {
     });
   });
 
-  //   //create a mock user
-  //   beforeAll(async () => {
-  //     await prisma.$transaction([
-  //       prisma.user.create({
-  //         data: {
-  //           userId: "meggan-user-id",
-  //           email: "meggan@test.org",
-  //           hashedPassword: "xxxx",
-  //           firstName: "Meggan",
-  //           lastName: "Shvartsberg",
-  //           role: "ADMIN",
-  //           sessions: {
-  //             create: {
-  //               sessionId: "meggan-session-id",
-  //               expiresAt: new Date(Date.now() + 5_000_000_000),
-  //             },
-  //           },
-  //         },
-  //       }),
-  //     ]);
-  //   });
-
   afterEach(() => {
     mockCookies.clear();
   });
-
-  //   afterAll(async () => {
-  //     await prisma.projectSubmission.deleteMany({
-  //       where: { projectOwner: { userId: "meggan-user-id" } },
-  //     });
-  //     await prisma.user.delete({ where: { userId: "meggan-user-id" } });
-  //   });
-
-  // //Delete the records created for these tests
-  // afterAll(async () => {
-  //   await prisma.user.deleteMany({
-  //     where: {
-  //       userId: {
-  //         in: ["meggan-user-id"],
-  //       },
-  //     },
-  //   });
-  // });
 
   test("create a project submission", async () => {
     const session = await createSession();
