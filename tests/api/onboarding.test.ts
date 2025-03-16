@@ -14,7 +14,7 @@ import { MockNextCache } from "../mocks/MockNextCache";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
 
-describe("get user", () => {
+describe("onboarding", () => {
   // Seeds the database before running the tests
   beforeAll(async () => {
     await prisma.$transaction([
