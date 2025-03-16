@@ -17,10 +17,8 @@ const $api = $createTrpcCaller({
 });
 
 beforeAll(async () => {
-  const person1 = await prisma.user.upsert({
-    where: { email: "person1@prisma.io" },
-    update: {},
-    create: {
+  await prisma.user.create({
+    data: {
       email: "person1@prisma.io",
       firstName: "Person 1",
       lastName: "Smith",
@@ -28,9 +26,31 @@ beforeAll(async () => {
       hashedPassword: "person1Password",
       userId: "musician-id",
       phoneNumber: "1234567890",
+      musicianGroups: {
+        create: {
+          groupId: "person1-group-id",
+          name: "Person 1 Group",
+
+          groupMembers: {
+            createMany: {
+              data: [
+                {
+                  firstName: "Person 2",
+                  lastName: "Jones",
+                  email: "person2@gmail.com",
+                },
+                {
+                  firstName: "Person 3",
+                  lastName: "Doe",
+                  email: "person3@gmail.com",
+                },
+              ],
+            },
+          },
+        },
+      },
     },
   });
-
   await prisma.session.upsert({
     where: { sessionId: "500" },
     update: {
@@ -146,8 +166,6 @@ describe("music-submission-procedure", () => {
       songwriters: [{ email: "person2@gmail.com" }],
       additionalInfo: "Some additional info",
     });
-
-    const user = await $api.authenticatedUser();
 
     expect(response.message).toEqual("Music submitted successfully");
 
