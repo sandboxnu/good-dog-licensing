@@ -104,8 +104,7 @@ test("Correct user is returned when they have multiple sessions and one is valid
   const user = await $api.authenticatedUser();
 
   expect(user.email).toEqual("person2@gmail.com");
-  expect(user.phoneNumber).toEqual("1234567890");
-});
+  expect(user.phoneNumber).toEqual("1234567890");});
 
 test("'UNAUTHORIZED' error is thrown when no session is found for the sessionId.", () => {
   // Set the cookies

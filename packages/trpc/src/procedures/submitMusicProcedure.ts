@@ -5,8 +5,6 @@ import { Role } from "@good-dog/db";
 
 import { authenticatedProcedureBuilder } from "../middleware/authentictated";
 
-// add a test verifying that inputting an invalid groupId results in an error
-
 export const submitMusicProcedure = authenticatedProcedureBuilder
   .input(
     z.object({

@@ -28,31 +28,9 @@ beforeAll(async () => {
       hashedPassword: "person1Password",
       userId: "musician-id",
       phoneNumber: "1234567890",
-      musicianGroups: {
-        create: {
-          groupId: "person1-group-id",
-          name: "Person 1 Group",
-
-          groupMembers: {
-            createMany: {
-              data: [
-                {
-                  firstName: "Person 2",
-                  lastName: "Jones",
-                  email: "person2@gmail.com",
-                },
-                {
-                  firstName: "Person 3",
-                  lastName: "Doe",
-                  email: "person3@gmail.com",
-                },
-              ],
-            },
-          },
-        },
-      },
     },
   });
+
   await prisma.session.upsert({
     where: { sessionId: "500" },
     update: {
@@ -69,7 +47,33 @@ beforeAll(async () => {
     },
   });
 
-  /*
+  // Create a MusicianGroup record
+  await prisma.musicianGroup.create({
+    data: {
+      groupId: "person1-group-id",
+      name: "Person 1 Group",
+      organizerId: person1.userId,
+      groupMembers: {
+        createMany: {
+          data: [
+            {
+              firstName: "Person 2",
+              lastName: "Jones",
+              email: "person2@gmail.com",
+            },
+            {
+              firstName: "Person 3",
+              lastName: "Doe",
+              email: "person3@gmail.com",
+            },
+          ],
+        },
+      },
+    },
+  });
+});
+
+/*
   const person2 = await prisma.user.upsert({
     where: { email: "person2@gmail.com" },
     update: {},
@@ -122,7 +126,6 @@ beforeAll(async () => {
     },
   });
   */
-});
 
 afterEach(() => {
   mockCookies.clear();
