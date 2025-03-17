@@ -24,6 +24,7 @@ import {
 } from "../procedures/matches";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
+import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
@@ -53,6 +54,7 @@ export const appRouter = createTRPCRouter({
   reviewMatch: reviewSuggestedMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
+  submitUnlicensedMusic: submitUnlicensedMusicProcedure,
 });
 
 export type AppRouter = typeof appRouter;
