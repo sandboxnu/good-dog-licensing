@@ -1,0 +1,71 @@
+-- CreateEnum
+CREATE TYPE "Rating" AS ENUM ('LIKE', 'DISLIKE');
+
+-- AlterTable
+ALTER TABLE "MatchComments" 
+RENAME COLUMN "matchId" TO "suggestedMatchId";
+
+-- AlterTable
+ALTER TABLE "MatchComments"
+ADD COLUMN     "unlicensedSuggestedMatchId" TEXT;
+
+-- AlterTable
+ALTER TABLE "SuggestedMatches" RENAME COLUMN "matchId" TO "suggestedMatchId";
+
+-- CreateTable
+CREATE TABLE "MatchRatings" (
+    "ratingId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "ratingEnum" "Rating" NOT NULL,
+    "suggestedMatchId" TEXT,
+    "unlicensedSuggestedMatchId" TEXT,
+
+    CONSTRAINT "MatchRatings_pkey" PRIMARY KEY ("ratingId")
+);
+
+ALTER TABLE IF EXISTS "UnlicensedMusic" RENAME TO "UnlicensedMusicSubmission";
+
+-- CreateTable
+CREATE TABLE "UnlicensedSuggestedMatches" (
+    "unlicensedSuggestedMatchId" TEXT NOT NULL,
+    "projectId" TEXT NOT NULL,
+    "sceneId" TEXT NOT NULL,
+    "musicId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "description" TEXT NOT NULL,
+    "matcherUserId" TEXT NOT NULL,
+    "matchState" "MatchState" NOT NULL,
+
+    CONSTRAINT "UnlicensedSuggestedMatches_pkey" PRIMARY KEY ("unlicensedSuggestedMatchId")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UnlicensedSuggestedMatches_sceneId_musicId_key" ON "UnlicensedSuggestedMatches"("sceneId", "musicId");
+
+-- AddForeignKey
+ALTER TABLE "MatchComments" ADD CONSTRAINT "MatchComments_suggestedMatchId_fkey" FOREIGN KEY ("suggestedMatchId") REFERENCES "SuggestedMatches"("suggestedMatchId") ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MatchComments" ADD CONSTRAINT "MatchComments_unlicensedSuggestedMatchId_fkey" FOREIGN KEY ("unlicensedSuggestedMatchId") REFERENCES "UnlicensedSuggestedMatches"("unlicensedSuggestedMatchId") ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MatchRatings" ADD CONSTRAINT "MatchRatings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MatchRatings" ADD CONSTRAINT "MatchRatings_suggestedMatchId_fkey" FOREIGN KEY ("suggestedMatchId") REFERENCES "SuggestedMatches"("suggestedMatchId") ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "MatchRatings" ADD CONSTRAINT "MatchRatings_unlicensedSuggestedMatchId_fkey" FOREIGN KEY ("unlicensedSuggestedMatchId") REFERENCES "UnlicensedSuggestedMatches"("unlicensedSuggestedMatchId") ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UnlicensedSuggestedMatches" ADD CONSTRAINT "UnlicensedSuggestedMatches_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "ProjectSubmission"("projectId") ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UnlicensedSuggestedMatches" ADD CONSTRAINT "UnlicensedSuggestedMatches_sceneId_fkey" FOREIGN KEY ("sceneId") REFERENCES "SceneSubmission"("sceneId") ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UnlicensedSuggestedMatches" ADD CONSTRAINT "UnlicensedSuggestedMatches_musicId_fkey" FOREIGN KEY ("musicId") REFERENCES "UnlicensedMusicSubmission"("musicId") ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UnlicensedSuggestedMatches" ADD CONSTRAINT "UnlicensedSuggestedMatches_matcherUserId_fkey" FOREIGN KEY ("matcherUserId") REFERENCES "User"("id") ON DELETE NO ACTION ON UPDATE CASCADE;
