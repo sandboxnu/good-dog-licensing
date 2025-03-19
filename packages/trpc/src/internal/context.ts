@@ -13,8 +13,8 @@ import { emailService } from "@good-dog/email";
 /**
  * @see: https://trpc.io/docs/server/context
  */
-export const createTRPCContext = React.cache(async () => {
-  const awaitedCookies = await cookies();
+export const createTRPCContext = React.cache(() => {
+  const awaitedCookies = cookies();
 
   return {
     prisma: prisma,

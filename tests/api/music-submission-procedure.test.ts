@@ -6,7 +6,6 @@ import {
   expect,
   test,
 } from "bun:test";
-import { ZodError } from "zod";
 
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
@@ -172,7 +171,7 @@ describe("music-submission-procedure", () => {
     mockCookies.set("sessionId", "500");
 
     // Attempt to create music submission
-    await expect(
+    expect(
       $api.submitMusic({
         groupId: "person1-group-id",
         songName: "Media Maker Test Song",
