@@ -6,6 +6,12 @@ ALTER TABLE "MatchComments"
 RENAME COLUMN "matchId" TO "suggestedMatchId";
 
 -- AlterTable
+ALTER TABLE "MatchComments" ALTER COLUMN "suggestedMatchId" DROP NOT NULL;
+
+-- RenameForeignKey
+ALTER TABLE "MatchComments" RENAME CONSTRAINT "MatchComments_matchId_fkey" TO "MatchComments_suggestedMatchId_fkey";
+
+-- AlterTable
 ALTER TABLE "MatchComments"
 ADD COLUMN     "unlicensedSuggestedMatchId" TEXT;
 
@@ -23,7 +29,12 @@ CREATE TABLE "MatchRatings" (
     CONSTRAINT "MatchRatings_pkey" PRIMARY KEY ("ratingId")
 );
 
+-- AlterTable
 ALTER TABLE IF EXISTS "UnlicensedMusic" RENAME TO "UnlicensedMusicSubmission";
+
+-- AlterTable
+ALTER TABLE "UnlicensedMusicSubmission" RENAME CONSTRAINT "UnlicensedMusic_pkey" TO "UnlicensedMusicSubmission_pkey";
+
 
 -- CreateTable
 CREATE TABLE "UnlicensedSuggestedMatches" (
@@ -42,9 +53,6 @@ CREATE TABLE "UnlicensedSuggestedMatches" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UnlicensedSuggestedMatches_sceneId_musicId_key" ON "UnlicensedSuggestedMatches"("sceneId", "musicId");
-
--- AddForeignKey
-ALTER TABLE "MatchComments" ADD CONSTRAINT "MatchComments_suggestedMatchId_fkey" FOREIGN KEY ("suggestedMatchId") REFERENCES "SuggestedMatches"("suggestedMatchId") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MatchComments" ADD CONSTRAINT "MatchComments_unlicensedSuggestedMatchId_fkey" FOREIGN KEY ("unlicensedSuggestedMatchId") REFERENCES "UnlicensedSuggestedMatches"("unlicensedSuggestedMatchId") ON DELETE NO ACTION ON UPDATE CASCADE;
