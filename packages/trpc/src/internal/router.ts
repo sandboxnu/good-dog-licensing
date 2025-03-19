@@ -14,6 +14,8 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
+
+import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
 import { getMusicSubmissionsProcedure } from "../procedures/get-music";
 import { getProjectScenesProcedure } from "../procedures/get-project-scenes";
 import {
@@ -25,6 +27,7 @@ import {
 import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
 import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
+
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
@@ -55,6 +58,7 @@ export const appRouter = createTRPCRouter({
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
   submitUnlicensedMusic: submitUnlicensedMusicProcedure,
+  submitMusic: submitMusicProcedure,
 });
 
 export type AppRouter = typeof appRouter;
