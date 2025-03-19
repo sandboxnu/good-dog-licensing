@@ -130,7 +130,7 @@ async function createData() {
 async function createMoreData() {
   await prisma.suggestedMatch.create({
     data: {
-      matchId: "match",
+      suggestedMatchId: "match",
       projectId: "projectSubmission",
       sceneId: "sceneOneSubmission",
       musicId: "musicSubmission",
@@ -145,7 +145,7 @@ async function createMoreData() {
       commentId: "testComment",
       userId: "matcher",
       commentText: "hello",
-      matchId: "match",
+      suggestedMatchId: "match",
     },
   });
 }
@@ -154,13 +154,13 @@ async function deleteData() {
   // Delete MatchComments (created in tests)
   await prisma.matchComments.deleteMany({
     where: {
-      matchId: "match",
+      suggestedMatchId: "match",
     },
   });
 
   // Delete SuggestedMatch
   await prisma.suggestedMatch.deleteMany({
-    where: { matchId: "match" },
+    where: { suggestedMatchId: "match" },
   });
 
   // Delete SuggestedMatch for suggestMatch tests
@@ -240,7 +240,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        matchId: "match",
+        suggestedMatchId: "match",
         userId: "sanjana",
       },
     });
@@ -266,7 +266,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        matchId: "match",
+        suggestedMatchId: "match",
         userId: "matcher",
       },
     });
@@ -305,7 +305,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        matchId: "match",
+        suggestedMatchId: "match",
         userId: "sanjana",
       },
     });
@@ -328,7 +328,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const updatedComment = await prisma.matchComments.findFirst({
       where: {
-        matchId: "match",
+        suggestedMatchId: "match",
         userId: "sanjana",
       },
     });
@@ -457,7 +457,7 @@ describe("suggested match procedure", () => {
     });
 
     const updatedResponse = await $api.suggestMatch({
-      matchId: match?.matchId,
+      matchId: match?.suggestedMatchId,
       description: "This is an even better match.",
     });
 
@@ -465,7 +465,7 @@ describe("suggested match procedure", () => {
 
     const updatedMatch = await prisma.suggestedMatch.findFirst({
       where: {
-        matchId: match?.matchId,
+        suggestedMatchId: match?.suggestedMatchId,
       },
     });
 
@@ -508,7 +508,7 @@ describe("reviewSuggestedMatchProcedure", () => {
 
     const updatedMatch = await prisma.suggestedMatch.findFirst({
       where: {
-        matchId: "match",
+        suggestedMatchId: "match",
       },
     });
 
@@ -527,7 +527,7 @@ describe("reviewSuggestedMatchProcedure", () => {
 
     const updatedMatch = await prisma.suggestedMatch.findFirst({
       where: {
-        matchId: "match",
+        suggestedMatchId: "match",
       },
     });
 

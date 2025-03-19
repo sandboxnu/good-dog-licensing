@@ -22,14 +22,14 @@ import {
   reviewSuggestedMatchProcedure,
   suggestedMatchProcedure,
 } from "../procedures/matches";
-import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
-import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
+import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
+import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
 import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
 } from "../procedures/user";
-import { onboardingProcedure } from "../procedures/user_onboarding";
+import { onboardingProcedure } from "../procedures/user-onboarding";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
