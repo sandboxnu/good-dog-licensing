@@ -1,4 +1,11 @@
-import { afterEach, beforeAll, describe, expect, test } from "bun:test";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 import { ZodError } from "zod";
 
 import { prisma } from "@good-dog/db";
@@ -24,7 +31,7 @@ beforeAll(async () => {
       lastName: "Smith",
       role: "MUSICIAN",
       hashedPassword: "person1Password",
-      userId: "musician-id",
+      userId: "musician-id-1",
       phoneNumber: "1234567890",
       musicianGroups: {
         create: {
@@ -59,97 +66,36 @@ beforeAll(async () => {
       ),
     },
     create: {
-      userId: person1.userId,
+      userId: "musician-id-1",
       sessionId: "500",
       expiresAt: new Date(
         new Date().setFullYear(new Date().getFullYear() + 10),
       ),
     },
   });
-
-  // Create a MusicianGroup record
-  await prisma.musicianGroup.create({
-    data: {
-      groupId: "person1-group-id",
-      name: "Person 1 Group",
-      organizerId: person1.userId,
-      groupMembers: {
-        createMany: {
-          data: [
-            {
-              firstName: "Person 2",
-              lastName: "Jones",
-              email: "person2@gmail.com",
-            },
-            {
-              firstName: "Person 3",
-              lastName: "Doe",
-              email: "person3@gmail.com",
-            },
-          ],
-        },
-      },
-    },
-  });
 });
-
-/*
-  const person2 = await prisma.user.upsert({
-    where: { email: "person2@gmail.com" },
-    update: {},
-    create: {
-      email: "person2@gmail.com",
-      firstName: "Person2",
-      lastName: "Jones",
-      role: "ADMIN",
-      hashedPassword: "person2Password",
-      phoneNumber: "1234566543",
-    },
-  });
-  await prisma.session.upsert({
-    where: { sessionId: "501" },
-    update: {
-      expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
-    },
-    create: {
-      userId: person2.userId,
-      sessionId: "501",
-      expiresAt: new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
-    },
-  });
-
-  const person3 = await prisma.user.upsert({
-    where: { email: "person3@prisma.io" },
-    update: {},
-    create: {
-      email: "person3@prisma.io",
-      firstName: "Person 3",
-      lastName: "Doe",
-      role: "MEDIA_MAKER",
-      hashedPassword: "person3Password",
-      phoneNumber: "1234563456",
-    },
-  });
-  await prisma.session.upsert({
-    where: { sessionId: "503" },
-    update: {
-      expiresAt: new Date(
-        new Date().setFullYear(new Date().getFullYear() + 10),
-      ),
-    },
-    create: {
-      userId: person3.userId,
-      sessionId: "503",
-      expiresAt: new Date(
-        new Date().setFullYear(new Date().getFullYear() + 10),
-      ),
-    },
-  });
-  */
 
 afterEach(() => {
   mockCookies.clear();
   mockEmails.clear();
+});
+
+// Delete the records created for these tests
+afterAll(async () => {
+  await prisma.$transaction([
+    prisma.user.deleteMany({
+      where: {
+        email: {
+          in: ["person1@prisma.io", "person2@gmail.com", "person3@gmail.com"],
+        },
+      },
+    }),
+    prisma.musicianGroup.deleteMany({
+      where: {
+        name: "person1-group-id",
+      },
+    }),
+  ]);
 });
 
 describe("music-submission-procedure", () => {
@@ -177,5 +123,70 @@ describe("music-submission-procedure", () => {
     expect(musicSubmission?.songLink).toEqual("https://example.com");
     expect(musicSubmission?.genre).toEqual("Rock");
     expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
+  });
+  test("An Admin can submit music", async () => {
+    // Temporarily update Person 1's role to ADMIN
+    await prisma.user.update({
+      where: { email: "person1@prisma.io" },
+      data: { role: "ADMIN" },
+    });
+
+    // Set the cookies
+    mockCookies.set("sessionId", "500");
+
+    // Create music submission
+    const response = await $api.submitMusic({
+      groupId: "person1-group-id",
+      songName: "Admin Test Song",
+      songLink: "https://example.com/admin-song",
+      genre: "Jazz",
+      songwriters: [{ email: "person2@gmail.com" }],
+      additionalInfo: "Admin additional info",
+    });
+
+    expect(response.message).toEqual("Music submitted successfully");
+
+    const musicSubmission = await prisma.musicSubmission.findFirst({
+      where: { songName: "Admin Test Song" },
+    });
+
+    expect(musicSubmission?.songName).toEqual("Admin Test Song");
+    expect(musicSubmission?.songLink).toEqual("https://example.com/admin-song");
+    expect(musicSubmission?.genre).toEqual("Jazz");
+    expect(musicSubmission?.additionalInfo).toEqual("Admin additional info");
+
+    // Reset Person 1's role to MUSICIAN
+    await prisma.user.update({
+      where: { email: "person1@prisma.io" },
+      data: { role: "MUSICIAN" },
+    });
+  });
+  test("A Media Maker cannot submit music", async () => {
+    // Temporarily update Person 1's role to MEDIA_MAKER
+    await prisma.user.update({
+      where: { email: "person1@prisma.io" },
+      data: { role: "MEDIA_MAKER" },
+    });
+
+    // Set the cookies
+    mockCookies.set("sessionId", "500");
+
+    // Attempt to create music submission
+    await expect(
+      $api.submitMusic({
+        groupId: "person1-group-id",
+        songName: "Media Maker Test Song",
+        songLink: "https://example.com/media-maker-song",
+        genre: "Pop",
+        songwriters: [{ email: "person2@gmail.com" }],
+        additionalInfo: "Media Maker additional info",
+      }),
+    ).rejects.toThrow("Only musicians can submit music");
+
+    // Reset Person 1's role to MUSICIAN
+    await prisma.user.update({
+      where: { email: "person1@prisma.io" },
+      data: { role: "MUSICIAN" },
+    });
   });
 });

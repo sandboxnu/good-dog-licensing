@@ -5,6 +5,7 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
+import { emailService } from "@good-dog/email";
 
 const cookies = new MockNextCookies();
 
