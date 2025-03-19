@@ -2,8 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import type { UserWithSession } from "../internal/common-types";
-
-import { authenticatedProcedureBuilder } from "../middleware/authentictated";
+import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
 const getNewSessionExpirationDate = () =>
