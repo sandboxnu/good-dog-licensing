@@ -1,5 +1,5 @@
 import ModeratorOnboarding from "@good-dog/components/registration/onboarding/ModeratorOnboarding";
 
-export default function Page() {
+export default async function Page() {
   return <ModeratorOnboarding />;
 }
