@@ -5,7 +5,8 @@
   "type": "module",
   "exports": {
     "./password": "./src/password.ts",
-    "./cookies": "./src/cookies.ts"
+    "./cookies": "./src/cookies.ts",
+    "./permissions": "./src/permissions/index.ts"
   },
   "license": "MIT",
   "scripts": {
@@ -15,6 +16,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "devDependencies": {
+    "@good-dog/db": "workspace:*",
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
@@ -26,6 +28,7 @@
   "prettier": "@good-dog/prettier",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "next": "15.1.6"
+    "next": "15.1.6",
+    "react": "18.3.1"
   }
 }

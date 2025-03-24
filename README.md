@@ -97,7 +97,7 @@ The following scripts are available in the root `package.json`:
 - `lint`: Run linting.
 - `lint:fix`: Fix linting issues.
 - `typecheck`: Run TypeScript type checks.
-- `shad-add`: Add a new UI component using Shadcn.
+- `shad:add`: Add a new UI component using Shadcn.
 - `generate:package`: Generate a new package.
 - `env:setup`: Setup the default env vars
 - `test`: Run the test suites
