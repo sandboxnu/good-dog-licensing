@@ -1,10 +1,7 @@
 import { TRPCError } from "@trpc/server";
 
-import {
-  adminPagePermissions,
-  GoodDogPermissionsFactory,
-} from "@good-dog/auth/permissions";
-import { Role } from "@good-dog/db";
+import type { GoodDogPermissionsFactory } from "@good-dog/auth/permissions";
+import type { Role } from "@good-dog/db";
 
 import { authenticatedProcedureBuilder } from "./authenticated";
 

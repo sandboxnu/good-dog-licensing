@@ -17,6 +17,7 @@ const MatchingPage = async () => {
     </HydrateClient>
   );
 };
+
 export default withPermissions(
   projectAndRepetoirePagePermissions,
   MatchingPage,
