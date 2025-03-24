@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import type { UserWithSession } from "@good-dog/trpc/types";
 import { Label } from "@good-dog/ui/label";
 import { Switch } from "@good-dog/ui/switch";
 
@@ -14,9 +15,7 @@ import MusicianForm from "./MusicianForm";
 
 export default function OnboardingFormSwitcher(
   props: Readonly<{
-    firstName: string;
-    lastName: string;
-    email: string;
+    user: UserWithSession;
   }>,
 ) {
   const [isChecked, setIsChecked] = useState(true);
@@ -53,7 +52,11 @@ export default function OnboardingFormSwitcher(
           checked={isChecked}
           onCheckedChange={setIsChecked}
         />
-        <FormComponent {...props} />
+        <FormComponent
+          firstName={props.user.firstName}
+          lastName={props.user.lastName}
+          email={props.user.email}
+        />
       </div>
       <CheckerColumn numSquares={4} className="absolute right-0 top-0 h-full" />
     </main>

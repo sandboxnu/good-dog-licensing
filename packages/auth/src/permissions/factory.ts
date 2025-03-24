@@ -1,4 +1,4 @@
-import { Role } from "@good-dog/db";
+import type { Role } from "@good-dog/db";
 
 // Either 'true', meaning all roles have permission, or an array of roles that have permission
 type PermissionRule<R extends Role> = true | R[];
