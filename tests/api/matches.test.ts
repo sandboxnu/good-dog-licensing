@@ -286,7 +286,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
           userId: "musician",
         },
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to modify");
   });
 
   it("should allow users who made a comment to update it", async () => {
@@ -434,7 +434,7 @@ describe("suggested match procedure", () => {
         musicId: "musicSubmission",
         description: "This is a great match.",
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to modify");
   });
 
   it("should allow a user to update the description for their own suggested match", async () => {
@@ -544,7 +544,7 @@ describe("reviewSuggestedMatchProcedure", () => {
         matchId: "match",
         matchState: MatchState.APPROVED,
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to modify");
   });
 
   it("should prevent a regular user from reviewing a match", () => {
@@ -555,7 +555,7 @@ describe("reviewSuggestedMatchProcedure", () => {
         matchId: "match",
         matchState: MatchState.APPROVED,
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to modify");
   });
 });
 
@@ -616,6 +616,6 @@ describe("getMatchesProcedure", () => {
       $api.match({
         matchState: MatchState.PENDING,
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to read");
   });
 });

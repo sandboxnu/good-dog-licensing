@@ -192,6 +192,6 @@ describe("get-projects", () => {
 
   test("No projects are returned when they have a NON MODERATOR OR ADMIN session.", () => {
     cookies.set("sessionId", "amoli-session-id");
-    expect($api.projects()).rejects.toThrow("FORBIDDEN");
+    expect($api.projects()).rejects.toThrow("permission to read");
   });
 });
