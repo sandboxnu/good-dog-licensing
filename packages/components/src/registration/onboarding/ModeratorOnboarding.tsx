@@ -157,7 +157,7 @@ export default function ModeratorOnboarding() {
               {errors.password?.message}
             </p>
           </div>
-          <div className="flex items-center justify-center pt-4">
+          <div className="flex items-center justify-center pb-20 pt-12">
             <button
               className="font-afacad h-[59px] w-3/4 rounded-2xl bg-black text-2xl font-medium text-white"
               type="submit"
@@ -167,7 +167,15 @@ export default function ModeratorOnboarding() {
           </div>
         </form>
       </div>
-      <div className="w-1/2 bg-red-100">Test</div>
+      <div className="w-1/2 pr-[40px] pt-[40px]">
+        <div className="h-[calc(100vh-88px)] min-h-[800px] rounded-2xl bg-black">
+          <div className="px-4 pt-[69px] text-center">
+            <h1 className="font-afacad text-6xl font-medium font-normal text-white">
+              Welcome to Good Dog Licensing!
+            </h1>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
