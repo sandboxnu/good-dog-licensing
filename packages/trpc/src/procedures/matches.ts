@@ -24,7 +24,7 @@ export const createUpdateMatchCommentsProcedure =
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      if (ctx.session.userId === input.matchComment.userId) {
+      if (ctx.session.user.userId === input.matchComment.userId) {
         if (input.commentId) {
           await ctx.prisma.matchComments.update({
             where: {
@@ -80,7 +80,7 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
         });
       }
 
-      if (ctx.session.userId !== match.matcherUserId) {
+      if (ctx.session.user.userId !== match.matcherUserId) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "Not authorized to update this match.",
@@ -109,7 +109,7 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
           projectId: input.projectId,
           sceneId: input.sceneId,
           musicId: input.musicId,
-          matcherUserId: ctx.session.userId,
+          matcherUserId: ctx.session.user.userId,
           description: input.description,
           matchState: MatchState.PENDING,
         },
@@ -137,7 +137,7 @@ export const reviewSuggestedMatchProcedure = rolePermissionsProcedureBuilder(
       },
       data: {
         matchState: input.matchState,
-        reviewerId: ctx.session.userId,
+        reviewerId: ctx.session.user.userId,
       },
     });
   });

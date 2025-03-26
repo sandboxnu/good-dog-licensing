@@ -5,7 +5,7 @@ import type { prisma } from "@good-dog/db";
 /**
  * This funciton is important because we request the session from the database
  * in a few places in our codebase. This function is memoized so that we don't
- * make multiple requests to the database for the requested.
+ * make multiple requests to the database for the same request
  *
  * For example, the authenticated-procedure middleware, the get-user procedure,
  * and the not-authenticated-procedure middleware all use this function and in theory
@@ -19,6 +19,7 @@ export const getSessionMemoized = React.cache(
       },
       select: {
         expiresAt: true,
+        sessionId: true,
         user: {
           select: {
             userId: true,
