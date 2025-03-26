@@ -1,10 +1,6 @@
-import { projectAndRepetoirePagePermissions } from "@good-dog/auth/permissions";
-import { withPermissions } from "@good-dog/components/PermissionsWrapper";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
-export const dynamic = "force-dynamic";
-
-const MatchingPage = async () => {
+export default async function MatchingPage() {
   await Promise.all([
     void trpc.projects.prefetch(),
     void trpc.music.prefetch(),
@@ -16,9 +12,4 @@ const MatchingPage = async () => {
       {/* we have a music list, and then a creation tab component as well */}
     </HydrateClient>
   );
-};
-
-export default withPermissions(
-  projectAndRepetoirePagePermissions,
-  MatchingPage,
-);
+}
