@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -41,10 +41,14 @@ const schema = z
 
 type FormFields = z.infer<typeof schema>;
 
-export default function ModeratorOnboarding() {
+interface ModeratorOnboardingProps {
+  moderatorInviteId: string;
+}
+
+export default function ModeratorOnboarding({
+  moderatorInviteId,
+}: ModeratorOnboardingProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const moderatorInviteId = searchParams.get("id") ?? "";
 
   const {
     register,
