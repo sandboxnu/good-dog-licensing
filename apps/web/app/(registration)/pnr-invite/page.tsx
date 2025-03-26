@@ -1,5 +1,7 @@
-// import ModeratorOnboarding from "@good-dog/components/registration/onboarding/ModeratorOnboarding";
+"use client";
+
+import ModeratorOnboarding from "@good-dog/components/registration/onboarding/ModeratorOnboarding";
 
 export default function Page() {
-  return <div>test</div>;
+  return <ModeratorOnboarding />;
 }
