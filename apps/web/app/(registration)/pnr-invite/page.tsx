@@ -1,13 +1,11 @@
+import { Suspense } from "react";
+
 import ModeratorOnboarding from "@good-dog/components/registration/onboarding/ModeratorOnboarding";
 
-interface PageProps {
-  searchParams: {
-    id?: string;
-  };
-}
-
-export default function Page({ searchParams }: PageProps) {
-  const moderatorInviteId = searchParams.id ?? "";
-
-  return <ModeratorOnboarding moderatorInviteId={moderatorInviteId} />;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ModeratorOnboarding />
+    </Suspense>
+  );
 }
