@@ -1,9 +1,9 @@
-import { projectAndRepetoirePagePermissions } from "@good-dog/auth/permissions";
+import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
-  projectAndRepetoirePagePermissions,
+  projectAndRepertoirePagePermissions,
   "read",
 ).query(async ({ ctx }) => {
   const projects = await ctx.prisma.projectSubmission.findMany({

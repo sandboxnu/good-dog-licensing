@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import {
   adminPagePermissions,
-  projectAndRepetoirePagePermissions,
+  projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
 import { MatchState } from "@good-dog/db";
 
@@ -15,7 +15,7 @@ const MatchCommentsSchema = z.object({
 });
 
 export const createUpdateMatchCommentsProcedure =
-  rolePermissionsProcedureBuilder(projectAndRepetoirePagePermissions, "write")
+  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "write")
     .input(
       z.object({
         matchComment: MatchCommentsSchema,
@@ -53,7 +53,7 @@ export const createUpdateMatchCommentsProcedure =
     });
 
 export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
-  projectAndRepetoirePagePermissions,
+  projectAndRepertoirePagePermissions,
   "write",
 )
   .input(
@@ -143,7 +143,7 @@ export const reviewSuggestedMatchProcedure = rolePermissionsProcedureBuilder(
   });
 
 export const getMatchesProcedure = rolePermissionsProcedureBuilder(
-  projectAndRepetoirePagePermissions,
+  projectAndRepertoirePagePermissions,
   "read",
 )
   .input(

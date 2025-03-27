@@ -1,9 +1,9 @@
-import { projectAndRepetoirePagePermissions } from "@good-dog/auth/permissions";
+import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
-  projectAndRepetoirePagePermissions,
+  projectAndRepertoirePagePermissions,
   "read",
 ).query(async ({ ctx }) => {
   const music = await ctx.prisma.musicSubmission.findMany({

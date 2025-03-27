@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-import { projectAndRepetoirePagePermissions } from "@good-dog/auth/permissions";
+import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const submitUnlicensedMusicProcedure = rolePermissionsProcedureBuilder(
-  projectAndRepetoirePagePermissions,
+  projectAndRepertoirePagePermissions,
   "write",
 )
   .input(

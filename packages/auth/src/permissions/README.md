@@ -16,15 +16,14 @@ Most permissions should extend the `superUserPermissions` permission set, which 
 
 ### Examples
 
-- **`projectAndRepetoirePagePermissions`**: Extends `adminPagePermissions` to allow `MODERATOR` roles to read and write.
+- **`projectAndRepertoirePagePermissions`**: Extends `adminPagePermissions` to allow `MODERATOR` roles to read and write.
 
   ```ts
-  export const projectAndRepetoirePagePermissions = adminPagePermissions.extend(
-    {
+  export const projectAndRepertoirePagePermissions =
+    adminPagePermissions.extend({
       read: [Role.MODERATOR],
       write: [Role.MODERATOR],
-    },
-  );
+    });
   ```
 
 - **`onboardingPagePermissions`**: Grants `ONBOARDING` roles access to read and write.

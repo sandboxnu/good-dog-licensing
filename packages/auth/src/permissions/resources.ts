@@ -14,7 +14,7 @@ export const publicPagePermissions = new GoodDogPermissionsFactory({
 
 export const adminPagePermissions = superUserPermissions;
 
-export const projectAndRepetoirePagePermissions = adminPagePermissions.extend({
+export const projectAndRepertoirePagePermissions = adminPagePermissions.extend({
   read: [Role.MODERATOR],
   write: [Role.MODERATOR],
 });
