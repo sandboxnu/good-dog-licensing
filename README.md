@@ -137,6 +137,6 @@ Aside from the obvious advice of _READING THE ERROR MESSAGES_, if you are still 
 5. Is something failing in CI or not building correctly?
    - Run `bun typecheck` to see if there are any type errors.
    - Run `bun lint` to see if there are any lint errors.
-     - If there are lint errors, run `bun lint:fix` to fix them, or manually correct the errors them.
+     - If there are lint errors, run `bun lint:fix` to fix them, or manually correct the errors.
    - Run `bun format` to see if there are any formatting errors.
-     - If there are formatting errors, run `bun format:fix` to fix them, or manually correct the errors them.
+     - If there are formatting errors, run `bun format:fix` to fix them, or manually correct the errors.
