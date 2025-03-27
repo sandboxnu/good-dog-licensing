@@ -17,6 +17,7 @@ export const createUpdateMatchCommentsProcedure =
       z.object({
         matchComment: MatchCommentsSchema,
         matchId: z.string(),
+        unlicensed: z.boolean(),
         commentId: z.string().optional(),
       }),
     )
@@ -33,13 +34,23 @@ export const createUpdateMatchCommentsProcedure =
             },
           });
         } else {
-          await ctx.prisma.matchComments.create({
-            data: {
-              commentText: input.matchComment.commentText,
-              suggestedMatchId: input.matchId,
-              userId: input.matchComment.userId,
-            },
-          });
+          if (input.unlicensed) {
+            await ctx.prisma.matchComments.create({
+              data: {
+                commentText: input.matchComment.commentText,
+                unlicensedSuggestedMatchId: input.matchId,
+                userId: input.matchComment.userId,
+              },
+            });
+          } else {
+            await ctx.prisma.matchComments.create({
+              data: {
+                commentText: input.matchComment.commentText,
+                suggestedMatchId: input.matchId,
+                userId: input.matchComment.userId,
+              },
+            });
+          }
         }
         return {
           message: "Comments successfully updated.",
