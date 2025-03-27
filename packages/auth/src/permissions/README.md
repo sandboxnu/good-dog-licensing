@@ -4,12 +4,6 @@ This package provides a set of permissions and permissions utilities that can be
 
 ## Resources
 
-Inside [resources.ts](./resources.ts) you can find individual permission sets
-
-Here’s an updated version of the **Resources** section in the README.md:
-
-## Resources
-
 Inside [resources.ts](./resources.ts), you can find individual permission sets defined using the `GoodDogPermissionsFactory`. These permission sets specify which roles have access to perform certain actions (e.g., `read` or `write`) on various pages or resources.
 
 Most permissions should extend the `superUserPermissions` permission set, which grants full access to superusers (Admins). Then, with the `extend` method, you can specify which other roles have access to read and write on a particular page or resource.
