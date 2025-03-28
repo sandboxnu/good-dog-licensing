@@ -58,9 +58,6 @@
     },
     "studio": {
       "cache": false
-    },
-    "seed": {
-      "cache": false
     }
   },
   "globalEnv": [

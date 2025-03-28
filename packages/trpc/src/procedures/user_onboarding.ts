@@ -68,7 +68,7 @@ export const onboardingProcedure = authenticatedProcedureBuilder
           lastName: input.lastName,
         },
         where: {
-          userId: ctx.session.userId,
+          userId: ctx.session.user.userId,
         },
       });
     } else {
@@ -110,7 +110,7 @@ export const onboardingProcedure = authenticatedProcedureBuilder
           },
         },
         where: {
-          userId: ctx.session.userId,
+          userId: ctx.session.user.userId,
         },
       });
     }

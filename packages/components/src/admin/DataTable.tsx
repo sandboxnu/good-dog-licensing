@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import type { GetProcedureOutput } from "@good-dog/trpc/utils";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import {
   Table,
   TableBody,

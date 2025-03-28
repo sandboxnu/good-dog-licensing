@@ -16,9 +16,11 @@ import { appRouter } from "./internal/router";
 const callerFactory = createCallerFactory(appRouter);
 const caller = callerFactory(createTRPCContext);
 
+export const getServerQueryClient = () => QueryClientFactory.stable();
+
 export const { trpc, HydrateClient } = createHydrationHelpers<AppRouter>(
   caller,
-  QueryClientFactory.stable,
+  getServerQueryClient,
 );
 
 /**

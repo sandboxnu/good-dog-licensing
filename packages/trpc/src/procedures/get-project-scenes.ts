@@ -1,12 +1,16 @@
-import { adminOrModeratorAuthenticatedProcedureBuilder } from "../middleware/moderator-admin-authenticated";
+import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 
-export const getProjectScenesProcedure =
-  adminOrModeratorAuthenticatedProcedureBuilder.query(async ({ ctx }) => {
-    const projects = await ctx.prisma.projectSubmission.findMany({
-      include: {
-        scenes: true,
-        projectOwner: true,
-      },
-    });
-    return { projects };
+import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
+
+export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
+  projectAndRepertoirePagePermissions,
+  "read",
+).query(async ({ ctx }) => {
+  const projects = await ctx.prisma.projectSubmission.findMany({
+    include: {
+      scenes: true,
+      projectOwner: true,
+    },
   });
+  return { projects };
+});

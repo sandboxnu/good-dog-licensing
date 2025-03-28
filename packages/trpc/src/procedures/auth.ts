@@ -170,7 +170,7 @@ export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.user.delete({
       where: {
-        userId: ctx.session.userId,
+        userId: ctx.session.user.userId,
       },
     });
 

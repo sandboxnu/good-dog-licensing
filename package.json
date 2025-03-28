@@ -21,7 +21,6 @@
     "db:migrate:create": "dotenv -e .env -- turbo run -F @good-dog/db migrate:create --ui tui",
     "db:migrate:reset": "dotenv -e .env -- turbo run -F @good-dog/db migrate:reset --ui tui",
     "db:studio": "dotenv -e .env -- turbo run -F @good-dog/db studio",
-    "db:seed": "dotenv -e .env -- turbo run -F @good-dog/db seed",
     "__DEVELOPMENT_______": "",
     "dev": "bun db:up && dotenv -e .env -- turbo run dev",
     "dev:web": "dotenv -e .env -- turbo run -F @good-dog/web dev",
