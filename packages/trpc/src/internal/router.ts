@@ -15,7 +15,10 @@ import {
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
 import { getMusicSubmissionsProcedure } from "../procedures/get-music";
-import { getProjectScenesProcedure } from "../procedures/get-project-scenes";
+import {
+  getProjectScenesProcedure,
+  getUserProjectScenesProcedure,
+} from "../procedures/get-project-scenes";
 import {
   createUpdateMatchCommentsProcedure,
   getMatchesProcedure,
@@ -47,6 +50,7 @@ export const appRouter = createTRPCRouter({
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
   projects: getProjectScenesProcedure,
+  userProjects: getUserProjectScenesProcedure,
   music: getMusicSubmissionsProcedure,
   match: getMatchesProcedure,
   comment: createUpdateMatchCommentsProcedure,
