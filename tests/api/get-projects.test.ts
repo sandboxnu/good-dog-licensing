@@ -122,6 +122,39 @@ describe("get-projects", () => {
           deadline: new Date(Date.now() + 600_000),
         },
       }),
+      prisma.user.create({
+        data: {
+          userId: "anzhuo-mediamaker-id",
+          email: "anzhuo@test.org",
+          phoneNumber: "8889990000",
+          hashedPassword: "xxxx",
+          firstName: "Anzhuo",
+          lastName: "Wang",
+          role: "MEDIA_MAKER",
+          sessions: {
+            create: {
+              sessionId: "anzhuo-session-id",
+              expiresAt: new Date(Date.now() + 600_000),
+            },
+          },
+        },
+      }),
+      prisma.projectSubmission.create({
+        data: {
+          projectId: "anzhuo-project-1",
+          projectOwnerId: "anzhuo-mediamaker-id",
+          description: "Project 1",
+          deadline: new Date(Date.now() + 600_000),
+        },
+      }),
+      prisma.projectSubmission.create({
+        data: {
+          projectId: "anzhuo-project-2",
+          projectOwnerId: "anzhuo-mediamaker-id",
+          description: "Project 2",
+          deadline: new Date(Date.now() + 600_000),
+        },
+      }),
     ]);
   });
 
@@ -138,10 +171,24 @@ describe("get-projects", () => {
 
   // Delete the records created for these tests
   afterAll(async () => {
+    await prisma.sceneSubmission.deleteMany({
+      where: {
+        sceneId: {
+          in: ["test-scene-1"],
+        },
+      },
+    });
+
     await prisma.projectSubmission.deleteMany({
       where: {
         projectId: {
-          in: ["project-id-1", "project-id-2", "project-id-3"],
+          in: [
+            "project-id-1",
+            "project-id-2",
+            "project-id-3",
+            "anzhuo-project-1",
+            "anzhuo-project-2",
+          ],
         },
       },
     });
@@ -156,22 +203,27 @@ describe("get-projects", () => {
             "media-user-id-1",
             "media-user-id-2",
             "media-user-id-3",
+            "anzhuo-mediamaker-id",
           ],
         },
       },
     });
   });
 
+  // All projects [admin/moderator]
   test("Correct projects are returned when they have an ADMIN session.", async () => {
     cookies.set("sessionId", "owen-session-id");
     const { projects } = await $api.projects();
 
     expect(projects).not.toBeNull();
+    expect(projects.length).toBeGreaterThanOrEqual(3);
     projects.forEach((p) => {
       expect(p.projectId).toBeOneOf([
         "project-id-1",
         "project-id-2",
         "project-id-3",
+        "anzhuo-project-1",
+        "anzhuo-project-2",
       ]);
     });
   });
@@ -181,11 +233,14 @@ describe("get-projects", () => {
     const { projects } = await $api.projects();
 
     expect(projects).not.toBeNull();
+    expect(projects.length).toBeGreaterThanOrEqual(3);
     projects.forEach((p) => {
       expect(p.projectId).toBeOneOf([
         "project-id-1",
         "project-id-2",
         "project-id-3",
+        "anzhuo-project-1",
+        "anzhuo-project-2",
       ]);
     });
   });
@@ -193,5 +248,43 @@ describe("get-projects", () => {
   test("No projects are returned when they have a NON MODERATOR OR ADMIN session.", () => {
     cookies.set("sessionId", "amoli-session-id");
     expect($api.projects()).rejects.toThrow("FORBIDDEN");
+  });
+
+  // User-specific projects [media maker]
+  test("Correct projects are returned for a specific user when they have a MEDIA_MAKER session.", async () => {
+    cookies.set("sessionId", "anzhuo-session-id");
+    const { projects } = await $api.userProjects();
+
+    expect(projects).not.toBeNull();
+    expect(projects).toHaveLength(2);
+
+    projects.forEach((p) => {
+      expect(p.projectOwnerId).toBe("anzhuo-mediamaker-id");
+      expect(p.projectId).toBeOneOf(["anzhuo-project-1", "anzhuo-project-2"]);
+    });
+  });
+
+  test("Correct projects are returned for a specific user when they have a MEDIA_MAKER session.", async () => {
+    cookies.set("sessionId", "amoli-session-id");
+    const { projects } = await $api.userProjects();
+
+    expect(projects).not.toBeNull();
+    expect(projects).toHaveLength(0);
+  });
+
+  test("No projects are returned for a specific user when they have a NON MEDIA_MAKER session.", () => {
+    cookies.set("sessionId", "owen-session-id");
+    expect($api.userProjects()).rejects.toThrow(
+      "Only media makers can access this.",
+    );
+
+    cookies.set("sessionId", "gavin-session-id");
+    expect($api.userProjects()).rejects.toThrow(
+      "Only media makers can access this.",
+    );
+  });
+
+  test("No projects are returned when a user is unauthenticated.", () => {
+    expect($api.userProjects()).rejects.toThrow("UNAUTHORIZED");
   });
 });
