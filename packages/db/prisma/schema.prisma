@@ -137,6 +137,7 @@ model ProjectSubmission {
   projectId                  String                     @id @default(uuid())
   projectOwnerId             String
   projectOwner               User                       @relation(fields: [projectOwnerId], references: [userId], onDelete: Cascade)
+  projectTitle               String
   description                String
   createdAt                  DateTime                   @default(now())
   updatedAt                  DateTime                   @updatedAt
@@ -150,6 +151,7 @@ model ProjectSubmission {
 
 model SceneSubmission {
   sceneId                    String                     @id @default(uuid())
+  sceneTitle                 String
   description                String
   musicType                  String
   similarSongs               String                     @default("")

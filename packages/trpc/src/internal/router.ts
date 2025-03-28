@@ -22,12 +22,12 @@ import {
   reviewSuggestedMatchProcedure,
   suggestedMatchProcedure,
 } from "../procedures/matches";
-import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
-import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
+import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { projectSubmissionProcedure } from "../procedures/project-submission";
-import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
+import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
 import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
 import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
+import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
