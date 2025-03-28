@@ -23,6 +23,7 @@ import {
   suggestedMatchProcedure,
 } from "../procedures/matches";
 import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
+import { projectSubmissionProcedure } from "../procedures/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
 import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
 import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
@@ -55,6 +56,7 @@ export const appRouter = createTRPCRouter({
   reviewMatch: reviewSuggestedMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
+  projectSubmission: projectSubmissionProcedure,
   submitUnlicensedMusic: submitUnlicensedMusicProcedure,
   submitMusic: submitMusicProcedure,
 });
