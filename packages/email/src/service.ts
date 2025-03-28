@@ -64,7 +64,7 @@ export class EmailService {
     return this.send({
       to: toEmail,
       subject: "Sign Up For PR - Good Dog Licensing",
-      html: `<p>Follow <a href="${baseURL}/pr_invite/?id=${cuid}">this link</a> to sign up as a PR.`,
+      html: `<p>Follow <a href="${baseURL}/pnr-invite/?id=${cuid}">this link</a> to sign up as a PR.`,
       from: env.VERIFICATION_FROM_EMAIL ?? "",
     });
   }
