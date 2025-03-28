@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { Role } from "@good-dog/db";
 
-import { authenticatedProcedureBuilder } from "../middleware/authentictated";
+import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 
 export const projectSubmissionProcedure = authenticatedProcedureBuilder
   .input(
