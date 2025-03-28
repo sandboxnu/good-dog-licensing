@@ -161,13 +161,13 @@ export default function NewAdminDashboard({
               </div>
             )}
             {showInviteModal && (
-              <div className="fixed inset-0 flex justify-end pr-[150px] pt-[180px]">
-                <InviteModeratorModal
-                  handleFinished={() => {
-                    setShowInviteModal(false);
-                  }}
-                />
-              </div>
+              <InviteModeratorModal
+                handleFinished={() => {
+                  setShowInviteModal(false);
+                }}
+                xPos={150}
+                yPos={180}
+              />
             )}
           </div>
         </div>
