@@ -94,6 +94,7 @@ async function createData() {
     data: {
       projectId: "projectSubmission",
       projectOwnerId: projectOwner.userId,
+      projectTitle: "title",
       description: "a project hoping to showcase the effects of climate change",
       deadline: new Date(Date.now() + 2_000_000_000),
     },
@@ -103,6 +104,7 @@ async function createData() {
     data: {
       sceneId: "sceneOneSubmission",
       description: "wildfires in CA",
+      sceneTitle: "Scene One",
       musicType: "rnb, soul",
       projectId: projectSubmission.projectId,
     },

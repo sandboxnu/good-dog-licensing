@@ -22,10 +22,12 @@ import {
   reviewSuggestedMatchProcedure,
   suggestedMatchProcedure,
 } from "../procedures/matches";
-import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
-import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
-import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
 import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
+import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
+import { projectSubmissionProcedure } from "../procedures/project-submission";
+import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
+import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
+import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
@@ -56,7 +58,9 @@ export const appRouter = createTRPCRouter({
   reviewMatch: reviewSuggestedMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
+  projectSubmission: projectSubmissionProcedure,
   submitUnlicensedMusic: submitUnlicensedMusicProcedure,
+  submitMusic: submitMusicProcedure,
 });
 
 export type AppRouter = typeof appRouter;
