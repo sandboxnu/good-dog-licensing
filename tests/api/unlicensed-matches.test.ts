@@ -91,6 +91,7 @@ async function createData() {
 
   const projectSubmission = await prisma.projectSubmission.create({
     data: {
+      projectTitle: "project",
       projectId: "projectSubmission",
       projectOwnerId: projectOwner.userId,
       description: "a project hoping to showcase the effects of climate change",
@@ -100,6 +101,7 @@ async function createData() {
 
   await prisma.sceneSubmission.create({
     data: {
+      sceneTitle: "title",
       sceneId: "sceneOneSubmission",
       description: "wildfires in CA",
       musicType: "rnb, soul",

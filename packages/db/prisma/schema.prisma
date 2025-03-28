@@ -264,14 +264,3 @@ model UnlicensedSuggestedMatch {
   @@unique([sceneId, musicId])
   @@map("UnlicensedSuggestedMatches")
 }
-
-model UnlicensedMusic {
-  musicId        String   @id @default(uuid())
-  songName       String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  artist         String
-  songLink       String
-  genre          String
-  additionalInfo String   @default("")
-}

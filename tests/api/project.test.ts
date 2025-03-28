@@ -139,6 +139,12 @@ describe("projectSubmission", () => {
     expect(storedProject.scenes[1]?.sceneTitle).toBe("Scene 2");
     expect(storedProject.scenes[1]?.description).toBe("Scene 2 description");
     expect(storedProject.scenes[1]?.musicType).toBe("Indie");
+
+    await prisma.projectSubmission.delete({
+      where: {
+        projectId: storedProject.projectId,
+      },
+    });
   });
 
   test("create a project submission as a musician", () => {

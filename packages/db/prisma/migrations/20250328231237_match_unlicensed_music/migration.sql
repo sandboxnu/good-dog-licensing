@@ -1,3 +1,12 @@
+/*
+  Warnings:
+
+  - You are about to drop the column `matchId` on the `MatchComments` table. All the data in the column will be lost.
+  - The primary key for the `SuggestedMatches` table will be changed. If it partially fails, the table could be left without primary key constraint.
+  - You are about to drop the column `matchId` on the `SuggestedMatches` table. All the data in the column will be lost.
+  - The required column `suggestedMatchId` was added to the `SuggestedMatches` table with a prisma-level default value. This is not possible if the table is not empty. Please add this column as optional, then populate it before making it required.
+
+*/
 -- CreateEnum
 CREATE TYPE "Rating" AS ENUM ('LIKE', 'DISLIKE');
 
@@ -35,7 +44,6 @@ ALTER TABLE IF EXISTS "UnlicensedMusic" RENAME TO "UnlicensedMusicSubmission";
 -- AlterTable
 ALTER TABLE "UnlicensedMusicSubmission" RENAME CONSTRAINT "UnlicensedMusic_pkey" TO "UnlicensedMusicSubmission_pkey";
 
-
 -- CreateTable
 CREATE TABLE "UnlicensedSuggestedMatches" (
     "unlicensedSuggestedMatchId" TEXT NOT NULL,
@@ -53,6 +61,12 @@ CREATE TABLE "UnlicensedSuggestedMatches" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UnlicensedSuggestedMatches_sceneId_musicId_key" ON "UnlicensedSuggestedMatches"("sceneId", "musicId");
+
+-- DropForeignKey
+ALTER TABLE "SceneSubmission" DROP CONSTRAINT "SceneSubmission_projectId_fkey";
+
+-- AddForeignKey
+ALTER TABLE "SceneSubmission" ADD CONSTRAINT "SceneSubmission_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "ProjectSubmission"("projectId") ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MatchComments" ADD CONSTRAINT "MatchComments_unlicensedSuggestedMatchId_fkey" FOREIGN KEY ("unlicensedSuggestedMatchId") REFERENCES "UnlicensedSuggestedMatches"("unlicensedSuggestedMatchId") ON DELETE NO ACTION ON UPDATE CASCADE;
