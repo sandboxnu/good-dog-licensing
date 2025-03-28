@@ -36,5 +36,9 @@ export const getModeratorsAndAdminsProcedure =
       };
     });
 
-    return [...pendingModeratorsFinal, ...signedUpPeopleFinal];
+    return [...pendingModeratorsFinal, ...signedUpPeopleFinal].sort(
+      (user1, user2) => {
+        return user1.email.localeCompare(user2.email);
+      },
+    );
   });

@@ -50,24 +50,18 @@ export default function InviteModeratorModal(
     },
   );
 
-  const {
-    data: moderatorsAndAdmins,
-    isLoading: dataIsLoading,
-    error: dataError,
-    refetch,
-  } = trpc.getModeratorsAndAdmins.useQuery();
+  const { data: moderatorsAndAdmins, refetch } =
+    trpc.getModeratorsAndAdmins.useQuery();
 
   useEffect(() => {
-    if (moderatorEmail && (inviteSent || inviteNoteSent)) {
+    if (moderatorEmail) {
       setInviteSent(false);
       setInviteNotSent(false);
     }
   }, [moderatorEmail]);
 
   return (
-    <div
-      className={`fixed inset-0 flex h-screen w-screen justify-end bg-[#A3A3A382] pr-[${props.xPos}px] pt-[${props.yPos}px]`}
-    >
+    <div className="fixed inset-0 flex h-screen w-screen justify-end bg-[#A3A3A382] pr-[150px] pt-[180px]">
       <div
         id="test"
         className="h-[500px] w-[480px] rounded-xl bg-white pl-[21px] pt-[22px]"
