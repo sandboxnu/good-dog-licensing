@@ -14,9 +14,19 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
+import { getMusicSubmissionsProcedure } from "../procedures/get-music";
+import { getProjectScenesProcedure } from "../procedures/get-project-scenes";
+import {
+  createUpdateMatchCommentsProcedure,
+  getMatchesProcedure,
+  reviewSuggestedMatchProcedure,
+  suggestedMatchProcedure,
+} from "../procedures/matches";
 import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
 import { projectSubmissionProcedure } from "../procedures/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
+import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
+import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
@@ -38,9 +48,17 @@ export const appRouter = createTRPCRouter({
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
+  projects: getProjectScenesProcedure,
+  music: getMusicSubmissionsProcedure,
+  match: getMatchesProcedure,
+  comment: createUpdateMatchCommentsProcedure,
+  suggestMatch: suggestedMatchProcedure,
+  reviewMatch: reviewSuggestedMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,
+  submitUnlicensedMusic: submitUnlicensedMusicProcedure,
+  submitMusic: submitMusicProcedure,
 });
 
 export type AppRouter = typeof appRouter;

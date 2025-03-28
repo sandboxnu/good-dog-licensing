@@ -1,6 +1,3 @@
--- AlterEnum
-ALTER TYPE "Role" ADD VALUE 'MODERATOR';
-
 -- CreateTable
 CREATE TABLE "ModeratorInvite" (
     "moderatorInviteId" TEXT NOT NULL,
@@ -10,6 +7,9 @@ CREATE TABLE "ModeratorInvite" (
 
     CONSTRAINT "ModeratorInvite_pkey" PRIMARY KEY ("moderatorInviteId")
 );
+
+-- AlterEnum
+ALTER TYPE "Role" ADD VALUE 'MODERATOR';
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ModeratorInvite_email_key" ON "ModeratorInvite"("email");
