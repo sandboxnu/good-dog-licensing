@@ -146,6 +146,61 @@ describe("get-music", () => {
           },
         },
       }),
+      prisma.user.create({
+        data: {
+          userId: "anzhuo-musician-id",
+          email: "anzhuo@test.org",
+          phoneNumber: "8889990000",
+          hashedPassword: "xxxx",
+          firstName: "Anzhuo",
+          lastName: "Wang",
+          role: "MUSICIAN",
+          sessions: {
+            create: {
+              sessionId: "anzhuo-session-id",
+              expiresAt: new Date(Date.now() + 600_000),
+            },
+          },
+        },
+      }),
+      prisma.musicSubmission.create({
+        data: {
+          musicId: "anzhuo-music-1",
+          songName: "Song 1",
+          artist: {
+            connect: {
+              userId: "anzhuo-musician-id",
+            },
+          },
+          songLink: "https://www.youtube.com/song1",
+          genre: "genre3",
+          group: {
+            create: {
+              groupId: "group-id-4",
+              organizerId: "amoli-user-id",
+              name: "Group Four",
+            },
+          },
+        },
+      }),
+      prisma.musicSubmission.create({
+        data: {
+          musicId: "anzhuo-music-2",
+          songName: "Song 2",
+          artist: {
+            connect: {
+              userId: "anzhuo-musician-id",
+            },
+          },
+          songLink: "https://www.youtube.com/song2",
+          genre: "genre3",
+          group: {
+            connect: {
+              groupId: "group-id-4",
+            },
+          },
+        },
+      }),
     ]);
   });
 
@@ -165,7 +220,13 @@ describe("get-music", () => {
     await prisma.musicSubmission.deleteMany({
       where: {
         musicId: {
-          in: ["music-id-1", "music-id-2", "music-id-3"],
+          in: [
+            "music-id-1",
+            "music-id-2",
+            "music-id-3",
+            "anzhuo-music-1",
+            "anzhuo-music-2",
+          ],
         },
       },
     });
@@ -180,19 +241,27 @@ describe("get-music", () => {
             "artists-user-id-1",
             "artists-user-id-2",
             "artists-user-id-3",
+            "anzhuo-musician-id",
           ],
         },
       },
     });
   });
 
+  // All submissions [admin/moderator]
   test("Correct music is returned when they have an ADMIN session.", async () => {
     cookies.set("sessionId", "owen-session-id");
     const { music } = await $api.music();
 
     expect(music).not.toBeNull();
     music.forEach((m) => {
-      expect(m.musicId).toBeOneOf(["music-id-1", "music-id-2", "music-id-3"]);
+      expect(m.musicId).toBeOneOf([
+        "music-id-1",
+        "music-id-2",
+        "music-id-3",
+        "anzhuo-music-1",
+        "anzhuo-music-2",
+      ]);
     });
   });
 
@@ -202,12 +271,52 @@ describe("get-music", () => {
 
     expect(music).not.toBeNull();
     music.forEach((m) => {
-      expect(m.musicId).toBeOneOf(["music-id-1", "music-id-2", "music-id-3"]);
+      expect(m.musicId).toBeOneOf([
+        "music-id-1",
+        "music-id-2",
+        "music-id-3",
+        "anzhuo-music-1",
+        "anzhuo-music-2",
+      ]);
     });
   });
 
   test("No music is returned when they have a NON MODERATOR OR ADMIN session.", () => {
     cookies.set("sessionId", "amoli-session-id");
     expect($api.music()).rejects.toThrow("FORBIDDEN");
+  });
+
+  // Retrieve by user [musician]
+  test("Correct music is returned for a specific user when they have a MUSICIAN session.", async () => {
+    cookies.set("sessionId", "anzhuo-session-id");
+    const { music } = await $api.userMusic();
+
+    expect(music).not.toBeNull();
+    expect(music).toHaveLength(2);
+
+    music.forEach((m) => {
+      expect(m.artist.userId).toBe("anzhuo-musician-id");
+      expect(m.musicId).toBeOneOf(["anzhuo-music-1", "anzhuo-music-2"]);
+      expect(m.musicId).not.toBeOneOf([
+        "music-id-1",
+        "music-id-2",
+        "music-id-3",
+      ]);
+    });
+  });
+
+  test("No music is returned for a specific user when they have a NON MUSICIAN session.", () => {
+    cookies.set("sessionId", "owen-session-id");
+    expect($api.userMusic()).rejects.toThrow("Only musicians can access this.");
+
+    cookies.set("sessionId", "gavin-session-id");
+    expect($api.userMusic()).rejects.toThrow("Only musicians can access this.");
+
+    cookies.set("sessionId", "amoli-session-id");
+    expect($api.userMusic()).rejects.toThrow("Only musicians can access this.");
+  });
+
+  test("No music is returned when a user is unauthenticated.", () => {
+    expect($api.userMusic()).rejects.toThrow("UNAUTHORIZED");
   });
 });
