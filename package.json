@@ -1,5 +1,12 @@
 {
   "name": "good-dog",
+  "devDependencies": {
+    "@good-dog/prettier": "workspace:*",
+    "@turbo/gen": "2.1.2",
+    "dotenv-cli": "^7.4.2",
+    "turbo": "2.1.2",
+    "typescript": "5.4.5"
+  },
   "engines": {
     "node": ">=20"
   },
@@ -38,13 +45,6 @@
     "shad:add": "turbo run -F @good-dog/ui ui:add --ui tui",
     "generate:package": "turbo generate package",
     "env:setup": "cp .env.example .env"
-  },
-  "devDependencies": {
-    "@good-dog/prettier": "workspace:*",
-    "@turbo/gen": "2.1.2",
-    "dotenv-cli": "^7.4.2",
-    "turbo": "2.1.2",
-    "typescript": "5.4.5"
   },
   "trustedDependencies": [
     "@prisma/client",
