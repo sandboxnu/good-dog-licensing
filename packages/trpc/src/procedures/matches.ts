@@ -17,6 +17,7 @@ export const createUpdateMatchCommentsProcedure =
       z.object({
         matchComment: MatchCommentsSchema,
         matchId: z.string(),
+        unlicensed: z.boolean(),
         commentId: z.string().optional(),
       }),
     )
@@ -33,13 +34,23 @@ export const createUpdateMatchCommentsProcedure =
             },
           });
         } else {
-          await ctx.prisma.matchComments.create({
-            data: {
-              commentText: input.matchComment.commentText,
-              matchId: input.matchId,
-              userId: input.matchComment.userId,
-            },
-          });
+          if (input.unlicensed) {
+            await ctx.prisma.matchComments.create({
+              data: {
+                commentText: input.matchComment.commentText,
+                unlicensedSuggestedMatchId: input.matchId,
+                userId: input.matchComment.userId,
+              },
+            });
+          } else {
+            await ctx.prisma.matchComments.create({
+              data: {
+                commentText: input.matchComment.commentText,
+                suggestedMatchId: input.matchId,
+                userId: input.matchComment.userId,
+              },
+            });
+          }
         }
         return {
           message: "Comments successfully updated.",
@@ -64,7 +75,7 @@ export const suggestedMatchProcedure =
       //update a match -- only in the case of editing description
       if (input.matchId) {
         const match = await ctx.prisma.suggestedMatch.findUnique({
-          where: { matchId: input.matchId },
+          where: { suggestedMatchId: input.matchId },
           select: { matcherUserId: true },
         });
 
@@ -83,7 +94,7 @@ export const suggestedMatchProcedure =
         }
 
         await ctx.prisma.suggestedMatch.update({
-          where: { matchId: input.matchId },
+          where: { suggestedMatchId: input.matchId },
           data: { description: input.description },
         });
 
@@ -125,7 +136,7 @@ export const reviewSuggestedMatchProcedure = adminAuthenticatedProcedureBuilder
   .mutation(async ({ ctx, input }) => {
     await ctx.prisma.suggestedMatch.update({
       where: {
-        matchId: input.matchId,
+        suggestedMatchId: input.matchId,
       },
       data: {
         matchState: input.matchState,
