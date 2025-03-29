@@ -140,6 +140,14 @@ describe("projectSubmission", () => {
     expect(storedProject.scenes[1]?.description).toBe("Scene 2 description");
     expect(storedProject.scenes[1]?.musicType).toBe("Indie");
 
+    // Delete scenes
+    await prisma.sceneSubmission.deleteMany({
+      where: {
+        projectId: storedProject.projectId,
+      },
+    });
+
+    // Delete projects
     await prisma.projectSubmission.delete({
       where: {
         projectId: storedProject.projectId,
