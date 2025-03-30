@@ -33,7 +33,7 @@ export const createMatchRatingProcedure = authenticatedProcedureBuilder
           });
         } else {
           throw new TRPCError({
-            code: "BAD_REQUEST",
+            code: "NOT_FOUND",
             message: "Rating does not exist.",
           });
         }

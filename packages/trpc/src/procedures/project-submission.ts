@@ -6,7 +6,7 @@ import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const projectSubmissionProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
-  "write",
+  "submit",
 )
   .input(
     z.object({

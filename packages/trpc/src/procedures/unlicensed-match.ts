@@ -7,7 +7,7 @@ import { MatchState } from "@good-dog/db";
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const unlicensedSuggestedMatchProcedure =
-  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "write")
+  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "modify")
     .input(
       z.object({
         matchId: z.string().optional(), // If provided, update; otherwise, create
@@ -27,7 +27,7 @@ export const unlicensedSuggestedMatchProcedure =
 
         if (!match) {
           throw new TRPCError({
-            code: "BAD_REQUEST",
+            code: "NOT_FOUND",
             message: "Match not found.",
           });
         }
@@ -75,7 +75,7 @@ export const unlicensedSuggestedMatchProcedure =
 //updating the match state based on mediamaker response
 export const updateUnlicensedMatchState = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
-  "write",
+  "modify",
 )
   .input(
     z.object({
@@ -91,7 +91,7 @@ export const updateUnlicensedMatchState = rolePermissionsProcedureBuilder(
 
     if (!match) {
       throw new TRPCError({
-        code: "BAD_REQUEST",
+        code: "NOT_FOUND",
         message: "Match not found.",
       });
     }

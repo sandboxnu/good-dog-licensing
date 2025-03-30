@@ -180,7 +180,7 @@ describe("music-submission-procedure", () => {
         songwriters: [{ email: "person2@gmail.com" }],
         additionalInfo: "Media Maker additional info",
       }),
-    ).rejects.toThrow("You do not have permission to perform this action");
+    ).rejects.toThrow("permission to submit");
 
     // Reset Person 1's role to MUSICIAN
     await prisma.user.update({

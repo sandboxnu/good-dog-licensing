@@ -6,7 +6,7 @@ import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const submitUnlicensedMusicProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
-  "write",
+  "submit",
 )
   .input(
     z.object({

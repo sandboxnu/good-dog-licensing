@@ -11,7 +11,7 @@ const getModeratorInviteExpirationDate = () =>
   new Date(Date.now() + 3600_000 * 24 * 7);
 
 export const sendModeratorInviteEmailProcedure =
-  rolePermissionsProcedureBuilder(adminPagePermissions, "write")
+  rolePermissionsProcedureBuilder(adminPagePermissions, "modify")
     .input(
       z.object({
         moderatorEmail: z.string().email(),

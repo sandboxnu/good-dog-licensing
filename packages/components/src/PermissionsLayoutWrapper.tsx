@@ -18,13 +18,14 @@ const getTrpcLikeQueryKey = <I extends object>(path: string[], input?: I) => [
 
 export const layoutWithPermissions = <
   Read extends Role,
-  Write extends Role,
+  Modify extends Role,
+  Submit extends Role,
   LayoutProps extends {
     params?: Promise<Record<string, string | string[] | undefined>>;
     children?: React.ReactNode;
   },
 >(
-  permissions: GoodDogPermissionsFactory<Read, Write>,
+  permissions: GoodDogPermissionsFactory<Read, Modify, Submit>,
   LayoutComponent: React.ComponentType<LayoutProps> = ({ children }) =>
     children,
 ) =>

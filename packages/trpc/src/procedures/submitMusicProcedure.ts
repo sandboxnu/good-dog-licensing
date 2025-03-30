@@ -6,7 +6,7 @@ import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,
-  "write",
+  "submit",
 )
   .input(
     z.object({

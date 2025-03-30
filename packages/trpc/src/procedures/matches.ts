@@ -15,7 +15,7 @@ const MatchCommentsSchema = z.object({
 });
 
 export const createUpdateMatchCommentsProcedure =
-  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "write")
+  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "modify")
     .input(
       z.object({
         matchComment: MatchCommentsSchema,
@@ -59,13 +59,16 @@ export const createUpdateMatchCommentsProcedure =
           message: "Comments successfully updated.",
         };
       } else {
-        throw new TRPCError({ code: "FORBIDDEN" });
+        throw new TRPCError({
+          message: "You are not authorized to update this comment.",
+          code: "FORBIDDEN",
+        });
       }
     });
 
 export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
-  "write",
+  "modify",
 )
   .input(
     z.object({
@@ -86,10 +89,26 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
 
       if (!match) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
+          code: "NOT_FOUND",
           message: "Match not found.",
         });
       }
+
+      if (ctx.session.user.userId !== match.matcherUserId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Not authorized to update this match.",
+        });
+      }
+
+      await ctx.prisma.suggestedMatch.update({
+        where: { suggestedMatchId: input.matchId },
+        data: { description: input.description },
+      });
+
+      return {
+        message: "Match successfully updated.",
+      };
     } else {
       //create new match
       if (!input.projectId || !input.sceneId || !input.musicId) {
@@ -109,16 +128,16 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
           matchState: MatchState.PENDING,
         },
       });
-    }
 
-    return {
-      message: "Match successfully suggested.",
-    };
+      return {
+        message: "Match successfully suggested.",
+      };
+    }
   });
 
 export const reviewSuggestedMatchProcedure = rolePermissionsProcedureBuilder(
   adminPagePermissions,
-  "write",
+  "modify",
 )
   .input(
     z.object({
