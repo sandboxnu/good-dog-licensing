@@ -3,7 +3,7 @@ import React from "react";
 import type { prisma } from "@good-dog/db";
 
 /**
- * This funciton is important because we request the session from the database
+ * This function is important because we request the session from the database
  * in a few places in our codebase. This function is memoized so that we don't
  * make multiple requests to the database for the same request
  *

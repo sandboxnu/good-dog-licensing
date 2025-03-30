@@ -67,7 +67,7 @@ bun install
 bun env:setup
 ```
 
-4. Start the dev enviornment:
+4. Start the dev environment:
    You will need to have Docker running to start the database.
 
 ```sh
@@ -134,7 +134,8 @@ Aside from the obvious advice of _READING THE ERROR MESSAGES_, if you are still 
    - Ensures sure your database schema defined in [schema.prisma](./packages/db/prisma/schema.prisma) has been pushed into your local database
    - Generates the typescript types for the database client (you can also manually do just this part with `db:generate`)
 4. Are you getting a lot of red or yellow/orange squiggles in your editor? Use command+shift+p to open the command palette and run `Reload developer window` to restart all the language servers.
-5. Is something failing in CI or not building correctly?
+5. Are tests failing locally/are you getting weird database errors? Clear your database and start from scratch with `bun db:migrate:reset`
+6. Is something failing in CI or not building correctly?
    - Run `bun typecheck` to see if there are any type errors.
    - Run `bun lint` to see if there are any lint errors.
      - If there are lint errors, run `bun lint:fix` to fix them, or manually correct the errors.

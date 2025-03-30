@@ -59,7 +59,7 @@ export default layoutWithPermissions(
 );
 ```
 
-In this example, the `layoutWithPermissions` higher-order component wraps the `OnboardingLayout` component, ensuring that only users with the appropriate permissions, as defined in `iceCreamPagePermissions`, can access the Ice Cream Pages.
+In this example, the `layoutWithPermissions` higher-order component wraps the `IceCreamPageLayout` component, ensuring that only users with the appropriate permissions, as defined in `iceCreamPagePermissions`, can access the Ice Cream Pages.
 
 The `layoutWithPermissions` higher-order component is provided by the `@good-dog/components` package and is used in layout files to protect all child-pages from unauthorized access.
 
