@@ -23,3 +23,15 @@ export const onboardingPagePermissions = superUserPermissions.extend({
   read: [Role.ONBOARDING],
   write: [Role.ONBOARDING],
 });
+
+export const mediaMakerOnlyPermissions =
+  projectAndRepertoirePagePermissions.extend({
+    read: [Role.MEDIA_MAKER],
+    write: [Role.MEDIA_MAKER],
+  });
+
+export const musicianOnlyPermissions =
+  projectAndRepertoirePagePermissions.extend({
+    read: [Role.MUSICIAN],
+    write: [Role.MUSICIAN],
+  });
