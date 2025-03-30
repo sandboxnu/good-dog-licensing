@@ -26,6 +26,28 @@ export const getProjectSceneByIdProcedure =
         where: {
           sceneId: input.sceneId,
         },
+        include: {
+          suggestedMatches: {
+            include: {
+              musicSubmission: {
+                include: {
+                  artist: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
+                  },
+                  songwriters: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       });
 
       if (!scene) {
