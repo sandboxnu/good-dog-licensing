@@ -76,75 +76,38 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
 
         <form className="space-y-8">
           <div className="space-y-2">
-            <label htmlFor="song-genre" className="block font-medium">
-              Song Genre <span className="text-red-500">*</span>
+            <label htmlFor="scene-title" className="block font-medium">
+              Scene Title <span className="text-red-500">*</span>
             </label>
-            <div className="relative">
-              <div
-                className="flex cursor-pointer flex-wrap gap-2 rounded-md border border-zinc-700 bg-zinc-800 p-2 pr-10 text-white"
-                onClick={toggleDropdown}
-              >
-                {selectedGenres.map((genre) => (
-                  <div
-                    key={genre}
-                    className="flex items-center gap-1 rounded-full bg-zinc-700 px-3 py-1"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <span>{genre}</span>
-                    <button
-                      type="button"
-                      onClick={() => removeGenre(genre)}
-                      className="text-emerald-400 hover:text-white"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <div
-                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={toggleDropdown}
-              >
-                <ChevronDown
-                  className={`h-5 w-5 text-white transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
-                />
-              </div>
-
-              {isDropdownOpen && (
-                <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-zinc-700 bg-zinc-800 shadow-lg">
-                  {selectedGenres.map((genre) => (
-                    <div
-                      key={`selected-${genre}`}
-                      className="flex cursor-pointer items-center px-4 py-2 text-white"
-                      onMouseEnter={() => setHoveredGenre(genre)}
-                      onMouseLeave={() => setHoveredGenre(null)}
-                    >
-                      <div className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500">
-                        <Check className="h-4 w-4 text-white" />
-                      </div>
-                      <span>{genre}</span>
-                    </div>
-                  ))}
-
-                  {availableGenres.map((genre) => (
-                    <div
-                      key={`available-${genre}`}
-                      className={`flex cursor-pointer items-center px-4 py-2 text-white ${
-                        hoveredGenre === genre ? "bg-emerald-700" : ""
-                      }`}
-                      onClick={() => addGenre(genre)}
-                      onMouseEnter={() => setHoveredGenre(genre)}
-                      onMouseLeave={() => setHoveredGenre(null)}
-                    >
-                      <div className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-zinc-700"></div>
-                      <span>{genre}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <Input
+              id="scene-title"
+              placeholder="Your Answer"
+              required
+              className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
+            />
           </div>
-
+          <div className="space-y-2">
+            <label htmlFor="scene-description" className="block font-medium">
+              Scene Description <span className="text-red-500">*</span>
+            </label>
+            <Textarea
+              id="scene-description"
+              placeholder="Your Answer"
+              required
+              className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="music-type" className="block font-medium">
+              Type of Music/Genre needed <span className="text-red-500">*</span>
+            </label>
+            <Textarea
+              id="music-type"
+              placeholder="Your Answer"
+              required
+              className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
+            />
+          </div>
           <div className="space-y-2">
             <label htmlFor="example-artists" className="block font-medium">
               List Example Artists, Tracks, Songs, Eras, or Instrumentals{" "}
@@ -159,25 +122,12 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="similar-songs" className="block font-medium">
-              Link Similar Songs That Would Be Good in this Scene{" "}
+            <label htmlFor="anything-else" className="block font-medium">
+              Tell us anything else about the Scene{" "}
               <span className="text-red-500">*</span>
             </label>
             <Input
-              id="similar-songs"
-              placeholder="Your Answer"
-              required
-              className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="track-length" className="block font-medium">
-              Length of Track Needed (or use timestamps from video){" "}
-              <span className="text-red-500">*</span>
-            </label>
-            <Input
-              id="track-length"
+              id="anything-else"
               placeholder="Your Answer"
               required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"

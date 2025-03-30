@@ -25,7 +25,7 @@ export default function FinalProjSubmission({ goBack }: Props) {
           </Button>
         </div>
 
-        <h2 className="mb-6 text-center text-2xl font-bold">Scene</h2>
+        <h2 className="mb-6 text-center text-2xl font-bold">Project</h2>
 
         <div className="mb-8 text-gray-300">
           <p>
@@ -49,17 +49,6 @@ export default function FinalProjSubmission({ goBack }: Props) {
               id="project-additional"
               placeholder="Your Answer"
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="scene-additional" className="block font-medium">
-              Tell us anything else about the Scene(s)
-            </label>
-            <Textarea
-              id="scene-additional"
-              placeholder="Your Answer"
-              className="min-h-[100px] border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
             />
           </div>
 
