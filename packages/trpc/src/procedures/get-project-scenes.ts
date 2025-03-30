@@ -29,6 +29,16 @@ export const getProjectSceneByIdProcedure =
         include: {
           suggestedMatches: {
             include: {
+              matchComments: {
+                include: {
+                  user: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
+                  },
+                },
+              },
               musicSubmission: {
                 include: {
                   artist: {

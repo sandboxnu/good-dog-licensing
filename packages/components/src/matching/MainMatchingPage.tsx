@@ -8,6 +8,7 @@ import MatchedSong from "./MatchedSong";
 
 interface PageProps {
   sceneId: string;
+  userId: string;
 }
 
 interface MusicOption {
@@ -16,7 +17,7 @@ interface MusicOption {
   artistName: string;
 }
 
-export default function MainMatchingPage({ sceneId }: PageProps) {
+export default function MainMatchingPage({ sceneId, userId }: PageProps) {
   const sceneInfo = trpc.getSceneById.useSuspenseQuery({
     sceneId: sceneId,
   });
@@ -47,6 +48,14 @@ export default function MainMatchingPage({ sceneId }: PageProps) {
       (id) => id !== musicId,
     );
     setSelectedLicensedMusicIds(newSelectedLicensedMusicIds);
+  };
+
+  const handleCommentMade = async () => {
+    await sceneInfo[1].refetch();
+    suggestMatcheMusicIds = [];
+    sceneInfo[0].suggestedMatches.forEach((match) => {
+      suggestMatcheMusicIds.push(match.musicId);
+    });
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,7 +146,7 @@ export default function MainMatchingPage({ sceneId }: PageProps) {
           {sceneInfo[0].additionalInfo}
         </div>
       </div>
-      <div className="w-1/2 bg-[#EDF3F9]">
+      <div className="w-1/2 overflow-y-auto bg-[#EDF3F9] pb-[20px]">
         <div className="font-afacad pl-[60px] pt-[71px] text-3xl font-semibold text-black">
           Music
         </div>
@@ -219,11 +228,30 @@ export default function MainMatchingPage({ sceneId }: PageProps) {
                   musicId={music?.musicId ?? ""}
                   isMatched={false}
                   handleMatch={handleSuccessfulMatch}
+                  matchId=""
+                  userId={userId}
+                  handleComment={handleCommentMade}
+                  comments={[]}
                 />
               </div>
             );
           })}
           {sceneInfo[0].suggestedMatches.map((match) => {
+            const comments: {
+              commentText: string;
+              userName: string;
+              timestamp: string;
+              commentId: string;
+            }[] = [];
+            match.matchComments.forEach((comment) => {
+              comments.push({
+                commentText: comment.commentText,
+                userName: comment.user.firstName + " " + comment.user.lastName,
+                timestamp: comment.createdAt.toLocaleDateString("en-US"),
+                commentId: comment.commentId,
+              });
+            });
+
             return (
               <div key={match.musicId} className="w-full pt-[15px]">
                 <MatchedSong
@@ -239,6 +267,10 @@ export default function MainMatchingPage({ sceneId }: PageProps) {
                   musicId={match.musicId}
                   isMatched={true}
                   handleMatch={handleSuccessfulMatch}
+                  userId={userId}
+                  matchId={match.matchId}
+                  handleComment={handleCommentMade}
+                  comments={comments}
                 />
               </div>
             );

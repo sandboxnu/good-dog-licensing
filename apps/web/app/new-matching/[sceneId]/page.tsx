@@ -19,7 +19,7 @@ export default async function Page({
 
   return (
     <HydrateClient>
-      <MainMatchingPage sceneId={sceneId} />
+      <MainMatchingPage sceneId={sceneId} userId={user.userId} />
     </HydrateClient>
   );
 }
