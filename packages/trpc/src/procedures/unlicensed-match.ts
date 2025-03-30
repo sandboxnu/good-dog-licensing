@@ -1,12 +1,13 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 import { MatchState } from "@good-dog/db";
 
-import { adminOrModeratorAuthenticatedProcedureBuilder } from "../middleware/moderator-admin-authenticated";
+import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const unlicensedSuggestedMatchProcedure =
-  adminOrModeratorAuthenticatedProcedureBuilder
+  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "modify")
     .input(
       z.object({
         matchId: z.string().optional(), // If provided, update; otherwise, create
@@ -26,12 +27,12 @@ export const unlicensedSuggestedMatchProcedure =
 
         if (!match) {
           throw new TRPCError({
-            code: "BAD_REQUEST",
+            code: "NOT_FOUND",
             message: "Match not found.",
           });
         }
 
-        if (ctx.session.userId !== match.matcherUserId) {
+        if (ctx.session.user.userId !== match.matcherUserId) {
           throw new TRPCError({
             code: "FORBIDDEN",
             message: "Not authorized to update this match.",
@@ -60,7 +61,7 @@ export const unlicensedSuggestedMatchProcedure =
             projectId: input.projectId,
             sceneId: input.sceneId,
             musicId: input.musicId,
-            matcherUserId: ctx.session.userId,
+            matcherUserId: ctx.session.user.userId,
             description: input.description,
             matchState: MatchState.PENDING,
           },
@@ -72,40 +73,42 @@ export const unlicensedSuggestedMatchProcedure =
     });
 
 //updating the match state based on mediamaker response
-export const updateUnlicensedMatchState =
-  adminOrModeratorAuthenticatedProcedureBuilder
-    .input(
-      z.object({
-        unlicensedSuggestedMatchId: z.string(),
-        matchState: z.nativeEnum(MatchState),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      const match = await ctx.prisma.unlicensedSuggestedMatch.findUnique({
-        where: { unlicensedSuggestedMatchId: input.unlicensedSuggestedMatchId },
-        select: { matcherUserId: true, projectSubmission: true },
-      });
-
-      if (!match) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Match not found.",
-        });
-      }
-
-      if (ctx.session.user.role === match.projectSubmission.projectOwnerId) {
-        await ctx.prisma.unlicensedSuggestedMatch.update({
-          where: {
-            unlicensedSuggestedMatchId: input.unlicensedSuggestedMatchId,
-          },
-          data: {
-            matchState: input.matchState,
-          },
-        });
-      } else {
-        throw new TRPCError({
-          code: "FORBIDDEN",
-          message: "Access Denied.",
-        });
-      }
+export const updateUnlicensedMatchState = rolePermissionsProcedureBuilder(
+  projectAndRepertoirePagePermissions,
+  "modify",
+)
+  .input(
+    z.object({
+      unlicensedSuggestedMatchId: z.string(),
+      matchState: z.nativeEnum(MatchState),
+    }),
+  )
+  .mutation(async ({ ctx, input }) => {
+    const match = await ctx.prisma.unlicensedSuggestedMatch.findUnique({
+      where: { unlicensedSuggestedMatchId: input.unlicensedSuggestedMatchId },
+      select: { matcherUserId: true, projectSubmission: true },
     });
+
+    if (!match) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Match not found.",
+      });
+    }
+
+    if (ctx.session.user.role === match.projectSubmission.projectOwnerId) {
+      await ctx.prisma.unlicensedSuggestedMatch.update({
+        where: {
+          unlicensedSuggestedMatchId: input.unlicensedSuggestedMatchId,
+        },
+        data: {
+          matchState: input.matchState,
+        },
+      });
+    } else {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Access Denied.",
+      });
+    }
+  });

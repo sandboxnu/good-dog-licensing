@@ -185,7 +185,7 @@ describe("submit unlicensed music", () => {
         songLink: "https://unlicensed-music-link-3.com",
         genre: "unlicensed-music-genre-3",
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to submit");
   });
 
   test("Music is not successfully submitted when the user is a Musician", () => {
@@ -197,6 +197,6 @@ describe("submit unlicensed music", () => {
         songLink: "https://unlicensed-music-link-3.com",
         genre: "unlicensed-music-genre-3",
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to submit");
   });
 });

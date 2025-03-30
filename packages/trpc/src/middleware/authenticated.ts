@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 
 import { baseProcedureBuilder } from "../internal/init";
+import { getSessionMemoized } from "../internal/prisma-abstraction";
 
 export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
@@ -10,23 +11,7 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
       throw new TRPCError({ code: "UNAUTHORIZED" });
     }
 
-    const sessionOrNull = await ctx.prisma.session.findUnique({
-      where: {
-        sessionId: sessionId.value,
-      },
-      include: {
-        user: {
-          select: {
-            userId: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-            phoneNumber: true,
-            role: true,
-          },
-        },
-      },
-    });
+    const sessionOrNull = await getSessionMemoized(ctx.prisma, sessionId.value);
 
     if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
       // Session expired or not found

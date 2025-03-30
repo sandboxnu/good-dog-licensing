@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@good-dog/auth": "workspace:*",
     "@good-dog/components": "workspace:*",
     "@good-dog/env": "workspace:*",
     "@good-dog/tailwind": "workspace:*",

@@ -1,13 +1,17 @@
-import { adminOrModeratorAuthenticatedProcedureBuilder } from "../middleware/moderator-admin-authenticated";
+import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 
-export const getMusicSubmissionsProcedure =
-  adminOrModeratorAuthenticatedProcedureBuilder.query(async ({ ctx }) => {
-    const music = await ctx.prisma.musicSubmission.findMany({
-      include: {
-        artist: true,
-        group: true,
-        songwriters: true,
-      },
-    });
-    return { music };
+import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
+
+export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
+  projectAndRepertoirePagePermissions,
+  "read",
+).query(async ({ ctx }) => {
+  const music = await ctx.prisma.musicSubmission.findMany({
+    include: {
+      artist: true,
+      group: true,
+      songwriters: true,
+    },
   });
+  return { music };
+});

@@ -168,7 +168,7 @@ describe("projectSubmission", () => {
     };
 
     expect($api.projectSubmission(input)).rejects.toThrow(
-      "Only media makers can submit projects.",
+      "permission to submit",
     );
   });
 });

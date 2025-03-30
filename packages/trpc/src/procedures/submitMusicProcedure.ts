@@ -1,11 +1,13 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { Role } from "@good-dog/db";
+import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
+import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-export const submitMusicProcedure = authenticatedProcedureBuilder
+export const submitMusicProcedure = rolePermissionsProcedureBuilder(
+  musicianOnlyPermissions,
+  "submit",
+)
   .input(
     z.object({
       groupId: z.string(),
@@ -22,22 +24,11 @@ export const submitMusicProcedure = authenticatedProcedureBuilder
   )
 
   .mutation(async ({ ctx, input }) => {
-    // Check if the user is a Musician or an Admin
-    if (
-      ctx.session.user.role !== Role.MUSICIAN &&
-      ctx.session.user.role !== Role.ADMIN
-    ) {
-      throw new TRPCError({
-        code: "FORBIDDEN",
-        message: "Only musicians can submit music",
-      });
-    }
-
     // Create the music submission
     const musicSubmission = await ctx.prisma.musicSubmission.create({
       data: {
         artist: {
-          connect: { userId: ctx.session.userId },
+          connect: { userId: ctx.session.user.userId },
         },
         group: {
           connect: {
