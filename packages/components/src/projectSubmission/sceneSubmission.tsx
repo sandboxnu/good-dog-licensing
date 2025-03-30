@@ -7,7 +7,7 @@ import { Input } from "@good-dog/components/input";
 import { Textarea } from "@good-dog/components/textarea";
 import { Button } from "@good-dog/ui/button";
 
-export default function SceneSubmission() {
+export default function SceneSubmission({ goNext, goBack }: Props) {
   const [selectedGenres, setSelectedGenres] = useState(["Afro", "Pop", "Love"]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hoveredGenre, setHoveredGenre] = useState<string | null>(null);
@@ -197,12 +197,14 @@ export default function SceneSubmission() {
           <div className="mt-12 flex justify-center gap-4">
             <Button
               type="button"
+              onClick={goBack}
               className="rounded bg-white px-8 py-2 font-medium text-emerald-600 hover:bg-emerald-100 hover:text-emerald-600"
             >
               Back
             </Button>
             <Button
-              type="submit"
+              type="button"
+              onClick={goNext}
               className="rounded bg-white px-8 py-2 font-medium text-emerald-600 hover:bg-emerald-100 hover:text-emerald-600"
             >
               Next
@@ -213,3 +215,8 @@ export default function SceneSubmission() {
     </main>
   );
 }
+
+type Props = {
+  goNext: () => void;
+  goBack: () => void;
+};

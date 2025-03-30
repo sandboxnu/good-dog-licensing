@@ -6,7 +6,7 @@ import { Input } from "@good-dog/components/input";
 import { Textarea } from "@good-dog/components/textarea";
 import { Button } from "@good-dog/ui/button";
 
-export default function FinalProjSubmission() {
+export default function FinalProjSubmission({ goBack }: Props) {
   return (
     <main className="container mx-auto flex-1 px-4 py-12">
       <div className="mx-auto max-w-3xl">
@@ -66,6 +66,7 @@ export default function FinalProjSubmission() {
           <div className="mt-12 flex justify-center gap-4">
             <Button
               type="button"
+              onClick={goBack}
               className="rounded bg-white px-8 py-2 font-medium text-emerald-600 hover:bg-gray-100"
             >
               Back
@@ -82,3 +83,7 @@ export default function FinalProjSubmission() {
     </main>
   );
 }
+
+type Props = {
+  goBack: () => void;
+};

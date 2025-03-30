@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import FinalProjSubmission from "@good-dog/components/projectSubmission/finalProjSubmission";
 import ProjectSubmission from "@good-dog/components/projectSubmission/projectSubmission";
+import ProjectSubmissionForm from "@good-dog/components/projectSubmission/projectSubmissionForm";
 import SceneSubmission from "@good-dog/components/projectSubmission/sceneSubmission";
 //import { Twitter, Mail, Instagram, Facebook, Youtube, User } from "lucide-react"
 import { Button } from "@good-dog/ui/button";
@@ -65,14 +66,15 @@ export default function SubmissionForm() {
 
       {/* Divider */}
       <div className="h-px w-full bg-emerald-400"></div>
+      <ProjectSubmissionForm />
 
-      <ProjectSubmission />
+      {/* <ProjectSubmission /> */}
 
       {/* Divider */}
-      <div className="h-px w-full bg-emerald-400"></div>
+      {/* <div className="h-px w-full bg-emerald-400"></div>
       <SceneSubmission />
       <div className="h-px w-full bg-emerald-400"></div>
-      <FinalProjSubmission />
+      <FinalProjSubmission /> */}
       {/* Footer */}
       {/* <footer className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row items-center justify-between">
