@@ -124,12 +124,10 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
           <div className="space-y-2">
             <label htmlFor="anything-else" className="block font-medium">
               Tell us anything else about the Scene{" "}
-              <span className="text-red-500">*</span>
             </label>
             <Input
               id="anything-else"
               placeholder="Your Answer"
-              required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
             />
           </div>
