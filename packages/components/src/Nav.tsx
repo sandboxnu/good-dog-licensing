@@ -24,7 +24,7 @@ export default function Nav() {
         <li>
           <Link href="/">
             <Image
-              src="/icons/Minimalist Logo.svg"
+              src="/icons/Updated Minimalistic Logo.svg"
               width={64}
               height={64}
               alt="good-dog-logo"
