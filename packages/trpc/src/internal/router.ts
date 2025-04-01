@@ -25,14 +25,17 @@ import {
   reviewSuggestedMatchProcedure,
   suggestedMatchProcedure,
 } from "../procedures/matches";
-import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
-import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
+import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
+import { projectSubmissionProcedure } from "../procedures/project-submission";
+import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
 import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
+import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
+import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
 import {
   getAuthenticatedUserProcedure,
   getUserProcedure,
 } from "../procedures/user";
-import { onboardingProcedure } from "../procedures/user_onboarding";
+import { onboardingProcedure } from "../procedures/user-onboarding";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
@@ -55,10 +58,13 @@ export const appRouter = createTRPCRouter({
   match: getMatchesProcedure,
   comment: createUpdateMatchCommentsProcedure,
   suggestMatch: suggestedMatchProcedure,
+  unlicensedSuggestMatch: unlicensedSuggestedMatchProcedure,
   reviewMatch: reviewSuggestedMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
+  projectSubmission: projectSubmissionProcedure,
   submitUnlicensedMusic: submitUnlicensedMusicProcedure,
+  submitMusic: submitMusicProcedure,
 });
 
 export type AppRouter = typeof appRouter;
