@@ -131,7 +131,9 @@ describe("get-moderators-admins", () => {
   test("Not admin making request", async () => {
     await createData();
     cookies.set("sessionId", "gavin-session-id");
-    expect($api.getModeratorsAndAdmins()).rejects.toThrow("FORBIDDEN");
+    expect($api.getModeratorsAndAdmins()).rejects.toThrow(
+      "do not have permission to read",
+    );
   });
 
   test("There is one user to return and admin making request", async () => {
