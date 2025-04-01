@@ -8,7 +8,7 @@ import clsx from "clsx";
 import InviteModeratorModal from "./InviteModeratorModal";
 
 interface AdminDashboardProps {
-  page: "SONGS" | "PROJECTS" | "USERS";
+  page: "songs" | "projects" | "users";
   userRole: "ADMIN" | "MODERATOR";
   userFirstName: string;
   userLastName: string;
@@ -57,8 +57,8 @@ export default function NewAdminDashboard({
               className={clsx(
                 "flex h-[50px] w-[300px] items-center rounded-xl pl-[10px]",
                 {
-                  "bg-[#F6F8FA]": page !== "SONGS",
-                  "bg-[#D7D8D9]": page === "SONGS",
+                  "bg-[#F6F8FA]": page !== "songs",
+                  "bg-[#D7D8D9]": page === "songs",
                 },
               )}
             >
@@ -80,8 +80,8 @@ export default function NewAdminDashboard({
               className={clsx(
                 "flex h-[50px] w-[300px] items-center rounded-xl pl-[10px]",
                 {
-                  "bg-[#F6F8FA]": page !== "PROJECTS",
-                  "bg-[#D7D8D9]": page === "PROJECTS",
+                  "bg-[#F6F8FA]": page !== "projects",
+                  "bg-[#D7D8D9]": page === "projects",
                 },
               )}
             >
@@ -103,8 +103,8 @@ export default function NewAdminDashboard({
               className={clsx(
                 "flex h-[50px] w-[300px] items-center rounded-xl pl-[10px]",
                 {
-                  "bg-[#F6F8FA]": page !== "USERS",
-                  "bg-[#D7D8D9]": page === "USERS",
+                  "bg-[#F6F8FA]": page !== "users",
+                  "bg-[#D7D8D9]": page === "users",
                 },
               )}
             >
