@@ -102,7 +102,7 @@ describe("submit unlicensed music", () => {
   // Delete the records created for these tests
   afterAll(async () => {
     await prisma.$transaction([
-      prisma.unlicensedMusic.deleteMany({
+      prisma.unlicensedMusicSubmission.deleteMany({
         where: {
           songName: {
             in: [
@@ -140,7 +140,7 @@ describe("submit unlicensed music", () => {
     expect(message).not.toBeNull();
     expect(message).toBe("Unlicensed Music submitted successfully");
 
-    const music = await prisma.unlicensedMusic.findFirst({
+    const music = await prisma.unlicensedMusicSubmission.findFirst({
       where: {
         songName: "unlicensed-music-name-1",
       },
@@ -164,7 +164,7 @@ describe("submit unlicensed music", () => {
     expect(message).not.toBeNull();
     expect(message).toBe("Unlicensed Music submitted successfully");
 
-    const music = await prisma.unlicensedMusic.findFirst({
+    const music = await prisma.unlicensedMusicSubmission.findFirst({
       where: {
         songName: "unlicensed-music-name-2",
       },
@@ -185,7 +185,7 @@ describe("submit unlicensed music", () => {
         songLink: "https://unlicensed-music-link-3.com",
         genre: "unlicensed-music-genre-3",
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to submit");
   });
 
   test("Music is not successfully submitted when the user is a Musician", () => {
@@ -197,6 +197,6 @@ describe("submit unlicensed music", () => {
         songLink: "https://unlicensed-music-link-3.com",
         genre: "unlicensed-music-genre-3",
       }),
-    ).rejects.toThrow("FORBIDDEN");
+    ).rejects.toThrow("permission to submit");
   });
 });

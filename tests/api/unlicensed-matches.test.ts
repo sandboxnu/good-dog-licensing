@@ -52,7 +52,7 @@ async function createData() {
     },
   });
 
-  const musicianGroup = await prisma.musicianGroup.create({
+  await prisma.musicianGroup.create({
     data: {
       groupId: "musicianGroup",
       organizerId: musician.userId,
@@ -60,15 +60,14 @@ async function createData() {
     },
   });
 
-  await prisma.musicSubmission.create({
+  await prisma.unlicensedMusicSubmission.create({
     data: {
       musicId: "musicSubmission",
       songName: "3005",
       songLink:
         "https://open.spotify.com/track/2X6b7zLdIxCejd6GqVcQ9M?si=b36f9306fab04109",
       genre: "hip hop",
-      groupId: musicianGroup.groupId,
-      artistId: musician.userId,
+      artist: "childish gambino",
     },
   });
 
@@ -92,9 +91,9 @@ async function createData() {
 
   const projectSubmission = await prisma.projectSubmission.create({
     data: {
+      projectTitle: "project",
       projectId: "projectSubmission",
       projectOwnerId: projectOwner.userId,
-      projectTitle: "title",
       description: "a project hoping to showcase the effects of climate change",
       deadline: new Date(Date.now() + 2_000_000_000),
     },
@@ -102,9 +101,9 @@ async function createData() {
 
   await prisma.sceneSubmission.create({
     data: {
+      sceneTitle: "title",
       sceneId: "sceneOneSubmission",
       description: "wildfires in CA",
-      sceneTitle: "Scene One",
       musicType: "rnb, soul",
       projectId: projectSubmission.projectId,
     },
@@ -130,9 +129,9 @@ async function createData() {
 }
 
 async function createMoreData() {
-  await prisma.suggestedMatch.create({
+  await prisma.unlicensedSuggestedMatch.create({
     data: {
-      suggestedMatchId: "match",
+      unlicensedSuggestedMatchId: "match",
       projectId: "projectSubmission",
       sceneId: "sceneOneSubmission",
       musicId: "musicSubmission",
@@ -147,7 +146,7 @@ async function createMoreData() {
       commentId: "testComment",
       userId: "matcher",
       commentText: "hello",
-      suggestedMatchId: "match",
+      unlicensedSuggestedMatchId: "match",
     },
   });
 }
@@ -156,17 +155,17 @@ async function deleteData() {
   // Delete MatchComments (created in tests)
   await prisma.matchComments.deleteMany({
     where: {
-      suggestedMatchId: "match",
+      unlicensedSuggestedMatchId: "match",
     },
   });
 
   // Delete SuggestedMatch
-  await prisma.suggestedMatch.deleteMany({
-    where: { suggestedMatchId: "match" },
+  await prisma.unlicensedSuggestedMatch.deleteMany({
+    where: { unlicensedSuggestedMatchId: "match" },
   });
 
   // Delete SuggestedMatch for suggestMatch tests
-  await prisma.suggestedMatch.deleteMany({
+  await prisma.unlicensedSuggestedMatch.deleteMany({
     where: {
       sceneId: "sceneOneSubmission",
     },
@@ -183,7 +182,7 @@ async function deleteData() {
   });
 
   // Delete MusicSubmission
-  await prisma.musicSubmission.deleteMany({
+  await prisma.unlicensedMusicSubmission.deleteMany({
     where: { musicId: "musicSubmission" },
   });
 
@@ -231,7 +230,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const response = await $api.comment({
       matchId: "match",
-      unlicensed: false,
+      unlicensed: true,
       matchComment: {
         commentText:
           "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
@@ -243,7 +242,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        unlicensedSuggestedMatchId: "match",
         userId: "sanjana",
       },
     });
@@ -258,8 +257,8 @@ describe("createUpdateMatchCommentsProcedure", () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.comment({
-      unlicensed: false,
       matchId: "match",
+      unlicensed: true,
       matchComment: {
         commentText: "hello",
         userId: "matcher",
@@ -270,7 +269,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        unlicensedSuggestedMatchId: "match",
         userId: "matcher",
       },
     });
@@ -284,8 +283,8 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     expect(
       $api.comment({
-        unlicensed: false,
         matchId: "match",
+        unlicensed: true,
         matchComment: {
           commentText: "hello",
           userId: "musician",
@@ -298,8 +297,8 @@ describe("createUpdateMatchCommentsProcedure", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.comment({
-      unlicensed: false,
       matchId: "match",
+      unlicensed: true,
       matchComment: {
         commentText:
           "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
@@ -311,7 +310,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        unlicensedSuggestedMatchId: "match",
         userId: "sanjana",
       },
     });
@@ -323,7 +322,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const updatedResponse = await $api.comment({
       commentId: createdComment?.commentId,
-      unlicensed: false,
+      unlicensed: true,
       matchId: "match",
       matchComment: {
         commentText: "hi hi",
@@ -335,7 +334,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const updatedComment = await prisma.matchComments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        unlicensedSuggestedMatchId: "match",
         userId: "sanjana",
       },
     });
@@ -350,7 +349,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
     expect(
       $api.comment({
         commentId: "testComment",
-        unlicensed: false,
+        unlicensed: true,
         matchComment: {
           userId: "sanjana",
           commentText: "hi hi",
@@ -361,7 +360,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
   });
 });
 
-describe("suggested match procedure", () => {
+describe("unlicensed suggested match procedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
 
@@ -387,7 +386,7 @@ describe("suggested match procedure", () => {
   it("should allow a moderator to suggest a match", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
-    const response = await $api.suggestMatch({
+    const response = await $api.unlicensedSuggestMatch({
       projectId: "projectSubmission",
       sceneId: "sceneOneSubmission",
       musicId: "musicSubmission",
@@ -396,7 +395,7 @@ describe("suggested match procedure", () => {
 
     expect(response.message).toEqual("Match successfully suggested.");
 
-    const suggestedMatch = await prisma.suggestedMatch.findFirst({
+    const suggestedMatch = await prisma.unlicensedSuggestedMatch.findFirst({
       where: {
         projectId: "projectSubmission",
         sceneId: "sceneOneSubmission",
@@ -411,7 +410,7 @@ describe("suggested match procedure", () => {
   it("should allow an admin to suggest a match", async () => {
     cookies.set("sessionId", "sanjana-session-id");
 
-    const response = await $api.suggestMatch({
+    const response = await $api.unlicensedSuggestMatch({
       projectId: "projectSubmission",
       sceneId: "sceneOneSubmission",
       musicId: "musicSubmission",
@@ -420,7 +419,7 @@ describe("suggested match procedure", () => {
 
     expect(response.message).toEqual("Match successfully suggested.");
 
-    const suggestedMatch = await prisma.suggestedMatch.findFirst({
+    const suggestedMatch = await prisma.unlicensedSuggestedMatch.findFirst({
       where: {
         projectId: "projectSubmission",
         sceneId: "sceneOneSubmission",
@@ -436,7 +435,7 @@ describe("suggested match procedure", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
-      $api.suggestMatch({
+      $api.unlicensedSuggestMatch({
         projectId: "projectSubmission",
         sceneId: "sceneOneSubmission",
         musicId: "musicSubmission",
@@ -448,7 +447,7 @@ describe("suggested match procedure", () => {
   it("should allow a user to update the description for their own suggested match", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
-    const originalResponse = await $api.suggestMatch({
+    const originalResponse = await $api.unlicensedSuggestMatch({
       projectId: "projectSubmission",
       sceneId: "sceneOneSubmission",
       musicId: "musicSubmission",
@@ -457,113 +456,28 @@ describe("suggested match procedure", () => {
 
     expect(originalResponse.message).toEqual("Match successfully suggested.");
 
-    const match = await prisma.suggestedMatch.findFirst({
+    const match = await prisma.unlicensedSuggestedMatch.findFirst({
       where: {
         sceneId: "sceneOneSubmission",
         projectId: "projectSubmission",
       },
     });
 
-    const updatedResponse = await $api.suggestMatch({
-      matchId: match?.suggestedMatchId,
+    const updatedResponse = await $api.unlicensedSuggestMatch({
+      matchId: match?.unlicensedSuggestedMatchId,
       description: "This is an even better match.",
     });
 
     expect(updatedResponse.message).toEqual("Match successfully updated.");
 
-    const updatedMatch = await prisma.suggestedMatch.findFirst({
+    const updatedMatch = await prisma.unlicensedSuggestedMatch.findFirst({
       where: {
-        suggestedMatchId: match?.suggestedMatchId,
+        unlicensedSuggestedMatchId: match?.unlicensedSuggestedMatchId,
       },
     });
 
     expect(updatedMatch).toBeDefined();
     expect(updatedMatch?.description).toBe("This is an even better match.");
-  });
-});
-
-describe("reviewSuggestedMatchProcedure", () => {
-  const cookies = new MockNextCookies();
-  const cache = new MockNextCache();
-
-  beforeAll(async () => {
-    await cache.apply();
-  });
-
-  beforeEach(async () => {
-    await createData();
-    await createMoreData();
-  });
-
-  const $api = $createTrpcCaller({
-    cookiesService: createMockCookieService(cookies),
-    prisma: prisma,
-  });
-
-  afterEach(async () => {
-    await deleteData();
-    cookies.clear();
-    cache.clear();
-  });
-
-  it("should allow an admin to approve a match", async () => {
-    cookies.set("sessionId", "sanjana-session-id");
-
-    await $api.reviewMatch({
-      matchId: "match",
-      matchState: MatchState.APPROVED,
-    });
-
-    const updatedMatch = await prisma.suggestedMatch.findFirst({
-      where: {
-        suggestedMatchId: "match",
-      },
-    });
-
-    expect(updatedMatch).toBeDefined();
-    expect(updatedMatch?.matchState).toBe(MatchState.APPROVED);
-    expect(updatedMatch?.reviewerId).toBe("sanjana");
-  });
-
-  it("should allow an admin to reject a match", async () => {
-    cookies.set("sessionId", "sanjana-session-id");
-
-    await $api.reviewMatch({
-      matchId: "match",
-      matchState: MatchState.REJECTED,
-    });
-
-    const updatedMatch = await prisma.suggestedMatch.findFirst({
-      where: {
-        suggestedMatchId: "match",
-      },
-    });
-
-    expect(updatedMatch).toBeDefined();
-    expect(updatedMatch?.matchState).toBe(MatchState.REJECTED);
-    expect(updatedMatch?.reviewerId).toBe("sanjana");
-  });
-
-  it("should prevent a moderator from reviewing a match", () => {
-    cookies.set("sessionId", "moderator-session-id");
-
-    expect(
-      $api.reviewMatch({
-        matchId: "match",
-        matchState: MatchState.APPROVED,
-      }),
-    ).rejects.toThrow("permission to modify");
-  });
-
-  it("should prevent a regular user from reviewing a match", () => {
-    cookies.set("sessionId", "musician-session-id");
-
-    expect(
-      $api.reviewMatch({
-        matchId: "match",
-        matchState: MatchState.APPROVED,
-      }),
-    ).rejects.toThrow("permission to modify");
   });
 });
 
