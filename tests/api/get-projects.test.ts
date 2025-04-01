@@ -82,6 +82,7 @@ describe("get-projects", () => {
               role: "MEDIA_MAKER",
             },
           },
+          projectTitle: "title",
           description: "description-1",
           deadline: new Date(Date.now() + 600_000),
         },
@@ -100,6 +101,7 @@ describe("get-projects", () => {
               role: "MEDIA_MAKER",
             },
           },
+          projectTitle: "title",
           description: "description-2",
           deadline: new Date(Date.now() + 600_000),
         },
@@ -118,6 +120,7 @@ describe("get-projects", () => {
               role: "MEDIA_MAKER",
             },
           },
+          projectTitle: "Another Project Title",
           description: "description-3",
           deadline: new Date(Date.now() + 600_000),
         },
@@ -247,7 +250,7 @@ describe("get-projects", () => {
 
   test("No projects are returned when they have a NON MODERATOR OR ADMIN session.", () => {
     cookies.set("sessionId", "amoli-session-id");
-    expect($api.projects()).rejects.toThrow("FORBIDDEN");
+    expect($api.projects()).rejects.toThrow("permission to read");
   });
 
   // User-specific projects [media maker]

@@ -1,5 +1,6 @@
 import type { UserWithSession } from "../internal/common-types";
 import { baseProcedureBuilder } from "../internal/init";
+import { getSessionMemoized } from "../internal/prisma-abstraction";
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 
 export const getAuthenticatedUserProcedure =
@@ -24,24 +25,7 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
     return null;
   }
 
-  const sessionOrNull = await ctx.prisma.session.findUnique({
-    where: {
-      sessionId: sessionId.value,
-    },
-    select: {
-      expiresAt: true,
-      user: {
-        select: {
-          userId: true,
-          firstName: true,
-          lastName: true,
-          email: true,
-          phoneNumber: true,
-          role: true,
-        },
-      },
-    },
-  });
+  const sessionOrNull = await getSessionMemoized(ctx.prisma, sessionId.value);
 
   if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
     // Session expired or not found

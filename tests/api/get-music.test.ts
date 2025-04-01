@@ -208,6 +208,6 @@ describe("get-music", () => {
 
   test("No music is returned when they have a NON MODERATOR OR ADMIN session.", () => {
     cookies.set("sessionId", "amoli-session-id");
-    expect($api.music()).rejects.toThrow("FORBIDDEN");
+    expect($api.music()).rejects.toThrow("permission to read");
   });
 });
