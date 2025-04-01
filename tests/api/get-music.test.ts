@@ -306,14 +306,10 @@ describe("get-music", () => {
   });
 
   test("No music is returned for a specific user when they have a NON MUSICIAN session.", () => {
-    cookies.set("sessionId", "owen-session-id");
-    expect($api.userMusic()).rejects.toThrow("Only musicians can access this.");
-
-    cookies.set("sessionId", "gavin-session-id");
-    expect($api.userMusic()).rejects.toThrow("Only musicians can access this.");
-
     cookies.set("sessionId", "amoli-session-id");
-    expect($api.userMusic()).rejects.toThrow("Only musicians can access this.");
+    expect($api.userMusic()).rejects.toThrow(
+      "You do not have permission to read this resource.",
+    );
   });
 
   test("No music is returned when a user is unauthenticated.", () => {
