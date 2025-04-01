@@ -3,7 +3,11 @@ import { trpc } from "@good-dog/trpc/server";
 
 import NotFound from "~/not-found";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const user = await trpc.user();
   const { slug } = await params;
 
