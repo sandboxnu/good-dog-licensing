@@ -13,7 +13,7 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
 
-describe("get-moderators-admins", () => {
+describe("get-pnrs-and-admins", () => {
   const createData = async () => {
     await prisma.$transaction([
       prisma.user.create({
@@ -145,7 +145,7 @@ describe("get-moderators-admins", () => {
 
     test("Admin making request", async () => {
       cookies.set("sessionId", "owen-session-id");
-      const users = await $api.getModeratorsAndAdmins();
+      const users = await $api.getPNRAndAdmins();
 
       const expectedResult = [
         { role: "MODERATOR", status: "ACTIVE", email: "gavin@test.org" },
@@ -158,7 +158,7 @@ describe("get-moderators-admins", () => {
 
     test("Not admin making request", () => {
       cookies.set("sessionId", "gavin-session-id");
-      expect($api.getModeratorsAndAdmins()).rejects.toThrow(
+      expect($api.getPNRAndAdmins()).rejects.toThrow(
         "do not have permission to read",
       );
     });
@@ -168,7 +168,7 @@ describe("get-moderators-admins", () => {
     test("Admin making request", async () => {
       cookies.set("sessionId", "owen-session-id");
 
-      const users = await $api.getModeratorsAndAdmins();
+      const users = await $api.getPNRAndAdmins();
 
       const expectedResult = [
         { role: "ADMIN", status: "ACTIVE", email: "owen@test.org" },

@@ -1,6 +1,6 @@
 "use client";
 
-import { UseFormRegister } from "react-hook-form";
+import type { UseFormRegister } from "react-hook-form";
 
 import { Input } from "@good-dog/ui/input";
 
