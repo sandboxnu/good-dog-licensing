@@ -1,30 +1,31 @@
-import { TRPCError } from "@trpc/server";
-import { z } from "zod";
+import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 
-import { adminOrModeratorAuthenticatedProcedureBuilder } from "../middleware/moderator-admin-authenticated";
+import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-export const getMusicSubmissionsProcedure =
-  adminOrModeratorAuthenticatedProcedureBuilder.query(async ({ ctx }) => {
-    const music = await ctx.prisma.musicSubmission.findMany({
-      include: {
-        artist: {
-          select: {
-            firstName: true,
-            lastName: true,
-          },
-        },
-        group: {
-          select: {
-            name: true,
-          },
-        },
-        songwriters: {
-          select: {
-            firstName: true,
-            lastName: true,
-          },
+export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
+  projectAndRepertoirePagePermissions,
+  "read",
+).query(async ({ ctx }) => {
+  const music = await ctx.prisma.musicSubmission.findMany({
+    include: {
+      artist: {
+        select: {
+          firstName: true,
+          lastName: true,
         },
       },
-    });
-    return { music };
+      group: {
+        select: {
+          name: true,
+        },
+      },
+      songwriters: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
   });
+  return { music };
+});

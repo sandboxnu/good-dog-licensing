@@ -22,7 +22,7 @@ export const createMatchRatingProcedure = authenticatedProcedureBuilder
       });
 
       if (rating) {
-        if (rating.userId === ctx.session.userId) {
+        if (rating.userId === ctx.session.user.userId) {
           await ctx.prisma.matchRatings.update({
             where: {
               ratingId: input.ratingId,
@@ -33,14 +33,14 @@ export const createMatchRatingProcedure = authenticatedProcedureBuilder
           });
         } else {
           throw new TRPCError({
-            code: "BAD_REQUEST",
+            code: "NOT_FOUND",
             message: "Rating does not exist.",
           });
         }
       } else {
         await ctx.prisma.matchRatings.create({
           data: {
-            userId: ctx.session.userId,
+            userId: ctx.session.user.userId,
             ratingEnum: input.ratingEnum,
             unlicensedSuggestedMatchId: input.matchId,
           },

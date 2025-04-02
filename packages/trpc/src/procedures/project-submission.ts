@@ -1,11 +1,13 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { Role } from "@good-dog/db";
+import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
+import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-export const projectSubmissionProcedure = authenticatedProcedureBuilder
+export const projectSubmissionProcedure = rolePermissionsProcedureBuilder(
+  mediaMakerOnlyPermissions,
+  "submit",
+)
   .input(
     z.object({
       projectTitle: z.string(),
@@ -27,22 +29,11 @@ export const projectSubmissionProcedure = authenticatedProcedureBuilder
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    //Ensure user is a media maker or admin
-    if (
-      ctx.session.user.role !== Role.MEDIA_MAKER &&
-      ctx.session.user.role !== Role.ADMIN
-    ) {
-      throw new TRPCError({
-        code: "FORBIDDEN",
-        message: "Only media makers can submit projects.",
-      });
-    }
-
     // Create the project submission
     await ctx.prisma.projectSubmission.create({
       data: {
         projectOwner: {
-          connect: { userId: ctx.session.userId },
+          connect: { userId: ctx.session.user.userId },
         },
         projectTitle: input.projectTitle,
         description: input.description,

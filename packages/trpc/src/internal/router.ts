@@ -15,6 +15,7 @@ import {
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
 import { getMusicSubmissionsProcedure } from "../procedures/get-music";
+import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
   getProjectSceneByIdProcedure,
   getProjectScenesProcedure,
@@ -63,6 +64,7 @@ export const appRouter = createTRPCRouter({
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,
   submitUnlicensedMusic: submitUnlicensedMusicProcedure,
+  getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
   getSceneById: getProjectSceneByIdProcedure,
 });
