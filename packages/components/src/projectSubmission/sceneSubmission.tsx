@@ -1,46 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ChevronDown, Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Input } from "@good-dog/components/input";
 import { Textarea } from "@good-dog/components/textarea";
 import { Button } from "@good-dog/ui/button";
 
-export default function SceneSubmission({ goNext, goBack }: Props) {
-  const [selectedGenres, setSelectedGenres] = useState(["Afro", "Pop", "Love"]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [hoveredGenre, setHoveredGenre] = useState<string | null>(null);
-
-  const allGenres = [
-    "Afro",
-    "Alternative",
-    "Blues",
-    "Classical & Gospel",
-    "Country",
-    "Pop",
-    "Love",
-  ];
-
-  const availableGenres = allGenres.filter(
-    (genre) => !selectedGenres.includes(genre),
-  );
-
-  const removeGenre = (genre: string) => {
-    setSelectedGenres(selectedGenres.filter((g) => g !== genre));
-  };
-
-  const addGenre = (genre: string) => {
-    if (!selectedGenres.includes(genre)) {
-      setSelectedGenres([...selectedGenres, genre]);
-    }
-    setIsDropdownOpen(false);
-  };
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
+export default function SceneSubmission({
+  sceneData,
+  setSceneData,
+  goNext,
+  onNewScene,
+  goBack,
+}: Props) {
   return (
     <main className="container mx-auto flex-1 px-4 py-12">
       <div className="mx-auto max-w-3xl">
@@ -81,6 +54,10 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
             </label>
             <Input
               id="scene-title"
+              value={sceneData.sceneTitle}
+              onChange={(e) =>
+                setSceneData({ ...sceneData, sceneTitle: e.target.value })
+              }
               placeholder="Your Answer"
               required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
@@ -92,6 +69,10 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
             </label>
             <Textarea
               id="scene-description"
+              value={sceneData.description}
+              onChange={(e) =>
+                setSceneData({ ...sceneData, description: e.target.value })
+              }
               placeholder="Your Answer"
               required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
@@ -103,18 +84,26 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
             </label>
             <Textarea
               id="music-type"
+              value={sceneData.musicType}
+              onChange={(e) =>
+                setSceneData({ ...sceneData, musicType: e.target.value })
+              }
               placeholder="Your Answer"
               required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="example-artists" className="block font-medium">
+            <label htmlFor="similar-songs" className="block font-medium">
               List Example Artists, Tracks, Songs, Eras, or Instrumentals{" "}
               <span className="text-red-500">*</span>
             </label>
             <Textarea
-              id="example-artists"
+              id="similar-songs"
+              value={sceneData.similarSongs}
+              onChange={(e) =>
+                setSceneData({ ...sceneData, similarSongs: e.target.value })
+              }
               placeholder="Your Answer"
               required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
@@ -127,6 +116,10 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
             </label>
             <Input
               id="anything-else"
+              value={sceneData.additionalInfo}
+              onChange={(e) =>
+                setSceneData({ ...sceneData, additionalInfo: e.target.value })
+              }
               placeholder="Your Answer"
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
             />
@@ -135,6 +128,7 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
           <div className="mt-12 flex justify-center">
             <Button
               type="button"
+              onClick={onNewScene}
               className="rounded bg-white px-8 py-2 font-medium text-emerald-600 hover:bg-emerald-100 hover:text-emerald-600"
             >
               <Plus className="mr-2 h-4 w-4" />
@@ -164,7 +158,18 @@ export default function SceneSubmission({ goNext, goBack }: Props) {
   );
 }
 
+type Scene = {
+  sceneTitle: string;
+  description: string;
+  musicType: string;
+  similarSongs: string;
+  additionalInfo: string;
+};
+
 type Props = {
+  sceneData: Scene;
+  setSceneData: (scene: Scene) => void;
   goNext: () => void;
+  onNewScene: () => void;
   goBack: () => void;
 };

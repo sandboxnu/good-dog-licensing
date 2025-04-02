@@ -6,7 +6,12 @@ import { Input } from "@good-dog/components/input";
 import { Textarea } from "@good-dog/components/textarea";
 import { Button } from "@good-dog/ui/button";
 
-export default function FinalProjSubmission({ goBack }: Props) {
+export default function FinalProjSubmission({
+  goBack,
+  onSubmit,
+  additionalInfo,
+  setAdditionalInfo,
+}: Props) {
   return (
     <main className="container mx-auto flex-1 px-4 py-12">
       <div className="mx-auto max-w-3xl">
@@ -47,6 +52,8 @@ export default function FinalProjSubmission({ goBack }: Props) {
             </label>
             <Input
               id="project-additional"
+              value={additionalInfo}
+              onChange={(e) => setAdditionalInfo(e.target.value)}
               placeholder="Your Answer"
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
             />
@@ -62,6 +69,7 @@ export default function FinalProjSubmission({ goBack }: Props) {
             </Button>
             <Button
               type="submit"
+              onClick={onSubmit}
               className="rounded bg-emerald-600 px-8 py-2 font-medium text-black hover:bg-emerald-600"
             >
               Submit
@@ -75,4 +83,7 @@ export default function FinalProjSubmission({ goBack }: Props) {
 
 type Props = {
   goBack: () => void;
+  onSubmit: () => void;
+  additionalInfo: string;
+  setAdditionalInfo: (info: string) => void;
 };

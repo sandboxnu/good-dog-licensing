@@ -2,7 +2,7 @@ import { Input } from "@good-dog/components/input";
 import { Textarea } from "@good-dog/components/textarea";
 import { Button } from "@good-dog/ui/button";
 
-export default function ProjectSubmission({ goNext }: Props) {
+export default function ProjectSubmission({ goNext, data, setData }: Props) {
   return (
     <main className="container mx-auto flex-1 px-4 py-12">
       <div className="mx-auto max-w-3xl">
@@ -43,36 +43,43 @@ export default function ProjectSubmission({ goNext }: Props) {
             </label>
             <Input
               id="project-name"
+              value={data.projectTitle}
+              onChange={(e) =>
+                setData({ ...data, projectTitle: e.target.value })
+              }
               placeholder="Your Answer"
               required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
             />
           </div>
-
           <div className="space-y-2">
             <label htmlFor="project-description" className="block font-medium">
               Project Description <span className="text-red-500">*</span>
             </label>
             <Textarea
               id="project-description"
+              value={data.description}
+              onChange={(e) =>
+                setData({ ...data, description: e.target.value })
+              }
               placeholder="Your Answer"
               required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
             />
           </div>
-
           <div className="space-y-2">
             <label htmlFor="project-deadline" className="block font-medium">
               Project Deadline <span className="text-red-500">*</span>
             </label>
             <Input
               id="project-deadline"
+              value={data.deadline}
+              onChange={(e) => setData({ ...data, deadline: e.target.value })}
               placeholder="mm/dd/yy"
               required
               className="border-zinc-700 bg-zinc-800 text-white placeholder:text-gray-500"
             />
           </div>
-
           <div className="mt-12 flex justify-center">
             <Button
               type="button"
@@ -90,4 +97,12 @@ export default function ProjectSubmission({ goNext }: Props) {
 
 type Props = {
   goNext: () => void;
+  data: {
+    projectTitle: string;
+    description: string;
+    deadline: string;
+    videoLink?: string;
+    additionalInfo?: string;
+  };
+  setData: (data: Props["data"]) => void;
 };
