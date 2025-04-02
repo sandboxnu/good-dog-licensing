@@ -1,26 +1,20 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import clsx from "clsx";
+
+import { trpc } from "@good-dog/trpc/client";
 
 import InviteModeratorModal from "./InviteModeratorModal";
 
 interface AdminDashboardProps {
   page: "songs" | "projects" | "users";
-  userRole: "ADMIN" | "MODERATOR";
-  userFirstName: string;
-  userLastName: string;
 }
 
-export default function NewAdminDashboard({
-  page,
-  userRole,
-  userFirstName,
-  userLastName,
-}: AdminDashboardProps) {
-  const router = useRouter();
+export default function NewAdminDashboard({ page }: AdminDashboardProps) {
+  const userQuery = trpc.user.useSuspenseQuery();
+  const user = userQuery[0];
   const [showInviteModal, setShowInviteModal] = useState<boolean>(false);
 
   return (
@@ -44,16 +38,16 @@ export default function NewAdminDashboard({
             </div>
             <div className="flex-col items-center justify-center pl-[8px]">
               <div className="font-afacad text-xl font-semibold text-black">
-                {userFirstName + " " + userLastName}
+                {user?.firstName + " " + user?.lastName}
               </div>
               <div className="font-afacad text-base font-normal text-[#7D7C7C]">
-                {userRole}
+                {user?.role === "MODERATOR" ? "P&R Rep" : "Admin"}
               </div>
             </div>
           </div>
           <div className="pl-[50px] pr-[40px] pt-[43px]">
-            <button
-              onClick={() => router.push("/dashboard/songs")}
+            <Link
+              href="/dashboard/songs"
               className={clsx(
                 "flex h-[50px] w-[300px] items-center rounded-xl pl-[10px]",
                 {
@@ -62,21 +56,31 @@ export default function NewAdminDashboard({
                 },
               )}
             >
-              <Image
-                src="/icons/music.svg"
-                width={24}
-                height={24}
-                alt="music-icon"
-                className=""
-              />
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="vuesax/bold/music">
+                  <g id="music">
+                    <path
+                      id="Vector"
+                      d="M20.8899 5.18056V16.4806C20.8899 18.4606 19.2799 20.0706 17.2999 20.0706C15.3299 20.0706 13.7099 18.4606 13.7099 16.4806C13.7099 14.5106 15.3299 12.9006 17.2999 12.9006C18.1399 12.9006 18.8899 13.1906 19.4999 13.6706V7.72056L10.2899 10.3406V18.4106C10.2899 20.3906 8.66986 22.0006 6.69986 22.0006C4.71986 22.0006 3.10986 20.3906 3.10986 18.4106C3.10986 16.4406 4.71986 14.8306 6.69986 14.8306C7.52986 14.8306 8.27986 15.1206 8.88986 15.5906V6.75056C8.88986 5.28056 9.77986 4.14056 11.1899 3.76056L16.9699 2.18056C18.1399 1.86056 19.1299 1.97056 19.8299 2.51056C20.5399 3.04056 20.8899 3.94056 20.8899 5.18056Z"
+                      fill="#A3A3A3"
+                    />
+                  </g>
+                </g>
+              </svg>
               <div className="font-afacad pl-[10px] text-lg font-normal text-black">
                 Songs
               </div>
-            </button>
+            </Link>
           </div>
           <div className="pl-[50px] pr-[40px] pt-[8px]">
-            <button
-              onClick={() => router.push("/dashboard/projects")}
+            <Link
+              href="/dashboard/projects"
               className={clsx(
                 "flex h-[50px] w-[300px] items-center rounded-xl pl-[10px]",
                 {
@@ -85,21 +89,31 @@ export default function NewAdminDashboard({
                 },
               )}
             >
-              <Image
-                src="/icons/play-circle.svg"
-                width={24}
-                height={24}
-                alt="play-circle-icon"
-                className=""
-              />
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="vuesax/bold/play-circle">
+                  <g id="play-circle">
+                    <path
+                      id="Vector"
+                      d="M11.9702 2C6.45021 2 1.97021 6.48 1.97021 12C1.97021 17.52 6.45021 22 11.9702 22C17.4902 22 21.9702 17.52 21.9702 12C21.9702 6.48 17.5002 2 11.9702 2ZM14.9702 14.23L12.0702 15.9C11.7102 16.11 11.3102 16.21 10.9202 16.21C10.5202 16.21 10.1302 16.11 9.77022 15.9C9.05021 15.48 8.62021 14.74 8.62021 13.9V10.55C8.62021 9.72 9.05021 8.97 9.77022 8.55C10.4902 8.13 11.3502 8.13 12.0802 8.55L14.9802 10.22C15.7002 10.64 16.1302 11.38 16.1302 12.22C16.1302 13.06 15.7002 13.81 14.9702 14.23Z"
+                      fill="#A3A3A3"
+                    />
+                  </g>
+                </g>
+              </svg>
               <div className="font-afacad pl-[10px] text-lg font-normal text-black">
                 Projects
               </div>
-            </button>
+            </Link>
           </div>
           <div className="pl-[50px] pr-[40px] pt-[8px]">
-            <button
-              onClick={() => router.push("/dashboard/users")}
+            <Link
+              href="/dashboard/users"
               className={clsx(
                 "flex h-[50px] w-[300px] items-center rounded-xl pl-[10px]",
                 {
@@ -126,7 +140,7 @@ export default function NewAdminDashboard({
               <div className="font-afacad pl-[10px] text-lg font-normal text-black">
                 Users
               </div>
-            </button>
+            </Link>
           </div>
         </div>
         <div className="w-4/5 px-[36px] pt-[40px]">
@@ -134,7 +148,7 @@ export default function NewAdminDashboard({
             <div className="font-afacad w-1/2 text-3xl font-semibold text-black">
               Users
             </div>
-            {userRole === "ADMIN" && (
+            {user?.role === "ADMIN" && (
               <div className="right flex w-1/2 justify-end">
                 <button
                   onClick={() => {

@@ -114,7 +114,9 @@ export default function InviteModeratorModal(
                 <div className="font-afacad w-1/2 pr-[20px] text-right text-lg font-medium text-black">
                   {person.status === "PENDING"
                     ? "P&R Invite Pending"
-                    : person.role}
+                    : person.role === "MODERATOR"
+                      ? "P&R Rep"
+                      : "Admin"}
                 </div>
               </div>
             );

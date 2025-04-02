@@ -1,4 +1,11 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
@@ -77,7 +84,13 @@ describe("get-moderators-admins", () => {
 
   const deleteData = async () => {
     await prisma.$transaction([
-      prisma.user.deleteMany({}),
+      prisma.user.deleteMany({
+        where: {
+          NOT: {
+            email: "owen@test.org",
+          },
+        },
+      }),
       prisma.moderatorInvite.deleteMany({}),
     ]);
   };
@@ -89,7 +102,7 @@ describe("get-moderators-admins", () => {
     prisma: prisma,
   });
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prisma.user.create({
       data: {
         userId: "owen-user-id",
@@ -109,42 +122,59 @@ describe("get-moderators-admins", () => {
     });
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     cookies.clear();
-    await deleteData();
   });
 
-  test("There are users to return and admin making request", async () => {
-    await createData();
-    cookies.set("sessionId", "owen-session-id");
-    const users = await $api.getModeratorsAndAdmins();
-
-    const expectedResult = [
-      { role: "MODERATOR", status: "ACTIVE", email: "gavin@test.org" },
-      { role: "ADMIN", status: "ACTIVE", email: "owen@test.org" },
-      { role: "MODERATOR", status: "PENDING", email: "sanjana@test.org" },
-    ];
-
-    expect(users).toEqual(expectedResult);
+  afterAll(async () => {
+    await prisma.user.delete({
+      where: {
+        email: "owen@test.org",
+      },
+    });
   });
 
-  test("Not admin making request", async () => {
-    await createData();
-    cookies.set("sessionId", "gavin-session-id");
-    expect($api.getModeratorsAndAdmins()).rejects.toThrow(
-      "do not have permission to read",
-    );
+  describe("There are multiple users to return", () => {
+    beforeAll(async () => {
+      await createData();
+    });
+
+    afterAll(async () => {
+      await deleteData();
+    });
+
+    test("Admin making request", async () => {
+      cookies.set("sessionId", "owen-session-id");
+      const users = await $api.getModeratorsAndAdmins();
+
+      const expectedResult = [
+        { role: "MODERATOR", status: "ACTIVE", email: "gavin@test.org" },
+        { role: "ADMIN", status: "ACTIVE", email: "owen@test.org" },
+        { role: "MODERATOR", status: "PENDING", email: "sanjana@test.org" },
+      ];
+
+      expect(users).toEqual(expectedResult);
+    });
+
+    test("Not admin making request", async () => {
+      cookies.set("sessionId", "gavin-session-id");
+      expect($api.getModeratorsAndAdmins()).rejects.toThrow(
+        "do not have permission to read",
+      );
+    });
   });
 
-  test("There is one user to return and admin making request", async () => {
-    cookies.set("sessionId", "owen-session-id");
+  describe("There is only one user to return", () => {
+    test("Admin making request", async () => {
+      cookies.set("sessionId", "owen-session-id");
 
-    const users = await $api.getModeratorsAndAdmins();
+      const users = await $api.getModeratorsAndAdmins();
 
-    const expectedResult = [
-      { role: "ADMIN", status: "ACTIVE", email: "owen@test.org" },
-    ];
+      const expectedResult = [
+        { role: "ADMIN", status: "ACTIVE", email: "owen@test.org" },
+      ];
 
-    expect(users).toEqual(expectedResult);
+      expect(users).toEqual(expectedResult);
+    });
   });
 });

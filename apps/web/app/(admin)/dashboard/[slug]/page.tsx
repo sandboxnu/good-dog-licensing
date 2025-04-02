@@ -1,30 +1,17 @@
-import NewAdminDashboard from "@good-dog/components/admin/NewAdminDashboard";
-import { trpc } from "@good-dog/trpc/server";
+import { notFound } from "next/navigation";
 
-import NotFound from "~/not-found";
+import NewAdminDashboard from "@good-dog/components/dashboard/NewAdminDashboard";
 
 export default async function Page({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const user = await trpc.user();
   const { slug } = await params;
 
-  if (!user || !(user.role === "ADMIN" || user.role === "MODERATOR")) {
-    return <p>Forbidden</p>;
-  }
-
   if (!slug || (slug !== "songs" && slug !== "projects" && slug !== "users")) {
-    return <NotFound></NotFound>;
+    return notFound();
   }
 
-  return (
-    <NewAdminDashboard
-      page={slug}
-      userRole={user.role}
-      userFirstName={user.firstName}
-      userLastName={user.lastName}
-    ></NewAdminDashboard>
-  );
+  return <NewAdminDashboard page={slug}></NewAdminDashboard>;
 }
