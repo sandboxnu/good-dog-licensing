@@ -144,6 +144,7 @@ describe("get-projects", () => {
       }),
       prisma.projectSubmission.create({
         data: {
+          projectTitle: "Project 1",
           projectId: "anzhuo-project-1",
           projectOwnerId: "anzhuo-mediamaker-id",
           description: "Project 1",
@@ -152,10 +153,28 @@ describe("get-projects", () => {
       }),
       prisma.projectSubmission.create({
         data: {
+          projectTitle: "Project 2",
           projectId: "anzhuo-project-2",
           projectOwnerId: "anzhuo-mediamaker-id",
           description: "Project 2",
           deadline: new Date(Date.now() + 600_000),
+        },
+      }),
+      prisma.user.create({
+        data: {
+          userId: "anzhuo-musician-id",
+          email: "anzhuo-musician@test.org",
+          phoneNumber: "8889990000",
+          hashedPassword: "xxxx",
+          firstName: "Anzhuo",
+          lastName: "Wang",
+          role: "MUSICIAN",
+          sessions: {
+            create: {
+              sessionId: "anzhuo-session-musician-id",
+              expiresAt: new Date(Date.now() + 600_000),
+            },
+          },
         },
       }),
     ]);
@@ -207,6 +226,7 @@ describe("get-projects", () => {
             "media-user-id-2",
             "media-user-id-3",
             "anzhuo-mediamaker-id",
+            "anzhuo-musician-id",
           ],
         },
       },
@@ -276,14 +296,9 @@ describe("get-projects", () => {
   });
 
   test("No projects are returned for a specific user when they have a NON MEDIA_MAKER session.", () => {
-    cookies.set("sessionId", "owen-session-id");
+    cookies.set("sessionId", "anzhuo-session-musician-id");
     expect($api.userProjects()).rejects.toThrow(
-      "Only media makers can access this.",
-    );
-
-    cookies.set("sessionId", "gavin-session-id");
-    expect($api.userProjects()).rejects.toThrow(
-      "Only media makers can access this.",
+      "You do not have permission to read this resource.",
     );
   });
 
