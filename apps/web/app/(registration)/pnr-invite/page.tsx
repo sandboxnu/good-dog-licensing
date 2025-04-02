@@ -1,5 +1,5 @@
-import ModeratorOnboarding from "@good-dog/components/registration/onboarding/ModeratorOnboarding";
+import PNROnboarding from "@good-dog/components/registration/onboarding/PNROnboarding";
 
 export default function Page() {
-  return <ModeratorOnboarding />;
+  return <PNROnboarding />;
 }

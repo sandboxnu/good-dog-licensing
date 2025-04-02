@@ -6,12 +6,20 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
+import { Button } from "@good-dog/ui/button";
+import { Input } from "@good-dog/ui/input";
 
 const schema = z.object({
   moderatorEmail: z.string().email(),
 });
 
 type FormFields = z.infer<typeof schema>;
+
+enum InviteSentStatus {
+  Sent,
+  NotSent,
+  Nothing,
+}
 
 export default function InviteModeratorModal(
   props: Readonly<{
@@ -31,32 +39,31 @@ export default function InviteModeratorModal(
     resolver: zodResolver(schema),
   });
   const moderatorEmail = watch("moderatorEmail");
-  const [inviteSent, setInviteSent] = useState<boolean>(false);
-  const [inviteNoteSent, setInviteNotSent] = useState<boolean>(false);
+  const [inviteSentStatus, setInviteSentStatus] = useState<InviteSentStatus>(
+    InviteSentStatus.Nothing,
+  );
 
   const sendModeratorInviteMutation = trpc.sendModeratorInviteEmail.useMutation(
     {
       onSuccess: async () => {
-        setInviteSent(true);
+        setInviteSentStatus(InviteSentStatus.Sent);
         setValue("moderatorEmail", "");
         reset();
         await refetch();
       },
       onError: () => {
-        setInviteNotSent(true);
+        setInviteSentStatus(InviteSentStatus.NotSent);
         setValue("moderatorEmail", "");
         reset();
       },
     },
   );
 
-  const { data: moderatorsAndAdmins, refetch } =
-    trpc.getModeratorsAndAdmins.useQuery();
+  const { data: pnrsAndAdmins, refetch } = trpc.getPNRAndAdmins.useQuery();
 
   useEffect(() => {
     if (moderatorEmail) {
-      setInviteSent(false);
-      setInviteNotSent(false);
+      setInviteSentStatus(InviteSentStatus.Nothing);
     }
   }, [moderatorEmail]);
 
@@ -78,25 +85,25 @@ export default function InviteModeratorModal(
           })}
           className="flex space-x-8 pt-[16px]"
         >
-          <input
+          <Input
             {...register("moderatorEmail")}
             className="h-[40px] w-[300px] rounded-xl border border-black pl-[8px] placeholder-[#A3A3A3] placeholder:text-lg placeholder:font-normal"
             placeholder="Add an email"
-          ></input>
-          <button
-            className="h-[40px] w-[100px] rounded-xl bg-[#D9D9D9] text-lg font-normal text-black"
+          ></Input>
+          <Button
+            className="h-[40px] w-[100px] rounded-xl bg-[#D9D9D9] text-lg font-normal text-black hover:bg-[#b5b5b5]"
             type="submit"
           >
             Send Invite
-          </button>
+          </Button>
         </form>
         <div className="pl-[8px] pt-[4px]">
           {errors.moderatorEmail?.message}
         </div>
-        {inviteSent && (
+        {inviteSentStatus === InviteSentStatus.Sent && (
           <div className="pl-[8px] pt-[4px] text-green-600">Invite sent.</div>
         )}
-        {inviteNoteSent && (
+        {inviteSentStatus === InviteSentStatus.NotSent && (
           <div className="pl-[8px] pt-[4px] text-red-600">
             Invite failed to send.
           </div>
@@ -105,7 +112,7 @@ export default function InviteModeratorModal(
           People in this dashboard
         </div>
         <div className="h-[180px] overflow-auto">
-          {moderatorsAndAdmins?.map((person) => {
+          {pnrsAndAdmins?.map((person) => {
             return (
               <div key={person.email} className="flex pt-[10px]">
                 <div className="font-afacad w-1/2 text-left text-lg font-normal text-black">
@@ -123,12 +130,12 @@ export default function InviteModeratorModal(
           })}
         </div>
         <div className="flex justify-end pr-[26px] pt-[30px]">
-          <button
+          <Button
             onClick={props.handleFinished}
-            className="h-[40px] w-[100px] rounded-xl bg-[#D9D9D9] text-lg font-normal text-black"
+            className="h-[40px] w-[100px] rounded-xl bg-[#D9D9D9] text-lg font-normal text-black hover:bg-[#b5b5b5]"
           >
             Done
-          </button>
+          </Button>
         </div>
       </div>
     </div>

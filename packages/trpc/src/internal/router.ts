@@ -14,8 +14,8 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
-import { getModeratorsAndAdminsProcedure } from "../procedures/get-moderators-admins";
 import { getMusicSubmissionsProcedure } from "../procedures/get-music";
+import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import { getProjectScenesProcedure } from "../procedures/get-project-scenes";
 import {
   createUpdateMatchCommentsProcedure,
@@ -61,7 +61,7 @@ export const appRouter = createTRPCRouter({
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,
   submitUnlicensedMusic: submitUnlicensedMusicProcedure,
-  getModeratorsAndAdmins: getModeratorsAndAdminsProcedure,
+  getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
 });
 

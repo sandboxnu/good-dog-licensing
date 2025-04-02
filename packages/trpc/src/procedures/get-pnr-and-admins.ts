@@ -2,12 +2,12 @@ import { adminPagePermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-export const getModeratorsAndAdminsProcedure = rolePermissionsProcedureBuilder(
+export const getPNRandAdminsProcedure = rolePermissionsProcedureBuilder(
   adminPagePermissions,
   "read",
 ).query(async ({ ctx }) => {
-  const [signedUpPeople, pendingModerators] = await ctx.prisma.$transaction([
-    // Get all moderators and admins who are signed up
+  const [signedUpPeople, pendingPNRs] = await ctx.prisma.$transaction([
+    // Get all pnrs and admins who are signed up
     ctx.prisma.user.findMany({
       where: {
         role: { in: ["ADMIN", "MODERATOR"] },
@@ -17,7 +17,7 @@ export const getModeratorsAndAdminsProcedure = rolePermissionsProcedureBuilder(
         role: true,
       },
     }),
-    // Get all moderators who have pending, valid invites
+    // Get all pnrs who have pending, valid invites
     ctx.prisma.moderatorInvite.findMany({
       where: {
         expiresAt: { gt: new Date() },
@@ -35,17 +35,15 @@ export const getModeratorsAndAdminsProcedure = rolePermissionsProcedureBuilder(
     };
   });
 
-  const pendingModeratorsFinal = pendingModerators.map((moderator) => {
+  const pendingPNRsFinal = pendingPNRs.map((pnr) => {
     return {
-      ...moderator,
+      ...pnr,
       role: "MODERATOR",
       status: "PENDING",
     };
   });
 
-  return [...pendingModeratorsFinal, ...signedUpPeopleFinal].sort(
-    (user1, user2) => {
-      return user1.email.localeCompare(user2.email);
-    },
-  );
+  return [...pendingPNRsFinal, ...signedUpPeopleFinal].sort((user1, user2) => {
+    return user1.email.localeCompare(user2.email);
+  });
 });
