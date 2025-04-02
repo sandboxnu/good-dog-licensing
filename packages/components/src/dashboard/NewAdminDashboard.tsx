@@ -20,7 +20,7 @@ export default function NewAdminDashboard({ page }: AdminDashboardProps) {
   return (
     <div className="h-screen w-full bg-[#DEE0E2] p-[60px]">
       <div className="flex rounded-xl bg-[#F6F8FA]">
-        <div className="w-1/5">
+        <div className="w-[325px]">
           <div className="flex pl-[60px] pt-[53px]">
             <div className="flex items-center justify-center">
               <svg
@@ -55,7 +55,7 @@ export default function NewAdminDashboard({ page }: AdminDashboardProps) {
             <DashboardSideBarComponent name="Users" curPage={page} />
           </div>
         </div>
-        <div className="w-4/5 px-[36px] pt-[40px]">
+        <div className="w-full px-[36px] pt-[40px]">
           <div className="flex rounded-xl bg-white px-[38px] pt-[30px]">
             <div className="font-afacad w-1/2 text-3xl font-semibold text-black">
               Users

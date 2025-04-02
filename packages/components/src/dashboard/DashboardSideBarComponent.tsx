@@ -16,7 +16,7 @@ export default function DashboardSideBarComponent({
     <Link
       href={`/dashboard/${name.toLowerCase()}`}
       className={clsx(
-        "flex h-[50px] w-[300px] items-center rounded-xl pl-[10px]",
+        "flex h-[50px] w-[200px] items-center rounded-xl pl-[10px]",
         {
           "bg-[#F6F8FA]": curPage !== name.toLowerCase(),
           "bg-[#D7D8D9]": curPage === name.toLowerCase(),
