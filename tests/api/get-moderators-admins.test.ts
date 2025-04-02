@@ -156,7 +156,7 @@ describe("get-moderators-admins", () => {
       expect(users).toEqual(expectedResult);
     });
 
-    test("Not admin making request", async () => {
+    test("Not admin making request", () => {
       cookies.set("sessionId", "gavin-session-id");
       expect($api.getModeratorsAndAdmins()).rejects.toThrow(
         "do not have permission to read",
