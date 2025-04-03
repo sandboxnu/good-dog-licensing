@@ -2,7 +2,9 @@
 
 <!--- What does this PR do? -->
 
-YOU MUST FILL THIS OUT BEFORE SUBMITTING YOUR PR
+YOU MUST FILL THIS OUT BEFORE SUBMITTING YOUR PR.
+
+Use PR Draft Mode if your PR is not ready for review yet.
 
 ## GitHub Issue
 
