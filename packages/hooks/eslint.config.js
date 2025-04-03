@@ -7,4 +7,5 @@ export default [
     ignores: [],
   },
   ...baseConfig,
+  ...reactConfig,
 ];

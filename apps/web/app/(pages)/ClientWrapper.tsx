@@ -34,9 +34,6 @@ const useSessionRefresh = () => {
     onSuccess: (response) => {
       // Override the session with the new session data *if* there is already existing session data
       tUtils.user.setData(undefined, (old) => (old ? response.user : old));
-      tUtils.authenticatedUser.setData(undefined, (old) =>
-        old ? response.user : old,
-      );
     },
   });
 

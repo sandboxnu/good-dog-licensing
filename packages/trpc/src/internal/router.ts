@@ -28,10 +28,7 @@ import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-
 import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
 import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
 import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
-import {
-  getAuthenticatedUserProcedure,
-  getUserProcedure,
-} from "../procedures/user";
+import { getUserProcedure } from "../procedures/user";
 import { onboardingProcedure } from "../procedures/user-onboarding";
 import { createTRPCRouter } from "./init";
 
@@ -44,7 +41,6 @@ export const appRouter = createTRPCRouter({
   refreshSession: refreshSessionProcedure,
   onboarding: onboardingProcedure,
   deleteAccount: deleteAccountProcedure,
-  authenticatedUser: getAuthenticatedUserProcedure,
   user: getUserProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,

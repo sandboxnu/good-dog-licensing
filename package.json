@@ -41,6 +41,7 @@
   "devDependencies": {
     "@good-dog/prettier": "workspace:*",
     "@turbo/gen": "2.1.2",
+    "@types/react": "^18.3.7",
     "dotenv-cli": "^7.4.2",
     "turbo": "2.1.2",
     "typescript": "5.4.5"

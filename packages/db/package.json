@@ -25,7 +25,6 @@
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "@types/bun": "^1.1.10",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
     "prisma": "6.3.0",

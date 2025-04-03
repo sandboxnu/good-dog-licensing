@@ -83,26 +83,26 @@ describe("middleware", () => {
 
   describe("authenticatedProcedure", () => {
     it("should reject with no session id", () => {
-      expect($api.authenticatedUser()).rejects.toMatchObject({
+      expect($api.signOut()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });
 
     it("should reject bad session id", () => {
       cookies.set("sessionId", "XXX");
-      expect($api.authenticatedUser()).rejects.toMatchObject({
+      expect($api.signOut()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });
 
     it("should accept valid session id", () => {
       cookies.set("sessionId", "middleware-test-session");
-      expect($api.authenticatedUser()).resolves.toBeTruthy();
+      expect($api.signOut()).resolves.toBeTruthy();
     });
 
     it("should reject expired session id", () => {
       cookies.set("sessionId", "middleware-test-session-expired");
-      expect($api.authenticatedUser()).rejects.toMatchObject({
+      expect($api.signOut()).rejects.toMatchObject({
         code: "UNAUTHORIZED",
       });
     });
