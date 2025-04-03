@@ -12,7 +12,12 @@ export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
   const projects = await ctx.prisma.projectSubmission.findMany({
     include: {
       scenes: true,
-      projectOwner: true,
+      projectOwner: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
     },
   });
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 import { trpc } from "@good-dog/trpc/client";
 
@@ -91,7 +92,10 @@ export default function MainMatchingPage({ sceneId, userId }: PageProps) {
     <div className="flex h-screen w-screen bg-[#DEE0E2] px-[80px] py-[60px]">
       <div className="w-1/2 overflow-y-auto bg-white">
         <div className="pl-[33px] pt-[24]">
-          <button className="flex">
+          <Link
+            href={`/dashboard/projects?id=${sceneInfo[0].projectId}`}
+            className="flex"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -104,7 +108,7 @@ export default function MainMatchingPage({ sceneId, userId }: PageProps) {
             <div className="font-afacad text-base font-normal text-black">
               {sceneInfo[0].projectTitle}
             </div>
-          </button>
+          </Link>
         </div>
         <div className="font-afacad pl-[58px] pt-[26px] text-3xl font-semibold text-black">
           Scene
