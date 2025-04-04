@@ -3,7 +3,6 @@
 import React from "react";
 
 import { Input } from "@good-dog/components/input";
-import { Textarea } from "@good-dog/components/textarea";
 import { Button } from "@good-dog/ui/button";
 
 export default function FinalProjSubmission({

@@ -79,9 +79,7 @@ export default function ProjectSubmissionForm() {
       alert("Project submitted successfully!");
     } catch (error: any) {
       console.error("Submission failed", error);
-      alert(
-        `Failed to submit the project. Please try again. Error: ${error.message}`,
-      );
+      alert(`Failed to submit the project. Please try again.`);
     }
   };
 
