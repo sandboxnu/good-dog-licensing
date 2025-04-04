@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+//import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { Badge } from "@good-dog/ui/badge";
 import { Card } from "@good-dog/ui/card";
 
@@ -10,7 +11,7 @@ interface Project {
   notifications?: number;
 }
 
-export default function MediamakerProjects() {
+export default function MediamakerProjects(/*data : GetProcedureOutput<"mediamakerProjects">*/) {
   const pendingProjects: Project[] = [
     {
       id: "1",
@@ -38,18 +39,16 @@ export default function MediamakerProjects() {
     },
   ];
 
-  const completedProjects: Project[] = [
-    { id: "4", name: "Project Name", date: "Last updated: 2/13/25" },
-    { id: "5", name: "Project Name", date: "Last updated: 2/13/25" },
-    { id: "6", name: "Project Name", date: "Last updated: 2/13/25" },
-  ];
+  // const completedProjects: Project[] = [
+  //   { id: "4", name: "Project Name", date: "Last updated: 2/13/25" },
+  //   { id: "5", name: "Project Name", date: "Last updated: 2/13/25" },
+  //   { id: "6", name: "Project Name", date: "Last updated: 2/13/25" },
+  // ];
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-8 md:px-8">
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-gray-800">
-          Pending Projects
-        </h2>
+        <h2 className="mb-4 text-xl font-semibold text-gray-800">Projects</h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {pendingProjects.map((project) => (
             <Link href={`/projects/${project.id}`} key={project.id}>
@@ -75,7 +74,7 @@ export default function MediamakerProjects() {
         </div>
       </section>
 
-      <section>
+      {/* <section>
         <h2 className="mb-4 text-xl font-semibold text-gray-800">
           Completed Projects
         </h2>
@@ -91,7 +90,7 @@ export default function MediamakerProjects() {
             </Link>
           ))}
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
