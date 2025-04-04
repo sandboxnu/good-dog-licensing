@@ -10,12 +10,14 @@ import {
   MediaMakerForm,
   MusicianForm,
 } from "@good-dog/components/registration";
-import { trpc } from "@good-dog/trpc/client";
+import { useAuthenticatedUserSuspense } from "@good-dog/hooks";
 import { Label } from "@good-dog/ui/label";
 import { Switch } from "@good-dog/ui/switch";
 
 export default function OnboardingFormPage() {
-  const [user] = trpc.authenticatedUser.useSuspenseQuery();
+  const [user] = useAuthenticatedUserSuspense(() => {
+    throw new Error("User not authenticated");
+  });
 
   const [isChecked, setIsChecked] = useState(true);
 
