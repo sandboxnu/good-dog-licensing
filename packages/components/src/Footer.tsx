@@ -88,6 +88,20 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      <div className="pb-4 text-center text-sm text-white">
+        <p>
+          Operated by&nbsp;
+          <a className="underline" href="https://www.greenlinerecords.com/">
+            Green Line Records
+          </a>
+        </p>
+        <p className="text-center text-sm text-white">
+          Made by students @&nbsp;
+          <a className="underline" href="https://www.sandboxnu.com/">
+            Sandbox
+          </a>
+        </p>
+      </div>
     </footer>
   );
 }
