@@ -24,12 +24,23 @@ export default function MainMatchingPage({
   const sceneInfo = sceneQuery[0];
 
   // Get all the current matches for the scene
-  let matchedLicensedMusicIds = sceneInfo.suggestedMatches.map(
-    (match) => match.musicId,
-  );
-  let matchedUnlicensedMusicIds = sceneInfo.unlicensedSuggestedMatches.map(
-    (match) => match.musicId,
-  );
+  let matchedLicensedMusicIds: string[] = [];
+  let matchedUnlicensedMusicIds: string[] = [];
+  const updateMatchedMusicIds = () => {
+    matchedLicensedMusicIds = sceneInfo.suggestedMatches
+      .sort(
+        (matchA, matchB) =>
+          matchB.createdAt.getTime() - matchA.createdAt.getTime(),
+      )
+      .map((match) => match.musicId);
+    matchedUnlicensedMusicIds = sceneInfo.unlicensedSuggestedMatches
+      .sort(
+        (matchA, matchB) =>
+          matchB.createdAt.getTime() - matchA.createdAt.getTime(),
+      )
+      .map((match) => match.musicId);
+  };
+  updateMatchedMusicIds();
 
   // Get all the music in the database
   const licensedMusic = trpc.music.useSuspenseQuery();
@@ -45,12 +56,7 @@ export default function MainMatchingPage({
 
   const handleSuccessfulMatch = async (musicId: string) => {
     await sceneQuery[1].refetch();
-    matchedLicensedMusicIds = sceneInfo.suggestedMatches.map(
-      (match) => match.musicId,
-    );
-    matchedUnlicensedMusicIds = sceneInfo.unlicensedSuggestedMatches.map(
-      (match) => match.musicId,
-    );
+    updateMatchedMusicIds();
 
     const newSelectedLicensedMusicIds = selectedLicensedMusicIds.filter(
       (id) => id !== musicId,
@@ -64,12 +70,7 @@ export default function MainMatchingPage({
 
   const handleCommentMade = async () => {
     await sceneQuery[1].refetch();
-    matchedLicensedMusicIds = sceneInfo.suggestedMatches.map(
-      (match) => match.musicId,
-    );
-    matchedUnlicensedMusicIds = sceneInfo.unlicensedSuggestedMatches.map(
-      (match) => match.musicId,
-    );
+    updateMatchedMusicIds();
   };
 
   return (
@@ -100,7 +101,7 @@ export default function MainMatchingPage({
             ...selectedLicensedMusicIds,
           ]}
           handleSelection={(musicId: string) => {
-            setSelectedLicensedMusicIds([...selectedLicensedMusicIds, musicId]);
+            setSelectedLicensedMusicIds([musicId, ...selectedLicensedMusicIds]);
           }}
           label="Licensed Music"
         />
@@ -127,6 +128,8 @@ export default function MainMatchingPage({
                   userId={userId}
                   handleComment={handleCommentMade}
                   comments={[]}
+                  genres={song?.genre ?? ""}
+                  songLink={song?.songLink ?? ""}
                 />
               </div>
             );
@@ -136,7 +139,7 @@ export default function MainMatchingPage({
               return {
                 commentText: comment.commentText,
                 userName: comment.user.firstName + " " + comment.user.lastName,
-                timestamp: comment.createdAt.toLocaleDateString("en-US"),
+                timestamp: comment.createdAt.toDateString(),
                 commentId: comment.commentId,
               };
             });
@@ -160,6 +163,8 @@ export default function MainMatchingPage({
                   matchId={match.suggestedMatchId}
                   handleComment={handleCommentMade}
                   comments={comments}
+                  genres={match.musicSubmission.genre}
+                  songLink={match.musicSubmission.songLink}
                 />
               </div>
             );
@@ -180,8 +185,8 @@ export default function MainMatchingPage({
             ]}
             handleSelection={(musicId: string) => {
               setSelectedUnlicensedMusicIds([
-                ...selectedUnlicensedMusicIds,
                 musicId,
+                ...selectedUnlicensedMusicIds,
               ]);
             }}
             label="Not Yet Licensed Music"
@@ -208,6 +213,8 @@ export default function MainMatchingPage({
                   userId={userId}
                   handleComment={handleCommentMade}
                   comments={[]}
+                  genres={song?.genre ?? ""}
+                  songLink={song?.songLink ?? ""}
                 />
               </div>
             );
@@ -217,7 +224,7 @@ export default function MainMatchingPage({
               return {
                 commentText: comment.commentText,
                 userName: comment.user.firstName + " " + comment.user.lastName,
-                timestamp: comment.createdAt.toLocaleDateString("en-US"),
+                timestamp: comment.createdAt.toDateString(),
                 commentId: comment.commentId,
               };
             });
@@ -237,6 +244,8 @@ export default function MainMatchingPage({
                   matchId={match.unlicensedSuggestedMatchId}
                   handleComment={handleCommentMade}
                   comments={comments}
+                  genres={match.musicSubmission.genre}
+                  songLink={match.musicSubmission.songLink}
                 />
               </div>
             );
