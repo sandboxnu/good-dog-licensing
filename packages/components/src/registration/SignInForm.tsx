@@ -31,11 +31,8 @@ export default function SignInForm() {
 
   const signInMutation = trpc.signIn.useMutation({
     onSuccess: async () => {
-      // Reset the user and authenticatedUser queries
-      await Promise.all([
-        trpcUtils.user.reset(),
-        trpcUtils.authenticatedUser.reset(),
-      ]);
+      // Reset the user query
+      await trpcUtils.user.reset();
 
       // TODO, alert the user that they have successfully signed in
       router.push("/");

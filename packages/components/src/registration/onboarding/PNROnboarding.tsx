@@ -60,10 +60,7 @@ export default function PNROnboarding() {
   const trpcUtils = trpc.useUtils();
   const onboardModeratorMutation = trpc.onboardModerator.useMutation({
     onSuccess: async () => {
-      await Promise.all([
-        trpcUtils.user.reset(),
-        trpcUtils.authenticatedUser.reset(),
-      ]);
+      await trpcUtils.user.reset();
 
       router.push("/dashboard/projects");
     },
