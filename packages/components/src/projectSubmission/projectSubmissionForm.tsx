@@ -50,13 +50,38 @@ export default function ProjectSubmissionForm() {
 
   const handleSubmit = async () => {
     try {
-      await submitProject.mutateAsync({
-        ...projectInfo,
-        scenes,
-      });
-      alert("Project submitted!");
-    } catch (error) {
+      const formattedDeadline = new Date(projectInfo.deadline);
+
+      if (isNaN(formattedDeadline.getTime())) {
+        alert("Invalid deadline format. Please use MM/DD/YYYY.");
+        return;
+      }
+      // Call the backend mutation with the project data
+      const payload = {
+        projectTitle: projectInfo.projectTitle,
+        description: projectInfo.description,
+        deadline: formattedDeadline.toISOString(),
+        videoLink: projectInfo.videoLink || undefined,
+        additionalInfo: projectInfo.additionalInfo || undefined,
+        scenes: scenes.map((scene) => ({
+          sceneTitle: scene.sceneTitle,
+          description: scene.description,
+          musicType: scene.musicType,
+          similarSongs: scene.similarSongs || undefined,
+          additionalInfo: scene.additionalInfo || undefined,
+        })),
+      };
+      console.log("Deadline:", formattedDeadline.toISOString());
+      console.log("Submitting payload:", payload);
+
+      await submitProject.mutateAsync(payload);
+
+      alert("Project submitted successfully!");
+    } catch (error: any) {
       console.error("Submission failed", error);
+      alert(
+        `Failed to submit the project. Please try again. Error: ${error.message}`,
+      );
     }
   };
 
