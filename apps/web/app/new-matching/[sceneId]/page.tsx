@@ -4,7 +4,7 @@ import { HydrateClient, trpc } from "@good-dog/trpc/server";
 export default async function Page({
   params,
 }: {
-  params: { sceneId: string };
+  params: Promise<{ sceneId: string }>;
 }) {
   const { sceneId } = await params;
 
@@ -16,6 +16,7 @@ export default async function Page({
 
   void trpc.getSceneById.prefetch({ sceneId: sceneId });
   void trpc.music.prefetch();
+  void trpc.unlicensedMusic.prefetch();
 
   return (
     <HydrateClient>

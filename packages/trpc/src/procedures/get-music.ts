@@ -29,3 +29,12 @@ export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
   });
   return { music };
 });
+
+export const getUnlicensedMusicSubmissionsProcedure =
+  rolePermissionsProcedureBuilder(
+    projectAndRepertoirePagePermissions,
+    "read",
+  ).query(async ({ ctx }) => {
+    const music = await ctx.prisma.unlicensedMusicSubmission.findMany({});
+    return { music };
+  });

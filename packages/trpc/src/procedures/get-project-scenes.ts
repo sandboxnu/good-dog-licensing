@@ -39,6 +39,21 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
         sceneId: input.sceneId,
       },
       include: {
+        unlicensedSuggestedMatches: {
+          include: {
+            matchComments: {
+              include: {
+                user: {
+                  select: {
+                    firstName: true,
+                    lastName: true,
+                  },
+                },
+              },
+            },
+            musicSubmission: true,
+          },
+        },
         suggestedMatches: {
           include: {
             matchComments: {

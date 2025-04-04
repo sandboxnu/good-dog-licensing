@@ -19,7 +19,7 @@ export default function NewAdminDashboard({ page }: AdminDashboardProps) {
   const [showInviteModal, setShowInviteModal] = useState<boolean>(false);
 
   return (
-    <div className="h-screen w-full bg-[#DEE0E2] p-[60px]">
+    <div className="h-screen min-h-[800px] w-full bg-[#DEE0E2] p-[60px]">
       <div className="flex h-full w-full rounded-xl bg-[#F6F8FA]">
         <div className="w-[325px]">
           <div className="flex pl-[60px] pt-[53px]">

@@ -5,9 +5,9 @@ import { useState } from "react";
 import { trpc } from "@good-dog/trpc/client";
 
 interface MatchedSongProps {
+  licensed: boolean;
   songName: string;
   artistName: string;
-  songwriters: { firstName: string; lastName: string }[];
   musicId: string;
   projectId: string;
   sceneId: string;
@@ -28,7 +28,7 @@ export default function MatchedSong(props: MatchedSongProps) {
   const [showMoreDetails, setShowMoreDetails] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
 
-  const createMatchMutation = trpc.suggestMatch.useMutation({
+  const createLicensedMatchMutation = trpc.suggestMatch.useMutation({
     onSuccess: async () => {
       await props.handleMatch(props.musicId);
     },
@@ -37,6 +37,18 @@ export default function MatchedSong(props: MatchedSongProps) {
       console.error(err);
     },
   });
+
+  const createUnlicensedMatchMutation = trpc.unlicensedSuggestMatch.useMutation(
+    {
+      onSuccess: async () => {
+        await props.handleMatch(props.musicId);
+      },
+      onError: (err) => {
+        //TODO - Display error
+        console.error(err);
+      },
+    },
+  );
 
   const createCommentMutation = trpc.comment.useMutation({
     onSuccess: async () => {
@@ -49,12 +61,21 @@ export default function MatchedSong(props: MatchedSongProps) {
   });
 
   const handleMatch = () => {
-    createMatchMutation.mutate({
-      projectId: props.projectId,
-      sceneId: props.sceneId,
-      musicId: props.musicId,
-      description: "",
-    });
+    if (props.licensed) {
+      createLicensedMatchMutation.mutate({
+        projectId: props.projectId,
+        sceneId: props.sceneId,
+        musicId: props.musicId,
+        description: "",
+      });
+    } else {
+      createUnlicensedMatchMutation.mutate({
+        projectId: props.projectId,
+        sceneId: props.sceneId,
+        musicId: props.musicId,
+        description: "",
+      });
+    }
   };
 
   const handleComment = () => {
@@ -65,6 +86,7 @@ export default function MatchedSong(props: MatchedSongProps) {
           commentText: comment,
           userId: props.userId,
         },
+        unlicensed: !props.licensed,
       });
       setComment("");
     }
@@ -125,23 +147,6 @@ export default function MatchedSong(props: MatchedSongProps) {
             </div>
             <div className="font-afacad w-5/6 pl-[50px] text-lg font-normal">
               {props.artistName}
-            </div>
-          </div>
-          <div className="flex items-center pt-[15px]">
-            <div className="font-afacad w-1/6 pl-[34px] text-xl font-normal text-black">
-              Songwriters:
-            </div>
-            <div className="w-5/6 pl-[50px]">
-              {props.songwriters.map((songwriter) => {
-                return (
-                  <div
-                    key={songwriter.lastName}
-                    className="font-afacad text-lg font-normal"
-                  >
-                    {songwriter.firstName + " " + songwriter.lastName}
-                  </div>
-                );
-              })}
             </div>
           </div>
           {props.isMatched && (
