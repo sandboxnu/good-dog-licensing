@@ -19,6 +19,7 @@ import {
   getProjectScenesProcedure,
   getUserProjectScenesProcedure,
 } from "../procedures/get-project-scenes";
+import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
   createUpdateMatchCommentsProcedure,
   getMatchesProcedure,
@@ -64,6 +65,7 @@ export const appRouter = createTRPCRouter({
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,
   submitUnlicensedMusic: submitUnlicensedMusicProcedure,
+  getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
 });
 
