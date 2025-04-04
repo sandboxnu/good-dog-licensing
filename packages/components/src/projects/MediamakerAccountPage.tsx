@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-//import { trpc } from "@good-dog/trpc/client";
+import { trpc } from "@good-dog/trpc/client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
 
 import MediamakerOverview from "./MediamakerOverview";
@@ -10,7 +10,7 @@ import MediamakerProjects from "./MediamakerProjects";
 
 export default function MediamakerAccountPage() {
   const [activeTab, setActiveTab] = useState("overview");
-  //const [data] = trpc.mediamakerProjects.useSuspenseQuery(); // should get all projects for this user
+  const [data] = trpc.mediamakerProjects.useSuspenseQuery(); // should get all projects for this user
 
   return (
     <main className="mx-auto min-h-screen bg-white">
@@ -43,7 +43,7 @@ export default function MediamakerAccountPage() {
           </div>
         </TabsContent>
         <TabsContent value="projects">
-          <MediamakerProjects /*data={data}*/ />
+          <MediamakerProjects data={data.projects} />
         </TabsContent>
       </Tabs>
     </main>
