@@ -8,7 +8,9 @@ Use PR Draft Mode if your PR is not ready for review yet.
 
 ## GitHub Issue
 
-Closes [STORY NAME HERE](<!--Copy GitHub issues link here-->)
+<!--- Enter the issue number here. If there is no issue, create one first. -->
+
+Closes #ISSUE NUMBER HERE
 
 ## Type of changes
 
