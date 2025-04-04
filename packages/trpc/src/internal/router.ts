@@ -17,11 +17,13 @@ import {
 import {
   getMusicSubmissionsProcedure,
   getUnlicensedMusicSubmissionsProcedure,
+  getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
   getProjectSceneByIdProcedure,
   getProjectScenesProcedure,
+  getUserProjectScenesProcedure,
 } from "../procedures/get-project-scenes";
 import {
   createUpdateMatchCommentsProcedure,
@@ -57,8 +59,10 @@ export const appRouter = createTRPCRouter({
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
   projects: getProjectScenesProcedure,
+  userProjects: getUserProjectScenesProcedure,
   music: getMusicSubmissionsProcedure,
   unlicensedMusic: getUnlicensedMusicSubmissionsProcedure,
+  userMusic: getUserMusicSubmissionsProcedure,
   match: getMatchesProcedure,
   comment: createUpdateMatchCommentsProcedure,
   suggestMatch: suggestedMatchProcedure,

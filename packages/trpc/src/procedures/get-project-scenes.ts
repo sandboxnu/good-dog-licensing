@@ -1,7 +1,10 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
+import {
+  mediaMakerOnlyPermissions,
+  projectAndRepertoirePagePermissions,
+} from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
@@ -108,3 +111,19 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
 
     return { projectTitle: project.projectTitle as string, ...scene };
   });
+
+export const getUserProjectScenesProcedure = rolePermissionsProcedureBuilder(
+  mediaMakerOnlyPermissions,
+  "read",
+).query(async ({ ctx }) => {
+  const projects = await ctx.prisma.projectSubmission.findMany({
+    where: {
+      projectOwnerId: ctx.session.user.userId,
+    },
+    include: {
+      scenes: true,
+      projectOwner: true,
+    },
+  });
+  return { projects };
+});
