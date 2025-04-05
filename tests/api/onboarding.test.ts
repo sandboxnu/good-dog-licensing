@@ -69,6 +69,22 @@ describe("onboarding", () => {
           },
         },
       }),
+      prisma.emailVerificationCode.createMany({
+        data: [
+          {
+            email: "tracy@test.org",
+            code: "019821",
+            emailConfirmed: true,
+            expiresAt: new Date(Date.now() + 60_000 * 100000),
+          },
+          {
+            email: "owen@test.org",
+            code: "777555",
+            emailConfirmed: true,
+            expiresAt: new Date(Date.now() + 60_000 * 100000),
+          },
+        ],
+      }),
     ]);
   });
 

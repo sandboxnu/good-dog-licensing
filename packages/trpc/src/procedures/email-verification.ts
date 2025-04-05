@@ -4,7 +4,6 @@ import { z } from "zod";
 import { env } from "@good-dog/env";
 
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
-import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 
 // Expiration date for email verification codes is 15 minutes
 const getNewEmailVerificationCodeExpirationDate = () =>

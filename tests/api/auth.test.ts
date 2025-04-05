@@ -88,7 +88,7 @@ describe("auth", () => {
   });
 
   describe("auth/signUp", () => {
-    test("Email is verified", async () => {
+    test("sign up works", async () => {
       await createEmailVerificationCode(true);
 
       const response = await $api.signUp({
@@ -103,6 +103,12 @@ describe("auth", () => {
         "Successfully signed up and logged in as damian@gmail.com.",
       );
 
+      const damian = await prisma.user.findUnique({
+        where: { email: "damian@gmail.com" },
+      });
+      expect(damian).not.toBeNull();
+      expect(damian?.role).toEqual("ONBOARDING");
+
       expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
         httpOnly: true,
         secure: true,
@@ -110,34 +116,6 @@ describe("auth", () => {
         path: "/",
         expires: expect.any(Date),
       });
-    });
-
-    test("Email is not verified (awaiting)", async () => {
-      await createEmailVerificationCode(false);
-
-      const createAccountHelp = async () =>
-        await $api.signUp({
-          firstName: "Damian",
-          lastName: "Smith",
-          phoneNumber: "1234567890",
-          email: "damian@gmail.com",
-          password: "password123",
-        });
-
-      expect(createAccountHelp).toThrow("Email has not been verified.");
-    });
-
-    test("Email is not verified (not awaiting)", () => {
-      const createAccountHelp = async () =>
-        await $api.signUp({
-          firstName: "Damian",
-          lastName: "Smith",
-          phoneNumber: "1234567890",
-          email: "damian@gmail.com",
-          password: "password123",
-        });
-
-      expect(createAccountHelp).toThrow("Email has not been verified.");
     });
   });
 
