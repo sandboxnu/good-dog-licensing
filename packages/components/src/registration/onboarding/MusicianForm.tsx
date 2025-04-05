@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
 import { ReferralSource } from "@good-dog/db";
-import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
+import { zPreProcessEmptyString } from "@good-dog/trpc/schema";
 import { Button } from "@good-dog/ui/button";
 
 import RegistrationCheckbox from "../inputs/RegistrationCheckbox";

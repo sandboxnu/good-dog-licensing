@@ -97,6 +97,7 @@ describe("auth", () => {
         phoneNumber: "1234567890",
         email: "damian@gmail.com",
         password: "password123",
+        confirmPassword: "password123",
       });
 
       expect(response.message).toEqual(
@@ -163,6 +164,7 @@ describe("auth", () => {
           phoneNumber: "1234567890",
           email: "damian@gmail.com",
           password: "password123",
+          confirmPassword: "password123",
         }),
       ).rejects.toThrow("User already exists with email damian@gmail.com");
       expect(mockCookies.set).not.toBeCalled();

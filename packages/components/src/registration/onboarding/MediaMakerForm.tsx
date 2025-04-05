@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 import { ReferralSource } from "@good-dog/db";
-import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
+import { zPreProcessEmptyString } from "@good-dog/trpc/schema";
 
 import RegistrationInput from "../inputs/RegistrationInput";
 import OnboardingFormProvider from "./OnboardingFormProvider";

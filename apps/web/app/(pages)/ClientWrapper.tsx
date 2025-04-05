@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { trpc } from "@good-dog/trpc/client";
 
@@ -49,10 +49,11 @@ const useSessionRefresh = () => {
 const useOnboardingRedirect = () => {
   const [user] = trpc.user.useSuspenseQuery();
   const router = useRouter();
+  const currentPath = usePathname();
 
   useEffect(() => {
-    if (user?.role === "ONBOARDING") {
+    if (user?.role === "ONBOARDING" && currentPath !== "/onboarding") {
       router.push("/onboarding");
     }
-  }, [router, user?.role]);
+  }, [router, currentPath, user?.role]);
 };

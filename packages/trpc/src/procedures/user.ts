@@ -1,4 +1,4 @@
-import type { UserWithSession } from "../internal/common-types";
+import type { UserWithSession } from "../types";
 import { baseProcedureBuilder } from "../internal/init";
 import { getSessionMemoized } from "../internal/prisma-abstraction";
 

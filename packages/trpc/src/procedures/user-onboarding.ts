@@ -5,7 +5,7 @@ import { z } from "zod";
 import { ReferralSource } from "@good-dog/db";
 
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
-import { zPreProcessEmptyString } from "../utils";
+import { zPreProcessEmptyString } from "../schema";
 
 export const onboardingProcedure = authenticatedProcedureBuilder
   .input(
