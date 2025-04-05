@@ -55,5 +55,8 @@
     "packages/*",
     "tooling/*",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "react-select": "^5.10.1"
+  }
 }

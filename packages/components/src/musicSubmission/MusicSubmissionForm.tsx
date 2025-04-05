@@ -1,13 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import MultiSelectDropdown from "@good-dog/components/MultiSelectDropDown";
 import { Textarea } from "@good-dog/components/textarea";
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
+import { Checkbox } from "@good-dog/ui/checkbox";
 import { Input } from "@good-dog/ui/input";
 
 const schema = z.object({
@@ -32,6 +35,7 @@ export default function MusicSubmissionForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
@@ -48,6 +52,24 @@ export default function MusicSubmissionForm() {
       console.error(err);
     },
   });
+
+  const genres = [
+    { value: "pop", label: "Pop" },
+    { value: "rock", label: "Rock" },
+    { value: "hip-hip", label: "Hip-Hop/Rap" },
+    { value: "r&b", label: "R&B" },
+    { value: "edm", label: "Electronic/Dance (EDM)" },
+    { value: "country", label: "Country" },
+    { value: "jazz", label: "Jazz" },
+    { value: "classical", label: "Classical" },
+    { value: "reggae", label: "Reggae" },
+    { value: "blues", label: "Blues" },
+    { value: "latin", label: "Latin" },
+    { value: "funk", label: "Funk" },
+    { value: "soul", label: "Soul" },
+    { value: "metal", label: "Metal" },
+    { value: "folk", label: "Folk" },
+  ];
 
   return (
     <main className="container mx-auto flex-1 px-4 py-12">
@@ -117,8 +139,36 @@ export default function MusicSubmissionForm() {
             ></Input>
             <p>{errors.songLink?.message}</p>
           </div>
+
+          <div className="space-y-2">
+            <label className="block font-medium">
+              Songwriters<sup className="text-[#F4392D]">*</sup>
+            </label>
+
+            <div className="flex items-center">
+              <Checkbox />
+              <p className="pl-4">Member 1</p>
+            </div>
+
+            <div className="flex items-stretch">
+              <Checkbox />
+              <p className="pl-4">Member 2</p>
+            </div>
+
+            <p>{errors.genre?.message}</p>
+          </div>
+
           <div className="space-y-2"></div>
-          <div className="mt-12 flex justify-center"></div>
+          <label className="block font-medium">
+            Song Genre<sup className="text-[#F4392D]">*</sup>
+          </label>
+          <MultiSelectDropdown
+            name="genre"
+            control={control}
+            options={genres}
+            placeholder="Select multiple options"
+          />
+          <p>{errors.genre?.message}</p>
         </form>
       </div>
     </main>
