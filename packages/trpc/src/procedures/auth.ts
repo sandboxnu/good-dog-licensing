@@ -1,28 +1,15 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 
-import type { UserWithSession } from "../internal/common-types";
+import type { UserWithSession } from "../types";
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
+import { zSignInValues, zSignUpValues } from "../schema";
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
 
 export const signUpProcedure = notAuthenticatedProcedureBuilder
-  .input(
-    z.object({
-      firstName: z.string(),
-      lastName: z.string(),
-      email: z.string().email(),
-      phoneNumber: z
-        .string()
-        .regex(
-          /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
-          "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
-        ),
-      password: z.string(),
-    }),
-  )
+  .input(zSignUpValues)
   .mutation(async ({ ctx, input }) => {
     const existingUserWithEmail = await ctx.prisma.user.findUnique({
       where: {
@@ -77,12 +64,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
   });
 
 export const signInProcedure = notAuthenticatedProcedureBuilder
-  .input(
-    z.object({
-      email: z.string().email(),
-      password: z.string(),
-    }),
-  )
+  .input(zSignInValues)
   .mutation(async ({ ctx, input }) => {
     const user = await ctx.prisma.user.findUnique({
       where: {

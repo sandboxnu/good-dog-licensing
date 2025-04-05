@@ -6,34 +6,12 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
+import { zSignUpValues } from "@good-dog/trpc/schema";
 import { Button } from "@good-dog/ui/button";
 
 import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
 import TOSModal from "./TOSModal";
-
-const zSignUpValues = z.object({
-  email: z.string().email(),
-  phoneNumber: z
-    .string()
-    .regex(
-      /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
-      "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
-    ),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-    .regex(/[0-9]/, "Password must contain at least one number")
-    .regex(
-      /[^a-zA-Z0-9]/,
-      "Password must contain at least one special character",
-    ),
-  confirmPassword: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-});
 
 type FormValues = z.infer<typeof zSignUpValues>;
 
