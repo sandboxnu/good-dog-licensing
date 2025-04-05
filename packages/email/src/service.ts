@@ -42,7 +42,7 @@ export class EmailService {
    *
    * If neither of those are set, we default to localhost:3000.
    */
-  private getBaseUrl() {
+  getBaseUrl() {
     if (env.VERCEL_ENV === "production") {
       return "https://good-dog-licensing.vercel.app";
     } else if (env.VERCEL_URL) {
