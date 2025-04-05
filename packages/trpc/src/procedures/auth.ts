@@ -1,49 +1,21 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 
-import type { UserWithSession } from "../internal/common-types";
+import type { UserWithSession } from "../types";
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
+import { zSignInValues, zSignUpValues } from "../schema";
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
 
 export const signUpProcedure = notAuthenticatedProcedureBuilder
-  .input(
-    z.object({
-      firstName: z.string(),
-      lastName: z.string(),
-      email: z.string().email(),
-      phoneNumber: z
-        .string()
-        .regex(
-          /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
-          "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
-        ),
-      password: z.string(),
-    }),
-  )
+  .input(zSignUpValues)
   .mutation(async ({ ctx, input }) => {
-    const [emailVerificationCode, existingUserWithEmail] = await Promise.all([
-      ctx.prisma.emailVerificationCode.findUnique({
-        where: {
-          email: input.email,
-        },
-      }),
-      ctx.prisma.user.findUnique({
-        where: {
-          email: input.email,
-        },
-      }),
-    ]);
-
-    // Throw error if email is not verified
-    if (!emailVerificationCode?.emailConfirmed) {
-      throw new TRPCError({
-        code: "FORBIDDEN",
-        message: "Email has not been verified.",
-      });
-    }
+    const existingUserWithEmail = await ctx.prisma.user.findUnique({
+      where: {
+        email: input.email,
+      },
+    });
 
     if (existingUserWithEmail) {
       throw new TRPCError({
@@ -56,31 +28,24 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       input.password,
     );
 
-    const [userWithSession] = await ctx.prisma.$transaction([
-      ctx.prisma.user.create({
-        data: {
-          firstName: input.firstName,
-          lastName: input.lastName,
-          role: "ONBOARDING",
-          email: input.email,
-          phoneNumber: input.phoneNumber,
-          hashedPassword: hashedPassword,
-          sessions: {
-            create: {
-              expiresAt: getNewSessionExpirationDate(),
-            },
+    const userWithSession = await ctx.prisma.user.create({
+      data: {
+        firstName: input.firstName,
+        lastName: input.lastName,
+        role: "ONBOARDING",
+        email: input.email,
+        phoneNumber: input.phoneNumber,
+        hashedPassword: hashedPassword,
+        sessions: {
+          create: {
+            expiresAt: getNewSessionExpirationDate(),
           },
         },
-        select: {
-          sessions: true,
-        },
-      }),
-      ctx.prisma.emailVerificationCode.delete({
-        where: {
-          email: input.email,
-        },
-      }),
-    ]);
+      },
+      select: {
+        sessions: true,
+      },
+    });
 
     const session = userWithSession.sessions[0];
 
@@ -99,12 +64,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
   });
 
 export const signInProcedure = notAuthenticatedProcedureBuilder
-  .input(
-    z.object({
-      email: z.string().email(),
-      password: z.string(),
-    }),
-  )
+  .input(zSignInValues)
   .mutation(async ({ ctx, input }) => {
     const user = await ctx.prisma.user.findUnique({
       where: {

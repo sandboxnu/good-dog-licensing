@@ -24,13 +24,13 @@ const zConfirmEmail = z.object({
 });
 
 export default function EmailVerifyModal({
-  email = "",
+  email,
   isOpen = true,
   close,
 }: {
   email: string;
   isOpen?: boolean;
-  close: () => void;
+  close: (didVerify: boolean) => void;
 }) {
   const confirmEmailForm = useForm<z.infer<typeof zConfirmEmail>>({
     resolver: zodResolver(zConfirmEmail),
@@ -47,7 +47,7 @@ export default function EmailVerifyModal({
       switch (data.status) {
         case "SUCCESS":
           signUpFormContext.setValue("emailConfirmed", data.email);
-          close();
+          close(true);
           // TODO
           // When the email is confirmed, show a toast or something
           break;
@@ -80,7 +80,7 @@ export default function EmailVerifyModal({
             break;
           case "ALREADY_VERIFIED":
             signUpFormContext.setValue("emailConfirmed", data.email);
-            close();
+            close(true);
             // TODO
             // alert somehow that the email has already been verified
             break;
@@ -93,10 +93,9 @@ export default function EmailVerifyModal({
       },
     });
 
-  const onSubmit = confirmEmailForm.handleSubmit((values) => {
+  const onSubmit = confirmEmailForm.handleSubmit(({ code }) => {
     confirmEmailMutation.mutate({
-      ...values,
-      email,
+      code,
     });
   });
 
@@ -107,7 +106,7 @@ export default function EmailVerifyModal({
       open={isOpen}
       onOpenChange={(open) => {
         if (!open) {
-          close();
+          close(false);
         }
       }}
     >
@@ -115,7 +114,7 @@ export default function EmailVerifyModal({
         <DialogHeader>
           <DialogTitle>Verify Email</DialogTitle>
           <DialogDescription className="font-afacad p-7 text-center text-2xl font-normal text-good-dog-violet">
-            A 6-digit code has been sent to your email. Please enter the code
+            A 6-digit code has been sent to {email}. Please enter the code
             below.
           </DialogDescription>
           <Button
@@ -125,7 +124,7 @@ export default function EmailVerifyModal({
             }
             onClick={(e) => {
               e.preventDefault();
-              resendVerificationEmailMutation.mutate({ email });
+              resendVerificationEmailMutation.mutate();
             }}
           >
             Resend Email

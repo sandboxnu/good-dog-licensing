@@ -5,7 +5,7 @@ import { z } from "zod";
 import { ReferralSource } from "@good-dog/db";
 
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
-import { zPreProcessEmptyString } from "../utils";
+import { zPreProcessEmptyString } from "../schema";
 
 export const onboardingProcedure = authenticatedProcedureBuilder
   .input(
@@ -53,10 +53,25 @@ export const onboardingProcedure = authenticatedProcedureBuilder
     ]),
   )
   .mutation(async ({ ctx, input }) => {
+    const emailVerificationCode =
+      await ctx.prisma.emailVerificationCode.findUnique({
+        where: {
+          email: ctx.session.user.email,
+        },
+      });
+
     if (ctx.session.user.role !== "ONBOARDING") {
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "User has already onboarded",
+      });
+    }
+
+    // Throw error if email is not verified
+    if (!emailVerificationCode?.emailConfirmed) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Email has not been verified.",
       });
     }
 

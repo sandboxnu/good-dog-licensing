@@ -1,21 +1,17 @@
 "use client";
 
+import type { z } from "zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
+import { zSignInValues } from "@good-dog/trpc/schema";
 import { Checkbox } from "@good-dog/ui/checkbox";
 
 import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
-
-const zSignInValues = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
 
 type FormValues = z.infer<typeof zSignInValues>;
 

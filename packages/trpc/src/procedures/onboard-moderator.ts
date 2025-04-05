@@ -4,6 +4,7 @@ import { z } from "zod";
 import { env } from "@good-dog/env";
 
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
+import { zPasswordValidation } from "../schema";
 
 // Expiration date for Moderator Invite is one week
 const getModeratorInviteExpirationDate = () =>
@@ -24,7 +25,7 @@ export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
           /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
           "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
         ),
-      password: z.string(),
+      password: zPasswordValidation,
     }),
   )
   .mutation(async ({ ctx, input }) => {
