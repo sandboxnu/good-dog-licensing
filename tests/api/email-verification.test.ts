@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { afterEach, beforeAll, describe, expect, test } from "bun:test";
 
 import { prisma } from "@good-dog/db";
