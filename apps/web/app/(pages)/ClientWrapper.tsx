@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { trpc } from "@good-dog/trpc/client";
 
@@ -14,6 +15,7 @@ export const ClientWrapper = (
   }>,
 ) => {
   useSessionRefresh();
+  useOnboardingRedirect();
 
   return <>{props.children}</>;
 };
@@ -42,4 +44,15 @@ const useSessionRefresh = () => {
       refreshSessionMutation.mutate();
     }
   }, [user?.session, refreshSessionMutation]);
+};
+
+const useOnboardingRedirect = () => {
+  const [user] = trpc.user.useSuspenseQuery();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user?.role === "ONBOARDING") {
+      router.push("/onboarding");
+    }
+  }, [router, user?.role]);
 };

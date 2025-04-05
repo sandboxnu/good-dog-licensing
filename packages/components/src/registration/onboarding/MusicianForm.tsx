@@ -60,6 +60,7 @@ export default function MusicianForm(
       schema={Schema}
       firstName={user.firstName}
       lastName={user.lastName}
+      email={user.email}
     >
       <p>
         A Media Maker is a Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -72,6 +73,7 @@ export default function MusicianForm(
           placeholder="Jane"
           type="text"
           label="First Name"
+          autocomplete="given-name"
         />
 
         <TypedRegistrationInput
@@ -79,6 +81,7 @@ export default function MusicianForm(
           placeholder="Doe"
           type="text"
           label="Last Name"
+          autocomplete="family-name"
         />
       </div>
       <TypedRegistrationInput

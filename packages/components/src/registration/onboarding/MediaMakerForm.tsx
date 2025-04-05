@@ -29,6 +29,7 @@ export default function MediaMakerForm(
   props: Readonly<{
     firstName: string;
     lastName: string;
+    email: string;
   }>,
 ) {
   return (
@@ -37,6 +38,7 @@ export default function MediaMakerForm(
       schema={Schema}
       firstName={props.firstName}
       lastName={props.lastName}
+      email={props.email}
     >
       <p>
         A Media Maker is a Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -49,12 +51,14 @@ export default function MediaMakerForm(
           placeholder="Jane"
           type="text"
           label="First Name"
+          autocomplete="given-name"
         />
         <TypedRegistrationInput
           fieldName="lastName"
           placeholder="Doe"
           type="text"
           label="Last Name"
+          autocomplete="family-name"
         />
       </div>
       <ReferralDropdown />
