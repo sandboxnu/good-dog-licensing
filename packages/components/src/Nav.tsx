@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { User } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
 
@@ -19,49 +19,83 @@ export default function Nav() {
   }, [user]);
 
   return (
-    <nav className="items-center bg-good-dog-violet px-9 py-12 font-righteous font-semibold">
-      <ul className="flex flex-row justify-between text-white">
-        <li>
-          <Link href="/">
-            <Image
-              src="/icons/Minimalist Logo.svg"
-              width={64}
-              height={64}
-              alt="good-dog-logo"
-            />
-          </Link>
-        </li>
-        <div className="flex flex-row items-center space-x-16">
-          <li>
-            <Link href="/about">ABOUT US</Link>
-          </li>
-          {user ? (
-            <>
-              <li>
-                <Link href="/account">ACCOUNT</Link>
-              </li>
-              <li>
-                <button
-                  onClick={() => {
-                    signOutMutation.mutate();
-                  }}
-                >
-                  LOGOUT
-                </button>
-              </li>
-            </>
-          ) : (
-            <li>
-              <Link href="/login">LOGIN</Link>
-            </li>
-          )}
-          <Link href="/submit">
-            <li className="rounded-full bg-good-dog-celadon px-4 py-1 text-good-dog-violet">
-              SUBMIT
-            </li>
+    <header className="bg-black text-white">
+      <div className="container mx-auto flex items-center justify-between px-4 py-6">
+        <Link href="/" className="flex items-center">
+          <div className="relative h-12 w-12">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 108 108"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="54" cy="54" r="54" fill="#000000" />
+              <path
+                d="M64.9378 48.1591L57.7986 48.5683C57.3082 48.5964 56.9334 49.0167 56.9615 49.5071L57.0682 51.3688C57.0963 51.8593 57.5167 52.234 58.0071 52.2059L65.1463 51.7968C65.6367 51.7687 66.0114 51.3483 65.9833 50.8579L65.8766 48.9962C65.8485 48.5058 65.4282 48.131 64.9378 48.1591Z"
+                fill="#4AE3B5"
+              />
+              <path
+                d="M76.4782 47.865L75.9712 52.1876C75.7666 53.922 76.8665 55.5466 78.5564 55.9973L84.3554 57.5538L86.6294 46.9074L78.672 46.104C77.584 45.9943 76.6056 46.777 76.4782 47.865Z"
+                fill="#4AE3B5"
+              />
+              <path
+                d="M54 4C26.4311 4 4 26.4281 4 54C4 59.4225 4.86866 64.6433 6.47258 69.5351L11.4325 67.5251C10.0688 63.2559 9.3365 58.7139 9.3365 54C9.3365 29.3721 29.3721 9.3365 54 9.3365C78.6279 9.3365 98.6635 29.3721 98.6635 54C98.6635 70.6143 89.547 85.1385 76.0516 92.8319L75.8085 98.9896C92.4821 90.8722 104 73.7569 104 54C104 26.4281 81.5719 4 54 4ZM65.1978 97.2404C63.4426 97.697 61.646 98.0468 59.8138 98.287C57.9105 98.536 55.9686 98.6635 54 98.6635C39.8405 98.6635 27.1989 92.0403 19.0104 81.729C17.8749 80.3 16.8283 78.8028 15.8737 77.2404C14.9428 75.7195 14.1008 74.1393 13.3537 72.5058L8.4026 74.5099C9.14082 76.1465 9.96501 77.7326 10.8693 79.2683C11.7913 80.8396 12.7963 82.3546 13.8784 83.8073C23.0038 96.0546 37.5903 104 54 104C55.8915 104 57.7622 103.893 59.6004 103.689C61.4237 103.484 63.2203 103.182 64.9783 102.784C66.8194 102.372 68.622 101.857 70.3801 101.246L70.6084 95.4616C68.8562 96.1672 67.0507 96.7631 65.1978 97.2404Z"
+                fill="#4AE3B5"
+              />
+              <path
+                d="M46.188 39.209L46.3896 39.5588H46.188V39.209Z"
+                fill="#4AE3B5"
+              />
+              <path
+                d="M89.5231 48.6549L86.3894 69.5354C86.2619 70.3863 85.7342 71.1186 84.9722 71.5129L71.2753 78.5719L70.6082 95.4619L70.3799 101.246C68.6218 101.857 66.8193 102.373 64.9782 102.785L65.1976 97.2407L66.004 76.8079C66.0425 75.8473 66.594 74.9816 67.4478 74.5429L81.3138 67.3949L83.899 50.1758L74.0769 47.3415C73.5136 47.1785 73.0155 46.8346 72.6687 46.3602L67.6672 39.5592H52.3959C52.0342 38.7557 51.634 37.9671 51.1893 37.1992L49.4697 34.2227H69.0161C69.867 34.2227 70.6645 34.6259 71.1685 35.3107L76.4309 42.4675L87.6227 45.6961C88.9094 46.0667 89.7188 47.3326 89.5231 48.6549Z"
+                fill="#4AE3B5"
+              />
+              <path
+                d="M57.5693 68.89C54.3703 64.8788 48.3312 64.3748 44.0768 67.7634C40.697 70.4584 39.4667 74.8017 40.7089 78.4839C36.5998 76.2929 33.6203 72.5692 32.2476 70.6096L35.2835 69.3792C36.7599 68.7803 38.0466 68.137 39.2117 67.4136C45.4524 63.5328 49.0338 57.6567 49.2977 50.8675C49.3748 48.8456 49.1524 46.8325 48.6395 44.8936C48.18 43.1444 47.4833 41.4545 46.5672 39.8654L46.3893 39.5571L46.1877 39.2073L43.6944 34.8906L40.8512 36.5331L19.8728 48.6469C17.1601 50.2123 16.2262 53.6958 17.7916 56.4115L24.48 67.9976L13.3534 72.504L8.40234 74.5082C9.14056 76.1447 9.96475 77.7308 10.869 79.2665L15.8734 77.2387L27.1987 72.6552C29.0813 75.6022 35.7993 84.8699 46.1343 85.5191C46.4367 85.5399 46.7303 85.5488 47.0178 85.5488C50.1723 85.5488 52.5707 84.4548 54.2725 83.2274C54.7498 82.9576 55.2153 82.6493 55.6629 82.2935C59.9144 78.9019 60.7682 72.9013 57.5693 68.89Z"
+                fill="#4AE3B5"
+              />
+            </svg>
+          </div>
+        </Link>
+
+        <div className="flex items-center gap-8">
+          <nav className="hidden items-center gap-8 md:flex">
+            <Link
+              href="/"
+              className="text-white transition hover:text-emerald-400"
+            >
+              Home
+            </Link>
+            <Link
+              href="/about"
+              className="text-white transition hover:text-emerald-400"
+            >
+              About
+            </Link>
+            <Link
+              href="/"
+              className="text-white transition hover:text-emerald-400"
+            >
+              Gallery
+            </Link>
+            <Link
+              href="/project-submission"
+              className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
+            >
+              Submit
+            </Link>
+          </nav>
+
+          <Link
+            href={user ? "/account" : "/login"}
+            className="text-emerald-400 transition hover:text-emerald-300"
+          >
+            <User className="h-6 w-6" />
           </Link>
         </div>
-      </ul>
-    </nav>
+      </div>
+      <div className="h-px bg-emerald-400"></div>
+    </header>
   );
 }
