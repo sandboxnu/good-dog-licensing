@@ -1,11 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
+
+import MultiSelectDropdown from "./MultiSelectDropDown";
 
 const schema = z.object({
   songName: z.string(),
@@ -23,6 +26,7 @@ export default function UnlicensedMusicSubmissionForm() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
@@ -39,18 +43,38 @@ export default function UnlicensedMusicSubmissionForm() {
     },
   });
 
+  const genres = [
+    { value: "pop", label: "Pop" },
+    { value: "rock", label: "Rock" },
+    { value: "hip-hip", label: "Hip-Hop/Rap" },
+    { value: "r&b", label: "R&B" },
+    { value: "edm", label: "Electronic/Dance (EDM)" },
+    { value: "country", label: "Country" },
+    { value: "jazz", label: "Jazz" },
+    { value: "classical", label: "Classical" },
+    { value: "reggae", label: "Reggae" },
+    { value: "blues", label: "Blues" },
+    { value: "latin", label: "Latin" },
+    { value: "funk", label: "Funk" },
+    { value: "soul", label: "Soul" },
+    { value: "metal", label: "Metal" },
+    { value: "folk", label: "Folk" },
+  ];
+
   return (
     <div className="bg-[#DEE0E2] p-14">
-      <div className="flex flex-col items-center bg-white rounded-xl">
-        <h1 className="text-5xl font-bold pt-14 px-80 m-6">
+      <div className="flex flex-col items-center rounded-xl bg-white">
+        <h1 className="m-6 px-80 pt-14 text-5xl font-bold">
           Unlicensed Music Request Form
         </h1>
-        <p className="text-xl font-bold px-28">
-        Unlicensed Music Request Form is to submit music Good Dog Licensing 
-        does not have in their database. By submitting this form, it will add 
-        it as one of the songs to be matched for the scene you choose. 
-        An admin will look into getting the licensing for this song.<br />
-        <br /><sup className="text-[#F4392D]">*</sup>Indicates a required question.
+        <p className="px-28 text-xl font-bold">
+          Unlicensed Music Request Form is to submit music Good Dog Licensing
+          does not have in their database. By submitting this form, it will add
+          it as one of the songs to be matched for the scene you choose. An
+          admin will look into getting the licensing for this song.
+          <br />
+          <br />
+          <sup className="text-[#F4392D]">*</sup>Indicates a required question.
         </p>
         <form
           onSubmit={handleSubmit((data) => {
@@ -67,24 +91,60 @@ export default function UnlicensedMusicSubmissionForm() {
           })}
         >
           <div className="flex flex-col items-start">
-          <label className="text-2xl font-bold pt-6 pb-3">Song Name<sup className="text-[#F4392D]">*</sup></label>
-          <input className="rounded-xl bg-[#E4E4E6] h-10 w-[890px] pl-3" {...register("songName")} placeholder="Song Name"></input>
-          <p>{errors.songName?.message}</p>
-          <label className="text-2xl font-bold pt-12 pb-3">Artist Name<sup className="text-[#F4392D]">*</sup></label>
-          <input className="rounded-xl bg-[#E4E4E6] h-10 w-[890px] pl-3" {...register("artist")} placeholder="Artist Name"></input>
-          <p>{errors.artist?.message}</p>
-          <label className="text-2xl font-bold pt-12 pb-3">Song Link<sup className="text-[#F4392D]">*</sup></label>
-          <input className="rounded-xl bg-[#E4E4E6] h-10 w-[890px] pl-3" {...register("songLink")} placeholder="Song Link"></input>
-          <p>{errors.songLink?.message}</p>
-          <label className="text-2xl font-bold pt-12 pb-3">Song Genre<sup className="text-[#F4392D]">*</sup></label>
-          <input className="rounded-xl bg-[#E4E4E6] h-10 w-[890px] pl-3" {...register("genre")} placeholder="Song Genre"></input>
-          <p>{errors.genre?.message}</p>
-          <label className="text-2xl font-bold pt-12 pb-3">Tell us anything else about the Project</label>
-          <input className="rounded-xl bg-[#E4E4E6] h-10 w-[890px] pl-3" {...register("additionalInfo")} placeholder="Additional Song Info"></input>
-          <p>{errors.additionalInfo?.message}</p>
-          <div className="flex flex-col w-full items-center">
-          <button className="text-2xl rounded-xl w-40 h-16 bg-[#098465] m-20" type="submit">Submit</button>
-          </div>
+            <label className="pb-3 pt-6 text-2xl font-bold">
+              Song Name<sup className="text-[#F4392D]">*</sup>
+            </label>
+            <input
+              className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
+              {...register("songName")}
+              placeholder="Song Name"
+            ></input>
+            <p>{errors.songName?.message}</p>
+            <label className="pb-3 pt-12 text-2xl font-bold">
+              Artist Name<sup className="text-[#F4392D]">*</sup>
+            </label>
+            <input
+              className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
+              {...register("artist")}
+              placeholder="Artist Name"
+            ></input>
+            <p>{errors.artist?.message}</p>
+            <label className="pb-3 pt-12 text-2xl font-bold">
+              Song Link<sup className="text-[#F4392D]">*</sup>
+            </label>
+            <input
+              className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
+              {...register("songLink")}
+              placeholder="Song Link"
+            ></input>
+            <p>{errors.songLink?.message}</p>
+            <label className="pb-3 pt-12 text-2xl font-bold">
+              Song Genre<sup className="text-[#F4392D]">*</sup>
+            </label>
+            <MultiSelectDropdown
+              name="genre"
+              control={control}
+              options={genres}
+              placeholder="Select multiple options"
+            />
+            <p>{errors.genre?.message}</p>
+            <label className="pb-3 pt-12 text-2xl font-bold">
+              Tell us anything else about the Project
+            </label>
+            <input
+              className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
+              {...register("additionalInfo")}
+              placeholder="Additional Song Info"
+            ></input>
+            <p>{errors.additionalInfo?.message}</p>
+            <div className="flex w-full flex-col items-center">
+              <button
+                className="m-20 h-16 w-40 rounded-xl bg-[#098465] text-2xl"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </form>
       </div>
