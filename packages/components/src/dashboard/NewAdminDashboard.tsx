@@ -7,6 +7,7 @@ import { Button } from "@good-dog/ui/button";
 
 import DashboardSideBarComponent from "./DashboardSideBarComponent";
 import DisplayProjects from "./DisplayProjects";
+import DisplaySongs from "./DisplaySongs";
 import InviteModeratorModal from "./InviteModeratorModal";
 
 interface AdminDashboardProps {
@@ -111,8 +112,9 @@ export default function NewAdminDashboard({ page }: AdminDashboardProps) {
                 />
               )}
             </div>
-            <div className="px-[40px] pt-[20px]">
+            <div className="pt-[20px]">
               {page === "projects" && <DisplayProjects />}
+              {page === "songs" && <DisplaySongs />}
             </div>
           </div>
         </div>

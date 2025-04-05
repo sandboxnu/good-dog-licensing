@@ -73,7 +73,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   };
 
   return (
-    <div className="flex h-screen w-screen bg-[#DEE0E2] px-[80px] py-[60px]">
+    <div className="flex h-screen w-full bg-[#DEE0E2] px-[80px] py-[60px]">
       <DisplaySceneInfo
         projectId={sceneInfo.projectId}
         projectTitle={sceneInfo.projectTitle}

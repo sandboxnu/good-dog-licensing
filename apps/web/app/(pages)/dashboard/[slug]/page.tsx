@@ -17,14 +17,13 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  if (slug === "projects") {
-    void trpc.projects.prefetch();
-    return (
-      <HydrateClient>
-        <NewAdminDashboard page={slug}></NewAdminDashboard>
-      </HydrateClient>
-    );
-  }
+  void trpc.projects.prefetch();
+  void trpc.music.prefetch();
+  void trpc.unlicensedMusic.prefetch();
 
-  return <NewAdminDashboard page={slug}></NewAdminDashboard>;
+  return (
+    <HydrateClient>
+      <NewAdminDashboard page={slug}></NewAdminDashboard>
+    </HydrateClient>
+  );
 }

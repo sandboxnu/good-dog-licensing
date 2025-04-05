@@ -18,7 +18,7 @@ export default function DisplayProjects() {
   );
 
   return (
-    <div>
+    <div className="px-[40px]">
       <div className="flex h-[45px] w-full bg-[#F1F5F9]">
         <div className="font-afacad flex w-1/4 items-center justify-start pl-[20px] text-lg font-normal text-black">
           Project Name
