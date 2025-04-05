@@ -5,7 +5,7 @@ import { emailService } from "@good-dog/email";
 describe("email service tests", () => {
   describe("getBaseUrl", () => {
     it("gets the correct production url", async () => {
-      mock.module("@good-dog/env", () => ({
+      await mock.module("@good-dog/env", () => ({
         env: {
           VERCEL_ENV: "production",
           VERCEL_URL: "good-dog-licensing-some-random-hash-123.vercel.app",
@@ -17,7 +17,7 @@ describe("email service tests", () => {
     });
 
     it("gets the correct preview deployment url", async () => {
-      mock.module("@good-dog/env", () => ({
+      await mock.module("@good-dog/env", () => ({
         env: {
           VERCEL_ENV: "preview",
           VERCEL_URL: "good-dog-licensing-some-random-hash-123.vercel.app",
@@ -31,7 +31,7 @@ describe("email service tests", () => {
     });
 
     it("gets the correct local url", async () => {
-      mock.module("@good-dog/env", () => ({
+      await mock.module("@good-dog/env", () => ({
         env: {
           VERCEL_ENV: undefined,
           VERCEL_URL: undefined,
