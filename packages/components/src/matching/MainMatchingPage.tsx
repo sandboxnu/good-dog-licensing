@@ -10,13 +10,12 @@ import MusicSearch from "./MusicSearch";
 
 interface MainMatchingPageProps {
   sceneId: string;
-  userId: string;
 }
 
-export default function MainMatchingPage({
-  sceneId,
-  userId,
-}: MainMatchingPageProps) {
+export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
+  // Get the user
+  const user = trpc.user.useSuspenseQuery();
+
   // Get the actual scene related to the given sceneId
   const sceneQuery = trpc.getSceneById.useSuspenseQuery({
     sceneId: sceneId,
@@ -125,7 +124,7 @@ export default function MainMatchingPage({
                   isMatched={false}
                   handleMatch={handleSuccessfulMatch}
                   matchId=""
-                  userId={userId}
+                  userId={user[0]?.userId ?? ""}
                   handleComment={handleCommentMade}
                   comments={[]}
                   genres={song?.genre ?? ""}
@@ -159,7 +158,7 @@ export default function MainMatchingPage({
                   musicId={match.musicId}
                   isMatched={true}
                   handleMatch={handleSuccessfulMatch}
-                  userId={userId}
+                  userId={user[0]?.userId ?? ""}
                   matchId={match.suggestedMatchId}
                   handleComment={handleCommentMade}
                   comments={comments}
@@ -210,7 +209,7 @@ export default function MainMatchingPage({
                   isMatched={false}
                   handleMatch={handleSuccessfulMatch}
                   matchId=""
-                  userId={userId}
+                  userId={user[0]?.userId ?? ""}
                   handleComment={handleCommentMade}
                   comments={[]}
                   genres={song?.genre ?? ""}
@@ -240,7 +239,7 @@ export default function MainMatchingPage({
                   musicId={match.musicId}
                   isMatched={true}
                   handleMatch={handleSuccessfulMatch}
-                  userId={userId}
+                  userId={user[0]?.userId ?? ""}
                   matchId={match.unlicensedSuggestedMatchId}
                   handleComment={handleCommentMade}
                   comments={comments}

@@ -79,7 +79,7 @@ export default function DisplaySingleProject(props: DisplaySingleProjectProps) {
               return (
                 <Link
                   key={scene.sceneId}
-                  href={`/new-matching/${scene.sceneId}`}
+                  href={`/matching/${scene.sceneId}`}
                   className="flex h-[40px] items-center justify-start space-x-2 rounded-md bg-[#D9D9D9] pl-[10px]"
                 >
                   <svg

@@ -8,19 +8,13 @@ export default async function Page({
 }) {
   const { sceneId } = await params;
 
-  const user = await trpc.user();
-
-  if (!user || !(user.role === "ADMIN" || user.role === "MODERATOR")) {
-    return <p>Forbidden</p>;
-  }
-
   void trpc.getSceneById.prefetch({ sceneId: sceneId });
   void trpc.music.prefetch();
   void trpc.unlicensedMusic.prefetch();
 
   return (
     <HydrateClient>
-      <MainMatchingPage sceneId={sceneId} userId={user.userId} />
+      <MainMatchingPage sceneId={sceneId} />
     </HydrateClient>
   );
 }

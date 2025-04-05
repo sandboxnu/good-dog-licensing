@@ -10,8 +10,6 @@ export function generateStaticParams() {
   }));
 }
 
-export const dynamicParams = false;
-
 export default async function Page({
   params,
 }: {
