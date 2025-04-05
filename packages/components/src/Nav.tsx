@@ -55,11 +55,20 @@ export default function Nav() {
               <Link href="/login">LOGIN</Link>
             </li>
           )}
-          <Link href="/submit">
-            <li className="rounded-full bg-good-dog-celadon px-4 py-1 text-good-dog-violet">
-              SUBMIT
+          {(user?.role === "ADMIN" || user?.role === "MODERATOR") && (
+            <li>
+              <Link href="/dashboard/projects">DASHBOARD</Link>
             </li>
-          </Link>
+          )}
+          {(!user ||
+            user.role === "MEDIA_MAKER" ||
+            user.role === "MUSICIAN") && (
+            <Link href="/submit">
+              <li className="rounded-full bg-good-dog-celadon px-4 py-1 text-good-dog-violet">
+                SUBMIT
+              </li>
+            </Link>
+          )}
         </div>
       </ul>
     </nav>
