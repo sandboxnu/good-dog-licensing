@@ -72,7 +72,7 @@ export default function MusicSubmissionForm() {
   ];
 
   return (
-    <main className="container mx-auto flex-1 px-4 py-12">
+    <main className="mx-auto w-full flex-1 bg-black px-4 py-12 text-white">
       <div className="mx-auto max-w-3xl">
         <h1 className="mb-4 text-center text-4xl font-bold">Submission</h1>
 
@@ -146,12 +146,12 @@ export default function MusicSubmissionForm() {
             </label>
 
             <div className="flex items-center">
-              <Checkbox />
+              <input type="checkbox" className="accent-zinc-500" />
               <p className="pl-4">Member 1</p>
             </div>
 
             <div className="flex items-stretch">
-              <Checkbox />
+              <input type="checkbox" className="accent-zinc-500" />
               <p className="pl-4">Member 2</p>
             </div>
 
