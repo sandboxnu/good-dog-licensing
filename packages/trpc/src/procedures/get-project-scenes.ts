@@ -109,7 +109,7 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
       });
     }
 
-    return { projectTitle: project.projectTitle as string, ...scene };
+    return { projectTitle: project.projectTitle, ...scene };
   });
 
 export const getUserProjectScenesProcedure = rolePermissionsProcedureBuilder(
