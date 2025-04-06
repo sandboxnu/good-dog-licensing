@@ -16,10 +16,12 @@ import {
 } from "../procedures/forgot-password";
 import {
   getMusicSubmissionsProcedure,
+  getUnlicensedMusicSubmissionsProcedure,
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
+  getProjectSceneByIdProcedure,
   getProjectScenesProcedure,
   getUserProjectScenesProcedure,
 } from "../procedures/get-project-scenes";
@@ -55,6 +57,7 @@ export const appRouter = createTRPCRouter({
   projects: getProjectScenesProcedure,
   userProjects: getUserProjectScenesProcedure,
   music: getMusicSubmissionsProcedure,
+  unlicensedMusic: getUnlicensedMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   match: getMatchesProcedure,
   comment: createUpdateMatchCommentsProcedure,
@@ -67,6 +70,7 @@ export const appRouter = createTRPCRouter({
   submitUnlicensedMusic: submitUnlicensedMusicProcedure,
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
+  getSceneById: getProjectSceneByIdProcedure,
 });
 
 export type AppRouter = typeof appRouter;
