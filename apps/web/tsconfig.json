@@ -9,7 +9,12 @@
     },
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
     "module": "esnext",
-    "types": ["react/canary"]
+    "types": ["react/canary"],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": ["."],
   "exclude": ["node_modules"]
