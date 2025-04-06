@@ -2,17 +2,23 @@
 
 import { z } from "zod";
 
-import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
+import { ReferralSource } from "@good-dog/db";
+import { zPreProcessEmptyString } from "@good-dog/trpc/schema";
 
 import RegistrationInput from "../inputs/RegistrationInput";
-import DiscoveryDropdown from "./DiscoveryDropdown";
 import OnboardingFormProvider from "./OnboardingFormProvider";
+import ReferralDropdown from "./ReferralDropdown";
 
 const Schema = z.object({
   role: z.literal("MEDIA_MAKER"),
   firstName: zPreProcessEmptyString(z.string()),
   lastName: zPreProcessEmptyString(z.string()),
-  discovery: z.string().optional(),
+  referral: z
+    .object({
+      source: z.nativeEnum(ReferralSource),
+      customSource: zPreProcessEmptyString(z.string().optional()),
+    })
+    .optional(),
 });
 
 type FormValues = z.infer<typeof Schema>;
@@ -23,6 +29,7 @@ export default function MediaMakerForm(
   props: Readonly<{
     firstName: string;
     lastName: string;
+    email: string;
   }>,
 ) {
   return (
@@ -31,6 +38,7 @@ export default function MediaMakerForm(
       schema={Schema}
       firstName={props.firstName}
       lastName={props.lastName}
+      email={props.email}
     >
       <p>
         A Media Maker is a Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -43,15 +51,17 @@ export default function MediaMakerForm(
           placeholder="Jane"
           type="text"
           label="First Name"
+          autocomplete="given-name"
         />
         <TypedRegistrationInput
           fieldName="lastName"
           placeholder="Doe"
           type="text"
           label="Last Name"
+          autocomplete="family-name"
         />
       </div>
-      <DiscoveryDropdown />
+      <ReferralDropdown />
     </OnboardingFormProvider>
   );
 }

@@ -1,21 +1,6 @@
-import type { UserWithSession } from "../internal/common-types";
+import type { UserWithSession } from "../types";
 import { baseProcedureBuilder } from "../internal/init";
-import { authenticatedProcedureBuilder } from "../middleware/authentictated";
-
-export const getAuthenticatedUserProcedure =
-  authenticatedProcedureBuilder.query(({ ctx }) => {
-    const result: UserWithSession = {
-      ...ctx.session.user,
-      session: {
-        expiresAt: ctx.session.expiresAt,
-        refreshRequired:
-          // Refresh session if it expires in less than 29 days
-          ctx.session.expiresAt.getTime() - Date.now() < 60_000 * 60 * 24 * 29,
-      },
-    };
-
-    return result;
-  });
+import { getSessionMemoized } from "../internal/prisma-abstraction";
 
 export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
   const sessionId = ctx.cookiesService.getSessionCookie();
@@ -24,24 +9,7 @@ export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
     return null;
   }
 
-  const sessionOrNull = await ctx.prisma.session.findUnique({
-    where: {
-      sessionId: sessionId.value,
-    },
-    select: {
-      expiresAt: true,
-      user: {
-        select: {
-          userId: true,
-          firstName: true,
-          lastName: true,
-          email: true,
-          phoneNumber: true,
-          role: true,
-        },
-      },
-    },
-  });
+  const sessionOrNull = await getSessionMemoized(ctx.prisma, sessionId.value);
 
   if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
     // Session expired or not found

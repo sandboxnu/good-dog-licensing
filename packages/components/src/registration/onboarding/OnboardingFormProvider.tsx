@@ -3,18 +3,24 @@
 import type { ReactNode } from "react";
 import type { FieldValues } from "react-hook-form";
 import type { z } from "zod";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
+import type { ReferralSource } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
+
+import EmailVerifyModal from "../EmailVerifyModal";
 
 interface BaseValues {
   role: "MEDIA_MAKER" | "MUSICIAN";
   firstName: string;
   lastName: string;
-  discovery?: string;
+  referral?: {
+    source: ReferralSource;
+    customSource?: string;
+  };
 }
 
 export default function OnboardingFormProvider<
@@ -32,10 +38,9 @@ export default function OnboardingFormProvider<
     firstName: string;
     lastName: string;
     role: "MEDIA_MAKER" | "MUSICIAN";
+    email: string;
   }>,
 ) {
-  const router = useRouter();
-
   const onboardingForm = useForm<BaseValues>({
     resolver: zodResolver(props.schema),
     defaultValues: {
@@ -45,9 +50,34 @@ export default function OnboardingFormProvider<
     },
   });
 
+  const [isEmailVerificationModalOpen, setIsEmailVerificationModalOpen] =
+    useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const sendVerificationEmailMutation = trpc.sendEmailVerification.useMutation({
+    onSuccess: (data) => {
+      switch (data.status) {
+        case "EMAIL_SENT":
+          setIsEmailVerificationModalOpen(true);
+          // TODO
+          // alert somehow that a verification email was sent
+          break;
+        case "ALREADY_VERIFIED":
+          setIsEmailVerified(true);
+          // TODO
+          // alert somehow that the email has already been verified
+          break;
+      }
+    },
+    onError: (err) => {
+      // TODO
+      // Alert toast to the user that there was an error sending the verification email
+      console.error(err);
+    },
+  });
+
   const onboardingMutation = trpc.onboarding.useMutation({
     onSuccess: () => {
-      router.replace("/");
+      window.location.href = "/";
       // TODO
       // Show a toast or something to the user that they have successfully onboarded
     },
@@ -77,15 +107,59 @@ export default function OnboardingFormProvider<
   return (
     <FormProvider {...onboardingForm}>
       <form onSubmit={onSubmit} className="flex flex-col justify-between">
-        <div className="mb-10">{props.children}</div>
+        <div className="my-4">
+          {!sendVerificationEmailMutation.isSuccess ? (
+            <Button
+              className="h-8 w-full rounded-full"
+              disabled={sendVerificationEmailMutation.isPending}
+              onClick={(e) => {
+                // prevent actual <form/> submission
+                e.preventDefault();
+
+                sendVerificationEmailMutation.mutate();
+              }}
+            >
+              Verify Email
+            </Button>
+          ) : (
+            "Email verified"
+          )}
+          {sendVerificationEmailMutation.isError && (
+            <p className="text-good-dog-error">
+              Failed to send verification email:{" "}
+              {sendVerificationEmailMutation.error.message}
+            </p>
+          )}
+        </div>
+        <div className="mb-2">{props.children}</div>
+
+        {!isEmailVerified && (
+          <p className="mb-2 text-center text-good-dog-error">
+            You must verify your email before signing up.
+          </p>
+        )}
         <Button
           className="bottom-16 h-16 w-full rounded-full font-righteous text-2xl text-white"
           type="submit"
-          disabled={onboardingMutation.isPending}
+          disabled={
+            onboardingMutation.isPending ||
+            !sendVerificationEmailMutation.isSuccess ||
+            !isEmailVerified
+          }
         >
           SIGN UP
         </Button>
       </form>
+
+      {isEmailVerificationModalOpen && (
+        <EmailVerifyModal
+          email={props.email}
+          close={(didVerify) => {
+            setIsEmailVerified(didVerify);
+            setIsEmailVerificationModalOpen(false);
+          }}
+        />
+      )}
     </FormProvider>
   );
 }

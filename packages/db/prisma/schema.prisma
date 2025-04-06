@@ -22,25 +22,55 @@ enum Role {
   MODERATOR
 }
 
+enum MatchState {
+  APPROVED
+  REJECTED
+  PENDING
+}
+
 model User {
-  userId             String              @id @default(uuid()) @map("id")
-  email              String              @unique
-  phoneNumber        String
-  hashedPassword     String              @map("password")
-  firstName          String
-  lastName           String
-  stageName          String?
-  role               Role
-  isSongWriter       Boolean             @default(false)
-  isAscapAffiliated  Boolean             @default(false)
-  isBmiAffiliated    Boolean             @default(false)
-  musicianGroups     MusicianGroup[]
-  passwordResetReq   PasswordResetReq?
-  sessions           Session[]
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  projectSubmissions ProjectSubmission[]
-  musicSubmissions   MusicSubmission[]
+  userId                     String                     @id @default(uuid()) @map("id")
+  email                      String                     @unique
+  phoneNumber                String
+  hashedPassword             String                     @map("password")
+  firstName                  String
+  lastName                   String
+  stageName                  String?
+  role                       Role
+  isSongWriter               Boolean                    @default(false)
+  isAscapAffiliated          Boolean                    @default(false)
+  isBmiAffiliated            Boolean                    @default(false)
+  musicianGroups             MusicianGroup[]
+  passwordResetReq           PasswordResetReq?
+  sessions                   Session[]
+  referral                   Referral?
+  createdAt                  DateTime                   @default(now())
+  updatedAt                  DateTime                   @updatedAt
+  projectSubmissions         ProjectSubmission[]
+  musicSubmissions           MusicSubmission[]
+  unlicensedSuggestedMatches UnlicensedSuggestedMatch[] @relation("UnlicensedMatcher")
+  suggestedMatches           SuggestedMatch[]           @relation("Matcher")
+  reviewedMatches            SuggestedMatch[]           @relation("Reviewer")
+  matchComments              MatchComments[]
+  matchLikes                 MatchRatings[]
+}
+
+model Referral {
+  id           String         @id @default(uuid())
+  user         User           @relation(fields: [userId], references: [userId])
+  userId       String         @unique
+  source       ReferralSource
+  customSource String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+enum ReferralSource {
+  FRIEND
+  COLLEAGUE
+  GREEN_LINE_RECORDS
+  SOCIAL_MEDIA
+  OTHER
 }
 
 model Session {
@@ -68,10 +98,10 @@ model PasswordResetReq {
 }
 
 model ModeratorInvite {
-  moderatorInviteId      String @id @default(cuid())
-  email                  String @unique
-  createdAt              DateTime @default(now())
-  expiresAt              DateTime
+  moderatorInviteId String   @id @default(cuid())
+  email             String   @unique
+  createdAt         DateTime @default(now())
+  expiresAt         DateTime
 }
 
 model MusicianGroup {
@@ -104,40 +134,133 @@ model MusicianGroupMember {
 }
 
 model ProjectSubmission {
-  projectId      String            @id @default(uuid())
-  projectOwner   User              @relation(fields: [projectId], references: [userId], onDelete: Cascade)
-  projectTitle   String
-  description    String
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  scenes         SceneSubmission[]
-  deadline       DateTime
-  videoLink      String            @default("")
-  additionalInfo String            @default("")
+  projectId                  String                     @id @default(uuid())
+  projectOwnerId             String
+  projectOwner               User                       @relation(fields: [projectOwnerId], references: [userId], onDelete: Cascade)
+  projectTitle               String
+  description                String
+  createdAt                  DateTime                   @default(now())
+  updatedAt                  DateTime                   @updatedAt
+  scenes                     SceneSubmission[]
+  deadline                   DateTime
+  videoLink                  String                     @default("")
+  additionalInfo             String                     @default("")
+  suggestedMatches           SuggestedMatch[]
+  unlicensedSuggestedMatches UnlicensedSuggestedMatch[]
 }
 
 model SceneSubmission {
-  sceneId           String            @id @default(uuid())
-  sceneTitle        String
-  description       String
-  musicType         String
-  similarSongs      String            @default("")
-  additionalInfo    String            @default("")
-  projectId         String
-  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+  sceneId                    String                     @id @default(uuid())
+  sceneTitle                 String
+  description                String
+  musicType                  String
+  similarSongs               String                     @default("")
+  additionalInfo             String                     @default("")
+  projectId                  String
+  projectSubmission          ProjectSubmission          @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+  suggestedMatches           SuggestedMatch[]
+  unlicensedSuggestedMatches UnlicensedSuggestedMatch[]
+  createdAt                  DateTime                   @default(now())
+  updatedAt                  DateTime                   @updatedAt
 }
 
 model MusicSubmission {
-  musicId        String                @id @default(uuid())
-  songName       String
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
-  artist         User                  @relation(fields: [artistId], references: [userId], onDelete: Cascade)
-  artistId       String
-  songLink       String
-  genre          String
-  group          MusicianGroup         @relation(fields: [groupId], references: [groupId])
-  groupId        String
-  songwriters    MusicianGroupMember[] @relation("songWriters")
-  additionalInfo String                @default("")
+  musicId          String                @id @default(uuid())
+  songName         String
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  artist           User                  @relation(fields: [artistId], references: [userId], onDelete: Cascade)
+  artistId         String
+  songLink         String
+  genre            String
+  group            MusicianGroup         @relation(fields: [groupId], references: [groupId])
+  groupId          String
+  songwriters      MusicianGroupMember[] @relation("songWriters")
+  additionalInfo   String                @default("")
+  suggestedMatches SuggestedMatch[]
+}
+
+model SuggestedMatch {
+  suggestedMatchId  String            @id @default(uuid())
+  projectId         String
+  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+  sceneId           String
+  sceneSubmission   SceneSubmission   @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
+  musicId           String
+  musicSubmission   MusicSubmission   @relation(fields: [musicId], references: [musicId], onDelete: NoAction)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  description       String
+  matchComments     MatchComments[]
+  matchLikes        MatchRatings[]
+  matcherUserId     String
+  matcherUser       User              @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
+  matchState        MatchState
+  reviewerId        String?
+  reviewer          User?             @relation("Reviewer", fields: [reviewerId], references: [userId], onDelete: NoAction)
+
+  @@unique([sceneId, musicId])
+  @@map("SuggestedMatches")
+}
+
+model MatchComments {
+  commentId                  String                    @id @default(uuid())
+  createdAt                  DateTime                  @default(now())
+  updatedAt                  DateTime                  @updatedAt
+  commentText                String
+  userId                     String
+  user                       User                      @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  suggestedMatchId           String?
+  unlicensedSuggestedMatchId String?
+  suggestedMatch             SuggestedMatch?           @relation(fields: [suggestedMatchId], references: [suggestedMatchId], onDelete: NoAction)
+  unlicensedSuggestedMatch   UnlicensedSuggestedMatch? @relation(fields: [unlicensedSuggestedMatchId], references: [unlicensedSuggestedMatchId], onDelete: NoAction)
+}
+
+model MatchRatings {
+  ratingId                   String                    @id @default(uuid())
+  userId                     String
+  user                       User                      @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  ratingEnum                 Rating
+  suggestedMatchId           String?
+  unlicensedSuggestedMatchId String?
+  suggestedMatch             SuggestedMatch?           @relation(fields: [suggestedMatchId], references: [suggestedMatchId], onDelete: NoAction)
+  unlicensedSuggestedMatch   UnlicensedSuggestedMatch? @relation(fields: [unlicensedSuggestedMatchId], references: [unlicensedSuggestedMatchId], onDelete: NoAction)
+}
+
+enum Rating {
+  LIKE
+  DISLIKE
+}
+
+model UnlicensedMusicSubmission {
+  musicId          String                     @id @default(uuid())
+  songName         String
+  createdAt        DateTime                   @default(now())
+  updatedAt        DateTime                   @updatedAt
+  artist           String
+  songLink         String
+  genre            String
+  additionalInfo   String                     @default("")
+  suggestedMatches UnlicensedSuggestedMatch[]
+}
+
+model UnlicensedSuggestedMatch {
+  unlicensedSuggestedMatchId String                    @id @default(uuid())
+  projectId                  String
+  projectSubmission          ProjectSubmission         @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
+  sceneId                    String
+  sceneSubmission            SceneSubmission           @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
+  musicId                    String
+  musicSubmission            UnlicensedMusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: NoAction)
+  createdAt                  DateTime                  @default(now())
+  updatedAt                  DateTime                  @updatedAt
+  description                String
+  matchComments              MatchComments[]
+  matchRatings               MatchRatings[]
+  matcherUserId              String
+  matcherUser                User                      @relation("UnlicensedMatcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
+  matchState                 MatchState
+
+  @@unique([sceneId, musicId])
+  @@map("UnlicensedSuggestedMatches")
 }

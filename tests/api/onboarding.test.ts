@@ -14,7 +14,7 @@ import { MockNextCache } from "../mocks/MockNextCache";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
 
-describe("get user", () => {
+describe("onboarding", () => {
   // Seeds the database before running the tests
   beforeAll(async () => {
     await prisma.$transaction([
@@ -68,6 +68,22 @@ describe("get user", () => {
             },
           },
         },
+      }),
+      prisma.emailVerificationCode.createMany({
+        data: [
+          {
+            email: "tracy@test.org",
+            code: "019821",
+            emailConfirmed: true,
+            expiresAt: new Date(Date.now() + 60_000 * 100000),
+          },
+          {
+            email: "owen@test.org",
+            code: "777555",
+            emailConfirmed: true,
+            expiresAt: new Date(Date.now() + 60_000 * 100000),
+          },
+        ],
       }),
     ]);
   });

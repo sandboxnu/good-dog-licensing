@@ -2,8 +2,10 @@ import { revalidatePath } from "next/cache";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { authenticatedProcedureBuilder } from "../middleware/authentictated";
-import { zPreProcessEmptyString } from "../utils";
+import { ReferralSource } from "@good-dog/db";
+
+import { authenticatedProcedureBuilder } from "../middleware/authenticated";
+import { zPreProcessEmptyString } from "../schema";
 
 export const onboardingProcedure = authenticatedProcedureBuilder
   .input(
@@ -12,12 +14,23 @@ export const onboardingProcedure = authenticatedProcedureBuilder
         role: z.literal("MEDIA_MAKER"),
         firstName: z.string(),
         lastName: z.string(),
-        discovery: z.string().optional(),
+        referral: z
+          .object({
+            source: z.nativeEnum(ReferralSource),
+            customSource: zPreProcessEmptyString(z.string().optional()),
+          })
+          .optional(),
       }),
       z.object({
         role: z.literal("MUSICIAN"),
         firstName: zPreProcessEmptyString(z.string()),
         lastName: zPreProcessEmptyString(z.string()),
+        referral: z
+          .object({
+            source: z.nativeEnum(ReferralSource),
+            customSource: zPreProcessEmptyString(z.string().optional()),
+          })
+          .optional(),
         groupName: zPreProcessEmptyString(z.string()),
         stageName: zPreProcessEmptyString(z.string().optional()),
         isSongWriter: z.boolean().optional(),
@@ -36,15 +49,29 @@ export const onboardingProcedure = authenticatedProcedureBuilder
             }),
           )
           .optional(),
-        discovery: z.string().optional(),
       }),
     ]),
   )
   .mutation(async ({ ctx, input }) => {
+    const emailVerificationCode =
+      await ctx.prisma.emailVerificationCode.findUnique({
+        where: {
+          email: ctx.session.user.email,
+        },
+      });
+
     if (ctx.session.user.role !== "ONBOARDING") {
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "User has already onboarded",
+      });
+    }
+
+    // Throw error if email is not verified
+    if (!emailVerificationCode?.emailConfirmed) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Email has not been verified.",
       });
     }
 
@@ -56,7 +83,7 @@ export const onboardingProcedure = authenticatedProcedureBuilder
           lastName: input.lastName,
         },
         where: {
-          userId: ctx.session.userId,
+          userId: ctx.session.user.userId,
         },
       });
     } else {
@@ -65,6 +92,14 @@ export const onboardingProcedure = authenticatedProcedureBuilder
           role: "MUSICIAN",
           firstName: input.firstName,
           lastName: input.lastName,
+          referral: input.referral
+            ? {
+                create: {
+                  source: input.referral.source,
+                  customSource: input.referral.customSource,
+                },
+              }
+            : undefined,
           stageName: input.stageName,
           isSongWriter: input.isSongWriter,
           isAscapAffiliated: input.isAscapAffiliated,
@@ -90,7 +125,7 @@ export const onboardingProcedure = authenticatedProcedureBuilder
           },
         },
         where: {
-          userId: ctx.session.userId,
+          userId: ctx.session.user.userId,
         },
       });
     }

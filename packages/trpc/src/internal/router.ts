@@ -14,14 +14,29 @@ import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
-import { onboardModeratorProcedure } from "../procedures/onboard_moderator";
-import { projectSubmissionProcedure } from "../procedures/project-submission";
-import { sendModeratorInviteEmailProcedure } from "../procedures/send_moderator_invite";
 import {
-  getAuthenticatedUserProcedure,
-  getUserProcedure,
-} from "../procedures/user";
-import { onboardingProcedure } from "../procedures/user_onboarding";
+  getMusicSubmissionsProcedure,
+  getUserMusicSubmissionsProcedure,
+} from "../procedures/get-music";
+import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
+import {
+  getProjectScenesProcedure,
+  getUserProjectScenesProcedure,
+} from "../procedures/get-project-scenes";
+import {
+  createUpdateMatchCommentsProcedure,
+  getMatchesProcedure,
+  reviewSuggestedMatchProcedure,
+  suggestedMatchProcedure,
+} from "../procedures/matches";
+import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
+import { projectSubmissionProcedure } from "../procedures/project-submission";
+import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
+import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
+import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
+import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
+import { getUserProcedure } from "../procedures/user";
+import { onboardingProcedure } from "../procedures/user-onboarding";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
@@ -33,14 +48,25 @@ export const appRouter = createTRPCRouter({
   refreshSession: refreshSessionProcedure,
   onboarding: onboardingProcedure,
   deleteAccount: deleteAccountProcedure,
-  authenticatedUser: getAuthenticatedUserProcedure,
   user: getUserProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
+  projects: getProjectScenesProcedure,
+  userProjects: getUserProjectScenesProcedure,
+  music: getMusicSubmissionsProcedure,
+  userMusic: getUserMusicSubmissionsProcedure,
+  match: getMatchesProcedure,
+  comment: createUpdateMatchCommentsProcedure,
+  suggestMatch: suggestedMatchProcedure,
+  unlicensedSuggestMatch: unlicensedSuggestedMatchProcedure,
+  reviewMatch: reviewSuggestedMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,
+  submitUnlicensedMusic: submitUnlicensedMusicProcedure,
+  getPNRAndAdmins: getPNRandAdminsProcedure,
+  submitMusic: submitMusicProcedure,
 });
 
 export type AppRouter = typeof appRouter;

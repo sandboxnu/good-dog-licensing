@@ -13,7 +13,8 @@ This repository is a monorepo for the Good Dog Licensing project, managed with T
     - [Running Scripts](#running-scripts)
   - [Running Tests](#running-tests)
   - [Testing in Preview](#testing-in-preview)
-  - [X feature isn't working... HELP!!](#x-feature-isnt-working-help)
+  - [X feature isn't working... HELP!! (Troubleshooting, FAQ)](#x-feature-isnt-working-help-troubleshooting-faq)
+    - [IMPORTANT: Go through this checklist in order, there is a good chance your issue is resolved by the time you reach the end.](#important-go-through-this-checklist-in-order-there-is-a-good-chance-your-issue-is-resolved-by-the-time-you-reach-the-end)
 
 ## Structure
 
@@ -21,24 +22,18 @@ The repository is organized as follows:
 
 - **apps/**: Contains the main applications.
   - **web/**: The web application built with Next.js.
-- **packages/**: Contains shared packages.
+- **packages/**: Contains shared packages. Packages may not have cyclic imports with each other.
   - **auth/**: Authentication-related code.
   - **components/**: Shared React components.
   - **db/**: Database-related scripts and configurations.
   - **email/**: Email-related utilities.
   - **env/**: Environment variable configurations.
   - **trpc/**: tRPC-related code.
-  - **ui/**: UI components and utilities.
 - **tests/**: Contains test-related files and configurations.
   - **api/**: API tests.
   - **frontend/**: Frontend tests.
   - **mocks/**: Mock implementations for testing.
-- **tooling/**: Contains configuration and tooling for the project.
-  - **eslint/**: ESLint configurations.
-  - **github/**: GitHub Actions and workflows.
-  - **prettier/**: Prettier configurations.
-  - **tailwind/**: Tailwind CSS configurations.
-  - **typescript/**: TypeScript configurations.
+- **tooling/**: Contains tooling for the project such configuration as eslint and prettier configs.
 
 ## Getting Started
 
@@ -57,7 +52,7 @@ Install all these tools before you start:
 
    ```sh
    git clone git@github.com:sandboxnu/good-dog-licensing.git
-   cd good-dog
+   cd good-dog-licensing
    ```
 
 2. Install dependencies:
@@ -72,7 +67,8 @@ bun install
 bun env:setup
 ```
 
-4. Start the dev enviornment:
+4. Start the dev environment:
+   You will need to have Docker running to start the database.
 
 ```sh
 bun dev
@@ -80,7 +76,7 @@ bun dev
 
 ### Running Scripts
 
-The following scripts are available in the root `package.json`:
+The following scripts are available in the root [package.json](./package.json). There may be some additional scripts not listed here, but this is a mostly up-to-date list, and more importantly, all the essential scripts are listed here.
 
 - `build`: Build all packages and applications.
 - `clean`: Clean all `node_modules` and Turbo cache.
@@ -90,7 +86,6 @@ The following scripts are available in the root `package.json`:
 - `db:generate`: Generate database client.
 - `db:migrate`: Run database migrations.
 - `db:studio`: Open the database Studio.
-- `db:seed` : Seeds the database.
 - `dev`: Start all the development apps.
 - `dev:web`: Start only the web app.
 - `format`: Check code formatting.
@@ -98,7 +93,7 @@ The following scripts are available in the root `package.json`:
 - `lint`: Run linting.
 - `lint:fix`: Fix linting issues.
 - `typecheck`: Run TypeScript type checks.
-- `shad-add`: Add a new UI component using Shadcn.
+- `shad:add`: Add a new UI component using Shadcn.
 - `generate:package`: Generate a new package.
 - `env:setup`: Setup the default env vars
 - `test`: Run the test suites
@@ -127,9 +122,22 @@ To test the application in a the environment, follow these steps:
 
    - Note that we only have one database instance for all preview branches, so if someone else runs the workflow, it may interfere with your preview branch.
 
-## X feature isn't working... HELP!!
+## X feature isn't working... HELP!! (Troubleshooting, FAQ)
 
-1. Are your dependencies up to date? Run `bun install` to make sure you have the latest versions of everything.
-2. Is your prisma schema pushed? Run `bun db:push` to make sure your database schema is up to date, or `db:migrate:dev` to apply migrations locally
-3. Did your branch up to date? Make sure to pull/merge/rebase from main.
-4. Confusing linting errors? Restart your IDE, sometimes the editor gets confused and doesn't pick up on changes.
+Aside from the obvious advice of _READING THE ERROR MESSAGES_, if you are still stuck, here are some common things that have come up while working on Good Dog:
+
+### IMPORTANT: Go through this checklist in order, there is a good chance your issue is resolved by the time you reach the end.
+
+1. Is your branch up to date? Make sure to pull/merge/rebase from main.
+2. Are your dependencies up to date? Run `bun install` to make sure you have the latest versions of everything.
+3. Is your database schema in sync? Run `bun db:push` which
+   - Ensures sure your database schema defined in [schema.prisma](./packages/db/prisma/schema.prisma) has been pushed into your local database
+   - Generates the typescript types for the database client (you can also manually do just this part with `db:generate`)
+4. Are you getting a lot of red or yellow/orange squiggles in your editor? Use command+shift+p to open the command palette and run `Reload developer window` to restart all the language servers.
+5. Are tests failing locally/are you getting weird database errors? Clear your database and start from scratch with `bun db:migrate:reset`
+6. Is something failing in CI or not building correctly?
+   - Run `bun typecheck` to see if there are any type errors.
+   - Run `bun lint` to see if there are any lint errors.
+     - If there are lint errors, run `bun lint:fix` to fix them, or manually correct the errors.
+   - Run `bun format` to see if there are any formatting errors.
+     - If there are formatting errors, run `bun format:fix` to fix them, or manually correct the errors.

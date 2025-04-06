@@ -7,7 +7,8 @@
     "./client": "./src/client.tsx",
     "./server": "./src/server.ts",
     "./next": "./src/handler.ts",
-    "./utils": "./src/utils.ts"
+    "./schema": "./src/schema/index.ts",
+    "./types": "./src/types.ts"
   },
   "license": "MIT",
   "scripts": {
@@ -20,6 +21,7 @@
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
+    "@tanstack/react-query-devtools": "5.56.2",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
     "typescript": "5.4.5"
