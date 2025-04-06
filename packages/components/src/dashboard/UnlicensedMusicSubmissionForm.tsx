@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
@@ -51,7 +50,7 @@ export default function UnlicensedMusicSubmissionForm() {
   });
 
   const submissionMutation = trpc.submitUnlicensedMusic.useMutation({
-    onSuccess: async () => {
+    onSuccess: () => {
       // TODO, alert the user that they have successfully submitted unlicensed music
       router.push("/");
     },
@@ -116,7 +115,7 @@ export default function UnlicensedMusicSubmissionForm() {
               name="genre"
               control={control}
               options={genres}
-              placeholder="Select multiple options"
+              placeholder="Select Multiple Genres"
             />
             <p>{errors.genre?.message}</p>
             <label className="pb-3 pt-12 text-2xl font-bold">

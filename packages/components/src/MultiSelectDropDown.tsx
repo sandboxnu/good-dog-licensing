@@ -2,7 +2,7 @@
 
 import type React from "react";
 import type { Control } from "react-hook-form";
-import type { ActionMeta, MultiValue } from "react-select";
+import type { MultiValue } from "react-select";
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 
@@ -13,6 +13,7 @@ interface Option {
 
 interface MultiSelectDropdownProps {
   name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   options: Option[];
   placeholder?: string;
@@ -36,12 +37,11 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
           isMulti
           placeholder={placeholder}
           value={options.filter((option) =>
-            field.value?.includes(option.value),
+            Array.isArray(field.value)
+              ? field.value.includes(option.value)
+              : false,
           )}
-          onChange={(
-            newValue: MultiValue<Option>,
-            actionMeta: ActionMeta<Option>,
-          ) => {
+          onChange={(newValue: MultiValue<Option>) => {
             const selectedValues = newValue.map((item) => item.value);
             field.onChange(selectedValues.join(", "));
           }}
