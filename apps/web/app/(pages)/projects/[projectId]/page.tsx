@@ -10,7 +10,8 @@ interface ProjectScenePageProps {
 export default async function ProjectScenesPage({
   params,
 }: ProjectScenePageProps) {
-  const projectId = params.projectId;
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  const projectId = await params.projectId;
 
   // this should get a list of scenes for the given project
   void trpc.mediamakerScenes.prefetch({
@@ -19,7 +20,7 @@ export default async function ProjectScenesPage({
 
   return (
     <HydrateClient>
-      <MediamakerScenes params={{ projectId: params.projectId }} />
+      <MediamakerScenes projectId={projectId} />
     </HydrateClient>
   );
 }

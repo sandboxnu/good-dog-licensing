@@ -10,7 +10,8 @@ export default async function SceneInfoPage({
     sceneId: string;
   };
 }) {
-  const { projectId, sceneId } = params;
+  // eslint-disable-next-line @typescript-eslint/await-thenable
+  const { projectId, sceneId } = await params;
 
   await Promise.all([
     void trpc.mediamakerMatches.prefetch({

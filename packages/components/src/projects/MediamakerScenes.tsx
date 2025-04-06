@@ -7,13 +7,9 @@ import { ChevronLeftIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { trpc } from "@good-dog/trpc/client";
 import { Input } from "@good-dog/ui/input";
 
-export default function MediamakerScenes({
-  params,
-}: {
-  params: { projectId: string };
-}) {
+export default function MediamakerScenes({ projectId }: { projectId: string }) {
   const data = trpc.mediamakerScenes.useSuspenseQuery({
-    projectId: params.projectId,
+    projectId: projectId,
   });
 
   const projectScenes = data[0].scenes;
@@ -40,7 +36,7 @@ export default function MediamakerScenes({
           {projectScenes.map((scene) => (
             <Link
               key={scene.sceneId}
-              href={`/projects/${params.projectId}/scenes/${scene.sceneId}`}
+              href={`/projects/${projectId}/scenes/${scene.sceneId}`}
               className="group block"
             >
               <div className="relative">
