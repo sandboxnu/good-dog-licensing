@@ -78,16 +78,7 @@ export default function UnlicensedMusicSubmissionForm() {
         </p>
         <form
           onSubmit={handleSubmit((data) => {
-            submissionMutation.mutate({
-              songName: data.songName,
-              artist: data.artist,
-              songLink: data.songLink,
-              genre: data.genre,
-              additionalInfo: data.additionalInfo,
-              // or could be
-              // ...data,
-              // but this is more explicit
-            });
+            submissionMutation.mutate(data);
           })}
         >
           <div className="flex flex-col items-start">
