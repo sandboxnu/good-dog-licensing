@@ -12,14 +12,15 @@ export default function RegistrationInput<Values extends FieldValues>(
     placeholder?: string;
     label: string;
     type: HTMLInputTypeAttribute;
-    classname?: string;
+    className?: string;
+    autocomplete?: string;
   }>,
 ) {
   const { register, formState } = useFormContext<Values>();
   const errors = formState.errors[props.fieldName];
 
   return (
-    <div className={props.classname}>
+    <div className={props.className}>
       <label htmlFor={props.fieldName} className="mb-4">
         {props.label}
       </label>
@@ -29,6 +30,7 @@ export default function RegistrationInput<Values extends FieldValues>(
         className="border-good-dog-violet bg-white text-black file:bg-white"
         placeholder={props.placeholder}
         type={props.type}
+        autoComplete={props.autocomplete}
       />
       {typeof errors?.message === "string" && (
         <p className="text-good-dog-error">{errors.message}</p>
