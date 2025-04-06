@@ -1,4 +1,11 @@
-import { afterEach, beforeAll, describe, expect, test } from "bun:test";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
@@ -46,6 +53,14 @@ describe("email-verification", () => {
             sessionId: "1234567890",
           },
         },
+      },
+    });
+  });
+
+  afterAll(async () => {
+    await prisma.user.deleteMany({
+      where: {
+        email: "owen@test.gov",
       },
     });
   });

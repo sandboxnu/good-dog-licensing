@@ -120,6 +120,13 @@ describe("onboarding", () => {
           name: "Owen's Group",
         },
       }),
+      prisma.emailVerificationCode.deleteMany({
+        where: {
+          email: {
+            in: ["owen@test.org", "tracy@test.org"],
+          },
+        },
+      }),
     ]);
   });
 
