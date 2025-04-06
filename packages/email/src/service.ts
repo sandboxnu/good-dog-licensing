@@ -70,7 +70,7 @@ export class EmailService {
     return this.send({
       to: toEmail,
       subject: "Reset Your Password - Good Dog Licensing",
-      html: `<p>Follow <a href="${baseURL}/pwdreset/reset_id?=${cuid}">this link</a> to reset your password.`,
+      html: `<p>Follow <a href="${baseURL}/reset-password/?reset_id=${cuid}">this link</a> to reset your password.`,
       from: env.VERIFICATION_FROM_EMAIL ?? "",
     });
   }
