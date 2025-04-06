@@ -23,16 +23,6 @@ export default async function SceneInfoPage({
     }),
   ]);
 
-  // void trpc.mediamakerMatches.prefetch({
-  //   projectId: projectId,
-  //   sceneId: sceneId,
-  // });
-
-  // void trpc.scene.prefetch({
-  //   projectId,
-  //   sceneId,
-  // });
-
   return (
     <div className="flex min-h-screen flex-col">
       <div className="flex flex-1 flex-col md:flex-row">

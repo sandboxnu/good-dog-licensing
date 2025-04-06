@@ -8,7 +8,7 @@ import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const createMatchRatingProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
-  "modify",
+  "submit",
 )
   .input(
     z.object({

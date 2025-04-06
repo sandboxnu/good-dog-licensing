@@ -5,13 +5,11 @@ import { useRouter } from "next/navigation";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
-  CardStackPlusIcon,
   ChevronDownIcon,
-  CursorTextIcon,
   InfoCircledIcon,
 } from "@radix-ui/react-icons";
 
-import { MatchState, prisma, Rating } from "@good-dog/db";
+import { Rating } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
 import { cn } from "@good-dog/ui";
 import { Button } from "@good-dog/ui/button";
@@ -144,8 +142,8 @@ export default function MusicSection({
       router.push("/success");
     } catch (error) {
       console.error("Error submitting ratings:", error);
-      console.log("For now, we go to success page anyways...");
-      router.push("/success");
+      // console.log("For now, we go to success page anyways...");
+      // router.push("/success");
     } finally {
       setIsSubmitting(false);
     }

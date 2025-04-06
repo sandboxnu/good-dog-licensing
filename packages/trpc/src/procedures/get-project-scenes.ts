@@ -8,7 +8,6 @@ import {
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-//TODO: CHANGE BACK TO PROJECT AND REPERTOIRE PERMISSIONS AFTER TESTING
 export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
@@ -58,10 +57,13 @@ export const mediamakerScenesProcedure = rolePermissionsProcedureBuilder(
       },
     });
 
+    if (!project) {
+      throw new TRPCError({ message: "Project not found.", code: "NOT_FOUND" });
+    }
+
     if (
-      !project ||
-      (ctx.session.user.role === "MEDIA_MAKER" &&
-        project.projectOwnerId !== ctx.session.user.userId)
+      ctx.session.user.role !== "ADMIN" &&
+      project.projectOwnerId !== ctx.session.user.userId
     ) {
       throw new TRPCError({ message: "Project not found.", code: "FORBIDDEN" });
     }
@@ -82,33 +84,30 @@ export const sceneProcedure = rolePermissionsProcedureBuilder(
     }),
   )
   .query(async ({ ctx, input }) => {
-    const projectOwnerId = await ctx.prisma.projectSubmission.findFirst({
-      where: {
-        projectId: input.projectId,
-      },
-      select: {
-        projectOwnerId: true,
-      },
-    });
-
-    if (
-      !projectOwnerId ||
-      (ctx.session.user.role === "MEDIA_MAKER" &&
-        projectOwnerId.projectOwnerId !== ctx.session.user.userId)
-    ) {
-      throw new TRPCError({ message: "Project not found.", code: "FORBIDDEN" });
-    }
-
-    const scene = await ctx.prisma.sceneSubmission.findFirst({
+    const sceneData = await ctx.prisma.sceneSubmission.findFirst({
       where: {
         sceneId: input.sceneId,
         projectId: input.projectId,
       },
+      include: {
+        projectSubmission: {
+          select: {
+            projectOwnerId: true,
+          },
+        },
+      },
     });
 
-    if (!scene) {
+    if (!sceneData) {
+      throw new TRPCError({ message: "Scene not found.", code: "NOT_FOUND" });
+    }
+
+    if (
+      ctx.session.user.role !== "ADMIN" &&
+      sceneData.projectSubmission.projectOwnerId !== ctx.session.user.userId
+    ) {
       throw new TRPCError({ message: "Scene not found.", code: "FORBIDDEN" });
     }
 
-    return scene;
+    return sceneData;
   });
