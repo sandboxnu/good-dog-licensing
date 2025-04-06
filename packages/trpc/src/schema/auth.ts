@@ -10,7 +10,11 @@ export const zPasswordValidation = z
 //   .regex(
 //     /[^a-zA-Z0-9]/,
 //     "Password must contain at least one special character",
-//   );
+// );
+
+export const zPasswordValues = z.object({
+  password: zPasswordValidation,
+});
 
 export const zSignUpValues = z.object({
   email: z.string().email(),

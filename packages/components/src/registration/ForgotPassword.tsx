@@ -25,7 +25,7 @@ export default function ForgotPasswordForm() {
   });
 
   const forgotPasswordMutation = trpc.sendForgotPasswordEmail.useMutation({
-    onSuccess: async (data) => {
+    onSuccess: (data) => {
       setResponseMessage(data.message);
       setIsSuccess(true);
       setTimeout(() => {
@@ -50,7 +50,7 @@ export default function ForgotPasswordForm() {
         variant="light"
         error={
           responseMessage && !isSuccess ? (
-            <p className="text-good-dog-error">{responseMessage}</p>
+            <p className="text-good-dog-pale-yellow">{responseMessage}</p>
           ) : null
         }
         ctaTitle="Send Reset Link"
