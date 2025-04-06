@@ -30,3 +30,7 @@ export const zSignInValues = z.object({
   email: z.string().email(),
   password: z.string(),
 });
+
+export const zForgotPasswordValues = z.object({
+  email: z.string().email(),
+});
