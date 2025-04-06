@@ -138,7 +138,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
               return {
                 commentText: comment.commentText,
                 userName: comment.user.firstName + " " + comment.user.lastName,
-                timestamp: comment.createdAt.toDateString(),
+                timestamp: comment.createdAtDateString,
                 commentId: comment.commentId,
               };
             });
@@ -223,7 +223,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
               return {
                 commentText: comment.commentText,
                 userName: comment.user.firstName + " " + comment.user.lastName,
-                timestamp: comment.createdAt.toDateString(),
+                timestamp: comment.createdAtDateString,
                 commentId: comment.commentId,
               };
             });

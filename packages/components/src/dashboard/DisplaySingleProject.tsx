@@ -11,7 +11,7 @@ interface DisplaySingleProjectProps {
 
 export default function DisplaySingleProject(props: DisplaySingleProjectProps) {
   return (
-    <div className="absolute inset-0 h-[calc(100vh+160px)] bg-[#5F5F5FB2] pt-[160px]">
+    <div className="absolute inset-0 h-[calc(100vh+160px)] min-h-[960px] bg-[#5F5F5FB2] pt-[160px]">
       <div className="flex h-screen justify-end p-[60px]">
         <div className="h-full w-1/2 overflow-auto rounded-xl bg-white pb-[20px] xl:w-2/5">
           <div className="flex w-full items-center pt-[28px]">

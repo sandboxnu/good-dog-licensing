@@ -68,7 +68,7 @@ export default function InviteModeratorModal(
   }, [moderatorEmail]);
 
   return (
-    <div className="fixed inset-0 flex h-screen w-screen justify-end bg-[#A3A3A382] pr-[150px] pt-[180px]">
+    <div className="absolute inset-0 flex h-[calc(100vh+160px)] min-h-[960px] w-full justify-end bg-[#A3A3A382] pr-[150px] pt-[340px]">
       <div className="h-[500px] w-[480px] rounded-xl bg-white pl-[21px] pt-[22px]">
         <div className="font-afacad text-2xl font-medium text-black underline underline-offset-4">
           Invite P&R Rep

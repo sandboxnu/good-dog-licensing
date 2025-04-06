@@ -12,7 +12,7 @@ export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
 ).query(async ({ ctx }) => {
-  const projects = await ctx.prisma.projectSubmission.findMany({
+  const projectsRaw = await ctx.prisma.projectSubmission.findMany({
     include: {
       scenes: true,
       projectOwner: {
@@ -22,6 +22,13 @@ export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
         },
       },
     },
+  });
+
+  const projects = projectsRaw.map((project) => {
+    return {
+      ...project,
+      createdAtDateString: project.createdAt.toDateString(),
+    };
   });
 
   return { projects };
@@ -109,7 +116,35 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
       });
     }
 
-    return { projectTitle: project.projectTitle, ...scene };
+    const sceneFinal = {
+      ...scene,
+      unlicensedSuggestedMatches: scene.unlicensedSuggestedMatches.map(
+        (match) => {
+          return {
+            ...match,
+            matchComments: match.matchComments.map((comment) => {
+              return {
+                ...comment,
+                createdAtDateString: comment.createdAt.toDateString(),
+              };
+            }),
+          };
+        },
+      ),
+      suggestedMatches: scene.suggestedMatches.map((match) => {
+        return {
+          ...match,
+          matchComments: match.matchComments.map((comment) => {
+            return {
+              ...comment,
+              createdAtDateString: comment.createdAt.toDateString(),
+            };
+          }),
+        };
+      }),
+    };
+
+    return { projectTitle: project.projectTitle, ...sceneFinal };
   });
 
 export const getUserProjectScenesProcedure = rolePermissionsProcedureBuilder(

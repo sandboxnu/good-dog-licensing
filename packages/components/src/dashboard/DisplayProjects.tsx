@@ -47,7 +47,7 @@ export default function DisplayProjects() {
                     project.projectOwner.lastName}
                 </div>
                 <div className="font-afacad flex w-1/4 items-center justify-start text-lg font-normal text-black">
-                  {project.createdAt.toDateString()}
+                  {project.createdAtDateString}
                 </div>
                 <div className="font-afacad flex w-1/4 items-center justify-start text-lg font-normal text-black">
                   <Link
@@ -66,8 +66,8 @@ export default function DisplayProjects() {
       {displayedProject && (
         <DisplaySingleProject
           projectName={displayedProject.projectTitle}
-          dateSubmitted={displayedProject.createdAt.toDateString()}
-          projectDeadline={displayedProject.deadline.toDateString()}
+          dateSubmitted={displayedProject.createdAtDateString}
+          projectDeadline={displayedProject.createdAtDateString}
           projectDescription={displayedProject.description}
           projectAdditionalInfo={displayedProject.additionalInfo}
           projectScenes={displayedProject.scenes.map((scene) => {
