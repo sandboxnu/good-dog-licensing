@@ -5,7 +5,6 @@ import Link from "next/link";
 import clsx from "clsx";
 
 import { trpc } from "@good-dog/trpc/client";
-import { Button } from "@good-dog/ui/button";
 
 export default function DisplaySongs() {
   const licensedMusic = trpc.music.useSuspenseQuery();
