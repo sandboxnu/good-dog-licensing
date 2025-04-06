@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
 
-import MultiSelectDropdown from "./MultiSelectDropDown";
+import MultiSelectDropdown from "../MultiSelectDropDown";
 
 const schema = z.object({
   songName: z.string(),
@@ -19,6 +19,24 @@ const schema = z.object({
 });
 
 type FormFields = z.infer<typeof schema>;
+
+const genres = [
+  { value: "pop", label: "Pop" },
+  { value: "rock", label: "Rock" },
+  { value: "hip-hop", label: "Hip-Hop/Rap" },
+  { value: "r&b", label: "R&B" },
+  { value: "edm", label: "Electronic/Dance (EDM)" },
+  { value: "country", label: "Country" },
+  { value: "jazz", label: "Jazz" },
+  { value: "classical", label: "Classical" },
+  { value: "reggae", label: "Reggae" },
+  { value: "blues", label: "Blues" },
+  { value: "latin", label: "Latin" },
+  { value: "funk", label: "Funk" },
+  { value: "soul", label: "Soul" },
+  { value: "metal", label: "Metal" },
+  { value: "folk", label: "Folk" },
+];
 
 export default function UnlicensedMusicSubmissionForm() {
   const router = useRouter();
@@ -42,24 +60,6 @@ export default function UnlicensedMusicSubmissionForm() {
       console.error(err);
     },
   });
-
-  const genres = [
-    { value: "pop", label: "Pop" },
-    { value: "rock", label: "Rock" },
-    { value: "hip-hop", label: "Hip-Hop/Rap" },
-    { value: "r&b", label: "R&B" },
-    { value: "edm", label: "Electronic/Dance (EDM)" },
-    { value: "country", label: "Country" },
-    { value: "jazz", label: "Jazz" },
-    { value: "classical", label: "Classical" },
-    { value: "reggae", label: "Reggae" },
-    { value: "blues", label: "Blues" },
-    { value: "latin", label: "Latin" },
-    { value: "funk", label: "Funk" },
-    { value: "soul", label: "Soul" },
-    { value: "metal", label: "Metal" },
-    { value: "folk", label: "Folk" },
-  ];
 
   return (
     <div className="bg-[#DEE0E2] p-14">
