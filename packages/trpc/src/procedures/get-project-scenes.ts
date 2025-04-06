@@ -34,6 +34,7 @@ export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
   return { projects };
 });
 
+// TODO - Test this api route. Ticket #149
 export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
@@ -49,6 +50,7 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
         sceneId: input.sceneId,
       },
       include: {
+        projectSubmission: true,
         unlicensedSuggestedMatches: {
           include: {
             matchComments: {
@@ -104,18 +106,6 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
       });
     }
 
-    const project = await ctx.prisma.projectSubmission.findUnique({
-      where: {
-        projectId: scene.projectId,
-      },
-    });
-
-    if (!project) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-      });
-    }
-
     const sceneFinal = {
       ...scene,
       unlicensedSuggestedMatches: scene.unlicensedSuggestedMatches.map(
@@ -144,7 +134,7 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
       }),
     };
 
-    return { projectTitle: project.projectTitle, ...sceneFinal };
+    return { ...sceneFinal };
   });
 
 export const getUserProjectScenesProcedure = rolePermissionsProcedureBuilder(

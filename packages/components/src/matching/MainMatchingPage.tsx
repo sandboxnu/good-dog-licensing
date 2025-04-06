@@ -14,32 +14,52 @@ interface MainMatchingPageProps {
 
 export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   // Get the user
-  const user = trpc.user.useSuspenseQuery();
+  const [user] = trpc.user.useSuspenseQuery();
 
   // Get the actual scene related to the given sceneId
-  const sceneQuery = trpc.getSceneById.useSuspenseQuery({
+  const [sceneInfo, sceneQuery] = trpc.getSceneById.useSuspenseQuery({
     sceneId: sceneId,
   });
-  const sceneInfo = sceneQuery[0];
 
   // Get all the current matches for the scene
-  let matchedLicensedMusicIds: string[] = [];
-  let matchedUnlicensedMusicIds: string[] = [];
+  const [matchedLicensedMusicIds, setMatchedLicensedMusicIds] = useState<
+    string[]
+  >(
+    sceneInfo.suggestedMatches
+      .sort(
+        (matchA, matchB) =>
+          matchB.createdAt.getTime() - matchA.createdAt.getTime(),
+      )
+      .map((match) => match.musicId),
+  );
+  const [matchedUnlicensedMusicIds, setMatchedUnlicensedMusicIds] = useState<
+    string[]
+  >(
+    sceneInfo.unlicensedSuggestedMatches
+      .sort(
+        (matchA, matchB) =>
+          matchB.createdAt.getTime() - matchA.createdAt.getTime(),
+      )
+      .map((match) => match.musicId),
+  );
   const updateMatchedMusicIds = () => {
-    matchedLicensedMusicIds = sceneInfo.suggestedMatches
-      .sort(
-        (matchA, matchB) =>
-          matchB.createdAt.getTime() - matchA.createdAt.getTime(),
-      )
-      .map((match) => match.musicId);
-    matchedUnlicensedMusicIds = sceneInfo.unlicensedSuggestedMatches
-      .sort(
-        (matchA, matchB) =>
-          matchB.createdAt.getTime() - matchA.createdAt.getTime(),
-      )
-      .map((match) => match.musicId);
+    setMatchedLicensedMusicIds(
+      sceneInfo.suggestedMatches
+        .sort(
+          (matchA, matchB) =>
+            matchB.createdAt.getTime() - matchA.createdAt.getTime(),
+        )
+        .map((match) => match.musicId),
+    );
+    setMatchedUnlicensedMusicIds(
+      sceneInfo.unlicensedSuggestedMatches
+        .sort(
+          (matchA, matchB) =>
+            matchB.createdAt.getTime() - matchA.createdAt.getTime(),
+        )
+        .map((match) => match.musicId),
+    );
   };
-  updateMatchedMusicIds();
 
   // Get all the music in the database
   const licensedMusic = trpc.music.useSuspenseQuery();
@@ -54,7 +74,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   >([]);
 
   const handleSuccessfulMatch = async (musicId: string) => {
-    await sceneQuery[1].refetch();
+    await sceneQuery.refetch();
     updateMatchedMusicIds();
 
     const newSelectedLicensedMusicIds = selectedLicensedMusicIds.filter(
@@ -68,7 +88,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   };
 
   const handleCommentMade = async () => {
-    await sceneQuery[1].refetch();
+    await sceneQuery.refetch();
     updateMatchedMusicIds();
   };
 
@@ -76,7 +96,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     <div className="flex h-screen w-full bg-[#DEE0E2] px-[80px] py-[60px]">
       <DisplaySceneInfo
         projectId={sceneInfo.projectId}
-        projectTitle={sceneInfo.projectTitle}
+        projectTitle={sceneInfo.projectSubmission.projectTitle}
         sceneTitle={sceneInfo.sceneTitle}
         description={sceneInfo.description}
         similarSongs={sceneInfo.similarSongs}
@@ -124,7 +144,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                   isMatched={false}
                   handleMatch={handleSuccessfulMatch}
                   matchId=""
-                  userId={user[0]?.userId ?? ""}
+                  userId={user?.userId ?? ""}
                   handleComment={handleCommentMade}
                   comments={[]}
                   genres={song?.genre ?? ""}
@@ -158,7 +178,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                   musicId={match.musicId}
                   isMatched={true}
                   handleMatch={handleSuccessfulMatch}
-                  userId={user[0]?.userId ?? ""}
+                  userId={user?.userId ?? ""}
                   matchId={match.suggestedMatchId}
                   handleComment={handleCommentMade}
                   comments={comments}
@@ -209,7 +229,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                   isMatched={false}
                   handleMatch={handleSuccessfulMatch}
                   matchId=""
-                  userId={user[0]?.userId ?? ""}
+                  userId={user?.userId ?? ""}
                   handleComment={handleCommentMade}
                   comments={[]}
                   genres={song?.genre ?? ""}
@@ -239,7 +259,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                   musicId={match.musicId}
                   isMatched={true}
                   handleMatch={handleSuccessfulMatch}
-                  userId={user[0]?.userId ?? ""}
+                  userId={user?.userId ?? ""}
                   matchId={match.unlicensedSuggestedMatchId}
                   handleComment={handleCommentMade}
                   comments={comments}
