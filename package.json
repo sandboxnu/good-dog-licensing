@@ -55,9 +55,5 @@
     "packages/*",
     "tooling/*",
     "tests"
-  ],
-  "dependencies": {
-    "lucide-react": "^0.487.0",
-    "react-select": "^5.10.1"
-  }
+  ]
 }
