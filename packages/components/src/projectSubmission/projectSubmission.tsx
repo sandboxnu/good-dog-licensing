@@ -1,6 +1,6 @@
-import { Input } from "@good-dog/components/input";
-import { Textarea } from "@good-dog/components/textarea";
 import { Button } from "@good-dog/ui/button";
+import { Input } from "@good-dog/ui/input";
+import { Textarea } from "@good-dog/ui/textarea";
 
 export default function ProjectSubmission({ goNext, data, setData }: Props) {
   return (
@@ -95,7 +95,7 @@ export default function ProjectSubmission({ goNext, data, setData }: Props) {
   );
 }
 
-type Props = {
+interface Props {
   goNext: () => void;
   data: {
     projectTitle: string;
@@ -105,4 +105,4 @@ type Props = {
     additionalInfo?: string;
   };
   setData: (data: Props["data"]) => void;
-};
+}

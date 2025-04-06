@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import { Input } from "@good-dog/components/input";
 import { Button } from "@good-dog/ui/button";
+import { Input } from "@good-dog/ui/input";
 
 export default function FinalProjSubmission({
   goBack,
@@ -80,9 +80,9 @@ export default function FinalProjSubmission({
   );
 }
 
-type Props = {
+interface Props {
   goBack: () => void;
   onSubmit: () => void;
   additionalInfo: string;
   setAdditionalInfo: (info: string) => void;
-};
+}

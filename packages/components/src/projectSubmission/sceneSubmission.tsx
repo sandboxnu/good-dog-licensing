@@ -2,9 +2,9 @@
 
 import { Plus } from "lucide-react";
 
-import { Input } from "@good-dog/components/input";
-import { Textarea } from "@good-dog/components/textarea";
 import { Button } from "@good-dog/ui/button";
+import { Input } from "@good-dog/ui/input";
+import { Textarea } from "@good-dog/ui/textarea";
 
 export default function SceneSubmission({
   sceneData,
@@ -157,18 +157,18 @@ export default function SceneSubmission({
   );
 }
 
-type Scene = {
+interface Scene {
   sceneTitle: string;
   description: string;
   musicType: string;
   similarSongs: string;
   additionalInfo: string;
-};
+}
 
-type Props = {
+interface Props {
   sceneData: Scene;
   setSceneData: (scene: Scene) => void;
   goNext: () => void;
   onNewScene: () => void;
   goBack: () => void;
-};
+}

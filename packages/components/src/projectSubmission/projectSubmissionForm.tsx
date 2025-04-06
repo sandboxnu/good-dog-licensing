@@ -13,13 +13,13 @@ enum VisibleComponent {
   LAST = "last",
 }
 
-type Scene = {
+interface Scene {
   sceneTitle: string;
   description: string;
   musicType: string;
   similarSongs: string;
   additionalInfo: string;
-};
+}
 
 export default function ProjectSubmissionForm() {
   const [visibleComp, setVisibleComp] = useState<VisibleComponent>(
@@ -77,7 +77,7 @@ export default function ProjectSubmissionForm() {
       await submitProject.mutateAsync(payload);
 
       alert("Project submitted successfully!");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Submission failed", error);
       alert(`Failed to submit the project. Please try again.`);
     }
@@ -100,7 +100,7 @@ export default function ProjectSubmissionForm() {
     return (
       <SceneSubmission
         sceneData={
-          scenes[currentSceneIndex] || {
+          scenes[currentSceneIndex] ?? {
             sceneTitle: "",
             description: "",
             musicType: "",
