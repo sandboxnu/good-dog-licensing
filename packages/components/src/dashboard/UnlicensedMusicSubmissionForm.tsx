@@ -46,7 +46,7 @@ export default function UnlicensedMusicSubmissionForm() {
   const genres = [
     { value: "pop", label: "Pop" },
     { value: "rock", label: "Rock" },
-    { value: "hip-hip", label: "Hip-Hop/Rap" },
+    { value: "hip-hop", label: "Hip-Hop/Rap" },
     { value: "r&b", label: "R&B" },
     { value: "edm", label: "Electronic/Dance (EDM)" },
     { value: "country", label: "Country" },
