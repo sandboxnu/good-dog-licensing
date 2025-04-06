@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { trpc } from "@good-dog/trpc/client";
 
@@ -42,7 +42,37 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
       )
       .map((match) => match.musicId),
   );
-  const updateMatchedMusicIds = () => {
+
+  // Get all the music in the database
+  const licensedMusic = trpc.music.useSuspenseQuery();
+  const unlicensedMusic = trpc.unlicensedMusic.useSuspenseQuery();
+
+  // Music IDs of songs that are not yet matched, but ready to be matched
+  const [selectedLicensedMusicIds, setSelectedLicensedMusicIds] = useState<
+    string[]
+  >([]);
+  const [selectedUnlicensedMusicIds, setSelectedUnlicensedMusicIds] = useState<
+    string[]
+  >([]);
+
+  const handleSuccessfulMatch = async (musicId: string) => {
+    await sceneQuery.refetch();
+
+    const newSelectedLicensedMusicIds = selectedLicensedMusicIds.filter(
+      (id) => id !== musicId,
+    );
+    const newSelectedUnlicensedMusicIds = selectedUnlicensedMusicIds.filter(
+      (id) => id !== musicId,
+    );
+    setSelectedLicensedMusicIds(newSelectedLicensedMusicIds);
+    setSelectedUnlicensedMusicIds(newSelectedUnlicensedMusicIds);
+  };
+
+  const handleCommentMade = async () => {
+    await sceneQuery.refetch();
+  };
+
+  useEffect(() => {
     setMatchedLicensedMusicIds(
       sceneInfo.suggestedMatches
         .sort(
@@ -59,38 +89,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
         )
         .map((match) => match.musicId),
     );
-  };
-
-  // Get all the music in the database
-  const licensedMusic = trpc.music.useSuspenseQuery();
-  const unlicensedMusic = trpc.unlicensedMusic.useSuspenseQuery();
-
-  // Music IDs of songs that are not yet matched, but ready to be matched
-  const [selectedLicensedMusicIds, setSelectedLicensedMusicIds] = useState<
-    string[]
-  >([]);
-  const [selectedUnlicensedMusicIds, setSelectedUnlicensedMusicIds] = useState<
-    string[]
-  >([]);
-
-  const handleSuccessfulMatch = async (musicId: string) => {
-    await sceneQuery.refetch();
-    updateMatchedMusicIds();
-
-    const newSelectedLicensedMusicIds = selectedLicensedMusicIds.filter(
-      (id) => id !== musicId,
-    );
-    const newSelectedUnlicensedMusicIds = selectedUnlicensedMusicIds.filter(
-      (id) => id !== musicId,
-    );
-    setSelectedLicensedMusicIds(newSelectedLicensedMusicIds);
-    setSelectedUnlicensedMusicIds(newSelectedUnlicensedMusicIds);
-  };
-
-  const handleCommentMade = async () => {
-    await sceneQuery.refetch();
-    updateMatchedMusicIds();
-  };
+  }, [sceneInfo]);
 
   return (
     <div className="flex h-screen w-full bg-[#DEE0E2] px-[80px] py-[60px]">
