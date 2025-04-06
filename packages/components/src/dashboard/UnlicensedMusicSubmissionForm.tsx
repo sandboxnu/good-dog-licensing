@@ -10,9 +10,9 @@ import { trpc } from "@good-dog/trpc/client";
 import MultiSelectDropdown from "../MultiSelectDropDown";
 
 const schema = z.object({
-  songName: z.string(),
-  artist: z.string(),
-  songLink: z.string(),
+  songName: z.string().min(1, "Song name is required"),
+  artist: z.string().min(1, "Artist name is required"),
+  songLink: z.string().min(1, "Song link is required"),
   genre: z.string(),
   additionalInfo: z.string().optional(),
 });
