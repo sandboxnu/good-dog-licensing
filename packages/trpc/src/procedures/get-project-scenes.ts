@@ -21,7 +21,7 @@ export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
   return { projects };
 });
 
-// TODO: test these procedures
+// TODO: test these procedures as mentioned in #152
 
 // gets all of the projects belonging to a mediamaker
 export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(

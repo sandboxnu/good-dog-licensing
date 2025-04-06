@@ -86,30 +86,6 @@ export default function MusicSection({
   };
 
   const rateMatch = trpc.rateMatch.useMutation();
-
-  // const handleSubmit = () => {
-  //   ratingInputs.forEach((matchItem) => {
-  //     if (
-  //       matchItem.matchData.ratingId !== null &&
-  //       matchItem.matchData.rating !== null
-  //     ) {
-  //       rateMatch.mutate({
-  //         ratingEnum: matchItem.matchData.rating,
-  //         unlicensed: matchItem.matchData.unlicensed,
-  //         matchId: matchItem.matchId,
-  //       });
-  //     } else if (matchItem.matchData.rating !== null) {
-  //       rateMatch.mutate({
-  //         ratingEnum: matchItem.matchData.rating,
-  //         unlicensed: matchItem.matchData.unlicensed,
-  //         matchId: matchItem.matchId,
-  //       });
-  //     } else {
-  //       // do nothing and do not update the match rating
-  //     }
-  //   });
-  // };
-
   const router = useRouter();
 
   const handleSubmit = async () => {
@@ -142,8 +118,6 @@ export default function MusicSection({
       router.push("/success");
     } catch (error) {
       console.error("Error submitting ratings:", error);
-      // console.log("For now, we go to success page anyways...");
-      // router.push("/success");
     } finally {
       setIsSubmitting(false);
     }
@@ -182,38 +156,36 @@ export default function MusicSection({
 
           <div className="space-y-3">
             {licensedInfo.map((item) => {
-              if (item) {
-                const musicData: MusicData = {
-                  musicId: item.musicSubmission.musicId,
-                  songName: item.musicSubmission.songName,
-                  artist: item.musicSubmission.artistId,
-                  songLink: item.musicSubmission.songLink || "",
-                  genre: item.musicSubmission.genre || "",
-                  additionalInfo: item.musicSubmission.additionalInfo || "",
-                };
+              const musicData: MusicData = {
+                musicId: item.musicSubmission.musicId,
+                songName: item.musicSubmission.songName,
+                artist: item.musicSubmission.artistId,
+                songLink: item.musicSubmission.songLink || "",
+                genre: item.musicSubmission.genre || "",
+                additionalInfo: item.musicSubmission.additionalInfo || "",
+              };
 
-                //check if there's an existing rating
-                const existingRating: Rating | null =
-                  item.matchLikes.length > 0
-                    ? item.matchLikes[0]?.ratingEnum ?? null
-                    : null;
-                const ratingId: string | null =
-                  item.matchLikes.length > 0
-                    ? item.matchLikes[0]?.ratingId ?? null
-                    : null;
+              //check if there's an existing rating
+              const existingRating: Rating | null =
+                item.matchLikes.length > 0
+                  ? item.matchLikes[0]?.ratingEnum ?? null
+                  : null;
+              const ratingId: string | null =
+                item.matchLikes.length > 0
+                  ? item.matchLikes[0]?.ratingId ?? null
+                  : null;
 
-                return (
-                  <MusicChild
-                    key={item.suggestedMatchId}
-                    musicData={musicData}
-                    rating={existingRating}
-                    ratingId={ratingId}
-                    unlicensed={false}
-                    matchId={item.suggestedMatchId}
-                    onData={handleData}
-                  />
-                );
-              }
+              return (
+                <MusicChild
+                  key={item.suggestedMatchId}
+                  musicData={musicData}
+                  rating={existingRating}
+                  ratingId={ratingId}
+                  unlicensed={false}
+                  matchId={item.suggestedMatchId}
+                  onData={handleData}
+                />
+              );
             })}
           </div>
         </div>
@@ -238,38 +210,36 @@ export default function MusicSection({
 
           <div className="space-y-3">
             {unlicensedInfo.map((item) => {
-              if (item) {
-                const musicData: MusicData = {
-                  musicId: item.musicSubmission.musicId,
-                  songName: item.musicSubmission.songName,
-                  artist: item.musicSubmission.artist,
-                  songLink: item.musicSubmission.songLink || "",
-                  genre: item.musicSubmission.genre || "",
-                  additionalInfo: item.musicSubmission.additionalInfo || "",
-                };
+              const musicData: MusicData = {
+                musicId: item.musicSubmission.musicId,
+                songName: item.musicSubmission.songName,
+                artist: item.musicSubmission.artist,
+                songLink: item.musicSubmission.songLink || "",
+                genre: item.musicSubmission.genre || "",
+                additionalInfo: item.musicSubmission.additionalInfo || "",
+              };
 
-                //check if there's an existing rating
-                const existingRating: Rating | null =
-                  item.matchRatings.length > 0
-                    ? item.matchRatings[0]?.ratingEnum ?? null
-                    : null;
-                const ratingId: string | null =
-                  item.matchRatings.length > 0
-                    ? item.matchRatings[0]?.ratingId ?? null
-                    : null;
+              //check if there's an existing rating
+              const existingRating: Rating | null =
+                item.matchRatings.length > 0
+                  ? item.matchRatings[0]?.ratingEnum ?? null
+                  : null;
+              const ratingId: string | null =
+                item.matchRatings.length > 0
+                  ? item.matchRatings[0]?.ratingId ?? null
+                  : null;
 
-                return (
-                  <MusicChild
-                    key={item.unlicensedSuggestedMatchId}
-                    musicData={musicData}
-                    rating={existingRating}
-                    ratingId={ratingId}
-                    unlicensed={true}
-                    matchId={item.unlicensedSuggestedMatchId}
-                    onData={handleData}
-                  />
-                );
-              }
+              return (
+                <MusicChild
+                  key={item.unlicensedSuggestedMatchId}
+                  musicData={musicData}
+                  rating={existingRating}
+                  ratingId={ratingId}
+                  unlicensed={true}
+                  matchId={item.unlicensedSuggestedMatchId}
+                  onData={handleData}
+                />
+              );
             })}
           </div>
         </div>

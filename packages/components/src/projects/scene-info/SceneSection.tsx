@@ -28,7 +28,9 @@ export default function SceneSection({
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="text-sm font-medium">Scene Added</div>
-            <div className="text-sm">February 2, 2025</div>
+            <div className="text-sm">
+              {sceneInfo.createdAt.toISOString().toString().substring(0, 10)}
+            </div>
           </div>
           <DividerHorizontalIcon />
 
