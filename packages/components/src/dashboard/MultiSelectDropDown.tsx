@@ -67,6 +67,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
               valueContainer: (provided) => ({
                 ...provided,
                 padding: "0 10px", // Padding for the selected value
+                maxWidth: "815px", // Prevent overflow
               }),
               placeholder: (provided) => ({
                 ...provided,    
