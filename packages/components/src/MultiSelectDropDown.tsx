@@ -37,9 +37,8 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
           isMulti
           placeholder={placeholder}
           value={options.filter((option) =>
-            Array.isArray(field.value)
-              ? field.value.includes(option.value)
-              : false,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+            field.value?.includes(option.value),
           )}
           onChange={(newValue: MultiValue<Option>) => {
             const selectedValues = newValue.map((item) => item.value);
