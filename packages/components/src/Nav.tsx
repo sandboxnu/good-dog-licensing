@@ -79,6 +79,23 @@ export default function Nav() {
             >
               Gallery
             </Link>
+            {user ? (
+              <>
+                <button
+                  onClick={() => signOutMutation.mutate()}
+                  className="text-white transition hover:text-emerald-400"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="text-white transition hover:text-emerald-400"
+              >
+                Login
+              </Link>
+            )}
             <Link
               href="/project-submission"
               className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
