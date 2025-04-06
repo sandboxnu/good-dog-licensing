@@ -2,10 +2,11 @@
 
 import React, { useState } from "react";
 
-import FinalProjSubmission from "@good-dog/components/projectSubmission/finalProjSubmission";
-import ProjectSubmission from "@good-dog/components/projectSubmission/projectSubmission";
-import SceneSubmission from "@good-dog/components/projectSubmission/sceneSubmission";
 import { trpc } from "@good-dog/trpc/client";
+
+import FinalProjSubmission from "./FinalProjSubmission";
+import ProjectSubmission from "./ProjectSubmission";
+import SceneSubmission from "./SceneSubmission";
 
 enum VisibleComponent {
   FIRST = "first",
