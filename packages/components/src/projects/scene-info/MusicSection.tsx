@@ -159,7 +159,11 @@ export default function MusicSection({
               const musicData: MusicData = {
                 musicId: item.musicSubmission.musicId,
                 songName: item.musicSubmission.songName,
-                artist: item.musicSubmission.artistId,
+                artist:
+                  item.musicSubmission.artist.stageName ??
+                  item.musicSubmission.artist.firstName +
+                    " " +
+                    item.musicSubmission.artist.lastName,
                 songLink: item.musicSubmission.songLink || "",
                 genre: item.musicSubmission.genre || "",
                 additionalInfo: item.musicSubmission.additionalInfo || "",

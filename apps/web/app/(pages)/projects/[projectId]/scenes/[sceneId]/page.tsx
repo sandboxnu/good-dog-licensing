@@ -5,12 +5,11 @@ import { HydrateClient, trpc } from "@good-dog/trpc/server";
 export default async function SceneInfoPage({
   params,
 }: {
-  params: {
+  params: Promise<{
     projectId: string;
     sceneId: string;
-  };
+  }>;
 }) {
-  // eslint-disable-next-line @typescript-eslint/await-thenable
   const { projectId, sceneId } = await params;
 
   await Promise.all([

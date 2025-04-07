@@ -32,7 +32,17 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
         },
         suggestedMatches: {
           include: {
-            musicSubmission: true,
+            musicSubmission: {
+              include: {
+                artist: {
+                  select: {
+                    firstName: true,
+                    lastName: true,
+                    stageName: true,
+                  },
+                },
+              },
+            },
             matchLikes: true,
           },
         },
