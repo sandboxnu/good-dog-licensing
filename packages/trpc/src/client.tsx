@@ -25,6 +25,9 @@ const getQueryClient = () => {
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return "";
+  if (env.VERCEL_ENV === "production") {
+    return `https://good-dog-licensing.vercel.app`;
+  }
   if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`;
   return "http://localhost:3000";
 };

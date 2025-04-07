@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "clean": "rm -rf .turbo node_modules",
+    "clean": "rm -rf .turbo node_modules .next",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint",
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
@@ -15,6 +15,7 @@
     "@good-dog/auth": "workspace:*",
     "@good-dog/components": "workspace:*",
     "@good-dog/env": "workspace:*",
+    "@good-dog/hooks": "workspace:*",
     "@good-dog/tailwind": "workspace:*",
     "@good-dog/trpc": "workspace:*",
     "@good-dog/ui": "workspace:*",
@@ -29,7 +30,6 @@
     "@good-dog/prettier": "workspace:*",
     "@good-dog/tailwind": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "@types/react": "^18.3.7",
     "eslint": "9.10.0",
     "prettier": "3.2.5",
     "tailwindcss": "3.4.12",

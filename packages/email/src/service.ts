@@ -35,6 +35,23 @@ export class EmailService {
     return code;
   }
 
+  /**
+   * Production environment on Vercel should redirect to the production URL.
+   *
+   * Any other vercel environment should redirect to the Vercel URL environment variable.
+   *
+   * If neither of those are set, we default to localhost:3000.
+   */
+  getBaseUrl() {
+    if (env.VERCEL_ENV === "production") {
+      return "https://good-dog-licensing.vercel.app";
+    } else if (env.VERCEL_URL) {
+      return `https://${env.VERCEL_URL}`;
+    }
+
+    return "http://localhost:3000";
+  }
+
   async send(msg: EmailMessage) {
     if (!msg.from) {
       throw new TypeError("Failed to send email: No from email provided.");
@@ -53,7 +70,7 @@ export class EmailService {
     return this.send({
       to: toEmail,
       subject: "Reset Your Password - Good Dog Licensing",
-      html: `<p>Follow <a href="${baseURL}/pwdreset/reset_id?=${cuid}">this link</a> to reset your password.`,
+      html: `<p>Follow <a href="${baseURL}/reset-password/?reset_id=${cuid}">this link</a> to reset your password.`,
       from: env.VERIFICATION_FROM_EMAIL ?? "",
     });
   }
@@ -67,15 +84,6 @@ export class EmailService {
       html: `<p>Follow <a href="${baseURL}/pnr-invite/?id=${cuid}">this link</a> to sign up as a PR.`,
       from: env.VERIFICATION_FROM_EMAIL ?? "",
     });
-  }
-
-  private getBaseUrl() {
-    let baseURL = "http://localhost:3000";
-    if (env.VERCEL_URL) {
-      baseURL = `https://${env.VERCEL_URL}`;
-    }
-
-    return baseURL;
   }
 
   sendVerificationEmail(toEmail: string, code: string) {

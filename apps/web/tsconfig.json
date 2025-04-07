@@ -7,10 +7,14 @@
     "paths": {
       "~/*": ["app/*"]
     },
-    "plugins": [{ "name": "next" }],
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
     "module": "esnext",
-    "types": ["react/canary"]
+    "types": ["react/canary"],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [".", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

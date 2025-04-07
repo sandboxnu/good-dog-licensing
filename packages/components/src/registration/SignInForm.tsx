@@ -1,21 +1,17 @@
 "use client";
 
+import type { z } from "zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
+import { zSignInValues } from "@good-dog/trpc/schema";
 import { Checkbox } from "@good-dog/ui/checkbox";
 
 import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
-
-const zSignInValues = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
 
 type FormValues = z.infer<typeof zSignInValues>;
 
@@ -31,11 +27,8 @@ export default function SignInForm() {
 
   const signInMutation = trpc.signIn.useMutation({
     onSuccess: async () => {
-      // Reset the user and authenticatedUser queries
-      await Promise.all([
-        trpcUtils.user.reset(),
-        trpcUtils.authenticatedUser.reset(),
-      ]);
+      // Reset the user query
+      await trpcUtils.user.reset();
 
       // TODO, alert the user that they have successfully signed in
       router.push("/");

@@ -7,7 +7,7 @@
     "./client": "./src/client.tsx",
     "./server": "./src/server.ts",
     "./next": "./src/handler.ts",
-    "./utils": "./src/utils.ts",
+    "./schema": "./src/schema/index.ts",
     "./types": "./src/types.ts"
   },
   "license": "MIT",
