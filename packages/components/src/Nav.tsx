@@ -97,12 +97,30 @@ export default function Nav() {
                 Login
               </Link>
             )}
-            <Link
-              href="/project-submission"
-              className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
-            >
-              Submit
-            </Link>
+            {user?.role === "MEDIA_MAKER" && (
+              <Link
+                href="/project-submission"
+                className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
+              >
+                Submit
+              </Link>
+            )}
+            {user?.role === "MUSICIAN" && (
+              <Link
+                href="/music-submission"
+                className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
+              >
+                Submit
+              </Link>
+            )}
+            {(user?.role === "ADMIN" || user?.role === "MODERATOR") && (
+              <Link
+                href="/dashboard/projects"
+                className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
 
           <Link
