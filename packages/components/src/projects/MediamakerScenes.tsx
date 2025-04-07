@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeftIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
@@ -40,19 +39,12 @@ export default function MediamakerScenes({ projectId }: { projectId: string }) {
               className="group block"
             >
               <div className="relative">
-                <div className="aspect-video w-full overflow-hidden rounded-md bg-gray-200 transition-all group-hover:ring-2 group-hover:ring-gray-400">
-                  <Image
-                    src={`/placeholder.svg?height=180&width=320&text=${scene.sceneTitle}`}
-                    alt={scene.sceneTitle}
-                    width={320}
-                    height={180}
-                    className="h-full w-full object-cover"
-                  />
+                <div className="flex aspect-video w-full items-center justify-center overflow-hidden rounded-md bg-gray-200 transition-all group-hover:ring-2 group-hover:ring-gray-400">
+                  <h3 className="text-center font-medium">
+                    {scene.sceneTitle}
+                  </h3>
                 </div>
               </div>
-              <h3 className="mt-2 text-center font-medium">
-                {scene.sceneTitle}
-              </h3>
             </Link>
           ))}
         </div>

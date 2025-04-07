@@ -1,3 +1,3 @@
 export default function MediamakerOverview() {
-  return <div>PLACEHOLDER</div>;
+  return <div className="mx-6">PLACEHOLDER</div>;
 }
