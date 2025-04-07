@@ -1,7 +1,5 @@
 import Link from "next/link";
-
 import { Instagram, Mail, Twitter } from "lucide-react";
-
 
 export default function Footer() {
   return (
@@ -33,22 +31,6 @@ export default function Footer() {
               <Instagram className="h-5 w-5" />
               <span className="sr-only">Instagram</span>
             </Link>
-
-            <Link
-              href="https://facebook.com"
-              className="text-white transition hover:text-emerald-400"
-            >
-              <Facebook className="h-5 w-5" />
-              <span className="sr-only">Facebook</span>
-            </Link>
-            <Link
-              href="https://youtube.com"
-              className="text-white transition hover:text-emerald-400"
-            >
-              <Youtube className="h-5 w-5" />
-              <span className="sr-only">YouTube</span>
-            </Link>
-
           </div>
 
           <div className="flex flex-1 justify-end">
