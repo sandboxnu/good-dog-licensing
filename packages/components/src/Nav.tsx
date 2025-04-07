@@ -97,11 +97,17 @@ export default function Nav() {
                 Login
               </Link>
             )}
-            {(!user ||
-              user.role === "MEDIA_MAKER" ||
-              user.role === "MUSICIAN") && (
+            {user?.role === "MEDIA_MAKER" && (
               <Link
                 href="/project-submission"
+                className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
+              >
+                Submit
+              </Link>
+            )}
+            {user?.role === "MUSICIAN" && (
+              <Link
+                href="/music-submission"
                 className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
               >
                 Submit
