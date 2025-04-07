@@ -80,7 +80,6 @@ export default function Nav() {
             >
               Gallery
             </Link>
-
             {user ? (
               <>
                 <Button
@@ -98,7 +97,6 @@ export default function Nav() {
                 Login
               </Link>
             )}
-
             <Link
               href="/project-submission"
               className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
