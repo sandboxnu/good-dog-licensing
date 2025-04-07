@@ -11,22 +11,16 @@ import { Button } from "@good-dog/ui/button";
 import { Input } from "@good-dog/ui/input";
 
 const schema = z.object({
-  groupId: z.string(),
-  songName: z.string(),
+  songName: z.string().min(1, "Song Name is required"),
   songLink: z.string().url(),
-  genre: z.string(),
-  songwriters: z.array(
-    z.object({
-      email: z.string(),
-    }),
-  ),
-  additionalInfo: z.string().optional(),
+  genre: z.string().min(1, "Genre is required"),
 });
 
 type FormFields = z.infer<typeof schema>;
 
 export default function MusicSubmissionForm() {
   const router = useRouter();
+  const [musicianGroup] = trpc.getMusicianGroup.useSuspenseQuery();
 
   const {
     register,
@@ -84,8 +78,11 @@ export default function MusicSubmissionForm() {
 
         <form
           onSubmit={handleSubmit((data) => {
+            console.log("Submitted");
             submitMusicProcedureMutation.mutate({
               ...data,
+              songwriters: [],
+              groupId: musicianGroup?.groupId ?? "",
             });
           })}
           className="space-y-8"
@@ -116,8 +113,9 @@ export default function MusicSubmissionForm() {
             ></Input>
             <p>{errors.songLink?.message}</p>
           </div>
-
-          <div className="space-y-2">
+          {/* Needs to be added back in. This code is just confusing for the demo, so commenting out for now.
+           
+             <div className="space-y-2">
             <label className="block font-medium">
               Songwriters<sup className="text-[#F4392D]">*</sup>
             </label>
@@ -133,19 +131,24 @@ export default function MusicSubmissionForm() {
             </div>
 
             <p>{errors.genre?.message}</p>
+          </div> */}
+          <div className="space-y-2">
+            <label className="block font-medium">
+              Song Genre<sup className="text-[#F4392D]">*</sup>
+            </label>
+            <MultiSelectDropdown
+              name="genre"
+              control={control}
+              options={genres}
+              placeholder="Select multiple options"
+            />
+            <p>{errors.genre?.message}</p>
           </div>
-
-          <div className="space-y-2"></div>
-          <label className="block font-medium">
-            Song Genre<sup className="text-[#F4392D]">*</sup>
-          </label>
-          <MultiSelectDropdown
-            name="genre"
-            control={control}
-            options={genres}
-            placeholder="Select multiple options"
-          />
-          <p>{errors.genre?.message}</p>
+          <div className="flex justify-center">
+            <Button type="submit" className="bg-[#098465] hover:bg-[#098465]">
+              Submit
+            </Button>
+          </div>
         </form>
       </div>
     </main>
