@@ -6,6 +6,6 @@
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
     "types": ["bun"]
   },
-  "include": ["*.ts", "src", "src/input.tsx"],
+  "include": ["*.ts", "src"],
   "exclude": ["node_modules"]
 }

@@ -53,24 +53,6 @@ export default function MusicSubmissionForm() {
     },
   });
 
-  const genres = [
-    { value: "pop", label: "Pop" },
-    { value: "rock", label: "Rock" },
-    { value: "hip-hip", label: "Hip-Hop/Rap" },
-    { value: "r&b", label: "R&B" },
-    { value: "edm", label: "Electronic/Dance (EDM)" },
-    { value: "country", label: "Country" },
-    { value: "jazz", label: "Jazz" },
-    { value: "classical", label: "Classical" },
-    { value: "reggae", label: "Reggae" },
-    { value: "blues", label: "Blues" },
-    { value: "latin", label: "Latin" },
-    { value: "funk", label: "Funk" },
-    { value: "soul", label: "Soul" },
-    { value: "metal", label: "Metal" },
-    { value: "folk", label: "Folk" },
-  ];
-
   return (
     <main className="mx-auto w-full flex-1 bg-black px-4 py-12 text-white">
       <div className="mx-auto max-w-3xl">
@@ -174,6 +156,24 @@ export default function MusicSubmissionForm() {
     </main>
   );
 }
+
+const genres = [
+  { value: "pop", label: "Pop" },
+  { value: "rock", label: "Rock" },
+  { value: "hip-hip", label: "Hip-Hop/Rap" },
+  { value: "r&b", label: "R&B" },
+  { value: "edm", label: "Electronic/Dance (EDM)" },
+  { value: "country", label: "Country" },
+  { value: "jazz", label: "Jazz" },
+  { value: "classical", label: "Classical" },
+  { value: "reggae", label: "Reggae" },
+  { value: "blues", label: "Blues" },
+  { value: "latin", label: "Latin" },
+  { value: "funk", label: "Funk" },
+  { value: "soul", label: "Soul" },
+  { value: "metal", label: "Metal" },
+  { value: "folk", label: "Folk" },
+];
 
 type Props = {
   goBack: () => void;
