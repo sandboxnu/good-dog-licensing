@@ -19,6 +19,7 @@ import {
   getUnlicensedMusicSubmissionsProcedure,
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
+import { getMusicianGroupProcedure } from "../procedures/get-musician-group";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
   getProjectSceneByIdProcedure,
@@ -81,6 +82,7 @@ export const appRouter = createTRPCRouter({
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
   getSceneById: getProjectSceneByIdProcedure,
+  getMusicianGroup: getMusicianGroupProcedure,
 });
 
 export type AppRouter = typeof appRouter;
