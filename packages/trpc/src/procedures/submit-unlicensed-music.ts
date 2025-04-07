@@ -19,7 +19,7 @@ export const submitUnlicensedMusicProcedure = rolePermissionsProcedureBuilder(
   )
   .mutation(async ({ ctx, input }) => {
     // Create the music submission
-    await ctx.prisma.unlicensedMusicSubmission.create({
+    const musicSubmission = await ctx.prisma.unlicensedMusicSubmission.create({
       data: {
         songName: input.songName,
         artist: input.artist,
@@ -32,5 +32,6 @@ export const submitUnlicensedMusicProcedure = rolePermissionsProcedureBuilder(
     //Proceed with music submission
     return {
       message: "Unlicensed Music submitted successfully",
+      id: musicSubmission.musicId,
     };
   });

@@ -10,10 +10,10 @@ import { trpc } from "@good-dog/trpc/client";
 import MultiSelectDropdown from "../MultiSelectDropDown";
 
 const schema = z.object({
-  songName: z.string(),
-  artist: z.string(),
-  songLink: z.string(),
-  genre: z.string(),
+  songName: z.string().min(1, "Song name is required"),
+  artist: z.string().min(1, "Artist name is required"),
+  songLink: z.string().url(),
+  genre: z.string().min(1, "Genre is required"),
   additionalInfo: z.string().optional(),
 });
 
@@ -37,7 +37,13 @@ const genres = [
   { value: "folk", label: "Folk" },
 ];
 
-export default function UnlicensedMusicSubmissionForm() {
+interface UnlicensedMusicSubmissionFormProps {
+  handleSubmission?: (musicId: string) => Promise<void>;
+}
+
+export default function UnlicensedMusicSubmissionForm({
+  handleSubmission,
+}: UnlicensedMusicSubmissionFormProps) {
   const router = useRouter();
 
   const {
@@ -50,9 +56,12 @@ export default function UnlicensedMusicSubmissionForm() {
   });
 
   const submissionMutation = trpc.submitUnlicensedMusic.useMutation({
-    onSuccess: () => {
-      // TODO, alert the user that they have successfully submitted unlicensed music
-      router.push("/");
+    onSuccess: async (data) => {
+      if (handleSubmission) {
+        await handleSubmission(data.id);
+      } else {
+        router.push("/");
+      }
     },
     onError: (err) => {
       // TODO
@@ -119,7 +128,7 @@ export default function UnlicensedMusicSubmissionForm() {
             />
             <p>{errors.genre?.message}</p>
             <label className="pb-3 pt-12 text-2xl font-bold">
-              Tell us anything else about the Project
+              Additional Information
             </label>
             <input
               className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
