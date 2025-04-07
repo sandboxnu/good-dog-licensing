@@ -1,16 +1,21 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
+import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 import { Rating } from "@good-dog/db";
 
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
+import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-export const createMatchRatingProcedure = authenticatedProcedureBuilder
+export const createMatchRatingProcedure = rolePermissionsProcedureBuilder(
+  mediaMakerOnlyPermissions,
+  "submit",
+)
   .input(
     z.object({
       ratingId: z.string().optional(),
       ratingEnum: z.nativeEnum(Rating),
       matchId: z.string(),
+      unlicensed: z.boolean(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -18,6 +23,7 @@ export const createMatchRatingProcedure = authenticatedProcedureBuilder
       const rating = await ctx.prisma.matchRatings.findFirst({
         where: {
           ratingId: input.ratingId,
+          unlicensedSuggestedMatchId: input.matchId,
         },
       });
 
@@ -38,13 +44,23 @@ export const createMatchRatingProcedure = authenticatedProcedureBuilder
           });
         }
       } else {
-        await ctx.prisma.matchRatings.create({
-          data: {
-            userId: ctx.session.user.userId,
-            ratingEnum: input.ratingEnum,
-            unlicensedSuggestedMatchId: input.matchId,
-          },
-        });
+        if (input.unlicensed) {
+          await ctx.prisma.matchRatings.create({
+            data: {
+              userId: ctx.session.user.userId,
+              ratingEnum: input.ratingEnum,
+              unlicensedSuggestedMatchId: input.matchId,
+            },
+          });
+        } else {
+          await ctx.prisma.matchRatings.create({
+            data: {
+              userId: ctx.session.user.userId,
+              ratingEnum: input.ratingEnum,
+              suggestedMatchId: input.matchId,
+            },
+          });
+        }
       }
     }
   });

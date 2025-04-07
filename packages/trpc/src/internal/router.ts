@@ -24,13 +24,18 @@ import {
   getProjectSceneByIdProcedure,
   getProjectScenesProcedure,
   getUserProjectScenesProcedure,
+  mediamakerProjectsProcedure,
+  mediamakerScenesProcedure,
+  sceneProcedure,
 } from "../procedures/get-project-scenes";
+import { createMatchRatingProcedure } from "../procedures/like";
 import {
   createUpdateMatchCommentsProcedure,
   getMatchesProcedure,
   reviewSuggestedMatchProcedure,
   suggestedMatchProcedure,
 } from "../procedures/matches";
+import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { projectSubmissionProcedure } from "../procedures/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
@@ -55,11 +60,16 @@ export const appRouter = createTRPCRouter({
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
   projects: getProjectScenesProcedure,
+  mediamakerProjects: mediamakerProjectsProcedure,
+  mediamakerScenes: mediamakerScenesProcedure,
+  mediamakerMatches: mediamakerMatchesProcedure,
   userProjects: getUserProjectScenesProcedure,
   music: getMusicSubmissionsProcedure,
   unlicensedMusic: getUnlicensedMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   match: getMatchesProcedure,
+  rateMatch: createMatchRatingProcedure,
+  scene: sceneProcedure,
   comment: createUpdateMatchCommentsProcedure,
   suggestMatch: suggestedMatchProcedure,
   unlicensedSuggestMatch: unlicensedSuggestedMatchProcedure,
