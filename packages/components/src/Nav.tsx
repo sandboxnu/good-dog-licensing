@@ -5,6 +5,7 @@ import Link from "next/link";
 import { User } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
+import { Button } from "@good-dog/ui/button";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
@@ -79,6 +80,25 @@ export default function Nav() {
             >
               Gallery
             </Link>
+
+            {user ? (
+              <>
+                <Button
+                  onClick={() => signOutMutation.mutate()}
+                  className="text-white transition hover:text-emerald-400"
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="text-white transition hover:text-emerald-400"
+              >
+                Login
+              </Link>
+            )}
+
             <Link
               href="/project-submission"
               className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"

@@ -8,3 +8,6 @@ export const zPreProcessEmptyString = <I extends z.ZodTypeAny>(schema: I) =>
       return arg;
     }
   }, schema);
+
+// Re-export all the schemas from sub-files
+export * from "./auth";

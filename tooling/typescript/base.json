@@ -21,5 +21,6 @@
     "moduleResolution": "Bundler",
     "noEmit": true
   },
+  "plugins": [{ "name": "next" }],
   "exclude": ["node_modules", "build", "dist", ".next"]
 }

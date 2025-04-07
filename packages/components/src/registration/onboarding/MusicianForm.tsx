@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { z } from "zod";
 
 import { ReferralSource } from "@good-dog/db";
-import { zPreProcessEmptyString } from "@good-dog/trpc/utils";
+import { zPreProcessEmptyString } from "@good-dog/trpc/schema";
 import { Button } from "@good-dog/ui/button";
 
 import RegistrationCheckbox from "../inputs/RegistrationCheckbox";
@@ -60,6 +60,7 @@ export default function MusicianForm(
       schema={Schema}
       firstName={user.firstName}
       lastName={user.lastName}
+      email={user.email}
     >
       <p>
         A Media Maker is a Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -72,6 +73,7 @@ export default function MusicianForm(
           placeholder="Jane"
           type="text"
           label="First Name"
+          autocomplete="given-name"
         />
 
         <TypedRegistrationInput
@@ -79,6 +81,7 @@ export default function MusicianForm(
           placeholder="Doe"
           type="text"
           label="Last Name"
+          autocomplete="family-name"
         />
       </div>
       <TypedRegistrationInput

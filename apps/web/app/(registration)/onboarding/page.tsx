@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 
 import CheckerColumn from "@good-dog/components/CheckerColumn";
 import GoodDogLogo from "@good-dog/components/GoodDogLogo";
@@ -10,12 +8,21 @@ import {
   MediaMakerForm,
   MusicianForm,
 } from "@good-dog/components/registration";
+import { useAuthenticatedUserSuspense } from "@good-dog/hooks";
 import { trpc } from "@good-dog/trpc/client";
+import { Button } from "@good-dog/ui/button";
 import { Label } from "@good-dog/ui/label";
 import { Switch } from "@good-dog/ui/switch";
 
 export default function OnboardingFormPage() {
-  const [user] = trpc.authenticatedUser.useSuspenseQuery();
+  const [user] = useAuthenticatedUserSuspense(() => {
+    throw new Error("User not authenticated");
+  });
+  const deleteAccountMutation = trpc.deleteAccount.useMutation({
+    onSuccess: () => {
+      window.location.href = "/";
+    },
+  });
 
   const [isChecked, setIsChecked] = useState(true);
 
@@ -24,14 +31,13 @@ export default function OnboardingFormPage() {
 
   return (
     <main className="relative h-screen overflow-y-hidden bg-good-dog-celadon">
-      <Link href="/" className="absolute left-3 top-3">
-        <Image
-          src="/icons/back_button.svg"
-          width={40}
-          height={40}
-          alt="back button"
-        />
-      </Link>
+      <Button
+        variant="outline"
+        className="absolute left-3 top-3"
+        onClick={() => deleteAccountMutation.mutate()}
+      >
+        Cancel Onboarding Flow
+      </Button>
       <GoodDogLogo
         facingDirection="right"
         variant="dark"

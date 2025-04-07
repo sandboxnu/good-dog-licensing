@@ -1,0 +1,29 @@
+{
+  "name": "@good-dog/hooks",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@good-dog/trpc": "workspace:*",
+    "react": "18.3.1"
+  },
+  "devDependencies": {
+    "@good-dog/eslint": "workspace:*",
+    "@good-dog/prettier": "workspace:*",
+    "@good-dog/typescript": "workspace:*",
+    "eslint": "9.10.0",
+    "prettier": "3.2.5",
+    "typescript": "5.4.5"
+  },
+  "prettier": "@good-dog/prettier"
+}

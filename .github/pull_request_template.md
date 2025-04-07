@@ -1,10 +1,16 @@
 ## Description
 
-<!--- What did you do? -->
+<!--- What does this PR do? -->
 
-## Motivation and Context
+YOU MUST FILL THIS OUT BEFORE SUBMITTING YOUR PR.
 
-Closes [STORY NAME HERE](<!--Copy Trello card link here-->)
+Use PR Draft Mode if your PR is not ready for review yet.
+
+## GitHub Issue
+
+<!--- Enter the issue number here. If there is no issue, create one first. -->
+
+Closes #ISSUE NUMBER HERE
 
 ## Type of changes
 
@@ -21,6 +27,12 @@ Closes [STORY NAME HERE](<!--Copy Trello card link here-->)
 - [ ] Database migration
 - [ ] CI/CD changes (changing github actions or deployment scripts)
 
+## How has this been tested?
+
+<!--- Please describe in detail how you tested your changes!!! -->
+
+## Screenshots (if appropriate):
+
 ## Checklist:
 
 <!--- Select all that apply -->
@@ -29,9 +41,3 @@ Closes [STORY NAME HERE](<!--Copy Trello card link here-->)
 - [ ] I have updated the documentation accordingly.
 - [ ] I have added tests to cover my changes.
 - [ ] I verified my changes work in the preview environment
-
-## How has this been tested?
-
-<!--- Please describe in detail how you tested your changes!!! -->
-
-## Screenshots (if appropriate):

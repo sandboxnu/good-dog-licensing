@@ -30,18 +30,14 @@ export const layoutWithPermissions = <
     children,
 ) =>
   async function Layout(props: LayoutProps) {
-    const user = await trpc.authenticatedUser();
+    const user = await trpc.user();
 
-    if (!permissions.canRead(user.role)) {
+    if (!permissions.canRead(user?.role)) {
       forbidden();
     }
 
     const serverQueryClient = getServerQueryClient();
     serverQueryClient.setQueryData(getTrpcLikeQueryKey(["user"]), user);
-    serverQueryClient.setQueryData(
-      getTrpcLikeQueryKey(["authenticatedUser"]),
-      user,
-    );
 
     return (
       <HydrateClient>
