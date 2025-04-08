@@ -1,28 +1,13 @@
-import { z } from "zod";
-
 import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
+import { zMusicSubmissionValues } from "../schema";
 
 export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,
   "submit",
 )
-  .input(
-    z.object({
-      groupId: z.string(),
-      songName: z.string(),
-      songLink: z.string().url(),
-      genre: z.string(),
-      songwriters: z.array(
-        z.object({
-          email: z.string(),
-        }),
-      ),
-      additionalInfo: z.string().optional(),
-    }),
-  )
-
+  .input(zMusicSubmissionValues)
   .mutation(async ({ ctx, input }) => {
     // Create the music submission
     const musicSubmission = await ctx.prisma.musicSubmission.create({
@@ -37,7 +22,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
         },
         songName: input.songName,
         songLink: input.songLink,
-        genre: input.genre,
+        genre: input.genre.join(", "),
         songwriters: {
           connect: input.songwriters.map((_songwriter) => ({
             groupId_email: {

@@ -11,3 +11,4 @@ export const zPreProcessEmptyString = <I extends z.ZodTypeAny>(schema: I) =>
 
 // Re-export all the schemas from sub-files
 export * from "./auth";
+export * from "./submit";

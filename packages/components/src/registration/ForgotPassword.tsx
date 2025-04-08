@@ -12,7 +12,7 @@ import { zForgotPasswordValues } from "@good-dog/trpc/schema";
 import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
 
-type FormValues = z.infer<typeof zForgotPasswordValues>;
+type FormValues = z.input<typeof zForgotPasswordValues>;
 
 const TypedRegistrationInput = RegistrationInput<FormValues>;
 

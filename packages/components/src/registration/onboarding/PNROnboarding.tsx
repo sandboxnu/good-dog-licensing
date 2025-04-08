@@ -34,7 +34,7 @@ const schema = z
     },
   );
 
-type FormFields = z.infer<typeof schema>;
+type FormFields = z.input<typeof schema>;
 
 export default function PNROnboarding() {
   const router = useRouter();

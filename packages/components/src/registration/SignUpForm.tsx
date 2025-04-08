@@ -13,7 +13,7 @@ import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
 import TOSModal from "./TOSModal";
 
-type FormValues = z.infer<typeof zSignUpValues>;
+type FormValues = z.input<typeof zSignUpValues>;
 
 const TypedRegistrationInput = RegistrationInput<FormValues>;
 

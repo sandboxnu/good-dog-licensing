@@ -1,50 +1,44 @@
 "use client";
 
 import type React from "react";
-import type { Control } from "react-hook-form";
-import type { MultiValue } from "react-select";
-import { Controller } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import Select from "react-select";
+
+import type { GoodDogFieldBaseProps } from "./types";
 
 interface Option {
   value: string;
   label: string;
 }
 
-interface MultiSelectDropdownProps {
-  name: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any>;
+interface GoodDogMultiSelectProps<T extends FieldValues>
+  extends GoodDogFieldBaseProps<T> {
+  uniqueKey: string;
   options: Option[];
-  placeholder?: string;
 }
 
-const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
-  name,
-  control,
-  options,
-  placeholder = "Select options",
-}) => {
+export const GoodDogMultiSelect = <T extends FieldValues>(
+  props: GoodDogMultiSelectProps<T>,
+) => {
+  const form = useFormContext<T>();
   return (
     <Controller
-      name={name}
-      control={control}
+      name={props.name}
+      control={form.control}
       render={({ field }) => (
         <Select
           className="w-full"
           ref={field.ref}
-          options={options}
+          options={props.options}
           isMulti
-          instanceId="genre-select"
-          placeholder={placeholder}
-          value={options.filter((option) =>
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+          instanceId={props.uniqueKey}
+          placeholder={props.placeholder}
+          value={props.options.filter((option) =>
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             field.value?.includes(option.value),
           )}
-          onChange={(newValue: MultiValue<Option>) => {
-            const selectedValues = newValue.map((item) => item.value);
-            field.onChange(selectedValues.join(", "));
-          }}
+          onChange={field.onChange}
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
           menuPosition="absolute"
@@ -124,5 +118,3 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
     />
   );
 };
-
-export default MultiSelectDropdown;

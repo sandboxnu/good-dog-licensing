@@ -13,7 +13,7 @@ const schema = z.object({
   moderatorEmail: z.string().email(),
 });
 
-type FormFields = z.infer<typeof schema>;
+type FormFields = z.input<typeof schema>;
 
 enum InviteSentStatus {
   Sent,
