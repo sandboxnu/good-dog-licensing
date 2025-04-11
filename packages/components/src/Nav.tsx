@@ -2,10 +2,11 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { User } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
+
+import NavProfileDropdown from "./NavProfileDropdown";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
@@ -60,7 +61,7 @@ export default function Nav() {
           </div>
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-8 text-xl">
           <nav className="hidden items-center gap-8 md:flex">
             <Link
               href="/"
@@ -81,20 +82,16 @@ export default function Nav() {
               Gallery
             </Link>
             {user ? (
-              <>
-                <Button
-                  onClick={() => signOutMutation.mutate()}
-                  className="text-white transition hover:text-emerald-400"
-                >
-                  Logout
-                </Button>
-              </>
+              <NavProfileDropdown
+                userFirstName="Jordan"
+                signOut={() => signOutMutation.mutate()}
+              />
             ) : (
               <Link
                 href="/login"
                 className="text-white transition hover:text-emerald-400"
               >
-                Login
+                Log in
               </Link>
             )}
             {user?.role === "MEDIA_MAKER" && (
@@ -122,13 +119,6 @@ export default function Nav() {
               </Link>
             )}
           </nav>
-
-          <Link
-            href={user ? "/account" : "/login"}
-            className="text-emerald-400 transition hover:text-emerald-300"
-          >
-            <User className="h-6 w-6" />
-          </Link>
         </div>
       </div>
       <div className="h-px bg-emerald-400"></div>

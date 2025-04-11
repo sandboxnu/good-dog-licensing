@@ -59,17 +59,8 @@ import Image from "next/image";
 
 const ProjectCard = () => {
   return (
-    <div className="inline-block pr-8">
-      <Image
-        src="/icons/Project_Leaf.svg"
-        alt="project background"
-        width={360}
-        height={248}
-        style={{ maxWidth: "360px" }}
-      ></Image>
-      <h3 className="pt-2 text-center font-semibold text-good-dog-pale-yellow">
-        Lorem ipsum dolor sit amet
-      </h3>
+    <div className="h-[350px] w-[300px] bg-good-dog-teal-green pr-8 text-white">
+      Test
     </div>
   );
 };
@@ -139,22 +130,22 @@ const ProjectGallery = () => {
 
   return (
     <div className="pb-32">
-      <h2 className="m-16 font-righteous text-4xl text-good-dog-pale-yellow">
-        Project Gallery:
-      </h2>
+      <div className="flex items-center pl-[100px]">
+        <h2 className="font-afacad w-2/6 text-[60px] font-semibold text-white">
+          Project gallery
+        </h2>
+        <p className="font-afacad w-4/6 pr-[130px] text-[35px] font-semibold text-good-dog-gray">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
+          pharetra lacus sit Lorem
+        </p>
+      </div>
       <div
         style={{ scrollbarWidth: "none" }}
-        className="scroll-container overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap"
+        className="scroll-container flex space-x-4 overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap pt-[70px]"
         ref={scrollContainerRef}
       >
         {items.map((index) => (
-          <div
-            key={index}
-            className="inline-block"
-            style={{
-              marginLeft: index === 0 ? "4rem" : "0",
-            }}
-          >
+          <div key={index}>
             <ProjectCard />
           </div>
         ))}
