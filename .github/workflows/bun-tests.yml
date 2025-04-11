@@ -40,30 +40,5 @@ jobs:
           PG_DB: test_db
         run: |
           sudo apt-get install -y postgresql-client
-
-          echo "#!/bin/bash" > verify_db_empty.sh
-          echo "set -e" >> verify_db_empty.sh
-          echo "tables=\$(PGPASSWORD=\"$PG_PASSWORD\" psql -h localhost -U user -d \"$PG_DB\" -t -c \"SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';\")" >> verify_db_empty.sh
-          echo "non_empty_tables=0" >> verify_db_empty.sh
-          echo "echo \"Checking all tables for data...\"" >> verify_db_empty.sh
-          echo "for table in \$tables; do" >> verify_db_empty.sh
-          echo "  table=\$(echo \$table | xargs)" >> verify_db_empty.sh
-          echo "  if [ ! -z \"\$table\" ]; then" >> verify_db_empty.sh
-          echo "    count=\$(PGPASSWORD=\"$PG_PASSWORD\" psql -h localhost -U user -d \"$PG_DB\" -t -c \"SELECT COUNT(*) FROM \\\"\$table\\\";\" | xargs)" >> verify_db_empty.sh
-          echo "    if [ \"\$count\" -ne \"0\" ]; then" >> verify_db_empty.sh
-          echo "      echo \"Table '\$table' is not empty! (\$count records)\"" >> verify_db_empty.sh
-          echo "      non_empty_tables=\$((non_empty_tables+1))" >> verify_db_empty.sh
-          echo "    else" >> verify_db_empty.sh
-          echo "      echo \"Table '\$table' is empty.\"" >> verify_db_empty.sh
-          echo "    fi" >> verify_db_empty.sh
-          echo "  fi" >> verify_db_empty.sh
-          echo "done" >> verify_db_empty.sh
-          echo "if [ \"\$non_empty_tables\" -ne \"0\" ]; then" >> verify_db_empty.sh
-          echo "  echo \"Error: \$non_empty_tables tables contain data! Tests and migrations did not clean up properly.\"" >> verify_db_empty.sh
-          echo "  exit 1" >> verify_db_empty.sh
-          echo "else" >> verify_db_empty.sh
-          echo "  echo \"Success: All tables are empty.\"" >> verify_db_empty.sh
-          echo "fi" >> verify_db_empty.sh
-
-          chmod +x verify_db_empty.sh
-          ./verify_db_empty.sh
+          chmod +x ./.github/scripts/verify_db_empty.sh
+          ./.github/scripts/verify_db_empty.sh
