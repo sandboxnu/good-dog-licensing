@@ -33,3 +33,12 @@ jobs:
 
       - name: Run tests
         run: bun test
+
+      - name: Verify database is empty
+        env:
+          PG_PASSWORD: password
+          PG_DB: test_db
+        run: |
+          sudo apt-get install -y postgresql-client
+          chmod +x ./.github/scripts/verify_db_empty.sh
+          ./.github/scripts/verify_db_empty.sh
