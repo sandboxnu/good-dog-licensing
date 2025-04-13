@@ -121,7 +121,9 @@ describe("projectSubmission", () => {
     // Validate project fields
     expect(storedProject.projectTitle).toBe(input.projectTitle);
     expect(storedProject.description).toBe(input.description);
-    expect(storedProject.deadline).toBe(input.deadline);
+    expect(storedProject.deadline.toISOString()).toBe(
+      input.deadline.toISOString(),
+    );
     expect(storedProject.videoLink).toBe(input.videoLink);
     expect(storedProject.additionalInfo).toBe(input.additionalInfo);
 
