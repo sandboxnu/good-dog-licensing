@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
 //commented out scroll logic to handle scrolling with touchpad vs mouse (broken) - tracy and sanjana
 
@@ -60,7 +59,7 @@ import Image from "next/image";
 const ProjectCard = () => {
   return (
     <div className="h-[350px] w-[300px] bg-good-dog-teal-green pr-8 text-white">
-      Test
+      Project
     </div>
   );
 };
