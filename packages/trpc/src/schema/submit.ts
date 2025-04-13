@@ -12,9 +12,7 @@ export const zProjectSubmissionValues = z.object({
       additionalInfo: z.string().optional(),
     }),
   ),
-  deadline: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid date format",
-  }),
+  deadline: z.coerce.date(),
   videoLink: z.string().optional(),
   additionalInfo: z.string().optional(),
 });

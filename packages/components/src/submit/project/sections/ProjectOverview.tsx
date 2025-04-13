@@ -22,8 +22,8 @@ export default function ProjectOverview() {
       />
       <ProjectSubmissionDatePicker
         name="deadline"
-        label="Project Start Date"
-        description="Please provide the date your project started."
+        label="Project Deadline"
+        description="Please provide a rough deadline for your project."
       />
     </div>
   );

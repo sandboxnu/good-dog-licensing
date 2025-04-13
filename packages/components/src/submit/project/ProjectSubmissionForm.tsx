@@ -24,10 +24,9 @@ export function ProjectSubmissionForm() {
   const submitProjectForm = useForm<ProjectSubmissionFieldValues>({
     resolver: zodResolver(zProjectSubmissionValues),
   });
-  const submitProjectMutation = trpc.projectSubmission
-    .useMutation
-    // TODO: handle success and error
-    ();
+
+  const submitProjectMutation = trpc.projectSubmission.useMutation();
+  // TODO: handle success and error
 
   const [currentPage, setCurrentPage] = useState<SubmitProjectFormSection>(
     SubmitProjectFormSection.FIRST,
