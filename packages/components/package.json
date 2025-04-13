@@ -19,7 +19,7 @@
     "@good-dog/auth": "workspace:*",
     "@good-dog/db": "workspace:*",
     "@good-dog/trpc": "workspace:*",
-    "@hookform/resolvers": "^5.0.1",
+    "@hookform/resolvers": "3.9.1",
     "clsx": "^2.1.1",
     "lucide": "^0.484.0",
     "lucide-react": "^0.484.0",
