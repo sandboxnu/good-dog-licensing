@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import Link from "next/link";
 
 import { trpc } from "@good-dog/trpc/client";
-import { Button } from "@good-dog/ui/button";
 
 import NavProfileDropdown from "./NavProfileDropdown";
 
@@ -12,13 +10,9 @@ export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
   const signOutMutation = trpc.signOut.useMutation({
     onSuccess: () => {
-      window.location.reload();
+      window.location.href = "/";
     },
   });
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   return (
     <header className="bg-black text-white">
@@ -83,7 +77,7 @@ export default function Nav() {
             </Link>
             {user ? (
               <NavProfileDropdown
-                userFirstName="Jordan"
+                userFirstName={user.firstName}
                 signOut={() => signOutMutation.mutate()}
               />
             ) : (
