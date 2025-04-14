@@ -22,10 +22,6 @@ export const zMusicSubmissionValues = z.object({
   songName: z.string(),
   songLink: z.string().url(),
   genre: z.array(z.string()),
-  songwriters: z.array(
-    z.object({
-      email: z.string(),
-    }),
-  ),
+  songWriterEmails: z.array(z.string()),
   additionalInfo: z.string().optional(),
 });

@@ -43,15 +43,28 @@ export function MusicSubmissionForm() {
   });
   const submitMusicProcedureMutation = trpc.submitMusic.useMutation({
     // TODO: handle success and error
+    onSuccess: () => {
+      window.alert("Success!");
+      submitMusicForm.reset();
+    },
   });
 
   const handleSubmit = submitMusicForm.handleSubmit((values) => {
     submitMusicProcedureMutation.mutate(values);
   });
 
-  const currentBandName =
-    musicianGroups.find((g) => g.groupId === submitMusicForm.watch("groupId"))
-      ?.name ?? "Unknown Band";
+  const currentGroup =
+    musicianGroups.find(
+      (g) => g.groupId === submitMusicForm.watch("groupId"),
+    ) ?? musicianGroups[0];
+
+  const songWriters =
+    currentGroup?.groupMembers
+      .filter((member) => member.isSongWriter)
+      .map((sw) => ({
+        value: sw.email,
+        label: `${sw.firstName} ${sw.lastName}`,
+      })) ?? [];
 
   return (
     <Form {...submitMusicForm}>
@@ -61,12 +74,12 @@ export function MusicSubmissionForm() {
       >
         <main className="mx-auto w-full flex-1 bg-black px-4 py-12 text-white">
           <div className="mx-auto max-w-3xl">
-            <h1 className="mb-4 text-center text-4xl font-bold">Submission</h1>
+            <h1 className="mb-4 text-center text-4xl font-bold">
+              Song Submission
+            </h1>
 
             <div className="mb-8 text-center">
-              <p className="mb-2 text-gray-300">
-                You are submitting for {currentBandName}
-              </p>
+              <p className="mb-2 text-gray-300">You are submitting for</p>
               <Select
                 name="groupId"
                 options={musicianGroups.map((group) => ({
@@ -74,7 +87,7 @@ export function MusicSubmissionForm() {
                   label: group.name,
                 }))}
                 placeholder="Select a band"
-                label="Band Name"
+                label={currentGroup?.name ?? "Unknown Band"}
               />
             </div>
 
@@ -91,11 +104,17 @@ export function MusicSubmissionForm() {
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-12">
               <Input
                 name="songName"
                 label="Song Name"
                 placeholder="Your song's title"
+              />
+              <MultiSelect
+                name="songWriterEmails"
+                options={songWriters}
+                placeholder="Select multiple options"
+                label="Song Writers"
               />
               <Input
                 name="songLink"
@@ -107,7 +126,6 @@ export function MusicSubmissionForm() {
                 options={genres}
                 placeholder="Select multiple options"
                 label="Song Genre"
-                uniqueKey="music-submission-genre"
               />
 
               <div className="flex justify-center">

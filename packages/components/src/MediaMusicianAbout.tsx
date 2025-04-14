@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import MediaMusicianContent from "./MediaMusicianContent";
 
@@ -8,10 +8,6 @@ export default function MediaMusicianAbout() {
   const [selectedCreator, setSelectedCreator] = useState<
     "MEDIA MAKERS" | "MUSICIANS"
   >("MEDIA MAKERS");
-
-  useEffect(() => {
-    console.log(selectedCreator);
-  }, [selectedCreator]);
 
   return (
     <div className="py-20">

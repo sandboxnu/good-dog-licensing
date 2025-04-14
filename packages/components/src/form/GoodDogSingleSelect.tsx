@@ -40,10 +40,13 @@ export const GoodDogSingleSelect = <T extends FieldValues>(
       name={props.name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{props.label}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <FormLabel className="text-2xl">{props.label}</FormLabel>
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={field.value || ""}
+          >
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="bg-input-background">
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>

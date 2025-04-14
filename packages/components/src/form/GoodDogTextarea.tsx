@@ -31,10 +31,15 @@ export const GoodDogTextarea = <T extends FieldValues>(
       control={form.control}
       name={props.name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>{props.label}</FormLabel>
+        <FormItem className="space-y-3">
+          <FormLabel className="text-2xl">{props.label}</FormLabel>
           <FormControl>
-            <Textarea placeholder={props.placeholder} {...field} />
+            <Textarea
+              placeholder={props.placeholder}
+              {...field}
+              value={field.value || ""}
+              className="bg-input-background text-lg"
+            />
           </FormControl>
           {props.description && (
             <FormDescription>{props.description}</FormDescription>

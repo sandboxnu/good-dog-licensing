@@ -10,5 +10,9 @@ export const usersMusicianGroupsProcedure = rolePermissionsProcedureBuilder(
     where: {
       organizerId: ctx.session.user.userId,
     },
+    include: {
+      organizer: true,
+      groupMembers: true,
+    },
   });
 });

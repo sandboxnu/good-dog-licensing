@@ -30,17 +30,22 @@ interface GoodDogInputProps<T extends FieldValues>
 export const GoodDogInput = <T extends FieldValues>(
   props: GoodDogInputProps<T>,
 ) => {
-  const form = useFormContext<T>();
+  const { control } = useFormContext<T>();
 
   return (
     <FormField
-      control={form.control}
+      control={control}
       name={props.name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>{props.label}</FormLabel>
+        <FormItem className="space-y-3">
+          <FormLabel className="text-2xl">{props.label}</FormLabel>
           <FormControl>
-            <Input placeholder={props.placeholder} {...field} />
+            <Input
+              placeholder={props.placeholder}
+              {...field}
+              value={field.value || ""}
+              className="bg-input-background text-lg"
+            />
           </FormControl>
           {props.description && (
             <FormDescription>{props.description}</FormDescription>

@@ -134,7 +134,7 @@ const GroupMemberForm = () => {
                 First Name<span className="text-good-dog-error">*</span>
               </h3>
               <TypedRegistrationInput
-                fieldName="firstName"
+                fieldName={`groupMembers.${index}.firstName`}
                 placeholder="Jane"
                 type="text"
                 label="First Name"
@@ -166,7 +166,7 @@ const GroupMemberForm = () => {
               </div>
 
               <TypedRegistrationInput
-                fieldName="lastName"
+                fieldName={`groupMembers.${index}.lastName`}
                 placeholder="Doe"
                 type="text"
                 label="Last Name"

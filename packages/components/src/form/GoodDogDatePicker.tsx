@@ -27,7 +27,11 @@ const format = (date: unknown) => {
   }
 };
 
-type GoodDogDatePickerProps<T extends FieldValues> = GoodDogFieldBaseProps<T>;
+interface GoodDogDatePickerProps<T extends FieldValues>
+  extends GoodDogFieldBaseProps<T> {
+  disallowFutureDates?: boolean;
+  disallowPastDates?: boolean;
+}
 
 export const GoodDogDatePicker = <T extends FieldValues>(
   props: GoodDogDatePickerProps<T>,
@@ -39,7 +43,7 @@ export const GoodDogDatePicker = <T extends FieldValues>(
       control={form.control}
       name={props.name}
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className="flex flex-col space-y-3">
           <FormLabel>{props.label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
@@ -47,7 +51,7 @@ export const GoodDogDatePicker = <T extends FieldValues>(
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-[240px] pl-3 text-left font-normal",
+                    "bg-input-background w-[240px] pl-3 text-left text-lg font-normal md:text-sm",
                     !field.value && "text-muted-foreground",
                   )}
                 >
@@ -61,9 +65,15 @@ export const GoodDogDatePicker = <T extends FieldValues>(
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
-                disabled={(date) =>
-                  date > new Date() || date < new Date("1900-01-01")
-                }
+                disabled={(date) => {
+                  const now = new Date();
+
+                  return (
+                    (!!props.disallowFutureDates && date > now) ||
+                    (!!props.disallowPastDates && date < now) ||
+                    date < new Date("1970-01-01T00:00:00Z")
+                  );
+                }}
                 initialFocus
               />
             </PopoverContent>

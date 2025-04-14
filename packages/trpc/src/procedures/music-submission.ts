@@ -24,10 +24,10 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
         songLink: input.songLink,
         genre: input.genre.join(", "),
         songwriters: {
-          connect: input.songwriters.map((_songwriter) => ({
+          connect: input.songWriterEmails.map((email) => ({
             groupId_email: {
               groupId: input.groupId,
-              email: _songwriter.email,
+              email: email,
             },
           })),
         },

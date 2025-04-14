@@ -23,10 +23,20 @@ enum SubmitProjectFormSection {
 export function ProjectSubmissionForm() {
   const submitProjectForm = useForm<ProjectSubmissionFieldValues>({
     resolver: zodResolver(zProjectSubmissionValues),
+    defaultValues: {
+      scenes: [{}],
+    },
   });
 
-  const submitProjectMutation = trpc.projectSubmission.useMutation();
-  // TODO: handle success and error
+  const submitProjectMutation = trpc.projectSubmission.useMutation(
+    // TODO: handle success and error
+    {
+      onSuccess: () => {
+        window.alert("Success!");
+        submitProjectForm.reset();
+      },
+    },
+  );
 
   const [currentPage, setCurrentPage] = useState<SubmitProjectFormSection>(
     SubmitProjectFormSection.FIRST,
@@ -76,9 +86,9 @@ export function ProjectSubmissionForm() {
         className="container mx-auto flex-1 px-4 py-12"
       >
         <div className="mx-auto max-w-3xl">
-          <h1 className="mb-4 text-center text-4xl font-bold">Submission</h1>
-
-          <h2 className="mb-6 text-2xl font-bold">Project</h2>
+          <h1 className="mb-4 text-center text-4xl font-bold">
+            Project Submission
+          </h1>
 
           <div className="mb-8 text-gray-300">
             <p>
