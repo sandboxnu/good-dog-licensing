@@ -121,7 +121,6 @@ export default function UnlicensedMusicSubmissionForm({
                 options={genres}
                 placeholder="Select Multiple Genres"
                 label="Song Genre"
-                uniqueKey="unlicensed-music-submission-genre"
               />
             </FormProvider>
             <p>{form.formState.errors.genre?.message}</p>

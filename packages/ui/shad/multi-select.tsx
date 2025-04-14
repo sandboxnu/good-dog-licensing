@@ -1,13 +1,7 @@
 import type { VariantProps } from "class-variance-authority";
 import React from "react";
 import { cva } from "class-variance-authority";
-import {
-  CheckIcon,
-  ChevronDown,
-  WandSparkles,
-  XCircle,
-  XIcon,
-} from "lucide-react";
+import { CheckIcon, ChevronDown, XCircle, XIcon } from "lucide-react";
 
 import { cn } from "@good-dog/ui";
 import { Badge } from "@good-dog/ui/badge";
@@ -128,7 +122,6 @@ export const MultiSelect = React.forwardRef<
       animation = 0,
       maxCount = 3,
       modalPopover = false,
-      asChild = false,
       className,
       ...props
     },
@@ -137,7 +130,7 @@ export const MultiSelect = React.forwardRef<
     const [selectedValues, setSelectedValues] =
       React.useState<string[]>(defaultValue);
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
-    const [isAnimating, setIsAnimating] = React.useState(false);
+    const [isAnimating] = React.useState(false);
 
     const handleInputKeyDown = (
       event: React.KeyboardEvent<HTMLInputElement>,

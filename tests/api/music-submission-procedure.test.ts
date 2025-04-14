@@ -108,7 +108,7 @@ describe("music-submission-procedure", () => {
       songName: "Test Song",
       songLink: "https://example.com",
       genre: ["Rock"],
-      songwriters: [{ email: "person2@gmail.com" }],
+      songWriterEmails: ["person2@gmail.com"],
       additionalInfo: "Some additional info",
     });
 
@@ -139,7 +139,7 @@ describe("music-submission-procedure", () => {
       songName: "Admin Test Song",
       songLink: "https://example.com/admin-song",
       genre: ["Jazz"],
-      songwriters: [{ email: "person2@gmail.com" }],
+      songWriterEmails: ["person2@gmail.com"],
       additionalInfo: "Admin additional info",
     });
 
@@ -177,7 +177,7 @@ describe("music-submission-procedure", () => {
         songName: "Media Maker Test Song",
         songLink: "https://example.com/media-maker-song",
         genre: ["Pop"],
-        songwriters: [{ email: "person2@gmail.com" }],
+        songWriterEmails: ["person2@gmail.com"],
         additionalInfo: "Media Maker additional info",
       }),
     ).rejects.toThrow("permission to submit");
