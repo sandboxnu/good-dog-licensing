@@ -5,7 +5,8 @@
   "type": "module",
   "exports": {
     "./*": "./src/*.tsx",
-    "./registration": "./src/registration/index.tsx"
+    "./registration": "./src/registration/index.tsx",
+    "./submit": "./src/submit/index.tsx"
   },
   "license": "MIT",
   "scripts": {
@@ -17,16 +18,17 @@
   "dependencies": {
     "@good-dog/auth": "workspace:*",
     "@good-dog/db": "workspace:*",
+    "@good-dog/hooks": "workspace:*",
     "@good-dog/trpc": "workspace:*",
-    "@hookform/resolvers": "^3.9.1",
+    "@good-dog/ui": "workspace:*",
+    "@hookform/resolvers": "3.9.1",
     "clsx": "^2.1.1",
     "lucide": "^0.484.0",
     "lucide-react": "^0.484.0",
     "next": "15.1.6",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-hook-form": "^7.53.2",
-    "react-select": "^5.10.1"
+    "react-hook-form": "7.55.0"
   },
   "devDependencies": {
     "@good-dog/eslint": "workspace:*",

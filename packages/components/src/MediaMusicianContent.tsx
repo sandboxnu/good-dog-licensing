@@ -74,7 +74,7 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
       > */}
       <div className="m-9">
         <h1
-          className={`font-righteous leading-none text-good-dog-celadon ${creator === "MUSICIANS" ? `text-8.5xl` : `text-10xl`}`}
+          className={`font-righteous text-10xl leading-none text-good-dog-celadon`}
         >
           {creator}
         </h1>

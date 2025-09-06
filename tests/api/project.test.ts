@@ -98,7 +98,7 @@ describe("projectSubmission", () => {
           musicType: "Indie",
         },
       ],
-      deadline: new Date().toISOString(),
+      deadline: new Date(),
       videoLink: "https://test.com/video",
       additionalInfo: "General additional info",
     };
@@ -121,7 +121,9 @@ describe("projectSubmission", () => {
     // Validate project fields
     expect(storedProject.projectTitle).toBe(input.projectTitle);
     expect(storedProject.description).toBe(input.description);
-    expect(storedProject.deadline.toISOString()).toBe(input.deadline);
+    expect(storedProject.deadline.toISOString()).toBe(
+      input.deadline.toISOString(),
+    );
     expect(storedProject.videoLink).toBe(input.videoLink);
     expect(storedProject.additionalInfo).toBe(input.additionalInfo);
 
@@ -162,7 +164,7 @@ describe("projectSubmission", () => {
       projectTitle: "Test Project",
       description: "A test project for submission",
       scenes: [],
-      deadline: new Date().toISOString(),
+      deadline: new Date(),
       videoLink: "https://test.com/video",
       additionalInfo: "General additional info",
     };

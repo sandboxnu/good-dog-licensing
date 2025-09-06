@@ -13,7 +13,7 @@ import { Checkbox } from "@good-dog/ui/checkbox";
 import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
 
-type FormValues = z.infer<typeof zSignInValues>;
+type FormValues = z.input<typeof zSignInValues>;
 
 const TypedRegistrationInput = RegistrationInput<FormValues>;
 

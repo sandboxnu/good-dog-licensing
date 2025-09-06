@@ -19,7 +19,6 @@ import {
   getUnlicensedMusicSubmissionsProcedure,
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
-import { getMusicianGroupProcedure } from "../procedures/get-musician-group";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
   getProjectSceneByIdProcedure,
@@ -37,14 +36,15 @@ import {
   suggestedMatchProcedure,
 } from "../procedures/matches";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
+import { submitMusicProcedure } from "../procedures/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { projectSubmissionProcedure } from "../procedures/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
 import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
-import { submitMusicProcedure } from "../procedures/submitMusicProcedure";
 import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
 import { getUserProcedure } from "../procedures/user";
 import { onboardingProcedure } from "../procedures/user-onboarding";
+import { usersMusicianGroupsProcedure } from "../procedures/users-musician-groups";
 import { createTRPCRouter } from "./init";
 
 export const appRouter = createTRPCRouter({
@@ -82,7 +82,7 @@ export const appRouter = createTRPCRouter({
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
   getSceneById: getProjectSceneByIdProcedure,
-  getMusicianGroup: getMusicianGroupProcedure,
+  usersMusicianGroups: usersMusicianGroupsProcedure,
 });
 
 export type AppRouter = typeof appRouter;

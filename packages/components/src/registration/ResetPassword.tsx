@@ -13,7 +13,7 @@ import { Button } from "@good-dog/ui/button";
 import GenericRegistrationForm from "./GenericRegistrationForm";
 import RegistrationInput from "./inputs/RegistrationInput";
 
-type FormValues = z.infer<typeof zPasswordValues>;
+type FormValues = z.input<typeof zPasswordValues>;
 
 const TypedRegistrationInput = RegistrationInput<FormValues>;
 

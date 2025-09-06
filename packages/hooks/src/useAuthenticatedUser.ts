@@ -15,7 +15,9 @@ import { trpc } from "@good-dog/trpc/client";
  * users to access the route.
  */
 export const useAuthenticatedUserSuspense = (
-  onUnauthenticated: () => never,
+  onUnauthenticated: () => never = () => {
+    throw new Error("User is not authenticated");
+  },
   ...args: Parameters<typeof trpc.user.useSuspenseQuery<UserWithSession | null>>
 ) => {
   const userSuspenseQuery = trpc.user.useSuspenseQuery<UserWithSession | null>(
