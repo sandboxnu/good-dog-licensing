@@ -10,7 +10,7 @@ export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
   const signOutMutation = trpc.signOut.useMutation({
     onSuccess: () => {
-      window.location.reload();
+      window.location.replace('/');
     },
   });
 
