@@ -61,8 +61,10 @@ export default function InviteModeratorModal(
 
   const { data: pnrsAndAdmins, refetch } = trpc.getPNRAndAdmins.useQuery();
 
+  // TODO: Don't set state in useEffect??
   useEffect(() => {
     if (moderatorEmail) {
+      // eslint-disable-next-line
       setInviteSentStatus(InviteSentStatus.Nothing);
     }
   }, [moderatorEmail]);
