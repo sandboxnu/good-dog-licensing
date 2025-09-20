@@ -178,6 +178,17 @@ model MusicSubmission {
   songwriters      MusicianGroupMember[] @relation("songWriters")
   additionalInfo   String                @default("")
   suggestedMatches SuggestedMatch[]
+  contributors     MusicContributors[]
+}
+
+model MusicContributors {
+  contributorId          String           @id @default(uuid())
+  name                   String
+  role                   String
+  email                  String?          @unique
+  phoneNumber            String?
+  MusicSubmission        MusicSubmission? @relation(fields: [musicSubmissionMusicId], references: [musicId])
+  musicSubmissionMusicId String?
 }
 
 model SuggestedMatch {
