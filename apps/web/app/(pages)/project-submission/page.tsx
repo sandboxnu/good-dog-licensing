@@ -1,4 +1,4 @@
-import { ProjectSubmissionForm } from "@good-dog/components/submit";
+import ProjectSubmissionForm from "@good-dog/components/projectSubmission/ProjectSubmissionForm";
 
 export default function SubmissionForm() {
   return (

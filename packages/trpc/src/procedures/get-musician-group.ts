@@ -2,17 +2,15 @@ import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-export const usersMusicianGroupsProcedure = rolePermissionsProcedureBuilder(
+export const getMusicianGroupProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,
   "read",
 ).query(async ({ ctx }) => {
-  return await ctx.prisma.musicianGroup.findMany({
+  const musicianGroup = await ctx.prisma.musicianGroup.findFirst({
     where: {
       organizerId: ctx.session.user.userId,
     },
-    include: {
-      organizer: true,
-      groupMembers: true,
-    },
   });
+
+  return musicianGroup;
 });

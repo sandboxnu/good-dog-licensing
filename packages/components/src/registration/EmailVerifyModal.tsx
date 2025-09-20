@@ -32,7 +32,7 @@ export default function EmailVerifyModal({
   isOpen?: boolean;
   close: (didVerify: boolean) => void;
 }) {
-  const confirmEmailForm = useForm<z.input<typeof zConfirmEmail>>({
+  const confirmEmailForm = useForm<z.infer<typeof zConfirmEmail>>({
     resolver: zodResolver(zConfirmEmail),
     defaultValues: {
       code: "",

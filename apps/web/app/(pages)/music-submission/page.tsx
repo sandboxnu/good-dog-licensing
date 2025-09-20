@@ -1,10 +1,10 @@
 import React from "react";
 
-import { MusicSubmissionForm } from "@good-dog/components/submit/MusicSubmissionForm";
+import MusicSubmissionForm from "@good-dog/components/musicSubmission/MusicSubmissionForm";
 import { trpc } from "@good-dog/trpc/server";
 
 export default function MusicSubmissionPage() {
-  void trpc.usersMusicianGroups.prefetch();
+  void trpc.getMusicianGroup.prefetch();
 
   return <MusicSubmissionForm />;
 }

@@ -42,7 +42,7 @@ const Schema = z.object({
     .optional(),
 });
 
-type FormValues = z.input<typeof Schema>;
+type FormValues = z.infer<typeof Schema>;
 
 const TypedRegistrationInput = RegistrationInput<FormValues>;
 const TypedRegistrationCheckbox = RegistrationCheckbox<FormValues>;
@@ -134,7 +134,7 @@ const GroupMemberForm = () => {
                 First Name<span className="text-good-dog-error">*</span>
               </h3>
               <TypedRegistrationInput
-                fieldName={`groupMembers.${index}.firstName`}
+                fieldName="firstName"
                 placeholder="Jane"
                 type="text"
                 label="First Name"
@@ -166,7 +166,7 @@ const GroupMemberForm = () => {
               </div>
 
               <TypedRegistrationInput
-                fieldName={`groupMembers.${index}.lastName`}
+                fieldName="lastName"
                 placeholder="Doe"
                 type="text"
                 label="Last Name"

@@ -13,30 +13,24 @@ import type { prisma } from "@good-dog/db";
  */
 export const getSessionMemoized = React.cache(
   async (_prisma: typeof prisma, sessionId: string) => {
-    try {
-      return await _prisma.session.findUnique({
-        where: {
-          sessionId: sessionId,
-        },
-        select: {
-          expiresAt: true,
-          sessionId: true,
-          user: {
-            select: {
-              userId: true,
-              firstName: true,
-              lastName: true,
-              email: true,
-              phoneNumber: true,
-              role: true,
-            },
+    return await _prisma.session.findUnique({
+      where: {
+        sessionId: sessionId,
+      },
+      select: {
+        expiresAt: true,
+        sessionId: true,
+        user: {
+          select: {
+            userId: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            phoneNumber: true,
+            role: true,
           },
         },
-      });
-    } catch {
-      // TODO: handle this error properly, but we don't want the site to
-      // crash if sessions are not available
-      return null;
-    }
+      },
+    });
   },
 );

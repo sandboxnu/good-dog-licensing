@@ -37,7 +37,7 @@ const FurtherInfo = () => {
     <div className="flex flex-row pt-24">
       <div className="px-9">
         <div>
-          <div className="pt-6 font-righteous text-4xl text-good-dog-celadon">
+          <div className="pt-6 font-righteous text-4.1xl text-good-dog-celadon">
             What makes GOOD DOG "GOOD"?
           </div>
           <div className="font-afacad text-white">
@@ -65,7 +65,7 @@ const FurtherInfo = () => {
           </div>
         </div>
         <div>
-          <div className="pt-12 font-righteous text-4xl text-good-dog-celadon">
+          <div className="pt-12 font-righteous text-4.1xl text-good-dog-celadon">
             Connecting Creatives
           </div>
           <div className="font-afacad pt-6 text-white">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { User } from "lucide-react";
 
@@ -13,6 +14,10 @@ export default function Nav() {
       window.location.reload();
     },
   });
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <header className="bg-black text-white">
@@ -57,33 +62,45 @@ export default function Nav() {
 
         <div className="flex items-center gap-8">
           <nav className="hidden items-center gap-8 md:flex">
-            <Link href="/" className="transition hover:text-emerald-400">
+            <Link
+              href="/"
+              className="text-white transition hover:text-emerald-400"
+            >
               Home
             </Link>
-            <Link href="/about" className="transition hover:text-emerald-400">
+            <Link
+              href="/about"
+              className="text-white transition hover:text-emerald-400"
+            >
               About
             </Link>
-            <Link href="/" className="transition hover:text-emerald-400">
+            <Link
+              href="/"
+              className="text-white transition hover:text-emerald-400"
+            >
               Gallery
             </Link>
             {user ? (
               <>
                 <Button
                   onClick={() => signOutMutation.mutate()}
-                  className="transition hover:text-emerald-400"
+                  className="text-white transition hover:text-emerald-400"
                 >
                   Logout
                 </Button>
               </>
             ) : (
-              <Link href="/login" className="transition hover:text-emerald-400">
+              <Link
+                href="/login"
+                className="text-white transition hover:text-emerald-400"
+              >
                 Login
               </Link>
             )}
             {user?.role === "MEDIA_MAKER" && (
               <Link
                 href="/project-submission"
-                className="rounded bg-zinc-800 px-6 py-2 transition hover:bg-zinc-700 hover:text-emerald-400"
+                className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
               >
                 Submit
               </Link>
@@ -91,7 +108,7 @@ export default function Nav() {
             {user?.role === "MUSICIAN" && (
               <Link
                 href="/music-submission"
-                className="rounded bg-zinc-800 px-6 py-2 transition hover:bg-zinc-700 hover:text-emerald-400"
+                className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
               >
                 Submit
               </Link>
@@ -99,7 +116,7 @@ export default function Nav() {
             {(user?.role === "ADMIN" || user?.role === "MODERATOR") && (
               <Link
                 href="/dashboard/projects"
-                className="rounded bg-zinc-800 px-6 py-2 transition hover:bg-zinc-700 hover:text-emerald-400"
+                className="rounded bg-zinc-800 px-6 py-2 text-white transition hover:bg-zinc-700 hover:text-emerald-400"
               >
                 Dashboard
               </Link>

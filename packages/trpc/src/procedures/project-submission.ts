@@ -1,13 +1,33 @@
+import { z } from "zod";
+
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
-import { zProjectSubmissionValues } from "../schema";
 
 export const projectSubmissionProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
   "submit",
 )
-  .input(zProjectSubmissionValues)
+  .input(
+    z.object({
+      projectTitle: z.string(),
+      description: z.string(),
+      scenes: z.array(
+        z.object({
+          sceneTitle: z.string(),
+          description: z.string(),
+          musicType: z.string(),
+          similarSongs: z.string().optional(),
+          additionalInfo: z.string().optional(),
+        }),
+      ),
+      deadline: z.string().refine((val) => !isNaN(Date.parse(val)), {
+        message: "Invalid date format",
+      }),
+      videoLink: z.string().optional(),
+      additionalInfo: z.string().optional(),
+    }),
+  )
   .mutation(async ({ ctx, input }) => {
     // Create the project submission
     await ctx.prisma.projectSubmission.create({

@@ -13,4 +13,10 @@ export default {
   ],
   presets: [baseConfig],
   plugins: [require("tailwindcss-animate")],
+  safelist: [
+    "bg-good-dog-violet",
+    "text-good-dog-violet",
+    "text-good-dog-pale-yellow",
+    "text-good-dog-celadon",
+  ],
 } satisfies Config;

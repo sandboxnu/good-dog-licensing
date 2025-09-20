@@ -107,8 +107,8 @@ describe("music-submission-procedure", () => {
       groupId: "person1-group-id",
       songName: "Test Song",
       songLink: "https://example.com",
-      genre: ["Rock"],
-      songWriterEmails: ["person2@gmail.com"],
+      genre: "Rock",
+      songwriters: [{ email: "person2@gmail.com" }],
       additionalInfo: "Some additional info",
     });
 
@@ -138,8 +138,8 @@ describe("music-submission-procedure", () => {
       groupId: "person1-group-id",
       songName: "Admin Test Song",
       songLink: "https://example.com/admin-song",
-      genre: ["Jazz"],
-      songWriterEmails: ["person2@gmail.com"],
+      genre: "Jazz",
+      songwriters: [{ email: "person2@gmail.com" }],
       additionalInfo: "Admin additional info",
     });
 
@@ -176,8 +176,8 @@ describe("music-submission-procedure", () => {
         groupId: "person1-group-id",
         songName: "Media Maker Test Song",
         songLink: "https://example.com/media-maker-song",
-        genre: ["Pop"],
-        songWriterEmails: ["person2@gmail.com"],
+        genre: "Pop",
+        songwriters: [{ email: "person2@gmail.com" }],
         additionalInfo: "Media Maker additional info",
       }),
     ).rejects.toThrow("permission to submit");

@@ -21,7 +21,7 @@ const Schema = z.object({
     .optional(),
 });
 
-type FormValues = z.input<typeof Schema>;
+type FormValues = z.infer<typeof Schema>;
 
 const TypedRegistrationInput = RegistrationInput<FormValues>;
 

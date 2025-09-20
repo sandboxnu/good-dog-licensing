@@ -5,8 +5,7 @@
   "type": "module",
   "exports": {
     "./native": "./native.ts",
-    "./web": "./web.ts",
-    "./styles": "./styles.css"
+    "./web": "./web.ts"
   },
   "license": "MIT",
   "scripts": {

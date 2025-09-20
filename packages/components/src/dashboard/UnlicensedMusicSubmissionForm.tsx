@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { trpc } from "@good-dog/trpc/client";
 
-import { GoodDogMultiSelect } from "../form";
+import MultiSelectDropdown from "../MultiSelectDropDown";
 
 const schema = z.object({
   songName: z.string().min(1, "Song name is required"),
@@ -17,7 +17,7 @@ const schema = z.object({
   additionalInfo: z.string().optional(),
 });
 
-type FormFields = z.input<typeof schema>;
+type FormFields = z.infer<typeof schema>;
 
 const genres = [
   { value: "pop", label: "Pop" },
@@ -46,7 +46,12 @@ export default function UnlicensedMusicSubmissionForm({
 }: UnlicensedMusicSubmissionFormProps) {
   const router = useRouter();
 
-  const form = useForm<FormFields>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormFields>({
     resolver: zodResolver(schema),
   });
 
@@ -80,7 +85,7 @@ export default function UnlicensedMusicSubmissionForm({
           <sup className="text-[#F4392D]">*</sup>Indicates a required question.
         </p>
         <form
-          onSubmit={form.handleSubmit((data) => {
+          onSubmit={handleSubmit((data) => {
             submissionMutation.mutate(data);
           })}
         >
@@ -90,49 +95,47 @@ export default function UnlicensedMusicSubmissionForm({
             </label>
             <input
               className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
-              {...form.register("songName")}
+              {...register("songName")}
               placeholder="Song Name"
             ></input>
-            <p>{form.formState.errors.songName?.message}</p>
+            <p>{errors.songName?.message}</p>
             <label className="pb-3 pt-12 text-2xl font-bold">
               Artist Name<sup className="text-[#F4392D]">*</sup>
             </label>
             <input
               className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
-              {...form.register("artist")}
+              {...register("artist")}
               placeholder="Artist Name"
             ></input>
-            <p>{form.formState.errors.artist?.message}</p>
+            <p>{errors.artist?.message}</p>
             <label className="pb-3 pt-12 text-2xl font-bold">
               Song Link<sup className="text-[#F4392D]">*</sup>
             </label>
             <input
               className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
-              {...form.register("songLink")}
+              {...register("songLink")}
               placeholder="Song Link"
             ></input>
-            <p>{form.formState.errors.songLink?.message}</p>
+            <p>{errors.songLink?.message}</p>
             <label className="pb-3 pt-12 text-2xl font-bold">
               Song Genre<sup className="text-[#F4392D]">*</sup>
             </label>
-            <FormProvider {...form}>
-              <GoodDogMultiSelect
-                name="genre"
-                options={genres}
-                placeholder="Select Multiple Genres"
-                label="Song Genre"
-              />
-            </FormProvider>
-            <p>{form.formState.errors.genre?.message}</p>
+            <MultiSelectDropdown
+              name="genre"
+              control={control}
+              options={genres}
+              placeholder="Select Multiple Genres"
+            />
+            <p>{errors.genre?.message}</p>
             <label className="pb-3 pt-12 text-2xl font-bold">
               Additional Information
             </label>
             <input
               className="h-10 w-[890px] rounded-xl bg-[#E4E4E6] pl-3"
-              {...form.register("additionalInfo")}
+              {...register("additionalInfo")}
               placeholder="Additional Song Info"
             ></input>
-            <p>{form.formState.errors.additionalInfo?.message}</p>
+            <p>{errors.additionalInfo?.message}</p>
             <div className="flex w-full flex-col items-center">
               <button
                 className="m-20 h-16 w-40 rounded-xl bg-[#098465] text-2xl"
