@@ -37,13 +37,13 @@ export default function ResetPasswordForm() {
       // eslint-disable-next-line
       setResetId(idParam);
     } else {
-      // eslint-disable-next-line
+       
       setResponseMessage(
         "Invalid password reset link. Please request a new one.",
       );
-      // eslint-disable-next-line
+       
       setIsSuccess(false);
-      // eslint-disable-next-line
+       
       setIsLinkValid(false);
     }
   }, [searchParams]);

@@ -364,12 +364,7 @@ describe("moderator-onboarding", () => {
           `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
         );
 
-      expect(mockEmails.send).toHaveBeenCalledWith({
-        to: "testing@gmail.com",
-        subject: "Sign Up For PR - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        from: env.VERIFICATION_FROM_EMAIL ?? "",
-      });
+      expect(mockEmails.send).toHaveBeenCalledWith(emailParams);
     });
 
     test("Moderator invite is valid.", async () => {
