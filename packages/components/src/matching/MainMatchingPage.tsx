@@ -88,7 +88,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
         )
         .map((match) => match.musicId),
     );
-     
+
     setMatchedUnlicensedMusicIds(
       sceneInfo.unlicensedSuggestedMatches
         .sort(
