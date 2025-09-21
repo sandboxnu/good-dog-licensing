@@ -28,7 +28,7 @@ const getBaseUrl = () => {
   if (env.VERCEL_ENV === "production") {
     return `https://good-dog-licensing.vercel.app`;
   }
-  if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`;
+  if (env.VERCEL_ENV) return `https://${env.VERCEL_ENV}`;
   return "http://localhost:3000";
 };
 

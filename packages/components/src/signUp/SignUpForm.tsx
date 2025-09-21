@@ -1,6 +1,6 @@
 "use client";
 
-import type { z, ZodError } from "zod";
+import type { z } from "zod";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -9,9 +9,9 @@ import { trpc } from "@good-dog/trpc/client";
 import { zSignUpValues } from "@good-dog/trpc/schema";
 import { Button } from "@good-dog/ui/button";
 
-import GenericRegistrationForm from "./GenericRegistrationForm";
-import RegistrationInput from "./inputs/RegistrationInput";
-import TOSModal from "./TOSModal";
+import GenericRegistrationForm from "../registration/GenericRegistrationForm";
+import RegistrationInput from "../registration/inputs/RegistrationInput";
+import EmailVerificationModal from "./EmailVerificationModal";
 
 type FormValues = z.input<typeof zSignUpValues>;
 
@@ -25,64 +25,69 @@ export default function SignUpForm() {
         path: ["confirmPassword"],
       }),
     ),
+    defaultValues: {
+      emailCode: "",
+    },
   });
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
-  const [isTOSModalOpen, setIsTOSModalOpen] = useState(false);
+  const [showEmailVerificationModal, setShowEmailVerificationModal] =
+    useState(false);
+  // const [acceptedTOS, setAcceptedTOS] = useState(false);
 
-  const signUpMutation = trpc.signUp.useMutation({
+  const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: () => {
-      window.location.href = "/onboarding";
+      setShowEmailVerificationModal(true);
     },
     onError: (err) => {
-      // Set server error as an error on the form
-      const zodError = err.data?.zodError as
-        | ZodError<typeof zSignUpValues>
-        | undefined;
-      Object.entries(zodError?.flatten().fieldErrors ?? {}).forEach(
-        ([key, fieldError]) => {
-          if (key in zSignUpValues.shape) {
-            signUpForm.setError(key as keyof typeof zSignUpValues.shape, {
-              message: fieldError.join(", "),
-            });
-          }
-        },
-      );
-
       // TODO
       // Alert toast to the user that there was an error signing up
       console.error(err);
     },
   });
 
-  // Submitting the form will finish the registration process
-  const onSubmitSignUp = signUpForm.handleSubmit((values) => {
-    signUpMutation.mutate(values);
+  const signUpMutation = trpc.signUp.useMutation({
+    onSuccess: () => {
+      window.location.href = "/";
+    },
+    onError: (err) => {
+      // TODO
+      // Alert toast to the user that there was an error signing up
+      console.error(err);
+    },
   });
 
-  const [acceptedTOS, setAcceptedTOS] = useState(false);
+  const sendEmailVerification = signUpForm.handleSubmit((values) => {
+    sendEmailVerificationMutation.mutate({ email: values.email });
+  });
+
+  const signUp = (emailCode: string) => {
+    const values = signUpForm.getValues();
+    signUpMutation.mutate({ ...values, emailCode });
+  };
+
+  const enteredEmail = signUpForm.watch("email");
 
   return (
     <FormProvider {...signUpForm}>
-      {isTOSModalOpen && (
-        <TOSModal
-          close={() => {
-            setIsTOSModalOpen(false);
-          }}
-          accept={() => {
-            setIsTOSModalOpen(false);
-            setAcceptedTOS(true);
-          }}
+      {showEmailVerificationModal && (
+        <EmailVerificationModal
+          isOpen={showEmailVerificationModal}
+          close={() => setShowEmailVerificationModal(false)}
+          submit={signUp}
+          email={enteredEmail}
+          isLoading={signUpMutation.isPending}
+          isWrongCode={signUpMutation.isError}
         />
       )}
       <GenericRegistrationForm
         title="Sign Up"
-        variant="dark"
+        variant="light"
         ctaTitle="Sign Up"
-        onSubmit={onSubmitSignUp}
-        disabled={!acceptedTOS}
+        onSubmit={sendEmailVerification}
+        disabled={false}
         secondaryAction="Already have an account?"
         secondaryActionLink="Sign In"
         secondaryActionUrl="/login"
@@ -160,19 +165,18 @@ export default function SignUpForm() {
             className="flex-1"
           />
         </div>
-        <Button
-          className="mt-4 h-6 w-full rounded-full"
-          onClick={(e) => {
-            // prevent actual <form/> submission
-            e.preventDefault();
-            // Open TOS modal
-            setIsTOSModalOpen(true);
-          }}
-        >
-          {!acceptedTOS
-            ? "Please read and accept the Terms of Service"
-            : "Terms of Service Accepted"}
-        </Button>
+        <TypedRegistrationInput
+          fieldName="referral"
+          type="text"
+          label="FRIEND or OTHER ..."
+          className="flex-1"
+        />
+        <TypedRegistrationInput
+          fieldName="role"
+          type="text"
+          label="MUSICIAN or MEDIA_MAKER"
+          className="flex-1"
+        />
       </GenericRegistrationForm>
     </FormProvider>
   );

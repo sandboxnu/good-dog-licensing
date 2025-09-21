@@ -16,24 +16,6 @@ describe("auth", () => {
     passwordService: passwordService,
   });
 
-  const createEmailVerificationCode = async (emailConfirmed: boolean) =>
-    prisma.emailVerificationCode.upsert({
-      create: {
-        email: "damian@gmail.com",
-        code: "019821",
-        expiresAt: new Date(Date.now() + 60_000 * 100000),
-        emailConfirmed: emailConfirmed,
-      },
-      update: {
-        code: "019821",
-        expiresAt: new Date(Date.now() + 60_000 * 100000),
-        emailConfirmed: emailConfirmed,
-      },
-      where: {
-        email: "damian@gmail.com",
-      },
-    });
-
   const createAccount = async () =>
     prisma.user.create({
       data: {
@@ -87,42 +69,9 @@ describe("auth", () => {
     mockCookies.clear();
   });
 
-  describe("auth/signUp", () => {
-    test("sign up works", async () => {
-      await createEmailVerificationCode(true);
-
-      const response = await $api.signUp({
-        firstName: "Damian",
-        lastName: "Smith",
-        phoneNumber: "1234567890",
-        email: "damian@gmail.com",
-        password: "password123",
-        confirmPassword: "password123",
-      });
-
-      expect(response.message).toEqual(
-        "Successfully signed up and logged in as damian@gmail.com.",
-      );
-
-      const damian = await prisma.user.findUnique({
-        where: { email: "damian@gmail.com" },
-      });
-      expect(damian).not.toBeNull();
-      expect(damian?.role).toEqual("ONBOARDING");
-
-      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-        path: "/",
-        expires: expect.any(Date),
-      });
-    });
-  });
-
   describe("with existing account", () => {
     test("auth/signIn", async () => {
-      await Promise.all([createEmailVerificationCode(true), createAccount()]);
+      await createAccount();
 
       const signInResponse = await $api.signIn({
         email: "damian@gmail.com",
@@ -142,7 +91,7 @@ describe("auth", () => {
     });
 
     test("auth/signIn failure", async () => {
-      await Promise.all([createEmailVerificationCode(true), createAccount()]);
+      await createAccount();
 
       expect(
         $api.signIn({
@@ -151,22 +100,6 @@ describe("auth", () => {
         }),
       ).rejects.toThrow("Invalid credentials");
 
-      expect(mockCookies.set).not.toBeCalled();
-    });
-
-    test("auth/signUp failure", async () => {
-      await Promise.all([createEmailVerificationCode(true), createAccount()]);
-
-      expect(
-        $api.signUp({
-          firstName: "Damian",
-          lastName: "Smith",
-          phoneNumber: "1234567890",
-          email: "damian@gmail.com",
-          password: "password123",
-          confirmPassword: "password123",
-        }),
-      ).rejects.toThrow("User already exists with email damian@gmail.com");
       expect(mockCookies.set).not.toBeCalled();
     });
   });

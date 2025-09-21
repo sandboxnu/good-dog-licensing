@@ -22,12 +22,6 @@ export const projectAndRepertoirePagePermissions = adminPagePermissions.extend({
   submit: [Role.MODERATOR],
 });
 
-export const onboardingPagePermissions = superUserPermissions.extend({
-  read: [Role.ONBOARDING],
-  modify: [],
-  submit: [Role.ONBOARDING],
-});
-
 export const mediaMakerOnlyPermissions =
   projectAndRepertoirePagePermissions.extend({
     read: [Role.MEDIA_MAKER],
