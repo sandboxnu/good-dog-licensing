@@ -56,8 +56,5 @@
     "packages/*",
     "tooling/*",
     "tests"
-  ],
-  "dependencies": {
-    "mailersend": "^2.6.0"
-  }
+  ]
 }
