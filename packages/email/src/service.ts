@@ -103,9 +103,7 @@ export class EmailService {
       .setTo([new Recipient(toEmail)])
       .setReplyTo(this.sentFrom)
       .setSubject("Verify Your Email - Good Dog Licensing")
-      .setHtml(
-        `<p>Your Verification Code: <strong>${code}</strong></p>`,
-      );
+      .setHtml(`<p>Your Verification Code: <strong>${code}</strong></p>`);
 
     return this.send(emailParams);
   }
