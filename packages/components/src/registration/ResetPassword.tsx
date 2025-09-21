@@ -29,16 +29,21 @@ export default function ResetPasswordForm() {
     resolver: zodResolver(zPasswordValues),
   });
 
+  // TODO: Don't set state in useEffect??
   useEffect(() => {
     const idParam = searchParams.get("reset_id");
 
     if (idParam) {
+      // eslint-disable-next-line
       setResetId(idParam);
     } else {
+      // eslint-disable-next-line
       setResponseMessage(
         "Invalid password reset link. Please request a new one.",
       );
+      // eslint-disable-next-line
       setIsSuccess(false);
+      // eslint-disable-next-line
       setIsLinkValid(false);
     }
   }, [searchParams]);

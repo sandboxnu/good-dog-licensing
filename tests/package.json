@@ -28,7 +28,7 @@
     "next": "15.1.6",
     "prettier": "3.2.5",
     "typescript": "5.4.5",
-    "zod": "3.23.8"
+    "zod": "^4"
   },
   "prettier": "@good-dog/prettier"
 }

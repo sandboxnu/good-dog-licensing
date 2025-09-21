@@ -15,7 +15,6 @@ datasource db {
 }
 
 enum Role {
-  ONBOARDING
   MUSICIAN
   MEDIA_MAKER
   ADMIN
@@ -35,15 +34,13 @@ model User {
   hashedPassword             String                     @map("password")
   firstName                  String
   lastName                   String
-  stageName                  String?
   role                       Role
-  isSongWriter               Boolean                    @default(false)
-  isAscapAffiliated          Boolean                    @default(false)
-  isBmiAffiliated            Boolean                    @default(false)
-  musicianGroups             MusicianGroup[]
+  isSongWriter               Boolean?                   
+  isAscapAffiliated          Boolean?                   
+  isBmiAffiliated            Boolean?                    
   passwordResetReq           PasswordResetReq?
   sessions                   Session[]
-  referral                   Referral?
+  referral                   ReferralSource?
   createdAt                  DateTime                   @default(now())
   updatedAt                  DateTime                   @updatedAt
   projectSubmissions         ProjectSubmission[]
@@ -53,16 +50,6 @@ model User {
   reviewedMatches            SuggestedMatch[]           @relation("Reviewer")
   matchComments              MatchComments[]
   matchLikes                 MatchRatings[]
-}
-
-model Referral {
-  id           String         @id @default(uuid())
-  user         User           @relation(fields: [userId], references: [userId])
-  userId       String         @unique
-  source       ReferralSource
-  customSource String?
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
 }
 
 enum ReferralSource {
@@ -84,7 +71,6 @@ model Session {
 model EmailVerificationCode {
   email          String   @id
   code           String
-  emailConfirmed Boolean  @default(false)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   expiresAt      DateTime
@@ -102,35 +88,6 @@ model ModeratorInvite {
   email             String   @unique
   createdAt         DateTime @default(now())
   expiresAt         DateTime
-}
-
-model MusicianGroup {
-  groupId          String                @id @default(uuid())
-  organizerId      String // The user that created the group
-  organizer        User                  @relation(fields: [organizerId], references: [userId], onDelete: Cascade)
-  name             String
-  groupMembers     MusicianGroupMember[] // Does not contain the user that created the group
-  createdAt        DateTime              @default(now())
-  updatedAt        DateTime              @updatedAt
-  musicSubmissions MusicSubmission[]
-}
-
-model MusicianGroupMember {
-  id                String            @id @default(uuid()) @map("id")
-  groupId           String
-  group             MusicianGroup     @relation(fields: [groupId], references: [groupId], onDelete: Cascade)
-  firstName         String
-  lastName          String
-  stageName         String?
-  email             String
-  isSongWriter      Boolean           @default(false)
-  isAscapAffiliated Boolean           @default(false)
-  isBmiAffiliated   Boolean           @default(false)
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  musicSubmissions  MusicSubmission[] @relation("songWriters")
-
-  @@unique([groupId, email])
 }
 
 model ProjectSubmission {
@@ -173,9 +130,6 @@ model MusicSubmission {
   artistId         String
   songLink         String
   genre            String
-  group            MusicianGroup         @relation(fields: [groupId], references: [groupId])
-  groupId          String
-  songwriters      MusicianGroupMember[] @relation("songWriters")
   additionalInfo   String                @default("")
   suggestedMatches SuggestedMatch[]
   contributors     MusicContributors[]

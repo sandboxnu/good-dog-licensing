@@ -17,17 +17,6 @@ export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
           lastName: true,
         },
       },
-      group: {
-        select: {
-          name: true,
-        },
-      },
-      songwriters: {
-        select: {
-          firstName: true,
-          lastName: true,
-        },
-      },
     },
   });
   return { music };
@@ -53,8 +42,6 @@ export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
     },
     include: {
       artist: true,
-      group: true,
-      songwriters: true,
     },
   });
   return { music };

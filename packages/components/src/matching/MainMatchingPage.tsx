@@ -77,7 +77,9 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     await sceneQuery.refetch();
   };
 
+  // TODO: Don't set state in useEffect??
   useEffect(() => {
+    // eslint-disable-next-line
     setMatchedLicensedMusicIds(
       sceneInfo.suggestedMatches
         .sort(
@@ -86,6 +88,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
         )
         .map((match) => match.musicId),
     );
+    // eslint-disable-next-line
     setMatchedUnlicensedMusicIds(
       sceneInfo.unlicensedSuggestedMatches
         .sort(

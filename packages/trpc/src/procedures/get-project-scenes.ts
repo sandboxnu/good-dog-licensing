@@ -86,12 +86,6 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
                     lastName: true,
                   },
                 },
-                songwriters: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
-                  },
-                },
               },
             },
           },
