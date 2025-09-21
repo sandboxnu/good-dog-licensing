@@ -18,10 +18,8 @@ export const zProjectSubmissionValues = z.object({
 });
 
 export const zMusicSubmissionValues = z.object({
-  groupId: z.string(),
   songName: z.string(),
-  songLink: z.string().url(),
+  songLink: z.url(),
   genre: z.array(z.string()),
-  songWriterEmails: z.array(z.string()),
   additionalInfo: z.string().optional(),
 });

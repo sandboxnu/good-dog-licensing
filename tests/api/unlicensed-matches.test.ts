@@ -34,32 +34,6 @@ async function createData() {
     },
   });
 
-  const musician = await prisma.user.create({
-    data: {
-      userId: "musician",
-      firstName: "ABCDEF",
-      lastName: "ABCDEF",
-      role: "MUSICIAN",
-      phoneNumber: "2234567890",
-      email: "musician@gmail.com",
-      hashedPassword: await passwordService.hashPassword("password123"),
-      sessions: {
-        create: {
-          sessionId: "musician-session-id",
-          expiresAt: new Date(Date.now() + 5_000_000_000),
-        },
-      },
-    },
-  });
-
-  await prisma.musicianGroup.create({
-    data: {
-      groupId: "musicianGroup",
-      organizerId: musician.userId,
-      name: "Bad Dogs",
-    },
-  });
-
   await prisma.unlicensedMusicSubmission.create({
     data: {
       musicId: "musicSubmission",
@@ -186,11 +160,6 @@ async function deleteData() {
     where: { musicId: "musicSubmission" },
   });
 
-  // Delete MusicianGroup
-  await prisma.musicianGroup.deleteMany({
-    where: { groupId: "musicianGroup" },
-  });
-
   // Delete Users
   await prisma.user.deleteMany({
     where: {
@@ -290,7 +259,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
           userId: "musician",
         },
       }),
-    ).rejects.toThrow("permission to modify");
+    ).rejects.toThrow("UNAUTHORIZED");
   });
 
   it("should allow users who made a comment to update it", async () => {
@@ -441,7 +410,7 @@ describe("unlicensed suggested match procedure", () => {
         musicId: "musicSubmission",
         description: "This is a great match.",
       }),
-    ).rejects.toThrow("permission to modify");
+    ).rejects.toThrow("UNAUTHORIZED");
   });
 
   it("should allow a user to update the description for their own suggested match", async () => {
@@ -538,6 +507,6 @@ describe("getMatchesProcedure", () => {
       $api.match({
         matchState: MatchState.PENDING,
       }),
-    ).rejects.toThrow("permission to read");
+    ).rejects.toThrow("UNAUTHORIZED");
   });
 });

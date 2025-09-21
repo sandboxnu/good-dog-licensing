@@ -15,22 +15,9 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
         artist: {
           connect: { userId: ctx.session.user.userId },
         },
-        group: {
-          connect: {
-            groupId: input.groupId,
-          },
-        },
         songName: input.songName,
         songLink: input.songLink,
         genre: input.genre.join(", "),
-        songwriters: {
-          connect: input.songWriterEmails.map((email) => ({
-            groupId_email: {
-              groupId: input.groupId,
-              email: email,
-            },
-          })),
-        },
         additionalInfo: input.additionalInfo ?? "",
       },
     });

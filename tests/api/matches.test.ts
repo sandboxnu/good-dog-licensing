@@ -52,14 +52,6 @@ async function createData() {
     },
   });
 
-  const musicianGroup = await prisma.musicianGroup.create({
-    data: {
-      groupId: "musicianGroup",
-      organizerId: musician.userId,
-      name: "Bad Dogs",
-    },
-  });
-
   await prisma.musicSubmission.create({
     data: {
       musicId: "musicSubmission",
@@ -67,7 +59,6 @@ async function createData() {
       songLink:
         "https://open.spotify.com/track/2X6b7zLdIxCejd6GqVcQ9M?si=b36f9306fab04109",
       genre: "hip hop",
-      groupId: musicianGroup.groupId,
       artistId: musician.userId,
     },
   });
@@ -185,11 +176,6 @@ async function deleteData() {
   // Delete MusicSubmission
   await prisma.musicSubmission.deleteMany({
     where: { musicId: "musicSubmission" },
-  });
-
-  // Delete MusicianGroup
-  await prisma.musicianGroup.deleteMany({
-    where: { groupId: "musicianGroup" },
   });
 
   // Delete Users
