@@ -89,7 +89,7 @@ export class EmailService {
       .setFrom(this.sentFrom)
       .setTo([new Recipient(toEmail)])
       .setReplyTo(this.sentFrom)
-      .setSubject("Sign Up For P&R - Good Dog Licensing")
+      .setSubject("Sign Up to be a P&R - Good Dog Licensing")
       .setHtml(
         `<p>Follow <a href="${baseURL}/pnr-invite/?id=${cuid}">this link</a> to sign up as a PR.`,
       );
@@ -102,7 +102,7 @@ export class EmailService {
       .setFrom(this.sentFrom)
       .setTo([new Recipient(toEmail)])
       .setReplyTo(this.sentFrom)
-      .setSubject("Sign Up For P&R - Good Dog Licensing")
+      .setSubject("Verify Your Email - Good Dog Licensing")
       .setHtml(
         `<p>Your Verification Code: <strong>${code}</strong></p>`,
       );
