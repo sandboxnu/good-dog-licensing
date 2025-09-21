@@ -132,17 +132,26 @@ model MusicSubmission {
   genre            String
   additionalInfo   String                @default("")
   suggestedMatches SuggestedMatch[]
-  contributors     MusicContributors[]
+  contributors     MusicContributor[]
 }
 
-model MusicContributors {
-  contributorId          String           @id @default(uuid())
+enum MusicRoles {
+  VOCALIST
+  INSTRUMENTALIST
+  PRODUCER
+  SONGWRITER
+  LYRICIST
+}
+
+model MusicContributor {
+  contributorId          String          @id @default(uuid())
   name                   String
-  role                   String
-  email                  String?          @unique
-  phoneNumber            String?
-  MusicSubmission        MusicSubmission? @relation(fields: [musicSubmissionMusicId], references: [musicId])
-  musicSubmissionMusicId String?
+  roles                  MusicRoles[]
+  isAscapAffiliated      Boolean
+  isBmiAffiliated        Boolean
+  ipi                    String
+  MusicSubmission        MusicSubmission @relation(fields: [musicSubmissionMusicId], references: [musicId], onDelete: Cascade)
+  musicSubmissionMusicId String
 }
 
 model SuggestedMatch {
