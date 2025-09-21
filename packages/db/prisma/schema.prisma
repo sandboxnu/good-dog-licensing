@@ -35,9 +35,9 @@ model User {
   firstName                  String
   lastName                   String
   role                       Role
-  isSongWriter               Boolean?                   
-  isAscapAffiliated          Boolean?                   
-  isBmiAffiliated            Boolean?                    
+  isSongWriter               Boolean?
+  isAscapAffiliated          Boolean?
+  isBmiAffiliated            Boolean?
   passwordResetReq           PasswordResetReq?
   sessions                   Session[]
   referral                   ReferralSource?
@@ -69,11 +69,11 @@ model Session {
 }
 
 model EmailVerificationCode {
-  email          String   @id
-  code           String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  expiresAt      DateTime
+  email     String   @id
+  code      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime
 }
 
 model PasswordResetReq {
@@ -122,16 +122,41 @@ model SceneSubmission {
 }
 
 model MusicSubmission {
-  musicId          String                @id @default(uuid())
+  musicId          String             @id @default(uuid())
   songName         String
-  createdAt        DateTime              @default(now())
-  updatedAt        DateTime              @updatedAt
-  artist           User                  @relation(fields: [artistId], references: [userId], onDelete: Cascade)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  artist           User               @relation(fields: [artistId], references: [userId], onDelete: Cascade)
   artistId         String
   songLink         String
   genre            String
-  additionalInfo   String                @default("")
+  additionalInfo   String             @default("")
   suggestedMatches SuggestedMatch[]
+  contributors     MusicContributor[]
+}
+
+enum MusicRole {
+  VOCALIST
+  INSTRUMENTALIST
+  PRODUCER
+  SONGWRITER
+  LYRICIST
+}
+
+enum MusicAffiliation {
+  ASCAP
+  BMI
+  NONE
+}
+
+model MusicContributor {
+  contributorId          String           @id @default(uuid())
+  name                   String
+  roles                  MusicRole[]
+  affliation             MusicAffiliation
+  ipi                    String?
+  MusicSubmission        MusicSubmission  @relation(fields: [musicSubmissionMusicId], references: [musicId], onDelete: Cascade)
+  musicSubmissionMusicId String
 }
 
 model SuggestedMatch {
