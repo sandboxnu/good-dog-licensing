@@ -9,11 +9,10 @@ import { zMusicSubmissionValues } from "@good-dog/trpc/schema";
 import { Button } from "@good-dog/ui/button";
 import { Form } from "@good-dog/ui/form";
 
-import { GoodDogInput, GoodDogMultiSelect, GoodDogSingleSelect } from "../form";
+import { GoodDogInput, GoodDogMultiSelect } from "../form";
 
 type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
 
-const Select = GoodDogSingleSelect<MusicSubmissionFormFields>;
 const Input = GoodDogInput<MusicSubmissionFormFields>;
 const MultiSelect = GoodDogMultiSelect<MusicSubmissionFormFields>;
 
@@ -36,8 +35,6 @@ const genres = [
 ];
 
 export function MusicSubmissionForm() {
-  const [musicianGroups] = trpc.usersMusicianGroups.useSuspenseQuery();
-
   const submitMusicForm = useForm<MusicSubmissionFormFields>({
     resolver: zodResolver(zMusicSubmissionValues),
   });
@@ -53,19 +50,6 @@ export function MusicSubmissionForm() {
     submitMusicProcedureMutation.mutate(values);
   });
 
-  const currentGroup =
-    musicianGroups.find(
-      (g) => g.groupId === submitMusicForm.watch("groupId"),
-    ) ?? musicianGroups[0];
-
-  const songWriters =
-    currentGroup?.groupMembers
-      .filter((member) => member.isSongWriter)
-      .map((sw) => ({
-        value: sw.email,
-        label: `${sw.firstName} ${sw.lastName}`,
-      })) ?? [];
-
   return (
     <Form {...submitMusicForm}>
       <form
@@ -77,19 +61,6 @@ export function MusicSubmissionForm() {
             <h1 className="mb-4 text-center text-4xl font-bold">
               Song Submission
             </h1>
-
-            <div className="mb-8 text-center">
-              <p className="mb-2 text-gray-300">You are submitting for</p>
-              <Select
-                name="groupId"
-                options={musicianGroups.map((group) => ({
-                  value: group.groupId,
-                  label: group.name,
-                }))}
-                placeholder="Select a band"
-                label={currentGroup?.name ?? "Unknown Band"}
-              />
-            </div>
 
             <div className="mb-8 text-gray-300">
               <p>
@@ -109,12 +80,6 @@ export function MusicSubmissionForm() {
                 name="songName"
                 label="Song Name"
                 placeholder="Your song's title"
-              />
-              <MultiSelect
-                name="songWriterEmails"
-                options={songWriters}
-                placeholder="Select multiple options"
-                label="Song Writers"
               />
               <Input
                 name="songLink"

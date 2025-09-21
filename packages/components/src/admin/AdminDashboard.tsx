@@ -19,7 +19,6 @@ export default function AdminDashboard() {
   const [data] = trpc.adminData.useSuspenseQuery();
 
   const userData = data.users;
-  const groupData = data.groups;
 
   return (
     <div className="bg-good-dog-violet pb-10">
@@ -59,9 +58,6 @@ export default function AdminDashboard() {
                     Manage user groups and permissions.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <DataTable table="groups" data={groupData} />
-                </CardContent>
               </Card>
             </TabsContent>
           </div>

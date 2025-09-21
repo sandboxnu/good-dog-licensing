@@ -85,13 +85,6 @@ describe("get-music", () => {
           },
           songLink: "https://www.youtube.com/1",
           genre: "genre-1",
-          group: {
-            create: {
-              groupId: "group-id-1",
-              organizerId: "amoli-user-id",
-              name: "Group One",
-            },
-          },
         },
       }),
       prisma.musicSubmission.create({
@@ -111,13 +104,6 @@ describe("get-music", () => {
           },
           songLink: "https://www.youtube.com/2",
           genre: "genre-2",
-          group: {
-            create: {
-              groupId: "group-id-2",
-              organizerId: "amoli-user-id",
-              name: "Group Two",
-            },
-          },
         },
       }),
       prisma.musicSubmission.create({
@@ -137,13 +123,6 @@ describe("get-music", () => {
           },
           songLink: "https://www.youtube.com/3",
           genre: "genre-3",
-          group: {
-            create: {
-              groupId: "group-id-3",
-              organizerId: "amoli-user-id",
-              name: "Group Three",
-            },
-          },
         },
       }),
       prisma.user.create({
@@ -174,13 +153,6 @@ describe("get-music", () => {
           },
           songLink: "https://www.youtube.com/song1",
           genre: "genre3",
-          group: {
-            create: {
-              groupId: "group-id-4",
-              organizerId: "amoli-user-id",
-              name: "Group Four",
-            },
-          },
         },
       }),
       prisma.musicSubmission.create({
@@ -194,11 +166,6 @@ describe("get-music", () => {
           },
           songLink: "https://www.youtube.com/song2",
           genre: "genre3",
-          group: {
-            connect: {
-              groupId: "group-id-4",
-            },
-          },
         },
       }),
     ]);

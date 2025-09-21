@@ -1,6 +1,7 @@
 "use client";
 
 import type { HTMLInputTypeAttribute } from "react";
+import { useEffect } from "react";
 import type { FieldPath, FieldValues } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
 
@@ -18,6 +19,10 @@ export default function RegistrationInput<Values extends FieldValues>(
 ) {
   const { register, formState } = useFormContext<Values>();
   const errors = formState.errors[props.fieldName];
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   return (
     <div className={props.className}>

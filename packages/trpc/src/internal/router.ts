@@ -4,12 +4,8 @@ import {
   refreshSessionProcedure,
   signInProcedure,
   signOutProcedure,
-  signUpProcedure,
 } from "../procedures/auth";
-import {
-  confirmEmailProcedure,
-  sendEmailVerificationProcedure,
-} from "../procedures/email-verification";
+import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
@@ -43,18 +39,15 @@ import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-
 import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
 import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
 import { getUserProcedure } from "../procedures/user";
-import { onboardingProcedure } from "../procedures/user-onboarding";
-import { usersMusicianGroupsProcedure } from "../procedures/users-musician-groups";
 import { createTRPCRouter } from "./init";
+import { signUpProcedure } from "../procedures/onboarding/sign-up";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
-  confirmEmail: confirmEmailProcedure,
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
   refreshSession: refreshSessionProcedure,
-  onboarding: onboardingProcedure,
   deleteAccount: deleteAccountProcedure,
   user: getUserProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
@@ -82,7 +75,6 @@ export const appRouter = createTRPCRouter({
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
   getSceneById: getProjectSceneByIdProcedure,
-  usersMusicianGroups: usersMusicianGroupsProcedure,
 });
 
 export type AppRouter = typeof appRouter;

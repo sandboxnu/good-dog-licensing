@@ -3,65 +3,10 @@ import { TRPCError } from "@trpc/server";
 import type { UserWithSession } from "../types";
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
-import { zSignInValues, zSignUpValues } from "../schema";
+import { zSignInValues } from "../schema";
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
-
-export const signUpProcedure = notAuthenticatedProcedureBuilder
-  .input(zSignUpValues)
-  .mutation(async ({ ctx, input }) => {
-    const existingUserWithEmail = await ctx.prisma.user.findUnique({
-      where: {
-        email: input.email,
-      },
-    });
-
-    if (existingUserWithEmail) {
-      throw new TRPCError({
-        code: "CONFLICT",
-        message: `User already exists with email ${input.email}`,
-      });
-    }
-
-    const hashedPassword = await ctx.passwordService.hashPassword(
-      input.password,
-    );
-
-    const userWithSession = await ctx.prisma.user.create({
-      data: {
-        firstName: input.firstName,
-        lastName: input.lastName,
-        role: "ONBOARDING",
-        email: input.email,
-        phoneNumber: input.phoneNumber,
-        hashedPassword: hashedPassword,
-        sessions: {
-          create: {
-            expiresAt: getNewSessionExpirationDate(),
-          },
-        },
-      },
-      select: {
-        sessions: true,
-      },
-    });
-
-    const session = userWithSession.sessions[0];
-
-    if (!session) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to create session",
-      });
-    }
-
-    ctx.cookiesService.setSessionCookie(session.sessionId, session.expiresAt);
-
-    return {
-      message: `Successfully signed up and logged in as ${input.email}.`,
-    };
-  });
 
 export const signInProcedure = notAuthenticatedProcedureBuilder
   .input(zSignInValues)

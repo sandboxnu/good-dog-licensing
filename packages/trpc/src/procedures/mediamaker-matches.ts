@@ -38,7 +38,6 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
                   select: {
                     firstName: true,
                     lastName: true,
-                    stageName: true,
                   },
                 },
               },
