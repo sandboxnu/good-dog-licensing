@@ -8,7 +8,7 @@ export interface EmailMessage {
   from: string;
 }
 
-// These functions are an abstraction over the sgMail module from sendgrid. The main
+// These functions are an abstraction over the mailersend module from MailerSend. The main
 // purpose is to throw runtime errors for blank api keys/from emails so we are alerted of
 // the issue ahead of time.
 export class EmailService {

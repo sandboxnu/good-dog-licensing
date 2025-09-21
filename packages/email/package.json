@@ -24,6 +24,6 @@
   "prettier": "@good-dog/prettier",
   "dependencies": {
     "@good-dog/env": "workspace:*",
-    "@sendgrid/mail": "^8.1.4"
+    "mailersend": "^2.6.0"
   }
 }
