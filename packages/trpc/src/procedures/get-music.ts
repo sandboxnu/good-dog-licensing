@@ -11,7 +11,7 @@ export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
 ).query(async ({ ctx }) => {
   const music = await ctx.prisma.musicSubmission.findMany({
     include: {
-      artist: {
+      submitter: {
         select: {
           firstName: true,
           lastName: true,
@@ -38,10 +38,10 @@ export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
 ).query(async ({ ctx }) => {
   const music = await ctx.prisma.musicSubmission.findMany({
     where: {
-      artistId: ctx.session.user.userId,
+      submitterId: ctx.session.user.userId,
     },
     include: {
-      artist: true,
+      submitter: true,
     },
   });
   return { music };

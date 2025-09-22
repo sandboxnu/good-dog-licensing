@@ -80,6 +80,7 @@ describe("music-submission-procedure", () => {
       songLink: "https://example.com",
       genre: ["Rock"],
       additionalInfo: "Some additional info",
+      performerName: "The Beatles",
     });
 
     expect(response.message).toEqual("Music submitted successfully");
@@ -92,6 +93,7 @@ describe("music-submission-procedure", () => {
     expect(musicSubmission?.songLink).toEqual("https://example.com");
     expect(musicSubmission?.genre).toEqual("Rock");
     expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
+    expect(musicSubmission?.performerName).toEqual("The Beatles");
   });
   test("An Admin can submit music", async () => {
     // Temporarily update Person 1's role to ADMIN
@@ -109,6 +111,7 @@ describe("music-submission-procedure", () => {
       songLink: "https://example.com/admin-song",
       genre: ["Jazz"],
       additionalInfo: "Admin additional info",
+      performerName: "Grateful Dead",
     });
 
     expect(response.message).toEqual("Music submitted successfully");
@@ -121,6 +124,7 @@ describe("music-submission-procedure", () => {
     expect(musicSubmission?.songLink).toEqual("https://example.com/admin-song");
     expect(musicSubmission?.genre).toEqual("Jazz");
     expect(musicSubmission?.additionalInfo).toEqual("Admin additional info");
+    expect(musicSubmission?.performerName).toEqual("Grateful Dead");
 
     // Reset Person 1's role to MUSICIAN
     await prisma.user.update({
@@ -145,6 +149,7 @@ describe("music-submission-procedure", () => {
         songLink: "https://example.com/media-maker-song",
         genre: ["Pop"],
         additionalInfo: "Media Maker additional info",
+        performerName: "JP's Band",
       }),
     ).rejects.toThrow("permission to submit");
 

@@ -35,9 +35,8 @@ model User {
   firstName                  String
   lastName                   String
   role                       Role
-  isSongWriter               Boolean?
-  isAscapAffiliated          Boolean?
-  isBmiAffiliated            Boolean?
+  affliation                 MusicAffiliation?
+  ipi                        String?
   passwordResetReq           PasswordResetReq?
   sessions                   Session[]
   referral                   ReferralSource?
@@ -124,10 +123,11 @@ model SceneSubmission {
 model MusicSubmission {
   musicId          String             @id @default(uuid())
   songName         String
+  performerName    String
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
-  artist           User               @relation(fields: [artistId], references: [userId], onDelete: Cascade)
-  artistId         String
+  submitter        User               @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
+  submitterId      String
   songLink         String
   genre            String
   additionalInfo   String             @default("")

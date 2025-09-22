@@ -22,4 +22,5 @@ export const zMusicSubmissionValues = z.object({
   songLink: z.url(),
   genre: z.array(z.string()),
   additionalInfo: z.string().optional(),
+  performerName: z.string(),
 });

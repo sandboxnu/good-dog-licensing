@@ -71,7 +71,7 @@ export default function DisplaySongs() {
                       {song.songName}
                     </div>
                     <div className="font-afacad flex w-1/4 items-center justify-start text-lg font-normal text-black">
-                      {song.artist.firstName + " " + song.artist.lastName}
+                      {song.submitter.firstName + " " + song.submitter.lastName}
                     </div>
                     <div className="font-afacad flex w-1/4 items-center justify-start text-lg font-normal text-black">
                       {song.genre}

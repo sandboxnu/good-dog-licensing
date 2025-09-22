@@ -160,9 +160,9 @@ export default function MusicSection({
                 musicId: item.musicSubmission.musicId,
                 songName: item.musicSubmission.songName,
                 artist:
-                  item.musicSubmission.artist.firstName +
+                  item.musicSubmission.submitter.firstName +
                   " " +
-                  item.musicSubmission.artist.lastName,
+                  item.musicSubmission.submitter.lastName,
                 songLink: item.musicSubmission.songLink || "",
                 genre: item.musicSubmission.genre || "",
                 additionalInfo: item.musicSubmission.additionalInfo || "",

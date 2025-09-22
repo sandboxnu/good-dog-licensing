@@ -59,7 +59,8 @@ async function createData() {
       songLink:
         "https://open.spotify.com/track/2X6b7zLdIxCejd6GqVcQ9M?si=b36f9306fab04109",
       genre: "hip hop",
-      artistId: musician.userId,
+      submitterId: musician.userId,
+      performerName: "The Beatles",
     },
   });
 
