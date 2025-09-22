@@ -132,7 +132,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                 return {
                   musicTitle: song.songName,
                   artistName:
-                    song.artist.firstName + " " + song.artist.lastName,
+                    song.submitter.firstName + " " + song.submitter.lastName,
                   musicId: song.musicId,
                 };
               })}
@@ -160,7 +160,9 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                       licensed={true}
                       songName={song?.songName ?? ""}
                       artistName={
-                        song?.artist.firstName + " " + song?.artist.lastName
+                        song?.submitter.firstName +
+                        " " +
+                        song?.submitter.lastName
                       }
                       projectId={sceneInfo.projectId}
                       sceneId={sceneInfo.sceneId}
@@ -194,9 +196,9 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                       licensed={true}
                       songName={match.musicSubmission.songName}
                       artistName={
-                        match.musicSubmission.artist.firstName +
+                        match.musicSubmission.submitter.firstName +
                         " " +
-                        match.musicSubmission.artist.lastName
+                        match.musicSubmission.submitter.lastName
                       }
                       projectId={match.projectId}
                       sceneId={match.sceneId}
