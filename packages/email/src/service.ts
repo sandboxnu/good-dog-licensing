@@ -18,14 +18,10 @@ export class EmailService {
   constructor(apiKey?: string) {
     this.apiKey = apiKey;
 
-    if (apiKey) {
-      this.mailerSend = new MailerSend({ apiKey });
-    } else {
-      this.mailerSend = new MailerSend({ apiKey: "" });
-    }
+    this.mailerSend = new MailerSend({ apiKey: apiKey ?? "" });
 
     this.sentFrom = new Sender(
-      "message@test-p7kx4xwv6peg9yjr.mlsender.net",
+      env.GOOD_DOG_FROM_EMAIL ?? "",
       "Good Dog Licensing",
     );
   }

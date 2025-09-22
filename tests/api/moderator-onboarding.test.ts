@@ -114,17 +114,11 @@ describe("moderator-onboarding", () => {
 
       const emailParams = new EmailParams()
         .setFrom(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setTo([new Recipient("testing@gmail.com")])
         .setReplyTo(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setSubject("Sign Up to be a P&R - Good Dog Licensing")
         .setHtml(
@@ -161,17 +155,11 @@ describe("moderator-onboarding", () => {
 
       const emailParams = new EmailParams()
         .setFrom(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setTo([new Recipient("testing@gmail.com")])
         .setReplyTo(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setSubject("Sign Up to be a P&R - Good Dog Licensing")
         .setHtml(
@@ -221,17 +209,11 @@ describe("moderator-onboarding", () => {
 
       const emailParams = new EmailParams()
         .setFrom(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setTo([new Recipient("testing@gmail.com")])
         .setReplyTo(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setSubject("Sign Up to be a P&R - Good Dog Licensing")
         .setHtml(
@@ -277,17 +259,11 @@ describe("moderator-onboarding", () => {
 
       const emailParams = new EmailParams()
         .setFrom(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setTo([new Recipient("testing@gmail.com")])
         .setReplyTo(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setSubject("Sign Up to be a P&R - Good Dog Licensing")
         .setHtml(
@@ -347,17 +323,11 @@ describe("moderator-onboarding", () => {
 
       const emailParams = new EmailParams()
         .setFrom(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setTo([new Recipient("testing@gmail.com")])
         .setReplyTo(
-          new Sender(
-            "message@test-p7kx4xwv6peg9yjr.mlsender.net",
-            "Good Dog Licensing",
-          ),
+          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
         )
         .setSubject("Sign Up to be a P&R - Good Dog Licensing")
         .setHtml(
