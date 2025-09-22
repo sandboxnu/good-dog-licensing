@@ -124,7 +124,7 @@ export default function MusicSection({
     sceneId: sceneId,
   });
 
-  const licensedInfo = matchData[0].licensed;
+  const info = matchData[0].matches;
 
   return (
     <div className="flex w-full flex-col bg-gray-200 p-6 md:w-1/2 md:p-10">
@@ -133,7 +133,7 @@ export default function MusicSection({
       <div className="flex-1 space-y-8 overflow-hidden">
         <div className="space-y-4">
           <div className="flex items-center gap-1">
-            <h3 className="text-lg font-bold">Licensed Music</h3>
+            <h3 className="text-lg font-bold">Music</h3>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -150,7 +150,7 @@ export default function MusicSection({
           </div>
 
           <div className="space-y-3">
-            {licensedInfo.map((item) => {
+            {info.map((item) => {
               const musicData: MusicData = {
                 musicId: item.musicSubmission.musicId,
                 songName: item.musicSubmission.songName,

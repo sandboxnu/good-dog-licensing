@@ -7,9 +7,9 @@ import clsx from "clsx";
 import { trpc } from "@good-dog/trpc/client";
 
 export default function DisplaySongs() {
-  const licensedMusic = trpc.music.useSuspenseQuery();
+  const music = trpc.music.useSuspenseQuery();
 
-  const [displayLicensedMusic, setDisplayLicensedMusic] =
+  const [displayMusic, setDisplayMusic] =
     useState<boolean>(true);
 
   return (
@@ -17,17 +17,17 @@ export default function DisplaySongs() {
       <div className="flex space-x-4">
         <div
           onClick={() => {
-            setDisplayLicensedMusic(true); // LAUREN - here remove choice, always only licensed
+            setDisplayMusic(true);
           }}
           className={clsx(
             "font-afacad cursor-pointer text-lg font-medium text-[#015643]",
             {
-              "underline underline-offset-8": displayLicensedMusic,
-              "text-black": !displayLicensedMusic,
+              "underline underline-offset-8": displayMusic,
+              "text-black": !displayMusic,
             },
           )}
         >
-          Licensed Music
+          Music
         </div>
       </div>
       <div className="h-[2px] bg-[#D7D8D9]"></div>
@@ -46,9 +46,9 @@ export default function DisplaySongs() {
             Link
           </div>
         </div>
-        {displayLicensedMusic && (
+        {displayMusic && (
           <div className="h-[400px] overflow-auto">
-            {licensedMusic[0].music.map((song) => {
+            {music[0].music.map((song) => {
               return (
                 <div key={song.musicId} className="flex flex-col">
                   <div className="flex h-[60px] w-full bg-white">

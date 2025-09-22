@@ -54,9 +54,9 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
       throw new TRPCError({ code: "FORBIDDEN", message: "Scene not found." });
     }
 
-    const licensedMatches = scene.suggestedMatches;
+    const matches = scene.suggestedMatches;
 
     return {
-      licensed: licensedMatches,
+      matches: matches,
     };
   });

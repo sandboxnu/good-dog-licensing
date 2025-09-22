@@ -31,7 +31,7 @@ interface MatchedSongProps {
 export default function MatchedSong(props: MatchedSongProps) {
   const [showMoreDetails, setShowMoreDetails] = useState<boolean>(false);
 
-  const createLicensedMatchMutation = trpc.suggestMatch.useMutation({
+  const createMatchMutation = trpc.suggestMatch.useMutation({
     onSuccess: async () => {
       await props.handleMatch(props.musicId);
     },
@@ -42,7 +42,7 @@ export default function MatchedSong(props: MatchedSongProps) {
   });
 
   const createMatch = () => {
-    createLicensedMatchMutation.mutate({
+    createMatchMutation.mutate({
       projectId: props.projectId,
       sceneId: props.sceneId,
       musicId: props.musicId,

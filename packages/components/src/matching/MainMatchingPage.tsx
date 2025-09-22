@@ -25,32 +25,32 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     useState<boolean>(false);
 
   // Get all the current matches for the scene
-  const [matchedLicensedMusicIds, setMatchedLicensedMusicIds] = useState<
+  const [matchedMusicIds, setMatchedMusicIds] = useState<
     string[]
   >(
     sceneInfo.suggestedMatches
       .sort(
-        (matchA:any, matchB:any) =>
+        (matchA, matchB) =>
           matchB.createdAt.getTime() - matchA.createdAt.getTime(),
       )
-      .map((match:any) => match.musicId),
+      .map((match) => match.musicId),
   );
 
   // Get all the music in the database
-  const licensedMusic = trpc.music.useSuspenseQuery();
+  const music = trpc.music.useSuspenseQuery();
 
   // Music IDs of songs that are not yet matched, but ready to be matched
-  const [selectedLicensedMusicIds, setSelectedLicensedMusicIds] = useState<
+  const [selectedMusicIds, setSelectedMusicIds] = useState<
     string[]
   >([]);
 
   const handleSuccessfulMatch = async (musicId: string) => {
     await sceneQuery.refetch();
 
-    const newSelectedLicensedMusicIds = selectedLicensedMusicIds.filter(
+    const newSelectedMusicIds = selectedMusicIds.filter(
       (id) => id !== musicId,
     );
-    setSelectedLicensedMusicIds(newSelectedLicensedMusicIds);
+    setSelectedMusicIds(newSelectedMusicIds);
   };
 
   const handleCommentMade = async () => {
@@ -60,13 +60,13 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   // TODO: Don't set state in useEffect??
   useEffect(() => {
     // eslint-disable-next-line
-    setMatchedLicensedMusicIds(
+    setMatchedMusicIds(
       sceneInfo.suggestedMatches
         .sort(
-          (matchA:any, matchB:any) =>
+          (matchA, matchB) =>
             matchB.createdAt.getTime() - matchA.createdAt.getTime(),
         )
-        .map((match:any) => match.musicId),
+        .map((match) => match.musicId),
     );
   }, [sceneInfo]);
 
@@ -92,7 +92,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
               Music
             </div>
             <MusicSearch
-              music={licensedMusic[0].music.map((song) => {
+              music={music[0].music.map((song) => {
                 return {
                   musicTitle: song.songName,
                   artistName:
@@ -101,20 +101,20 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                 };
               })}
               matchedMusicIds={[
-                ...matchedLicensedMusicIds,
-                ...selectedLicensedMusicIds,
+                ...matchedMusicIds,
+                ...selectedMusicIds,
               ]}
               handleSelection={(musicId: string) => {
-                setSelectedLicensedMusicIds([
+                setSelectedMusicIds([
                   musicId,
-                  ...selectedLicensedMusicIds,
+                  ...selectedMusicIds,
                 ]);
               }}
-              label="Licensed Music"
+              label="Music"
             />
             <div className="pl-[60px] pr-[80px] pt-[10px]">
-              {selectedLicensedMusicIds.map((musicId) => {
-                const song = licensedMusic[0].music.find(
+              {selectedMusicIds.map((musicId) => {
+                const song = music[0].music.find(
                   (song) => song.musicId === musicId,
                 );
 
@@ -142,8 +142,8 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                   </div>
                 );
               })}
-              {sceneInfo.suggestedMatches.map((match:any) => {
-                const comments = match.matchComments.map((comment:any) => {
+              {sceneInfo.suggestedMatches.map((match) => {
+                const comments = match.matchComments.map((comment) => {
                   return {
                     commentText: comment.commentText,
                     userName:
