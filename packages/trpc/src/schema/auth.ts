@@ -1,3 +1,4 @@
+import { ReferralSource } from "@good-dog/db";
 import { z } from "zod";
 
 export const zPasswordValidation = z
@@ -17,7 +18,7 @@ export const zPasswordValues = z.object({
 });
 
 export const zSignUpValues = z.object({
-  email: z.string().email(),
+  email: z.email(),
   phoneNumber: z
     .string()
     .regex(
@@ -28,13 +29,16 @@ export const zSignUpValues = z.object({
   confirmPassword: z.string(),
   firstName: z.string(),
   lastName: z.string(),
+  referral: z.enum(ReferralSource),
+  role: z.enum(["MUSICIAN", "MEDIA_MAKER"]),
+  emailCode: z.string(),
 });
 
 export const zSignInValues = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string(),
 });
 
 export const zForgotPasswordValues = z.object({
-  email: z.string().email(),
+  email: z.email(),
 });

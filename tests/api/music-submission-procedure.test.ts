@@ -32,29 +32,6 @@ beforeAll(async () => {
       hashedPassword: "person1Password",
       userId: "musician-id-1",
       phoneNumber: "1234567890",
-      musicianGroups: {
-        create: {
-          groupId: "person1-group-id",
-          name: "Person 1 Group",
-
-          groupMembers: {
-            createMany: {
-              data: [
-                {
-                  firstName: "Person 2",
-                  lastName: "Jones",
-                  email: "person2@gmail.com",
-                },
-                {
-                  firstName: "Person 3",
-                  lastName: "Doe",
-                  email: "person3@gmail.com",
-                },
-              ],
-            },
-          },
-        },
-      },
     },
   });
   await prisma.session.upsert({
@@ -89,11 +66,6 @@ afterAll(async () => {
         },
       },
     }),
-    prisma.musicianGroup.deleteMany({
-      where: {
-        name: "person1-group-id",
-      },
-    }),
   ]);
 });
 
@@ -104,12 +76,11 @@ describe("music-submission-procedure", () => {
 
     // Create music submission
     const response = await $api.submitMusic({
-      groupId: "person1-group-id",
       songName: "Test Song",
       songLink: "https://example.com",
       genre: ["Rock"],
-      songWriterEmails: ["person2@gmail.com"],
       additionalInfo: "Some additional info",
+      performerName: "The Beatles",
     });
 
     expect(response.message).toEqual("Music submitted successfully");
@@ -122,6 +93,7 @@ describe("music-submission-procedure", () => {
     expect(musicSubmission?.songLink).toEqual("https://example.com");
     expect(musicSubmission?.genre).toEqual("Rock");
     expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
+    expect(musicSubmission?.performerName).toEqual("The Beatles");
   });
   test("An Admin can submit music", async () => {
     // Temporarily update Person 1's role to ADMIN
@@ -135,12 +107,11 @@ describe("music-submission-procedure", () => {
 
     // Create music submission
     const response = await $api.submitMusic({
-      groupId: "person1-group-id",
       songName: "Admin Test Song",
       songLink: "https://example.com/admin-song",
       genre: ["Jazz"],
-      songWriterEmails: ["person2@gmail.com"],
       additionalInfo: "Admin additional info",
+      performerName: "Grateful Dead",
     });
 
     expect(response.message).toEqual("Music submitted successfully");
@@ -153,6 +124,7 @@ describe("music-submission-procedure", () => {
     expect(musicSubmission?.songLink).toEqual("https://example.com/admin-song");
     expect(musicSubmission?.genre).toEqual("Jazz");
     expect(musicSubmission?.additionalInfo).toEqual("Admin additional info");
+    expect(musicSubmission?.performerName).toEqual("Grateful Dead");
 
     // Reset Person 1's role to MUSICIAN
     await prisma.user.update({
@@ -173,12 +145,11 @@ describe("music-submission-procedure", () => {
     // Attempt to create music submission
     expect(
       $api.submitMusic({
-        groupId: "person1-group-id",
         songName: "Media Maker Test Song",
         songLink: "https://example.com/media-maker-song",
         genre: ["Pop"],
-        songWriterEmails: ["person2@gmail.com"],
         additionalInfo: "Media Maker additional info",
+        performerName: "JP's Band",
       }),
     ).rejects.toThrow("permission to submit");
 

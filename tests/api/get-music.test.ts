@@ -72,7 +72,7 @@ describe("get-music", () => {
         data: {
           musicId: "music-id-1",
           songName: "song-name-1",
-          artist: {
+          submitter: {
             create: {
               userId: "artists-user-id-1",
               email: "artist1@gmail.com",
@@ -85,20 +85,14 @@ describe("get-music", () => {
           },
           songLink: "https://www.youtube.com/1",
           genre: "genre-1",
-          group: {
-            create: {
-              groupId: "group-id-1",
-              organizerId: "amoli-user-id",
-              name: "Group One",
-            },
-          },
+          performerName: "The Beatles",
         },
       }),
       prisma.musicSubmission.create({
         data: {
           musicId: "music-id-2",
           songName: "song-name-2",
-          artist: {
+          submitter: {
             create: {
               userId: "artists-user-id-2",
               email: "artist2@gmail.com",
@@ -111,20 +105,14 @@ describe("get-music", () => {
           },
           songLink: "https://www.youtube.com/2",
           genre: "genre-2",
-          group: {
-            create: {
-              groupId: "group-id-2",
-              organizerId: "amoli-user-id",
-              name: "Group Two",
-            },
-          },
+          performerName: "Grateful Dead",
         },
       }),
       prisma.musicSubmission.create({
         data: {
           musicId: "music-id-3",
           songName: "song-name-3",
-          artist: {
+          submitter: {
             create: {
               userId: "artists-user-id-3",
               email: "artist3@gmail.com",
@@ -137,13 +125,7 @@ describe("get-music", () => {
           },
           songLink: "https://www.youtube.com/3",
           genre: "genre-3",
-          group: {
-            create: {
-              groupId: "group-id-3",
-              organizerId: "amoli-user-id",
-              name: "Group Three",
-            },
-          },
+          performerName: "Taylor Swift",
         },
       }),
       prisma.user.create({
@@ -167,38 +149,28 @@ describe("get-music", () => {
         data: {
           musicId: "anzhuo-music-1",
           songName: "Song 1",
-          artist: {
+          submitter: {
             connect: {
               userId: "anzhuo-musician-id",
             },
           },
           songLink: "https://www.youtube.com/song1",
           genre: "genre3",
-          group: {
-            create: {
-              groupId: "group-id-4",
-              organizerId: "amoli-user-id",
-              name: "Group Four",
-            },
-          },
+          performerName: "The Rolling Stones",
         },
       }),
       prisma.musicSubmission.create({
         data: {
           musicId: "anzhuo-music-2",
           songName: "Song 2",
-          artist: {
+          submitter: {
             connect: {
               userId: "anzhuo-musician-id",
             },
           },
           songLink: "https://www.youtube.com/song2",
           genre: "genre3",
-          group: {
-            connect: {
-              groupId: "group-id-4",
-            },
-          },
+          performerName: "JP's Band",
         },
       }),
     ]);
@@ -295,7 +267,7 @@ describe("get-music", () => {
     expect(music).toHaveLength(2);
 
     music.forEach((m) => {
-      expect(m.artist.userId).toBe("anzhuo-musician-id");
+      expect(m.submitter.userId).toBe("anzhuo-musician-id");
       expect(m.musicId).toBeOneOf(["anzhuo-music-1", "anzhuo-music-2"]);
       expect(m.musicId).not.toBeOneOf([
         "music-id-1",

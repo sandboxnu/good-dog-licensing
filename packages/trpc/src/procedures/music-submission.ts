@@ -12,26 +12,14 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
     // Create the music submission
     const musicSubmission = await ctx.prisma.musicSubmission.create({
       data: {
-        artist: {
+        submitter: {
           connect: { userId: ctx.session.user.userId },
-        },
-        group: {
-          connect: {
-            groupId: input.groupId,
-          },
         },
         songName: input.songName,
         songLink: input.songLink,
         genre: input.genre.join(", "),
-        songwriters: {
-          connect: input.songWriterEmails.map((email) => ({
-            groupId_email: {
-              groupId: input.groupId,
-              email: email,
-            },
-          })),
-        },
         additionalInfo: input.additionalInfo ?? "",
+        performerName: input.performerName,
       },
     });
 

@@ -65,13 +65,7 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
             },
             musicSubmission: {
               include: {
-                artist: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
-                  },
-                },
-                songwriters: {
+                submitter: {
                   select: {
                     firstName: true,
                     lastName: true,

@@ -1,6 +1,4 @@
 import ForgotPasswordForm from "./ForgotPassword";
-import MediaMakerForm from "./onboarding/MediaMakerForm";
-import MusicianForm from "./onboarding/MusicianForm";
 import RegistrationPageLayout from "./RegistrationPageLayout";
 import ResetPasswordForm from "./ResetPassword";
 import SignInForm from "./SignInForm";
@@ -12,6 +10,4 @@ export {
   ForgotPasswordForm,
   ResetPasswordForm,
   RegistrationPageLayout,
-  MusicianForm,
-  MediaMakerForm,
 };
