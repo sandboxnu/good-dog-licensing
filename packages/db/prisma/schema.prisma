@@ -35,7 +35,7 @@ model User {
   firstName                  String
   lastName                   String
   role                       Role
-  affliation                 MusicAffiliation?
+  affiliation                MusicAffiliation?
   ipi                        String?
   passwordResetReq           PasswordResetReq?
   sessions                   Session[]
@@ -153,7 +153,7 @@ model MusicContributor {
   contributorId          String           @id @default(uuid())
   name                   String
   roles                  MusicRole[]
-  affliation             MusicAffiliation
+  affiliation            MusicAffiliation
   ipi                    String?
   MusicSubmission        MusicSubmission  @relation(fields: [musicSubmissionMusicId], references: [musicId], onDelete: Cascade)
   musicSubmissionMusicId String
