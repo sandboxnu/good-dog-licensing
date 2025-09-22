@@ -1,6 +1,5 @@
-import sgMail from "@sendgrid/mail";
-
 import { env } from "@good-dog/env";
+import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 
 export interface EmailMessage {
   to: string;
@@ -9,22 +8,22 @@ export interface EmailMessage {
   from: string;
 }
 
-// These functions are an abstraction over the sgMail module from sendgrid. The main
+// These functions are an abstraction over the mailersend module from MailerSend. The main
 // purpose is to throw runtime errors for blank api keys/from emails so we are alerted of
 // the issue ahead of time.
 export class EmailService {
   private apiKey?: string;
+  private mailerSend: MailerSend;
+  private sentFrom: Sender;
   constructor(apiKey?: string) {
     this.apiKey = apiKey;
 
-    if (apiKey) {
-      sgMail.setApiKey(apiKey);
-    }
-  }
+    this.mailerSend = new MailerSend({ apiKey: apiKey ?? "" });
 
-  setApiKey(apiKey: string) {
-    this.apiKey = apiKey;
-    sgMail.setApiKey(apiKey);
+    this.sentFrom = new Sender(
+      env.GOOD_DOG_FROM_EMAIL ?? "",
+      "Good Dog Licensing",
+    );
   }
 
   generateSixDigitCode() {
@@ -52,8 +51,8 @@ export class EmailService {
     return "http://localhost:3000";
   }
 
-  async send(msg: EmailMessage) {
-    if (!msg.from) {
+  async send(params: EmailParams) {
+    if (!params.from.email) {
       throw new TypeError("Failed to send email: No from email provided.");
     }
 
@@ -61,37 +60,47 @@ export class EmailService {
       throw new TypeError("Failed to send email: No api key provided.");
     }
 
-    return await sgMail.send(msg);
+    return this.mailerSend.email.send(params);
   }
 
   sendPasswordResetEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
 
-    return this.send({
-      to: toEmail,
-      subject: "Reset Your Password - Good Dog Licensing",
-      html: `<p>Follow <a href="${baseURL}/reset-password/?reset_id=${cuid}">this link</a> to reset your password.`,
-      from: env.VERIFICATION_FROM_EMAIL ?? "",
-    });
+    const emailParams = new EmailParams()
+      .setFrom(this.sentFrom)
+      .setTo([new Recipient(toEmail)])
+      .setReplyTo(this.sentFrom)
+      .setSubject("Reset Your Password - Good Dog Licensing")
+      .setHtml(
+        `<p>Follow <a href="${baseURL}/reset-password/?reset_id=${cuid}">this link</a> to reset your password.`,
+      );
+
+    return this.send(emailParams);
   }
 
   sendPRInviteEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
 
-    return this.send({
-      to: toEmail,
-      subject: "Sign Up For PR - Good Dog Licensing",
-      html: `<p>Follow <a href="${baseURL}/pnr-invite/?id=${cuid}">this link</a> to sign up as a PR.`,
-      from: env.VERIFICATION_FROM_EMAIL ?? "",
-    });
+    const emailParams = new EmailParams()
+      .setFrom(this.sentFrom)
+      .setTo([new Recipient(toEmail)])
+      .setReplyTo(this.sentFrom)
+      .setSubject("Sign Up to be a P&R - Good Dog Licensing")
+      .setHtml(
+        `<p>Follow <a href="${baseURL}/pnr-invite/?id=${cuid}">this link</a> to sign up as a PR.`,
+      );
+
+    return this.send(emailParams);
   }
 
   sendVerificationEmail(toEmail: string, code: string) {
-    return this.send({
-      to: toEmail,
-      subject: "Verify Your Email - Good Dog Licensing",
-      html: `<p>Your Verification Code: <strong>${code}</strong></p>`,
-      from: env.VERIFICATION_FROM_EMAIL ?? "",
-    });
+    const emailParams = new EmailParams()
+      .setFrom(this.sentFrom)
+      .setTo([new Recipient(toEmail)])
+      .setReplyTo(this.sentFrom)
+      .setSubject("Verify Your Email - Good Dog Licensing")
+      .setHtml(`<p>Your Verification Code: <strong>${code}</strong></p>`);
+
+    return this.send(emailParams);
   }
 }
