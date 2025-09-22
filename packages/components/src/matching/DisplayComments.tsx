@@ -13,15 +13,13 @@ interface DisplayCommentsProps {
   }[];
   matchId: string;
   userId: string;
-  licensed: boolean;
 }
 
 export default function DisplayComments({
   handleComment,
   comments,
   matchId,
-  userId,
-  licensed,
+  userId
 }: DisplayCommentsProps) {
   const [newComment, setNewComment] = useState<string>("");
 
@@ -43,7 +41,6 @@ export default function DisplayComments({
           commentText: newComment,
           userId: userId,
         },
-        unlicensed: !licensed,
       });
       setNewComment("");
     }

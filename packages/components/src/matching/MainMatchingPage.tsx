@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
-
-import UnlicensedMusicSubmissionForm from "../dashboard/UnlicensedMusicSubmissionForm";
 import DisplaySceneInfo from "./DisplaySceneInfo";
 import MatchedSong from "./MatchedSong";
 import MusicSearch from "./MusicSearch";
@@ -32,31 +30,17 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   >(
     sceneInfo.suggestedMatches
       .sort(
-        (matchA, matchB) =>
+        (matchA:any, matchB:any) =>
           matchB.createdAt.getTime() - matchA.createdAt.getTime(),
       )
-      .map((match) => match.musicId),
-  );
-  const [matchedUnlicensedMusicIds, setMatchedUnlicensedMusicIds] = useState<
-    string[]
-  >(
-    sceneInfo.unlicensedSuggestedMatches
-      .sort(
-        (matchA, matchB) =>
-          matchB.createdAt.getTime() - matchA.createdAt.getTime(),
-      )
-      .map((match) => match.musicId),
+      .map((match:any) => match.musicId),
   );
 
   // Get all the music in the database
   const licensedMusic = trpc.music.useSuspenseQuery();
-  const unlicensedMusic = trpc.unlicensedMusic.useSuspenseQuery();
 
   // Music IDs of songs that are not yet matched, but ready to be matched
   const [selectedLicensedMusicIds, setSelectedLicensedMusicIds] = useState<
-    string[]
-  >([]);
-  const [selectedUnlicensedMusicIds, setSelectedUnlicensedMusicIds] = useState<
     string[]
   >([]);
 
@@ -66,11 +50,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     const newSelectedLicensedMusicIds = selectedLicensedMusicIds.filter(
       (id) => id !== musicId,
     );
-    const newSelectedUnlicensedMusicIds = selectedUnlicensedMusicIds.filter(
-      (id) => id !== musicId,
-    );
     setSelectedLicensedMusicIds(newSelectedLicensedMusicIds);
-    setSelectedUnlicensedMusicIds(newSelectedUnlicensedMusicIds);
   };
 
   const handleCommentMade = async () => {
@@ -81,34 +61,19 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     setMatchedLicensedMusicIds(
       sceneInfo.suggestedMatches
         .sort(
-          (matchA, matchB) =>
+          (matchA:any, matchB:any) =>
             matchB.createdAt.getTime() - matchA.createdAt.getTime(),
         )
-        .map((match) => match.musicId),
-    );
-    setMatchedUnlicensedMusicIds(
-      sceneInfo.unlicensedSuggestedMatches
-        .sort(
-          (matchA, matchB) =>
-            matchB.createdAt.getTime() - matchA.createdAt.getTime(),
-        )
-        .map((match) => match.musicId),
+        .map((match:any) => match.musicId),
     );
   }, [sceneInfo]);
 
   const handleMusicSubmission = async (musicId: string) => {
-    await unlicensedMusic[1].refetch();
-    setSelectedUnlicensedMusicIds([musicId, ...selectedUnlicensedMusicIds]);
     setDisplaySubmissionForm(false);
   };
 
   return (
     <>
-      {displaySubmissionForm && (
-        <UnlicensedMusicSubmissionForm
-          handleSubmission={handleMusicSubmission}
-        />
-      )}
       {!displaySubmissionForm && (
         <div className="flex h-screen w-full bg-[#DEE0E2] px-[80px] py-[60px]">
           <DisplaySceneInfo
@@ -154,7 +119,6 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                 return (
                   <div key={musicId} className="w-full pt-[15px]">
                     <MatchedSong
-                      licensed={true}
                       songName={song?.songName ?? ""}
                       artistName={
                         song?.artist.firstName + " " + song?.artist.lastName
@@ -174,8 +138,8 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                   </div>
                 );
               })}
-              {sceneInfo.suggestedMatches.map((match) => {
-                const comments = match.matchComments.map((comment) => {
+              {sceneInfo.suggestedMatches.map((match:any) => {
+                const comments = match.matchComments.map((comment:any) => {
                   return {
                     commentText: comment.commentText,
                     userName:
@@ -188,7 +152,6 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                 return (
                   <div key={match.musicId} className="w-full pt-[15px]">
                     <MatchedSong
-                      licensed={true}
                       songName={match.musicSubmission.songName}
                       artistName={
                         match.musicSubmission.artist.firstName +
@@ -202,88 +165,6 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                       handleMatch={handleSuccessfulMatch}
                       userId={user?.userId ?? ""}
                       matchId={match.suggestedMatchId}
-                      handleComment={handleCommentMade}
-                      comments={comments}
-                      genres={match.musicSubmission.genre}
-                      songLink={match.musicSubmission.songLink}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="pt-[20px]">
-              <MusicSearch
-                music={unlicensedMusic[0].music.map((song) => {
-                  return {
-                    musicTitle: song.songName,
-                    artistName: song.artist,
-                    musicId: song.musicId,
-                  };
-                })}
-                matchedMusicIds={[
-                  ...matchedUnlicensedMusicIds,
-                  ...selectedUnlicensedMusicIds,
-                ]}
-                handleSelection={(musicId: string) => {
-                  setSelectedUnlicensedMusicIds([
-                    musicId,
-                    ...selectedUnlicensedMusicIds,
-                  ]);
-                }}
-                label="Not Yet Licensed Music"
-              />
-            </div>
-            <div className="pl-[60px] pr-[80px] pt-[10px]">
-              {selectedUnlicensedMusicIds.map((musicId) => {
-                const song = unlicensedMusic[0].music.find(
-                  (song) => song.musicId === musicId,
-                );
-
-                return (
-                  <div key={musicId} className="w-full pt-[15px]">
-                    <MatchedSong
-                      licensed={false}
-                      songName={song?.songName ?? ""}
-                      artistName={song?.artist ?? ""}
-                      projectId={sceneInfo.projectId}
-                      sceneId={sceneInfo.sceneId}
-                      musicId={song?.musicId ?? ""}
-                      isMatched={false}
-                      handleMatch={handleSuccessfulMatch}
-                      matchId=""
-                      userId={user?.userId ?? ""}
-                      handleComment={handleCommentMade}
-                      comments={[]}
-                      genres={song?.genre ?? ""}
-                      songLink={song?.songLink ?? ""}
-                    />
-                  </div>
-                );
-              })}
-              {sceneInfo.unlicensedSuggestedMatches.map((match) => {
-                const comments = match.matchComments.map((comment) => {
-                  return {
-                    commentText: comment.commentText,
-                    userName:
-                      comment.user.firstName + " " + comment.user.lastName,
-                    timestamp: comment.createdAtDateString,
-                    commentId: comment.commentId,
-                  };
-                });
-
-                return (
-                  <div key={match.musicId} className="w-full pt-[15px]">
-                    <MatchedSong
-                      licensed={false}
-                      songName={match.musicSubmission.songName}
-                      artistName={match.musicSubmission.artist}
-                      projectId={match.projectId}
-                      sceneId={match.sceneId}
-                      musicId={match.musicId}
-                      isMatched={true}
-                      handleMatch={handleSuccessfulMatch}
-                      userId={user?.userId ?? ""}
-                      matchId={match.unlicensedSuggestedMatchId}
                       handleComment={handleCommentMade}
                       comments={comments}
                       genres={match.musicSubmission.genre}

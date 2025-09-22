@@ -5,11 +5,11 @@ import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-// gets all the licensed and unlicensed matches for this scene, along with their music, and ratings
+// gets all the matches for this scene, along with their music, and ratings
 // TODO: test this procedure as mentioned in #152
 export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
-  mediaMakerOnlyPermissions,
-  "read",
+  mediaMakerOnlyPermissions, // LAUREN - todo: if changing the return tupe of this, need to check where it's called
+  "read", // and change client's expectataion 
 )
   .input(
     z.object({
@@ -24,12 +24,6 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
         sceneId: input.sceneId,
       },
       include: {
-        unlicensedSuggestedMatches: {
-          include: {
-            musicSubmission: true,
-            matchRatings: true,
-          },
-        },
         suggestedMatches: {
           include: {
             musicSubmission: {
@@ -62,10 +56,8 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
     }
 
     const licensedMatches = scene.suggestedMatches;
-    const unlicensedMatches = scene.unlicensedSuggestedMatches;
 
     return {
       licensed: licensedMatches,
-      unlicensed: unlicensedMatches,
     };
   });

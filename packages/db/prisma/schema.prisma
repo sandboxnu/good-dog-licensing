@@ -48,7 +48,6 @@ model User {
   updatedAt                  DateTime                   @updatedAt
   projectSubmissions         ProjectSubmission[]
   musicSubmissions           MusicSubmission[]
-  unlicensedSuggestedMatches UnlicensedSuggestedMatch[] @relation("UnlicensedMatcher")
   suggestedMatches           SuggestedMatch[]           @relation("Matcher")
   reviewedMatches            SuggestedMatch[]           @relation("Reviewer")
   matchComments              MatchComments[]
@@ -146,7 +145,6 @@ model ProjectSubmission {
   videoLink                  String                     @default("")
   additionalInfo             String                     @default("")
   suggestedMatches           SuggestedMatch[]
-  unlicensedSuggestedMatches UnlicensedSuggestedMatch[]
 }
 
 model SceneSubmission {
@@ -159,7 +157,6 @@ model SceneSubmission {
   projectId                  String
   projectSubmission          ProjectSubmission          @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
   suggestedMatches           SuggestedMatch[]
-  unlicensedSuggestedMatches UnlicensedSuggestedMatch[]
   createdAt                  DateTime                   @default(now())
   updatedAt                  DateTime                   @updatedAt
 }
@@ -211,9 +208,7 @@ model MatchComments {
   userId                     String
   user                       User                      @relation(fields: [userId], references: [userId], onDelete: NoAction)
   suggestedMatchId           String?
-  unlicensedSuggestedMatchId String?
   suggestedMatch             SuggestedMatch?           @relation(fields: [suggestedMatchId], references: [suggestedMatchId], onDelete: NoAction)
-  unlicensedSuggestedMatch   UnlicensedSuggestedMatch? @relation(fields: [unlicensedSuggestedMatchId], references: [unlicensedSuggestedMatchId], onDelete: NoAction)
 }
 
 model MatchRatings {
@@ -222,45 +217,10 @@ model MatchRatings {
   user                       User                      @relation(fields: [userId], references: [userId], onDelete: NoAction)
   ratingEnum                 Rating
   suggestedMatchId           String?
-  unlicensedSuggestedMatchId String?
   suggestedMatch             SuggestedMatch?           @relation(fields: [suggestedMatchId], references: [suggestedMatchId], onDelete: NoAction)
-  unlicensedSuggestedMatch   UnlicensedSuggestedMatch? @relation(fields: [unlicensedSuggestedMatchId], references: [unlicensedSuggestedMatchId], onDelete: NoAction)
 }
 
 enum Rating {
   LIKE
   DISLIKE
-}
-
-model UnlicensedMusicSubmission {
-  musicId          String                     @id @default(uuid())
-  songName         String
-  createdAt        DateTime                   @default(now())
-  updatedAt        DateTime                   @updatedAt
-  artist           String
-  songLink         String
-  genre            String
-  additionalInfo   String                     @default("")
-  suggestedMatches UnlicensedSuggestedMatch[]
-}
-
-model UnlicensedSuggestedMatch {
-  unlicensedSuggestedMatchId String                    @id @default(uuid())
-  projectId                  String
-  projectSubmission          ProjectSubmission         @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
-  sceneId                    String
-  sceneSubmission            SceneSubmission           @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
-  musicId                    String
-  musicSubmission            UnlicensedMusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: NoAction)
-  createdAt                  DateTime                  @default(now())
-  updatedAt                  DateTime                  @updatedAt
-  description                String
-  matchComments              MatchComments[]
-  matchRatings               MatchRatings[]
-  matcherUserId              String
-  matcherUser                User                      @relation("UnlicensedMatcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
-  matchState                 MatchState
-
-  @@unique([sceneId, musicId])
-  @@map("UnlicensedSuggestedMatches")
 }
