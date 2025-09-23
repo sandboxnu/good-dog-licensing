@@ -32,7 +32,7 @@ import {
   suggestedMatchProcedure,
 } from "../procedures/matches";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
-import { submitMusicProcedure } from "../procedures/music-submission";
+import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { projectSubmissionProcedure } from "../procedures/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
