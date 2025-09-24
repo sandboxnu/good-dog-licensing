@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 
 import { trpc } from "@good-dog/trpc/client";
-import { Button } from "@good-dog/ui/button";
 import DisplaySceneInfo from "./DisplaySceneInfo";
 import MatchedSong from "./MatchedSong";
 import MusicSearch from "./MusicSearch";
@@ -20,9 +19,6 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   const [sceneInfo, sceneQuery] = trpc.getSceneById.useSuspenseQuery({
     sceneId: sceneId,
   });
-
-  const [displaySubmissionForm, setDisplaySubmissionForm] =
-    useState<boolean>(false);
 
   // Get all the current matches for the scene
   const [matchedMusicIds, setMatchedMusicIds] = useState<string[]>(
@@ -66,7 +62,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
 
   return (
     <>
-      {!displaySubmissionForm && (
+      {
         <div className="flex h-screen w-full bg-[#DEE0E2] px-[80px] py-[60px]">
           <DisplaySceneInfo
             projectId={sceneInfo.projectId}
@@ -162,24 +158,9 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                 );
               })}
             </div>
-            <div className="flex pl-[60px] pr-[80px] pt-[80px]">
-              <div className="font-afacad flex w-3/5 justify-start text-2xl font-medium">
-                Submit a song request!
-              </div>
-              <div className="flex w-2/5 justify-end">
-                <Button
-                  onClick={() => {
-                    setDisplaySubmissionForm(true);
-                  }}
-                  className="font-afacad w-[80px] rounded-xl bg-[#A3A3A3] text-xl font-medium text-white hover:bg-[bg-[#A3A3A3]]"
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
           </div>
         </div>
-      )}
+      }
     </>
   );
 }
