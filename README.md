@@ -86,6 +86,7 @@ The following scripts are available in the root [package.json](./package.json). 
 - `db:generate`: Generate database client.
 - `db:migrate`: Run database migrations.
 - `db:studio`: Open the database Studio.
+- `db:test:reset`: Resets all of the data in the database to ensure tests run on a clean database.
 - `dev`: Start all the development apps.
 - `dev:web`: Start only the web app.
 - `format`: Check code formatting.
