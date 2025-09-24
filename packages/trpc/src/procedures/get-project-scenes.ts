@@ -90,7 +90,7 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
       suggestedMatches: scene.suggestedMatches.map((match) => {
         return {
           ...match,
-          matchComments: match.matchComments.map((comment: any) => {
+          matchComments: match.matchComments.map((comment) => {
             return {
               ...comment,
               createdAtDateString: comment.createdAt.toDateString(),
