@@ -39,6 +39,7 @@ export const createUpdateMatchCommentsProcedure =
           await ctx.prisma.matchComments.create({
             data: {
               commentText: input.matchComment.commentText,
+              suggestedMatchId: input.matchId,
               userId: input.matchComment.userId,
             },
           });
