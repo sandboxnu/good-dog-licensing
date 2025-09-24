@@ -64,10 +64,6 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     );
   }, [sceneInfo]);
 
-  const handleMusicSubmission = async (musicId: string) => {
-    setDisplaySubmissionForm(false);
-  };
-
   return (
     <>
       {!displaySubmissionForm && (
