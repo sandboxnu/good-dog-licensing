@@ -19,7 +19,7 @@ export default function DisplayComments({
   handleComment,
   comments,
   matchId,
-  userId
+  userId,
 }: DisplayCommentsProps) {
   const [newComment, setNewComment] = useState<string>("");
 

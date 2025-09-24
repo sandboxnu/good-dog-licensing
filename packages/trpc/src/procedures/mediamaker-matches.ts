@@ -9,7 +9,7 @@ import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 // TODO: test this procedure as mentioned in #152
 export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions, // LAUREN - todo: if changing the return tupe of this, need to check where it's called
-  "read", // and change client's expectataion 
+  "read", // and change client's expectataion
 )
   .input(
     z.object({

@@ -9,8 +9,7 @@ import { trpc } from "@good-dog/trpc/client";
 export default function DisplaySongs() {
   const music = trpc.music.useSuspenseQuery();
 
-  const [displayMusic, setDisplayMusic] =
-    useState<boolean>(true);
+  const [displayMusic, setDisplayMusic] = useState<boolean>(true);
 
   return (
     <div>

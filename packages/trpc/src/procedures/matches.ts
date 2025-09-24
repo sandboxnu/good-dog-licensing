@@ -36,12 +36,12 @@ export const createUpdateMatchCommentsProcedure =
             },
           });
         } else {
-            await ctx.prisma.matchComments.create({
-              data: {
-                commentText: input.matchComment.commentText,
-                userId: input.matchComment.userId,
-              },
-            });
+          await ctx.prisma.matchComments.create({
+            data: {
+              commentText: input.matchComment.commentText,
+              userId: input.matchComment.userId,
+            },
+          });
         }
         return {
           message: "Comments successfully updated.",

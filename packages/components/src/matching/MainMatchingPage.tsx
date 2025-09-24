@@ -25,9 +25,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     useState<boolean>(false);
 
   // Get all the current matches for the scene
-  const [matchedMusicIds, setMatchedMusicIds] = useState<
-    string[]
-  >(
+  const [matchedMusicIds, setMatchedMusicIds] = useState<string[]>(
     sceneInfo.suggestedMatches
       .sort(
         (matchA, matchB) =>
@@ -40,16 +38,12 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   const music = trpc.music.useSuspenseQuery();
 
   // Music IDs of songs that are not yet matched, but ready to be matched
-  const [selectedMusicIds, setSelectedMusicIds] = useState<
-    string[]
-  >([]);
+  const [selectedMusicIds, setSelectedMusicIds] = useState<string[]>([]);
 
   const handleSuccessfulMatch = async (musicId: string) => {
     await sceneQuery.refetch();
 
-    const newSelectedMusicIds = selectedMusicIds.filter(
-      (id) => id !== musicId,
-    );
+    const newSelectedMusicIds = selectedMusicIds.filter((id) => id !== musicId);
     setSelectedMusicIds(newSelectedMusicIds);
   };
 
@@ -100,15 +94,9 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                   musicId: song.musicId,
                 };
               })}
-              matchedMusicIds={[
-                ...matchedMusicIds,
-                ...selectedMusicIds,
-              ]}
+              matchedMusicIds={[...matchedMusicIds, ...selectedMusicIds]}
               handleSelection={(musicId: string) => {
-                setSelectedMusicIds([
-                  musicId,
-                  ...selectedMusicIds,
-                ]);
+                setSelectedMusicIds([musicId, ...selectedMusicIds]);
               }}
               label="Music"
             />
