@@ -21,7 +21,6 @@ export default async function Page({
 
   void trpc.projects.prefetch();
   void trpc.music.prefetch();
-  void trpc.unlicensedMusic.prefetch();
 
   return (
     <HydrateClient>

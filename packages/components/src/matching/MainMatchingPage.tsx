@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 
 import { trpc } from "@good-dog/trpc/client";
-import { Button } from "@good-dog/ui/button";
-
-import UnlicensedMusicSubmissionForm from "../dashboard/UnlicensedMusicSubmissionForm";
 import DisplaySceneInfo from "./DisplaySceneInfo";
 import MatchedSong from "./MatchedSong";
 import MusicSearch from "./MusicSearch";
@@ -23,24 +20,9 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     sceneId: sceneId,
   });
 
-  const [displaySubmissionForm, setDisplaySubmissionForm] =
-    useState<boolean>(false);
-
   // Get all the current matches for the scene
-  const [matchedLicensedMusicIds, setMatchedLicensedMusicIds] = useState<
-    string[]
-  >(
+  const [matchedMusicIds, setMatchedMusicIds] = useState<string[]>(
     sceneInfo.suggestedMatches
-      .sort(
-        (matchA, matchB) =>
-          matchB.createdAt.getTime() - matchA.createdAt.getTime(),
-      )
-      .map((match) => match.musicId),
-  );
-  const [matchedUnlicensedMusicIds, setMatchedUnlicensedMusicIds] = useState<
-    string[]
-  >(
-    sceneInfo.unlicensedSuggestedMatches
       .sort(
         (matchA, matchB) =>
           matchB.createdAt.getTime() - matchA.createdAt.getTime(),
@@ -49,28 +31,16 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   );
 
   // Get all the music in the database
-  const licensedMusic = trpc.music.useSuspenseQuery();
-  const unlicensedMusic = trpc.unlicensedMusic.useSuspenseQuery();
+  const music = trpc.music.useSuspenseQuery();
 
   // Music IDs of songs that are not yet matched, but ready to be matched
-  const [selectedLicensedMusicIds, setSelectedLicensedMusicIds] = useState<
-    string[]
-  >([]);
-  const [selectedUnlicensedMusicIds, setSelectedUnlicensedMusicIds] = useState<
-    string[]
-  >([]);
+  const [selectedMusicIds, setSelectedMusicIds] = useState<string[]>([]);
 
   const handleSuccessfulMatch = async (musicId: string) => {
     await sceneQuery.refetch();
 
-    const newSelectedLicensedMusicIds = selectedLicensedMusicIds.filter(
-      (id) => id !== musicId,
-    );
-    const newSelectedUnlicensedMusicIds = selectedUnlicensedMusicIds.filter(
-      (id) => id !== musicId,
-    );
-    setSelectedLicensedMusicIds(newSelectedLicensedMusicIds);
-    setSelectedUnlicensedMusicIds(newSelectedUnlicensedMusicIds);
+    const newSelectedMusicIds = selectedMusicIds.filter((id) => id !== musicId);
+    setSelectedMusicIds(newSelectedMusicIds);
   };
 
   const handleCommentMade = async () => {
@@ -80,17 +50,8 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
   // TODO: Don't set state in useEffect??
   useEffect(() => {
     // eslint-disable-next-line
-    setMatchedLicensedMusicIds(
+    setMatchedMusicIds(
       sceneInfo.suggestedMatches
-        .sort(
-          (matchA, matchB) =>
-            matchB.createdAt.getTime() - matchA.createdAt.getTime(),
-        )
-        .map((match) => match.musicId),
-    );
-
-    setMatchedUnlicensedMusicIds(
-      sceneInfo.unlicensedSuggestedMatches
         .sort(
           (matchA, matchB) =>
             matchB.createdAt.getTime() - matchA.createdAt.getTime(),
@@ -99,20 +60,9 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
     );
   }, [sceneInfo]);
 
-  const handleMusicSubmission = async (musicId: string) => {
-    await unlicensedMusic[1].refetch();
-    setSelectedUnlicensedMusicIds([musicId, ...selectedUnlicensedMusicIds]);
-    setDisplaySubmissionForm(false);
-  };
-
   return (
     <>
-      {displaySubmissionForm && (
-        <UnlicensedMusicSubmissionForm
-          handleSubmission={handleMusicSubmission}
-        />
-      )}
-      {!displaySubmissionForm && (
+      {
         <div className="flex h-screen w-full bg-[#DEE0E2] px-[80px] py-[60px]">
           <DisplaySceneInfo
             projectId={sceneInfo.projectId}
@@ -128,7 +78,7 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
               Music
             </div>
             <MusicSearch
-              music={licensedMusic[0].music.map((song) => {
+              music={music[0].music.map((song) => {
                 return {
                   musicTitle: song.songName,
                   artistName:
@@ -136,28 +86,21 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                   musicId: song.musicId,
                 };
               })}
-              matchedMusicIds={[
-                ...matchedLicensedMusicIds,
-                ...selectedLicensedMusicIds,
-              ]}
+              matchedMusicIds={[...matchedMusicIds, ...selectedMusicIds]}
               handleSelection={(musicId: string) => {
-                setSelectedLicensedMusicIds([
-                  musicId,
-                  ...selectedLicensedMusicIds,
-                ]);
+                setSelectedMusicIds([musicId, ...selectedMusicIds]);
               }}
-              label="Licensed Music"
+              label="Music"
             />
             <div className="pl-[60px] pr-[80px] pt-[10px]">
-              {selectedLicensedMusicIds.map((musicId) => {
-                const song = licensedMusic[0].music.find(
+              {selectedMusicIds.map((musicId) => {
+                const song = music[0].music.find(
                   (song) => song.musicId === musicId,
                 );
 
                 return (
                   <div key={musicId} className="w-full pt-[15px]">
                     <MatchedSong
-                      licensed={true}
                       songName={song?.songName ?? ""}
                       artistName={
                         song?.submitter.firstName +
@@ -193,7 +136,6 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                 return (
                   <div key={match.musicId} className="w-full pt-[15px]">
                     <MatchedSong
-                      licensed={true}
                       songName={match.musicSubmission.songName}
                       artistName={
                         match.musicSubmission.submitter.firstName +
@@ -216,106 +158,9 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                 );
               })}
             </div>
-            <div className="pt-[20px]">
-              <MusicSearch
-                music={unlicensedMusic[0].music.map((song) => {
-                  return {
-                    musicTitle: song.songName,
-                    artistName: song.artist,
-                    musicId: song.musicId,
-                  };
-                })}
-                matchedMusicIds={[
-                  ...matchedUnlicensedMusicIds,
-                  ...selectedUnlicensedMusicIds,
-                ]}
-                handleSelection={(musicId: string) => {
-                  setSelectedUnlicensedMusicIds([
-                    musicId,
-                    ...selectedUnlicensedMusicIds,
-                  ]);
-                }}
-                label="Not Yet Licensed Music"
-              />
-            </div>
-            <div className="pl-[60px] pr-[80px] pt-[10px]">
-              {selectedUnlicensedMusicIds.map((musicId) => {
-                const song = unlicensedMusic[0].music.find(
-                  (song) => song.musicId === musicId,
-                );
-
-                return (
-                  <div key={musicId} className="w-full pt-[15px]">
-                    <MatchedSong
-                      licensed={false}
-                      songName={song?.songName ?? ""}
-                      artistName={song?.artist ?? ""}
-                      projectId={sceneInfo.projectId}
-                      sceneId={sceneInfo.sceneId}
-                      musicId={song?.musicId ?? ""}
-                      isMatched={false}
-                      handleMatch={handleSuccessfulMatch}
-                      matchId=""
-                      userId={user?.userId ?? ""}
-                      handleComment={handleCommentMade}
-                      comments={[]}
-                      genres={song?.genre ?? ""}
-                      songLink={song?.songLink ?? ""}
-                    />
-                  </div>
-                );
-              })}
-              {sceneInfo.unlicensedSuggestedMatches.map((match) => {
-                const comments = match.matchComments.map((comment) => {
-                  return {
-                    commentText: comment.commentText,
-                    userName:
-                      comment.user.firstName + " " + comment.user.lastName,
-                    timestamp: comment.createdAtDateString,
-                    commentId: comment.commentId,
-                  };
-                });
-
-                return (
-                  <div key={match.musicId} className="w-full pt-[15px]">
-                    <MatchedSong
-                      licensed={false}
-                      songName={match.musicSubmission.songName}
-                      artistName={match.musicSubmission.artist}
-                      projectId={match.projectId}
-                      sceneId={match.sceneId}
-                      musicId={match.musicId}
-                      isMatched={true}
-                      handleMatch={handleSuccessfulMatch}
-                      userId={user?.userId ?? ""}
-                      matchId={match.unlicensedSuggestedMatchId}
-                      handleComment={handleCommentMade}
-                      comments={comments}
-                      genres={match.musicSubmission.genre}
-                      songLink={match.musicSubmission.songLink}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex pl-[60px] pr-[80px] pt-[80px]">
-              <div className="font-afacad flex w-3/5 justify-start text-2xl font-medium">
-                Submit a song request!
-              </div>
-              <div className="flex w-2/5 justify-end">
-                <Button
-                  onClick={() => {
-                    setDisplaySubmissionForm(true);
-                  }}
-                  className="font-afacad w-[80px] rounded-xl bg-[#A3A3A3] text-xl font-medium text-white hover:bg-[bg-[#A3A3A3]]"
-                >
-                  Add
-                </Button>
-              </div>
-            </div>
           </div>
         </div>
-      )}
+      }
     </>
   );
 }

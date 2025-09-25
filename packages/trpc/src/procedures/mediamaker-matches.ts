@@ -5,7 +5,7 @@ import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-// gets all the licensed and unlicensed matches for this scene, along with their music, and ratings
+// gets all the matches for this scene, along with their music, and ratings
 // TODO: test this procedure as mentioned in #152
 export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
@@ -24,12 +24,6 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
         sceneId: input.sceneId,
       },
       include: {
-        unlicensedSuggestedMatches: {
-          include: {
-            musicSubmission: true,
-            matchRatings: true,
-          },
-        },
         suggestedMatches: {
           include: {
             musicSubmission: {
@@ -60,11 +54,9 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
       throw new TRPCError({ code: "FORBIDDEN", message: "Scene not found." });
     }
 
-    const licensedMatches = scene.suggestedMatches;
-    const unlicensedMatches = scene.unlicensedSuggestedMatches;
+    const matches = scene.suggestedMatches;
 
     return {
-      licensed: licensedMatches,
-      unlicensed: unlicensedMatches,
+      matches: matches,
     };
   });

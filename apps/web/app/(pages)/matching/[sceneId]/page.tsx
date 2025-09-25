@@ -10,7 +10,6 @@ export default async function Page({
 
   void trpc.getSceneById.prefetch({ sceneId: sceneId });
   void trpc.music.prefetch();
-  void trpc.unlicensedMusic.prefetch();
 
   return (
     <HydrateClient>

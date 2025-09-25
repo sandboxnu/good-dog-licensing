@@ -8,7 +8,6 @@ import { trpc } from "@good-dog/trpc/client";
 import DisplayComments from "./DisplayComments";
 
 interface MatchedSongProps {
-  licensed: boolean;
   songName: string;
   artistName: string;
   musicId: string;
@@ -32,7 +31,7 @@ interface MatchedSongProps {
 export default function MatchedSong(props: MatchedSongProps) {
   const [showMoreDetails, setShowMoreDetails] = useState<boolean>(false);
 
-  const createLicensedMatchMutation = trpc.suggestMatch.useMutation({
+  const createMatchMutation = trpc.suggestMatch.useMutation({
     onSuccess: async () => {
       await props.handleMatch(props.musicId);
     },
@@ -42,34 +41,13 @@ export default function MatchedSong(props: MatchedSongProps) {
     },
   });
 
-  const createUnlicensedMatchMutation = trpc.unlicensedSuggestMatch.useMutation(
-    {
-      onSuccess: async () => {
-        await props.handleMatch(props.musicId);
-      },
-      onError: (err) => {
-        //TODO - Display error
-        console.error(err);
-      },
-    },
-  );
-
   const createMatch = () => {
-    if (props.licensed) {
-      createLicensedMatchMutation.mutate({
-        projectId: props.projectId,
-        sceneId: props.sceneId,
-        musicId: props.musicId,
-        description: "",
-      });
-    } else {
-      createUnlicensedMatchMutation.mutate({
-        projectId: props.projectId,
-        sceneId: props.sceneId,
-        musicId: props.musicId,
-        description: "",
-      });
-    }
+    createMatchMutation.mutate({
+      projectId: props.projectId,
+      sceneId: props.sceneId,
+      musicId: props.musicId,
+      description: "",
+    });
   };
 
   return (
@@ -157,7 +135,6 @@ export default function MatchedSong(props: MatchedSongProps) {
               comments={props.comments}
               matchId={props.matchId}
               userId={props.userId}
-              licensed={props.licensed}
             />
           )}
         </div>

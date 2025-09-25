@@ -27,7 +27,6 @@ interface MatchRatingInfo {
   ratingId: string | null;
   rating: Rating | null;
   matchId: string;
-  unlicensed: boolean;
 }
 
 // music data given to child components
@@ -45,7 +44,6 @@ interface MusicChildProps {
   musicData: MusicData;
   rating: Rating | null;
   ratingId: string | null;
-  unlicensed: boolean;
   matchId: string;
   onData: (data: MatchRatingInfo) => void;
 }
@@ -100,13 +98,11 @@ export default function MusicSection({
           return rateMatch.mutateAsync({
             ratingId: matchItem.matchData.ratingId,
             ratingEnum: matchItem.matchData.rating,
-            unlicensed: matchItem.matchData.unlicensed,
             matchId: matchItem.matchId,
           });
         } else if (matchItem.matchData.rating !== null) {
           return rateMatch.mutateAsync({
             ratingEnum: matchItem.matchData.rating,
-            unlicensed: matchItem.matchData.unlicensed,
             matchId: matchItem.matchId,
           });
         }
@@ -128,8 +124,7 @@ export default function MusicSection({
     sceneId: sceneId,
   });
 
-  const licensedInfo = matchData[0].licensed;
-  const unlicensedInfo = matchData[0].unlicensed;
+  const info = matchData[0].matches;
 
   return (
     <div className="flex w-full flex-col bg-gray-200 p-6 md:w-1/2 md:p-10">
@@ -138,7 +133,7 @@ export default function MusicSection({
       <div className="flex-1 space-y-8 overflow-hidden">
         <div className="space-y-4">
           <div className="flex items-center gap-1">
-            <h3 className="text-lg font-bold">Licensed Music</h3>
+            <h3 className="text-lg font-bold">Music</h3>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -155,7 +150,7 @@ export default function MusicSection({
           </div>
 
           <div className="space-y-3">
-            {licensedInfo.map((item) => {
+            {info.map((item) => {
               const musicData: MusicData = {
                 musicId: item.musicSubmission.musicId,
                 songName: item.musicSubmission.songName,
@@ -184,62 +179,7 @@ export default function MusicSection({
                   musicData={musicData}
                   rating={existingRating}
                   ratingId={ratingId}
-                  unlicensed={false}
                   matchId={item.suggestedMatchId}
-                  onData={handleData}
-                />
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="flex items-center gap-1">
-            <h3 className="text-lg font-bold">Unlicensed Music</h3>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <InfoCircledIcon className="h-4 w-4 text-gray-400" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>
-                    Music for which we need to reach out to artists to get their
-                    permission to use it.
-                  </p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-
-          <div className="space-y-3">
-            {unlicensedInfo.map((item) => {
-              const musicData: MusicData = {
-                musicId: item.musicSubmission.musicId,
-                songName: item.musicSubmission.songName,
-                artist: item.musicSubmission.artist,
-                songLink: item.musicSubmission.songLink || "",
-                genre: item.musicSubmission.genre || "",
-                additionalInfo: item.musicSubmission.additionalInfo || "",
-              };
-
-              //check if there's an existing rating
-              const existingRating: Rating | null =
-                item.matchRatings.length > 0
-                  ? item.matchRatings[0]?.ratingEnum ?? null
-                  : null;
-              const ratingId: string | null =
-                item.matchRatings.length > 0
-                  ? item.matchRatings[0]?.ratingId ?? null
-                  : null;
-
-              return (
-                <MusicChild
-                  key={item.unlicensedSuggestedMatchId}
-                  musicData={musicData}
-                  rating={existingRating}
-                  ratingId={ratingId}
-                  unlicensed={true}
-                  matchId={item.unlicensedSuggestedMatchId}
                   onData={handleData}
                 />
               );
@@ -265,7 +205,6 @@ function MusicChild({
   musicData,
   rating,
   ratingId,
-  unlicensed,
   matchId,
   onData,
 }: MusicChildProps) {
@@ -279,7 +218,6 @@ function MusicChild({
       const dataToSend: MatchRatingInfo = {
         rating: null,
         ratingId: ratingId,
-        unlicensed: unlicensed,
         matchId: matchId,
       };
       onData(dataToSend);
@@ -288,7 +226,6 @@ function MusicChild({
       const dataToSend: MatchRatingInfo = {
         rating: value,
         ratingId: ratingId,
-        unlicensed: unlicensed,
         matchId: matchId,
       };
       onData(dataToSend);

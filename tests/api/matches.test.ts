@@ -218,7 +218,6 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const response = await $api.comment({
       matchId: "match",
-      unlicensed: false,
       matchComment: {
         commentText:
           "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
@@ -245,7 +244,6 @@ describe("createUpdateMatchCommentsProcedure", () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.comment({
-      unlicensed: false,
       matchId: "match",
       matchComment: {
         commentText: "hello",
@@ -271,7 +269,6 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     expect(
       $api.comment({
-        unlicensed: false,
         matchId: "match",
         matchComment: {
           commentText: "hello",
@@ -285,7 +282,6 @@ describe("createUpdateMatchCommentsProcedure", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.comment({
-      unlicensed: false,
       matchId: "match",
       matchComment: {
         commentText:
@@ -310,7 +306,6 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const updatedResponse = await $api.comment({
       commentId: createdComment?.commentId,
-      unlicensed: false,
       matchId: "match",
       matchComment: {
         commentText: "hi hi",
@@ -337,7 +332,6 @@ describe("createUpdateMatchCommentsProcedure", () => {
     expect(
       $api.comment({
         commentId: "testComment",
-        unlicensed: false,
         matchComment: {
           userId: "sanjana",
           commentText: "hi hi",

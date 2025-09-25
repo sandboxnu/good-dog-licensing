@@ -51,21 +51,6 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
       },
       include: {
         projectSubmission: true,
-        unlicensedSuggestedMatches: {
-          include: {
-            matchComments: {
-              include: {
-                user: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
-                  },
-                },
-              },
-            },
-            musicSubmission: true,
-          },
-        },
         suggestedMatches: {
           include: {
             matchComments: {
@@ -102,19 +87,6 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
 
     const sceneFinal = {
       ...scene,
-      unlicensedSuggestedMatches: scene.unlicensedSuggestedMatches.map(
-        (match) => {
-          return {
-            ...match,
-            matchComments: match.matchComments.map((comment) => {
-              return {
-                ...comment,
-                createdAtDateString: comment.createdAt.toDateString(),
-              };
-            }),
-          };
-        },
-      ),
       suggestedMatches: scene.suggestedMatches.map((match) => {
         return {
           ...match,
