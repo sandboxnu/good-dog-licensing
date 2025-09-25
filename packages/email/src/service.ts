@@ -103,4 +103,34 @@ export class EmailService {
 
     return this.send(emailParams);
   }
+
+  notifyNewMusicSubmitted(toEmails: string[], musicSubmissionId: string) {
+    const baseURL = this.getBaseUrl();
+
+    const emailParams = new EmailParams()
+      .setFrom(this.sentFrom)
+      .setTo(toEmails.map((email) => new Recipient(email)))
+      .setReplyTo(this.sentFrom)
+      .setSubject("New Music Submission - Good Dog Licensing")
+      .setHtml(
+        `<p>A new music submission has been made. Review it <a href="${baseURL}/dashboard/songs/?id=${musicSubmissionId}">here</a>.</p>`,
+      );
+
+    return this.send(emailParams);
+  }
+
+  notifyNewProjectSubmitted(toEmails: string[], projectSubmissionId: string) {
+    const baseURL = this.getBaseUrl();
+
+    const emailParams = new EmailParams()
+      .setFrom(this.sentFrom)
+      .setTo(toEmails.map((email) => new Recipient(email)))
+      .setReplyTo(this.sentFrom)
+      .setSubject("New Project Submission - Good Dog Licensing")
+      .setHtml(
+        `<p>A new project submission has been made. Review it <a href="${baseURL}/dashboard/projects/?id=${projectSubmissionId}">here</a>.</p>`,
+      );
+
+    return this.send(emailParams);
+  }
 }
