@@ -113,6 +113,7 @@ model SceneSubmission {
   projectId         String
   projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
   suggestedMatches  SuggestedMatch[]
+  comments          MatchComments[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
 }
@@ -167,7 +168,6 @@ model SuggestedMatch {
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   description       String
-  matchComments     MatchComments[]
   matchLikes        MatchRatings[]
   matcherUserId     String
   matcherUser       User              @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
@@ -179,15 +179,15 @@ model SuggestedMatch {
   @@map("SuggestedMatches")
 }
 
-model MatchComments {
+model Comments {
   commentId        String          @id @default(uuid())
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   commentText      String
   userId           String
   user             User            @relation(fields: [userId], references: [userId], onDelete: NoAction)
-  suggestedMatchId String?
-  suggestedMatch   SuggestedMatch? @relation(fields: [suggestedMatchId], references: [suggestedMatchId], onDelete: NoAction)
+  sceneId          String?
+  sceneSubmission  SceneSubmission? @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
 }
 
 model MatchRatings {
