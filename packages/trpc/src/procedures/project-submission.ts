@@ -17,13 +17,12 @@ export const projectSubmissionProcedure = rolePermissionsProcedureBuilder(
         },
         projectTitle: input.projectTitle,
         description: input.description,
-        scenes: {
-          create: input.scenes.map((scene) => ({
-            sceneTitle: scene.sceneTitle,
-            description: scene.description,
-            musicType: scene.musicType,
-            similarSongs: scene.similarSongs,
-            additionalInfo: scene.additionalInfo,
+        songRequests: {
+          create: input.songRequests.map((songRequest) => ({
+            description: songRequest.description,
+            musicType: songRequest.musicType,
+            similarSongs: songRequest.similarSongs,
+            additionalInfo: songRequest.additionalInfo,
           })),
         },
         deadline: new Date(input.deadline),
@@ -31,7 +30,7 @@ export const projectSubmissionProcedure = rolePermissionsProcedureBuilder(
         additionalInfo: input.additionalInfo,
       },
       include: {
-        scenes: true,
+        songRequests: true,
       },
     });
 

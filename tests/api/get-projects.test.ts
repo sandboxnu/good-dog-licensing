@@ -193,10 +193,10 @@ describe("get-projects", () => {
 
   // Delete the records created for these tests
   afterAll(async () => {
-    await prisma.sceneSubmission.deleteMany({
+    await prisma.songRequest.deleteMany({
       where: {
-        sceneId: {
-          in: ["test-scene-1"],
+        songRequestId: {
+          in: ["test-song-request-1"],
         },
       },
     });

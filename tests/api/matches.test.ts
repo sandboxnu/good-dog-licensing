@@ -92,11 +92,10 @@ async function createData() {
     },
   });
 
-  await prisma.sceneSubmission.create({
+  await prisma.songRequest.create({
     data: {
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       description: "wildfires in CA",
-      sceneTitle: "Scene One",
       musicType: "rnb, soul",
       projectId: projectSubmission.projectId,
     },
@@ -126,7 +125,7 @@ async function createMoreData() {
     data: {
       suggestedMatchId: "match",
       projectId: "projectSubmission",
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
       description: "the joyous vibe of this song would go well with the flames",
       matcherUserId: "matcher",
@@ -160,13 +159,13 @@ async function deleteData() {
   // Delete SuggestedMatch for suggestMatch tests
   await prisma.suggestedMatch.deleteMany({
     where: {
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
     },
   });
 
-  // Delete SceneSubmission
-  await prisma.sceneSubmission.deleteMany({
-    where: { sceneId: "sceneOneSubmission" },
+  // Delete SongRequest
+  await prisma.songRequest.deleteMany({
+    where: { songRequestId: "songRequestOneSubmission" },
   });
 
   // Delete ProjectSubmission
@@ -370,7 +369,7 @@ describe("suggested match procedure", () => {
 
     const response = await $api.suggestMatch({
       projectId: "projectSubmission",
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
       description: "This is a great match.",
     });
@@ -380,7 +379,7 @@ describe("suggested match procedure", () => {
     const suggestedMatch = await prisma.suggestedMatch.findFirst({
       where: {
         projectId: "projectSubmission",
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
         matcherUserId: "matcher",
       },
@@ -394,7 +393,7 @@ describe("suggested match procedure", () => {
 
     const response = await $api.suggestMatch({
       projectId: "projectSubmission",
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
       description: "wow, this is a great match.",
     });
@@ -404,7 +403,7 @@ describe("suggested match procedure", () => {
     const suggestedMatch = await prisma.suggestedMatch.findFirst({
       where: {
         projectId: "projectSubmission",
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
         matcherUserId: "sanjana",
       },
@@ -419,7 +418,7 @@ describe("suggested match procedure", () => {
     expect(
       $api.suggestMatch({
         projectId: "projectSubmission",
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
         description: "This is a great match.",
       }),
@@ -431,7 +430,7 @@ describe("suggested match procedure", () => {
 
     const originalResponse = await $api.suggestMatch({
       projectId: "projectSubmission",
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
       description: "This is a great match.",
     });
@@ -440,7 +439,7 @@ describe("suggested match procedure", () => {
 
     const match = await prisma.suggestedMatch.findFirst({
       where: {
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         projectId: "projectSubmission",
       },
     });

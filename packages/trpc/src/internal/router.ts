@@ -16,13 +16,13 @@ import {
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
-  getProjectSceneByIdProcedure,
-  getProjectScenesProcedure,
-  getUserProjectScenesProcedure,
+  getProjectSongRequestByIdProcedure,
+  getProjectSongRequestsProcedure,
+  getUserSongRequestsProcedure,
   mediamakerProjectsProcedure,
-  mediamakerScenesProcedure,
-  sceneProcedure,
-} from "../procedures/get-project-scenes";
+  mediamakerSongRequestsProcedure,
+  songRequestProcedure,
+} from "../procedures/get-song-requests";
 import { createMatchRatingProcedure } from "../procedures/like";
 import {
   createUpdateMatchCommentsProcedure,
@@ -50,16 +50,16 @@ export const appRouter = createTRPCRouter({
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
-  projects: getProjectScenesProcedure,
+  projects: getProjectSongRequestsProcedure,
   mediamakerProjects: mediamakerProjectsProcedure,
-  mediamakerScenes: mediamakerScenesProcedure,
+  mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
-  userProjects: getUserProjectScenesProcedure,
+  userProjects: getUserSongRequestsProcedure,
   music: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   match: getMatchesProcedure,
   rateMatch: createMatchRatingProcedure,
-  scene: sceneProcedure,
+  songRequest: songRequestProcedure,
   comment: createUpdateMatchCommentsProcedure,
   suggestMatch: suggestedMatchProcedure,
   reviewMatch: reviewSuggestedMatchProcedure,
@@ -68,7 +68,7 @@ export const appRouter = createTRPCRouter({
   projectSubmission: projectSubmissionProcedure,
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
-  getSceneById: getProjectSceneByIdProcedure,
+  getSongRequestById: getProjectSongRequestByIdProcedure,
 });
 
 export type AppRouter = typeof appRouter;

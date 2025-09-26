@@ -5,7 +5,7 @@ import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-// gets all the matches for this scene, along with their music, and ratings
+// gets all the matches for this song request, along with their music, and ratings
 // TODO: test this procedure as mentioned in #152
 export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
@@ -14,14 +14,14 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
   .input(
     z.object({
       projectId: z.string(),
-      sceneId: z.string(),
+      songRequestId: z.string(),
     }),
   )
   .query(async ({ ctx, input }) => {
-    const scene = await ctx.prisma.sceneSubmission.findFirst({
+    const songRequest = await ctx.prisma.songRequest.findFirst({
       where: {
         projectId: input.projectId,
-        sceneId: input.sceneId,
+        songRequestId: input.songRequestId,
       },
       include: {
         suggestedMatches: {
@@ -43,18 +43,24 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
       },
     });
 
-    if (!scene) {
-      throw new TRPCError({ code: "NOT_FOUND", message: "Scene not found." });
+    if (!songRequest) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Song Request not found.",
+      });
     }
 
     if (
       ctx.session.user.role !== "ADMIN" &&
-      scene.projectSubmission.projectOwnerId !== ctx.session.user.userId
+      songRequest.projectSubmission.projectOwnerId !== ctx.session.user.userId
     ) {
-      throw new TRPCError({ code: "FORBIDDEN", message: "Scene not found." });
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Song Request not found.",
+      });
     }
 
-    const matches = scene.suggestedMatches;
+    const matches = songRequest.suggestedMatches;
 
     return {
       matches: matches,
