@@ -52,7 +52,7 @@ export class EmailService {
     return "http://localhost:3000";
   }
 
-  async getAllAdminAndPNREmails() {
+  private async getAllAdminAndPNREmails(): Promise<string[]> {
     return (
       await prisma.user.findMany({
         where: {
@@ -123,7 +123,7 @@ export class EmailService {
   async notifyInternalUsersNewMusicSubmitted(musicSubmissionId: string) {
     const baseURL = this.getBaseUrl();
 
-    const toEmails: string[] = await this.getAllAdminAndPNREmails();
+    const toEmails = await this.getAllAdminAndPNREmails();
 
     const emailParams = new EmailParams()
       .setFrom(this.sentFrom)
@@ -140,7 +140,7 @@ export class EmailService {
   async notifyInternalUsersNewProjectSubmitted(projectSubmissionId: string) {
     const baseURL = this.getBaseUrl();
 
-    const toEmails: string[] = await this.getAllAdminAndPNREmails();
+    const toEmails = await this.getAllAdminAndPNREmails();
 
     const emailParams = new EmailParams()
       .setFrom(this.sentFrom)
