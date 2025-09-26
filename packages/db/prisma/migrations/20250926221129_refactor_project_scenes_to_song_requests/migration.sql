@@ -29,6 +29,7 @@ DROP TABLE "SceneSubmission";
 -- CreateTable
 CREATE TABLE "SongRequest" (
     "songRequestId" TEXT NOT NULL,
+    "oneLineSummary" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "musicType" TEXT NOT NULL,
     "similarSongs" TEXT NOT NULL DEFAULT '',

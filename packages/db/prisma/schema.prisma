@@ -105,6 +105,7 @@ model ProjectSubmission {
 
 model SongRequest {
   songRequestId           String            @id @default(uuid())
+  oneLineSummary          String 
   description             String
   musicType               String
   similarSongs            String            @default("")

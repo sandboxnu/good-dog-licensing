@@ -10,14 +10,17 @@ import {
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
-import { MockNextCookies } from "../mocks/MockNextCookies";
-import { createMockCookieService } from "../mocks/util";
+import { MockNextCookies } from "../../mocks/MockNextCookies";
+import { createMockCookieService } from "../../mocks/util";
+import { MockEmailService } from "../../mocks/MockEmailService";
 
 describe("projectSubmission", () => {
   const mockCookies = new MockNextCookies();
+  const mockEmailService = new MockEmailService();
 
   const $api = $createTrpcCaller({
     cookiesService: createMockCookieService(mockCookies),
+    emailService: mockEmailService,
     prisma,
   });
 
@@ -61,6 +64,7 @@ describe("projectSubmission", () => {
 
   afterEach(() => {
     mockCookies.clear();
+    mockEmailService.clear();
   });
 
   afterAll(async () => {
@@ -90,10 +94,12 @@ describe("projectSubmission", () => {
           musicType: "Classical",
           similarSongs: "Song A, Song B",
           additionalInfo: "Some additional info",
+          oneLineSummary: "First Song Request",
         },
         {
           description: "SongRequest 2 description",
           musicType: "Indie",
+          oneLineSummary: "Second Song Request",
         },
       ],
       deadline: new Date(),
@@ -136,11 +142,19 @@ describe("projectSubmission", () => {
     expect(storedProject.songRequests[0]?.additionalInfo).toBe(
       "Some additional info",
     );
+    expect(storedProject.songRequests[0]?.oneLineSummary).toBe(
+      "First Song Request",
+    );
 
     expect(storedProject.songRequests[1]?.description).toBe(
       "SongRequest 2 description",
     );
     expect(storedProject.songRequests[1]?.musicType).toBe("Indie");
+    expect(storedProject.songRequests[1]?.oneLineSummary).toBe(
+      "Second Song Request",
+    );
+
+    expect(mockEmailService.send).toBeCalled();
 
     // Delete songRequests
     await prisma.songRequest.deleteMany({
@@ -172,5 +186,7 @@ describe("projectSubmission", () => {
     expect($api.projectSubmission(input)).rejects.toThrow(
       "permission to submit",
     );
+
+    expect(mockEmailService.send).not.toHaveBeenCalled();
   });
 });

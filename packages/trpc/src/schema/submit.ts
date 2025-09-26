@@ -5,6 +5,7 @@ export const zProjectSubmissionValues = z.object({
   description: z.string(),
   songRequests: z.array(
     z.object({
+      oneLineSummary: z.string(),
       description: z.string(),
       musicType: z.string(),
       similarSongs: z.string().optional(),
