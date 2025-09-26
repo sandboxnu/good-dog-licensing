@@ -24,46 +24,42 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
       roles: input.submitterRoles,
       affiliation: input.submitterAffiliation,
       ipi: input.submitterIpi,
+      isUser: true,
     };
 
-    // If the submitter is a songwriter or a lyricist, and if the submitted ipi is not null, then update the submitter's ipi
-    if ((input.submitterRoles.includes("SONGWRITER") || input.submitterRoles.includes("LYRICIST")) && input.submitterIpi != null) {
-      await ctx.prisma.user.update({
+    const shouldUpdateIpi =
+      input.submitterIpi &&
+      (input.submitterRoles.includes("SONGWRITER") ||
+        input.submitterRoles.includes("LYRICIST"));
+
+    const [_, musicSubmission] = await ctx.prisma.$transaction([
+      // Update the user ipi
+      ctx.prisma.user.update({
         where: {
-          userId: ctx.session.user.userId
+          userId: ctx.session.user.userId,
         },
         data: {
-          ipi: input.submitterIpi
-        }
-      });
-    }
-
-    // Update/Set this submitters affiliation
-    await ctx.prisma.user.update({
-      where: {
-        userId: ctx.session.user.userId
-      },
-      data: {
-        affiliation: input.submitterAffiliation
-      }
-    })
-
-    // Create the music submission
-    const musicSubmission = await ctx.prisma.musicSubmission.create({
-      data: {
-        submitter: {
-          connect: { userId: ctx.session.user.userId },
+          ipi: shouldUpdateIpi ? input.submitterIpi : undefined,
+          affiliation: input.submitterAffiliation,
         },
-        songName: input.songName,
-        songLink: input.songLink,
-        genre: input.genre.join(", "),
-        additionalInfo: input.additionalInfo ?? "",
-        performerName: input.performerName,
-        contributors: {
-          create: input.contributors.concat(submitterAsContributor),
+      }),
+      // Create the music submission
+      ctx.prisma.musicSubmission.create({
+        data: {
+          submitter: {
+            connect: { userId: ctx.session.user.userId },
+          },
+          songName: input.songName,
+          songLink: input.songLink,
+          genre: input.genre.join(", "),
+          additionalInfo: input.additionalInfo ?? "",
+          performerName: input.performerName,
+          contributors: {
+            create: input.contributors.concat(submitterAsContributor),
+          },
         },
-      },
-    });
+      }),
+    ]);
 
     //Proceed with music submission
     return {
