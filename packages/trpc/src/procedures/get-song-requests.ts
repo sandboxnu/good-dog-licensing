@@ -8,13 +8,13 @@ import {
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
+export const getProjectSongRequestsProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
 ).query(async ({ ctx }) => {
   const projectsRaw = await ctx.prisma.projectSubmission.findMany({
     include: {
-      scenes: true,
+      songRequests: true,
       projectOwner: {
         select: {
           firstName: true,
@@ -35,75 +35,73 @@ export const getProjectScenesProcedure = rolePermissionsProcedureBuilder(
 });
 
 // TODO - Test this api route. Ticket #149
-export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
-  projectAndRepertoirePagePermissions,
-  "read",
-)
-  .input(
-    z.object({
-      sceneId: z.string(),
-    }),
-  )
-  .query(async ({ ctx, input }) => {
-    const scene = await ctx.prisma.sceneSubmission.findUnique({
-      where: {
-        sceneId: input.sceneId,
-      },
-      include: {
-        projectSubmission: true,
-        suggestedMatches: {
-          include: {
-            matchComments: {
-              include: {
-                user: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
+export const getProjectSongRequestByIdProcedure =
+  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "read")
+    .input(
+      z.object({
+        songRequestId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const songRequest = await ctx.prisma.songRequest.findUnique({
+        where: {
+          songRequestId: input.songRequestId,
+        },
+        include: {
+          projectSubmission: true,
+          suggestedMatches: {
+            include: {
+              matchComments: {
+                include: {
+                  user: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
                   },
                 },
               },
-            },
-            musicSubmission: {
-              include: {
-                submitter: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
+              musicSubmission: {
+                include: {
+                  submitter: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
                   },
                 },
               },
             },
           },
         },
-      },
+      });
+
+      if (!songRequest) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `Project Song Request ID was not found.`,
+        });
+      }
+
+      const songRequestFinal = {
+        ...songRequest,
+        suggestedMatches: songRequest.suggestedMatches.map((match) => {
+          return {
+            ...match,
+            matchComments: match.matchComments.map((comment) => {
+              return {
+                ...comment,
+                createdAtDateString: comment.createdAt.toDateString(),
+              };
+            }),
+          };
+        }),
+      };
+
+      return { ...songRequestFinal };
     });
 
-    if (!scene) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: `Project Scene ID was not found.`,
-      });
-    }
-
-    const sceneFinal = {
-      ...scene,
-      suggestedMatches: scene.suggestedMatches.map((match) => {
-        return {
-          ...match,
-          matchComments: match.matchComments.map((comment) => {
-            return {
-              ...comment,
-              createdAtDateString: comment.createdAt.toDateString(),
-            };
-          }),
-        };
-      }),
-    };
-
-    return { ...sceneFinal };
-  });
-
-export const getUserProjectScenesProcedure = rolePermissionsProcedureBuilder(
+export const getUserSongRequestsProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
   "read",
 ).query(async ({ ctx }) => {
@@ -112,7 +110,7 @@ export const getUserProjectScenesProcedure = rolePermissionsProcedureBuilder(
       projectOwnerId: ctx.session.user.userId,
     },
     include: {
-      scenes: true,
+      songRequests: true,
       projectOwner: true,
     },
   });
@@ -135,8 +133,8 @@ export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
   return { projects };
 });
 
-//gets all of the scenes belonging to a project for a mediamaker
-export const mediamakerScenesProcedure = rolePermissionsProcedureBuilder(
+//gets all of the song requests belonging to a project for a mediamaker
+export const mediamakerSongRequestsProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
   "read",
 )
@@ -151,7 +149,7 @@ export const mediamakerScenesProcedure = rolePermissionsProcedureBuilder(
         projectId: input.projectId,
       },
       include: {
-        scenes: true,
+        songRequests: true,
       },
     });
 
@@ -166,25 +164,25 @@ export const mediamakerScenesProcedure = rolePermissionsProcedureBuilder(
       throw new TRPCError({ message: "Project not found.", code: "FORBIDDEN" });
     }
 
-    const scenes = project.scenes;
-    return { scenes };
+    const songRequests = project.songRequests;
+    return { songRequests };
   });
 
-//gets the information about a specific scene in a mediamaker's project
-export const sceneProcedure = rolePermissionsProcedureBuilder(
+//gets the information about a specific songRequest in a mediamaker's project
+export const songRequestProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
   "read",
 )
   .input(
     z.object({
       projectId: z.string(),
-      sceneId: z.string(),
+      songRequestId: z.string(),
     }),
   )
   .query(async ({ ctx, input }) => {
-    const sceneData = await ctx.prisma.sceneSubmission.findFirst({
+    const songRequestData = await ctx.prisma.songRequest.findFirst({
       where: {
-        sceneId: input.sceneId,
+        songRequestId: input.songRequestId,
         projectId: input.projectId,
       },
       include: {
@@ -196,16 +194,23 @@ export const sceneProcedure = rolePermissionsProcedureBuilder(
       },
     });
 
-    if (!sceneData) {
-      throw new TRPCError({ message: "Scene not found.", code: "NOT_FOUND" });
+    if (!songRequestData) {
+      throw new TRPCError({
+        message: "SongRequest not found.",
+        code: "NOT_FOUND",
+      });
     }
 
     if (
       ctx.session.user.role !== "ADMIN" &&
-      sceneData.projectSubmission.projectOwnerId !== ctx.session.user.userId
+      songRequestData.projectSubmission.projectOwnerId !==
+        ctx.session.user.userId
     ) {
-      throw new TRPCError({ message: "Scene not found.", code: "FORBIDDEN" });
+      throw new TRPCError({
+        message: "SongRequest not found.",
+        code: "FORBIDDEN",
+      });
     }
 
-    return sceneData;
+    return songRequestData;
   });
