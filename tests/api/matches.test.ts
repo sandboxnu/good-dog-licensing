@@ -122,15 +122,13 @@ async function createData() {
 }
 
 async function createMoreData() {
-  await prisma.suggestedMatch.create({
+  await prisma.match.create({
     data: {
-      suggestedMatchId: "match",
-      projectId: "projectSubmission",
+      matchId: "match",
       songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
-      description: "the joyous vibe of this song would go well with the flames",
       matcherUserId: "matcher",
-      matchState: "PENDING",
+      matchState: "NEW",
     },
   });
 
@@ -139,7 +137,7 @@ async function createMoreData() {
       commentId: "testComment",
       userId: "matcher",
       commentText: "hello",
-      suggestedMatchId: "match",
+      matchId: "match",
     },
   });
 }
@@ -148,17 +146,17 @@ async function deleteData() {
   // Delete MatchComments (created in tests)
   await prisma.matchComments.deleteMany({
     where: {
-      suggestedMatchId: "match",
+      matchId: "match",
     },
   });
 
-  // Delete SuggestedMatch
-  await prisma.suggestedMatch.deleteMany({
-    where: { suggestedMatchId: "match" },
+  // Delete Match
+  await prisma.match.deleteMany({
+    where: { matchId: "match" },
   });
 
-  // Delete SuggestedMatch for suggestMatch tests
-  await prisma.suggestedMatch.deleteMany({
+  // Delete Match for suggestMatch tests
+  await prisma.match.deleteMany({
     where: {
       songRequestId: "songRequestOneSubmission",
     },
@@ -213,7 +211,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
     cache.clear();
   });
 
-  it("should allow admins to create comments on suggested matches", async () => {
+  it("should allow admins to create comments on matches", async () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.comment({
@@ -229,7 +227,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        matchId: "match",
         userId: "sanjana",
       },
     });
@@ -240,7 +238,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
     );
   });
 
-  it("should allow moderators to comment on suggested matches", async () => {
+  it("should allow moderators to comment on matches", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.comment({
@@ -255,7 +253,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        matchId: "match",
         userId: "matcher",
       },
     });
@@ -264,7 +262,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
     expect(createdComment?.commentText).toBe("hello");
   });
 
-  it("should prevent normal users from commenting on suggested matches", () => {
+  it("should prevent normal users from commenting on matches", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
@@ -294,7 +292,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const createdComment = await prisma.matchComments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        matchId: "match",
         userId: "sanjana",
       },
     });
@@ -317,7 +315,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const updatedComment = await prisma.matchComments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        matchId: "match",
         userId: "sanjana",
       },
     });
@@ -342,7 +340,7 @@ describe("createUpdateMatchCommentsProcedure", () => {
   });
 });
 
-describe("suggested match procedure", () => {
+describe("match procedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
 
@@ -368,243 +366,70 @@ describe("suggested match procedure", () => {
   it("should allow a moderator to suggest a match", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
-    const response = await $api.suggestMatch({
-      projectId: "projectSubmission",
+    const response = await $api.createMatch({
       songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
-      description: "This is a great match.",
     });
 
-    expect(response.message).toEqual("Match successfully suggested.");
+    expect(response.message).toEqual("Match successfully created.");
 
-    const suggestedMatch = await prisma.suggestedMatch.findFirst({
+    const match = await prisma.match.findFirst({
       where: {
-        projectId: "projectSubmission",
         songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
         matcherUserId: "matcher",
       },
     });
 
-    expect(suggestedMatch).toBeDefined();
+    expect(match).toBeDefined();
   });
 
   it("should allow an admin to suggest a match", async () => {
     cookies.set("sessionId", "sanjana-session-id");
 
-    const response = await $api.suggestMatch({
-      projectId: "projectSubmission",
+    const response = await $api.createMatch({
       songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
-      description: "wow, this is a great match.",
     });
 
-    expect(response.message).toEqual("Match successfully suggested.");
+    expect(response.message).toEqual("Match successfully created.");
 
-    const suggestedMatch = await prisma.suggestedMatch.findFirst({
+    const match = await prisma.match.findFirst({
       where: {
-        projectId: "projectSubmission",
         songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
         matcherUserId: "sanjana",
       },
     });
 
-    expect(suggestedMatch).toBeDefined();
+    expect(match).toBeDefined();
   });
 
   it("should not allow a normal user to suggest a match", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
-      $api.suggestMatch({
-        projectId: "projectSubmission",
+      $api.createMatch({
         songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
-        description: "This is a great match.",
       }),
     ).rejects.toThrow("permission to modify");
   });
 
-  it("should allow a user to update the description for their own suggested match", async () => {
+  it("should allow a user to update the description for their own created match", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
-    const originalResponse = await $api.suggestMatch({
-      projectId: "projectSubmission",
+    const originalResponse = await $api.createMatch({
       songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
-      description: "This is a great match.",
     });
 
-    expect(originalResponse.message).toEqual("Match successfully suggested.");
+    expect(originalResponse.message).toEqual("Match successfully created.");
 
-    const match = await prisma.suggestedMatch.findFirst({
+    const match = await prisma.match.findFirst({
       where: {
         songRequestId: "songRequestOneSubmission",
-        projectId: "projectSubmission",
       },
     });
-
-    const updatedResponse = await $api.suggestMatch({
-      matchId: match?.suggestedMatchId,
-      description: "This is an even better match.",
-    });
-
-    expect(updatedResponse.message).toEqual("Match successfully updated.");
-
-    const updatedMatch = await prisma.suggestedMatch.findFirst({
-      where: {
-        suggestedMatchId: match?.suggestedMatchId,
-      },
-    });
-
-    expect(updatedMatch).toBeDefined();
-    expect(updatedMatch?.description).toBe("This is an even better match.");
-  });
-});
-
-describe("reviewSuggestedMatchProcedure", () => {
-  const cookies = new MockNextCookies();
-  const cache = new MockNextCache();
-
-  beforeAll(async () => {
-    await cache.apply();
-  });
-
-  beforeEach(async () => {
-    await createData();
-    await createMoreData();
-  });
-
-  const $api = $createTrpcCaller({
-    cookiesService: createMockCookieService(cookies),
-    prisma: prisma,
-  });
-
-  afterEach(async () => {
-    await deleteData();
-    cookies.clear();
-    cache.clear();
-  });
-
-  it("should allow an admin to approve a match", async () => {
-    cookies.set("sessionId", "sanjana-session-id");
-
-    await $api.reviewMatch({
-      matchId: "match",
-      matchState: MatchState.APPROVED,
-    });
-
-    const updatedMatch = await prisma.suggestedMatch.findFirst({
-      where: {
-        suggestedMatchId: "match",
-      },
-    });
-
-    expect(updatedMatch).toBeDefined();
-    expect(updatedMatch?.matchState).toBe(MatchState.APPROVED);
-    expect(updatedMatch?.reviewerId).toBe("sanjana");
-  });
-
-  it("should allow an admin to reject a match", async () => {
-    cookies.set("sessionId", "sanjana-session-id");
-
-    await $api.reviewMatch({
-      matchId: "match",
-      matchState: MatchState.REJECTED,
-    });
-
-    const updatedMatch = await prisma.suggestedMatch.findFirst({
-      where: {
-        suggestedMatchId: "match",
-      },
-    });
-
-    expect(updatedMatch).toBeDefined();
-    expect(updatedMatch?.matchState).toBe(MatchState.REJECTED);
-    expect(updatedMatch?.reviewerId).toBe("sanjana");
-  });
-
-  it("should prevent a moderator from reviewing a match", () => {
-    cookies.set("sessionId", "moderator-session-id");
-
-    expect(
-      $api.reviewMatch({
-        matchId: "match",
-        matchState: MatchState.APPROVED,
-      }),
-    ).rejects.toThrow("permission to modify");
-  });
-
-  it("should prevent a regular user from reviewing a match", () => {
-    cookies.set("sessionId", "musician-session-id");
-
-    expect(
-      $api.reviewMatch({
-        matchId: "match",
-        matchState: MatchState.APPROVED,
-      }),
-    ).rejects.toThrow("permission to modify");
-  });
-});
-
-describe("getMatchesProcedure", () => {
-  const cookies = new MockNextCookies();
-  const cache = new MockNextCache();
-
-  beforeAll(async () => {
-    await cache.apply();
-  });
-
-  beforeEach(async () => {
-    await createData();
-    await createMoreData();
-  });
-
-  const $api = $createTrpcCaller({
-    cookiesService: createMockCookieService(cookies),
-    prisma: prisma,
-  });
-
-  afterEach(async () => {
-    await deleteData();
-    cookies.clear();
-    cache.clear();
-  });
-
-  it("should return all matches for an admin", async () => {
-    cookies.set("sessionId", "sanjana-session-id");
-
-    const { matches } = await $api.match({
-      matchState: MatchState.PENDING,
-    });
-
-    expect(matches).not.toBeNull();
-    matches.forEach((m) => {
-      expect(m.matchState).toBe(MatchState.PENDING);
-    });
-  });
-
-  it("should return all matches for a moderator", async () => {
-    cookies.set("sessionId", "moderator-session-id");
-
-    const { matches } = await $api.match({
-      matchState: MatchState.PENDING,
-    });
-
-    expect(matches).not.toBeNull();
-    matches.forEach((m) => {
-      expect(m.matchState).toBe(MatchState.PENDING);
-    });
-  });
-
-  it("should not allow a normal user to get all matches", () => {
-    cookies.set("sessionId", "musician-session-id");
-
-    expect(
-      $api.match({
-        matchState: MatchState.PENDING,
-      }),
-    ).rejects.toThrow("permission to read");
   });
 });

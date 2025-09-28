@@ -49,18 +49,8 @@ export const getProjectSongRequestByIdProcedure =
         },
         include: {
           projectSubmission: true,
-          suggestedMatches: {
+          matches: {
             include: {
-              matchComments: {
-                include: {
-                  user: {
-                    select: {
-                      firstName: true,
-                      lastName: true,
-                    },
-                  },
-                },
-              },
               musicSubmission: {
                 include: {
                   submitter: {
@@ -85,15 +75,9 @@ export const getProjectSongRequestByIdProcedure =
 
       const songRequestFinal = {
         ...songRequest,
-        suggestedMatches: songRequest.suggestedMatches.map((match) => {
+        matches: songRequest.matches.map((match) => {
           return {
             ...match,
-            matchComments: match.matchComments.map((comment) => {
-              return {
-                ...comment,
-                createdAtDateString: comment.createdAt.toDateString(),
-              };
-            }),
           };
         }),
       };

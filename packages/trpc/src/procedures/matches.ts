@@ -39,7 +39,7 @@ export const createUpdateMatchCommentsProcedure =
           await ctx.prisma.matchComments.create({
             data: {
               commentText: input.matchComment.commentText,
-              suggestedMatchId: input.matchId,
+              matchId: input.matchId,
               userId: input.matchComment.userId,
             },
           });
@@ -55,76 +55,40 @@ export const createUpdateMatchCommentsProcedure =
       }
     });
 
-export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
+export const createMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "modify",
 )
   .input(
     z.object({
-      matchId: z.string().optional(), // If provided, update; otherwise, create
-      projectId: z.string().optional(), // Required for creation
       songRequestId: z.string().optional(), // Required for creation
       musicId: z.string().optional(), // Required for creation
-      description: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    //update a match -- only in the case of editing description
-    if (input.matchId) {
-      const match = await ctx.prisma.suggestedMatch.findUnique({
-        where: { suggestedMatchId: input.matchId },
-        select: { matcherUserId: true },
+    //create new match
+    if (!input.songRequestId || !input.musicId) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Missing required fields for creating a match.",
       });
-
-      if (!match) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Match not found.",
-        });
-      }
-
-      if (ctx.session.user.userId !== match.matcherUserId) {
-        throw new TRPCError({
-          code: "FORBIDDEN",
-          message: "Not authorized to update this match.",
-        });
-      }
-
-      await ctx.prisma.suggestedMatch.update({
-        where: { suggestedMatchId: input.matchId },
-        data: { description: input.description },
-      });
-
-      return {
-        message: "Match successfully updated.",
-      };
-    } else {
-      //create new match
-      if (!input.projectId || !input.songRequestId || !input.musicId) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Missing required fields for creating a match.",
-        });
-      }
-
-      await ctx.prisma.suggestedMatch.create({
-        data: {
-          projectId: input.projectId,
-          songRequestId: input.songRequestId,
-          musicId: input.musicId,
-          matcherUserId: ctx.session.user.userId,
-          description: input.description,
-          matchState: MatchState.PENDING,
-        },
-      });
-
-      return {
-        message: "Match successfully suggested.",
-      };
     }
+
+    await ctx.prisma.match.create({
+      data: {
+        songRequestId: input.songRequestId,
+        musicId: input.musicId,
+        matcherUserId: ctx.session.user.userId,
+        matchState: MatchState.NEW,
+      },
+    });
+
+    return {
+      message: "Match successfully created.",
+    };
   });
 
-export const reviewSuggestedMatchProcedure = rolePermissionsProcedureBuilder(
+export const reviewMatchProcedure = rolePermissionsProcedureBuilder(
   adminPagePermissions,
   "modify",
 )
@@ -135,13 +99,12 @@ export const reviewSuggestedMatchProcedure = rolePermissionsProcedureBuilder(
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.prisma.suggestedMatch.update({
+    await ctx.prisma.match.update({
       where: {
-        suggestedMatchId: input.matchId,
+        matchId: input.matchId,
       },
       data: {
         matchState: input.matchState,
-        reviewerId: ctx.session.user.userId,
       },
     });
   });
@@ -156,7 +119,7 @@ export const getMatchesProcedure = rolePermissionsProcedureBuilder(
     }),
   )
   .query(async ({ ctx, input }) => {
-    const matches = await ctx.prisma.suggestedMatch.findMany({
+    const matches = await ctx.prisma.match.findMany({
       where: {
         matchState: input.matchState,
       },
