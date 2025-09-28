@@ -38,6 +38,7 @@ import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
+import { getMusicSubmissionPrefillValues } from "../procedures/get-submission-vals";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -69,6 +70,7 @@ export const appRouter = createTRPCRouter({
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
   getSceneById: getProjectSceneByIdProcedure,
+  getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValues,
 });
 
 export type AppRouter = typeof appRouter;
