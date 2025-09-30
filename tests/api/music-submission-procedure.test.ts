@@ -13,6 +13,8 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
+import { z } from "zod";
+import { MusicAffiliation, MusicRole } from ".prisma/client";
 
 const mockCookies = new MockNextCookies();
 const mockEmails = new MockEmailService();
@@ -69,6 +71,28 @@ afterAll(async () => {
   ]);
 });
 
+// Create music contributors
+const musicContributor1 = {
+  name: "Admin Contributor",
+  roles: [MusicRole.SONGWRITER],
+  affiliation: MusicAffiliation.ASCAP,
+  ipi: "1234",
+};
+
+const musicContributor2 = {
+  name: "Contrbutor One",
+  roles: [MusicRole.LYRICIST, MusicRole.PRODUCER],
+  affiliation: MusicAffiliation.ASCAP,
+  ipi: "5555",
+};
+
+const musicContributor3 = {
+  name: "Contrbutor One",
+  roles: [MusicRole.PRODUCER],
+  affiliation: MusicAffiliation.BMI,
+  ipi: "0918",
+};
+
 describe("music-submission-procedure", () => {
   test("A Musician can submit music", async () => {
     // Set the cookies
@@ -81,6 +105,10 @@ describe("music-submission-procedure", () => {
       genre: ["Rock"],
       additionalInfo: "Some additional info",
       performerName: "The Beatles",
+      contributors: [musicContributor1, musicContributor2, musicContributor3],
+      submitterRoles: ["SONGWRITER"],
+      submitterAffiliation: "ASCAP",
+      submitterIpi: "1234",
     });
 
     expect(response.message).toEqual("Music submitted successfully");
@@ -95,6 +123,7 @@ describe("music-submission-procedure", () => {
     expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
     expect(musicSubmission?.performerName).toEqual("The Beatles");
   });
+
   test("An Admin can submit music", async () => {
     // Temporarily update Person 1's role to ADMIN
     await prisma.user.update({
@@ -112,6 +141,10 @@ describe("music-submission-procedure", () => {
       genre: ["Jazz"],
       additionalInfo: "Admin additional info",
       performerName: "Grateful Dead",
+      contributors: [musicContributor1, musicContributor2, musicContributor3],
+      submitterRoles: ["SONGWRITER"],
+      submitterAffiliation: "ASCAP",
+      submitterIpi: "1234",
     });
 
     expect(response.message).toEqual("Music submitted successfully");
@@ -132,6 +165,7 @@ describe("music-submission-procedure", () => {
       data: { role: "MUSICIAN" },
     });
   });
+
   test("A Media Maker cannot submit music", async () => {
     // Temporarily update Person 1's role to MEDIA_MAKER
     await prisma.user.update({
@@ -145,11 +179,15 @@ describe("music-submission-procedure", () => {
     // Attempt to create music submission
     expect(
       $api.submitMusic({
-        songName: "Media Maker Test Song",
-        songLink: "https://example.com/media-maker-song",
-        genre: ["Pop"],
-        additionalInfo: "Media Maker additional info",
-        performerName: "JP's Band",
+        songName: "Test Song",
+        songLink: "https:fakesonglink.com",
+        genre: ["R&B"],
+        additionalInfo: "None",
+        performerName: "Anon",
+        contributors: [musicContributor1],
+        submitterRoles: ["SONGWRITER"],
+        submitterAffiliation: "ASCAP",
+        submitterIpi: "1234",
       }),
     ).rejects.toThrow("permission to submit");
 
