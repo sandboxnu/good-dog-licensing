@@ -6,7 +6,6 @@ import {
   expect,
   test,
 } from "bun:test";
-import { z } from "zod";
 
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";

@@ -1,5 +1,6 @@
+import { EmailParams, MailerSend, Recipient, Sender } from "mailersend";
+
 import { env } from "@good-dog/env";
-import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 
 export interface EmailMessage {
   to: string;

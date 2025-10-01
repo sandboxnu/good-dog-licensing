@@ -157,7 +157,7 @@ model MusicContributor {
   ipi                    String?
   MusicSubmission        MusicSubmission  @relation(fields: [musicSubmissionMusicId], references: [musicId], onDelete: Cascade)
   musicSubmissionMusicId String
-  isSubmitter            Boolean  @default(false)
+  isSubmitter            Boolean          @default(false)
 }
 
 model SuggestedMatch {

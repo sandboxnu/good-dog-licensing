@@ -11,8 +11,8 @@ import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockEmailService } from "../../mocks/MockEmailService";
-import { createMockCookieService } from "../../mocks/util";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
+import { createMockCookieService } from "../../mocks/util";
 
 describe("email-verification", () => {
   const mockEmails = new MockEmailService();

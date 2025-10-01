@@ -1,12 +1,12 @@
-import { describe, expect, test } from "bun:test";
+import { afterEach, describe, expect, test } from "bun:test";
 
+import { passwordService } from "@good-dog/auth/password";
+import { prisma, ReferralSource, Role } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
+
 import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
-import { prisma, ReferralSource, Role } from "@good-dog/db";
-import { afterEach } from "bun:test";
-import { passwordService } from "@good-dog/auth/password";
 
 describe("sign-up", () => {
   const mockEmails = new MockEmailService();

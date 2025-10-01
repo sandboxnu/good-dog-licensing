@@ -1,6 +1,7 @@
+import { TRPCError } from "@trpc/server";
+
 import type { EmailService } from "@good-dog/email";
 import { env } from "@good-dog/env";
-import { TRPCError } from "@trpc/server";
 
 // Expiration date for email verification codes is 15 minutes
 export const getEmailVerificationCodeExpirationDate = () =>

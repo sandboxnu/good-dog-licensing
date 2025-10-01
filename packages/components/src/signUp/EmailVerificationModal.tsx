@@ -1,5 +1,9 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import z from "zod";
+
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
 import {
@@ -11,9 +15,6 @@ import {
   DialogTitle,
 } from "@good-dog/ui/dialog";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import z from "zod";
 
 interface EmailVerificationModalProps {
   isOpen: boolean;

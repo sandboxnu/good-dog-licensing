@@ -1,5 +1,6 @@
-import { MusicAffiliation, MusicRole } from ".prisma/client";
 import { z } from "zod";
+
+import { MusicAffiliation, MusicRole } from ".prisma/client";
 
 export const zProjectSubmissionValues = z.object({
   projectTitle: z.string(),
