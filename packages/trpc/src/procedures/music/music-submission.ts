@@ -1,8 +1,9 @@
+import { z } from "zod";
+
 import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zMusicSubmissionValues } from "../../schema";
-import { z } from "zod";
 
 export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,
@@ -18,7 +19,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
       roles: input.submitterRoles,
       affiliation: input.submitterAffiliation,
       ipi: input.submitterIpi,
-      isUser: true,
+      isSubmitter: true,
     };
 
     const shouldUpdateIpi =
@@ -33,7 +34,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
           userId: ctx.session.user.userId,
         },
         data: {
-          ipi: shouldUpdateIpi ? input.submitterIpi : undefined,
+          ipi: shouldUpdateIpi ? input.submitterIpi ?? null : null,
           affiliation: input.submitterAffiliation,
         },
       }),

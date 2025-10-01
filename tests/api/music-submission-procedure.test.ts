@@ -6,6 +6,7 @@ import {
   expect,
   test,
 } from "bun:test";
+import { z } from "zod";
 
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
@@ -13,9 +14,9 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
-import { z } from "zod";
 import { MusicAffiliation, MusicRole } from ".prisma/client";
 
+// Set up the mock services
 const mockCookies = new MockNextCookies();
 const mockEmails = new MockEmailService();
 
@@ -26,6 +27,7 @@ const $api = $createTrpcCaller({
 
 beforeAll(async () => {
   await prisma.user.create({
+    // Create a Musician user
     data: {
       email: "person1@prisma.io",
       firstName: "Person 1",
@@ -64,7 +66,7 @@ afterAll(async () => {
     prisma.user.deleteMany({
       where: {
         email: {
-          in: ["person1@prisma.io", "person2@gmail.com", "person3@gmail.com"],
+          in: ["person1@prisma.io"],
         },
       },
     }),
@@ -106,11 +108,12 @@ describe("music-submission-procedure", () => {
       additionalInfo: "Some additional info",
       performerName: "The Beatles",
       contributors: [musicContributor1, musicContributor2, musicContributor3],
-      submitterRoles: ["SONGWRITER"],
-      submitterAffiliation: "ASCAP",
+      submitterRoles: [MusicRole.SONGWRITER, MusicRole.LYRICIST],
+      submitterAffiliation: MusicAffiliation.ASCAP,
       submitterIpi: "1234",
     });
 
+    // Verify that the music submission was created successfully
     expect(response.message).toEqual("Music submitted successfully");
 
     const musicSubmission = await prisma.musicSubmission.findFirst({
@@ -122,12 +125,13 @@ describe("music-submission-procedure", () => {
     expect(musicSubmission?.genre).toEqual("Rock");
     expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
     expect(musicSubmission?.performerName).toEqual("The Beatles");
+    expect(musicSubmission?.submitterId).toEqual("musician-id-1");
   });
 
   test("An Admin can submit music", async () => {
     // Temporarily update Person 1's role to ADMIN
     await prisma.user.update({
-      where: { email: "person1@prisma.io" },
+      where: { userId: "musician-id-1" },
       data: { role: "ADMIN" },
     });
 
@@ -141,9 +145,9 @@ describe("music-submission-procedure", () => {
       genre: ["Jazz"],
       additionalInfo: "Admin additional info",
       performerName: "Grateful Dead",
-      contributors: [musicContributor1, musicContributor2, musicContributor3],
-      submitterRoles: ["SONGWRITER"],
-      submitterAffiliation: "ASCAP",
+      contributors: [],
+      submitterRoles: [],
+      submitterAffiliation: MusicAffiliation.NONE,
       submitterIpi: "1234",
     });
 
@@ -158,6 +162,7 @@ describe("music-submission-procedure", () => {
     expect(musicSubmission?.genre).toEqual("Jazz");
     expect(musicSubmission?.additionalInfo).toEqual("Admin additional info");
     expect(musicSubmission?.performerName).toEqual("Grateful Dead");
+    expect(musicSubmission?.submitterId).toEqual("musician-id-1");
 
     // Reset Person 1's role to MUSICIAN
     await prisma.user.update({
@@ -189,6 +194,7 @@ describe("music-submission-procedure", () => {
         submitterAffiliation: "ASCAP",
         submitterIpi: "1234",
       }),
+      // Verify that the submission is rejected due to insufficient permissions
     ).rejects.toThrow("permission to submit");
 
     // Reset Person 1's role to MUSICIAN
