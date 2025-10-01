@@ -25,7 +25,6 @@ import {
 } from "../procedures/get-project-scenes";
 import { createMatchRatingProcedure } from "../procedures/like";
 import {
-  createUpdateMatchCommentsProcedure,
   getMatchesProcedure,
   reviewSuggestedMatchProcedure,
   suggestedMatchProcedure,
@@ -38,6 +37,7 @@ import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
+import { upsertCommentsProcedure } from "../procedures/upsertComment";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -60,7 +60,7 @@ export const appRouter = createTRPCRouter({
   match: getMatchesProcedure,
   rateMatch: createMatchRatingProcedure,
   scene: sceneProcedure,
-  comment: createUpdateMatchCommentsProcedure,
+  comment: upsertCommentsProcedure,
   suggestMatch: suggestedMatchProcedure,
   reviewMatch: reviewSuggestedMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,

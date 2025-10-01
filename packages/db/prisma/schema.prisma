@@ -46,7 +46,7 @@ model User {
   musicSubmissions   MusicSubmission[]
   suggestedMatches   SuggestedMatch[]    @relation("Matcher")
   reviewedMatches    SuggestedMatch[]    @relation("Reviewer")
-  matchComments      MatchComments[]
+  comments           Comments[]
   matchLikes         MatchRatings[]
 }
 
@@ -113,7 +113,7 @@ model SceneSubmission {
   projectId         String
   projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
   suggestedMatches  SuggestedMatch[]
-  comments          MatchComments[]
+  comments          Comments[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
 }
@@ -180,14 +180,14 @@ model SuggestedMatch {
 }
 
 model Comments {
-  commentId        String          @id @default(uuid())
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  commentText      String
-  userId           String
-  user             User            @relation(fields: [userId], references: [userId], onDelete: NoAction)
-  sceneId          String?
-  sceneSubmission  SceneSubmission? @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
+  commentId       String           @id @default(uuid())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  commentText     String
+  userId          String
+  user            User             @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  sceneId         String?
+  sceneSubmission SceneSubmission? @relation(fields: [sceneId], references: [sceneId], onDelete: Cascade)
 }
 
 model MatchRatings {
