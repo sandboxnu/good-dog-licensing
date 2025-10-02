@@ -17,7 +17,7 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
     z.object({
       matchId: z.string().optional(), // If provided, update; otherwise, create
       projectId: z.string().optional(), // Required for creation
-      sceneId: z.string().optional(), // Required for creation
+      songRequestId: z.string().optional(), // Required for creation
       musicId: z.string().optional(), // Required for creation
       description: z.string(),
     }),
@@ -54,7 +54,7 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
       };
     } else {
       //create new match
-      if (!input.projectId || !input.sceneId || !input.musicId) {
+      if (!input.projectId || !input.songRequestId || !input.musicId) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Missing required fields for creating a match.",
@@ -64,7 +64,7 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
       await ctx.prisma.suggestedMatch.create({
         data: {
           projectId: input.projectId,
-          sceneId: input.sceneId,
+          songRequestId: input.songRequestId,
           musicId: input.musicId,
           matcherUserId: ctx.session.user.userId,
           description: input.description,

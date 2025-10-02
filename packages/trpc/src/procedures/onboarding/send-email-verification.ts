@@ -2,10 +2,11 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { notAuthenticatedProcedureBuilder } from "../../middleware/not-authenticated";
-import {
-  getEmailVerificationCodeExpirationDate,
-  sendVerificationEmailHelper,
-} from "./util";
+import { sendEmailHelper } from "../../utils";
+
+// Expiration date for email verification codes is 15 minutes
+export const getEmailVerificationCodeExpirationDate = () =>
+  new Date(Date.now() + 60_000 * 15);
 
 export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
   .input(z.object({ email: z.email() }))
@@ -24,10 +25,13 @@ export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
       });
     }
 
-    // Send email. If sending fails, throws error.
-    const emailCode = await sendVerificationEmailHelper(
-      ctx.emailService,
-      input.email,
+    // Send email
+    const emailCode = ctx.emailService.generateSixDigitCode();
+    const sendEmailCallback = async () =>
+      await ctx.emailService.sendVerificationEmail(input.email, emailCode);
+    await sendEmailHelper(
+      sendEmailCallback,
+      `Email confirmation to ${input.email} failed to send.`,
     );
 
     // Create/update the email verification code in the database

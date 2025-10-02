@@ -1,5 +1,6 @@
 import { env } from "@good-dog/env";
 import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
+import { prisma } from "@good-dog/db";
 
 export interface EmailMessage {
   to: string;
@@ -51,6 +52,21 @@ export class EmailService {
     return "http://localhost:3000";
   }
 
+  private async getAllAdminAndPNREmails(): Promise<string[]> {
+    return (
+      await prisma.user.findMany({
+        where: {
+          role: {
+            in: ["ADMIN", "MODERATOR"],
+          },
+        },
+        select: {
+          email: true,
+        },
+      })
+    ).map((user) => user.email);
+  }
+
   async send(params: EmailParams) {
     if (!params.from.email) {
       throw new TypeError("Failed to send email: No from email provided.");
@@ -63,7 +79,7 @@ export class EmailService {
     return this.mailerSend.email.send(params);
   }
 
-  sendPasswordResetEmail(toEmail: string, cuid: string) {
+  async sendPasswordResetEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
 
     const emailParams = new EmailParams()
@@ -78,7 +94,7 @@ export class EmailService {
     return this.send(emailParams);
   }
 
-  sendPRInviteEmail(toEmail: string, cuid: string) {
+  async sendPRInviteEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
 
     const emailParams = new EmailParams()
@@ -93,13 +109,47 @@ export class EmailService {
     return this.send(emailParams);
   }
 
-  sendVerificationEmail(toEmail: string, code: string) {
+  async sendVerificationEmail(toEmail: string, code: string) {
     const emailParams = new EmailParams()
       .setFrom(this.sentFrom)
       .setTo([new Recipient(toEmail)])
       .setReplyTo(this.sentFrom)
       .setSubject("Verify Your Email - Good Dog Licensing")
       .setHtml(`<p>Your Verification Code: <strong>${code}</strong></p>`);
+
+    return this.send(emailParams);
+  }
+
+  async notifyInternalUsersNewMusicSubmitted(musicSubmissionId: string) {
+    const baseURL = this.getBaseUrl();
+
+    const toEmails = await this.getAllAdminAndPNREmails();
+
+    const emailParams = new EmailParams()
+      .setFrom(this.sentFrom)
+      .setTo(toEmails.map((email) => new Recipient(email)))
+      .setReplyTo(this.sentFrom)
+      .setSubject("New Music Submission - Good Dog Licensing")
+      .setHtml(
+        `<p>A new music submission has been made. Review it <a href="${baseURL}/dashboard/songs/?id=${musicSubmissionId}">here</a>.</p>`,
+      );
+
+    return this.send(emailParams);
+  }
+
+  async notifyInternalUsersNewProjectSubmitted(projectSubmissionId: string) {
+    const baseURL = this.getBaseUrl();
+
+    const toEmails = await this.getAllAdminAndPNREmails();
+
+    const emailParams = new EmailParams()
+      .setFrom(this.sentFrom)
+      .setTo(toEmails.map((email) => new Recipient(email)))
+      .setReplyTo(this.sentFrom)
+      .setSubject("New Project Submission - Good Dog Licensing")
+      .setHtml(
+        `<p>A new project submission has been made. Review it <a href="${baseURL}/dashboard/projects/?id=${projectSubmissionId}">here</a>.</p>`,
+      );
 
     return this.send(emailParams);
   }
