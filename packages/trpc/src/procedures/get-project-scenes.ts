@@ -53,16 +53,6 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
         projectSubmission: true,
         suggestedMatches: {
           include: {
-            matchComments: {
-              include: {
-                user: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
-                  },
-                },
-              },
-            },
             musicSubmission: {
               include: {
                 submitter: {
@@ -71,6 +61,16 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
                     lastName: true,
                   },
                 },
+              },
+            },
+          },
+        },
+        comments: {
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
               },
             },
           },
@@ -85,22 +85,7 @@ export const getProjectSceneByIdProcedure = rolePermissionsProcedureBuilder(
       });
     }
 
-    const sceneFinal = {
-      ...scene,
-      suggestedMatches: scene.suggestedMatches.map((match) => {
-        return {
-          ...match,
-          matchComments: match.matchComments.map((comment) => {
-            return {
-              ...comment,
-              createdAtDateString: comment.createdAt.toDateString(),
-            };
-          }),
-        };
-      }),
-    };
-
-    return { ...sceneFinal };
+    return scene;
   });
 
 export const getUserProjectScenesProcedure = rolePermissionsProcedureBuilder(

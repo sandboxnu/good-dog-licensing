@@ -123,12 +123,12 @@ export default function MainMatchingPage({ sceneId }: MainMatchingPageProps) {
                 );
               })}
               {sceneInfo.suggestedMatches.map((match) => {
-                const comments = match.matchComments.map((comment) => {
+                const comments = sceneInfo.comments.map((comment) => {
                   return {
                     commentText: comment.commentText,
                     userName:
                       comment.user.firstName + " " + comment.user.lastName,
-                    timestamp: comment.createdAtDateString,
+                    timestamp: comment.createdAt.toDateString(),
                     commentId: comment.commentId,
                   };
                 });

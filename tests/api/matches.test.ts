@@ -134,21 +134,21 @@ async function createMoreData() {
     },
   });
 
-  await prisma.matchComments.create({
+  await prisma.comments.create({
     data: {
       commentId: "testComment",
       userId: "matcher",
       commentText: "hello",
-      suggestedMatchId: "match",
+      sceneId: "sceneOneSubmission",
     },
   });
 }
 
 async function deleteData() {
-  // Delete MatchComments (created in tests)
-  await prisma.matchComments.deleteMany({
+  // Delete Comments (created in tests)
+  await prisma.comments.deleteMany({
     where: {
-      suggestedMatchId: "match",
+      sceneId: "sceneOneSubmission",
     },
   });
 
@@ -189,7 +189,7 @@ async function deleteData() {
   });
 }
 
-describe("createUpdateMatchCommentsProcedure", () => {
+describe("upsertCommentsProcedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
 
@@ -217,8 +217,8 @@ describe("createUpdateMatchCommentsProcedure", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.comment({
-      matchId: "match",
-      matchComment: {
+      sceneId: "sceneOneSubmission",
+      comment: {
         commentText:
           "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
         userId: "sanjana",
@@ -227,9 +227,9 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     expect(response.message).toEqual("Comments successfully updated.");
 
-    const createdComment = await prisma.matchComments.findFirst({
+    const createdComment = await prisma.comments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        sceneId: "sceneOneSubmission",
         userId: "sanjana",
       },
     });
@@ -244,8 +244,8 @@ describe("createUpdateMatchCommentsProcedure", () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.comment({
-      matchId: "match",
-      matchComment: {
+      sceneId: "sceneOneSubmission",
+      comment: {
         commentText: "hello",
         userId: "matcher",
       },
@@ -253,9 +253,9 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     expect(response.message).toEqual("Comments successfully updated.");
 
-    const createdComment = await prisma.matchComments.findFirst({
+    const createdComment = await prisma.comments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        sceneId: "sceneOneSubmission",
         userId: "matcher",
       },
     });
@@ -269,8 +269,8 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     expect(
       $api.comment({
-        matchId: "match",
-        matchComment: {
+        sceneId: "sceneOneSubmission",
+        comment: {
           commentText: "hello",
           userId: "musician",
         },
@@ -282,8 +282,8 @@ describe("createUpdateMatchCommentsProcedure", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.comment({
-      matchId: "match",
-      matchComment: {
+      sceneId: "sceneOneSubmission",
+      comment: {
         commentText:
           "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
         userId: "sanjana",
@@ -292,9 +292,9 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     expect(response.message).toEqual("Comments successfully updated.");
 
-    const createdComment = await prisma.matchComments.findFirst({
+    const createdComment = await prisma.comments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        sceneId: "sceneOneSubmission",
         userId: "sanjana",
       },
     });
@@ -306,8 +306,8 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     const updatedResponse = await $api.comment({
       commentId: createdComment?.commentId,
-      matchId: "match",
-      matchComment: {
+      sceneId: "sceneOneSubmission",
+      comment: {
         commentText: "hi hi",
         userId: "sanjana",
       },
@@ -315,9 +315,9 @@ describe("createUpdateMatchCommentsProcedure", () => {
 
     expect(updatedResponse.message).toEqual("Comments successfully updated.");
 
-    const updatedComment = await prisma.matchComments.findFirst({
+    const updatedComment = await prisma.comments.findFirst({
       where: {
-        suggestedMatchId: "match",
+        sceneId: "sceneOneSubmission",
         userId: "sanjana",
       },
     });
@@ -332,11 +332,11 @@ describe("createUpdateMatchCommentsProcedure", () => {
     expect(
       $api.comment({
         commentId: "testComment",
-        matchComment: {
+        comment: {
           userId: "sanjana",
           commentText: "hi hi",
         },
-        matchId: "match",
+        sceneId: "sceneOneSubmission",
       }),
     ).rejects.toThrow();
   });

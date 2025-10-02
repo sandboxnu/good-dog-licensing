@@ -8,38 +8,45 @@ const CommentsSchema = z.object({
   userId: z.string(),
 });
 
-export const upsertCommentsProcedure =
-  rolePermissionsProcedureBuilder(mediaMakerOnlyPermissions, "modify")
-    .input(
-      z.object({
-        comment: CommentsSchema,
-        sceneId: z.string(),
-        commentId: z.string().optional(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      if (ctx.session.user.userId === input.comment.userId) {
-       await ctx.prisma.comments.upsert({
+export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
+  mediaMakerOnlyPermissions,
+  "modify",
+)
+  .input(
+    z.object({
+      comment: CommentsSchema,
+      sceneId: z.string(),
+      commentId: z.string().optional(),
+    }),
+  )
+  .mutation(async ({ ctx, input }) => {
+    if (ctx.session.user.userId === input.comment.userId) {
+      if (input.commentId) {
+        await ctx.prisma.comments.update({
           where: {
-            commentId: input.commentId ?? "",
+            commentId: input.commentId,
             userId: input.comment.userId,
           },
-          update: {
+          data: {
             commentText: input.comment.commentText,
           },
-          create: {
+        });
+      } else {
+        await ctx.prisma.comments.create({
+          data: {
             commentText: input.comment.commentText,
             sceneId: input.sceneId,
             userId: input.comment.userId,
           },
-       })
-        return {
-          message: "Comments successfully updated.",
-        };
-      } else {
-        throw new TRPCError({
-          message: "You are not authorized to update this comment.",
-          code: "FORBIDDEN",
         });
       }
-    });
+      return {
+        message: "Comments successfully updated.",
+      };
+    } else {
+      throw new TRPCError({
+        message: "You are not authorized to update this comment.",
+        code: "FORBIDDEN",
+      });
+    }
+  });

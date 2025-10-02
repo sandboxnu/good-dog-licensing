@@ -133,7 +133,7 @@ export default function MatchedSong(props: MatchedSongProps) {
             <DisplayComments
               handleComment={props.handleComment}
               comments={props.comments}
-              matchId={props.matchId}
+              sceneId={props.sceneId}
               userId={props.userId}
             />
           )}
