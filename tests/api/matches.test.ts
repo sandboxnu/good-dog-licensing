@@ -139,7 +139,7 @@ async function createMoreData() {
       commentId: "testComment",
       userId: "matcher",
       commentText: "hello",
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
     },
   });
 }
@@ -148,7 +148,7 @@ async function deleteData() {
   // Delete Comments (created in tests)
   await prisma.comments.deleteMany({
     where: {
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
     },
   });
 
@@ -217,7 +217,7 @@ describe("upsertCommentsProcedure", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.comment({
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       comment: {
         commentText:
           "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
@@ -229,7 +229,7 @@ describe("upsertCommentsProcedure", () => {
 
     const createdComment = await prisma.comments.findFirst({
       where: {
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         userId: "sanjana",
       },
     });
@@ -244,7 +244,7 @@ describe("upsertCommentsProcedure", () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.comment({
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       comment: {
         commentText: "hello",
         userId: "matcher",
@@ -255,7 +255,7 @@ describe("upsertCommentsProcedure", () => {
 
     const createdComment = await prisma.comments.findFirst({
       where: {
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         userId: "matcher",
       },
     });
@@ -269,7 +269,7 @@ describe("upsertCommentsProcedure", () => {
 
     expect(
       $api.comment({
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         comment: {
           commentText: "hello",
           userId: "musician",
@@ -282,7 +282,7 @@ describe("upsertCommentsProcedure", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.comment({
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       comment: {
         commentText:
           "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
@@ -294,7 +294,7 @@ describe("upsertCommentsProcedure", () => {
 
     const createdComment = await prisma.comments.findFirst({
       where: {
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         userId: "sanjana",
       },
     });
@@ -306,7 +306,7 @@ describe("upsertCommentsProcedure", () => {
 
     const updatedResponse = await $api.comment({
       commentId: createdComment?.commentId,
-      sceneId: "sceneOneSubmission",
+      songRequestId: "songRequestOneSubmission",
       comment: {
         commentText: "hi hi",
         userId: "sanjana",
@@ -317,7 +317,7 @@ describe("upsertCommentsProcedure", () => {
 
     const updatedComment = await prisma.comments.findFirst({
       where: {
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
         userId: "sanjana",
       },
     });
@@ -336,7 +336,7 @@ describe("upsertCommentsProcedure", () => {
           userId: "sanjana",
           commentText: "hi hi",
         },
-        sceneId: "sceneOneSubmission",
+        songRequestId: "songRequestOneSubmission",
       }),
     ).rejects.toThrow();
   });

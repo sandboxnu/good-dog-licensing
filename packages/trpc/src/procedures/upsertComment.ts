@@ -15,7 +15,7 @@ export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
   .input(
     z.object({
       comment: CommentsSchema,
-      sceneId: z.string(),
+      songRequestId: z.string(),
       commentId: z.string().optional(),
     }),
   )
@@ -35,7 +35,7 @@ export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
         await ctx.prisma.comments.create({
           data: {
             commentText: input.comment.commentText,
-            sceneId: input.sceneId,
+            songRequestId: input.songRequestId,
             userId: input.comment.userId,
           },
         });

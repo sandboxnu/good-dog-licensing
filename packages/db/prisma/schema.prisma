@@ -89,33 +89,33 @@ model ModeratorInvite {
 }
 
 model ProjectSubmission {
-  projectId        String                @id @default(uuid())
+  projectId        String           @id @default(uuid())
   projectOwnerId   String
-  projectOwner     User                  @relation(fields: [projectOwnerId], references: [userId], onDelete: Cascade)
+  projectOwner     User             @relation(fields: [projectOwnerId], references: [userId], onDelete: Cascade)
   projectTitle     String
   description      String
-  createdAt        DateTime              @default(now())
-  updatedAt        DateTime              @updatedAt
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
   songRequests     SongRequest[]
   deadline         DateTime
-  videoLink        String                @default("")
-  additionalInfo   String                @default("")
+  videoLink        String           @default("")
+  additionalInfo   String           @default("")
   suggestedMatches SuggestedMatch[]
 }
 
 model SongRequest {
-  songRequestId           String            @id @default(uuid())
-  oneLineSummary          String 
-  description             String
-  musicType               String
-  similarSongs            String            @default("")
-  additionalInfo          String            @default("")
-  projectId               String
-  projectSubmission       ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
-  suggestedMatches        SuggestedMatch[]
+  songRequestId     String            @id @default(uuid())
+  oneLineSummary    String
+  description       String
+  musicType         String
+  similarSongs      String            @default("")
+  additionalInfo    String            @default("")
+  projectId         String
+  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+  suggestedMatches  SuggestedMatch[]
   comments          Comments[]
-  createdAt               DateTime          @default(now())
-  updatedAt               DateTime          @updatedAt
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
 }
 
 model MusicSubmission {
@@ -180,14 +180,14 @@ model SuggestedMatch {
 }
 
 model Comments {
-  commentId       String           @id @default(uuid())
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  commentText     String
-  userId          String
-  user            User             @relation(fields: [userId], references: [userId], onDelete: NoAction)
-  sceneId         String?
-  sceneSubmission SceneSubmission? @relation(fields: [sceneId], references: [sceneId], onDelete: Cascade)
+  commentId     String       @id @default(uuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  commentText   String
+  userId        String
+  user          User         @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  songRequestId String?
+  songRequest   SongRequest? @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
 }
 
 model MatchRatings {

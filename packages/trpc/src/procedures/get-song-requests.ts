@@ -35,59 +35,56 @@ export const getProjectSongRequestsProcedure = rolePermissionsProcedureBuilder(
 });
 
 // TODO - Test this api route. Ticket #149
-export const getProjectSongRequestByIdProcedure = rolePermissionsProcedureBuilder(
-  projectAndRepertoirePagePermissions,
-  "read",
-)
-  .input(
-    z.object({
-      songRequestId: z.string(),
-    }),
-  )
-  .query(async ({ ctx, input }) => {
-    const songRequest = await ctx.prisma.songRequest.findUnique({
-      where: {
-        songRequestId: input.songRequestId,
-      },
-      include: {
-        projectSubmission: true,
-        suggestedMatches: {
-          include: {
-            musicSubmission: {
-              include: {
-                submitter: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
+export const getProjectSongRequestByIdProcedure =
+  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "read")
+    .input(
+      z.object({
+        songRequestId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const songRequest = await ctx.prisma.songRequest.findUnique({
+        where: {
+          songRequestId: input.songRequestId,
+        },
+        include: {
+          projectSubmission: true,
+          suggestedMatches: {
+            include: {
+              musicSubmission: {
+                include: {
+                  submitter: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
                   },
                 },
               },
             },
           },
-        },
-        comments: {
-          include: {
-            user: {
-              select: {
-                firstName: true,
-                lastName: true,
+          comments: {
+            include: {
+              user: {
+                select: {
+                  firstName: true,
+                  lastName: true,
+                },
               },
             },
           },
         },
-      },
-    });
-
-    if (!songRequest) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: `Project Song Request ID was not found.`,
       });
-    }
 
-    return songRequest;
-  });
+      if (!songRequest) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `Project Song Request ID was not found.`,
+        });
+      }
 
+      return songRequest;
+    });
 
 export const getUserSongRequestsProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
