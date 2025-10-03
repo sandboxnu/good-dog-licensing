@@ -37,7 +37,7 @@ import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
-import { upsertCommentsProcedure } from "../procedures/upsertComment";
+import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
