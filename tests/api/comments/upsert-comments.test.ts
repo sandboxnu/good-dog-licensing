@@ -8,7 +8,7 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { MatchState, prisma } from "@good-dog/db";
+import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCache } from "../../mocks/MockNextCache";
