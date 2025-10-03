@@ -9,52 +9,6 @@ import { MatchState } from "@good-dog/db";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-const MatchCommentsSchema = z.object({
-  commentText: z.string(),
-  userId: z.string(),
-});
-
-export const createUpdateMatchCommentsProcedure =
-  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "modify")
-    .input(
-      z.object({
-        matchComment: MatchCommentsSchema,
-        matchId: z.string(),
-        commentId: z.string().optional(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      if (ctx.session.user.userId === input.matchComment.userId) {
-        if (input.commentId) {
-          await ctx.prisma.matchComments.update({
-            where: {
-              commentId: input.commentId,
-              userId: input.matchComment.userId,
-            },
-            data: {
-              commentText: input.matchComment.commentText,
-            },
-          });
-        } else {
-          await ctx.prisma.matchComments.create({
-            data: {
-              commentText: input.matchComment.commentText,
-              suggestedMatchId: input.matchId,
-              userId: input.matchComment.userId,
-            },
-          });
-        }
-        return {
-          message: "Comments successfully updated.",
-        };
-      } else {
-        throw new TRPCError({
-          message: "You are not authorized to update this comment.",
-          code: "FORBIDDEN",
-        });
-      }
-    });
-
 export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "modify",

@@ -51,16 +51,6 @@ export const getProjectSongRequestByIdProcedure =
           projectSubmission: true,
           suggestedMatches: {
             include: {
-              matchComments: {
-                include: {
-                  user: {
-                    select: {
-                      firstName: true,
-                      lastName: true,
-                    },
-                  },
-                },
-              },
               musicSubmission: {
                 include: {
                   submitter: {
@@ -69,6 +59,16 @@ export const getProjectSongRequestByIdProcedure =
                       lastName: true,
                     },
                   },
+                },
+              },
+            },
+          },
+          comments: {
+            include: {
+              user: {
+                select: {
+                  firstName: true,
+                  lastName: true,
                 },
               },
             },
@@ -83,22 +83,7 @@ export const getProjectSongRequestByIdProcedure =
         });
       }
 
-      const songRequestFinal = {
-        ...songRequest,
-        suggestedMatches: songRequest.suggestedMatches.map((match) => {
-          return {
-            ...match,
-            matchComments: match.matchComments.map((comment) => {
-              return {
-                ...comment,
-                createdAtDateString: comment.createdAt.toDateString(),
-              };
-            }),
-          };
-        }),
-      };
-
-      return { ...songRequestFinal };
+      return songRequest;
     });
 
 export const getUserSongRequestsProcedure = rolePermissionsProcedureBuilder(
