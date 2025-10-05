@@ -58,6 +58,7 @@ export const appRouter = createTRPCRouter({
   songRequest: songRequestProcedure,
   comment: upsertCommentsProcedure,
   createMatch: createMatchProcedure,
+  updateMatch: createUpdateMatchCommentsProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,

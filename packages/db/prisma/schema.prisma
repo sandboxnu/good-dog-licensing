@@ -156,7 +156,6 @@ model MusicContributor {
   musicSubmissionMusicId String
 }
 
-
 model Match {
   matchId         String          @id @default(uuid())
   songRequestId   String

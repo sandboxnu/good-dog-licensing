@@ -8,7 +8,7 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { MatchState, prisma } from "@good-dog/db";
+import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCache } from "../mocks/MockNextCache";
@@ -117,27 +117,6 @@ async function createData() {
           expiresAt: new Date(Date.now() + 5_000_000_000),
         },
       },
-    },
-  });
-}
-
-async function createMoreData() {
-  await prisma.match.create({
-    data: {
-      matchId: "match",
-      songRequestId: "songRequestOneSubmission",
-      musicId: "musicSubmission",
-      matcherUserId: "matcher",
-      matchState: "NEW",
-    },
-  });
-
-  await prisma.comments.create({
-    data: {
-      commentId: "testComment",
-      userId: "matcher",
-      commentText: "hello",
-      songRequestId: "songRequestOneSubmission",
     },
   });
 }
@@ -272,11 +251,5 @@ describe("match procedure", () => {
     });
 
     expect(originalResponse.message).toEqual("Match successfully created.");
-
-    const match = await prisma.match.findFirst({
-      where: {
-        songRequestId: "songRequestOneSubmission",
-      },
-    });
   });
 });
