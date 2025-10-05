@@ -18,7 +18,8 @@ export const getMusicSubmissionPrefillValues = rolePermissionsProcedureBuilder(
     return `${contributor.name}|${sortedRoles}|${contributor.affiliation}`;
   };
 
-  const submitterName = ctx.session.user.firstName + ctx.session.user.lastName;
+  const submitterName =
+    ctx.session.user.firstName + " " + ctx.session.user.lastName;
 
   const uniqueContributors = Object.values(
     contributors.reduce(
@@ -41,7 +42,7 @@ export const getMusicSubmissionPrefillValues = rolePermissionsProcedureBuilder(
   );
 
   return {
-    contributers: uniqueContributors,
+    contributors: uniqueContributors,
     userAffiliation: ctx.session.user.affiliation,
     userIpi: ctx.session.user.ipi,
   };

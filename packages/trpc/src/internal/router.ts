@@ -69,12 +69,8 @@ export const appRouter = createTRPCRouter({
   projectSubmission: projectSubmissionProcedure,
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
-<<<<<<< HEAD
   getSongRequestById: getProjectSongRequestByIdProcedure,
-=======
-  getSceneById: getProjectSceneByIdProcedure,
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValues,
->>>>>>> 1a25c28f (in the middle of creating tests for the submissionprefillvals)
 });
 
 export type AppRouter = typeof appRouter;
