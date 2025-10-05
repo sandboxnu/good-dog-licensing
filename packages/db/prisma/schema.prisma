@@ -47,7 +47,7 @@ model User {
   projectSubmissions ProjectSubmission[]
   musicSubmissions   MusicSubmission[]
   matches            Match[]             @relation("Matcher")
-  matchComments      MatchComments[]
+  comments           Comments[]
 }
 
 enum ReferralSource {
@@ -112,6 +112,7 @@ model SongRequest {
   projectId         String
   projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
   matches           Match[]
+  comments          Comments[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
 }
@@ -155,6 +156,7 @@ model MusicContributor {
   musicSubmissionMusicId String
 }
 
+
 model Match {
   matchId         String          @id @default(uuid())
   songRequestId   String
@@ -163,7 +165,6 @@ model Match {
   musicSubmission MusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: Cascade)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
-  matchComments   MatchComments[]
   matcherUserId   String
   matcherUser     User            @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
   matchState      MatchState
@@ -172,18 +173,13 @@ model Match {
   @@map("Matches")
 }
 
-model MatchComments {
-  commentId   String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  commentText String
-  userId      String
-  user        User     @relation(fields: [userId], references: [userId], onDelete: NoAction)
-  matchId     String?
-  match       Match?   @relation(fields: [matchId], references: [matchId], onDelete: NoAction)
-}
-
-enum Rating {
-  LIKE
-  DISLIKE
+model Comments {
+  commentId     String       @id @default(uuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  commentText   String
+  userId        String
+  user          User         @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  songRequestId String?
+  songRequest   SongRequest? @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
 }

@@ -8,12 +8,12 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { MatchState, prisma } from "@good-dog/db";
+import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
-import { MockNextCache } from "../mocks/MockNextCache";
-import { MockNextCookies } from "../mocks/MockNextCookies";
-import { createMockCookieService } from "../mocks/util";
+import { MockNextCache } from "../../mocks/MockNextCache";
+import { MockNextCookies } from "../../mocks/MockNextCookies";
+import { createMockCookieService } from "../../mocks/util";
 
 async function createData() {
   await prisma.user.create({
@@ -122,13 +122,15 @@ async function createData() {
 }
 
 async function createMoreData() {
-  await prisma.match.create({
+  await prisma.suggestedMatch.create({
     data: {
-      matchId: "match",
+      suggestedMatchId: "match",
+      projectId: "projectSubmission",
       songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
+      description: "the joyous vibe of this song would go well with the flames",
       matcherUserId: "matcher",
-      matchState: "NEW",
+      matchState: "PENDING",
     },
   });
 
@@ -150,13 +152,13 @@ async function deleteData() {
     },
   });
 
-  // Delete Match
-  await prisma.match.deleteMany({
-    where: { matchId: "match" },
+  // Delete SuggestedMatch
+  await prisma.suggestedMatch.deleteMany({
+    where: { suggestedMatchId: "match" },
   });
 
-  // Delete Match for suggestMatch tests
-  await prisma.match.deleteMany({
+  // Delete SuggestedMatch for suggestMatch tests
+  await prisma.suggestedMatch.deleteMany({
     where: {
       songRequestId: "songRequestOneSubmission",
     },
@@ -187,7 +189,7 @@ async function deleteData() {
   });
 }
 
-describe("match procedure", () => {
+describe("upsertCommentsProcedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
 
@@ -197,6 +199,7 @@ describe("match procedure", () => {
 
   beforeEach(async () => {
     await createData();
+    await createMoreData();
   });
 
   const $api = $createTrpcCaller({
@@ -210,73 +213,131 @@ describe("match procedure", () => {
     cache.clear();
   });
 
-  it("should allow a moderator to suggest a match", async () => {
-    cookies.set("sessionId", "moderator-session-id");
-
-    const response = await $api.createMatch({
-      songRequestId: "songRequestOneSubmission",
-      musicId: "musicSubmission",
-    });
-
-    expect(response.message).toEqual("Match successfully created.");
-
-    const match = await prisma.match.findFirst({
-      where: {
-        songRequestId: "songRequestOneSubmission",
-        musicId: "musicSubmission",
-        matcherUserId: "matcher",
-      },
-    });
-
-    expect(match).toBeDefined();
-  });
-
-  it("should allow an admin to suggest a match", async () => {
+  it("should allow admins to create comments on suggested matches", async () => {
     cookies.set("sessionId", "sanjana-session-id");
 
-    const response = await $api.createMatch({
+    const response = await $api.comment({
       songRequestId: "songRequestOneSubmission",
-      musicId: "musicSubmission",
-    });
-
-    expect(response.message).toEqual("Match successfully created.");
-
-    const match = await prisma.match.findFirst({
-      where: {
-        songRequestId: "songRequestOneSubmission",
-        musicId: "musicSubmission",
-        matcherUserId: "sanjana",
+      comment: {
+        commentText:
+          "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
+        userId: "sanjana",
       },
     });
 
-    expect(match).toBeDefined();
+    expect(response.message).toEqual("Comments successfully updated.");
+
+    const createdComment = await prisma.comments.findFirst({
+      where: {
+        songRequestId: "songRequestOneSubmission",
+        userId: "sanjana",
+      },
+    });
+
+    expect(createdComment).toBeDefined();
+    expect(createdComment?.commentText).toBe(
+      "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
+    );
   });
 
-  it("should not allow a normal user to suggest a match", () => {
+  it("should allow moderators to comment on suggested matches", async () => {
+    cookies.set("sessionId", "moderator-session-id");
+
+    const response = await $api.comment({
+      songRequestId: "songRequestOneSubmission",
+      comment: {
+        commentText: "hello",
+        userId: "matcher",
+      },
+    });
+
+    expect(response.message).toEqual("Comments successfully updated.");
+
+    const createdComment = await prisma.comments.findFirst({
+      where: {
+        songRequestId: "songRequestOneSubmission",
+        userId: "matcher",
+      },
+    });
+
+    expect(createdComment).toBeDefined();
+    expect(createdComment?.commentText).toBe("hello");
+  });
+
+  it("should prevent normal users from commenting on suggested matches", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
-      $api.createMatch({
+      $api.comment({
         songRequestId: "songRequestOneSubmission",
-        musicId: "musicSubmission",
+        comment: {
+          commentText: "hello",
+          userId: "musician",
+        },
       }),
     ).rejects.toThrow("permission to modify");
   });
 
-  it("should allow a user to update the description for their own created match", async () => {
-    cookies.set("sessionId", "moderator-session-id");
+  it("should allow users who made a comment to update it", async () => {
+    cookies.set("sessionId", "sanjana-session-id");
 
-    const originalResponse = await $api.createMatch({
+    const response = await $api.comment({
       songRequestId: "songRequestOneSubmission",
-      musicId: "musicSubmission",
-    });
-
-    expect(originalResponse.message).toEqual("Match successfully created.");
-
-    const match = await prisma.match.findFirst({
-      where: {
-        songRequestId: "songRequestOneSubmission",
+      comment: {
+        commentText:
+          "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
+        userId: "sanjana",
       },
     });
+
+    expect(response.message).toEqual("Comments successfully updated.");
+
+    const createdComment = await prisma.comments.findFirst({
+      where: {
+        songRequestId: "songRequestOneSubmission",
+        userId: "sanjana",
+      },
+    });
+
+    expect(createdComment).toBeDefined();
+    expect(createdComment?.commentText).toBe(
+      "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
+    );
+
+    const updatedResponse = await $api.comment({
+      commentId: createdComment?.commentId,
+      songRequestId: "songRequestOneSubmission",
+      comment: {
+        commentText: "hi hi",
+        userId: "sanjana",
+      },
+    });
+
+    expect(updatedResponse.message).toEqual("Comments successfully updated.");
+
+    const updatedComment = await prisma.comments.findFirst({
+      where: {
+        songRequestId: "songRequestOneSubmission",
+        userId: "sanjana",
+      },
+    });
+
+    expect(updatedComment).toBeDefined();
+    expect(updatedComment?.commentText).toEqual("hi hi");
+  });
+
+  it("should prevent other users from modifying comments that are not theirs", () => {
+    cookies.set("sessionId", "sanjana-session-id");
+
+    expect(
+      $api.comment({
+        commentId: "testComment",
+        comment: {
+          userId: "sanjana",
+          commentText: "hi hi",
+        },
+        songRequestId: "songRequestOneSubmission",
+      }),
+    ).rejects.toThrow();
   });
 });

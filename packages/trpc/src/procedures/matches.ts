@@ -26,7 +26,7 @@ export const createUpdateMatchCommentsProcedure =
     .mutation(async ({ ctx, input }) => {
       if (ctx.session.user.userId === input.matchComment.userId) {
         if (input.commentId) {
-          await ctx.prisma.matchComments.update({
+          await ctx.prisma.comments.update({
             where: {
               commentId: input.commentId,
               userId: input.matchComment.userId,
@@ -36,10 +36,9 @@ export const createUpdateMatchCommentsProcedure =
             },
           });
         } else {
-          await ctx.prisma.matchComments.create({
+          await ctx.prisma.comments.create({
             data: {
               commentText: input.matchComment.commentText,
-              matchId: input.matchId,
               userId: input.matchComment.userId,
             },
           });

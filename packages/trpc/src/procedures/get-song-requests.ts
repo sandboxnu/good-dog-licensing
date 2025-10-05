@@ -63,6 +63,16 @@ export const getProjectSongRequestByIdProcedure =
               },
             },
           },
+          comments: {
+            include: {
+              user: {
+                select: {
+                  firstName: true,
+                  lastName: true,
+                },
+              },
+            },
+          },
         },
       });
 
@@ -73,16 +83,7 @@ export const getProjectSongRequestByIdProcedure =
         });
       }
 
-      const songRequestFinal = {
-        ...songRequest,
-        matches: songRequest.matches.map((match) => {
-          return {
-            ...match,
-          };
-        }),
-      };
-
-      return { ...songRequestFinal };
+      return songRequest;
     });
 
 export const getUserSongRequestsProcedure = rolePermissionsProcedureBuilder(

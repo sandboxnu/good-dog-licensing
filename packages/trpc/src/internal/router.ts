@@ -35,6 +35,7 @@ import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
+import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -55,7 +56,7 @@ export const appRouter = createTRPCRouter({
   music: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   songRequest: songRequestProcedure,
-  comment: createUpdateMatchCommentsProcedure,
+  comment: upsertCommentsProcedure,
   createMatch: createMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
