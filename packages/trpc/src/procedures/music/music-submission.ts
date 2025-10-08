@@ -11,29 +11,22 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   .mutation(async ({ ctx, input }) => {
     // Creates a contributor for the submitter to be added to the music submission's list of contributors
     const submitterAsContributor = {
-      name: ctx.session.user.firstName
-        .concat(" ")
-        .concat(ctx.session.user.lastName),
+      name: `${ctx.session.user.firstName} ${ctx.session.user.lastName}`,
       roles: input.submitterRoles,
       affiliation: input.submitterAffiliation,
       ipi: input.submitterIpi,
       isSubmitter: true,
     };
 
-    const shouldUpdateIpi =
-      input.submitterIpi &&
-      (input.submitterRoles.includes("SONGWRITER") ||
-        input.submitterRoles.includes("LYRICIST"));
-
     const [_, musicSubmission] = await ctx.prisma.$transaction([
-      // Update the user ipi
+      // Update the user
       ctx.prisma.user.update({
         where: {
           userId: ctx.session.user.userId,
         },
         data: {
-          ipi: shouldUpdateIpi ? input.submitterIpi ?? null : null,
-          affiliation: input.submitterAffiliation,
+          ipi: input.submitterIpi ? input.submitterIpi : undefined,
+          affiliation: input.submitterAffiliation ? input.submitterAffiliation : undefined,
         },
       }),
       // Create the music submission
@@ -48,7 +41,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
           additionalInfo: input.additionalInfo ?? "",
           performerName: input.performerName,
           contributors: {
-            create: input.contributors.concat(submitterAsContributor),
+            create: [...input.contributors, submitterAsContributor],
           },
         },
       }),
