@@ -1,11 +1,4 @@
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-} from "bun:test";
+import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 
 import { MusicAffiliation, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
@@ -14,7 +7,7 @@ import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
 
 async function createData() {
-  const musician = await prisma.user.create({
+  await prisma.user.create({
     data: {
       userId: "jp-musician-id",
       email: "jp@test.org",
@@ -32,7 +25,7 @@ async function createData() {
       affiliation: "ASCAP",
     },
   });
-  const submission1 = await prisma.musicSubmission.create({
+  await prisma.musicSubmission.create({
     data: {
       musicId: "music-id-1",
       songName: "song-name-1",
