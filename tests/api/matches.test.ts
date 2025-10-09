@@ -231,8 +231,19 @@ describe("match procedure", () => {
     expect(match).toBeDefined();
   });
 
-  it("should not allow a normal user to create a match", () => {
+  it("should not allow a musician to create a match", () => {
     cookies.set("sessionId", "musician-session-id");
+
+    expect(
+      $api.createMatch({
+        songRequestId: "songRequestOneSubmission",
+        musicId: "musicSubmission",
+      }),
+    ).rejects.toThrow("permission to modify");
+  });
+
+  it("should not allow a media maker to create a match", () => {
+    cookies.set("sessionId", "project-session-id");
 
     expect(
       $api.createMatch({
