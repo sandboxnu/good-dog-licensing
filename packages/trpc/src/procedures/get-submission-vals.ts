@@ -1,5 +1,3 @@
-import type { MusicContributor } from "@good-dog/db";
-
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
@@ -13,7 +11,10 @@ export const getMusicSubmissionPrefillValues = rolePermissionsProcedureBuilder(
     },
   });
 
-  const createKey = (contributor: MusicContributor): string => {
+  // Acts as a replacement for MusicContributor from database to avoid needing to import type
+  type ContributorType = typeof contributors[0];
+
+  const createKey = (contributor: ContributorType): string => {
     const sortedRoles = contributor.roles.slice().sort().join(",");
     return `${contributor.name}|${sortedRoles}|${contributor.affiliation}`;
   };
@@ -37,7 +38,7 @@ export const getMusicSubmissionPrefillValues = rolePermissionsProcedureBuilder(
 
         return acc;
       },
-      {} as Record<string, MusicContributor>,
+      {} as Record<string, ContributorType>,
     ),
   );
 
