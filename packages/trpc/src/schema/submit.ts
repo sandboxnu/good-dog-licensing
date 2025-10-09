@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { MusicAffiliation, MusicRole } from ".prisma/client";
+import { MusicAffiliation, MusicRole } from "@good-dog/db";
 
 export const zProjectSubmissionValues = z.object({
   projectTitle: z.string(),
@@ -22,7 +22,7 @@ export const zProjectSubmissionValues = z.object({
 const zMusicContributor = z.object({
   name: z.string(),
   roles: z.array(z.enum(MusicRole)),
-  affiliation: z.enum(MusicAffiliation),
+  affiliation: z.enum(MusicAffiliation).optional(),
   ipi: z.string().optional(),
 });
 
@@ -34,6 +34,6 @@ export const zMusicSubmissionValues = z.object({
   performerName: z.string(),
   contributors: z.array(zMusicContributor),
   submitterRoles: z.array(z.enum(MusicRole)),
-  submitterAffiliation: z.enum(MusicAffiliation),
+  submitterAffiliation: z.enum(MusicAffiliation).optional(),
   submitterIpi: z.string().optional(),
 });

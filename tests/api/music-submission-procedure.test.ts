@@ -13,7 +13,7 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
-import { MusicAffiliation, MusicRole } from ".prisma/client";
+import { MusicAffiliation, MusicRole } from "@good-dog/db";
 
 // Set up the mock services
 const mockCookies = new MockNextCookies();
@@ -201,5 +201,64 @@ describe("music-submission-procedure", () => {
       where: { email: "person1@prisma.io" },
       data: { role: "MUSICIAN" },
     });
+  });
+
+  test("User's IPI updates when they submit a new one", async () => {
+    // Set up the initial ipi for the user
+    await prisma.user.update({
+      where: { userId: "musician-id-1" },
+      data: { ipi: "1111" },
+    });
+
+    // Create a music usbmission with a different ipi
+    mockCookies.set("sessionId", "500");
+    await $api.submitMusic({
+      songName: "IPI Updates Test Song",
+      songLink: "https://example.com/ipi-update",
+      genre: ["Pop"],
+      additionalInfo: "Test update IPI",
+      performerName: "Artist Test",
+      contributors: [],
+      submitterRoles: [MusicRole.SONGWRITER],
+      submitterAffiliation: MusicAffiliation.ASCAP,
+      submitterIpi: "1234",
+    });
+
+    // Verify that the user's IPI was updated in the DB
+    const userAfterSubmission = await prisma.user.findUnique({
+      where: { userId: "musician-id-1" },
+      select: { ipi: true },
+    });
+    expect(userAfterSubmission?.ipi).toBe("1234");
+    expect(userAfterSubmission?.ipi).not.toBe("1111");
+  });
+
+  test("User's IPI stays the same if they don't submit new one", async () => {
+    // Set up the initial ipi for the user
+    await prisma.user.update({
+      where: { userId: "musician-id-1" },
+      data: { ipi: "9876" },
+    });
+
+    // Create a music submission with a different ipi
+    mockCookies.set("sessionId", "500");
+    await $api.submitMusic({
+      songName: "IPI Updates Test Song",
+      songLink: "https://example.com/ipi-update",
+      genre: ["Pop"],
+      additionalInfo: "Test update IPI",
+      performerName: "Artist Test",
+      contributors: [],
+      submitterRoles: [MusicRole.SONGWRITER],
+      submitterAffiliation: MusicAffiliation.ASCAP,
+      submitterIpi: undefined,
+    });
+
+    // Verify that the user's IPI was updated in the DB
+    const userAfterSubmission = await prisma.user.findUnique({
+      where: { userId: "musician-id-1" },
+      select: { ipi: true },
+    });
+    expect(userAfterSubmission?.ipi).toBe("9876");
   });
 });
