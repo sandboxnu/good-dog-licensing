@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 
-import { MusicAffiliation, prisma } from "@good-dog/db";
+import { MusicAffiliation, MusicRole, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
@@ -164,7 +164,7 @@ describe("get-submission-vals", () => {
         {
           name: "Wesley Tran",
           contributorId: "contributor-id-1",
-          roles: ["SONGWRITER", "INSTRUMENTALIST"],
+          roles: [MusicRole.SONGWRITER, MusicRole.INSTRUMENTALIST],
           ipi: null,
           affiliation: MusicAffiliation.NONE,
           isSubmitter: false,
@@ -173,7 +173,7 @@ describe("get-submission-vals", () => {
         {
           name: "Humpty Dumpty",
           contributorId: "contributor-id-3",
-          roles: ["LYRICIST"],
+          roles: [MusicRole.LYRICIST],
           affiliation: MusicAffiliation.BMI,
           isSubmitter: false,
           ipi: null,
@@ -197,7 +197,7 @@ describe("get-submission-vals", () => {
         {
           name: "Wesley Tran",
           contributorId: "contributor-id-4",
-          roles: ["SONGWRITER", "INSTRUMENTALIST"],
+          roles: [MusicRole.SONGWRITER, MusicRole.INSTRUMENTALIST],
           ipi: "1234",
           affiliation: MusicAffiliation.NONE,
           isSubmitter: false,
@@ -206,7 +206,7 @@ describe("get-submission-vals", () => {
         {
           name: "Humpty Dumpty",
           contributorId: "contributor-id-3",
-          roles: ["LYRICIST"],
+          roles: [MusicRole.LYRICIST],
           affiliation: MusicAffiliation.BMI,
           isSubmitter: false,
           ipi: null,
@@ -214,7 +214,7 @@ describe("get-submission-vals", () => {
         },
         {
           name: "Humpty Dumpty",
-          roles: ["LYRICIST", "VOCALIST"],
+          roles: [MusicRole.LYRICIST, MusicRole.VOCALIST],
           affiliation: MusicAffiliation.BMI,
           contributorId: "contributor-id-6",
           ipi: null,
@@ -224,7 +224,7 @@ describe("get-submission-vals", () => {
         {
           contributorId: "contributor-id-7",
           name: "Fighter Jet",
-          roles: ["INSTRUMENTALIST"],
+          roles: [MusicRole.INSTRUMENTALIST],
           affiliation: MusicAffiliation.ASCAP,
           ipi: null,
           isSubmitter: false,

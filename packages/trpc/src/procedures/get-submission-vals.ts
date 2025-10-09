@@ -12,7 +12,7 @@ export const getMusicSubmissionPrefillValues = rolePermissionsProcedureBuilder(
   });
 
   // Acts as a replacement for MusicContributor from database to avoid needing to import type
-  type ContributorType = typeof contributors[0];
+  type ContributorType = (typeof contributors)[0];
 
   const createKey = (contributor: ContributorType): string => {
     const sortedRoles = contributor.roles.slice().sort().join(",");
@@ -31,7 +31,7 @@ export const getMusicSubmissionPrefillValues = rolePermissionsProcedureBuilder(
           // Should not add the submitter to their own MusicSubmission
           submitterName != contributor.name &&
           // if they aren't in the list or if a prev entry has the same fields but no ipi -> add to list
-          (!acc[key] || (!acc[key].ipi && contributor.ipi))
+          (!acc[key] || (!acc[key]?.ipi && contributor.ipi))
         ) {
           acc[key] = contributor;
         }
