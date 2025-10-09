@@ -5,7 +5,6 @@ import {
   signInProcedure,
   signOutProcedure,
 } from "../procedures/auth";
-import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
@@ -30,7 +29,7 @@ import {
   suggestedMatchProcedure,
 } from "../procedures/matches";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
-import { submitMusicProcedure } from "../procedures/music-submission";
+import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
@@ -38,6 +37,7 @@ import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
+import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
