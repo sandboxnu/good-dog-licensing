@@ -23,7 +23,7 @@ import {
   mediamakerSongRequestsProcedure,
   songRequestProcedure,
 } from "../procedures/get-song-requests";
-import { createMatchProcedure } from "../procedures/matches";
+import { createMatchProcedure } from "../procedures/matches/create-match";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { submitMusicProcedure } from "../procedures/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
