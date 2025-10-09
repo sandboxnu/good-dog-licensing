@@ -2,13 +2,14 @@ import { TRPCError } from "@trpc/server";
 
 import { notAuthenticatedProcedureBuilder } from "../../middleware/not-authenticated";
 import { zSignUpValues } from "../../schema";
-import {
-  getEmailVerificationCodeExpirationDate,
-  sendVerificationEmailHelper,
-} from "./util";
+import { sendEmailHelper } from "../../utils";
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
+
+// Expiration date for email verification codes is 15 minutes
+export const getEmailVerificationCodeExpirationDate = () =>
+  new Date(Date.now() + 60_000 * 15);
 
 export const signUpProcedure = notAuthenticatedProcedureBuilder
   .input(zSignUpValues)
@@ -37,9 +38,12 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
 
     // Resend email if code is expired
     if (emailVerificationCode && emailVerificationCode.expiresAt < new Date()) {
-      const emailCode = await sendVerificationEmailHelper(
-        ctx.emailService,
-        input.email,
+      const emailCode = ctx.emailService.generateSixDigitCode();
+      const sendEmailCallback = async () =>
+        await ctx.emailService.sendVerificationEmail(input.email, emailCode);
+      await sendEmailHelper(
+        sendEmailCallback,
+        `Email confirmation to ${input.email} failed to send.`,
       );
 
       const result = await ctx.prisma.emailVerificationCode.update({

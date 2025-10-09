@@ -28,27 +28,26 @@ enum MatchState {
 }
 
 model User {
-  userId                     String                     @id @default(uuid()) @map("id")
-  email                      String                     @unique
-  phoneNumber                String
-  hashedPassword             String                     @map("password")
-  firstName                  String
-  lastName                   String
-  role                       Role
-  affiliation                MusicAffiliation?
-  ipi                        String?
-  passwordResetReq           PasswordResetReq?
-  sessions                   Session[]
-  referral                   ReferralSource?
-  createdAt                  DateTime                   @default(now())
-  updatedAt                  DateTime                   @updatedAt
-  projectSubmissions         ProjectSubmission[]
-  musicSubmissions           MusicSubmission[]
-  unlicensedSuggestedMatches UnlicensedSuggestedMatch[] @relation("UnlicensedMatcher")
-  suggestedMatches           SuggestedMatch[]           @relation("Matcher")
-  reviewedMatches            SuggestedMatch[]           @relation("Reviewer")
-  matchComments              MatchComments[]
-  matchLikes                 MatchRatings[]
+  userId             String              @id @default(uuid()) @map("id")
+  email              String              @unique
+  phoneNumber        String
+  hashedPassword     String              @map("password")
+  firstName          String
+  lastName           String
+  role               Role
+  affiliation        MusicAffiliation?
+  ipi                String?
+  passwordResetReq   PasswordResetReq?
+  sessions           Session[]
+  referral           ReferralSource?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  projectSubmissions ProjectSubmission[]
+  musicSubmissions   MusicSubmission[]
+  suggestedMatches   SuggestedMatch[]    @relation("Matcher")
+  reviewedMatches    SuggestedMatch[]    @relation("Reviewer")
+  comments           Comments[]
+  matchLikes         MatchRatings[]
 }
 
 enum ReferralSource {
@@ -90,34 +89,33 @@ model ModeratorInvite {
 }
 
 model ProjectSubmission {
-  projectId                  String                     @id @default(uuid())
-  projectOwnerId             String
-  projectOwner               User                       @relation(fields: [projectOwnerId], references: [userId], onDelete: Cascade)
-  projectTitle               String
-  description                String
-  createdAt                  DateTime                   @default(now())
-  updatedAt                  DateTime                   @updatedAt
-  scenes                     SceneSubmission[]
-  deadline                   DateTime
-  videoLink                  String                     @default("")
-  additionalInfo             String                     @default("")
-  suggestedMatches           SuggestedMatch[]
-  unlicensedSuggestedMatches UnlicensedSuggestedMatch[]
+  projectId        String           @id @default(uuid())
+  projectOwnerId   String
+  projectOwner     User             @relation(fields: [projectOwnerId], references: [userId], onDelete: Cascade)
+  projectTitle     String
+  description      String
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  songRequests     SongRequest[]
+  deadline         DateTime
+  videoLink        String           @default("")
+  additionalInfo   String           @default("")
+  suggestedMatches SuggestedMatch[]
 }
 
-model SceneSubmission {
-  sceneId                    String                     @id @default(uuid())
-  sceneTitle                 String
-  description                String
-  musicType                  String
-  similarSongs               String                     @default("")
-  additionalInfo             String                     @default("")
-  projectId                  String
-  projectSubmission          ProjectSubmission          @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
-  suggestedMatches           SuggestedMatch[]
-  unlicensedSuggestedMatches UnlicensedSuggestedMatch[]
-  createdAt                  DateTime                   @default(now())
-  updatedAt                  DateTime                   @updatedAt
+model SongRequest {
+  songRequestId     String            @id @default(uuid())
+  oneLineSummary    String
+  description       String
+  musicType         String
+  similarSongs      String            @default("")
+  additionalInfo    String            @default("")
+  projectId         String
+  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+  suggestedMatches  SuggestedMatch[]
+  comments          Comments[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
 }
 
 model MusicSubmission {
@@ -164,14 +162,13 @@ model SuggestedMatch {
   suggestedMatchId  String            @id @default(uuid())
   projectId         String
   projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
-  sceneId           String
-  sceneSubmission   SceneSubmission   @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
+  songRequestId     String
+  songRequest       SongRequest       @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
   musicId           String
-  musicSubmission   MusicSubmission   @relation(fields: [musicId], references: [musicId], onDelete: NoAction)
+  musicSubmission   MusicSubmission   @relation(fields: [musicId], references: [musicId], onDelete: Cascade)
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   description       String
-  matchComments     MatchComments[]
   matchLikes        MatchRatings[]
   matcherUserId     String
   matcherUser       User              @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
@@ -179,68 +176,31 @@ model SuggestedMatch {
   reviewerId        String?
   reviewer          User?             @relation("Reviewer", fields: [reviewerId], references: [userId], onDelete: NoAction)
 
-  @@unique([sceneId, musicId])
+  @@unique([songRequestId, musicId])
   @@map("SuggestedMatches")
 }
 
-model MatchComments {
-  commentId                  String                    @id @default(uuid())
-  createdAt                  DateTime                  @default(now())
-  updatedAt                  DateTime                  @updatedAt
-  commentText                String
-  userId                     String
-  user                       User                      @relation(fields: [userId], references: [userId], onDelete: NoAction)
-  suggestedMatchId           String?
-  unlicensedSuggestedMatchId String?
-  suggestedMatch             SuggestedMatch?           @relation(fields: [suggestedMatchId], references: [suggestedMatchId], onDelete: NoAction)
-  unlicensedSuggestedMatch   UnlicensedSuggestedMatch? @relation(fields: [unlicensedSuggestedMatchId], references: [unlicensedSuggestedMatchId], onDelete: NoAction)
+model Comments {
+  commentId     String       @id @default(uuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  commentText   String
+  userId        String
+  user          User         @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  songRequestId String?
+  songRequest   SongRequest? @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
 }
 
 model MatchRatings {
-  ratingId                   String                    @id @default(uuid())
-  userId                     String
-  user                       User                      @relation(fields: [userId], references: [userId], onDelete: NoAction)
-  ratingEnum                 Rating
-  suggestedMatchId           String?
-  unlicensedSuggestedMatchId String?
-  suggestedMatch             SuggestedMatch?           @relation(fields: [suggestedMatchId], references: [suggestedMatchId], onDelete: NoAction)
-  unlicensedSuggestedMatch   UnlicensedSuggestedMatch? @relation(fields: [unlicensedSuggestedMatchId], references: [unlicensedSuggestedMatchId], onDelete: NoAction)
+  ratingId         String          @id @default(uuid())
+  userId           String
+  user             User            @relation(fields: [userId], references: [userId], onDelete: NoAction)
+  ratingEnum       Rating
+  suggestedMatchId String?
+  suggestedMatch   SuggestedMatch? @relation(fields: [suggestedMatchId], references: [suggestedMatchId], onDelete: NoAction)
 }
 
 enum Rating {
   LIKE
   DISLIKE
-}
-
-model UnlicensedMusicSubmission {
-  musicId          String                     @id @default(uuid())
-  songName         String
-  createdAt        DateTime                   @default(now())
-  updatedAt        DateTime                   @updatedAt
-  artist           String
-  songLink         String
-  genre            String
-  additionalInfo   String                     @default("")
-  suggestedMatches UnlicensedSuggestedMatch[]
-}
-
-model UnlicensedSuggestedMatch {
-  unlicensedSuggestedMatchId String                    @id @default(uuid())
-  projectId                  String
-  projectSubmission          ProjectSubmission         @relation(fields: [projectId], references: [projectId], onDelete: NoAction)
-  sceneId                    String
-  sceneSubmission            SceneSubmission           @relation(fields: [sceneId], references: [sceneId], onDelete: NoAction)
-  musicId                    String
-  musicSubmission            UnlicensedMusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: NoAction)
-  createdAt                  DateTime                  @default(now())
-  updatedAt                  DateTime                  @updatedAt
-  description                String
-  matchComments              MatchComments[]
-  matchRatings               MatchRatings[]
-  matcherUserId              String
-  matcherUser                User                      @relation("UnlicensedMatcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
-  matchState                 MatchState
-
-  @@unique([sceneId, musicId])
-  @@map("UnlicensedSuggestedMatches")
 }

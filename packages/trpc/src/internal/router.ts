@@ -11,21 +11,19 @@ import {
 } from "../procedures/forgot-password";
 import {
   getMusicSubmissionsProcedure,
-  getUnlicensedMusicSubmissionsProcedure,
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
-  getProjectSceneByIdProcedure,
-  getProjectScenesProcedure,
-  getUserProjectScenesProcedure,
+  getProjectSongRequestByIdProcedure,
+  getProjectSongRequestsProcedure,
+  getUserSongRequestsProcedure,
   mediamakerProjectsProcedure,
-  mediamakerScenesProcedure,
-  sceneProcedure,
-} from "../procedures/get-project-scenes";
+  mediamakerSongRequestsProcedure,
+  songRequestProcedure,
+} from "../procedures/get-song-requests";
 import { createMatchRatingProcedure } from "../procedures/like";
 import {
-  createUpdateMatchCommentsProcedure,
   getMatchesProcedure,
   reviewSuggestedMatchProcedure,
   suggestedMatchProcedure,
@@ -33,14 +31,13 @@ import {
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
-import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
-import { signUpProcedure } from "../procedures/onboarding/sign-up";
-import { projectSubmissionProcedure } from "../procedures/project-submission";
+import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
-import { submitUnlicensedMusicProcedure } from "../procedures/submit-unlicensed-music";
-import { unlicensedSuggestedMatchProcedure } from "../procedures/unlicensed-match";
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
+import { signUpProcedure } from "../procedures/onboarding/sign-up";
+import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
+import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -53,28 +50,25 @@ export const appRouter = createTRPCRouter({
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminData: getAdminViewProcedure,
-  projects: getProjectScenesProcedure,
+  projects: getProjectSongRequestsProcedure,
   mediamakerProjects: mediamakerProjectsProcedure,
-  mediamakerScenes: mediamakerScenesProcedure,
+  mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
-  userProjects: getUserProjectScenesProcedure,
+  userProjects: getUserSongRequestsProcedure,
   music: getMusicSubmissionsProcedure,
-  unlicensedMusic: getUnlicensedMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   match: getMatchesProcedure,
   rateMatch: createMatchRatingProcedure,
-  scene: sceneProcedure,
-  comment: createUpdateMatchCommentsProcedure,
+  songRequest: songRequestProcedure,
+  comment: upsertCommentsProcedure,
   suggestMatch: suggestedMatchProcedure,
-  unlicensedSuggestMatch: unlicensedSuggestedMatchProcedure,
   reviewMatch: reviewSuggestedMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,
-  submitUnlicensedMusic: submitUnlicensedMusicProcedure,
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
-  getSceneById: getProjectSceneByIdProcedure,
+  getSongRequestById: getProjectSongRequestByIdProcedure,
 });
 
 export type AppRouter = typeof appRouter;

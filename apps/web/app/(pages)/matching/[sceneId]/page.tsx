@@ -1,20 +1,20 @@
-import MainMatchingPage from "@good-dog/components/matching/MainMatchingPage";
+// import MainMatchingPage from "@good-dog/components/matching/MainMatchingPage";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ sceneId: string }>;
+  params: Promise<{ songRequestId: string }>;
 }) {
-  const { sceneId } = await params;
+  const { songRequestId } = await params;
 
-  void trpc.getSceneById.prefetch({ sceneId: sceneId });
+  void trpc.getSongRequestById.prefetch({ songRequestId });
   void trpc.music.prefetch();
-  void trpc.unlicensedMusic.prefetch();
 
   return (
     <HydrateClient>
-      <MainMatchingPage sceneId={sceneId} />
+      {/* <MainMatchingPage songRequestId={songRequestId} /> */}
+      <div></div>
     </HydrateClient>
   );
 }

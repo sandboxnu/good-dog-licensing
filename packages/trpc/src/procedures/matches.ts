@@ -9,63 +9,6 @@ import { MatchState } from "@good-dog/db";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-const MatchCommentsSchema = z.object({
-  commentText: z.string(),
-  userId: z.string(),
-});
-
-export const createUpdateMatchCommentsProcedure =
-  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "modify")
-    .input(
-      z.object({
-        matchComment: MatchCommentsSchema,
-        matchId: z.string(),
-        unlicensed: z.boolean(),
-        commentId: z.string().optional(),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      if (ctx.session.user.userId === input.matchComment.userId) {
-        if (input.commentId) {
-          await ctx.prisma.matchComments.update({
-            where: {
-              commentId: input.commentId,
-              userId: input.matchComment.userId,
-            },
-            data: {
-              commentText: input.matchComment.commentText,
-            },
-          });
-        } else {
-          if (input.unlicensed) {
-            await ctx.prisma.matchComments.create({
-              data: {
-                commentText: input.matchComment.commentText,
-                unlicensedSuggestedMatchId: input.matchId,
-                userId: input.matchComment.userId,
-              },
-            });
-          } else {
-            await ctx.prisma.matchComments.create({
-              data: {
-                commentText: input.matchComment.commentText,
-                suggestedMatchId: input.matchId,
-                userId: input.matchComment.userId,
-              },
-            });
-          }
-        }
-        return {
-          message: "Comments successfully updated.",
-        };
-      } else {
-        throw new TRPCError({
-          message: "You are not authorized to update this comment.",
-          code: "FORBIDDEN",
-        });
-      }
-    });
-
 export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "modify",
@@ -74,7 +17,7 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
     z.object({
       matchId: z.string().optional(), // If provided, update; otherwise, create
       projectId: z.string().optional(), // Required for creation
-      sceneId: z.string().optional(), // Required for creation
+      songRequestId: z.string().optional(), // Required for creation
       musicId: z.string().optional(), // Required for creation
       description: z.string(),
     }),
@@ -111,7 +54,7 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
       };
     } else {
       //create new match
-      if (!input.projectId || !input.sceneId || !input.musicId) {
+      if (!input.projectId || !input.songRequestId || !input.musicId) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Missing required fields for creating a match.",
@@ -121,7 +64,7 @@ export const suggestedMatchProcedure = rolePermissionsProcedureBuilder(
       await ctx.prisma.suggestedMatch.create({
         data: {
           projectId: input.projectId,
-          sceneId: input.sceneId,
+          songRequestId: input.songRequestId,
           musicId: input.musicId,
           matcherUserId: ctx.session.user.userId,
           description: input.description,

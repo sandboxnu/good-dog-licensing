@@ -1,4 +1,4 @@
-import { useState } from "react";
+/*import { useState } from "react";
 
 import { trpc } from "@good-dog/trpc/client";
 import { Input } from "@good-dog/ui/input";
@@ -11,17 +11,15 @@ interface DisplayCommentsProps {
     timestamp: string;
     commentId: string;
   }[];
-  matchId: string;
+  sceneId: string;
   userId: string;
-  licensed: boolean;
 }
 
 export default function DisplayComments({
   handleComment,
   comments,
-  matchId,
+  sceneId,
   userId,
-  licensed,
 }: DisplayCommentsProps) {
   const [newComment, setNewComment] = useState<string>("");
 
@@ -38,12 +36,11 @@ export default function DisplayComments({
   const createComment = () => {
     if (newComment !== "") {
       createCommentMutation.mutate({
-        matchId: matchId,
-        matchComment: {
+        sceneId: sceneId,
+        comment: {
           commentText: newComment,
           userId: userId,
         },
-        unlicensed: !licensed,
       });
       setNewComment("");
     }
@@ -129,4 +126,4 @@ export default function DisplayComments({
       </div>
     </div>
   );
-}
+}*/

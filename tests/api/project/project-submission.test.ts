@@ -10,14 +10,17 @@ import {
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
-import { MockNextCookies } from "../mocks/MockNextCookies";
-import { createMockCookieService } from "../mocks/util";
+import { MockNextCookies } from "../../mocks/MockNextCookies";
+import { createMockCookieService } from "../../mocks/util";
+import { MockEmailService } from "../../mocks/MockEmailService";
 
 describe("projectSubmission", () => {
   const mockCookies = new MockNextCookies();
+  const mockEmailService = new MockEmailService();
 
   const $api = $createTrpcCaller({
     cookiesService: createMockCookieService(mockCookies),
+    emailService: mockEmailService,
     prisma,
   });
 
@@ -61,6 +64,7 @@ describe("projectSubmission", () => {
 
   afterEach(() => {
     mockCookies.clear();
+    mockEmailService.clear();
   });
 
   afterAll(async () => {
@@ -84,18 +88,18 @@ describe("projectSubmission", () => {
     const input = {
       projectTitle: "Test Project",
       description: "A test project for submission",
-      scenes: [
+      songRequests: [
         {
-          sceneTitle: "Scene 1",
-          description: "Scene 1 description",
+          description: "SongRequest 1 description",
           musicType: "Classical",
           similarSongs: "Song A, Song B",
           additionalInfo: "Some additional info",
+          oneLineSummary: "First Song Request",
         },
         {
-          sceneTitle: "Scene 2",
-          description: "Scene 2 description",
+          description: "SongRequest 2 description",
           musicType: "Indie",
+          oneLineSummary: "Second Song Request",
         },
       ],
       deadline: new Date(),
@@ -110,7 +114,7 @@ describe("projectSubmission", () => {
 
     const storedProject = await prisma.projectSubmission.findFirst({
       where: { projectOwner: { userId: "damian-user-id" } },
-      include: { scenes: true },
+      include: { songRequests: true },
     });
 
     // Ensure the project was inserted
@@ -127,23 +131,33 @@ describe("projectSubmission", () => {
     expect(storedProject.videoLink).toBe(input.videoLink);
     expect(storedProject.additionalInfo).toBe(input.additionalInfo);
 
-    // Validate scene data
-    expect(storedProject.scenes.length).toBe(2);
+    // Validate song request data
+    expect(storedProject.songRequests.length).toBe(2);
 
-    expect(storedProject.scenes[0]?.sceneTitle).toBe("Scene 1");
-    expect(storedProject.scenes[0]?.description).toBe("Scene 1 description");
-    expect(storedProject.scenes[0]?.musicType).toBe("Classical");
-    expect(storedProject.scenes[0]?.similarSongs).toBe("Song A, Song B");
-    expect(storedProject.scenes[0]?.additionalInfo).toBe(
+    expect(storedProject.songRequests[0]?.description).toBe(
+      "SongRequest 1 description",
+    );
+    expect(storedProject.songRequests[0]?.musicType).toBe("Classical");
+    expect(storedProject.songRequests[0]?.similarSongs).toBe("Song A, Song B");
+    expect(storedProject.songRequests[0]?.additionalInfo).toBe(
       "Some additional info",
     );
+    expect(storedProject.songRequests[0]?.oneLineSummary).toBe(
+      "First Song Request",
+    );
 
-    expect(storedProject.scenes[1]?.sceneTitle).toBe("Scene 2");
-    expect(storedProject.scenes[1]?.description).toBe("Scene 2 description");
-    expect(storedProject.scenes[1]?.musicType).toBe("Indie");
+    expect(storedProject.songRequests[1]?.description).toBe(
+      "SongRequest 2 description",
+    );
+    expect(storedProject.songRequests[1]?.musicType).toBe("Indie");
+    expect(storedProject.songRequests[1]?.oneLineSummary).toBe(
+      "Second Song Request",
+    );
 
-    // Delete scenes
-    await prisma.sceneSubmission.deleteMany({
+    expect(mockEmailService.send).toBeCalled();
+
+    // Delete songRequests
+    await prisma.songRequest.deleteMany({
       where: {
         projectId: storedProject.projectId,
       },
@@ -163,7 +177,7 @@ describe("projectSubmission", () => {
     const input = {
       projectTitle: "Test Project",
       description: "A test project for submission",
-      scenes: [],
+      songRequests: [],
       deadline: new Date(),
       videoLink: "https://test.com/video",
       additionalInfo: "General additional info",
@@ -172,5 +186,7 @@ describe("projectSubmission", () => {
     expect($api.projectSubmission(input)).rejects.toThrow(
       "permission to submit",
     );
+
+    expect(mockEmailService.send).not.toHaveBeenCalled();
   });
 });

@@ -15,7 +15,6 @@ export const createMatchRatingProcedure = rolePermissionsProcedureBuilder(
       ratingId: z.string().optional(),
       ratingEnum: z.nativeEnum(Rating),
       matchId: z.string(),
-      unlicensed: z.boolean(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -23,7 +22,6 @@ export const createMatchRatingProcedure = rolePermissionsProcedureBuilder(
       const rating = await ctx.prisma.matchRatings.findFirst({
         where: {
           ratingId: input.ratingId,
-          unlicensedSuggestedMatchId: input.matchId,
         },
       });
 
@@ -44,23 +42,13 @@ export const createMatchRatingProcedure = rolePermissionsProcedureBuilder(
           });
         }
       } else {
-        if (input.unlicensed) {
-          await ctx.prisma.matchRatings.create({
-            data: {
-              userId: ctx.session.user.userId,
-              ratingEnum: input.ratingEnum,
-              unlicensedSuggestedMatchId: input.matchId,
-            },
-          });
-        } else {
-          await ctx.prisma.matchRatings.create({
-            data: {
-              userId: ctx.session.user.userId,
-              ratingEnum: input.ratingEnum,
-              suggestedMatchId: input.matchId,
-            },
-          });
-        }
+        await ctx.prisma.matchRatings.create({
+          data: {
+            userId: ctx.session.user.userId,
+            ratingEnum: input.ratingEnum,
+            suggestedMatchId: input.matchId,
+          },
+        });
       }
     }
   });

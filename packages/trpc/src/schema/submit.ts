@@ -5,9 +5,9 @@ import { MusicAffiliation, MusicRole } from "@good-dog/db";
 export const zProjectSubmissionValues = z.object({
   projectTitle: z.string(),
   description: z.string(),
-  scenes: z.array(
+  songRequests: z.array(
     z.object({
-      sceneTitle: z.string(),
+      oneLineSummary: z.string(),
       description: z.string(),
       musicType: z.string(),
       similarSongs: z.string().optional(),
