@@ -29,6 +29,11 @@ export default {
         "good-dog-orange": "#EF946C",
         "good-dog-purple": "#574AE2",
 
+        // NEW FALL '25 COLORS
+        "good-dog-green": "#07634C",
+        "good-dog-dark-green": "#054233",
+        "good-dog-cream": "#FFFBF6",
+
         // BASE CONFIG
         border: "hsl(var(--border))",
         input: {
