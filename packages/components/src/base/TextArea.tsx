@@ -1,9 +1,9 @@
-import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
 import ErrorExcalamation from "../svg/ErrorExclamation";
 import clsx from "clsx";
+import { Textarea } from "@good-dog/ui/textarea";
 
-interface TextInputProps {
+interface TextAreaProps {
   label: string;
   placeholder: string;
   htmlFor?: string;
@@ -12,14 +12,14 @@ interface TextInputProps {
   errorText?: string;
 }
 
-export default function TextInput({
+export default function TextArea({
   label,
   placeholder,
   htmlFor,
   required = false,
   helperText,
   errorText,
-}: TextInputProps) {
+}: TextAreaProps) {
   return (
     <div className="w-full flex flex-col gap-label-input-sep text-label-black">
       <div className="flex flex-row gap-[2px]">
@@ -30,9 +30,9 @@ export default function TextInput({
           <Label className="!text-base-label text-required-star">*</Label>
         )}
       </div>
-      <Input
+      <Textarea
         className={clsx(
-          "w-full h-base-input pl-placeholder-sep text-base-input text-input-black rounded-base-input border-inactive-border",
+          "w-full h-textarea pl-placeholder-sep text-base-input text-input-black rounded-base-input border-inactive-border py-2",
           "placeholder:text-placeholder",
           "hover:border-hover-border",
           "focus:border-active-border focus:shadow-active-shadow focus:outline-none",

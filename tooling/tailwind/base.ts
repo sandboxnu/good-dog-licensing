@@ -29,6 +29,7 @@ export default {
       },
       height: {
         "base-input": "32px",
+        textarea: "80px",
       },
       colors: {
         // OLD FALL '24 COLORS, CAN BE REMOVED LATER
