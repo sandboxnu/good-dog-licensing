@@ -8,7 +8,7 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { prisma } from "@good-dog/db";
+import { MatchState, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCache } from "../../mocks/MockNextCache";
@@ -121,27 +121,6 @@ async function createData() {
   });
 }
 
-async function createMoreData() {
-  await prisma.match.create({
-    data: {
-      matchId: "match",
-      songRequestId: "songRequestOneSubmission",
-      musicId: "musicSubmission",
-      matcherUserId: "matcher",
-      matchState: "NEW",
-    },
-  });
-
-  await prisma.comments.create({
-    data: {
-      commentId: "testComment",
-      userId: "matcher",
-      commentText: "hello",
-      songRequestId: "songRequestOneSubmission",
-    },
-  });
-}
-
 async function deleteData() {
   // Delete Comments (created in tests)
   await prisma.comments.deleteMany({
@@ -187,7 +166,7 @@ async function deleteData() {
   });
 }
 
-describe("upsertCommentsProcedure", () => {
+describe("match procedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
 
@@ -197,7 +176,6 @@ describe("upsertCommentsProcedure", () => {
 
   beforeEach(async () => {
     await createData();
-    await createMoreData();
   });
 
   const $api = $createTrpcCaller({
@@ -211,131 +189,97 @@ describe("upsertCommentsProcedure", () => {
     cache.clear();
   });
 
-  it("should allow admins to create comments on matches", async () => {
-    cookies.set("sessionId", "sanjana-session-id");
-
-    const response = await $api.comment({
-      songRequestId: "songRequestOneSubmission",
-      comment: {
-        commentText:
-          "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
-        userId: "sanjana",
-      },
-    });
-
-    expect(response.message).toEqual("Comments successfully updated.");
-
-    const createdComment = await prisma.comments.findFirst({
-      where: {
-        songRequestId: "songRequestOneSubmission",
-        userId: "sanjana",
-      },
-    });
-
-    expect(createdComment).toBeDefined();
-    expect(createdComment?.commentText).toBe(
-      "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
-    );
-  });
-
-  it("should allow moderators to comment on matches", async () => {
+  it("should allow a moderator to create a match", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
-    const response = await $api.comment({
+    const response = await $api.createMatch({
       songRequestId: "songRequestOneSubmission",
-      comment: {
-        commentText: "hello",
-        userId: "matcher",
-      },
+      musicId: "musicSubmission",
     });
 
-    expect(response.message).toEqual("Comments successfully updated.");
+    expect(response.message).toEqual("Match successfully created.");
 
-    const createdComment = await prisma.comments.findFirst({
+    const match = await prisma.match.findFirst({
       where: {
         songRequestId: "songRequestOneSubmission",
-        userId: "matcher",
+        musicId: "musicSubmission",
+        matcherUserId: "matcher",
       },
     });
 
-    expect(createdComment).toBeDefined();
-    expect(createdComment?.commentText).toBe("hello");
+    expect(match).toBeDefined();
+    expect(match?.matchState).toBe(MatchState.NEW);
+    expect(match?.songRequestId).toBe("songRequestOneSubmission");
+    expect(match?.musicId).toBe("musicSubmission");
+    expect(match?.matcherUserId).toBe("matcher");
   });
 
-  it("should prevent normal users from commenting on suggested matches", () => {
+  it("should allow an admin to create a match", async () => {
+    cookies.set("sessionId", "sanjana-session-id");
+
+    const response = await $api.createMatch({
+      songRequestId: "songRequestOneSubmission",
+      musicId: "musicSubmission",
+    });
+
+    expect(response.message).toEqual("Match successfully created.");
+
+    const match = await prisma.match.findFirst({
+      where: {
+        songRequestId: "songRequestOneSubmission",
+        musicId: "musicSubmission",
+        matcherUserId: "sanjana",
+      },
+    });
+
+    expect(match).toBeDefined();
+    expect(match?.matchState).toBe(MatchState.NEW);
+    expect(match?.songRequestId).toBe("songRequestOneSubmission");
+    expect(match?.musicId).toBe("musicSubmission");
+    expect(match?.matcherUserId).toBe("sanjana");
+  });
+
+  it("should throw error when given invalid songRequestId", () => {
+    cookies.set("sessionId", "sanjana-session-id");
+
+    expect(
+      $api.createMatch({
+        songRequestId: "songRequestOneSubmission",
+        musicId: "invalid",
+      }),
+    ).rejects.toThrow("Foreign key constraint violated");
+  });
+
+  it("should throw error when given invalid musicId", () => {
+    cookies.set("sessionId", "sanjana-session-id");
+
+    expect(
+      $api.createMatch({
+        songRequestId: "invalid",
+        musicId: "musicSubmission",
+      }),
+    ).rejects.toThrow("Foreign key constraint violated");
+  });
+
+  it("should not allow a musician to create a match", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
-      $api.comment({
+      $api.createMatch({
         songRequestId: "songRequestOneSubmission",
-        comment: {
-          commentText: "hello",
-          userId: "musician",
-        },
+        musicId: "musicSubmission",
       }),
     ).rejects.toThrow("permission to modify");
   });
 
-  it("should allow users who made a comment to update it", async () => {
-    cookies.set("sessionId", "sanjana-session-id");
-
-    const response = await $api.comment({
-      songRequestId: "songRequestOneSubmission",
-      comment: {
-        commentText:
-          "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
-        userId: "sanjana",
-      },
-    });
-
-    expect(response.message).toEqual("Comments successfully updated.");
-
-    const createdComment = await prisma.comments.findFirst({
-      where: {
-        songRequestId: "songRequestOneSubmission",
-        userId: "sanjana",
-      },
-    });
-
-    expect(createdComment).toBeDefined();
-    expect(createdComment?.commentText).toBe(
-      "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
-    );
-
-    const updatedResponse = await $api.comment({
-      commentId: createdComment?.commentId,
-      songRequestId: "songRequestOneSubmission",
-      comment: {
-        commentText: "hi hi",
-        userId: "sanjana",
-      },
-    });
-
-    expect(updatedResponse.message).toEqual("Comments successfully updated.");
-
-    const updatedComment = await prisma.comments.findFirst({
-      where: {
-        songRequestId: "songRequestOneSubmission",
-        userId: "sanjana",
-      },
-    });
-
-    expect(updatedComment).toBeDefined();
-    expect(updatedComment?.commentText).toEqual("hi hi");
-  });
-
-  it("should prevent other users from modifying comments that are not theirs", () => {
-    cookies.set("sessionId", "sanjana-session-id");
+  it("should not allow a media maker to create a match", () => {
+    cookies.set("sessionId", "project-session-id");
 
     expect(
-      $api.comment({
-        commentId: "testComment",
-        comment: {
-          userId: "sanjana",
-          commentText: "hi hi",
-        },
+      $api.createMatch({
         songRequestId: "songRequestOneSubmission",
+        musicId: "musicSubmission",
       }),
-    ).rejects.toThrow();
+    ).rejects.toThrow("permission to modify");
   });
 });
