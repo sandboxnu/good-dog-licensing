@@ -8,12 +8,12 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { prisma } from "@good-dog/db";
+import { MatchState, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
-import { MockNextCache } from "../mocks/MockNextCache";
-import { MockNextCookies } from "../mocks/MockNextCookies";
-import { createMockCookieService } from "../mocks/util";
+import { MockNextCache } from "../../mocks/MockNextCache";
+import { MockNextCookies } from "../../mocks/MockNextCookies";
+import { createMockCookieService } from "../../mocks/util";
 
 async function createData() {
   await prisma.user.create({
@@ -208,6 +208,9 @@ describe("match procedure", () => {
     });
 
     expect(match).toBeDefined();
+    expect(match?.matchState).toBe(MatchState.NEW);
+    expect(match?.songRequestId).toBe("songRequestOneSubmission");
+    expect(match?.musicId).toBe("musicSubmission");
   });
 
   it("should allow an admin to create a match", async () => {
@@ -229,6 +232,31 @@ describe("match procedure", () => {
     });
 
     expect(match).toBeDefined();
+    expect(match?.matchState).toBe(MatchState.NEW);
+    expect(match?.songRequestId).toBe("songRequestOneSubmission");
+    expect(match?.musicId).toBe("musicSubmission");
+  });
+
+  it("should throw error when given invalid songRequestId", async () => {
+    cookies.set("sessionId", "sanjana-session-id");
+
+    expect(
+      $api.createMatch({
+        songRequestId: "songRequestOneSubmission",
+        musicId: "invalid",
+      }),
+    ).rejects.toThrow("Foreign key constraint violated");
+  });
+
+  it("should throw error when given invalid musicId", async () => {
+    cookies.set("sessionId", "sanjana-session-id");
+
+    expect(
+      $api.createMatch({
+        songRequestId: "invalid",
+        musicId: "musicSubmission",
+      }),
+    ).rejects.toThrow("Foreign key constraint violated");
   });
 
   it("should not allow a musician to create a match", () => {
