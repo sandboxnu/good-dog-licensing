@@ -239,7 +239,7 @@ describe("match procedure", () => {
     expect(match?.matcherUserId).toBe("sanjana");
   });
 
-  it("should throw error when given invalid songRequestId", async () => {
+  it("should throw error when given invalid songRequestId", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     expect(
@@ -250,7 +250,7 @@ describe("match procedure", () => {
     ).rejects.toThrow("Foreign key constraint violated");
   });
 
-  it("should throw error when given invalid musicId", async () => {
+  it("should throw error when given invalid musicId", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     expect(
