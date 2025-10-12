@@ -49,7 +49,7 @@ export const getProjectSongRequestByIdProcedure =
         },
         include: {
           projectSubmission: true,
-          suggestedMatches: {
+          matches: {
             include: {
               musicSubmission: {
                 include: {
