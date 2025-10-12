@@ -1,4 +1,4 @@
-// import { Spinner } from "@good-dog/components/loading/Spinner";
+import { Spinner } from "@good-dog/components/oldStuff/loading/Spinner";
 
 export default function LoadingPage() {
   return (
@@ -8,7 +8,7 @@ export default function LoadingPage() {
           LOADING
         </h1>
         <div className="flex justify-center">
-          {/* <Spinner className="text-good-dog-celadon" /> */}
+          <Spinner className="text-good-dog-celadon" />
         </div>
         <p className="animate-pulse text-lg text-good-dog-orange/70">
           Please wait while we fetch your content.

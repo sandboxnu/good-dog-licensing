@@ -1,5 +1,5 @@
-// import Footer from "@good-dog/components/Footer";
-// import Nav from "@good-dog/components/Nav";
+import Footer from "@good-dog/components/oldStuff/Footer";
+import Nav from "@good-dog/components/oldStuff/Nav";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
 import { ClientWrapper } from "./ClientWrapper";
@@ -14,9 +14,9 @@ export default function Layout({
   return (
     <HydrateClient>
       <ClientWrapper>
-        {/* <Nav /> */}
+        <Nav />
         {children}
-        {/* <Footer /> */}
+        <Footer />
       </ClientWrapper>
     </HydrateClient>
   );
