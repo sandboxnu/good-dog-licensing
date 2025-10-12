@@ -211,6 +211,7 @@ describe("match procedure", () => {
     expect(match?.matchState).toBe(MatchState.NEW);
     expect(match?.songRequestId).toBe("songRequestOneSubmission");
     expect(match?.musicId).toBe("musicSubmission");
+    expect(match?.matcherUserId).toBe("matcher");
   });
 
   it("should allow an admin to create a match", async () => {
@@ -235,6 +236,7 @@ describe("match procedure", () => {
     expect(match?.matchState).toBe(MatchState.NEW);
     expect(match?.songRequestId).toBe("songRequestOneSubmission");
     expect(match?.musicId).toBe("musicSubmission");
+    expect(match?.matcherUserId).toBe("sanjana");
   });
 
   it("should throw error when given invalid songRequestId", async () => {
