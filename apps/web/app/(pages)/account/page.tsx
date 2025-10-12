@@ -1,4 +1,4 @@
-import MediamakerAccountPage from "@good-dog/components/projects/MediamakerAccountPage";
+import MediamakerAccountPage from "@good-dog/components/oldStuff/projects/MediamakerAccountPage";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
 export const dynamic = "force-dynamic";
