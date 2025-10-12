@@ -23,12 +23,7 @@ import {
   mediamakerSongRequestsProcedure,
   songRequestProcedure,
 } from "../procedures/get-song-requests";
-import { createMatchRatingProcedure } from "../procedures/like";
-import {
-  getMatchesProcedure,
-  reviewSuggestedMatchProcedure,
-  suggestedMatchProcedure,
-} from "../procedures/matches";
+import { createMatchProcedure } from "../procedures/matches/create-match";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { submitMusicProcedure } from "../procedures/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
@@ -57,12 +52,9 @@ export const appRouter = createTRPCRouter({
   userProjects: getUserSongRequestsProcedure,
   music: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
-  match: getMatchesProcedure,
-  rateMatch: createMatchRatingProcedure,
   songRequest: songRequestProcedure,
   comment: upsertCommentsProcedure,
-  suggestMatch: suggestedMatchProcedure,
-  reviewMatch: reviewSuggestedMatchProcedure,
+  createMatch: createMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,
