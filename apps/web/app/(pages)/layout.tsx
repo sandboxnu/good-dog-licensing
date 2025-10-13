@@ -1,5 +1,5 @@
-import Footer from "@good-dog/components/Footer";
-import Nav from "@good-dog/components/NewNav";
+import Footer from "@good-dog/components/oldStuff/Footer";
+import Nav from "@good-dog/components/base/Nav";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
 import { ClientWrapper } from "./ClientWrapper";

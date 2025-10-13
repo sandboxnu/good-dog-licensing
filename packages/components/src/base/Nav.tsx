@@ -1,10 +1,6 @@
 "use client";
-
 import Link from "next/link";
-import { User } from "lucide-react";
-
 import { trpc } from "@good-dog/trpc/client";
-import { Button } from "@good-dog/ui/button";
 import NavLogo from "./NavLogo";
 
 export default function Nav() {
@@ -24,16 +20,10 @@ export default function Nav() {
         </Link>
 
         <nav className="flex items-center gap-8 text-lg">
-          <Link
-            href="/"
-            className="hover:underline underline-offset-4"
-          >
+          <Link href="/" className="hover:underline underline-offset-4">
             Home
           </Link>
-          <Link
-            href="/about"
-            className="hover:underline underline-offset-4"
-          >
+          <Link href="/about" className="hover:underline underline-offset-4">
             About
           </Link>
           {user ? (
@@ -52,10 +42,7 @@ export default function Nav() {
               </button>
             </>
           ) : (
-            <Link
-              href="/login"
-              className="hover:underline underline-offset-4"
-            >
+            <Link href="/login" className="hover:underline underline-offset-4">
               Login
             </Link>
           )}

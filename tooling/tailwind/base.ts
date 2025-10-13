@@ -12,6 +12,10 @@ export default {
       },
     },
     extend: {
+      spacing: {
+        "placeholder-sep": "8px",
+        "label-input-sep": "8px",
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         righteous: ["Righteous"],
@@ -19,6 +23,13 @@ export default {
       fontSize: {
         "10xl": "150px",
         "7xl": "72px",
+        "base-input": "16px",
+        "base-label": "16px",
+        "base-helper": "14px",
+      },
+      height: {
+        "base-input": "32px",
+        textarea: "80px",
       },
       colors: {
         // OLD FALL '24 COLORS, CAN BE REMOVED LATER
@@ -29,7 +40,17 @@ export default {
         "good-dog-orange": "#EF946C",
         "good-dog-purple": "#574AE2",
 
-        // NEW FALL '25 COLORS
+        // NEW COLORS
+        "label-black": "#171717",
+        "input-black": "#2E2E2E",
+        error: "#B13433",
+        placeholder: "#ADADAD",
+        "inactive-border": "#858585",
+        "hover-border": "#404040",
+        "active-border": "#098465",
+        "error-border": "#B13433",
+        "required-star": "#FF3B30",
+        
         "good-dog-green": "#07634C",
         "good-dog-dark-green": "#054233",
         "good-dog-cream": "#FFFBF6",
@@ -75,10 +96,15 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      boxShadow: {
+        "active-shadow": "0 0 3px 0 var(--pine-200, #4C8B79)",
+        "error-shadow": "0 0 3px 0 var(--Red-100, #FF9D97)",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "base-input": "8px",
       },
       keyframes: {
         "accordion-down": {

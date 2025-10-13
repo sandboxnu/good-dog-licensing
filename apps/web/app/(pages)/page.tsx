@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import LandingSubmission from "@good-dog/components/LandingSubmission";
-import ProjectGallery from "@good-dog/components/ProjectGallery";
+import LandingSubmission from "@good-dog/components/oldStuff/LandingSubmission";
+import ProjectGallery from "@good-dog/components/oldStuff/ProjectGallery";
 
 export default function Home() {
   return (
