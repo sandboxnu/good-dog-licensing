@@ -61,7 +61,6 @@ export default function Nav() {
           )}
         </nav>
       </div>
-      <div className="h-px bg-emerald-400"></div>
     </header>
   );
 }
