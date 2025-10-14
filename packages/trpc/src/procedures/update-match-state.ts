@@ -28,10 +28,35 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
       });
     }
 
-    const result = prisma.match.update({
+    const match = await prisma.match.findFirst({
+      where: { matchId: input.matchId },
+    });
+
+    if (!match) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: `Match id does not exist`,
+      });
+    }
+
+    if (match.matcherUserId != ctx.session.user.userId) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: `Media makers can only update the state of matches that involve their projects`,
+      });
+    }
+
+    const result = await prisma.match.update({
       where: { matchId: input.matchId },
       data: { matchState: input.state },
     });
+
+    if (!result) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `An unknown error occured when updating the state of match ${input.matchId}`,
+      });
+    }
 
     return {
       message: "Match state updated successfully",
