@@ -1,5 +1,7 @@
 import TextArea from "@good-dog/components/base/TextArea";
 import TextInput from "@good-dog/components/base/TextInput";
+import Checkbox from "@good-dog/components/base/Checkbox";
+import RadioGroup from "@good-dog/components/base/RadioGroup";
 
 export default function Components() {
   return (
@@ -41,6 +43,24 @@ export default function Components() {
             errorText="This is some error text"
           />
         </div>
+      </div>
+      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+        <Checkbox label={"Please check this"} required={false} />
+        <Checkbox
+          label={"Please check this"}
+          required={true}
+          errorText="This is some error text"
+        />
+      </div>
+      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+        <RadioGroup
+          options={[
+            { value: "yes", label: "Yes" },
+            { value: "no", label: "No" },
+            { value: "maybe", label: "Maybe" },
+          ]}
+          required={false}
+        />
       </div>
     </div>
   );
