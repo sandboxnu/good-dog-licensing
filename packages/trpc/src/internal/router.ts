@@ -32,6 +32,7 @@ import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
+import { getMusicSubmissionPrefillValues } from "../procedures/get-submission-vals";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 
 export const appRouter = createTRPCRouter({
@@ -61,6 +62,7 @@ export const appRouter = createTRPCRouter({
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
   getSongRequestById: getProjectSongRequestByIdProcedure,
+  getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValues,
 });
 
 export type AppRouter = typeof appRouter;
