@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { trpc } from "@good-dog/trpc/client";
-import NavLogo from "./NavLogo";
+import NavLogo from "../svg/NavLogo";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
