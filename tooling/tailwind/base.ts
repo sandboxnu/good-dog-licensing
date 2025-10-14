@@ -50,7 +50,7 @@ export default {
         "active-border": "#098465",
         "error-border": "#B13433",
         "required-star": "#FF3B30",
-        
+
         "good-dog-green": "#07634C",
         "good-dog-dark-green": "#054233",
         "good-dog-cream": "#FFFBF6",
