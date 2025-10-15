@@ -1,4 +1,4 @@
-export default function ErrorExcalamation() {
+export default function ErrorExclamation() {
   return (
     <svg
       width="12"

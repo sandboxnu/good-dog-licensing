@@ -50,6 +50,8 @@ export default {
         "active-border": "#098465",
         "error-border": "#B13433",
         "required-star": "#FF3B30",
+        checkbox: "#07634C",
+        radio: "#07634C",
 
         // BASE CONFIG
         border: "hsl(var(--border))",

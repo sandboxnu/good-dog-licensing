@@ -1,5 +1,5 @@
 import { Label } from "@good-dog/ui/label";
-import ErrorExcalamation from "../svg/ErrorExclamation";
+import ErrorExclamation from "../svg/ErrorExclamation";
 import clsx from "clsx";
 import { Textarea } from "@good-dog/ui/textarea";
 
@@ -49,7 +49,7 @@ export default function TextArea({
       )}
       {errorText && (
         <div className="flex flex-row gap-[2px]">
-          <ErrorExcalamation />
+          <ErrorExclamation />
           <Label className="!text-base-helper text-error">{errorText}</Label>
         </div>
       )}
