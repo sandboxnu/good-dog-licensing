@@ -60,6 +60,17 @@ export default function Components() {
             { value: "maybe", label: "Maybe" },
           ]}
           required={false}
+          label={"Please select an option"}
+        />
+        <RadioGroup
+          options={[
+            { value: "yes", label: "Yes" },
+            { value: "no", label: "No" },
+            { value: "maybe", label: "Maybe" },
+          ]}
+          required={true}
+          label={"Please select an option"}
+          errorText="This is some error text"
         />
       </div>
     </div>

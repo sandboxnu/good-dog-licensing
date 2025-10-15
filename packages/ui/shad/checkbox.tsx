@@ -1,6 +1,6 @@
 import React from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import CheckIcon from "../../components/src/svg/CheckIcon";
+import CheckIcon from "../svg/CheckIcon";
 
 import { cn } from "@good-dog/ui";
 
