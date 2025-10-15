@@ -148,14 +148,14 @@ enum MusicAffiliation {
 }
 
 model MusicContributor {
-  contributorId          String           @id @default(uuid())
+  contributorId          String            @id @default(uuid())
   name                   String
   roles                  MusicRole[]
   affiliation            MusicAffiliation?
   ipi                    String?
-  MusicSubmission        MusicSubmission  @relation(fields: [musicSubmissionMusicId], references: [musicId], onDelete: Cascade)
+  MusicSubmission        MusicSubmission   @relation(fields: [musicSubmissionMusicId], references: [musicId], onDelete: Cascade)
   musicSubmissionMusicId String
-  isSubmitter            Boolean          @default(false)
+  isSubmitter            Boolean           @default(false)
 }
 
 model SuggestedMatch {

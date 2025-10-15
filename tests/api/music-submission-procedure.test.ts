@@ -7,13 +7,12 @@ import {
   test,
 } from "bun:test";
 
-import { prisma } from "@good-dog/db";
+import { MusicAffiliation, MusicRole, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
-import { MusicAffiliation, MusicRole } from "@good-dog/db";
 
 // Set up the mock services
 const mockCookies = new MockNextCookies();

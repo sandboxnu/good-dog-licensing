@@ -26,7 +26,9 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
         },
         data: {
           ipi: input.submitterIpi ? input.submitterIpi : undefined,
-          affiliation: input.submitterAffiliation ? input.submitterAffiliation : undefined,
+          affiliation: input.submitterAffiliation
+            ? input.submitterAffiliation
+            : undefined,
         },
       }),
       // Create the music submission
