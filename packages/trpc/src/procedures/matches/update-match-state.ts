@@ -1,6 +1,6 @@
 import { MatchState, prisma, Role } from "@good-dog/db";
 import z from "zod";
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
+import { authenticatedProcedureBuilder } from "../../middleware/authenticated";
 import { TRPCError } from "@trpc/server";
 
 export const updateMatchStateProcedure = authenticatedProcedureBuilder
@@ -30,6 +30,14 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
 
     const match = await prisma.match.findFirst({
       where: { matchId: input.matchId },
+      include: {
+        musicSubmission: true,
+        songRequest: {
+          include: {
+            projectSubmission: true,
+          },
+        },
+      },
     });
 
     if (!match) {
@@ -39,10 +47,25 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
       });
     }
 
-    if (match.matcherUserId != ctx.session.user.userId) {
+    // If media maker, then it needs to be their project
+    if (
+      role == Role.MEDIA_MAKER &&
+      match.songRequest.projectSubmission.projectOwnerId !=
+        ctx.session.user.userId
+    ) {
       throw new TRPCError({
         code: "UNAUTHORIZED",
         message: `Media makers can only update the state of matches that involve their projects`,
+      });
+    }
+    // If music maker, then it needs to be their music
+    if (
+      role == Role.MUSICIAN &&
+      match.musicSubmission.submitterId != ctx.session.user.userId
+    ) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: `Musicians can only update the state of matches that involve their projects`,
       });
     }
 
@@ -50,13 +73,6 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
       where: { matchId: input.matchId },
       data: { matchState: input.state },
     });
-
-    if (!result) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: `An unknown error occured when updating the state of match ${input.matchId}`,
-      });
-    }
 
     return {
       message: "Match state updated successfully",
