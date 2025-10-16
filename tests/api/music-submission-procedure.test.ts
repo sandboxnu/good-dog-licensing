@@ -114,25 +114,29 @@ describe("music-submission-procedure", () => {
     // Verify that the music submission was created successfully
     expect(response.message).toEqual("Music submitted successfully");
 
-    const musicSubmission = await prisma.musicSubmission.findFirst({
-      where: { songName: "Test Song" },
-    });
-
-    const submitter = await prisma.musicContributor.findFirst({
-      where: { name: "Person 1 Smith" },
-    });
-
-    const contributor1 = await prisma.musicContributor.findFirst({
-      where: { name: "Admin Contributor" },
-    });
-
-    const contributor2 = await prisma.musicContributor.findFirst({
-      where: { name: "Contributor Two" },
-    });
-
-    const contributor3 = await prisma.musicContributor.findFirst({
-      where: { name: "Contributor Three" },
-    });
+    const [
+      musicSubmission,
+      submitter,
+      contributor1,
+      contributor2,
+      contributor3,
+    ] = await prisma.$transaction([
+      prisma.musicSubmission.findFirst({
+        where: { songName: "Test Song" },
+      }),
+      prisma.musicContributor.findFirst({
+        where: { name: "Person 1 Smith" },
+      }),
+      prisma.musicContributor.findFirst({
+        where: { name: "Admin Contributor" },
+      }),
+      prisma.musicContributor.findFirst({
+        where: { name: "Contributor Two" },
+      }),
+      prisma.musicContributor.findFirst({
+        where: { name: "Contributor Three" },
+      }),
+    ]);
 
     // Verify that the music submission fields are updated correctly
     expect(musicSubmission?.songName).toEqual("Test Song");
