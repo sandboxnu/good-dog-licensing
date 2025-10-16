@@ -80,14 +80,14 @@ const musicContributor1 = {
 };
 
 const musicContributor2 = {
-  name: "Contrbutor One",
+  name: "Contributor Two",
   roles: [MusicRole.LYRICIST, MusicRole.PRODUCER],
   affiliation: MusicAffiliation.ASCAP,
   ipi: "5555",
 };
 
 const musicContributor3 = {
-  name: "Contrbutor One",
+  name: "Contributor Three",
   roles: [MusicRole.PRODUCER],
   affiliation: MusicAffiliation.BMI,
   ipi: "0918",
@@ -118,12 +118,40 @@ describe("music-submission-procedure", () => {
       where: { songName: "Test Song" },
     });
 
+    const submitter = await prisma.musicContributor.findFirst({
+      where: { name: "Person 1 Smith" },
+    });
+
+    const contributor1 = await prisma.musicContributor.findFirst({
+      where: { name: "Admin Contributor" },
+    });
+
+    const contributor2 = await prisma.musicContributor.findFirst({
+      where: { name: "Contributor Two" },
+    });
+
+    const contributor3 = await prisma.musicContributor.findFirst({
+      where: { name: "Contributor Three" },
+    });
+
+    // Verify that the music submission fields are updated correctly
     expect(musicSubmission?.songName).toEqual("Test Song");
     expect(musicSubmission?.songLink).toEqual("https://example.com");
     expect(musicSubmission?.genre).toEqual("Rock");
     expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
     expect(musicSubmission?.performerName).toEqual("The Beatles");
     expect(musicSubmission?.submitterId).toEqual("musician-id-1");
+
+    // Verify that the submitter fields are updated correctly
+    expect(submitter?.name).toEqual("Person 1 Smith");
+    expect(submitter?.roles).toEqual(["SONGWRITER", "LYRICIST"]);
+    expect(submitter?.affiliation).toEqual("ASCAP");
+    expect(submitter?.ipi).toEqual("1234");
+    expect(submitter?.isSubmitter).toBe(true);
+
+    expect(contributor1?.isSubmitter).toEqual(false);
+    expect(contributor2?.isSubmitter).toEqual(false);
+    expect(contributor3?.isSubmitter).toEqual(false);
   });
 
   test("An Admin can submit music", async () => {
@@ -155,12 +183,18 @@ describe("music-submission-procedure", () => {
       where: { songName: "Admin Test Song" },
     });
 
+    const submitter = await prisma.musicContributor.findFirst({
+      where: { name: "Person 1 Smith" },
+    });
+
     expect(musicSubmission?.songName).toEqual("Admin Test Song");
     expect(musicSubmission?.songLink).toEqual("https://example.com/admin-song");
     expect(musicSubmission?.genre).toEqual("Jazz");
     expect(musicSubmission?.additionalInfo).toEqual("Admin additional info");
     expect(musicSubmission?.performerName).toEqual("Grateful Dead");
     expect(musicSubmission?.submitterId).toEqual("musician-id-1");
+
+    expect(submitter?.isSubmitter).toEqual(true);
 
     // Reset Person 1's role to MUSICIAN
     await prisma.user.update({
