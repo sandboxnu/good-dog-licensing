@@ -53,6 +53,10 @@ export default {
         checkbox: "#07634C",
         radio: "#07634C",
 
+        "good-dog-green": "#07634C",
+        "good-dog-dark-green": "#054233",
+        "good-dog-cream": "#FFFBF6",
+
         // BASE CONFIG
         border: "hsl(var(--border))",
         input: {
