@@ -7,18 +7,19 @@ interface RHFTextInputProps<TFieldValues extends FieldValues>
   rhfName: Path<TFieldValues>;
 }
 
-export default function RHFTextInput<TFieldValues extends FieldValues>(
-  props: RHFTextInputProps<TFieldValues>,
-) {
+export default function RHFTextInput<TFieldValues extends FieldValues>({
+  rhfName,
+  ...textInputProps
+}: RHFTextInputProps<TFieldValues>) {
   const { control } = useFormContext<TFieldValues>();
 
   return (
     <Controller
-      name={props.rhfName}
+      name={rhfName}
       control={control}
       render={({ field }) => (
         <TextInput
-          {...props}
+          {...textInputProps}
           value={field.value || ""}
           onChange={field.onChange}
         />
