@@ -3,7 +3,7 @@ import { Label } from "@good-dog/ui/label";
 import ErrorExclamation from "../svg/ErrorExclamation";
 import clsx from "clsx";
 
-export interface TextInputProps {
+interface TextInputProps {
   label: string;
   value: string;
   onChange: (newValue: string) => void;
