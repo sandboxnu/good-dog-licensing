@@ -3,9 +3,9 @@
 import { zSignUpValues } from "@good-dog/trpc/schema";
 import { useFormContext } from "react-hook-form";
 import z from "zod";
-import RHFTextInput from "../../rhf-base/RHFTextInput";
 import { Button } from "@good-dog/ui/button";
 import { useMemo } from "react";
+import RHFTextInput from "../../rhf-base/RHFTextInput";
 
 interface InitialSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
