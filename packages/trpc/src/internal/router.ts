@@ -24,6 +24,7 @@ import {
   songRequestProcedure,
 } from "../procedures/get-song-requests";
 import { createMatchProcedure } from "../procedures/matches/create-match";
+import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { submitMusicProcedure } from "../procedures/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
@@ -61,6 +62,7 @@ export const appRouter = createTRPCRouter({
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
   getSongRequestById: getProjectSongRequestByIdProcedure,
+  deleteMatch: deleteMatchProcedure,
 });
 
 export type AppRouter = typeof appRouter;
