@@ -1,5 +1,9 @@
-import SignUpForm from "@good-dog/components/oldStuff/signUp/SignUpForm";
+import SignUpWidget from "@good-dog/components/sign-up/sign-up-widget/SignUpWidget";
 
 export default function Page() {
-  return <SignUpForm />;
+  return (
+    <div className="p-[100px]">
+      <SignUpWidget role="MUSICIAN" />
+    </div>
+  );
 }
