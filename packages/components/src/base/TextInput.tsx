@@ -1,7 +1,9 @@
+import clsx from "clsx";
+
 import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
+
 import ErrorExclamation from "../svg/ErrorExclamation";
-import clsx from "clsx";
 
 export interface TextInputProps {
   label: string;
@@ -25,7 +27,7 @@ export default function TextInput({
   errorText,
 }: TextInputProps) {
   return (
-    <div className="w-full flex flex-col gap-label-input-sep text-label-black">
+    <div className="flex w-full flex-col gap-label-input-sep text-label-black">
       <div className="flex flex-row gap-[2px]">
         <Label htmlFor={id} className="!text-base-label">
           {label}
@@ -36,7 +38,7 @@ export default function TextInput({
       </div>
       <Input
         className={clsx(
-          "w-full h-base-input pl-placeholder-sep text-base-input text-input-black rounded-base-input border-inactive-border",
+          "h-base-input w-full rounded-base-input border-inactive-border pl-placeholder-sep text-base-input text-input-black",
           "placeholder:text-placeholder",
           "hover:border-hover-border",
           "focus:border-active-border focus:shadow-active-shadow focus:outline-none",

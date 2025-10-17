@@ -1,7 +1,9 @@
-import { Label } from "@good-dog/ui/label";
-import ErrorExclamation from "../svg/ErrorExclamation";
 import clsx from "clsx";
+
+import { Label } from "@good-dog/ui/label";
 import { Textarea } from "@good-dog/ui/textarea";
+
+import ErrorExclamation from "../svg/ErrorExclamation";
 
 interface TextAreaProps {
   label: string;
@@ -21,7 +23,7 @@ export default function TextArea({
   errorText,
 }: TextAreaProps) {
   return (
-    <div className="w-full flex flex-col gap-label-input-sep text-label-black">
+    <div className="flex w-full flex-col gap-label-input-sep text-label-black">
       <div className="flex flex-row gap-[2px]">
         <Label htmlFor={htmlFor} className="!text-base-label">
           {label}
@@ -32,7 +34,7 @@ export default function TextArea({
       </div>
       <Textarea
         className={clsx(
-          "w-full h-textarea pl-placeholder-sep text-base-input text-input-black rounded-base-input border-inactive-border py-2",
+          "h-textarea w-full rounded-base-input border-inactive-border py-2 pl-placeholder-sep text-base-input text-input-black",
           "placeholder:text-placeholder",
           "hover:border-hover-border",
           "focus:border-active-border focus:shadow-active-shadow focus:outline-none",
