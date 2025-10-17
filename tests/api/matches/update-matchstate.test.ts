@@ -55,7 +55,7 @@ async function createData() {
   });
 
   // Create another musician
-  const otherMusician = await prisma.user.create({
+  await prisma.user.create({
     data: {
       userId: "otherMusician",
       firstName: "Other",
@@ -105,7 +105,7 @@ async function createData() {
   });
 
   // Create another media maker
-  const otherMediaMaker = await prisma.user.create({
+  await prisma.user.create({
     data: {
       userId: "otherMediaMaker",
       firstName: "Other",
