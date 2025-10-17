@@ -21,7 +21,7 @@
     "@good-dog/hooks": "workspace:*",
     "@good-dog/trpc": "workspace:*",
     "@good-dog/ui": "workspace:*",
-    "@hookform/resolvers": "3.9.1",
+    "@hookform/resolvers": "^5.2.2",
     "clsx": "^2.1.1",
     "lucide": "^0.484.0",
     "lucide-react": "^0.484.0",

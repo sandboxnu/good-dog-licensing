@@ -27,11 +27,11 @@ export const zSignUpValues = z.object({
     ),
   password: zPasswordValidation,
   confirmPassword: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
   referral: z.enum(ReferralSource),
   role: z.enum(["MUSICIAN", "MEDIA_MAKER"]),
-  emailCode: z.string(),
+  // emailCode: z.string(),
 });
 
 export const zSignInValues = z.object({
