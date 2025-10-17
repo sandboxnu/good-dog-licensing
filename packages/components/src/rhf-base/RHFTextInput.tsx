@@ -1,28 +1,25 @@
 import { Controller, FieldValues, Path, useFormContext } from "react-hook-form";
+import type { TextInputProps } from "../base/TextInput";
 import TextInput from "../base/TextInput";
 
-interface TextInputProps<TFieldValues extends FieldValues> {
+interface RHFTextInputProps<TFieldValues extends FieldValues>
+  extends TextInputProps {
   rhfName: Path<TFieldValues>;
-  label: string;
-  placeholder: string;
-  id?: string;
-  required: boolean;
-  helperText?: string;
-  errorText?: string;
 }
 
-export default function RHFTextInput<TFieldValues extends FieldValues>(
-  props: TextInputProps<TFieldValues>,
-) {
+export default function RHFTextInput<TFieldValues extends FieldValues>({
+  rhfName,
+  ...textInputProps
+}: RHFTextInputProps<TFieldValues>) {
   const { control } = useFormContext<TFieldValues>();
 
   return (
     <Controller
-      name={props.rhfName}
+      name={rhfName}
       control={control}
       render={({ field }) => (
         <TextInput
-          {...props}
+          {...textInputProps}
           value={field.value || ""}
           onChange={field.onChange}
         />
