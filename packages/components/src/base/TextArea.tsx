@@ -3,7 +3,7 @@ import ErrorExclamation from "../svg/ErrorExclamation";
 import clsx from "clsx";
 import { Textarea } from "@good-dog/ui/textarea";
 
-export interface TextAreaProps {
+interface TextAreaProps {
   label: string;
   value: string;
   onChange: (newValue: string) => void;
