@@ -52,6 +52,10 @@ export default {
         "required-star": "#FF3B30",
         checkbox: "#07634C",
         radio: "#07634C",
+        "good-dog-green": "#07634C",
+        "good-dog-dark-green": "#054233",
+        "good-dog-cream": "#FFFBF6",
+        "good-dog-red": "#F4392D",
 
         // BASE CONFIG
         border: "hsl(var(--border))",
