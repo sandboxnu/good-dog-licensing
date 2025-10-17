@@ -1,8 +1,9 @@
 import React from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import CheckIcon from "../svg/CheckIcon";
 
 import { cn } from "@good-dog/ui";
+
+import CheckIcon from "../svg/CheckIcon";
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,

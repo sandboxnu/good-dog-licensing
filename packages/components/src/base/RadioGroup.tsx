@@ -3,6 +3,7 @@ import {
   RadioGroupItem,
   RadioGroup as RadioGroupShad,
 } from "@good-dog/ui/radio-group";
+
 import ErrorExclamation from "../svg/ErrorExclamation";
 
 interface RadioGroupProps {
@@ -24,7 +25,7 @@ export default function RadioGroup({
   errorText,
 }: RadioGroupProps) {
   return (
-    <div className="w-full flex flex-col text-label-black gap-2">
+    <div className="flex w-full flex-col gap-2 text-label-black">
       <div className="flex flex-row gap-[2px]">
         <Label htmlFor={htmlFor} className="!text-base-label">
           {label}
@@ -35,13 +36,13 @@ export default function RadioGroup({
       </div>
       <RadioGroupShad
         required={required}
-        className="w-full flex flex-col gap-5"
+        className="flex w-full flex-col gap-5"
       >
         {options.map((option, index) => {
           return (
-            <div key={index} className="w-full flex flex-row gap-2">
+            <div key={index} className="flex w-full flex-row gap-2">
               <RadioGroupItem
-                className={`border-radio ${errorText ? " border-error-border shadow-error-shadow" : ""}`}
+                className={`border-radio ${errorText ? "border-error-border shadow-error-shadow" : ""}`}
                 value={option.value}
               />
               <Label htmlFor={htmlFor} className="!text-base-label">

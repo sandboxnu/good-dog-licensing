@@ -51,7 +51,7 @@ export const GoodDogDatePicker = <T extends FieldValues>(
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "bg-input-background w-[240px] pl-3 text-left text-lg font-normal md:text-sm",
+                    "w-[240px] bg-input-background pl-3 text-left text-lg font-normal md:text-sm",
                     !field.value && "text-muted-foreground",
                   )}
                 >

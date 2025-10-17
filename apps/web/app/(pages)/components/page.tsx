@@ -1,12 +1,12 @@
-import TextArea from "@good-dog/components/base/TextArea";
-import TextInput from "@good-dog/components/base/TextInput";
 import Checkbox from "@good-dog/components/base/Checkbox";
 import RadioGroup from "@good-dog/components/base/RadioGroup";
+import TextArea from "@good-dog/components/base/TextArea";
+import TextInput from "@good-dog/components/base/TextInput";
 
 export default function Components() {
   return (
-    <div className="flex h-screen items-center justify-center gap-5 flex-row">
-      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+    <div className="flex h-screen flex-row items-center justify-center gap-5">
+      <div className="flex h-screen flex-col items-center justify-center gap-5">
         <div className="w-full max-w-[250px]">
           <TextInput
             label="First Name"
@@ -33,7 +33,7 @@ export default function Components() {
           />
         </div>
       </div>
-      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+      <div className="flex h-screen flex-col items-center justify-center gap-5">
         <div className="w-full max-w-[250px]">
           <TextArea
             label="First Name"
@@ -52,7 +52,7 @@ export default function Components() {
           />
         </div>
       </div>
-      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+      <div className="flex h-screen flex-col items-center justify-center gap-5">
         <Checkbox label={"Please check this"} required={false} />
         <Checkbox
           label={"Please check this"}
@@ -60,7 +60,7 @@ export default function Components() {
           errorText="This is some error text"
         />
       </div>
-      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+      <div className="flex h-screen flex-col items-center justify-center gap-5">
         <RadioGroup
           options={[
             { value: "yes", label: "Yes" },

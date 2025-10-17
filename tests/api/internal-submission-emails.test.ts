@@ -1,8 +1,10 @@
-import { describe, test, expect, beforeEach, afterEach } from "bun:test";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { EmailParams, Recipient, Sender } from "mailersend";
+
 import { prisma } from "@good-dog/db";
-import { MockEmailService } from "../mocks/MockEmailService";
-import { EmailParams, Sender, Recipient } from "mailersend";
 import { env } from "@good-dog/env";
+
+import { MockEmailService } from "../mocks/MockEmailService";
 
 describe("internal email notifications", () => {
   const mockEmail = new MockEmailService();

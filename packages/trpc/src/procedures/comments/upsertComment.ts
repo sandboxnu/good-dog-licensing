@@ -1,7 +1,9 @@
-import z from "zod";
 import { TRPCError } from "@trpc/server";
-import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
+import z from "zod";
+
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
+
+import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 const CommentsSchema = z.object({
   commentText: z.string(),
