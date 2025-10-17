@@ -40,6 +40,10 @@ export default function Components() {
             placeholder="Your name"
             required
             helperText="This is some helper text"
+            value="test"
+            onChange={() => {
+              console.log("Changed");
+            }}
           />
         </div>
         <div className="w-full max-w-[250px]">
@@ -49,6 +53,10 @@ export default function Components() {
             required={false}
             helperText="This is some helper text"
             errorText="This is some error text"
+            value="test"
+            onChange={() => {
+              console.log("Changed");
+            }}
           />
         </div>
       </div>
