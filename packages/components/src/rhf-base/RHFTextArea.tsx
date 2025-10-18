@@ -6,8 +6,8 @@ interface RHFTextAreaProps<TFieldValues extends FieldValues> {
   rhfName: Path<TFieldValues>;
   label: string;
   placeholder: string;
-  id?: string;
-  required: boolean;
+  id: string;
+  required?: boolean;
   helperText?: string;
   errorText?: string;
 }
