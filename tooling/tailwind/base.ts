@@ -26,10 +26,12 @@ export default {
         "base-input": "16px",
         "base-label": "16px",
         "base-helper": "14px",
+        "sign-up-header": "35px",
       },
       height: {
         "base-input": "32px",
         textarea: "80px",
+        "sign-up-widget": "584px",
       },
       colors: {
         // OLD FALL '24 COLORS, CAN BE REMOVED LATER
@@ -52,6 +54,7 @@ export default {
         "required-star": "#FF3B30",
         checkbox: "#07634C",
         radio: "#07634C",
+        "sign-up-widget": "#FFFBF6",
 
         // BASE CONFIG
         border: "hsl(var(--border))",
@@ -103,6 +106,7 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
         "base-input": "8px",
+        "sign-up-widget": "16px",
       },
       keyframes: {
         "accordion-down": {
