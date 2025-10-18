@@ -4,6 +4,7 @@ import TextArea from "@good-dog/components/base/TextArea";
 import TextInput from "@good-dog/components/base/TextInput";
 import Checkbox from "@good-dog/components/base/Checkbox";
 import RadioGroup from "@good-dog/components/base/RadioGroup";
+import Button from "@good-dog/components/base/Button";
 
 export default function Components() {
   return (
@@ -95,6 +96,24 @@ export default function Components() {
           label={"Please select an option"}
           errorText="This is some error text"
           id="radio2"
+        />
+      </div>
+      <div className="flex flex-col gap-4 bg-gray-100 w-[400px]">
+        <Button type="contained" size="medium" label="Click Me" shadow />
+        <Button type="contained" size="large" label="Click Me" />
+        <Button type="outlined" size="medium" label="Click Me" />
+        <Button type="outlined" size="large" label="Click Me" shadow />
+        <Button type="text" size="medium" label="Click Me" />
+        <Button type="text" size="large" label="Click Me" />
+        <Button type="text" size="medium" label="Click Me" displayIcon />
+        <Button type="text" size="large" label="Click Me" displayIcon />
+        <Button type="contained" size="medium" displayIcon />
+        <Button type="contained" size="large" displayIcon />
+        <Button
+          type="contained"
+          size="large"
+          fullWidth
+          label="Click Me Please"
         />
       </div>
     </div>

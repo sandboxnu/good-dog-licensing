@@ -1,4 +1,5 @@
 import { Button as ButtonShad } from "@good-dog/ui/button";
+import AddIcon from "../svg/AddIcon";
 
 interface ButtonProps {
   label?: string;
@@ -6,7 +7,16 @@ interface ButtonProps {
   type: "contained" | "outlined" | "text";
   displayIcon?: boolean;
   shadow?: boolean;
+  fullWidth?: boolean;
 }
+
+type sizeOptions =
+  | "medium-text"
+  | "large-text"
+  | "medium-text-with-icon"
+  | "large-text-with-icon"
+  | "medium-icon"
+  | "large-icon";
 
 export default function Button({
   label,
@@ -14,10 +24,33 @@ export default function Button({
   type,
   displayIcon = false,
   shadow = false,
+  fullWidth = false,
 }: ButtonProps) {
+  const updatedSize: sizeOptions =
+    label && displayIcon
+      ? `${size}-text-with-icon`
+      : label
+        ? `${size}-text`
+        : `${size}-icon`;
+
+  const widthClassName = fullWidth ? "!w-full" : "";
+  const shadowClassName = shadow ? "shadow-button" : "";
+
   return (
-    <ButtonShad variant={type} size={size}>
-      {label}
+    <ButtonShad
+      variant={type}
+      size={updatedSize}
+      className={`${widthClassName} ${shadowClassName}`}
+    >
+      <div className="flex flex-row gap-[8px] items-center justify-center">
+        {displayIcon && (
+          <AddIcon
+            color={type === "contained" ? "light" : "dark"}
+            size={size}
+          />
+        )}
+        {label}
+      </div>
     </ButtonShad>
   );
 }

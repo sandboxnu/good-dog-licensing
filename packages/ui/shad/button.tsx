@@ -5,17 +5,22 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@good-dog/ui";
 
-const buttonVariants = cva("border-[8px] ", {
+const buttonVariants = cva("rounded-lg", {
   variants: {
     variant: {
-      contained: "bg-[#07634C]",
+      contained:
+        "bg-good-dog-main hover:bg-[#054233] active:bg-[#022119] text-[#E9F9F1]",
       outlined:
-        "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-      text: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        "bg-[#FFFDFB] hover:bg-[#E9F9F1] active:bg-[#D3F4E2] text-[#054233] border-[0.5px] border-[#404040]",
+      text: "bg-transparent hover:bg-[#E9F9F1] active:bg-[#D3F4E2] text-[#054233]",
     },
     size: {
-      medium: "h-[40px] w-[104px]",
-      large: "h-8 rounded-md px-3 text-xs",
+      "medium-text": "h-[40px] w-[104px] !text-body3",
+      "large-text": "h-[48px] w-[128px] !text-body2",
+      "medium-text-with-icon": "h-[40px] w-[120px] !text-body3",
+      "large-text-with-icon": "h-[48px] w-[136px] !text-body2",
+      "medium-icon": "h-[40px] w-[40px]",
+      "large-icon": "h-[48px] w-[48px]",
     },
   },
 });
