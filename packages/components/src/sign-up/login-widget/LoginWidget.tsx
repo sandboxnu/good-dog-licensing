@@ -3,7 +3,7 @@
 import { zSignInValues } from "@good-dog/trpc/schema";
 import { trpc } from "@good-dog/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import type { z } from "zod";
 import { useRouter } from "next/navigation";
 import GrayPlaceholder from "../../GrayPlaceholder";

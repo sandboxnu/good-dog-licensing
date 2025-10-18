@@ -1,8 +1,8 @@
 "use client";
 
-import { zSignInValues } from "@good-dog/trpc/schema";
+import type { zSignInValues } from "@good-dog/trpc/schema";
 import { useFormContext } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
 import { Checkbox } from "@good-dog/ui/checkbox";
 import Link from "next/link";
