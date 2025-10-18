@@ -6,11 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import type { z } from "zod";
 import { useRouter } from "next/navigation";
-import RHFTextInput from "../../rhf-base/RHFTextInput";
 import GrayPlaceholder from "../../GrayPlaceholder";
-import { Button } from "@good-dog/ui/button";
-import { Checkbox } from "@good-dog/ui/checkbox";
-import Link from "next/link";
 import LoginInfo from "./LoginInfo";
 
 type LoginFormFields = z.input<typeof zSignInValues>;

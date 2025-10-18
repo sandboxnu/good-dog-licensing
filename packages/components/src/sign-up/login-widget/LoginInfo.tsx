@@ -9,14 +9,8 @@ import Link from "next/link";
 import { Button } from "@good-dog/ui/button";
 
 interface LoginInfoProps {
-  email: string;
-  password: string;
   onVerifyCredentials: () => void;
 }
-
-const formatRole = (role: "MUSICIAN" | "MEDIA_MAKER") => {
-  return role === "MUSICIAN" ? "Musician" : "Media Maker";
-};
 
 type LoginFormFields = z.input<typeof zSignInValues>;
 
