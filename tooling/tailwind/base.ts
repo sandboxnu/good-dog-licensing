@@ -106,7 +106,7 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
         "base-input": "8px",
-        "sign-up-widget": "16px"
+        "sign-up-widget": "16px",
       },
       keyframes: {
         "accordion-down": {

@@ -25,7 +25,8 @@ export default function LoginInfo({ onVerifyCredentials }: LoginInfoProps) {
       onSubmit={(e) => {
         e.preventDefault();
         onVerifyCredentials();
-      }}>
+      }}
+    >
       <h1 className="text-sign-up-header font-medium">Welcome back!</h1>
       <h3 className="text-base-label">All fields below are required</h3>
       <div className="pt-[32px]">
@@ -35,8 +36,8 @@ export default function LoginInfo({ onVerifyCredentials }: LoginInfoProps) {
           placeholder={"example@gmail.com"}
           id="email"
           errorText={errors.email ? errors.email.message : undefined}
-          required={true}>
-        </RHFTextInput>
+          required={true}
+        ></RHFTextInput>
       </div>
       <div className="pt-[24px]">
         <RHFTextInput<LoginFormFields>
@@ -45,37 +46,33 @@ export default function LoginInfo({ onVerifyCredentials }: LoginInfoProps) {
           placeholder={"Enter password"}
           id="password"
           errorText={errors.password ? errors.password.message : undefined}
-          required={true}>
-        </RHFTextInput>
+          required={true}
+        ></RHFTextInput>
         <div className="pt-[24px] flex flex-row flex-wrap justify-between">
           <div className="flex flex-row items-center space-x-1">
             <Checkbox className="" />
             <p className="">Remember me</p>
           </div>
 
-          <Link
-            href="/forgot-password"
-            className="text-radio underline"
-          >
+          <Link href="/forgot-password" className="text-radio underline">
             Forgot password?
           </Link>
         </div>
         <div className="pt-[32px]">
-          <Button type="submit" className="w-full rounded flex radio bg-radio shadow-boxShadow">
+          <Button
+            type="submit"
+            className="w-full rounded flex radio bg-radio shadow-boxShadow"
+          >
             Log in
           </Button>
         </div>
       </div>
       <div className="pt-[16px] flex flex-row flex-wrap justify-center space-x-1 text-lg">
-        <span className="">
-          Don't have an account?
-        </span>
+        <span className="">Don't have an account?</span>
         <Link href="/signup" className="underline">
           Sign up
         </Link>
       </div>
     </form>
-
-  )
-
+  );
 }

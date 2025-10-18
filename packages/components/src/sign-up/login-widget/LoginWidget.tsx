@@ -19,7 +19,7 @@ export default function LoginWidget() {
 
   const handleVeridyCredentials = loginMethod.handleSubmit((values) => {
     loginMutation.mutate(values);
-  })
+  });
 
   const trpcUtils = trpc.useUtils();
 
@@ -36,7 +36,6 @@ export default function LoginWidget() {
     },
   });
 
-
   return (
     <div className="rounded-sign-up-widget bg-sign-up-widget border-black border border-solid h-sign-up-widget p-[48px]">
       <div className="flex h-full">
@@ -49,9 +48,6 @@ export default function LoginWidget() {
           <GrayPlaceholder />
         </div>
       </div>
-    </div >
-
-  )
-};
-
-
+    </div>
+  );
+}

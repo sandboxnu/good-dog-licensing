@@ -4,6 +4,6 @@ export default function Page() {
   return (
     <div className="p-[100px]">
       <LoginWidget />
-
-    </div>)
+    </div>
+  );
 }
