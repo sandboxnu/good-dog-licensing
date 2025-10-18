@@ -1,8 +1,8 @@
 import type { FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
-import TextInput from "../base/TextInput";
+import TextArea from "../base/TextArea";
 
-interface RHFTextInputProps<TFieldValues extends FieldValues> {
+interface RHFTextAreaProps<TFieldValues extends FieldValues> {
   rhfName: Path<TFieldValues>;
   label: string;
   placeholder: string;
@@ -12,10 +12,10 @@ interface RHFTextInputProps<TFieldValues extends FieldValues> {
   errorText?: string;
 }
 
-export default function RHFTextInput<TFieldValues extends FieldValues>({
+export default function RHFTextArea<TFieldValues extends FieldValues>({
   rhfName,
-  ...textInputProps
-}: RHFTextInputProps<TFieldValues>) {
+  ...textAreaProps
+}: RHFTextAreaProps<TFieldValues>) {
   const { control } = useFormContext<TFieldValues>();
 
   return (
@@ -23,8 +23,8 @@ export default function RHFTextInput<TFieldValues extends FieldValues>({
       name={rhfName}
       control={control}
       render={({ field }) => (
-        <TextInput
-          {...textInputProps}
+        <TextArea
+          {...textAreaProps}
           value={field.value || ""}
           onChange={field.onChange}
         />
