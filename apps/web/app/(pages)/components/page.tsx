@@ -1,3 +1,5 @@
+"use client";
+
 import TextArea from "@good-dog/components/base/TextArea";
 import TextInput from "@good-dog/components/base/TextInput";
 import Checkbox from "@good-dog/components/base/Checkbox";
@@ -13,23 +15,24 @@ export default function Components() {
             placeholder="Your name"
             required
             helperText="This is some helper text"
-            value="test"
+            value={""}
             onChange={() => {
               console.log("Changed");
             }}
+            id="firstname1"
           />
         </div>
         <div className="w-full max-w-[250px]">
           <TextInput
             label="First Name"
             placeholder="Your name"
-            required={false}
             helperText="This is some helper text"
             errorText="This is some error text"
             value="test"
             onChange={() => {
               console.log("Changed");
             }}
+            id="firstname2"
           />
         </div>
       </div>
@@ -44,6 +47,7 @@ export default function Components() {
             onChange={() => {
               console.log("Changed");
             }}
+            id="firstname3"
           />
         </div>
         <div className="w-full max-w-[250px]">
@@ -57,15 +61,17 @@ export default function Components() {
             onChange={() => {
               console.log("Changed");
             }}
+            id="firstname4"
           />
         </div>
       </div>
       <div className="flex h-screen items-center justify-center gap-5 flex-col">
-        <Checkbox label={"Please check this"} required={false} />
+        <Checkbox label={"Please check this"} id="box1" />
         <Checkbox
           label={"Please check this"}
           required={true}
           errorText="This is some error text"
+          id="box2"
         />
       </div>
       <div className="flex h-screen items-center justify-center gap-5 flex-col">
@@ -77,6 +83,7 @@ export default function Components() {
           ]}
           required={false}
           label={"Please select an option"}
+          id="radio1"
         />
         <RadioGroup
           options={[
@@ -87,6 +94,7 @@ export default function Components() {
           required={true}
           label={"Please select an option"}
           errorText="This is some error text"
+          id="radio2"
         />
       </div>
     </div>

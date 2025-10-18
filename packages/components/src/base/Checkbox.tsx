@@ -4,37 +4,38 @@ import ErrorExclamation from "../svg/ErrorExclamation";
 
 interface CheckboxProps {
   label: string;
-  htmlFor?: string;
-  required: boolean;
+  id: string;
+  required?: boolean;
   errorText?: string;
 }
 
 export default function Checkbox({
   label,
-  htmlFor,
+  id,
   required = false,
   errorText,
 }: CheckboxProps) {
   return (
-    <div className="w-full flex flex-col gap-2 text-label-black">
-      <div className="w-full flex flex-row gap-2">
+    <div className="w-full flex flex-col gap-2 text-black">
+      <div className="w-full flex flex-row gap-2 items-center">
         <CheckboxShad
           required={required}
-          className={`border-checkbox data-[state=checked]:bg-checkbox ${errorText ? " border-error-border shadow-error-shadow" : ""}`}
+          id={id}
+          className={`border-good-dog-main data-[state=checked]:bg-good-dog-main ${errorText ? " border-error shadow-error" : ""}`}
         />
-        <div className="flex flex-row gap-[2px]">
-          <Label htmlFor={htmlFor} className="!text-base-label">
+        <div className="flex flex-row gap-[2px] items-center">
+          <Label className="text-body3" htmlFor={id}>
             {label}
           </Label>
           {required && (
-            <Label className="!text-base-label text-required-star">*</Label>
+            <Label className="text-body3 text-required-star">*</Label>
           )}
         </div>
       </div>
       {errorText && (
-        <div className="flex flex-row gap-[2px]">
+        <div className="flex flex-row gap-[2px] items-center">
           <ErrorExclamation />
-          <Label className="!text-base-helper text-error">{errorText}</Label>
+          <Label className="text-caption text-error">{errorText}</Label>
         </div>
       )}
     </div>
