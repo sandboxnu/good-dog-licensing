@@ -32,6 +32,7 @@ export default {
         secondary: "#054233",
         error: "#B13433",
         "required-star": "#FF3B30",
+        "dark-green": "#07634C",
       },
       boxShadow: {
         active: "0 0 3px 0 var(--pine-200, #4C8B79)",
