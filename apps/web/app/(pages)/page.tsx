@@ -62,13 +62,13 @@ function LearnMoreAboutRoles() {
         <VerticalDescriptionSection
           title="Become a Media Maker"
           text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
-          link={() => router.push("/signup")}
+          link={() => router.push("/signup/media-maker")}
           linkText="Sign up as a media maker →"
         />
         <VerticalDescriptionSection
           title="Become a Musician"
           text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
-          link={() => router.push("/signup")}
+          link={() => router.push("/signup/musician")}
           linkText="Sign up as a musician →"
         />
       </div>
