@@ -1,10 +1,11 @@
 "use client";
 
-import type { zProjectSubmissionValues} from "@good-dog/trpc/schema";
+import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
 import { useFormContext } from "react-hook-form";
 import type z from "zod";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
+import Button from "../../base/Button";
 
 interface InitialProjectInfoProps {
   onNext: () => void;
@@ -35,9 +36,7 @@ export default function InitialProjectInfo({
             label="Project Title"
             placeholder="Enter project title"
             id="projectTitle"
-            errorText={
-              errors.projectTitle ? errors.projectTitle.message : undefined
-            }
+            errorText={errors.projectTitle?.message}
             required={true}
           />
           <RHFTextInput<ProjectSubmissionFormFields>
@@ -45,7 +44,7 @@ export default function InitialProjectInfo({
             label="Project deadline"
             placeholder="mm/dd/yyyy"
             id="deadline"
-            errorText={errors.deadline ? errors.deadline.message : undefined}
+            errorText={errors.deadline?.message}
             required={true}
           />
         </div>
@@ -54,9 +53,7 @@ export default function InitialProjectInfo({
           label="Project description"
           placeholder="What is the project about?"
           id="description"
-          errorText={
-            errors.description ? errors.description.message : undefined
-          }
+          errorText={errors.description?.message}
           required={true}
         />
         <RHFTextArea<ProjectSubmissionFormFields>
@@ -64,19 +61,25 @@ export default function InitialProjectInfo({
           label="Additional information (optional)"
           placeholder="Anything else we should know?"
           id="additionalInfo"
-          errorText={
-            errors.additionalInfo ? errors.additionalInfo.message : undefined
-          }
+          errorText={errors.additionalInfo?.message}
           required={false}
         />
       </div>
       <div className="flex flex-row gap-4">
-        <button type="submit" className="w-28 h-10 rounded-lg bg-good-dog-green text-white font-medium hover:bg-good-dog-dark-green">
-        Next
-      </button>
-      <button type="button" onClick={() => reset()} className="w-28 h-10 rounded-lg text-good-dog-green font-medium hover:bg-gray-100">
-        Clear Form
-      </button>
+        <Button
+          label="Next"
+          type="submit"
+          variant="contained"
+          size="medium"
+          onClick={onNext}
+        />
+        <Button
+          type="button"
+          label="Clear form"
+          size="medium"
+          variant="text"
+          onClick={() => reset()}
+        />
       </div>
     </form>
   );

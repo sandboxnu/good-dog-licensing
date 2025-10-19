@@ -10,41 +10,41 @@ interface RadioGroupProps {
     value: string;
     label: string;
   }[];
-  htmlFor?: string;
+  id: string;
   label: string;
-  required: boolean;
+  required?: boolean;
   errorText?: string;
 }
 
 export default function RadioGroup({
   options,
-  htmlFor,
+  id,
   label,
-  required,
+  required = false,
   errorText,
 }: RadioGroupProps) {
   return (
-    <div className="w-full flex flex-col text-label-black gap-2">
+    <div className="w-full flex flex-col text-black gap-2">
       <div className="flex flex-row gap-[2px]">
-        <Label htmlFor={htmlFor} className="!text-base-label">
-          {label}
-        </Label>
-        {required && (
-          <Label className="!text-base-label text-required-star">*</Label>
-        )}
+        <Label className="text-body3">{label}</Label>
+        {required && <Label className="text-body3 text-required-star">*</Label>}
       </div>
       <RadioGroupShad
         required={required}
-        className="w-full flex flex-col gap-5"
+        className="w-full flex flex-col gap-2"
       >
         {options.map((option, index) => {
           return (
-            <div key={index} className="w-full flex flex-row gap-2">
+            <div
+              key={index}
+              className="w-full flex flex-row gap-2 items-center"
+            >
               <RadioGroupItem
-                className={`border-radio ${errorText ? " border-error-border shadow-error-shadow" : ""}`}
+                className={`border-good-dog-main ${errorText ? " border-error shadow-error" : ""}`}
                 value={option.value}
+                id={`${id}-${index}`}
               />
-              <Label htmlFor={htmlFor} className="!text-base-label">
+              <Label htmlFor={`${id}-${index}`} className="text-body3">
                 {option.label}
               </Label>
             </div>
@@ -52,9 +52,9 @@ export default function RadioGroup({
         })}
       </RadioGroupShad>
       {errorText && (
-        <div className="flex flex-row gap-[2px]">
+        <div className="flex flex-row gap-[2px] items-center">
           <ErrorExclamation />
-          <Label className="!text-base-helper text-error">{errorText}</Label>
+          <Label className="text-caption text-error">{errorText}</Label>
         </div>
       )}
     </div>
