@@ -19,7 +19,20 @@ export default function InitialProjectInfo({
   const {
     formState: { errors },
     reset,
+    getValues,
   } = useFormContext<ProjectSubmissionFormFields>();
+
+  const handleClear = () => {
+    const currentSongRequests = getValues("songRequests");
+
+    reset({
+      projectTitle: "",
+      deadline: "",
+      description: "",
+      additionalInfo: "",
+      songRequests: currentSongRequests,
+    });
+  };
   return (
     <form
       className="flex flex-col gap-8 w-full"
@@ -66,19 +79,13 @@ export default function InitialProjectInfo({
         />
       </div>
       <div className="flex flex-row gap-4">
-        <Button
-          label="Next"
-          type="submit"
-          variant="contained"
-          size="medium"
-          onClick={onNext}
-        />
+        <Button label="Next" type="submit" variant="contained" size="medium" />
         <Button
           type="button"
           label="Clear form"
           size="medium"
           variant="text"
-          onClick={() => reset()}
+          onClick={handleClear}
         />
       </div>
     </form>
