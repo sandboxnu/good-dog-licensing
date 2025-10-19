@@ -7,6 +7,7 @@ interface RHFTextInputProps<TFieldValues extends FieldValues> {
   label: string;
   placeholder: string;
   id: string;
+  type?: "password";
   required?: boolean;
   helperText?: string;
   errorText?: string;
