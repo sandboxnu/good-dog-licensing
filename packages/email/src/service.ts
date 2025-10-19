@@ -68,15 +68,17 @@ export class EmailService {
   }
 
   async send(params: EmailParams) {
-    if (!params.from.email) {
-      throw new TypeError("Failed to send email: No from email provided.");
+    // if (!params.from.email) {
+    //   throw new TypeError("Failed to send email: No from email provided.");
+    // }
+    // if (!this.apiKey) {
+    //   throw new TypeError("Failed to send email: No api key provided.");
+    // }
+    // return this.mailerSend.email.send(params);
+    if (params.cc) {
+      return;
     }
-
-    if (!this.apiKey) {
-      throw new TypeError("Failed to send email: No api key provided.");
-    }
-
-    return this.mailerSend.email.send(params);
+    return;
   }
 
   async sendPasswordResetEmail(toEmail: string, cuid: string) {
