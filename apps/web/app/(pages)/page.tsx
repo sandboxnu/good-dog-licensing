@@ -1,25 +1,147 @@
+"use client";
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-
-import LandingSubmission from "@good-dog/components/oldStuff/LandingSubmission";
-import ProjectGallery from "@good-dog/components/oldStuff/ProjectGallery";
-
 import { Button } from "@good-dog/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   return (
-    <div className="text-center">
-      <div className="font-['Righteous'] text-[75px] font-normal leading-[80px]">
-      <h1>Connecting musicians and media makers</h1>
-    </div>
-    <div>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco </p>
-    </div>
-    <Button size="lg" className="bg-dark-green shadow-[4px_4px_rgba(0,0,0,1)]">Get Started</Button>
-    <Button size="lg" variant="outline" className="shadow-[4px_4px_rgba(0,0,0,1)]">Get Started</Button>
+    <div className="flex flex-col bg-custom-gradient justify-center items-center min-h-screen pt-[32px] pb-[32px]">
+      <div className="flex flex-col w-3/5 gap-[144px] justify-center items-center">
+        <div className="flex flex-col justify-center text-center gap-[37px]">
+          <div className="pt-[32px]">
+            <h1>Connecting musicians and media makers</h1>
+          </div>
+          <div className="flex flex-col gap-[64px]">
+            <div className="flex flex-col gap-[24px] text-body-primary">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco{" "}
+              </p>
+
+              <div className="flex gap-4 justify-center">
+                <Button
+                  size="large-text"
+                  className="bg-dark-green text-off-white shadow-button"
+                  onClick={() => router.push("/login")}
+                >
+                  Get started
+                </Button>
+                <Button
+                  size="large-text"
+                  variant="outlined"
+                  className="shadow-button"
+                  onClick={() => router.push("/about")}
+                >
+                  Learn more
+                </Button>
+              </div>
+            </div>
+
+            <div className="w-full h-[500px] bg-gray-400 shadow-div rounded-[20px]"></div>
+          </div>
+        </div>
+        <LearnMoreAboutRoles />
+      </div>
     </div>
   );
+}
+function LearnMoreAboutRoles() {
+  const router = useRouter();
+  return (
+    <div className="flex flex-col gap-[48px]">
+      <div className="flex flex-row gap-[24px]">
+        <h2 className="w-1/2 leading-none">Learn more about different roles</h2>
+        <p className="w-1/2">
+          Lorem ipsum is placeholder text commonly used in the graphic, print,
+          and publishing industries for previewing layouts and visual mockups.
+        </p>
+      </div>
+      <div className="flex flex-row gap-[48px]">
+        <VerticalDescriptionSection
+          title="Become a Media Maker"
+          text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+          link={() => router.push("/signup")}
+          linkText="Sign up as a media maker →"
+        />
+        <VerticalDescriptionSection
+          title="Become a Musician"
+          text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+          link={() => router.push("/signup")}
+          linkText="Sign up as a musician →"
+        />
+      </div>
+      <DescriptionSection
+        order="text-left"
+        title="Get the music you need!"
+        text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+      />
+      <DescriptionSection
+        order="text-right"
+        title="Build your brand!"
+        text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+      />
+      <DescriptionSection
+        order="text-left"
+        title="Our partners"
+        text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+      />
+    </div>
+  );
+}
+
+export function DescriptionSection({
+  order,
+  title,
+  text,
+}: {
+  order: "text-right" | "text-left";
+  title: string;
+  text: string;
+}) {
+  return (
+    <div
+      className={`flex gap-[24px] ${order == "text-left" ? "flex-row" : "flex-row-reverse"} items-center`}
+    >
+      <div className="flex flex-col gap-[24px] w-1/2">
+        <h2>{title}</h2>
+        <p>{text}</p>
+      </div>
+      <div className="flex w-1/2 items-center justify-center">
+        <SampleImage />
+      </div>
+    </div>
+  );
+}
+
+function VerticalDescriptionSection({
+  title,
+  text,
+  link,
+  linkText,
+}: {
+  title: string;
+  text: string;
+  link: () => void;
+  linkText: string;
+}) {
+  //const router = useRouter();
+
+  return (
+    <div className="flex flex-col gap-[24px] text-center justify-center items-center">
+      <SampleImage />
+      <h2 className="">{title}</h2>
+      <p>{text}</p>
+      <Button variant={"text"} onClick={link}>
+        {linkText}
+      </Button>
+    </div>
+  );
+}
+
+function SampleImage() {
+  return <div className="w-[250px] h-[250px] bg-gray-400 rounded-[20px]"></div>;
 }
 
 // export default function Home() {
