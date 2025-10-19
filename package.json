@@ -56,8 +56,5 @@
     "packages/*",
     "tooling/*",
     "tests"
-  ],
-  "dependencies": {
-    "prettier": "^3.6.2"
-  }
+  ]
 }
