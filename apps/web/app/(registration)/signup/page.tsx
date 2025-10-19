@@ -1,9 +1,5 @@
-import SignUpWidget from "@good-dog/components/sign-up/sign-up-widget/SignUpWidget";
+import GeneralUserOnboarding from "@good-dog/components/user-onboarding/GeneralUserOnboarding";
 
 export default function Page() {
-  return (
-    <div className="p-[100px]">
-      <SignUpWidget role="MUSICIAN" />
-    </div>
-  );
+  return <GeneralUserOnboarding type="signUp" />;
 }

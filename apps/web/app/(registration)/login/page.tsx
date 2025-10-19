@@ -1,9 +1,5 @@
-import LoginWidget from "@good-dog/components/user-onboarding/widgets/login-widget/LoginWidget";
+import GeneralUserOnboarding from "@good-dog/components/user-onboarding/GeneralUserOnboarding";
 
 export default function Page() {
-  return (
-    <div className="p-[100px]">
-      <LoginWidget />
-    </div>
-  );
+  return <GeneralUserOnboarding type="logIn" />;
 }
