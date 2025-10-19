@@ -4,10 +4,12 @@ import AddIcon from "../svg/AddIcon";
 interface ButtonProps {
   label?: string;
   size: "medium" | "large";
-  type: "contained" | "outlined" | "text";
+  variant: "contained" | "outlined" | "text";
+  onClick: () => void;
   displayIcon?: boolean;
   shadow?: boolean;
   fullWidth?: boolean;
+  type?: "submit";
 }
 
 type sizeOptions =
@@ -21,6 +23,8 @@ type sizeOptions =
 export default function Button({
   label,
   size,
+  variant,
+  onClick,
   type,
   displayIcon = false,
   shadow = false,
@@ -38,14 +42,16 @@ export default function Button({
 
   return (
     <ButtonShad
-      variant={type}
+      variant={variant}
       size={updatedSize}
+      type={type}
+      onClick={onClick}
       className={`${widthClassName} ${shadowClassName}`}
     >
       <div className="flex flex-row gap-[8px] items-center justify-center">
         {displayIcon && (
           <AddIcon
-            color={type === "contained" ? "light" : "dark"}
+            color={variant === "contained" ? "light" : "dark"}
             size={size}
           />
         )}

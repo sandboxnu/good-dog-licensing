@@ -99,21 +99,98 @@ export default function Components() {
         />
       </div>
       <div className="flex flex-col gap-4 bg-gray-100 w-[400px]">
-        <Button type="contained" size="medium" label="Click Me" shadow />
-        <Button type="contained" size="large" label="Click Me" />
-        <Button type="outlined" size="medium" label="Click Me" />
-        <Button type="outlined" size="large" label="Click Me" shadow />
-        <Button type="text" size="medium" label="Click Me" />
-        <Button type="text" size="large" label="Click Me" />
-        <Button type="text" size="medium" label="Click Me" displayIcon />
-        <Button type="text" size="large" label="Click Me" displayIcon />
-        <Button type="contained" size="medium" displayIcon />
-        <Button type="contained" size="large" displayIcon />
         <Button
-          type="contained"
+          variant="contained"
+          size="medium"
+          label="Click Me"
+          shadow
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="contained"
+          size="large"
+          label="Click Me"
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="outlined"
+          size="medium"
+          label="Click Me"
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="outlined"
+          size="large"
+          label="Click Me"
+          shadow
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="text"
+          size="medium"
+          label="Click Me"
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="text"
+          size="large"
+          label="Click Me"
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="text"
+          size="medium"
+          label="Click Me"
+          displayIcon
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="text"
+          size="large"
+          label="Click Me"
+          displayIcon
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="contained"
+          size="medium"
+          displayIcon
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="contained"
+          size="large"
+          displayIcon
+          onClick={() => {
+            console.log("hit");
+          }}
+        />
+        <Button
+          variant="contained"
           size="large"
           fullWidth
           label="Click Me Please"
+          onClick={() => {
+            console.log("hit");
+          }}
         />
       </div>
     </div>
