@@ -14,6 +14,7 @@ export default {
         righteous: ["Righteous"],
       },
       fontSize: {
+        h1: "50px",
         h2: "40px",
         h3: "35px",
         body1: "20px",
@@ -37,6 +38,10 @@ export default {
         error: "0 0 3px 0 var(--Red-100, #FF9D97)",
         button: "4px 4px 0 0 var(--button-drop-shadow, #000)",
         div: "16px 12px 0px 0px var(--carddrop-shadow, #098465)",
+      },
+      backgroundImage: {
+        "main-gradient":
+          "var(--Background-light-gradient, linear-gradient(180deg, var(--cream-300, #FFFBF6) 29.69%, #E9F7EC 55.49%, var(--mint-300, #D3F4E2) 96.78%))",
       },
     },
   },

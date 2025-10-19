@@ -3,7 +3,6 @@
 import TextArea from "@good-dog/components/base/TextArea";
 import TextInput from "@good-dog/components/base/TextInput";
 import Checkbox from "@good-dog/components/base/Checkbox";
-import RadioGroup from "@good-dog/components/base/RadioGroup";
 import Button from "@good-dog/components/base/Button";
 
 export default function Components() {
@@ -76,7 +75,7 @@ export default function Components() {
         />
       </div>
       <div className="flex h-screen items-center justify-center gap-5 flex-col">
-        <RadioGroup
+        {/* <RadioGroup
           options={[
             { value: "yes", label: "Yes" },
             { value: "no", label: "No" },
@@ -85,8 +84,8 @@ export default function Components() {
           required={false}
           label={"Please select an option"}
           id="radio1"
-        />
-        <RadioGroup
+        /> */}
+        {/* <RadioGroup
           options={[
             { value: "yes", label: "Yes" },
             { value: "no", label: "No" },
@@ -96,7 +95,7 @@ export default function Components() {
           label={"Please select an option"}
           errorText="This is some error text"
           id="radio2"
-        />
+        /> */}
       </div>
       <div className="flex flex-col gap-4 bg-gray-100 w-[400px]">
         <Button

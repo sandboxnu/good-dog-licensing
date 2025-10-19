@@ -12,6 +12,8 @@ interface RadioGroupProps {
   }[];
   id: string;
   label: string;
+  value: string;
+  onValueChange: (newValue: string) => void;
   required?: boolean;
   errorText?: string;
 }
@@ -20,18 +22,22 @@ export default function RadioGroup({
   options,
   id,
   label,
+  value,
+  onValueChange,
   required = false,
   errorText,
 }: RadioGroupProps) {
   return (
-    <div className="w-full flex flex-col text-black gap-2">
+    <div className="w-full flex flex-col text-black gap-[0px]">
       <div className="flex flex-row gap-[2px]">
         <Label className="text-body3">{label}</Label>
         {required && <Label className="text-body3 text-required-star">*</Label>}
       </div>
       <RadioGroupShad
         required={required}
-        className="w-full flex flex-col gap-2"
+        className="w-full flex flex-col gap-[0px]"
+        value={value}
+        onValueChange={onValueChange}
       >
         {options.map((option, index) => {
           return (
