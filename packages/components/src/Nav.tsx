@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { trpc } from "@good-dog/trpc/client";
-import NavLogo from "../svg/NavLogo";
+import NavLogo from "./svg/NavLogo";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
@@ -12,7 +12,7 @@ export default function Nav() {
   });
 
   return (
-    <header className="bg-good-dog-cream text-good-dog-green">
+    <header className="text-good-dog-main">
       <div className="container flex items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />

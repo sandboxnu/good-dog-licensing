@@ -5,52 +5,60 @@ import clsx from "clsx";
 
 interface TextInputProps {
   label: string;
+  value: string;
+  onChange: (newValue: string) => void;
   placeholder: string;
-  htmlFor?: string;
-  required: boolean;
+  id: string;
+  type?: "password";
+  required?: boolean;
   helperText?: string;
   errorText?: string;
 }
 
 export default function TextInput({
   label,
+  value,
+  onChange,
   placeholder,
-  htmlFor,
+  id,
+  type,
   required = false,
   helperText,
   errorText,
 }: TextInputProps) {
   return (
-    <div className="w-full flex flex-col gap-label-input-sep text-label-black">
+    <div className="w-full flex flex-col gap-[4px]">
       <div className="flex flex-row gap-[2px]">
-        <Label htmlFor={htmlFor} className="!text-base-label">
+        <Label htmlFor={id} className="text-body3 text-[#171717] font-normal">
           {label}
         </Label>
         {required && (
-          <Label className="!text-base-label text-required-star">*</Label>
+          <Label className="text-body3 text-required-star font-normal">*</Label>
         )}
       </div>
       <Input
         className={clsx(
-          "w-full h-base-input pl-placeholder-sep text-base-input text-input-black rounded-base-input border-inactive-border",
-          "placeholder:text-placeholder",
-          "hover:border-hover-border",
-          "focus:border-active-border focus:shadow-active-shadow focus:outline-none",
+          "w-full h-[32px] pl-[8px] text-body3 text-body-primary rounded-[8px] border-[#858585]",
+          "placeholder:text-[#ADADAD]",
+          "hover:border-[#404040]",
+          "focus:border-[#098465] focus:shadow-active focus:outline-none",
           {
-            "!border-error-border !shadow-error-shadow": errorText,
+            "!border-error !shadow-error": errorText,
           },
         )}
         placeholder={placeholder}
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        type={type}
       />
       {helperText && !errorText && (
-        <Label className="!text-base-helper text-label-black">
-          {helperText}
-        </Label>
+        <Label className="text-caption text-[#171717]">{helperText}</Label>
       )}
       {errorText && (
-        <div className="flex flex-row gap-[2px]">
+        <div className="flex flex-row gap-[2px] items-center">
           <ErrorExclamation />
-          <Label className="!text-base-helper text-error">{errorText}</Label>
+          <Label className="text-caption text-error">{errorText}</Label>
         </div>
       )}
     </div>
