@@ -75,6 +75,8 @@ export class EmailService {
     //   throw new TypeError("Failed to send email: No api key provided.");
     // }
     // return this.mailerSend.email.send(params);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     if (params.cc) {
       return;
     }
