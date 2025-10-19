@@ -8,8 +8,25 @@
 @layer base {
   body {
     font-family: "Afacad", sans-serif;
+    color: text-body-primary;
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+  }
+
+  h1 {
+    font-family: "Righteous";
+    font-size: 75px;
+    font-weight: 400;
+    line-height: 80px;
+    color: text-body-primary;
+  }
+
+  h2 {
+    color: text-body-primary;
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 104%;
   }
 }
