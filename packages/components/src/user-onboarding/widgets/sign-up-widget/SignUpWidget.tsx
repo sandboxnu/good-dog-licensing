@@ -2,14 +2,13 @@
 
 import { FormProvider, useForm } from "react-hook-form";
 import InitialSignUpInfo from "./InitialSignUpInfo";
-import z from "zod";
+import type z from "zod";
 import { zSignUpValues } from "@good-dog/trpc/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GrayPlaceholder from "../../../GrayPlaceholder";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
-import { Dialog, DialogContent } from "@good-dog/ui/dialog";
 import EmailCodeModal from "./EmailCodeModal";
 import FinalSignUpInfo from "./FinalSignUpInfo";
 
@@ -33,7 +32,7 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
   const [step, setStep] = useState(1);
 
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
-    onSuccess: async () => {
+    onSuccess: () => {
       setDisplayEmailCodeModal(true);
     },
     onError: (err) => {

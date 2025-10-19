@@ -1,8 +1,8 @@
 "use client";
 
-import { zSignUpValues } from "@good-dog/trpc/schema";
+import type { zSignUpValues } from "@good-dog/trpc/schema";
 import { useFormContext } from "react-hook-form";
-import z from "zod";
+import type z from "zod";
 import { useMemo } from "react";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import Button from "../../../base/Button";
