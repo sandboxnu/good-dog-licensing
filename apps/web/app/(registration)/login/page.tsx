@@ -1,4 +1,4 @@
-import LoginWidget from "@good-dog/components/sign-up/login-widget/LoginWidget";
+import LoginWidget from "@good-dog/components/user-onboarding/widgets/login-widget/LoginWidget";
 
 export default function Page() {
   return (

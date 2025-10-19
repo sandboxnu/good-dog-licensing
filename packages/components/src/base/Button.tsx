@@ -5,7 +5,7 @@ interface ButtonProps {
   label?: string;
   size: "medium" | "large";
   variant: "contained" | "outlined" | "text";
-  onClick: () => void;
+  onClick?: () => void;
   displayIcon?: boolean;
   shadow?: boolean;
   fullWidth?: boolean;

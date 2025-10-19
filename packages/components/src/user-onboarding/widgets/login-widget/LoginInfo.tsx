@@ -3,7 +3,7 @@
 import type { zSignInValues } from "@good-dog/trpc/schema";
 import { useFormContext } from "react-hook-form";
 import type { z } from "zod";
-import RHFTextInput from "../../rhf-base/RHFTextInput";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { Checkbox } from "@good-dog/ui/checkbox";
 import Link from "next/link";
 import { Button } from "@good-dog/ui/button";
