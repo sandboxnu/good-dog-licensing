@@ -9,7 +9,7 @@ interface ButtonProps {
   displayIcon?: boolean;
   shadow?: boolean;
   fullWidth?: boolean;
-  type?: "submit";
+  type?: "submit" | "button";
 }
 
 type sizeOptions =

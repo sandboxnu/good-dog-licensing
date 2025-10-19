@@ -28,7 +28,7 @@ export default {
         "body-primary": "#2E2E2E",
         secondary: "#054233",
         error: "#B13433",
-        "required-star": "#FF3B30",
+        "required-star": "#F4392D",
         "dark-green": "#07634C",
         "off-white": "#E9F9F1",
       },
