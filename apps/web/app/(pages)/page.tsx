@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   return (
-    <div className="flex flex-col bg-custom-gradient justify-center items-center min-h-screen pt-[32px] pb-[32px]">
-      <div className="flex flex-col w-3/5 gap-[144px] justify-center items-center">
+    <div className="flex flex-col justify-center items-center min-h-screen pt-[32px] pb-[32px]">
+      <div className="flex flex-col w-full gap-[144px] justify-center items-center">
         <div className="flex flex-col justify-center text-center gap-[37px]">
           <div className="pt-[32px]">
             <h1>Connecting musicians and media makers</h1>

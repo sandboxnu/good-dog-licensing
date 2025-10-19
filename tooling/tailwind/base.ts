@@ -8,13 +8,6 @@ export default {
       "custom-gradient":
         "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
     },
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],

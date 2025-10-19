@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { trpc } from "@good-dog/trpc/client";
 import NavLogo from "./svg/NavLogo";
@@ -12,8 +13,8 @@ export default function Nav() {
   });
 
   return (
-    <header className="text-good-dog-main">
-      <div className="container flex items-center justify-between px-6 py-4">
+    <header className="text-good-dog-main w-full">
+      <div className="flex items-center justify-between px-6 py-4 bg-transparent">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />
           <p className="font-righteous text-2xl">GOOD DOG LICENSING</p>
