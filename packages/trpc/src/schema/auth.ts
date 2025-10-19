@@ -31,7 +31,7 @@ export const zSignUpValues = z.object({
   lastName: z.string().min(1),
   referral: z.enum(ReferralSource),
   role: z.enum(["MUSICIAN", "MEDIA_MAKER"]),
-  // emailCode: z.string(),
+  emailCode: z.string(),
 });
 
 export const zSignInValues = z.object({

@@ -7,7 +7,7 @@ interface MusicianOnboardingProps {
 
 export default function MusicianOnboarding({ type }: MusicianOnboardingProps) {
   return (
-    <div className="h-[3312px] w-full">
+    <div className="h-[3312px] w-full pt-[20px]">
       <SignUpWidget role="MUSICIAN" />
     </div>
   );

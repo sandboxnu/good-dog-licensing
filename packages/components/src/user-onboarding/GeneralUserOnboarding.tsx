@@ -9,7 +9,7 @@ export default function GeneralUserOnboarding({
   type,
 }: GeneralUserOnboardingProps) {
   return (
-    <div className="h-[1000px] w-full">
+    <div className="h-[1000px] w-full pt-[20px]">
       {type === "signUp" ? <SignUpWidget role={undefined} /> : <LoginWidget />}
     </div>
   );

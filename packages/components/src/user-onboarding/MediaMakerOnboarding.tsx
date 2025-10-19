@@ -9,7 +9,7 @@ export default function MediaMakerOnboarding({
   type,
 }: MediaMakerOnboardingProps) {
   return (
-    <div className="h-[4292px] w-full">
+    <div className="h-[4292px] w-full pt-[20px]">
       <SignUpWidget role="MEDIA_MAKER" />
     </div>
   );

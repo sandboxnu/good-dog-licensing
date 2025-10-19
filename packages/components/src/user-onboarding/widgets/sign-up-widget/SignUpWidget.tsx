@@ -11,6 +11,7 @@ import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
 import { Dialog, DialogContent } from "@good-dog/ui/dialog";
 import EmailCodeModal from "./EmailCodeModal";
+import FinalSignUpInfo from "./FinalSignUpInfo";
 
 interface SignUpWidgetProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -23,10 +24,13 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
     resolver: zodResolver(zSignUpValues),
     defaultValues: {
       role,
+      referral: "FRIEND",
+      phoneNumber: "1234567890",
     },
   });
 
   const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false);
+  const [step, setStep] = useState(1);
 
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: async () => {
@@ -38,8 +42,31 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
     },
   });
 
+  const verifyEmailCodeMutation = trpc.verifyEmailCode.useMutation({
+    onSuccess: () => {
+      setDisplayEmailCodeModal(false);
+      setStep(2);
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
+  const signUpMutation = trpc.signUp.useMutation({
+    onSuccess: () => {
+      window.location.href = "/";
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
   const verifyEmailCode = (code: string) => {
-    console.log("verifying code");
+    formMethods.setValue("emailCode", code);
+    verifyEmailCodeMutation.mutate({
+      email: formMethods.watch("email"),
+      emailCode: code,
+    });
   };
 
   const handleVerifyEmail = async () => {
@@ -56,6 +83,10 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
     }
   };
 
+  const handleSubmit = formMethods.handleSubmit((values) => {
+    signUpMutation.mutate(values);
+  });
+
   return (
     <UserOnboardingWidgetContainer>
       <EmailCodeModal
@@ -66,7 +97,12 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
       />
       <div className="w-1/2 flex flex-col justify-center h-full">
         <FormProvider {...formMethods}>
-          <InitialSignUpInfo role={role} onVerifyEmail={handleVerifyEmail} />
+          {step === 1 && (
+            <InitialSignUpInfo role={role} onVerifyEmail={handleVerifyEmail} />
+          )}
+          {step === 2 && (
+            <FinalSignUpInfo role={role} onSubmit={handleSubmit} />
+          )}
         </FormProvider>
       </div>
       <div className="w-1/2 h-full">
