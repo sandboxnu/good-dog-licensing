@@ -9,6 +9,7 @@ interface TextInputProps {
   onChange: (newValue: string) => void;
   placeholder: string;
   id: string;
+  type?: "password";
   required?: boolean;
   helperText?: string;
   errorText?: string;
@@ -20,6 +21,7 @@ export default function TextInput({
   onChange,
   placeholder,
   id,
+  type,
   required = false,
   helperText,
   errorText,
@@ -48,6 +50,7 @@ export default function TextInput({
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        type={type}
       />
       {helperText && !errorText && (
         <Label className="text-caption text-[#171717]">{helperText}</Label>
