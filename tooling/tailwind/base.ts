@@ -4,12 +4,9 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 export default {
   content: ["src/**/*.{ts,tsx}"],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+    backgroundImage: {
+      "custom-gradient":
+        "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
     },
     extend: {
       fontFamily: {
@@ -32,12 +29,15 @@ export default {
         "body-primary": "#2E2E2E",
         secondary: "#054233",
         error: "#B13433",
-        "required-star": "#FF3B30",
+        "required-star": "#F4392D",
+        "dark-green": "#07634C",
+        "off-white": "#E9F9F1",
       },
       boxShadow: {
         active: "0 0 3px 0 var(--pine-200, #4C8B79)",
         error: "0 0 3px 0 var(--Red-100, #FF9D97)",
         button: "4px 4px 0 0 var(--button-drop-shadow, #000)",
+        div: "16px 12px 0px 0px var(--carddrop-shadow, #098465)",
       },
       backgroundImage: {
         "main-gradient":
