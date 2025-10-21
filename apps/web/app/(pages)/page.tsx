@@ -23,7 +23,7 @@ export default function Home() {
               <div className="flex gap-4 justify-center">
                 <Button
                   size="large-text"
-                  className="bg-dark-green text-off-white shadow-button"
+                  className="bg-good-dog-main text-off-white shadow-button"
                   onClick={() => router.push("/login")}
                 >
                   Get started
@@ -115,7 +115,7 @@ export function DescriptionSection({
   );
 }
 
-function VerticalDescriptionSection({
+export function VerticalDescriptionSection({
   title,
   text,
   link,
@@ -126,8 +126,6 @@ function VerticalDescriptionSection({
   link: () => void;
   linkText: string;
 }) {
-  //const router = useRouter();
-
   return (
     <div className="flex flex-col gap-[24px] text-center justify-center items-center">
       <SampleImage />
@@ -143,47 +141,3 @@ function VerticalDescriptionSection({
 function SampleImage() {
   return <div className="w-[250px] h-[250px] bg-gray-400 rounded-[20px]"></div>;
 }
-
-// export default function Home() {
-//   return (
-//     <main className="bg-good-dog-violet">
-//       <Splash />
-//       <LandingSubmission />
-//       <LandingSubmission
-//         flipX
-//         flipY
-//         reverseLayout
-//         title="Musicians"
-//         description="Your music should be heard! Good Dog Licensing is all about expanding your audience and bringing your music to new heights. Artists retain 100% of all rights when they license through Good Dog! All filmmakers are required to fill out cue sheets as well, so we offer artists a chance at earning backend royalties. With no extra work for you whatsoever, Good Dog can help you reach new listeners and make great new connections within the entertainment industry!"
-//         button="SEND US YOUR MUSIC"
-//       />
-//       <ProjectGallery />
-//     </main>
-//   );
-// }
-
-// const Splash = () => {
-//   return (
-//     <div className="pb-60 pt-36">
-//       <Image
-//         src="/icons/Good Dog With Logo.svg"
-//         width={789}
-//         height={0}
-//         alt="good-dog-logo"
-//         className="m-auto mb-6 block"
-//       />
-
-//       <div className="font-regular m-auto mb-6 w-fit font-righteous text-2xl text-good-dog-celadon">
-//         "Connecting Creatives"
-//       </div>
-
-//       <div className="font-regular m-auto w-fit font-righteous text-good-dog-violet">
-//         <Link href="/submit">
-//           <div className="rounded-full bg-good-dog-celadon px-6 py-2 text-5xl">
-//             SUBMIT A BRIEF
-//           </div>
-//         </Link>
-//       </div>
-//     </div>
-//   );
-// };

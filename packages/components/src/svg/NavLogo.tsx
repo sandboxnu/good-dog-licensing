@@ -8,7 +8,7 @@ export default function NavLogo() {
         viewBox="0 0 34 34"
         fill="none"
       >
-        <circle cx="17" cy="17" r="17" fill="#07634C" />
+        <circle cx="17" cy="17" r="17" fill="good-dog-main" />
       </svg>
       <svg
         className="absolute"
