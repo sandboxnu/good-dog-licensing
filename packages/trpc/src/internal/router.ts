@@ -5,7 +5,6 @@ import {
   signInProcedure,
   signOutProcedure,
 } from "../procedures/auth";
-import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
@@ -23,24 +22,22 @@ import {
   mediamakerSongRequestsProcedure,
   songRequestProcedure,
 } from "../procedures/get-song-requests";
-import { createMatchRatingProcedure } from "../procedures/like";
-import {
-  getMatchesProcedure,
-  reviewSuggestedMatchProcedure,
-  suggestedMatchProcedure,
-} from "../procedures/matches";
+import { createMatchProcedure } from "../procedures/matches/create-match";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
-import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
+import { signUpProcedure } from "../procedures/onboarding/sign-up";
+import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
+import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
+  verifyEmailCode: verifyEmailCodeProcedure,
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
@@ -57,12 +54,9 @@ export const appRouter = createTRPCRouter({
   userProjects: getUserSongRequestsProcedure,
   music: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
-  match: getMatchesProcedure,
-  rateMatch: createMatchRatingProcedure,
   songRequest: songRequestProcedure,
   comment: upsertCommentsProcedure,
-  suggestMatch: suggestedMatchProcedure,
-  reviewMatch: reviewSuggestedMatchProcedure,
+  createMatch: createMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
   projectSubmission: projectSubmissionProcedure,

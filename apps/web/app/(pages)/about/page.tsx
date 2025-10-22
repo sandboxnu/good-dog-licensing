@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import MediaMusicianAbout from "@good-dog/components/MediaMusicianAbout";
+import MediaMusicianAbout from "@good-dog/components/oldStuff/MediaMusicianAbout";
 
 const InitialHeader = () => {
   return (

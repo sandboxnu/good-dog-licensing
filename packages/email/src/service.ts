@@ -72,11 +72,9 @@ export class EmailService {
     if (!params.from.email) {
       throw new TypeError("Failed to send email: No from email provided.");
     }
-
     if (!this.apiKey) {
       throw new TypeError("Failed to send email: No api key provided.");
     }
-
     return this.mailerSend.email.send(params);
   }
 

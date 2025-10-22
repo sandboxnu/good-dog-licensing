@@ -1,4 +1,3 @@
-import Footer from "@good-dog/components/Footer";
 import Nav from "@good-dog/components/Nav";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
@@ -14,9 +13,13 @@ export default function Layout({
   return (
     <HydrateClient>
       <ClientWrapper>
-        <Nav />
-        {children}
-        <Footer />
+        <div className="flex flex-col items-center justify-center min-h-screen bg-custom-gradient">
+          <div className="px-[228px] min-w-[1250px] max-w-[1500px] w-full flex flex-col justify-center items-center">
+            <Nav />
+            {children}
+          </div>
+        </div>
+        <div className="h-[100px] bg-[#07634C]" />
       </ClientWrapper>
     </HydrateClient>
   );

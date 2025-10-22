@@ -3,13 +3,13 @@ import { z } from "zod";
 import { MusicAffiliation, MusicRole } from "@good-dog/db";
 
 export const zProjectSubmissionValues = z.object({
-  projectTitle: z.string(),
-  description: z.string(),
+  projectTitle: z.string().min(1, "Project title is required"),
+  description: z.string().min(1, "Project description is required"),
   songRequests: z.array(
     z.object({
-      oneLineSummary: z.string(),
-      description: z.string(),
-      musicType: z.string(),
+      oneLineSummary: z.string().min(1, "Song request summary is required"),
+      description: z.string().min(1, "Song request description is required"),
+      musicType: z.string().min(1, "Song request music type is required"),
       similarSongs: z.string().optional(),
       additionalInfo: z.string().optional(),
     }),

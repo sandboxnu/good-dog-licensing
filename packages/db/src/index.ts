@@ -7,7 +7,6 @@ export {
   Role,
   MatchState,
   ReferralSource,
-  Rating,
   MusicAffiliation,
   MusicRole,
 } from "@prisma/client";

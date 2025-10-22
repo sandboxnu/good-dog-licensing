@@ -49,7 +49,7 @@ export const GoodDogDatePicker = <T extends FieldValues>(
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
-                  variant={"outline"}
+                  variant={"outlined"}
                   className={cn(
                     "w-[240px] bg-input-background pl-3 text-left text-lg font-normal md:text-sm",
                     !field.value && "text-muted-foreground",

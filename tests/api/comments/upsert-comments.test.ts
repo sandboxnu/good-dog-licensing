@@ -122,15 +122,13 @@ async function createData() {
 }
 
 async function createMoreData() {
-  await prisma.suggestedMatch.create({
+  await prisma.match.create({
     data: {
-      suggestedMatchId: "match",
-      projectId: "projectSubmission",
+      matchId: "match",
       songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
-      description: "the joyous vibe of this song would go well with the flames",
       matcherUserId: "matcher",
-      matchState: "PENDING",
+      matchState: "NEW",
     },
   });
 
@@ -152,13 +150,13 @@ async function deleteData() {
     },
   });
 
-  // Delete SuggestedMatch
-  await prisma.suggestedMatch.deleteMany({
-    where: { suggestedMatchId: "match" },
+  // Delete Match
+  await prisma.match.deleteMany({
+    where: { matchId: "match" },
   });
 
-  // Delete SuggestedMatch for suggestMatch tests
-  await prisma.suggestedMatch.deleteMany({
+  // Delete Match for suggestMatch tests
+  await prisma.match.deleteMany({
     where: {
       songRequestId: "songRequestOneSubmission",
     },
@@ -213,7 +211,7 @@ describe("upsertCommentsProcedure", () => {
     cache.clear();
   });
 
-  it("should allow admins to create comments on suggested matches", async () => {
+  it("should allow admins to create comments on matches", async () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.comment({
@@ -240,7 +238,7 @@ describe("upsertCommentsProcedure", () => {
     );
   });
 
-  it("should allow moderators to comment on suggested matches", async () => {
+  it("should allow moderators to comment on matches", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.comment({

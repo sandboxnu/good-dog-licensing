@@ -24,7 +24,7 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
         songRequestId: input.songRequestId,
       },
       include: {
-        suggestedMatches: {
+        matches: {
           include: {
             musicSubmission: {
               include: {
@@ -36,7 +36,6 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
                 },
               },
             },
-            matchLikes: true,
           },
         },
         projectSubmission: true,
@@ -50,17 +49,7 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
       });
     }
 
-    if (
-      ctx.session.user.role !== "ADMIN" &&
-      songRequest.projectSubmission.projectOwnerId !== ctx.session.user.userId
-    ) {
-      throw new TRPCError({
-        code: "FORBIDDEN",
-        message: "Song Request not found.",
-      });
-    }
-
-    const matches = songRequest.suggestedMatches;
+    const matches = songRequest.matches;
 
     return {
       matches: matches,
