@@ -10,9 +10,9 @@ import {
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
+import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
-import { MockEmailService } from "../../mocks/MockEmailService";
 
 describe("projectSubmission", () => {
   const mockCookies = new MockNextCookies();
