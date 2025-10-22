@@ -19,7 +19,7 @@ export default function Layout({
             {children}
           </div>
         </div>
-        <div className="h-[100px] bg-[#07634C]" />
+        <div className="h-[100px] bg-good-dog-main" />
       </ClientWrapper>
     </HydrateClient>
   );

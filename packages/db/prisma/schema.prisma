@@ -29,7 +29,6 @@ enum MatchState {
   APPROVED_BY_MUSICIAN
 }
 
-
 model User {
   userId             String              @id @default(uuid()) @map("id")
   email              String              @unique
