@@ -1,6 +1,6 @@
 export default function NavLogo() {
   return (
-    <div className="relative w-[34px] h-[34px] flex items-center justify-center">
+    <div className="relative flex h-[34px] w-[34px] items-center justify-center">
       <svg
         className="absolute"
         width="34"

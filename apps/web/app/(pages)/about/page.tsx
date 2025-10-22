@@ -5,7 +5,7 @@ import MediaMusicianAbout from "@good-dog/components/oldStuff/MediaMusicianAbout
 const InitialHeader = () => {
   return (
     <div className="px-9">
-      <div className="pt-6 font-righteous text-7xl text-good-dog-celadon">
+      <div className="text-good-dog-celadon pt-6 font-righteous text-7xl">
         ABOUT US
       </div>
       <div className="font-afacad text-white">
@@ -37,7 +37,7 @@ const FurtherInfo = () => {
     <div className="flex flex-row pt-24">
       <div className="px-9">
         <div>
-          <div className="pt-6 font-righteous text-4xl text-good-dog-celadon">
+          <div className="text-good-dog-celadon pt-6 font-righteous text-4xl">
             What makes GOOD DOG "GOOD"?
           </div>
           <div className="font-afacad text-white">
@@ -65,7 +65,7 @@ const FurtherInfo = () => {
           </div>
         </div>
         <div>
-          <div className="pt-12 font-righteous text-4xl text-good-dog-celadon">
+          <div className="text-good-dog-celadon pt-12 font-righteous text-4xl">
             Connecting Creatives
           </div>
           <div className="font-afacad pt-6 text-white">

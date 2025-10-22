@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -9,7 +11,6 @@ import {
   DialogTitle,
 } from "@good-dog/ui/dialog";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
-import { useState } from "react";
 
 interface EmailCodeModalProps {
   isOpen: boolean;
@@ -36,8 +37,8 @@ export default function EmailCodeModal({
       }}
     >
       <DialogOverlay className="!bg-transparent" />
-      <DialogContent className="w-full bg-white !rounded-[16px] border border-solid border-black">
-        <DialogHeader className="!text-center pt-[24px]">
+      <DialogContent className="w-full !rounded-[16px] border border-solid border-black bg-white">
+        <DialogHeader className="pt-[24px] !text-center">
           <DialogTitle className="!text-h3 font-medium">
             Verify your email address
           </DialogTitle>
@@ -56,27 +57,27 @@ export default function EmailCodeModal({
               <InputOTPGroup className="flex flex-row gap-[16px]">
                 <InputOTPSlot
                   index={0}
-                  className="text-h1 h-[64px] w-[48px] border border-solid border-[#858585] rounded-[4px]"
+                  className="h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] text-h1"
                 />
                 <InputOTPSlot
                   index={1}
-                  className="text-h1 h-[64px] w-[48px] border border-solid border-[#858585] rounded-[4px]"
+                  className="h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] text-h1"
                 />
                 <InputOTPSlot
                   index={2}
-                  className="text-h1 h-[64px] w-[48px] border border-solid border-[#858585] rounded-[4px]"
+                  className="h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] text-h1"
                 />
                 <InputOTPSlot
                   index={3}
-                  className="text-h1 h-[64px] w-[48px] border border-solid border-[#858585] rounded-[4px]"
+                  className="h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] text-h1"
                 />
                 <InputOTPSlot
                   index={4}
-                  className="text-h1 h-[64px] w-[48px] border border-solid border-[#858585] rounded-[4px]"
+                  className="h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] text-h1"
                 />
                 <InputOTPSlot
                   index={5}
-                  className="text-h1 h-[64px] w-[48px] border border-solid border-[#858585] rounded-[4px]"
+                  className="h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] text-h1"
                 />
               </InputOTPGroup>
             </InputOTP>

@@ -1,5 +1,6 @@
-import { env } from "@good-dog/env";
 import { TRPCError } from "@trpc/server";
+
+import { env } from "@good-dog/env";
 
 export async function sendEmailHelper(
   sendEmail: () => Promise<unknown>,

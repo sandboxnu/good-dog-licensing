@@ -1,4 +1,5 @@
 import { Button as ButtonShad } from "@good-dog/ui/button";
+
 import AddIcon from "../svg/AddIcon";
 
 interface ButtonProps {
@@ -48,7 +49,7 @@ export default function Button({
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName}`}
     >
-      <div className="flex flex-row gap-[8px] items-center justify-center">
+      <div className="flex flex-row items-center justify-center gap-[8px]">
         {displayIcon && (
           <AddIcon
             color={variant === "contained" ? "light" : "dark"}
