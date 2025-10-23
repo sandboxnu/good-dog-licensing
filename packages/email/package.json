@@ -23,8 +23,8 @@
   },
   "prettier": "@good-dog/prettier",
   "dependencies": {
-    "@good-dog/env": "workspace:*",
     "@good-dog/db": "workspace:*",
+    "@good-dog/env": "workspace:*",
     "mailersend": "^2.6.0"
   }
 }
