@@ -3,8 +3,8 @@ import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { MusicAffiliation, MusicRole, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
-import { MockNextCookies } from "../mocks/MockNextCookies";
-import { createMockCookieService } from "../mocks/util";
+import { MockNextCookies } from "../../mocks/MockNextCookies";
+import { createMockCookieService } from "../../mocks/util";
 
 async function createData() {
   await prisma.user.create({
@@ -163,21 +163,13 @@ describe("get-submission-vals", () => {
       contributors: [
         {
           name: "Wesley Tran",
-          contributorId: "contributor-id-1",
-          roles: [MusicRole.SONGWRITER, MusicRole.INSTRUMENTALIST],
           ipi: null,
           affiliation: MusicAffiliation.NONE,
-          isSubmitter: false,
-          musicSubmissionId: "music-id-1",
         },
         {
           name: "Humpty Dumpty",
-          contributorId: "contributor-id-3",
-          roles: [MusicRole.LYRICIST],
           affiliation: MusicAffiliation.BMI,
-          isSubmitter: false,
           ipi: null,
-          musicSubmissionId: "music-id-1",
         },
       ],
       userAffiliation: MusicAffiliation.ASCAP,
@@ -196,39 +188,18 @@ describe("get-submission-vals", () => {
       contributors: [
         {
           name: "Wesley Tran",
-          contributorId: "contributor-id-4",
-          roles: [MusicRole.SONGWRITER, MusicRole.INSTRUMENTALIST],
           ipi: "1234",
           affiliation: MusicAffiliation.NONE,
-          isSubmitter: false,
-          musicSubmissionId: "music-id-2",
         },
         {
           name: "Humpty Dumpty",
-          contributorId: "contributor-id-3",
-          roles: [MusicRole.LYRICIST],
           affiliation: MusicAffiliation.BMI,
-          isSubmitter: false,
           ipi: null,
-          musicSubmissionId: "music-id-1",
         },
         {
-          name: "Humpty Dumpty",
-          roles: [MusicRole.LYRICIST, MusicRole.VOCALIST],
-          affiliation: MusicAffiliation.BMI,
-          contributorId: "contributor-id-6",
-          ipi: null,
-          isSubmitter: false,
-          musicSubmissionId: "music-id-2",
-        },
-        {
-          contributorId: "contributor-id-7",
           name: "Fighter Jet",
-          roles: [MusicRole.INSTRUMENTALIST],
           affiliation: MusicAffiliation.ASCAP,
           ipi: null,
-          isSubmitter: false,
-          musicSubmissionId: "music-id-2",
         },
       ],
       userAffiliation: MusicAffiliation.ASCAP,
