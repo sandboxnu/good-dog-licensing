@@ -8,15 +8,15 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
   .mutation(async ({ ctx, input }) => {
     const role = ctx.session.user.role;
     const mediamaker_only_check =
-      (input.state == MatchState.SONG_REQUESTED ||
-        input.state == MatchState.REJECTED_BY_MEDIA_MAKER) &&
-      role != Role.MEDIA_MAKER;
+      (input.state === MatchState.SONG_REQUESTED ||
+        input.state === MatchState.REJECTED_BY_MEDIA_MAKER) &&
+      role !== Role.MEDIA_MAKER;
     const musician_only_check =
-      (input.state == MatchState.REJECTED_BY_MUSICIAN ||
-        input.state == MatchState.APPROVED_BY_MUSICIAN) &&
-      role != Role.MUSICIAN;
+      (input.state === MatchState.REJECTED_BY_MUSICIAN ||
+        input.state === MatchState.APPROVED_BY_MUSICIAN) &&
+      role !== Role.MUSICIAN;
 
-    if (input.state == MatchState.NEW) {
+    if (input.state === MatchState.NEW) {
       throw new TRPCError({
         code: "UNPROCESSABLE_CONTENT",
         message: `Cannot update a match back to NEW state`,
@@ -28,7 +28,7 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
       });
     }
 
-    const match = await prisma.match.findFirst({
+    const match = await prisma.match.findUnique({
       where: { matchId: input.matchId },
       include: {
         musicSubmission: true,
@@ -49,7 +49,7 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
 
     // If media maker, then it needs to be their project
     if (
-      role == Role.MEDIA_MAKER &&
+      role === Role.MEDIA_MAKER &&
       match.songRequest.projectSubmission.projectOwnerId !=
         ctx.session.user.userId
     ) {
@@ -60,7 +60,7 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
     }
     // If music maker, then it needs to be their music
     if (
-      role == Role.MUSICIAN &&
+      role === Role.MUSICIAN &&
       match.musicSubmission.submitterId != ctx.session.user.userId
     ) {
       throw new TRPCError({
