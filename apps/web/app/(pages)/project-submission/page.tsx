@@ -2,7 +2,7 @@ import ProjectSubmissionWidget from "@good-dog/components/submit/project/Project
 
 export default function SubmissionForm() {
   return (
-    <div className="flex min-h-screen justify-center bg-good-dog-cream text-white px-32 py-8">
+    <div className="bg-good-dog-cream flex min-h-screen justify-center px-32 py-8 text-white">
       {<ProjectSubmissionWidget />}
     </div>
   );

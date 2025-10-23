@@ -1,16 +1,18 @@
 "use client";
 
-import { FormProvider, useForm } from "react-hook-form";
-import InitialSignUpInfo from "./InitialSignUpInfo";
 import type z from "zod";
-import { zSignUpValues } from "@good-dog/trpc/schema";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+
+import { trpc } from "@good-dog/trpc/client";
+import { zSignUpValues } from "@good-dog/trpc/schema";
+
 import GrayPlaceholder from "../../../GrayPlaceholder";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
-import { trpc } from "@good-dog/trpc/client";
-import { useState } from "react";
 import EmailCodeModal from "./EmailCodeModal";
 import FinalSignUpInfo from "./FinalSignUpInfo";
+import InitialSignUpInfo from "./InitialSignUpInfo";
 
 interface SignUpWidgetProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -94,7 +96,7 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
         email={formMethods.watch("email")}
         verifyCode={verifyEmailCode}
       />
-      <div className="w-1/2 flex flex-col justify-center h-full">
+      <div className="flex h-full w-1/2 flex-col justify-center">
         <FormProvider {...formMethods}>
           {step === 1 && (
             <InitialSignUpInfo role={role} onVerifyEmail={handleVerifyEmail} />
@@ -104,7 +106,7 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
           )}
         </FormProvider>
       </div>
-      <div className="w-1/2 h-full">
+      <div className="h-full w-1/2">
         <GrayPlaceholder />
       </div>
     </UserOnboardingWidgetContainer>

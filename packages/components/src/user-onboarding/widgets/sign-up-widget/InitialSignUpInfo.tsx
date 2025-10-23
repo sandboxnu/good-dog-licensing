@@ -1,13 +1,15 @@
 "use client";
 
-import type { zSignUpValues } from "@good-dog/trpc/schema";
-import { useFormContext } from "react-hook-form";
 import type z from "zod";
 import { useMemo } from "react";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import Button from "../../../base/Button";
 import Link from "next/link";
+import { useFormContext } from "react-hook-form";
+
+import type { zSignUpValues } from "@good-dog/trpc/schema";
+
+import Button from "../../../base/Button";
 import RHFRadioGroup from "../../../rhf-base/RHFRadioGroup";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 
 interface InitialSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -43,7 +45,7 @@ export default function InitialSignUpInfo({
     >
       <h1 className="text-h3 font-medium">{headerLabel}</h1>
       <h3 className="text-body3 font-normal">All fields below are required</h3>
-      <div className="pt-[32px] flex flex-row gap-[24px]">
+      <div className="flex flex-row gap-[24px] pt-[32px]">
         <RHFTextInput<SignUpFormFields>
           rhfName="firstName"
           label="First name"
@@ -93,9 +95,9 @@ export default function InitialSignUpInfo({
           fullWidth
         />
       </div>
-      <div className="pt-[16px] flex flex-row flex-wrap justify-center space-x-1 text-body3">
+      <div className="flex flex-row flex-wrap justify-center space-x-1 pt-[16px] text-body3">
         <span className="font-normal">Already have an account?</span>
-        <Link href="/login" className="underline font-medium text-secondary">
+        <Link href="/login" className="font-medium text-secondary underline">
           Log in
         </Link>
       </div>

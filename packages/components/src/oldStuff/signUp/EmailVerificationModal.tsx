@@ -1,5 +1,9 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import z from "zod";
+
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
 import {
@@ -11,9 +15,6 @@ import {
   DialogTitle,
 } from "@good-dog/ui/dialog";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import z from "zod";
 
 interface EmailVerificationModalProps {
   isOpen: boolean;
@@ -75,7 +76,7 @@ export default function EmailVerificationModal({
       <DialogContent className="border-black sm:max-w-[512px]">
         <DialogHeader>
           <DialogTitle>Verify Email</DialogTitle>
-          <DialogDescription className="font-afacad p-7 text-center text-2xl font-normal text-good-dog-violet">
+          <DialogDescription className="font-afacad text-good-dog-violet p-7 text-center text-2xl font-normal">
             A 6-digit code has been sent to {email}. Please enter the code
             below.
           </DialogDescription>

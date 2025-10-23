@@ -1,6 +1,7 @@
 import type { MusicAffiliation } from "@good-dog/db";
-import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
+
+import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 interface ContributorPrefillType {
   name: string;

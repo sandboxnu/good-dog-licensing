@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test";
+import { EmailParams, Recipient, Sender } from "mailersend";
 
 import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
@@ -8,7 +9,6 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockEmailService } from "../mocks/MockEmailService";
 import { MockNextCookies } from "../mocks/MockNextCookies";
 import { createMockCookieService } from "../mocks/util";
-import { EmailParams, Recipient, Sender } from "mailersend";
 
 describe("moderator-onboarding", () => {
   const mockEmails = new MockEmailService();

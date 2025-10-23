@@ -1,14 +1,16 @@
 "use client";
+
 import React from "react";
-import { Button } from "@good-dog/ui/button";
 import { useRouter } from "next/navigation";
+
+import { Button } from "@good-dog/ui/button";
 
 export default function Home() {
   const router = useRouter();
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen pt-[32px] pb-[32px]">
-      <div className="flex flex-col w-full gap-[144px] justify-center items-center">
-        <div className="flex flex-col justify-center text-center gap-[37px]">
+    <div className="flex min-h-screen flex-col items-center justify-center pb-[32px] pt-[32px]">
+      <div className="flex w-full flex-col items-center justify-center gap-[144px]">
+        <div className="flex flex-col justify-center gap-[37px] text-center">
           <div className="pt-[32px]">
             <h1>Connecting musicians and media makers</h1>
           </div>
@@ -20,7 +22,7 @@ export default function Home() {
                 enim ad minim veniam, quis nostrud exercitation ullamco{" "}
               </p>
 
-              <div className="flex gap-4 justify-center">
+              <div className="flex justify-center gap-4">
                 <Button
                   size="large-text"
                   className="bg-good-dog-main text-off-white shadow-button"
@@ -39,7 +41,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="w-full h-[500px] bg-gray-400 shadow-div rounded-[20px]"></div>
+            <div className="h-[500px] w-full rounded-[20px] bg-gray-400 shadow-div"></div>
           </div>
         </div>
         <LearnMoreAboutRoles />
@@ -104,7 +106,7 @@ export function DescriptionSection({
     <div
       className={`flex gap-[24px] ${order == "text-left" ? "flex-row" : "flex-row-reverse"} items-center`}
     >
-      <div className="flex flex-col gap-[24px] w-1/2">
+      <div className="flex w-1/2 flex-col gap-[24px]">
         <h2>{title}</h2>
         <p>{text}</p>
       </div>
@@ -127,7 +129,7 @@ export function VerticalDescriptionSection({
   linkText: string;
 }) {
   return (
-    <div className="flex flex-col gap-[24px] text-center justify-center items-center">
+    <div className="flex flex-col items-center justify-center gap-[24px] text-center">
       <SampleImage />
       <h2 className="">{title}</h2>
       <p>{text}</p>
@@ -139,5 +141,5 @@ export function VerticalDescriptionSection({
 }
 
 function SampleImage() {
-  return <div className="w-[250px] h-[250px] bg-gray-400 rounded-[20px]"></div>;
+  return <div className="h-[250px] w-[250px] rounded-[20px] bg-gray-400"></div>;
 }
