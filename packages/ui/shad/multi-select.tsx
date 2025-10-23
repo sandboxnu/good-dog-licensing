@@ -189,7 +189,7 @@ export const MultiSelect = React.forwardRef<
             ref={ref}
             {...props}
             onClick={handleTogglePopover}
-            variant="input"
+            variant="contained"
             className={cn(
               "flex h-auto min-h-10 w-full items-center justify-between rounded-md border bg-inherit p-1 [&_svg]:pointer-events-auto",
               className,

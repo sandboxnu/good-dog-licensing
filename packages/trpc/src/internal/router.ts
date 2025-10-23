@@ -34,9 +34,11 @@ import { createTRPCRouter } from "./init";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { getMusicSubmissionPrefillValues } from "../procedures/get-submission-vals";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
+import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
+  verifyEmailCode: verifyEmailCodeProcedure,
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,

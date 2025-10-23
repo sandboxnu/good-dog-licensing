@@ -4,90 +4,40 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 export default {
   content: ["src/**/*.{ts,tsx}"],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         righteous: ["Righteous"],
       },
       fontSize: {
-        "10xl": "150px",
-        "7xl": "72px",
+        h1: "50px",
+        h2: "40px",
+        h3: "35px",
+        body1: "20px",
+        body2: "18px",
+        body3: "16px",
+        caption: "14px",
+        logo: "25px",
       },
       colors: {
-        // OLD FALL '24 COLORS, CAN BE REMOVED LATER
-        "good-dog-violet": "#0D0039",
-        "good-dog-teal": "#538687",
-        "good-dog-pale-yellow": "#F6F8DE",
-        "good-dog-celadon": "#ACDD92",
-        "good-dog-orange": "#EF946C",
-        "good-dog-purple": "#574AE2",
-
-        // BASE CONFIG
-        border: "hsl(var(--border))",
-        input: {
-          DEFAULT: "hsl(var(--input))",
-          background: "hsl(var(--input-background))",
-        },
-        ring: "hsl(var(--ring))",
-        background: {
-          DEFAULT: "hsl(var(--background))",
-          muted: "hsl(var(--background-muted))",
-        },
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
+        "good-dog-main": "#07634C",
+        "header-primary": "#022119",
+        "body-primary": "#2E2E2E",
+        secondary: "#054233",
+        error: "#B13433",
+        "required-star": "#F4392D",
+        "dark-green": "#07634C",
+        "off-white": "#E9F9F1",
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+      boxShadow: {
+        active: "0 0 3px 0 var(--pine-200, #4C8B79)",
+        error: "0 0 3px 0 var(--Red-100, #FF9D97)",
+        button: "4px 4px 0 0 var(--button-drop-shadow, #000)",
+        div: "16px 12px 0px 0px var(--carddrop-shadow, #098465)",
       },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+      backgroundImage: {
+        "custom-gradient":
+          "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
       },
     },
   },

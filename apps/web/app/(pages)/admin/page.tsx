@@ -1,4 +1,4 @@
-import AdminDashboard from "@good-dog/components/admin/AdminDashboard";
+import AdminDashboard from "@good-dog/components/oldStuff/admin/AdminDashboard";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
 export default function AdminPage() {
