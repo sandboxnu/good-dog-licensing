@@ -33,10 +33,12 @@ import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
+import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
 import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
+  verifyEmailCode: verifyEmailCodeProcedure,
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,

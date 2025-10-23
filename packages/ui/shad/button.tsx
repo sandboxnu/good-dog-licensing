@@ -5,36 +5,25 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@good-dog/ui";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        input: "text-lg md:text-sm",
-      },
-      size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
-      },
+const buttonVariants = cva("rounded-lg", {
+  variants: {
+    variant: {
+      contained:
+        "bg-good-dog-main hover:bg-[#054233] active:bg-[#022119] text-[#E9F9F1]",
+      outlined:
+        "bg-[#FFFDFB] hover:bg-[#E9F9F1] active:bg-[#D3F4E2] text-[#054233] border-[0.5px] border-[#404040]",
+      text: "bg-transparent hover:bg-[#E9F9F1] active:bg-[#D3F4E2] text-[#054233]",
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
+    size: {
+      "medium-text": "h-[40px] w-[104px] !text-body3",
+      "large-text": "h-[48px] w-[128px] !text-body2",
+      "medium-text-with-icon": "h-[40px] w-[120px] !text-body3",
+      "large-text-with-icon": "h-[48px] w-[136px] !text-body2",
+      "medium-icon": "h-[40px] w-[40px]",
+      "large-icon": "h-[48px] w-[48px]",
     },
   },
-);
+});
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,

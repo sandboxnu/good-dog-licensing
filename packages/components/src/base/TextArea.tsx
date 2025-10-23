@@ -1,56 +1,61 @@
 import { Label } from "@good-dog/ui/label";
-import ErrorExcalamation from "../svg/ErrorExclamation";
+import ErrorExclamation from "../svg/ErrorExclamation";
 import clsx from "clsx";
 import { Textarea } from "@good-dog/ui/textarea";
 
-interface TextAreaProps {
+interface TextInputProps {
   label: string;
+  value: string;
+  onChange: (newValue: string) => void;
   placeholder: string;
-  htmlFor?: string;
-  required: boolean;
+  id: string;
+  required?: boolean;
   helperText?: string;
   errorText?: string;
 }
 
-export default function TextArea({
+export default function TextInput({
   label,
+  value,
+  onChange,
   placeholder,
-  htmlFor,
+  id,
   required = false,
   helperText,
   errorText,
-}: TextAreaProps) {
+}: TextInputProps) {
   return (
-    <div className="w-full flex flex-col gap-label-input-sep text-label-black">
+    <div className="w-full flex flex-col gap-[4px]">
       <div className="flex flex-row gap-[2px]">
-        <Label htmlFor={htmlFor} className="!text-base-label">
+        <Label htmlFor={id} className="text-body3 text-[#171717] font-normal">
           {label}
         </Label>
         {required && (
-          <Label className="!text-base-label text-required-star">*</Label>
+          <Label className="text-body3 text-required-star font-normal">*</Label>
         )}
       </div>
       <Textarea
         className={clsx(
-          "w-full h-textarea pl-placeholder-sep text-base-input text-input-black rounded-base-input border-inactive-border py-2",
-          "placeholder:text-placeholder",
-          "hover:border-hover-border",
-          "focus:border-active-border focus:shadow-active-shadow focus:outline-none",
+          "w-full h-[80px] pl-[8px] text-body3 text-body-primary rounded-[8px] border-[#858585]",
+          "placeholder:text-[#ADADAD]",
+          "hover:border-[#404040]",
+          "focus:border-[#098465] focus:shadow-active focus:outline-none",
           {
-            "!border-error-border !shadow-error-shadow": errorText,
+            "!border-error !shadow-error": errorText,
           },
         )}
         placeholder={placeholder}
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       />
       {helperText && !errorText && (
-        <Label className="!text-base-helper text-label-black">
-          {helperText}
-        </Label>
+        <Label className="text-caption text-[#171717]">{helperText}</Label>
       )}
       {errorText && (
-        <div className="flex flex-row gap-[2px]">
-          <ErrorExcalamation />
-          <Label className="!text-base-helper text-error">{errorText}</Label>
+        <div className="flex flex-row gap-[2px] items-center">
+          <ErrorExclamation />
+          <Label className="text-caption text-error">{errorText}</Label>
         </div>
       )}
     </div>
