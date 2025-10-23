@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 
-import { MusicAffiliation, MusicRole, prisma } from "@good-dog/db";
+import { MusicAffiliation, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../../mocks/MockNextCookies";
