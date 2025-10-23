@@ -6,7 +6,7 @@ export default function UserOnboardingWidgetContainer({
   children,
 }: UserOnboardingWidgetContainerProps) {
   return (
-    <div className="rounded-[16px] bg-[#FFFBF6] border-black border border-solid h-[584px] p-[48px] w-full flex flex-row">
+    <div className="flex h-[584px] w-full flex-row rounded-[16px] border border-solid border-black bg-[#FFFBF6] p-[48px]">
       {children}
     </div>
   );

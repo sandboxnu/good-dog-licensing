@@ -1,5 +1,6 @@
-import { ReferralSource } from "@good-dog/db";
 import { z } from "zod";
+
+import { ReferralSource } from "@good-dog/db";
 
 export const zPasswordValidation = z
   .string()

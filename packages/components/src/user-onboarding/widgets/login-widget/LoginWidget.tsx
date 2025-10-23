@@ -1,17 +1,19 @@
 "use client";
 
-import { zSignInValues } from "@good-dog/trpc/schema";
-import { trpc } from "@good-dog/trpc/client";
+import type { z } from "zod";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import type { z } from "zod";
-import { useRouter } from "next/navigation";
-import GrayPlaceholder from "../../../GrayPlaceholder";
-import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import Checkbox from "../../../base/Checkbox";
-import Link from "next/link";
+
+import { trpc } from "@good-dog/trpc/client";
+import { zSignInValues } from "@good-dog/trpc/schema";
+
 import Button from "../../../base/Button";
+import Checkbox from "../../../base/Checkbox";
+import GrayPlaceholder from "../../../GrayPlaceholder";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
+import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 
 type LoginFormFields = z.input<typeof zSignInValues>;
 
@@ -42,7 +44,7 @@ export default function LoginWidget() {
 
   return (
     <UserOnboardingWidgetContainer>
-      <div className="w-1/2 flex flex-col justify-center h-full">
+      <div className="flex h-full w-1/2 flex-col justify-center">
         <FormProvider {...formMethods}>
           <form className="pr-[40px]" onSubmit={handleLogin}>
             <h1 className="text-h3 font-medium">Welcome back!</h1>
@@ -67,11 +69,11 @@ export default function LoginWidget() {
                 type="password"
                 errorText={formMethods.formState.errors.password?.message}
               />
-              <div className="pt-[24px] flex flex-row justify-between">
+              <div className="flex flex-row justify-between pt-[24px]">
                 <Checkbox label="Remember me" id="rememberMe" />
                 <Link
                   href="/forgot-password"
-                  className="text-secondary underline text-body3 font-medium whitespace-nowrap"
+                  className="whitespace-nowrap text-body3 font-medium text-secondary underline"
                 >
                   Forgot password?
                 </Link>
@@ -87,11 +89,11 @@ export default function LoginWidget() {
                 />
               </div>
             </div>
-            <div className="pt-[16px] flex flex-row flex-wrap justify-center space-x-1 text-body3">
+            <div className="flex flex-row flex-wrap justify-center space-x-1 pt-[16px] text-body3">
               <span className="font-normal">Don't have an account?</span>
               <Link
                 href="/signup"
-                className="underline font-medium text-secondary"
+                className="font-medium text-secondary underline"
               >
                 Sign up
               </Link>
@@ -99,7 +101,7 @@ export default function LoginWidget() {
           </form>
         </FormProvider>
       </div>
-      <div className="w-1/2 h-full">
+      <div className="h-full w-1/2">
         <GrayPlaceholder />
       </div>
     </UserOnboardingWidgetContainer>

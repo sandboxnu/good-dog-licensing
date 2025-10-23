@@ -1,14 +1,14 @@
 "use client";
 
+import Button from "@good-dog/components/base/Button";
+import Checkbox from "@good-dog/components/base/Checkbox";
 import TextArea from "@good-dog/components/base/TextArea";
 import TextInput from "@good-dog/components/base/TextInput";
-import Checkbox from "@good-dog/components/base/Checkbox";
-import Button from "@good-dog/components/base/Button";
 
 export default function Components() {
   return (
-    <div className="flex h-screen items-center justify-center gap-5 flex-row">
-      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+    <div className="flex h-screen flex-row items-center justify-center gap-5">
+      <div className="flex h-screen flex-col items-center justify-center gap-5">
         <div className="w-full max-w-[250px]">
           <TextInput
             label="First Name"
@@ -36,7 +36,7 @@ export default function Components() {
           />
         </div>
       </div>
-      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+      <div className="flex h-screen flex-col items-center justify-center gap-5">
         <div className="w-full max-w-[250px]">
           <TextArea
             label="First Name"
@@ -65,7 +65,7 @@ export default function Components() {
           />
         </div>
       </div>
-      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+      <div className="flex h-screen flex-col items-center justify-center gap-5">
         <Checkbox label={"Please check this"} id="box1" />
         <Checkbox
           label={"Please check this"}
@@ -74,7 +74,7 @@ export default function Components() {
           id="box2"
         />
       </div>
-      <div className="flex h-screen items-center justify-center gap-5 flex-col">
+      <div className="flex h-screen flex-col items-center justify-center gap-5">
         {/* <RadioGroup
           options={[
             { value: "yes", label: "Yes" },
@@ -97,7 +97,7 @@ export default function Components() {
           id="radio2"
         /> */}
       </div>
-      <div className="flex flex-col gap-4 bg-gray-100 w-[400px]">
+      <div className="flex w-[400px] flex-col gap-4 bg-gray-100">
         <Button
           variant="contained"
           size="medium"
