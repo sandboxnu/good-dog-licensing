@@ -2,11 +2,13 @@
 import React from "react";
 import { Button } from "@good-dog/ui/button";
 import { useRouter } from "next/navigation";
+import ResetPasswordWidget from "@good-dog/components/user-onboarding/widgets/reset-password-widget/ResetPasswordWidget";
 
 export default function Home() {
   const router = useRouter();
   return (
     <div className="flex flex-col justify-center items-center min-h-screen pt-[32px] pb-[32px]">
+      <ResetPasswordWidget />
       <div className="flex flex-col w-full gap-[144px] justify-center items-center">
         <div className="flex flex-col justify-center text-center gap-[37px]">
           <div className="pt-[32px]">

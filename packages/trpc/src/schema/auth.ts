@@ -42,3 +42,8 @@ export const zSignInValues = z.object({
 export const zForgotPasswordValues = z.object({
   email: z.email(),
 });
+
+export const zResetPasswordValues = z.object({
+  password: zPasswordValidation,
+  confirmPassword: zPasswordValidation,
+});
