@@ -25,7 +25,7 @@ import {
 } from "../procedures/get-song-requests";
 import { createMatchProcedure } from "../procedures/matches/create-match";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
-import { submitMusicProcedure } from "../procedures/music-submission";
+import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
