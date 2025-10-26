@@ -1,7 +1,9 @@
-import { MatchState, prisma, Role } from "@good-dog/db";
-import z from "zod";
-import { authenticatedProcedureBuilder } from "../../middleware/authenticated";
 import { TRPCError } from "@trpc/server";
+import z from "zod";
+
+import { MatchState, prisma, Role } from "@good-dog/db";
+
+import { authenticatedProcedureBuilder } from "../../middleware/authenticated";
 
 export const updateMatchStateProcedure = authenticatedProcedureBuilder
   .input(z.object({ matchId: z.string(), state: z.enum(MatchState) }))
