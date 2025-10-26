@@ -35,6 +35,7 @@ import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
 import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
+import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -53,6 +54,7 @@ export const appRouter = createTRPCRouter({
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
   userProjects: getUserSongRequestsProcedure,
+  updateMatchState: updateMatchStateProcedure,
   music: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   songRequest: songRequestProcedure,
