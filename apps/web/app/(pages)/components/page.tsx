@@ -4,8 +4,16 @@ import TextArea from "@good-dog/components/base/TextArea";
 import TextInput from "@good-dog/components/base/TextInput";
 import Checkbox from "@good-dog/components/base/Checkbox";
 import Button from "@good-dog/components/base/Button";
+import MultiselectDropdown from "@good-dog/components/base/MultiselectDropdown";
 
 export default function Components() {
+  const options = [
+    { label: "Option 1", value: "option1" },
+    { label: "Option 2", value: "option2" },
+    { label: "Option 3", value: "option3" },
+    { label: "Option 4", value: "option4" },
+  ];
+
   return (
     <div className="flex h-screen items-center justify-center gap-5 flex-row">
       <div className="flex h-screen items-center justify-center gap-5 flex-col">
@@ -190,6 +198,41 @@ export default function Components() {
           onClick={() => {
             console.log("hit");
           }}
+        />
+      </div>
+      <div className="flex flex-col gap-4 bg-gray-100 w-[400px]">
+        <MultiselectDropdown
+          label={"Dropdown menu"}
+          value={""}
+          options={options}
+          onChange={(newValue) => {
+            console.log("Changed", newValue);
+          }}
+          placeholder={"enter info here"}
+          id={"test"}
+          variant={"standard"}
+        />
+        <MultiselectDropdown
+          label={"Dropdown menu"}
+          value={""}
+          options={options}
+          onChange={(newValue) => {
+            console.log("Changed", newValue);
+          }}
+          placeholder={"enter info here"}
+          id={"test"}
+          variant={"hover"}
+        />
+        <MultiselectDropdown
+          label={"Dropdown menu"}
+          value={""}
+          options={options}
+          onChange={(newValue) => {
+            console.log("Changed", newValue);
+          }}
+          placeholder={"enter info here"}
+          id={"test"}
+          variant={"inactive"}
         />
       </div>
     </div>
