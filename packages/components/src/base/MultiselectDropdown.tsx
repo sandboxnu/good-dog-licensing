@@ -20,6 +20,7 @@ interface MultiselectDropdownProps {
     | "round_standard"
     | "round_hover"
     | "round_inactive";
+  maxCount?: number;
   required?: boolean;
   helperText?: string;
   errorText?: string;
@@ -33,6 +34,7 @@ export default function MultiselectDropdown({
   placeholder,
   id,
   variant,
+  maxCount,
   required = false,
   helperText,
   errorText,
@@ -60,6 +62,7 @@ export default function MultiselectDropdown({
         onValueChange={onChange}
         options={options}
         variant={variant}
+        maxCount={maxCount}
       />
       {helperText && !errorText && (
         <Label className="text-caption text-[#171717]">{helperText}</Label>
