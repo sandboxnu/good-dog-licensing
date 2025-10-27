@@ -6,6 +6,12 @@
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
     "types": ["bun"]
   },
-  "include": ["*.ts", "src", "src/svg", "../ui/svg/CheckIcon.tsx", "../ui/shad/X.tsx"],
+  "include": [
+    "*.ts",
+    "src",
+    "src/svg",
+    "../ui/svg/CheckIcon.tsx",
+    "../ui/shad/X.tsx"
+  ],
   "exclude": ["node_modules"]
 }

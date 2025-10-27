@@ -1,5 +1,11 @@
 interface XProps {
-  variant?: "standard" | "hover" | "inactive" | "round_standard" | "round_hover" | "round_inactive";
+  variant?:
+    | "standard"
+    | "hover"
+    | "inactive"
+    | "round_standard"
+    | "round_hover"
+    | "round_inactive";
 }
 
 export default function X({ variant }: XProps) {
