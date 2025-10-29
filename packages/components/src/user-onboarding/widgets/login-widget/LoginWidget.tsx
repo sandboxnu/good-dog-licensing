@@ -6,17 +6,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import type { z } from "zod";
 import { useRouter } from "next/navigation";
+import ErrorExclamation from "../../../svg/ErrorExclamation";
 import GrayPlaceholder from "../../../GrayPlaceholder";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import Checkbox from "../../../base/Checkbox";
 import Link from "next/link";
 import Button from "../../../base/Button";
+import { useState } from "react";
 
 type LoginFormFields = z.input<typeof zSignInValues>;
 
 export default function LoginWidget() {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const formMethods = useForm<LoginFormFields>({
     resolver: zodResolver(zSignInValues),
   });
@@ -31,12 +34,19 @@ export default function LoginWidget() {
     onSuccess: async () => {
       await trpcUtils.user.reset();
 
-      // TODO: alert the user that they have successfully logged in
+      // TODO: Alert toast to the user that they have successfully logged in
       router.push("/");
     },
     onError: (err) => {
-      // TODO: Alert toast to the user that there was an error logging in (not sure what this means)
+      // TODO: Alert toast to the user that there was an error logging in
       console.error(err);
+
+      if (err.data?.code === "UNAUTHORIZED") {
+        // this message is hard coded from sign in procedure
+        setErrorMessage("The email or password entered is incorrect");
+      } else {
+        setErrorMessage("Something went wrong. Please try again later");
+      }
     },
   });
 
@@ -45,10 +55,18 @@ export default function LoginWidget() {
       <div className="w-1/2 flex flex-col justify-center h-full">
         <FormProvider {...formMethods}>
           <form className="pr-[40px]" onSubmit={handleLogin}>
-            <h1 className="text-h3 font-medium">Welcome back!</h1>
+            <h2 className="text-h2 font-bold">Welcome back!</h2>
             <h3 className="text-body3 font-normal">
               All fields below are required
             </h3>
+            {loginMutation.isError && (
+              <div className="flex flex-row gap-[2px] items-center">
+                <ErrorExclamation />
+                <h3 className="text-error text-body3 font-normal ">
+                  {errorMessage}
+                </h3>
+              </div>
+            )}
             <div className="pt-[32px]">
               <RHFTextInput<LoginFormFields>
                 rhfName={"email"}
