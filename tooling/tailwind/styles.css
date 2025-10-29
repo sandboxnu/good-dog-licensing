@@ -29,4 +29,13 @@
     letter-spacing: 0;
     line-height: 104%;
   }
+
+  h3 {
+    font-family: #2e2e2e;
+    font-size: 35px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 104%;
+
+  }
 }

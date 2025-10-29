@@ -45,10 +45,10 @@ export default function LoginWidget() {
       <div className="w-1/2 flex flex-col justify-center h-full">
         <FormProvider {...formMethods}>
           <form className="pr-[40px]" onSubmit={handleLogin}>
-            <h1 className="text-h3 font-medium">Welcome back!</h1>
-            <h3 className="text-body3 font-normal">
+            <h3>Welcome back!</h3>
+            <p>
               All fields below are required
-            </h3>
+            </p>
             <div className="pt-[32px]">
               <RHFTextInput<LoginFormFields>
                 rhfName={"email"}
