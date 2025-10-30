@@ -5,7 +5,7 @@ import {
   signInProcedure,
   signOutProcedure,
 } from "../procedures/auth";
-import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
+import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
@@ -24,17 +24,18 @@ import {
   songRequestProcedure,
 } from "../procedures/get-song-requests";
 import { createMatchProcedure } from "../procedures/matches/create-match";
+import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
-import { submitMusicProcedure } from "../procedures/music-submission";
+import { submitMusicProcedure } from "../procedures/music/music-submission";
+import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
+import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
+import { signUpProcedure } from "../procedures/onboarding/sign-up";
+import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
-import { signUpProcedure } from "../procedures/onboarding/sign-up";
-import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
-import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
-import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -53,6 +54,7 @@ export const appRouter = createTRPCRouter({
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
   userProjects: getUserSongRequestsProcedure,
+  updateMatchState: updateMatchStateProcedure,
   music: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   songRequest: songRequestProcedure,
