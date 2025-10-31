@@ -6,7 +6,7 @@ interface ButtonProps {
   size: "medium" | "large";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
-  displayIcon?: boolean;
+  displayIcon?: "plus" | "arrow";
   shadow?: boolean;
   fullWidth?: boolean;
   type?: "submit" | "button";
@@ -26,7 +26,7 @@ export default function Button({
   variant,
   onClick,
   type,
-  displayIcon = false,
+  displayIcon,
   shadow = false,
   fullWidth = false,
 }: ButtonProps) {

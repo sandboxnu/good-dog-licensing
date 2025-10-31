@@ -1,4 +1,5 @@
 import Nav from "@good-dog/components/Nav";
+import Footer from "@good-dog/components/Footer";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
 import { ClientWrapper } from "./ClientWrapper";
@@ -18,8 +19,8 @@ export default function Layout({
             <Nav />
             {children}
           </div>
+          <Footer />
         </div>
-        <div className="h-[100px] bg-good-dog-main" />
       </ClientWrapper>
     </HydrateClient>
   );
