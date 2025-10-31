@@ -2,63 +2,56 @@
 
 import { FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
-import { zProjectSubmissionValues } from "@good-dog/trpc/schema";
+import { zMusicSubmissionValues } from "@good-dog/trpc/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import InitialProjectInfo from "./InitialProjectInfo";
 import { useState } from "react";
-import SongRequestsInfo from "./SongRequestsInfo";
 import { trpc } from "@good-dog/trpc/client";
-import ProjectSubmissionHeader from "./ProjectSubmissionHeader";
+import MusicSubmissionHeader from "./MusicSubmissionHeader";
+import InitialMusicInfo from "./InitialMusicInfo";
 
-type ProjectSubmissionFormFields = z.input<typeof zProjectSubmissionValues>;
+type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
 
 export enum SubmissionStep {
   INITIAL,
-  SONG_REQUESTS,
+  CONTRIBUTORS,
   SUBMITTED,
 }
 
-export default function ProjectSubmissionWidget() {
+export default function MusicSubmissionWidget() {
   const [step, setStep] = useState<SubmissionStep>(SubmissionStep.INITIAL);
 
-  const submitProjectMutation = trpc.projectSubmission.useMutation({
+  const submitMusicMutation = trpc.submitMusic.useMutation({
     onSuccess: () => {
       setStep(SubmissionStep.SUBMITTED);
     },
   });
 
-  const formMethods = useForm<ProjectSubmissionFormFields>({
-    resolver: zodResolver(zProjectSubmissionValues),
+  const formMethods = useForm<MusicSubmissionFormFields>({
+    resolver: zodResolver(zMusicSubmissionValues),
     defaultValues: {
-      songRequests: [
-        {
-          oneLineSummary: "",
-          description: "",
-          musicType: "",
-          similarSongs: "",
-          additionalInfo: "",
-        },
-      ],
+      contributors: [{}],
     },
   });
 
   const handleNext = async () => {
     const initialProjectInfoIsValid = await formMethods.trigger([
-      "projectTitle",
-      "description",
-      "deadline",
+      "songName",
+      "songLink",
+      "genre",
+      "additionalInfo",
+      "performerName",
     ]);
     if (initialProjectInfoIsValid) {
-      setStep(SubmissionStep.SONG_REQUESTS);
+      setStep(SubmissionStep.CONTRIBUTORS);
     } else {
       console.log("Not valid");
     }
   };
 
   const handleSubmit = async () => {
-    const songRequestsInfoIsValid = await formMethods.trigger(["songRequests"]);
+    const songRequestsInfoIsValid = await formMethods.trigger(["contributors"]);
     if (songRequestsInfoIsValid) {
-      submitProjectMutation.mutate(formMethods.getValues());
+      submitMusicMutation.mutate(formMethods.getValues());
     } else {
       console.log("Not valid");
     }
@@ -70,15 +63,15 @@ export default function ProjectSubmissionWidget() {
 
   return (
     <div className="flex flex-col gap-4 items-center w-[752px]">
-      <ProjectSubmissionHeader step={step} />
+      <MusicSubmissionHeader step={step} />
       <div className="flex w-full">
         <FormProvider {...formMethods}>
           {step == SubmissionStep.INITIAL && (
-            <InitialProjectInfo onNext={handleNext} />
+            <InitialMusicInfo onNext={handleNext} />
           )}
-          {step == SubmissionStep.SONG_REQUESTS && (
+          {/* {step == SubmissionStep.SONG_REQUESTS && (
             <SongRequestsInfo onSubmit={handleSubmit} onBack={handleBack} />
-          )}
+          )} */}
         </FormProvider>
       </div>
     </div>

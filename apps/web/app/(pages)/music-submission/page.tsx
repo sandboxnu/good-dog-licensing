@@ -1,7 +1,11 @@
 import React from "react";
 
-import { MusicSubmissionForm } from "@good-dog/components/oldStuff/submit/MusicSubmissionForm";
+import MusicSubmissionWidget from "@good-dog/components/submit/music/MusicSubmissionWidget";
 
 export default function MusicSubmissionPage() {
-  return <MusicSubmissionForm />;
+  return (
+    <div className="flex min-h-screen justify-center bg-good-dog-cream text-white px-32 py-8">
+      <MusicSubmissionWidget />
+    </div>
+  );
 }
