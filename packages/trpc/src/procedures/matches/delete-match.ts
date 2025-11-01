@@ -26,10 +26,10 @@ export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
       return {
         message: "Match successfully deleted.",
       };
-    } catch (error) {
+    } catch {
       throw new TRPCError({
         code: "CONFLICT",
-        message: `User already exists with email ${input.musicId}`,
+        message: `Failed to delete match for music ID ${input.musicId}.`,
       });
     }
   });
