@@ -23,7 +23,7 @@ export default function EmailCodeModal({
     <Modal
       open={isOpen}
       onClose={close}
-      headerText="Verify your email addres"
+      headerText="Verify your email address"
       width={500}
       height={285}
     >
