@@ -70,37 +70,34 @@ function LearnMoreAboutRoles() {
           text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
           link={() => router.push("/signup/media-maker")}
           linkText="Sign up as a media maker →"
-          image={<WomanInComputer/>}
+          image={<WomanInComputer />}
         />
         <VerticalDescriptionSection
           title="Become a Musician"
           text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
           link={() => router.push("/signup/musician")}
           linkText="Sign up as a musician →"
-                    image={<ManWithSax/>}
-
+          image={<ManWithSax />}
         />
       </div>
       <DescriptionSection
         order="text-left"
         title="Get the music you need!"
         text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
-        image={<CoupleWithGuitar/>}
+        image={<CoupleWithGuitar />}
       />
       <DescriptionSection
         order="text-right"
         title="Build your brand!"
         text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
-                image={<PuzzleBuilding/>}
-
-     />
+        image={<PuzzleBuilding />}
+      />
       <DescriptionSection
         order="text-left"
         title="Our partners"
         text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
-             image={<MusicStudio/>}
-
-     />
+        image={<MusicStudio />}
+      />
     </div>
   );
 }
@@ -109,7 +106,7 @@ export function DescriptionSection({
   order,
   title,
   text,
-  image
+  image,
 }: {
   order: "text-right" | "text-left";
   title: string;
@@ -124,9 +121,7 @@ export function DescriptionSection({
         <h2>{title}</h2>
         <p>{text}</p>
       </div>
-      <div className="flex w-1/2 items-center justify-center">
-        {image}
-      </div>
+      <div className="flex w-1/2 items-center justify-center">{image}</div>
     </div>
   );
 }
@@ -136,13 +131,13 @@ export function VerticalDescriptionSection({
   text,
   link,
   linkText,
-  image
+  image,
 }: {
   title: string;
   text: string;
   link: () => void;
   linkText: string;
-  image: ReactNode
+  image: ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-[24px] text-center justify-center items-center">
