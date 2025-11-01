@@ -26,7 +26,7 @@ import {
 import { createMatchProcedure } from "../procedures/matches/create-match";
 import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
-import { submitMusicProcedure } from "../procedures/music-submission";
+import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
@@ -54,6 +54,7 @@ export const appRouter = createTRPCRouter({
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
   userProjects: getUserSongRequestsProcedure,
+  updateMatchState: updateMatchStateProcedure,
   music: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   songRequest: songRequestProcedure,
@@ -64,7 +65,6 @@ export const appRouter = createTRPCRouter({
   projectSubmission: projectSubmissionProcedure,
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
-  updateMatchState: updateMatchStateProcedure,
   getSongRequestById: getProjectSongRequestByIdProcedure,
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValuesProcedure,
 });

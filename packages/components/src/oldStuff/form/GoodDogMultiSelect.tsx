@@ -47,8 +47,7 @@ export const GoodDogMultiSelect = <T extends FieldValues>(
               onValueChange={field.onChange}
               defaultValue={field.value}
               placeholder={props.placerholder}
-              variant="inverted"
-              animation={2}
+              variant="standard"
               maxCount={props.maxCount}
             />
           </FormControl>
