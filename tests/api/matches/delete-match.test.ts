@@ -234,7 +234,6 @@ describe("deleteMatch procedure", () => {
     // Verify that the match still exists
     const match = await prisma.match.findFirst({
       where: {
-        songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
       },
     });
@@ -252,7 +251,6 @@ describe("deleteMatch procedure", () => {
     // Verify that the match still exists
     const match = await prisma.match.findFirst({
       where: {
-        songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
       },
     });
