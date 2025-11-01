@@ -28,6 +28,7 @@ export default {
         "required-star": "#F4392D",
         "dark-green": "#07634C",
         "off-white": "#E9F9F1",
+        "light-green": "#098465",
       },
       boxShadow: {
         active: "0 0 3px 0 var(--pine-200, #4C8B79)",
