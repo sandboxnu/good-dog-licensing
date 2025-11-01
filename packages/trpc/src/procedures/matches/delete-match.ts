@@ -4,24 +4,22 @@ import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions"
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
+import { TRPCError } from "@trpc/server";
+
 export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "modify",
 )
   .input(
     z.object({
-      songRequestId: z.string(),
       musicId: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
     try {
-      await ctx.prisma.match.delete({
+      await ctx.prisma.match.deleteMany({
         where: {
-          songRequestId_musicId: {
-            songRequestId: input.songRequestId,
-            musicId: input.musicId,
-          },
+          musicId: input.musicId,
         },
       });
 
@@ -29,8 +27,9 @@ export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
         message: "Match successfully deleted.",
       };
     } catch (error) {
-      throw new Error(
-        "Failed to delete match. Error: " + (error as Error).message,
-      );
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: `User already exists with email ${input.musicId}`,
+      });
     }
   });
