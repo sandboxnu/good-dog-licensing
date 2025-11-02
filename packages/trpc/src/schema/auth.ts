@@ -4,7 +4,12 @@ import { ReferralSource } from "@good-dog/db";
 
 export const zPasswordValidation = z
   .string()
-  .min(8, "Password must be at least 8 characters long");
+  .min(8, "Password must be at least 8 characters")
+  .regex(
+    /[!@#$%^&*(),.?":{}|<>]/,
+    "Password must contain at least 1 special character",
+  )
+  .regex(/[A-Z]/, "Password must contain at least 1 uppercase character");
 /* TODO: re-introduce stricter password requirements once we have better UX on the frontend */
 //   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
 //   .regex(/[A-Z]/, "Password must contain at least one uppercase letter")

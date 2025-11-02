@@ -1,21 +1,7 @@
 "use client";
 
-import type { z } from "zod";
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
-
-import { trpc } from "@good-dog/trpc/client";
-import type { zPasswordValues } from "@good-dog/trpc/schema";
-import { Button } from "@good-dog/ui/button";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
-import RegistrationInput from "../../../oldStuff/registration/inputs/RegistrationInput";
 import ResetPasswordForm from "./ResetPasswordForm";
-
-type FormValues = z.input<typeof zPasswordValues>;
-
-const TypedRegistrationInput = RegistrationInput<FormValues>;
 
 export default function ResetPasswordWidget() {
   return (

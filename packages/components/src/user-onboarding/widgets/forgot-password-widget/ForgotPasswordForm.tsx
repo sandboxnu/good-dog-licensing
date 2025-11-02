@@ -8,13 +8,10 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { trpc } from "@good-dog/trpc/client";
 import { zForgotPasswordValues } from "@good-dog/trpc/schema";
-import RegistrationInput from "../../../oldStuff/registration/inputs/RegistrationInput";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import Button from "../../../base/Button";
 
 type FormValues = z.input<typeof zForgotPasswordValues>;
-
-const TypedRegistrationInput = RegistrationInput<FormValues>;
 
 export default function ForgotPasswordForm() {
   const router = useRouter();
@@ -47,32 +44,31 @@ export default function ForgotPasswordForm() {
   return (
     <FormProvider {...forgotPasswordForm}>
       <div className="pr-[40px]">
-      {responseMessage && isSuccess ? (
-        <div className="relative mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
-          <span className="block sm:inline">{responseMessage}</span>
-          <span className="ml-1 block sm:inline">
-            Redirecting to login page...
-          </span>
-        </div>
-      ) : null}
-      <RHFTextInput<FormValues>
-        rhfName={"email"}
-        label={"Email"}
-        placeholder={"example@gmail.com"}
-        id="email"
-
-        // errorText={formMethods.formState.errors.email?.message}
-      />
-      <div className="pt-[32px]">
-        <Button
-          onClick={onSubmit}
-          variant="contained"
-          size="large"
-          label="Send email"
-          fullWidth
-          shadow
+        {responseMessage && isSuccess ? (
+          <div className="relative mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
+            <span className="block sm:inline">{responseMessage}</span>
+            <span className="ml-1 block sm:inline">
+              Redirecting to login page...
+            </span>
+          </div>
+        ) : null}
+        <RHFTextInput<FormValues>
+          rhfName={"email"}
+          label={"Email"}
+          placeholder={"example@gmail.com"}
+          id="email"
+          errorText={forgotPasswordForm.formState.errors.email?.message}
         />
-      </div>
+        <div className="pt-[32px]">
+          <Button
+            onClick={onSubmit}
+            variant="contained"
+            size="large"
+            label="Send email"
+            fullWidth
+            shadow
+          />
+        </div>
       </div>
     </FormProvider>
   );
