@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="flex items-center justify-between px-8 py-6 h-full">
         <div className="flex flex-row items-center justify-between">
           <div className="h-full">
-            <NavLogo width={112} height={112} />
+            <NavLogo size={112} />
           </div>
           <div className="pl-4 h-fit">
             <h2 className="font-righteous text-[32px] pb-2 text-white">
