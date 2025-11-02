@@ -1,6 +1,8 @@
 import { TRPCProvider } from "@good-dog/trpc/client";
 
 import "@good-dog/tailwind/styles";
+import { HydrateClient } from "@good-dog/trpc/server";
+import { ClientWrapper } from "./ClientWrapper";
 
 export const metadata = {
   title: "Good Dog Licensing",
@@ -12,8 +14,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="bg-background">
-        <TRPCProvider>{children}</TRPCProvider>
+      <body>
+        <TRPCProvider>
+          <HydrateClient>
+            <ClientWrapper>{children}</ClientWrapper>
+          </HydrateClient>
+        </TRPCProvider>
       </body>
     </html>
   );

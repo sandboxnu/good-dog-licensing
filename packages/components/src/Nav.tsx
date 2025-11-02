@@ -14,7 +14,7 @@ export default function Nav() {
 
   return (
     <header className="text-good-dog-main w-full">
-      <div className="flex items-center justify-between px-6 py-4 bg-transparent">
+      <div className="flex items-center justify-between bg-transparent">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />
           <p className="font-righteous text-2xl">GOOD DOG LICENSING</p>

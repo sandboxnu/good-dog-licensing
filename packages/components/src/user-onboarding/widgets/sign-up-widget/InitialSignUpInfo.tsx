@@ -41,22 +41,24 @@ export default function InitialSignUpInfo({
         onVerifyEmail();
       }}
     >
-      <h1 className="text-h3 font-medium">{headerLabel}</h1>
-      <h3 className="text-body3 font-normal">All fields below are required</h3>
+      <h3>{headerLabel}</h3>
+      <p className="pt-[8px]">All fields below are required</p>
       <div className="pt-[32px] flex flex-row gap-[24px]">
         <RHFTextInput<SignUpFormFields>
           rhfName="firstName"
           label="First name"
           placeholder="Enter first name"
           id="firstName"
-          errorText={errors.firstName?.message}
+          errorText={errors.firstName?.message ? "This is required" : undefined}
+          required
         />
         <RHFTextInput<SignUpFormFields>
           rhfName="lastName"
           label="Last name"
           placeholder="Enter last name"
           id="lastName"
-          errorText={errors.lastName?.message}
+          errorText={errors.lastName?.message ? "This is required" : undefined}
+          required
         />
       </div>
       <div className="pt-[24px]">
@@ -65,24 +67,23 @@ export default function InitialSignUpInfo({
           label="Email"
           placeholder="example@email.com"
           id="email"
-          errorText={errors.email?.message}
-          required={false}
+          errorText={errors.email?.message ? "This is required" : undefined}
+          required
         />
       </div>
-      {!role && (
-        <div className="pt-[24px]">
-          <RHFRadioGroup<SignUpFormFields>
-            rhfName="role"
-            options={[
-              { value: "MUSICIAN", label: "Musician" },
-              { value: "MEDIA_MAKER", label: "Media Maker" },
-            ]}
-            id="role"
-            label="Who are you signing up as?"
-            errorText={errors.role?.message}
-          />
-        </div>
-      )}
+      <div className="pt-[24px]">
+        <RHFRadioGroup<SignUpFormFields>
+          rhfName="role"
+          options={[
+            { value: "MUSICIAN", label: "Musician" },
+            { value: "MEDIA_MAKER", label: "Media Maker" },
+          ]}
+          id="role"
+          label="Who are you signing up as?"
+          errorText={errors.role?.message ? "This is required" : undefined}
+          required
+        />
+      </div>
       <div className="pt-[32px]">
         <Button
           type="submit"
@@ -93,8 +94,8 @@ export default function InitialSignUpInfo({
           fullWidth
         />
       </div>
-      <div className="pt-[16px] flex flex-row flex-wrap justify-center space-x-1 text-body3">
-        <span className="font-normal">Already have an account?</span>
+      <div className="pt-[16px] flex flex-row flex-wrap justify-center space-x-1 text-body3 items-center">
+        <p>Already have an account?</p>
         <Link href="/login" className="underline font-medium text-secondary">
           Log in
         </Link>

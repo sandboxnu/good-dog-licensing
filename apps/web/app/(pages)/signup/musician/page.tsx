@@ -1,5 +1,10 @@
-import MusicianOnboarding from "@good-dog/components/user-onboarding/MusicianOnboarding";
+import PageContainer from "@good-dog/components/PageContainer";
+import UserOnboarding from "@good-dog/components/user-onboarding/UserOnboarding";
 
 export default function Page() {
-  return <MusicianOnboarding type="signUp" />;
+  return (
+    <PageContainer background="gradient">
+      <UserOnboarding type="signUp" initialRole="MUSICIAN" />
+    </PageContainer>
+  );
 }
