@@ -25,8 +25,8 @@ describe("sign-up", () => {
     role: Role.MUSICIAN,
     email: "jordan@example.com",
     phoneNumber: "1234567890",
-    password: "Password",
-    confirmPassword: "Password",
+    password: "Mypassword1!",
+    confirmPassword: "Mypassword1!",
     emailCode: "019821",
     referral: ReferralSource.FRIEND,
   };
