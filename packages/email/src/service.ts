@@ -2,7 +2,7 @@ import { env } from "@good-dog/env";
 import { prisma } from "@good-dog/db";
 import { Resend } from "resend";
 
-export interface EmailParams {
+export interface EmailMessage {
   from: string;
   to: string[];
   subject: string;
@@ -20,7 +20,7 @@ export class EmailService {
   constructor(apiKey?: string) {
     this.apiKey = apiKey;
 
-    this.resend = new Resend(apiKey);
+    this.resend = new Resend(apiKey ?? "");
 
     this.sentFrom = `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`;
   }
@@ -65,7 +65,7 @@ export class EmailService {
     ).map((user) => user.email);
   }
 
-  async send(params: EmailParams) {
+  async send(params: EmailMessage) {
     if (!this.apiKey) {
       throw new TypeError("Failed to send email: No api key provided.");
     }
@@ -81,7 +81,7 @@ export class EmailService {
   async sendPasswordResetEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
 
-    const params: EmailParams = {
+    const params: EmailMessage = {
       from: this.sentFrom,
       to: [toEmail],
       subject: "Reset Your Password - Good Dog Licensing",
@@ -94,7 +94,7 @@ export class EmailService {
   async sendPRInviteEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
 
-    const params: EmailParams = {
+    const params: EmailMessage = {
       from: this.sentFrom,
       to: [toEmail],
       subject: "Sign Up to be a P&R - Good Dog Licensing",
@@ -105,7 +105,7 @@ export class EmailService {
   }
 
   async sendVerificationEmail(toEmail: string, code: string) {
-    const params: EmailParams = {
+    const params: EmailMessage = {
       from: this.sentFrom,
       to: [toEmail],
       subject: "Verify Your Email - Good Dog Licensing",
@@ -120,7 +120,7 @@ export class EmailService {
 
     const toEmails = await this.getAllAdminAndPNREmails();
 
-    const params: EmailParams = {
+    const params: EmailMessage = {
       from: this.sentFrom,
       to: toEmails,
       subject: "New Music Submission - Good Dog Licensing",
@@ -135,7 +135,7 @@ export class EmailService {
 
     const toEmails = await this.getAllAdminAndPNREmails();
 
-    const params: EmailParams = {
+    const params: EmailMessage = {
       from: this.sentFrom,
       to: toEmails,
       subject: "New Project Submission - Good Dog Licensing",
