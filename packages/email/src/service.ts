@@ -72,7 +72,7 @@ export class EmailService {
     const { data, error } = await this.resend.emails.send(params);
 
     if (error) {
-      return console.error({ error });
+      throw new Error(`Failed to send email: ${error.message}`);
     }
 
     return data;
