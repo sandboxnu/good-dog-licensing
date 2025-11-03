@@ -3,7 +3,6 @@
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
 import { useState } from "react";
 import Modal from "../../../base/Modal";
-import ErrorExclamation from "../../../svg/ErrorExclamation";
 import clsx from "clsx";
 
 interface EmailCodeModalProps {

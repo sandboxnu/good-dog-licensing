@@ -12,7 +12,7 @@ export default function GrowOnScroll({
 
   useEffect(() => {
     if (inView) {
-      controls.start({ scale: 1, opacity: 1, y: 0 });
+      void controls.start({ scale: 1, opacity: 1, y: 0 });
     }
   }, [controls, inView]);
 

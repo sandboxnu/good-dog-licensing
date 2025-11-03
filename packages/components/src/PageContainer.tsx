@@ -12,7 +12,7 @@ export default function PageContainer({
   children,
 }: PageContainerProps) {
   return (
-    <div className="min-w-[1250px] w-full flex justify-center flex-col">
+    <div className="min-w-[1400px] w-full flex justify-center flex-col">
       <div
         className={clsx("w-full min-h-screen flex justify-center", {
           "!bg-main-bg-gradient": background === "gradient",
