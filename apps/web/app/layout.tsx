@@ -4,6 +4,8 @@ import "@good-dog/tailwind/styles";
 import { HydrateClient } from "@good-dog/trpc/server";
 import { ClientWrapper } from "./ClientWrapper";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Good Dog Licensing",
   description: "Coming soon...",
