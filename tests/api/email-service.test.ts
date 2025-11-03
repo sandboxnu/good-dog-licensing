@@ -1,6 +1,6 @@
 import { describe, expect, it, mock } from "bun:test";
 
-import { EmailService } from "@good-dog/email";
+import { emailService } from "@good-dog/email";
 
 describe("email service tests", () => {
   describe("getBaseUrl", () => {
@@ -12,7 +12,6 @@ describe("email service tests", () => {
         },
       }));
 
-      const emailService = new EmailService("test-api-key");
       const baseUrl = emailService.getBaseUrl();
       expect(baseUrl).toBe("https://good-dog-licensing.vercel.app");
     });
@@ -25,7 +24,6 @@ describe("email service tests", () => {
         },
       }));
 
-      const emailService = new EmailService("test-api-key");
       const baseUrl = emailService.getBaseUrl();
       expect(baseUrl).toBe(
         "https://good-dog-licensing-some-random-hash-123.vercel.app",
@@ -40,7 +38,6 @@ describe("email service tests", () => {
         },
       }));
 
-      const emailService = new EmailService("test-api-key");
       const baseUrl = emailService.getBaseUrl();
       expect(baseUrl).toBe("http://localhost:3000");
     });
