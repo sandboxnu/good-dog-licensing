@@ -25,6 +25,6 @@
   "dependencies": {
     "@good-dog/db": "workspace:*",
     "@good-dog/env": "workspace:*",
-    "mailersend": "^2.6.0"
+    "resend": "^6.4.0"
   }
 }
