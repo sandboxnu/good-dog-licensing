@@ -113,7 +113,19 @@ export default function SignUpWidget({
       <div className="w-1/2 flex flex-col justify-center h-full">
         <FormProvider {...formMethods}>
           {step === 1 && (
-            <InitialSignUpInfo role={role} onVerifyEmail={handleVerifyEmail} />
+            <InitialSignUpInfo
+              role={role}
+              onVerifyEmail={handleVerifyEmail}
+              errorMessage={
+                sendEmailVerificationMutation.error &&
+                sendEmailVerificationMutation.error.data?.code !== "CONFLICT"
+                  ? "Internal Error. Please try again."
+                  : undefined
+              }
+              emailAlreadyExists={
+                sendEmailVerificationMutation.error?.data?.code === "CONFLICT"
+              }
+            />
           )}
           {step === 2 && (
             <FinalSignUpInfo role={role} onSubmit={handleSubmit} />

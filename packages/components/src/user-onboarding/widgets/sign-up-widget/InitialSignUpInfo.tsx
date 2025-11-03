@@ -8,10 +8,13 @@ import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import Button from "../../../base/Button";
 import Link from "next/link";
 import RHFRadioGroup from "../../../rhf-base/RHFRadioGroup";
+import ErrorExclamation from "../../../svg/ErrorExclamation";
 
 interface InitialSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
   onVerifyEmail: () => void;
+  emailAlreadyExists: boolean;
+  errorMessage?: string;
 }
 
 const formatRole = (role: "MUSICIAN" | "MEDIA_MAKER") => {
@@ -23,6 +26,8 @@ type SignUpFormFields = z.input<typeof zSignUpValues>;
 export default function InitialSignUpInfo({
   role,
   onVerifyEmail,
+  emailAlreadyExists,
+  errorMessage,
 }: InitialSignUpInfoProps) {
   const {
     formState: { errors },
@@ -43,6 +48,12 @@ export default function InitialSignUpInfo({
     >
       <h3>{headerLabel}</h3>
       <p className="pt-[8px]">All fields below are required</p>
+      {errorMessage && (
+        <div className="flex flex-row gap-[4px] items-center pt-[12px]">
+          <ErrorExclamation size="medium" />
+          <p className="text-error">{errorMessage}</p>
+        </div>
+      )}
       <div className="pt-[32px] flex flex-row gap-[24px]">
         <RHFTextInput<SignUpFormFields>
           rhfName="firstName"
@@ -67,7 +78,13 @@ export default function InitialSignUpInfo({
           label="Email"
           placeholder="example@email.com"
           id="email"
-          errorText={errors.email?.message ? "This is required" : undefined}
+          errorText={
+            emailAlreadyExists
+              ? "User with email already exists"
+              : errors.email?.message
+                ? "This is required"
+                : undefined
+          }
           required
         />
       </div>
