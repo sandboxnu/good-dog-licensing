@@ -14,9 +14,7 @@ interface InitialMusicInfoProps {
 
 type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
 
-export default function InitialMusicInfo({
-  onNext,
-}: InitialMusicInfoProps) {
+export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
   const {
     formState: { errors },
     reset,
@@ -26,18 +24,35 @@ export default function InitialMusicInfo({
   const handleClear = () => {
     const currentContributors = getValues("contributors");
 
-    reset({
-      songName: "",
-      songLink: "",
-      genre: [],
-      additionalInfo: "",
-      performerName: "",
-      contributors: currentContributors,
-      submitterRoles: [],
-      submitterAffiliation: undefined,
-      submitterIpi: "",
-    });
+    reset(
+      {
+        songName: undefined,
+        songLink: undefined,
+        genre: undefined,
+        additionalInfo: "",
+        performerName: undefined,
+        contributors: currentContributors,
+        submitterRoles: [],
+        submitterAffiliation: undefined,
+        submitterIpi: undefined,
+      },
+    );
   };
+
+  const genres = [
+    { label: "Rock", value: "rock" },
+    { label: "Pop", value: "pop" },
+    { label: "Hip Hop", value: "hip_hop" },
+    { label: "Jazz", value: "jazz" },
+    { label: "Classical", value: "classical" },
+    { label: "Electronic", value: "electronic" },
+    { label: "Country", value: "country" },
+    { label: "Reggae", value: "reggae" },
+    { label: "Blues", value: "blues" },
+    { label: "Folk", value: "folk" },
+    { label: "Other", value: "other" },
+  ];
+
   return (
     <form
       className="flex flex-col gap-8 w-full"
@@ -72,7 +87,7 @@ export default function InitialMusicInfo({
           placeholder="Select song genres"
           id="genre"
           errorText={errors.genre?.message}
-          options={[]}
+          options={genres}
           required={true}
         />
         <RHFTextInput<MusicSubmissionFormFields>

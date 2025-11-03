@@ -5,7 +5,7 @@ import { MultiSelect } from "@good-dog/ui/multi-select";
 
 interface MultiselectDropdownProps {
   label: string;
-  value: string;
+  value: string[];
   options: {
     label: string;
     value: string;

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { trpc } from "@good-dog/trpc/client";
 import MusicSubmissionHeader from "./MusicSubmissionHeader";
 import InitialMusicInfo from "./InitialMusicInfo";
+import ContributorsInfo from "./ContributorsInfo";
 
 type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
 
@@ -69,9 +70,9 @@ export default function MusicSubmissionWidget() {
           {step == SubmissionStep.INITIAL && (
             <InitialMusicInfo onNext={handleNext} />
           )}
-          {/* {step == SubmissionStep.SONG_REQUESTS && (
-            <SongRequestsInfo onSubmit={handleSubmit} onBack={handleBack} />
-          )} */}
+          {step == SubmissionStep.CONTRIBUTORS && (
+            <ContributorsInfo onSubmit={handleSubmit} onBack={handleBack} />
+          )}
         </FormProvider>
       </div>
     </div>

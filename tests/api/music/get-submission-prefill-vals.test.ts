@@ -38,7 +38,8 @@ async function createData() {
         create: [
           {
             contributorId: "contributor-id-2",
-            name: "Jordan Praissman",
+            firstName: "Jordan",
+            lastName: "Praissman",
             roles: ["PRODUCER"],
             affiliation: "ASCAP",
             ipi: "1234",
@@ -46,13 +47,15 @@ async function createData() {
           },
           {
             contributorId: "contributor-id-1",
-            name: "Wesley Tran",
+            firstName: "Wesley",
+            lastName: "Tran",
             roles: ["SONGWRITER", "INSTRUMENTALIST"],
             affiliation: "NONE",
           },
           {
             contributorId: "contributor-id-3",
-            name: "Humpty Dumpty",
+            firstName: "Humpty",
+            lastName: "Dumpty",
             roles: ["LYRICIST"],
             affiliation: "BMI",
           },
@@ -60,7 +63,7 @@ async function createData() {
       },
       performerName: "Humpty Dumpty",
       songLink: "www.felloffthewall.com",
-      genre: "rock",
+      genre: ["rock"],
     },
   });
 }
@@ -79,7 +82,8 @@ async function createMoreData() {
         create: [
           {
             contributorId: "contributor-id-5",
-            name: "Jordan Praissman",
+            firstName: "Jordan",
+            lastName: "Praissman",
             roles: ["PRODUCER"],
             affiliation: "ASCAP",
             ipi: "1234",
@@ -87,20 +91,23 @@ async function createMoreData() {
           },
           {
             contributorId: "contributor-id-4",
-            name: "Wesley Tran",
+            firstName: "Wesley",
+            lastName: "Tran",
             roles: ["SONGWRITER", "INSTRUMENTALIST"],
             affiliation: "NONE",
             ipi: "1234",
           },
           {
             contributorId: "contributor-id-6",
-            name: "Humpty Dumpty",
+            firstName: "Humpty",
+            lastName: "Dumpty",
             roles: ["LYRICIST", "VOCALIST"],
             affiliation: "BMI",
           },
           {
             contributorId: "contributor-id-7",
-            name: "Fighter Jet",
+            firstName: "Fighter",
+            lastName: "Jet",
             roles: ["INSTRUMENTALIST"],
             affiliation: "ASCAP",
           },
@@ -108,7 +115,7 @@ async function createMoreData() {
       },
       performerName: "Humpty Dumpty",
       songLink: "www.felloffthewall.com",
-      genre: "rock",
+      genre: ["rock"],
     },
   });
 }
@@ -162,12 +169,14 @@ describe("get-submission-vals", () => {
     const expectedResult = {
       contributors: [
         {
-          name: "Wesley Tran",
+          firstName: "Wesley",
+          lastName: "Tran",
           ipi: null,
           affiliation: MusicAffiliation.NONE,
         },
         {
-          name: "Humpty Dumpty",
+          firstName: "Humpty",
+          lastName: "Dumpty",
           affiliation: MusicAffiliation.BMI,
           ipi: null,
         },
@@ -187,17 +196,20 @@ describe("get-submission-vals", () => {
     const expectedResult = {
       contributors: [
         {
-          name: "Wesley Tran",
+          firstName: "Wesley",
+          lastName: "Tran",
           ipi: "1234",
           affiliation: MusicAffiliation.NONE,
         },
         {
-          name: "Humpty Dumpty",
+          firstName: "Humpty",
+          lastName: "Dumpty",
           affiliation: MusicAffiliation.BMI,
           ipi: null,
         },
         {
-          name: "Fighter Jet",
+          firstName: "Fighter",
+          lastName: "Jet",
           affiliation: MusicAffiliation.ASCAP,
           ipi: null,
         },

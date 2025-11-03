@@ -37,9 +37,10 @@ export default function SongRequestsInfo({
       }}
     >
       {fields.map((songRequest, index) => {
+        const compoundKey = `${songRequest.id}-${index}`;
         return (
           <div
-            key={`${songRequest.id}`}
+            key={compoundKey}
             className="w-full text-black border-[.5px] bg-white py-6 px-10 gap-6 flex flex-col border-black rounded-2xl"
           >
             <div className="flex flex-row justify-between items-center">

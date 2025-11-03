@@ -20,7 +20,8 @@ export const zProjectSubmissionValues = z.object({
 });
 
 const zMusicContributor = z.object({
-  name: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
   roles: z.array(z.enum(MusicRole)),
   affiliation: z.enum(MusicAffiliation).optional(),
   ipi: z.string().optional(),
