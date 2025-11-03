@@ -9,8 +9,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { trpc } from "@good-dog/trpc/client";
 import { zResetPasswordValues } from "@good-dog/trpc/schema";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import Button from "../../../base/Button";
+import Button from "@good-dog/components/base/Button";
 import PasswordRequirements from "../components/password-requirements";
+import Modal from "../../../base/Modal";
 
 type FormValues = z.input<typeof zResetPasswordValues>;
 
@@ -114,6 +115,26 @@ export default function ResetPasswordForm() {
           />
         </div>
       </div>
+      <Modal
+        open={true}
+        upperPadding={false}
+        onClose={() => setResponseMessage(null)}
+        headerText={"Reset Successful"}
+        height={212}
+        width={440}
+        children={
+          <div className="flex flex-col gap-[16px] pt-[16px] items-center">
+            <p>You can now sign in with your new password</p>
+            <Button
+              size={"medium"}
+              variant={"contained"}
+              label={"Log In Now"}
+              shadow={true}
+              onClick={() => router.replace("/login")}
+            ></Button>
+          </div>
+        }
+      ></Modal>
     </FormProvider>
   );
 }
