@@ -5,8 +5,12 @@ import TextInput from "@good-dog/components/base/TextInput";
 import Checkbox from "@good-dog/components/base/Checkbox";
 import Button from "@good-dog/components/base/Button";
 import MultiselectDropdown from "@good-dog/components/base/MultiselectDropdown";
+import Modal from "@good-dog/components/base/Modal";
+import { useState } from "react";
 
 export default function Components() {
+  const [open, setOpen] = useState(true);
+
   const options = [
     { label: "Option 1", value: "option1" },
     { label: "Option 2", value: "option2" },
@@ -237,6 +241,27 @@ export default function Components() {
           variant={"inactive"}
           maxCount={4}
         />
+      </div>
+      <div className="py-[50px]">
+        <div className="flex flex-col gap-4 bg-gray-200 w-full h-[500px] relative">
+          <Modal
+            height={200}
+            width={400}
+            open={open}
+            onClose={() => setOpen(false)}
+            headerText="Verify your email"
+          >
+            <Button
+              variant="text"
+              size="large"
+              label="Click Me"
+              displayIcon
+              onClick={() => {
+                console.log("hit");
+              }}
+            />
+          </Modal>
+        </div>
       </div>
     </div>
   );

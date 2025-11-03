@@ -1,7 +1,13 @@
 "use client";
+import type { ReactNode } from "react";
 import React from "react";
 import { Button } from "@good-dog/ui/button";
 import { useRouter } from "next/navigation";
+import WomanInComputer from "@good-dog/components/svg/homepage/WomanInComputer";
+import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
+import CoupleWithGuitar from "@good-dog/components/svg/homepage/CoupleWithGuitar";
+import PuzzleBuilding from "@good-dog/components/svg/homepage/PuzzleBuilding";
+import MusicStudio from "@good-dog/components/svg/homepage/MusicStudio";
 
 export default function Home() {
   const router = useRouter();
@@ -58,34 +64,39 @@ function LearnMoreAboutRoles() {
           and publishing industries for previewing layouts and visual mockups.
         </p>
       </div>
-      <div className="flex flex-row gap-[48px]">
+      <div className="flex flex-row overflow-wrap gap-[48px]">
         <VerticalDescriptionSection
           title="Become a Media Maker"
           text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
           link={() => router.push("/signup/media-maker")}
           linkText="Sign up as a media maker →"
+          image={<WomanInComputer />}
         />
         <VerticalDescriptionSection
           title="Become a Musician"
           text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
           link={() => router.push("/signup/musician")}
           linkText="Sign up as a musician →"
+          image={<ManWithSax />}
         />
       </div>
       <DescriptionSection
         order="text-left"
         title="Get the music you need!"
         text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+        image={<CoupleWithGuitar />}
       />
       <DescriptionSection
         order="text-right"
         title="Build your brand!"
         text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+        image={<PuzzleBuilding />}
       />
       <DescriptionSection
         order="text-left"
         title="Our partners"
         text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+        image={<MusicStudio />}
       />
     </div>
   );
@@ -95,10 +106,12 @@ export function DescriptionSection({
   order,
   title,
   text,
+  image,
 }: {
   order: "text-right" | "text-left";
   title: string;
   text: string;
+  image: ReactNode;
 }) {
   return (
     <div
@@ -108,9 +121,7 @@ export function DescriptionSection({
         <h2>{title}</h2>
         <p>{text}</p>
       </div>
-      <div className="flex w-1/2 items-center justify-center">
-        <SampleImage />
-      </div>
+      <div className="flex w-1/2 items-center justify-center">{image}</div>
     </div>
   );
 }
@@ -120,15 +131,17 @@ export function VerticalDescriptionSection({
   text,
   link,
   linkText,
+  image,
 }: {
   title: string;
   text: string;
   link: () => void;
   linkText: string;
+  image: ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-[24px] text-center justify-center items-center">
-      <SampleImage />
+      {image}
       <h2 className="">{title}</h2>
       <p>{text}</p>
       <Button variant={"text"} onClick={link}>
@@ -136,8 +149,4 @@ export function VerticalDescriptionSection({
       </Button>
     </div>
   );
-}
-
-function SampleImage() {
-  return <div className="w-[250px] h-[250px] bg-gray-400 rounded-[20px]"></div>;
 }
