@@ -191,7 +191,7 @@ describe("deleteMatch procedure", () => {
     cookies.set("sessionId", "admin-session-id");
 
     const response = await $api.deleteMatch({
-      musicId: "musicSubmission",
+      matchId: "match",
     });
 
     expect(response.message).toEqual("Match successfully deleted.");
@@ -199,7 +199,7 @@ describe("deleteMatch procedure", () => {
     // Verify that the match no longer exists
     const shouldBeEmptyMatch = await prisma.match.findFirst({
       where: {
-        musicId: "musicSubmission",
+        matchId: "match",
       },
     });
     expect(shouldBeEmptyMatch).toBeNull();
@@ -209,7 +209,7 @@ describe("deleteMatch procedure", () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.deleteMatch({
-      musicId: "musicSubmission",
+      matchId: "match",
     });
 
     expect(response.message).toEqual("Match successfully deleted.");
@@ -217,7 +217,7 @@ describe("deleteMatch procedure", () => {
     // Verify that the match no longer exists
     const shouldBeEmptyMatch = await prisma.match.findFirst({
       where: {
-        musicId: "musicSubmission",
+        matchId: "match",
       },
     });
     expect(shouldBeEmptyMatch).toBeNull();
@@ -227,7 +227,7 @@ describe("deleteMatch procedure", () => {
     cookies.set("sessionId", "musician-session-id");
     expect(
       $api.deleteMatch({
-        musicId: "musicSubmission",
+        matchId: "match",
       }),
     ).rejects.toThrow("permission to modify");
 
@@ -244,7 +244,7 @@ describe("deleteMatch procedure", () => {
     cookies.set("sessionId", "mediamaker-session-id");
     expect(
       $api.deleteMatch({
-        musicId: "musicSubmission",
+        matchId: "match",
       }),
     ).rejects.toThrow("permission to modify");
 
