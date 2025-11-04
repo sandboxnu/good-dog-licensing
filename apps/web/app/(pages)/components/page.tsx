@@ -161,7 +161,7 @@ export default function Components() {
             variant="text"
             size="medium"
             label="Click Me"
-            displayIcon
+            displayIcon="plus"
             onClick={() => {
               console.log("hit");
             }}
@@ -170,7 +170,7 @@ export default function Components() {
             variant="text"
             size="large"
             label="Click Me"
-            displayIcon
+            displayIcon="plus"
             onClick={() => {
               console.log("hit");
             }}
@@ -178,7 +178,7 @@ export default function Components() {
           <Button
             variant="contained"
             size="medium"
-            displayIcon
+            displayIcon="plus"
             onClick={() => {
               console.log("hit");
             }}
@@ -186,7 +186,42 @@ export default function Components() {
           <Button
             variant="contained"
             size="large"
-            displayIcon
+            displayIcon="plus"
+            onClick={() => {
+              console.log("hit");
+            }}
+          />
+
+          <Button
+            variant="text"
+            size="medium"
+            label="Click Me"
+            displayIcon="arrow"
+            onClick={() => {
+              console.log("hit");
+            }}
+          />
+          <Button
+            variant="text"
+            size="large"
+            label="Click Me"
+            displayIcon="arrow"
+            onClick={() => {
+              console.log("hit");
+            }}
+          />
+          <Button
+            variant="contained"
+            size="medium"
+            displayIcon="arrow"
+            onClick={() => {
+              console.log("hit");
+            }}
+          />
+          <Button
+            variant="contained"
+            size="large"
+            displayIcon="arrow"
             onClick={() => {
               console.log("hit");
             }}
