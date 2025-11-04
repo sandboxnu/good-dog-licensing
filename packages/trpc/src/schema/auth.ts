@@ -10,14 +10,6 @@ export const zPasswordValidation = z
     "Password must contain at least 1 special character",
   )
   .regex(/[A-Z]/, "Password must contain at least 1 uppercase character");
-/* TODO: re-introduce stricter password requirements once we have better UX on the frontend */
-//   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-//   .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-//   .regex(/[0-9]/, "Password must contain at least one number")
-//   .regex(
-//     /[^a-zA-Z0-9]/,
-//     "Password must contain at least one special character",
-// );
 
 export const zPasswordValues = z.object({
   password: zPasswordValidation,
