@@ -290,7 +290,7 @@ export default function Components() {
               variant="text"
               size="large"
               label="Click Me"
-              displayIcon
+              displayIcon="plus"
               onClick={() => {
                 console.log("hit");
               }}
