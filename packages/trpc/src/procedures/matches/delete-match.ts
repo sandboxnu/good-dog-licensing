@@ -4,8 +4,6 @@ import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions"
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
-import { TRPCError } from "@trpc/server";
-
 export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "modify",
