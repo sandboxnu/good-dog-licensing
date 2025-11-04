@@ -55,10 +55,8 @@ export default function LoginWidget() {
       <div className="w-1/2 flex flex-col justify-center h-full">
         <FormProvider {...formMethods}>
           <form className="pr-[40px]" onSubmit={handleLogin}>
-            <h2 className="text-h2 font-bold">Welcome back!</h2>
-            <h3 className="text-body3 font-normal">
-              All fields below are required
-            </h3>
+            <h3>Welcome back!</h3>
+            <p>All fields below are required</p>
             {loginMutation.isError && (
               <div className="flex flex-row gap-[2px] items-center">
                 <ErrorExclamation />

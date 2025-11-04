@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, test } from "bun:test";
-import { EmailParams, Recipient, Sender } from "mailersend";
 
 import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
@@ -112,20 +111,14 @@ describe("moderator-onboarding", () => {
         },
       });
 
-      const emailParams = new EmailParams()
-        .setFrom(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setTo([new Recipient("testing@gmail.com")])
-        .setReplyTo(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setSubject("Sign Up to be a P&R - Good Dog Licensing")
-        .setHtml(
-          `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        );
+      const params = {
+        from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
+        to: ["testing@gmail.com"],
+        subject: "Sign Up to be a P&R - Good Dog Licensing",
+        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+      };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(emailParams);
+      expect(mockEmails.send).toHaveBeenCalledWith(params);
 
       expect(moderatorInvite?.email).toEqual("testing@gmail.com");
 
@@ -153,20 +146,14 @@ describe("moderator-onboarding", () => {
         },
       });
 
-      const emailParams = new EmailParams()
-        .setFrom(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setTo([new Recipient("testing@gmail.com")])
-        .setReplyTo(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setSubject("Sign Up to be a P&R - Good Dog Licensing")
-        .setHtml(
-          `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        );
+      const params = {
+        from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
+        to: ["testing@gmail.com"],
+        subject: "Sign Up to be a P&R - Good Dog Licensing",
+        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+      };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(emailParams);
+      expect(mockEmails.send).toHaveBeenCalledWith(params);
 
       expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
       expect(newModeratorInvite?.email).toEqual(oldModeratorInvite.email);
@@ -207,20 +194,14 @@ describe("moderator-onboarding", () => {
         },
       });
 
-      const emailParams = new EmailParams()
-        .setFrom(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setTo([new Recipient("testing@gmail.com")])
-        .setReplyTo(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setSubject("Sign Up to be a P&R - Good Dog Licensing")
-        .setHtml(
-          `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        );
+      const params = {
+        from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
+        to: ["testing@gmail.com"],
+        subject: "Sign Up to be a P&R - Good Dog Licensing",
+        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+      };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(emailParams);
+      expect(mockEmails.send).toHaveBeenCalledWith(params);
     });
   });
 
@@ -257,20 +238,14 @@ describe("moderator-onboarding", () => {
         },
       });
 
-      const emailParams = new EmailParams()
-        .setFrom(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setTo([new Recipient("testing@gmail.com")])
-        .setReplyTo(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setSubject("Sign Up to be a P&R - Good Dog Licensing")
-        .setHtml(
-          `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        );
+      const params = {
+        from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
+        to: ["testing@gmail.com"],
+        subject: "Sign Up to be a P&R - Good Dog Licensing",
+        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+      };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(emailParams);
+      expect(mockEmails.send).toHaveBeenCalledWith(params);
 
       expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
       expect(newModeratorInvite?.email).toEqual(expiredInvite.email);
@@ -321,20 +296,14 @@ describe("moderator-onboarding", () => {
         expiredInvite.moderatorInviteId,
       );
 
-      const emailParams = new EmailParams()
-        .setFrom(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setTo([new Recipient("testing@gmail.com")])
-        .setReplyTo(
-          new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-        )
-        .setSubject("Sign Up to be a P&R - Good Dog Licensing")
-        .setHtml(
-          `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.`,
-        );
+      const params = {
+        from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
+        to: ["testing@gmail.com"],
+        subject: "Sign Up to be a P&R - Good Dog Licensing",
+        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+      };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(emailParams);
+      expect(mockEmails.send).toHaveBeenCalledWith(params);
     });
 
     test("Moderator invite is valid.", async () => {
