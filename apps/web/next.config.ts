@@ -1,3 +1,5 @@
+import { withSentryConfig } from "@sentry/nextjs";
+
 import type { NextConfig } from "next";
 
 import { env } from "@good-dog/env";
@@ -14,4 +16,6 @@ const config: NextConfig = {
   },
 };
 
-export default config;
+export default withSentryConfig(config, {
+  silent: true,
+});

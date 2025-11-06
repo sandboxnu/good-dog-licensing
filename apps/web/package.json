@@ -19,6 +19,7 @@
     "@good-dog/tailwind": "workspace:*",
     "@good-dog/trpc": "workspace:*",
     "@good-dog/ui": "workspace:*",
+    "@sentry/nextjs": "7",
     "next": "15.1.6",
     "react": "18.3.1",
     "react-dom": "18.3.1",

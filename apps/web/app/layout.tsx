@@ -1,5 +1,7 @@
 import { TRPCProvider } from "@good-dog/trpc/client";
 
+import SentryInitClient from "../sentry-init-client";
+
 import "@good-dog/tailwind/styles";
 
 export const metadata = {
@@ -14,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-background">
         <TRPCProvider>{children}</TRPCProvider>
+        <SentryInitClient>{children}</SentryInitClient>
       </body>
     </html>
   );
