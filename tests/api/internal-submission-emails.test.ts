@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
-import { EmailParams, Recipient, Sender } from "mailersend";
 
 import { prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
@@ -54,34 +53,26 @@ describe("internal email notifications", () => {
   test("notifyInternalUsersNewMusicSubmitted calls send with correct recipients and content", async () => {
     await mockEmail.notifyInternalUsersNewMusicSubmitted("music123");
 
-    const emailParams = new EmailParams()
-      .setFrom(new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"))
-      .setTo([new Recipient("admin1@test.com"), new Recipient("mod1@test.com")])
-      .setReplyTo(
-        new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-      )
-      .setSubject("New Music Submission - Good Dog Licensing")
-      .setHtml(
-        `<p>A new music submission has been made. Review it <a href="${getBaseUrl()}/dashboard/songs/?id=music123">here</a>.</p>`,
-      );
+    const params = {
+      from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
+      to: ["admin1@test.com", "mod1@test.com"],
+      subject: "New Music Submission - Good Dog Licensing",
+      html: `<p>A new music submission has been made. Review it <a href="${getBaseUrl()}/dashboard/songs/?id=music123">here</a>.</p>`,
+    };
 
-    expect(mockEmail.send).toHaveBeenCalledWith(emailParams);
+    expect(mockEmail.send).toHaveBeenCalledWith(params);
   });
 
   test("notifyInternalUsersNewProjectsSubmitted calls send with correct recipients and content", async () => {
     await mockEmail.notifyInternalUsersNewProjectSubmitted("project123");
 
-    const emailParams = new EmailParams()
-      .setFrom(new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"))
-      .setTo([new Recipient("admin1@test.com"), new Recipient("mod1@test.com")])
-      .setReplyTo(
-        new Sender(env.GOOD_DOG_FROM_EMAIL ?? "", "Good Dog Licensing"),
-      )
-      .setSubject("New Project Submission - Good Dog Licensing")
-      .setHtml(
-        `<p>A new project submission has been made. Review it <a href="${getBaseUrl()}/dashboard/projects/?id=project123">here</a>.</p>`,
-      );
+    const params = {
+      from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
+      to: ["admin1@test.com", "mod1@test.com"],
+      subject: "New Project Submission - Good Dog Licensing",
+      html: `<p>A new project submission has been made. Review it <a href="${getBaseUrl()}/dashboard/projects/?id=project123">here</a>.</p>`,
+    };
 
-    expect(mockEmail.send).toHaveBeenCalledWith(emailParams);
+    expect(mockEmail.send).toHaveBeenCalledWith(params);
   });
 });

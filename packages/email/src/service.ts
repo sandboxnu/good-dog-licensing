@@ -1,30 +1,28 @@
 import { env } from "@good-dog/env";
-import { MailerSend, EmailParams, Sender, Recipient } from "mailersend";
 import { prisma } from "@good-dog/db";
+import { Resend } from "resend";
 
 export interface EmailMessage {
-  to: string;
+  from: string;
+  to: string[];
   subject: string;
   html: string;
-  from: string;
 }
 
-// These functions are an abstraction over the mailersend module from MailerSend. The main
+// These functions are an abstraction over the resend module from Resend. The main
 // purpose is to throw runtime errors for blank api keys/from emails so we are alerted of
 // the issue ahead of time.
 export class EmailService {
   private apiKey?: string;
-  private mailerSend: MailerSend;
-  private sentFrom: Sender;
+  private resend: Resend;
+  private sentFrom: string;
+
   constructor(apiKey?: string) {
     this.apiKey = apiKey;
 
-    this.mailerSend = new MailerSend({ apiKey: apiKey ?? "" });
+    this.resend = new Resend(apiKey ?? "re_123");
 
-    this.sentFrom = new Sender(
-      env.GOOD_DOG_FROM_EMAIL ?? "",
-      "Good Dog Licensing",
-    );
+    this.sentFrom = `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`;
   }
 
   generateSixDigitCode() {
@@ -67,55 +65,54 @@ export class EmailService {
     ).map((user) => user.email);
   }
 
-  async send(params: EmailParams) {
-    if (!params.from.email) {
-      throw new TypeError("Failed to send email: No from email provided.");
-    }
+  async send(params: EmailMessage) {
     if (!this.apiKey) {
       throw new TypeError("Failed to send email: No api key provided.");
     }
-    return this.mailerSend.email.send(params);
+    const { data, error } = await this.resend.emails.send(params);
+
+    if (error) {
+      throw new Error(`Failed to send email: ${error.message}`);
+    }
+
+    return data;
   }
 
   async sendPasswordResetEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
 
-    const emailParams = new EmailParams()
-      .setFrom(this.sentFrom)
-      .setTo([new Recipient(toEmail)])
-      .setReplyTo(this.sentFrom)
-      .setSubject("Reset Your Password - Good Dog Licensing")
-      .setHtml(
-        `<p>Follow <a href="${baseURL}/reset-password/?reset_id=${cuid}">this link</a> to reset your password.`,
-      );
+    const params: EmailMessage = {
+      from: this.sentFrom,
+      to: [toEmail],
+      subject: "Reset Your Password - Good Dog Licensing",
+      html: `<p>Follow <a href="${baseURL}/reset-password/?reset_id=${cuid}">this link</a> to reset your password.</p>`,
+    };
 
-    return this.send(emailParams);
+    return this.send(params);
   }
 
   async sendPRInviteEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
 
-    const emailParams = new EmailParams()
-      .setFrom(this.sentFrom)
-      .setTo([new Recipient(toEmail)])
-      .setReplyTo(this.sentFrom)
-      .setSubject("Sign Up to be a P&R - Good Dog Licensing")
-      .setHtml(
-        `<p>Follow <a href="${baseURL}/pnr-invite/?id=${cuid}">this link</a> to sign up as a PR.`,
-      );
+    const params: EmailMessage = {
+      from: this.sentFrom,
+      to: [toEmail],
+      subject: "Sign Up to be a P&R - Good Dog Licensing",
+      html: `<p>Follow <a href="${baseURL}/pnr-invite/?id=${cuid}">this link</a> to sign up as a PR.</p>`,
+    };
 
-    return this.send(emailParams);
+    return this.send(params);
   }
 
   async sendVerificationEmail(toEmail: string, code: string) {
-    const emailParams = new EmailParams()
-      .setFrom(this.sentFrom)
-      .setTo([new Recipient(toEmail)])
-      .setReplyTo(this.sentFrom)
-      .setSubject("Verify Your Email - Good Dog Licensing")
-      .setHtml(`<p>Your Verification Code: <strong>${code}</strong></p>`);
+    const params: EmailMessage = {
+      from: this.sentFrom,
+      to: [toEmail],
+      subject: "Verify Your Email - Good Dog Licensing",
+      html: `<p>Your Verification Code: <strong>${code}</strong></p>`,
+    };
 
-    return this.send(emailParams);
+    return this.send(params);
   }
 
   async notifyInternalUsersNewMusicSubmitted(musicSubmissionId: string) {
@@ -123,16 +120,14 @@ export class EmailService {
 
     const toEmails = await this.getAllAdminAndPNREmails();
 
-    const emailParams = new EmailParams()
-      .setFrom(this.sentFrom)
-      .setTo(toEmails.map((email) => new Recipient(email)))
-      .setReplyTo(this.sentFrom)
-      .setSubject("New Music Submission - Good Dog Licensing")
-      .setHtml(
-        `<p>A new music submission has been made. Review it <a href="${baseURL}/dashboard/songs/?id=${musicSubmissionId}">here</a>.</p>`,
-      );
+    const params: EmailMessage = {
+      from: this.sentFrom,
+      to: toEmails,
+      subject: "New Music Submission - Good Dog Licensing",
+      html: `<p>A new music submission has been made. Review it <a href="${baseURL}/dashboard/songs/?id=${musicSubmissionId}">here</a>.</p>`,
+    };
 
-    return this.send(emailParams);
+    return this.send(params);
   }
 
   async notifyInternalUsersNewProjectSubmitted(projectSubmissionId: string) {
@@ -140,15 +135,13 @@ export class EmailService {
 
     const toEmails = await this.getAllAdminAndPNREmails();
 
-    const emailParams = new EmailParams()
-      .setFrom(this.sentFrom)
-      .setTo(toEmails.map((email) => new Recipient(email)))
-      .setReplyTo(this.sentFrom)
-      .setSubject("New Project Submission - Good Dog Licensing")
-      .setHtml(
-        `<p>A new project submission has been made. Review it <a href="${baseURL}/dashboard/projects/?id=${projectSubmissionId}">here</a>.</p>`,
-      );
+    const params: EmailMessage = {
+      from: this.sentFrom,
+      to: toEmails,
+      subject: "New Project Submission - Good Dog Licensing",
+      html: `<p>A new project submission has been made. Review it <a href="${baseURL}/dashboard/projects/?id=${projectSubmissionId}">here</a>.</p>`,
+    };
 
-    return this.send(emailParams);
+    return this.send(params);
   }
 }

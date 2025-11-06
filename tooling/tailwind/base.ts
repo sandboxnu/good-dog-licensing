@@ -28,12 +28,14 @@ export default {
         "required-star": "#F4392D",
         "dark-green": "#07634C",
         "off-white": "#E9F9F1",
+        "light-green": "#098465",
       },
       boxShadow: {
         active: "0 0 3px 0 var(--pine-200, #4C8B79)",
         error: "0 0 3px 0 var(--Red-100, #FF9D97)",
         button: "4px 4px 0 0 var(--button-drop-shadow, #000)",
         div: "16px 12px 0px 0px var(--carddrop-shadow, #098465)",
+        modal: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
       },
       backgroundImage: {
         "custom-gradient":

@@ -1,12 +1,13 @@
 import { Button as ButtonShad } from "@good-dog/ui/button";
 import AddIcon from "../svg/AddIcon";
+import { ChevronUp } from "lucide-react";
 
 interface ButtonProps {
   label?: string;
   size: "medium" | "large";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
-  displayIcon?: boolean;
+  displayIcon?: "plus" | "arrow";
   shadow?: boolean;
   fullWidth?: boolean;
   type?: "submit" | "button";
@@ -26,7 +27,7 @@ export default function Button({
   variant,
   onClick,
   type,
-  displayIcon = false,
+  displayIcon,
   shadow = false,
   fullWidth = false,
 }: ButtonProps) {
@@ -49,12 +50,13 @@ export default function Button({
       className={`${widthClassName} ${shadowClassName}`}
     >
       <div className="flex flex-row gap-[8px] items-center justify-center">
-        {displayIcon && (
+        {displayIcon && displayIcon === "plus" && (
           <AddIcon
             color={variant === "contained" ? "light" : "dark"}
             size={size}
           />
         )}
+        {displayIcon && displayIcon === "arrow" && <ChevronUp />}
         {label}
       </div>
     </ButtonShad>
