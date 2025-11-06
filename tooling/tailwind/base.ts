@@ -20,7 +20,7 @@ export default {
         logo: "25px",
       },
       colors: {
-        "good-dog-main": "#07634C",
+        "good-dog-main": "var(--good-dog-main)",
         "header-primary": "#022119",
         "body-primary": "#2E2E2E",
         secondary: "#054233",
@@ -39,7 +39,7 @@ export default {
       },
       backgroundImage: {
         "custom-gradient":
-          "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
+          "var(--custom-gradient)",
       },
     },
   },

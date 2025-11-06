@@ -6,35 +6,50 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --good-dog-main: #098465;
+    --custom-gradient: linear-gradient(180deg, #022119 55.17%, #021913 81.66%);
+    --header-primary: #E9F9F1;
+    --body-text: #E9F9F1;
+    --shadow-color: #098465
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --good-dog-main: #07634C;
+      --custom-gradient: linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%);
+      --header-primary: #022119;
+      --body-text: #054233;
+      --shadow-color: 
+    }
+  }
+
   body {
-    font-family: "Afacad", sans-serif;
-    color: #2e2e2e;
-    font-feature-settings:
-      "rlig" 1,
-      "calt" 1;
+    @apply font-['Afacad',sans-serif] text-[var(--body-text)];
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   h1 {
-    font-family: "Righteous";
-    font-size: 75px;
-    font-weight: 400;
-    line-height: 80px;
-    color: #2e2e2e;
+    @apply font-['Righteous'] text-[75px] font-normal leading-[80px] text-[#2e2e2e]
   }
 
   h2 {
-    color: #2e2e2e;
-    font-size: 40px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 104%;
+    @apply text-[var(--header-primary)] text-[40px] font-medium tracking-[0] leading-[104%];
+  }
+  
+  h3 {
+    @apply text-[#2e2e2e] text-[35px] font-medium leading-[104%];
   }
 
-  h3 {
-    font-family: #2e2e2e;
-    font-size: 35px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 104%;
+  .body1 {
+
+  }
+
+  .body2 {
+
+  }
+
+  .body3 {
+    
   }
 }
