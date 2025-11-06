@@ -1,10 +1,17 @@
-export default function NavLogo() {
+interface NavLogProps {
+  size?: number;
+}
+
+export default function NavLogo({ size = 34 }: NavLogProps) {
   return (
-    <div className="relative w-[34px] h-[34px] flex items-center justify-center">
+    <div
+      className="relative flex items-center justify-center"
+      style={{ width: size, height: size }}
+    >
       <svg
         className="absolute"
-        width="34"
-        height="34"
+        width={size}
+        height={size}
         viewBox="0 0 34 34"
         fill="none"
       >
@@ -12,8 +19,8 @@ export default function NavLogo() {
       </svg>
       <svg
         className="absolute"
-        width="32"
-        height="32"
+        width={size - 2}
+        height={size - 2}
         viewBox="0 0 32 32"
         fill="none"
       >

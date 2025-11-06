@@ -36,6 +36,7 @@ import { projectSubmissionProcedure } from "../procedures/project/project-submis
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
+import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -67,6 +68,7 @@ export const appRouter = createTRPCRouter({
   submitMusic: submitMusicProcedure,
   getSongRequestById: getProjectSongRequestByIdProcedure,
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValuesProcedure,
+  deleteMatch: deleteMatchProcedure,
 });
 
 export type AppRouter = typeof appRouter;
