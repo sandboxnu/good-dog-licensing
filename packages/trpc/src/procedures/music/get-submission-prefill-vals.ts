@@ -27,7 +27,9 @@ export const getMusicSubmissionPrefillValuesProcedure =
               !contributor.isSubmitter &&
               // if they aren't in the list or if a prev entry has the same name but no ipi -> add to list
               (!contributorMap[contributor.firstName && contributor.lastName] ||
-                (!contributorMap[contributor.firstName && contributor.lastName]?.ipi && contributor.ipi))
+                (!contributorMap[contributor.firstName && contributor.lastName]
+                  ?.ipi &&
+                  contributor.ipi))
             ) {
               contributorMap[contributor.firstName && contributor.lastName] = {
                 firstName: contributor.firstName,

@@ -206,10 +206,10 @@ export default function Components() {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-4 bg-gray-100 w-full">
+      <div className="flex flex-col gap-4 bg-gray-100 w-full"> 
         <MultiselectDropdown
           label={"Dropdown menu"}
-          value={""}
+          value={[]}
           options={options}
           onChange={(newValue) => {
             console.log("Changed", newValue);
@@ -220,7 +220,7 @@ export default function Components() {
         />
         <MultiselectDropdown
           label={"Dropdown menu"}
-          value={""}
+          value={[]}
           options={options}
           onChange={(newValue) => {
             console.log("Changed", newValue);
@@ -231,7 +231,7 @@ export default function Components() {
         />
         <MultiselectDropdown
           label={"Dropdown menu"}
-          value={""}
+          value={[]}
           options={options}
           onChange={(newValue) => {
             console.log("Changed", newValue);

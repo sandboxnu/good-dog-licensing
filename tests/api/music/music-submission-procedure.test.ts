@@ -144,7 +144,7 @@ describe("music-submission-procedure", () => {
     // Verify that the music submission fields are updated correctly
     expect(musicSubmission?.songName).toEqual("Test Song");
     expect(musicSubmission?.songLink).toEqual("https://example.com");
-    expect(musicSubmission?.genre).toEqual(["Rock"]);
+    expect(musicSubmission?.genres).toEqual(["Rock"]);
     expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
     expect(musicSubmission?.performerName).toEqual("The Beatles");
     expect(musicSubmission?.submitterId).toEqual("musician-id-1");
@@ -197,7 +197,7 @@ describe("music-submission-procedure", () => {
 
     expect(musicSubmission?.songName).toEqual("Admin Test Song");
     expect(musicSubmission?.songLink).toEqual("https://example.com/admin-song");
-    expect(musicSubmission?.genre).toEqual(["Jazz"]);
+    expect(musicSubmission?.genres).toEqual(["Jazz"]);
     expect(musicSubmission?.additionalInfo).toEqual("Admin additional info");
     expect(musicSubmission?.performerName).toEqual("Grateful Dead");
     expect(musicSubmission?.submitterId).toEqual("musician-id-1");

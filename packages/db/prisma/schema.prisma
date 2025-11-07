@@ -126,7 +126,7 @@ model MusicSubmission {
   submitter      User               @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
   submitterId    String
   songLink       String
-  genres          String[]
+  genres         String[]
   additionalInfo String             @default("")
   matches        Match[]
   contributors   MusicContributor[]
@@ -148,8 +148,8 @@ enum MusicAffiliation {
 
 model MusicContributor {
   contributorId     String            @id @default(uuid())
-  firstName              String
-  lastName             String
+  firstName         String
+  lastName          String
   roles             MusicRole[]
   affiliation       MusicAffiliation?
   ipi               String?
