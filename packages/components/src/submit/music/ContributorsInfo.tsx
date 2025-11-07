@@ -345,7 +345,7 @@ export default function ContributorsInfo({
             label="Contributor"
             size="medium"
             variant="text"
-            displayIcon={true}
+            displayIcon={"plus"}
             onClick={() =>
               append({
                 firstName: "",
