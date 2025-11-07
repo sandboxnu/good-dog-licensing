@@ -180,7 +180,7 @@ describe("music-submission-procedure", () => {
       additionalInfo: "Admin additional info",
       performerName: "Grateful Dead",
       contributors: [],
-      submitterRoles: [],
+      submitterRoles: ["INSTRUMENTALIST"],
       submitterAffiliation: MusicAffiliation.NONE,
       submitterIpi: "1234",
     });
@@ -291,7 +291,7 @@ describe("music-submission-procedure", () => {
       performerName: "Artist Test",
       contributors: [],
       submitterRoles: [MusicRole.SONGWRITER],
-      submitterAffiliation: MusicAffiliation.ASCAP,
+      submitterAffiliation: MusicAffiliation.NONE,
       submitterIpi: undefined,
     });
 

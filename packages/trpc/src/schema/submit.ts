@@ -49,7 +49,7 @@ const zMusicContributor = z
     if (requiresIpi && !data.ipi) {
       ctx.addIssue({
         code: "custom",
-        message: "IPI is required for songwriters and lyricists",
+        message: "IPI is required for songwriters and lyricists affiliated with ASCAP or BMI",
         path: ["ipi"],
       });
     }
@@ -92,7 +92,7 @@ export const zMusicSubmissionValues = z
     if (requiresIpi && !data.submitterIpi) {
       ctx.addIssue({
         code: "custom",
-        message: "IPI is required for songwriters and lyricists",
+        message: "IPI is required for songwriters and lyricists affiliated with ASCAP or BMI",
         path: ["submitterIpi"],
       });
     }
