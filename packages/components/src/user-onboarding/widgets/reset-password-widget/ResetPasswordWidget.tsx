@@ -1,5 +1,6 @@
 "use client";
 
+import ResetPassword from "../../../svg/onboarding/ResetPassword";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import ResetPasswordForm from "./ResetPasswordForm";
 
@@ -16,7 +17,7 @@ export default function ResetPasswordWidget() {
             <ResetPasswordForm />
           </div>
         </div>
-        <div className="bg-good-dog-main w-1/2 h-full"></div>
+        <ResetPassword />
       </div>
     </UserOnboardingWidgetContainer>
   );

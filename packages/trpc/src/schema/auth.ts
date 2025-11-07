@@ -41,7 +41,12 @@ export const zForgotPasswordValues = z.object({
   email: z.email(),
 });
 
-export const zResetPasswordValues = z.object({
-  password: zPasswordValidation,
-  confirmPassword: zPasswordValidation,
-});
+export const zResetPasswordValues = z
+  .object({
+    password: zPasswordValidation,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"], // This targets the confirmPassword field specifically
+  });

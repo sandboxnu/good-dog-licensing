@@ -1,7 +1,6 @@
 "use client";
 
 import type { z } from "zod";
-import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -18,62 +17,44 @@ type FormValues = z.input<typeof zResetPasswordValues>;
 export default function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [resetId, setResetId] = useState<string | null>(null);
-  const [responseMessage, setResponseMessage] = useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const resetId = searchParams.get("reset_id");
   const resetPasswordForm = useForm<FormValues>({
     resolver: zodResolver(zResetPasswordValues),
   });
 
-  useEffect(() => {
-    const idParam = searchParams.get("reset_id");
-
-    if (idParam) {
-      // eslint-disable-next-line
-      setResetId(idParam);
-    } else {
-      setResponseMessage(
-        "Invalid password reset link. Please request a new one.",
-      );
-
-      setIsSuccess(false);
-    }
-  }, [searchParams]);
-
   const resetPasswordMutation = trpc.confirmPasswordReset.useMutation({
-    onSuccess: (data) => {
-      setResponseMessage(data.message);
-      setIsSuccess(true);
-
+    onSuccess: () => {
       setTimeout(() => {
         router.push("/login");
       }, 3000); // Redirect after 3 seconds
     },
-    onError: (err) => {
-      setResponseMessage(err.message);
-      setIsSuccess(false);
-    },
   });
 
   const onSubmit = resetPasswordForm.handleSubmit((values) => {
+    // If no resetId, UI to submit forms will not show.
     if (resetId) {
       resetPasswordMutation.mutate({
         passwordResetId: resetId,
         newPassword: values.password,
       });
-    } else {
-      setResponseMessage(
-        "Invalid password reset link. Please request a new one.",
-      );
-      setIsSuccess(false);
     }
   });
 
+  if (!resetId) {
+    return (
+      <p className="text-red-500">
+        Invalid password reset link. Please request a new one.
+      </p>
+    );
+  }
+
   return (
     <FormProvider {...resetPasswordForm}>
-      {responseMessage && isSuccess ? (
+      {resetPasswordMutation.isSuccess ? (
         <div className="relative mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
-          <span className="block sm:inline">{responseMessage}</span>
+          <span className="block sm:inline">
+            {resetPasswordMutation.data.message}
+          </span>
           <span className="ml-1 block sm:inline">
             Redirecting to login page...
           </span>
@@ -90,7 +71,9 @@ export default function ResetPasswordForm() {
               errorText={resetPasswordForm.formState.errors.password?.message}
               type="password"
             />
-            <PasswordRequirements />
+            {resetPasswordForm.formState.errors.password?.message ? null : (
+              <PasswordRequirements />
+            )}
           </div>
 
           <RHFTextInput<FormValues>
@@ -99,7 +82,10 @@ export default function ResetPasswordForm() {
             placeholder="Re-enter password"
             id="confirmPassword"
             errorText={
+              resetPasswordForm.formState.isSubmitted &&
               resetPasswordForm.formState.errors.confirmPassword?.message
+                ? resetPasswordForm.formState.errors.confirmPassword.message
+                : undefined
             }
             type="password"
           />
@@ -116,9 +102,12 @@ export default function ResetPasswordForm() {
         </div>
       </div>
       <Modal
-        open={true}
+        open={
+          !!resetPasswordMutation.data?.message &&
+          resetPasswordMutation.isSuccess
+        }
         upperPadding={false}
-        onClose={() => setResponseMessage(null)}
+        onClose={() => resetPasswordMutation.reset()}
         headerText={"Reset Successful"}
         height={212}
         width={440}

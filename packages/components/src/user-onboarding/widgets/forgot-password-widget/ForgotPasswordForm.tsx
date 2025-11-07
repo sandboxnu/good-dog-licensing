@@ -1,7 +1,6 @@
 "use client";
 
 import type { z } from "zod";
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import Modal from "@good-dog/components/base/Modal";
@@ -14,20 +13,7 @@ import Button from "../../../base/Button";
 type FormValues = z.input<typeof zForgotPasswordValues>;
 
 export default function ForgotPasswordForm() {
-  const [responseMessage, setResponseMessage] = useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const forgotPasswordMutation = trpc.sendForgotPasswordEmail.useMutation({
-    onSuccess: (data) => {
-      setResponseMessage(data.message);
-      setIsSuccess(true);
-    },
-    onError: (err) => {
-      console.error(err);
-      setResponseMessage(err.message);
-      setIsSuccess(false);
-    },
-  });
+  const forgotPasswordMutation = trpc.sendForgotPasswordEmail.useMutation();
 
   const forgotPasswordForm = useForm<FormValues>({
     resolver: zodResolver(zForgotPasswordValues),
@@ -37,9 +23,6 @@ export default function ForgotPasswordForm() {
   const onSubmit = forgotPasswordForm.handleSubmit((values) => {
     forgotPasswordMutation.mutate(values);
   });
-
-  const onResend = () =>
-    forgotPasswordMutation.mutate(forgotPasswordForm.getValues());
 
   return (
     <FormProvider {...forgotPasswordForm}>
@@ -62,8 +45,11 @@ export default function ForgotPasswordForm() {
           />
         </div>
         <Modal
-          open={isSuccess && !!responseMessage}
-          onClose={() => setResponseMessage(null)}
+          open={
+            forgotPasswordMutation.isSuccess &&
+            !!forgotPasswordMutation.data.message
+          }
+          onClose={() => forgotPasswordMutation.reset()}
           headerText={"Email has been sent"}
           height={212}
           width={440}
@@ -75,7 +61,7 @@ export default function ForgotPasswordForm() {
               </p>
               <p>
                 Didn't receive the email?{" "}
-                <strong onClick={onResend}>
+                <strong onClick={onSubmit}>
                   <u>Resend</u>
                 </strong>
               </p>
