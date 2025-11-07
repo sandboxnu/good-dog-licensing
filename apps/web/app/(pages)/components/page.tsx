@@ -206,7 +206,7 @@ export default function Components() {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-4 bg-gray-100 w-full"> 
+      <div className="flex flex-col gap-4 bg-gray-100 w-full">
         <MultiselectDropdown
           label={"Dropdown menu"}
           value={[]}
