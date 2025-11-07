@@ -115,7 +115,7 @@ export default function SongRequestsInfo({
           label="Song request"
           size="medium"
           variant="text"
-          displayIcon={true}
+          displayIcon="plus"
           onClick={() =>
             append({
               oneLineSummary: "",
