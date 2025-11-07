@@ -1,6 +1,6 @@
 import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
-import ErrorExclamation from "../svg/ErrorExclamation";
+import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import clsx from "clsx";
 
 interface TextInputProps {

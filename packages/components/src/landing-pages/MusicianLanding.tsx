@@ -1,0 +1,52 @@
+import { trpc } from "@good-dog/trpc/client";
+import Card from "../base/Card";
+import Header from "./components/Header";
+import type { ReactNode } from "react";
+import People from "../svg/People";
+import MusicNote from "../svg/MusicNote";
+import StatusIndicator from "../base/StatusIndicator";
+
+export default function MusicianLanding() {
+  const [data] = trpc.music.useSuspenseQuery();
+  return (
+    <div className="flex flex-col gap-[32px] align-start w-full">
+      <Header
+        title={"Song Submissions"}
+        subtitle={"This is where you view and manage your song submissions"}
+      />
+      <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
+        {data.music.map((req) => (
+          <Card
+            title={req.songName}
+            subheader={req.createdAt.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+            children={
+              <div className="flex flex-col pt-[16px] gap-[24px]">
+                <div>
+                  <Line text={req.performerName} icon={<People />} />
+                  <Line text={req.genre} icon={<MusicNote />} />
+                </div>
+                <StatusIndicator variant={"success"} text={"Song submitted"} />
+              </div>
+            }
+            size={"small"}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Line({ text, icon }: { text: string; icon: ReactNode }) {
+  return (
+    <div className="flex flex-row gap-[8px] items-center">
+      {icon}
+      <p className="text-body3 text-[var(--typography-heading-default)]">
+        {text}
+      </p>
+    </div>
+  );
+}

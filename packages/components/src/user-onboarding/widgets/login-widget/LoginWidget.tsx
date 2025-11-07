@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import type { z } from "zod";
 import { useRouter } from "next/navigation";
-import ErrorExclamation from "../../../svg/ErrorExclamation";
+import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import GrayPlaceholder from "../../../GrayPlaceholder";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";

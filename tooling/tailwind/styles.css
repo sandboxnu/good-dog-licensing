@@ -6,6 +6,69 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --cream-100: #fffdfb;
+    --cream-400: #bfbcb8;
+    --dark-gray-600: #171717;
+    --gray-100: #ffffff;
+    --gray-400: #dcdddf;
+    --dark-gray-100: #adadad;
+    --dark-gray-200: #858585;
+    --dark-gray-500: #2e2e2e;
+    --gray-600: #404040;
+    --gray-700: #000000;
+    --grass-green-50: #c9f7d4;
+    --grass-green-400: #269544;
+    --grass-green-500: #1a642d;
+    --green-500: #054233;
+    --mint-100: #f4fcf8;
+    --mint-300: #d3f4e2;
+
+    --red-50: #fedbd9;
+    --red-500: #b13433;
+    --yellow-100: #ffe5bf;
+    --yellow-400: #bf7200;
+
+    /* Badge */
+    --badge-warning: var(--yellow-100);
+    --badge-warning-icon-text: var(--yellow-400);
+    --badge-error: var(--red-50);
+    --badge-error-icon-text: var(--red-500);
+    --badge-success: var(--grass-green-50);
+    --badge-success-icon-text: var(--grass-green-500);
+    --badge-gray: var(--gray-400);
+    --badge-gray-icon-text: var(--gray-600);
+
+    /* Backgrounds */
+    --background-white-to-black: var(--gray-100);
+
+    /* Misc */
+    --border-light-gray: var(--cream-400);
+    --typography-heading-gray: var(--dark-gray-200);
+    --typography-heading-default: var(--dark-gray-500);
+    --card-default-background: var(--cream-100);
+    --input-close-icon: var(--gray-700);
+
+    @media (prefers-color-scheme: dark) {
+      /* Badge */
+      --badge-warning: var(--yellow-400);
+      --badge-warning-icon-text: var(--yellow-100);
+      --badge-error: var(--red-500);
+      --badge-error-icon-text: var(--red-50);
+      --badge-success: var(--grass-green-400);
+      --badge-success-icon-text: var(--grass-green-50);
+
+      /* Backgrounds */
+      --background-white-to-black: var(--dark-gray-600);
+
+      /* Misc */
+      --typography-heading-gray: var(--dark-gray-100);
+      --typography-heading-default: var(--mint-300);
+      --card-default-background: var(--green-500);
+      --input-close-icon: var(--mint-100);
+    }
+  }
+
   body {
     font-family: "Afacad", sans-serif;
     color: #2e2e2e;
