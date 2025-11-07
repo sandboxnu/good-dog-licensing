@@ -79,7 +79,7 @@ async function createData() {
       musicId: "musicSubmission",
       songName: "Test Song",
       songLink: "https://open.spotify.com/track/test",
-      genre: ["hip hop"],
+      genres: ["hip hop"],
       submitterId: musician.userId,
       performerName: "Test Artist",
     },

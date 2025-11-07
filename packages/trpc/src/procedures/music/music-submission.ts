@@ -40,7 +40,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
           },
           songName: input.songName,
           songLink: input.songLink,
-          genre: input.genre,
+          genres: input.genres,
           additionalInfo: input.additionalInfo ?? "",
           performerName: input.performerName,
           contributors: {

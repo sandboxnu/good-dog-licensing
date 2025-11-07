@@ -105,7 +105,7 @@ describe("music-submission-procedure", () => {
     const response = await $api.submitMusic({
       songName: "Test Song",
       songLink: "https://example.com",
-      genre: ["Rock"],
+      genres: ["Rock"],
       additionalInfo: "Some additional info",
       performerName: "The Beatles",
       contributors: [musicContributor1, musicContributor2, musicContributor3],
@@ -176,7 +176,7 @@ describe("music-submission-procedure", () => {
     const response = await $api.submitMusic({
       songName: "Admin Test Song",
       songLink: "https://example.com/admin-song",
-      genre: ["Jazz"],
+      genres: ["Jazz"],
       additionalInfo: "Admin additional info",
       performerName: "Grateful Dead",
       contributors: [],
@@ -226,7 +226,7 @@ describe("music-submission-procedure", () => {
       $api.submitMusic({
         songName: "Test Song",
         songLink: "https:fakesonglink.com",
-        genre: ["R&B"],
+        genres: ["R&B"],
         additionalInfo: "None",
         performerName: "Anon",
         contributors: [musicContributor1],
@@ -256,7 +256,7 @@ describe("music-submission-procedure", () => {
     await $api.submitMusic({
       songName: "IPI Updates Test Song",
       songLink: "https://example.com/ipi-update",
-      genre: ["Pop"],
+      genres: ["Pop"],
       additionalInfo: "Test update IPI",
       performerName: "Artist Test",
       contributors: [],
@@ -286,7 +286,7 @@ describe("music-submission-procedure", () => {
     await $api.submitMusic({
       songName: "IPI Updates Test Song",
       songLink: "https://example.com/ipi-update",
-      genre: ["Pop"],
+      genres: ["Pop"],
       additionalInfo: "Test update IPI",
       performerName: "Artist Test",
       contributors: [],

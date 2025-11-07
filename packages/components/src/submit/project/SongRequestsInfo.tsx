@@ -41,7 +41,7 @@ export default function SongRequestsInfo({
         return (
           <div
             key={compoundKey}
-            className="w-full text-black border-[.5px] bg-white py-6 px-10 gap-6 flex flex-col border-black rounded-2xl"
+            className="w-full text-black border-[.5px] bg-white p-10 gap-6 flex flex-col border-black rounded-2xl"
           >
             <div className="flex flex-row justify-between items-center">
               <p className="font-semibold text-xl">Song request #{index + 1}</p>

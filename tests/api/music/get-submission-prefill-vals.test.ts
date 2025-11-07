@@ -63,7 +63,7 @@ async function createData() {
       },
       performerName: "Humpty Dumpty",
       songLink: "www.felloffthewall.com",
-      genre: ["rock"],
+      genres: ["rock"],
     },
   });
 }
@@ -115,7 +115,7 @@ async function createMoreData() {
       },
       performerName: "Humpty Dumpty",
       songLink: "www.felloffthewall.com",
-      genre: ["rock"],
+      genres: ["rock"],
     },
   });
 }

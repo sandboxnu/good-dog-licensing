@@ -30,19 +30,20 @@ export default function MusicSubmissionWidget() {
   const formMethods = useForm<MusicSubmissionFormFields>({
     resolver: zodResolver(zMusicSubmissionValues),
     defaultValues: {
-      contributors: [{}],
+      submitterRoles: [],
+      contributors: [],
     },
   });
 
   const handleNext = async () => {
-    const initialProjectInfoIsValid = await formMethods.trigger([
+    const initialMusicInfoIsValid = await formMethods.trigger([
       "songName",
       "songLink",
-      "genre",
+      "genres",
       "additionalInfo",
       "performerName",
     ]);
-    if (initialProjectInfoIsValid) {
+    if (initialMusicInfoIsValid) {
       setStep(SubmissionStep.CONTRIBUTORS);
     } else {
       console.log("Not valid");
@@ -50,8 +51,13 @@ export default function MusicSubmissionWidget() {
   };
 
   const handleSubmit = async () => {
-    const songRequestsInfoIsValid = await formMethods.trigger(["contributors"]);
-    if (songRequestsInfoIsValid) {
+    const ContributorsInfoIsValid = await formMethods.trigger([
+      "contributors",
+      "submitterRoles",
+      "submitterAffiliation",
+      "submitterIpi",
+    ]);
+    if (ContributorsInfoIsValid) {
       submitMusicMutation.mutate(formMethods.getValues());
     } else {
       console.log("Not valid");

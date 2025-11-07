@@ -35,7 +35,7 @@
 //   songName: string;
 //   artist: string;
 //   songLink: string;
-//   genre: string;
+//   genres: string;
 //   additionalInfo: string;
 // }
 
@@ -159,7 +159,7 @@
 //                   " " +
 //                   item.musicSubmission.submitter.lastName,
 //                 songLink: item.musicSubmission.songLink || "",
-//                 genre: item.musicSubmission.genre || "",
+//                 genres: item.musicSubmission.genre || "",
 //                 additionalInfo: item.musicSubmission.additionalInfo || "",
 //               };
 

@@ -126,7 +126,7 @@ model MusicSubmission {
   submitter      User               @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
   submitterId    String
   songLink       String
-  genre          String[]
+  genres          String[]
   additionalInfo String             @default("")
   matches        Match[]
   contributors   MusicContributor[]

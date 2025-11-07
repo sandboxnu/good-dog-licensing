@@ -5,7 +5,7 @@ import type z from "zod";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
 import Button from "../../base/Button";
-import { zMusicSubmissionValues } from "@good-dog/trpc/schema";
+import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
 import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
 
 interface InitialMusicInfoProps {
@@ -24,19 +24,17 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
   const handleClear = () => {
     const currentContributors = getValues("contributors");
 
-    reset(
-      {
-        songName: undefined,
-        songLink: undefined,
-        genre: undefined,
-        additionalInfo: "",
-        performerName: undefined,
-        contributors: currentContributors,
-        submitterRoles: [],
-        submitterAffiliation: undefined,
-        submitterIpi: undefined,
-      },
-    );
+    reset({
+      songName: undefined,
+      songLink: undefined,
+      genres: [],
+      additionalInfo: "",
+      performerName: undefined,
+      contributors: currentContributors,
+      submitterRoles: [],
+      submitterAffiliation: undefined,
+      submitterIpi: undefined,
+    });
   };
 
   const genres = [
@@ -61,7 +59,7 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
         onNext();
       }}
     >
-      <div className="w-full text-black border-[.5px] bg-white py-6 px-10 gap-6 flex flex-col border-black rounded-2xl">
+      <div className="w-full text-black border-[.5px] bg-white p-10 gap-6 flex flex-col border-black rounded-2xl">
         <p className="font-semibold text-xl">Song information</p>
         <div className="flex flex-row gap-6">
           <RHFTextInput<MusicSubmissionFormFields>
@@ -82,11 +80,11 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
           />
         </div>
         <RHFMultiselectDropdown<MusicSubmissionFormFields>
-          rhfName="genre"
-          label="Song genre"
+          rhfName="genres"
+          label="Song genres"
           placeholder="Select song genres"
-          id="genre"
-          errorText={errors.genre?.message}
+          id="genres"
+          errorText={errors.genres?.message}
           options={genres}
           required={true}
         />
