@@ -1,7 +1,5 @@
 import { TRPCProvider } from "@good-dog/trpc/client";
 
-import SentryInitClient from "../sentry-init-client";
-
 import "@good-dog/tailwind/styles";
 
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
