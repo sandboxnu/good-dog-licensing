@@ -8,11 +8,7 @@ import {
 import Link from "next/link";
 import ProfileIcon from "../svg/ProfileIcon";
 
-interface ProfileDropdownProps {
-  label?: string;
-}
-
-export default function ProfileDropdown({}: ProfileDropdownProps) {
+export default function ProfileDropdown() {
   const signOutMutation = trpc.signOut.useMutation({
     onSuccess: () => {
       window.location.replace("/");
