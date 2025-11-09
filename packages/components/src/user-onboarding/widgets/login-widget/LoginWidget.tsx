@@ -59,7 +59,7 @@ export default function LoginWidget() {
             <p>All fields below are required</p>
             {loginMutation.isError && (
               <div className="flex flex-row gap-[2px] items-center">
-                <ErrorExclamation />
+                <ErrorExclamation size="medium" />
                 <h3 className="text-error text-body3 font-normal ">
                   {errorMessage}
                 </h3>
