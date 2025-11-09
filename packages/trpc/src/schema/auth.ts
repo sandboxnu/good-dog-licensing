@@ -4,15 +4,12 @@ import { ReferralSource } from "@good-dog/db";
 
 export const zPasswordValidation = z
   .string()
-  .min(8, "Password must be at least 8 characters long");
-/* TODO: re-introduce stricter password requirements once we have better UX on the frontend */
-//   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-//   .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-//   .regex(/[0-9]/, "Password must contain at least one number")
-//   .regex(
-//     /[^a-zA-Z0-9]/,
-//     "Password must contain at least one special character",
-// );
+  .min(8, "Password must be at least 8 characters")
+  .regex(
+    /[!@#$%^&*(),.?":{}|<>]/,
+    "Password must contain at least 1 special character",
+  )
+  .regex(/[A-Z]/, "Password must contain at least 1 uppercase character");
 
 export const zPasswordValues = z.object({
   password: zPasswordValidation,
@@ -43,3 +40,13 @@ export const zSignInValues = z.object({
 export const zForgotPasswordValues = z.object({
   email: z.email(),
 });
+
+export const zResetPasswordValues = z
+  .object({
+    password: zPasswordValidation,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"], // This targets the confirmPassword field specifically
+  });
