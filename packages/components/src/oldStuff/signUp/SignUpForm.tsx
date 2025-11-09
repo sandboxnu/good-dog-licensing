@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { trpc } from "@good-dog/trpc/client";
-import { Button } from "@good-dog/ui/button";
 import { zSignUpValues } from "@good-dog/trpc/schema";
+import { Button } from "@good-dog/ui/button";
 
 import GenericRegistrationForm from "../registration/GenericRegistrationForm";
 import RegistrationInput from "../registration/inputs/RegistrationInput";
@@ -165,12 +165,6 @@ export default function SignUpForm() {
             className="flex-1"
           />
         </div>
-        <TypedRegistrationInput
-          fieldName="referral"
-          type="text"
-          label="FRIEND or OTHER ..."
-          className="flex-1"
-        />
         <TypedRegistrationInput
           fieldName="role"
           type="text"

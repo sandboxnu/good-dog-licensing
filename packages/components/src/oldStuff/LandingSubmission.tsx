@@ -27,14 +27,14 @@ export default function LandingSubmission({
         className={imageFlipClasses}
       />
       <div className="grid justify-items-start px-24 pt-24">
-        <h1 className="font-righteous text-5xl text-good-dog-pale-yellow">
+        <h1 className="text-good-dog-pale-yellow font-righteous text-5xl">
           {title}
         </h1>
         <p className="pt-8 text-white">{description}</p>
         <div className="pt-12">
           <Link href="/submit">
             <div
-              className="rounded-full bg-good-dog-celadon px-4 py-1 font-righteous font-semibold text-good-dog-violet"
+              className="bg-good-dog-celadon text-good-dog-violet rounded-full px-4 py-1 font-righteous font-semibold"
               style={{ width: "fit-content" }}
             >
               {button}

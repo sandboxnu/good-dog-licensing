@@ -213,7 +213,7 @@ describe("moderator-onboarding", () => {
           firstName: "Jordan",
           lastName: "GoodDog",
           phoneNumber: "123-456-7890",
-          password: "mypassword",
+          password: "Mypassword1!",
         }),
       ).rejects.toThrow("FORBIDDEN");
     });
@@ -229,7 +229,7 @@ describe("moderator-onboarding", () => {
         firstName: "Jordan",
         lastName: "GoodDog",
         phoneNumber: "123-456-7890",
-        password: "mypassword",
+        password: "Mypassword1!",
       });
 
       const newModeratorInvite = await prisma.moderatorInvite.findUnique({
@@ -280,7 +280,7 @@ describe("moderator-onboarding", () => {
           firstName: "Jordan",
           lastName: "GoodDog",
           phoneNumber: "123-456-7890",
-          password: "mypassword",
+          password: "Mypassword1!",
         }),
       ).rejects.toThrow(
         "Moderator Invite Email to testing@gmail.com failed to resend.",
@@ -317,7 +317,7 @@ describe("moderator-onboarding", () => {
         firstName: "Jordan",
         lastName: "GoodDog",
         phoneNumber: "123-456-7890",
-        password: "mypassword",
+        password: "Mypassword1!",
       });
 
       const moderatorUser = await prisma.user.findUnique({

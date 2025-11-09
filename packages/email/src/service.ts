@@ -1,6 +1,7 @@
-import { env } from "@good-dog/env";
-import { prisma } from "@good-dog/db";
 import { Resend } from "resend";
+
+import { prisma } from "@good-dog/db";
+import { env } from "@good-dog/env";
 
 export interface EmailMessage {
   from: string;

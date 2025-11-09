@@ -1,5 +1,6 @@
-import { Label } from "@good-dog/ui/label";
 import { Checkbox as CheckboxShad } from "@good-dog/ui/checkbox";
+import { Label } from "@good-dog/ui/label";
+
 import ErrorExclamation from "../svg/ErrorExclamation";
 
 interface CheckboxProps {
@@ -16,14 +17,14 @@ export default function Checkbox({
   errorText,
 }: CheckboxProps) {
   return (
-    <div className="w-full flex flex-col gap-2 text-black">
-      <div className="w-full flex flex-row gap-2 items-center">
+    <div className="flex w-full flex-col gap-2 text-black">
+      <div className="flex w-full flex-row items-center gap-2">
         <CheckboxShad
           required={required}
           id={id}
-          className={`border-good-dog-main data-[state=checked]:bg-good-dog-main ${errorText ? " border-error shadow-error" : ""}`}
+          className={`border-good-dog-main data-[state=checked]:bg-good-dog-main ${errorText ? "border-error shadow-error" : ""}`}
         />
-        <div className="flex flex-row gap-[2px] items-center">
+        <div className="flex flex-row items-center gap-[2px]">
           <Label className="text-body3" htmlFor={id}>
             {label}
           </Label>
@@ -33,8 +34,8 @@ export default function Checkbox({
         </div>
       </div>
       {errorText && (
-        <div className="flex flex-row gap-[2px] items-center">
-          <ErrorExclamation />
+        <div className="flex flex-row items-center gap-[2px]">
+          <ErrorExclamation size="small" />
           <Label className="text-caption text-error">{errorText}</Label>
         </div>
       )}

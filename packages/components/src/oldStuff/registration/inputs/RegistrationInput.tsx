@@ -1,8 +1,8 @@
 "use client";
 
 import type { HTMLInputTypeAttribute } from "react";
-import { useEffect } from "react";
 import type { FieldPath, FieldValues } from "react-hook-form";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { Input } from "@good-dog/ui/input";
