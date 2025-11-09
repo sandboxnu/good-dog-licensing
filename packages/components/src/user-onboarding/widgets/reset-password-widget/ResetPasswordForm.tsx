@@ -9,7 +9,7 @@ import { trpc } from "@good-dog/trpc/client";
 import { zResetPasswordValues } from "@good-dog/trpc/schema";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import Button from "@good-dog/components/base/Button";
-import PasswordRequirements from "../components/password-requirements";
+import PasswordRequirements from "../components/PasswordRequirements";
 import Modal from "../../../base/Modal";
 
 type FormValues = z.input<typeof zResetPasswordValues>;

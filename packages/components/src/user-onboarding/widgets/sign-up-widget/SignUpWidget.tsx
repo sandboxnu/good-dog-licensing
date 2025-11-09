@@ -29,8 +29,6 @@ export default function SignUpWidget({
     resolver: zodResolver(zSignUpValues),
     defaultValues: {
       role: initialRole,
-      referral: "FRIEND",
-      phoneNumber: "1234567890",
     },
   });
 
@@ -48,10 +46,6 @@ export default function SignUpWidget({
     onSuccess: () => {
       setDisplayEmailCodeModal(true);
     },
-    onError: (err) => {
-      // TODO: Alert toast to the user that there was an error
-      console.error(err);
-    },
   });
 
   const verifyEmailCodeMutation = trpc.verifyEmailCode.useMutation({
@@ -66,11 +60,12 @@ export default function SignUpWidget({
   });
 
   const signUpMutation = trpc.signUp.useMutation({
-    onSuccess: () => {
-      window.location.href = "/";
-    },
-    onError: (err) => {
-      console.error(err);
+    onSuccess: (data) => {
+      if (data.status === "RESENT") {
+        setDisplayEmailCodeModal(true);
+      } else {
+        window.location.href = "/";
+      }
     },
   });
 
@@ -83,6 +78,7 @@ export default function SignUpWidget({
   };
 
   const handleVerifyEmail = async () => {
+    sendEmailVerificationMutation.reset();
     const initialSignUpInfoIsValid = await formMethods.trigger([
       "firstName",
       "lastName",
@@ -128,7 +124,15 @@ export default function SignUpWidget({
             />
           )}
           {step === 2 && (
-            <FinalSignUpInfo role={role} onSubmit={handleSubmit} />
+            <FinalSignUpInfo
+              role={role}
+              onSubmit={handleSubmit}
+              errorMessage={
+                signUpMutation.error
+                  ? "Internal Error. Please try again."
+                  : undefined
+              }
+            />
           )}
         </FormProvider>
       </div>

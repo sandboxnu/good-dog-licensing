@@ -60,7 +60,7 @@ export default function InitialSignUpInfo({
           label="First name"
           placeholder="Enter first name"
           id="firstName"
-          errorText={errors.firstName?.message ? "This is required" : undefined}
+          errorText={errors.firstName?.message}
           required
         />
         <RHFTextInput<SignUpFormFields>
@@ -68,7 +68,7 @@ export default function InitialSignUpInfo({
           label="Last name"
           placeholder="Enter last name"
           id="lastName"
-          errorText={errors.lastName?.message ? "This is required" : undefined}
+          errorText={errors.lastName?.message}
           required
         />
       </div>
@@ -82,8 +82,6 @@ export default function InitialSignUpInfo({
             emailAlreadyExists
               ? "User with email already exists"
               : errors.email?.message
-                ? "This is required"
-                : undefined
           }
           required
         />
@@ -97,7 +95,7 @@ export default function InitialSignUpInfo({
           ]}
           id="role"
           label="Who are you signing up as?"
-          errorText={errors.role?.message ? "This is required" : undefined}
+          errorText={errors.role?.message}
           required
         />
       </div>
