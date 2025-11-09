@@ -22,9 +22,13 @@ export default function ProfileDropdown({}: ProfileDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <ProfileIcon color="light" />
+        <ProfileIcon color="light" size={40} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[138px] gap-2 py-4 px-2 bg-white border-light-green flex flex-col gap-2">
+      <DropdownMenuContent
+        align="end"
+        side="bottom"
+        className="w-[138px] gap-2 py-4 px-2 bg-white border-light-green flex flex-col gap-2"
+      >
         <DropdownMenuItem className="text-base h-[22px]">
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>

@@ -3,14 +3,10 @@
 import Link from "next/link";
 import { trpc } from "@good-dog/trpc/client";
 import NavLogo from "./svg/NavLogo";
+import ProfileDropdown from "./base/ProfileDropdown";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
-  const signOutMutation = trpc.signOut.useMutation({
-    onSuccess: () => {
-      window.location.replace("/");
-    },
-  });
 
   return (
     <header className="text-good-dog-main w-full">
@@ -29,18 +25,7 @@ export default function Nav() {
           </Link>
           {user ? (
             <>
-              <Link
-                href="/dashboard"
-                className="transition hover:underline underline-offset-4"
-              >
-                Account
-              </Link>
-              <button
-                onClick={() => signOutMutation.mutate()}
-                className="hover:underline underline-offset-4"
-              >
-                Logout
-              </button>
+              <ProfileDropdown />
             </>
           ) : (
             <Link href="/login" className="hover:underline underline-offset-4">
