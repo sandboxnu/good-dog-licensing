@@ -13,14 +13,16 @@ export default function Nav() {
   });
 
   return (
-    <header className="text-good-dog-main w-full">
+    <header className="w-full">
       <div className="flex items-center justify-between bg-transparent">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />
-          <p className="font-righteous text-2xl">GOOD DOG LICENSING</p>
+          <p className="font-righteous text-2xl text-good-dog-main">
+            GOOD DOG LICENSING
+          </p>
         </Link>
 
-        <nav className="flex items-center gap-8 text-lg">
+        <nav className="flex items-center gap-8 text-lg text-secondary">
           <Link href="/" className="hover:underline underline-offset-4">
             Home
           </Link>
