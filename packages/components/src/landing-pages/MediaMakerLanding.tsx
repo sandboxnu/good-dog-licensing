@@ -1,7 +1,5 @@
 import { trpc } from "@good-dog/trpc/client";
-import { songRequestProcedure } from "../../../trpc/src/procedures/get-song-requests";
 import Card from "../base/Card";
-import StatusIndicator from "../base/StatusIndicator";
 import Header from "./components/Header";
 
 export default function MediaMakerLanding() {
@@ -25,7 +23,7 @@ export default function MediaMakerLanding() {
             })}
             children={
               <div className="flex flex-col pt-[16px] gap-[24px]">
-                <p className="body3 text-[var(--typography-heading-gray)] overflow-hidden text-base font-normal leading-tight break-words">
+                <p className="body3 text-dark-gray-100 dark:text-dark-gray-100 overflow-hidden text-base font-normal leading-tight break-words">
                   {req.description}
                 </p>
               </div>

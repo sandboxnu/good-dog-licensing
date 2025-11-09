@@ -15,7 +15,7 @@ export default function MusicianLanding() {
         subtitle={"This is where you view and manage your song submissions"}
       />
       <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
-        {data.music.map((req) => (
+        {data.music.map((req, key) => (
           <Card
             title={req.songName}
             subheader={req.createdAt.toLocaleDateString("en-US", {
@@ -29,10 +29,11 @@ export default function MusicianLanding() {
                   <Line text={req.performerName} icon={<People />} />
                   <Line text={req.genre} icon={<MusicNote />} />
                 </div>
-                <StatusIndicator variant={"success"} text={"Song submitted"} />
+                <StatusIndicator variant={"warning"} text={"Song submitted"} />
               </div>
             }
             size={"small"}
+            key={key}
           />
         ))}
       </div>
@@ -44,9 +45,7 @@ function Line({ text, icon }: { text: string; icon: ReactNode }) {
   return (
     <div className="flex flex-row gap-[8px] items-center">
       {icon}
-      <p className="text-body3 text-[var(--typography-heading-default)]">
-        {text}
-      </p>
+      <p className="text-body3 text-dark-gray-500 dark:text-mint-300">{text}</p>
     </div>
   );
 }

@@ -43,3 +43,7 @@ export const zSignInValues = z.object({
 export const zForgotPasswordValues = z.object({
   email: z.email(),
 });
+
+export const zSearchTermValues = z.object({
+  searchTerm: z.string(),
+});

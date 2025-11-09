@@ -13,7 +13,7 @@ export default function Card({
 }) {
   return (
     <div
-      className={`p-[24px] w-[320px] h-[200px] bg-[var(--card-default-background)] rounded-3xl border-[0.5px] border-[var(--border-light-gray)] ${size === "small" ? "w-[320px]" : "w-[992px]"}`}
+      className={`p-[24px] w-[320px] h-[200px] bg-cream-100 rounded-3xl border-[0.5px] border-[cream-400] ${size === "small" ? "w-[320px]" : "w-[992px]"}`}
     >
       <div className="flex flex-col">
         <p className="text-body1">{title}</p>
