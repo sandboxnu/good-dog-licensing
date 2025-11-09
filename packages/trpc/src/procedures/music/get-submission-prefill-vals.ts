@@ -18,6 +18,8 @@ export const getMusicSubmissionPrefillValuesProcedure =
           MusicSubmission: { submitterId: ctx.session.user.userId },
         },
       });
+      
+      previousContributors.reverse();
 
       const uniqueContributors = Object.values(
         previousContributors.reduce<Record<string, ContributorPrefillType>>(

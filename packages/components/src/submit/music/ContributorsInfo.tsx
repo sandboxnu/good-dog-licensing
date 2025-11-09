@@ -77,7 +77,9 @@ export default function ContributorsInfo({
     name: "contributors",
   });
 
-  const [isOtherContributors, setIsOtherContributors] = useState<string>("");
+  const [isOtherContributors, setIsOtherContributors] = useState<string>(
+    fields.length > 0 ? "yes" : "",
+  );
 
   const toggleIsOtherContributors = (newState: string) => {
     if (newState === "yes") {
