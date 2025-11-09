@@ -166,12 +166,6 @@ export default function SignUpForm() {
           />
         </div>
         <TypedRegistrationInput
-          fieldName="referral"
-          type="text"
-          label="FRIEND or OTHER ..."
-          className="flex-1"
-        />
-        <TypedRegistrationInput
           fieldName="role"
           type="text"
           label="MUSICIAN or MEDIA_MAKER"

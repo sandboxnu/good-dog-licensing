@@ -7,10 +7,13 @@ import { useMemo } from "react";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import Button from "../../../base/Button";
 import Link from "next/link";
+import PasswordRequirements from "../components/PasswordRequirements";
+import ErrorExclamation from "../../../svg/ErrorExclamation";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
   onSubmit: () => void;
+  errorMessage?: string;
 }
 
 const formatRole = (role: "MUSICIAN" | "MEDIA_MAKER") => {
@@ -22,6 +25,7 @@ type SignUpFormFields = z.input<typeof zSignUpValues>;
 export default function FinalSignUpInfo({
   role,
   onSubmit,
+  errorMessage,
 }: FinalSignUpInfoProps) {
   const {
     formState: { errors },
@@ -34,17 +38,26 @@ export default function FinalSignUpInfo({
 
   return (
     <form className="pr-[40px]" onSubmit={onSubmit}>
-      <h1 className="text-h3 font-medium">{headerLabel}</h1>
-      <h3 className="text-body3 font-normal">All fields below are required</h3>
-      <div className="pt-[32px] flex flex-row gap-[24px]">
-        <RHFTextInput<SignUpFormFields>
-          rhfName="password"
-          label="Password"
-          placeholder="Your password"
-          id="password"
-          errorText={errors.password?.message}
-          type="password"
-        />
+      <h3>{headerLabel}</h3>
+      <p className="pt-[8px]">All fields below are required</p>
+      {errorMessage && (
+        <div className="flex flex-row gap-[4px] items-center pt-[12px]">
+          <ErrorExclamation size="medium" />
+          <p className="text-error">{errorMessage}</p>
+        </div>
+      )}
+      <div className="pt-[32px] gap-[24px] flex flex-col">
+        <div className="gap-[8px] flex flex-col">
+          <RHFTextInput<SignUpFormFields>
+            rhfName="password"
+            label="Password"
+            placeholder="Your password"
+            id="password"
+            errorText={errors.password?.message}
+            type="password"
+          />
+          {!errors.password?.message && <PasswordRequirements />}
+        </div>
         <RHFTextInput<SignUpFormFields>
           rhfName="confirmPassword"
           label="Confirm Password"
@@ -52,6 +65,13 @@ export default function FinalSignUpInfo({
           id="confirmPassword"
           errorText={errors.confirmPassword?.message}
           type="password"
+        />
+        <RHFTextInput<SignUpFormFields>
+          rhfName="phoneNumber"
+          label="Phone Number"
+          placeholder="123-456-7890"
+          id="phoneNumber"
+          errorText={errors.phoneNumber?.message}
         />
       </div>
       <div className="pt-[32px]">

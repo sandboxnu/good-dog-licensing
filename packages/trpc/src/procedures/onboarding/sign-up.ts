@@ -92,7 +92,6 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
               expiresAt: getNewSessionExpirationDate(),
             },
           },
-          referral: input.referral,
         },
         select: {
           sessions: true,

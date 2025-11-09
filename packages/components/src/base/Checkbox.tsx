@@ -34,7 +34,7 @@ export default function Checkbox({
       </div>
       {errorText && (
         <div className="flex flex-row gap-[2px] items-center">
-          <ErrorExclamation />
+          <ErrorExclamation size="small" />
           <Label className="text-caption text-error">{errorText}</Label>
         </div>
       )}

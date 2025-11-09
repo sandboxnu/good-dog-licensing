@@ -2,7 +2,7 @@
 <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" fill="#0D0039"/>
 <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="#0D0039"/>
 <g filter="url(#filter0_d_1593_35525)">
-<path d="M21.8267 26.1602L15.6667 20.0002L21.8267 13.8402" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21.8267 26.1602L15.6667 20.0002L21.8267 13.8402" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
 </g>
 <defs>
 <filter id="filter0_d_1593_35525" x="11.52" y="11.52" width="16.96" height="16.96" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
