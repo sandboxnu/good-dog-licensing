@@ -1,5 +1,10 @@
-import GeneralUserOnboarding from "@good-dog/components/user-onboarding/GeneralUserOnboarding";
+import PageContainer from "@good-dog/components/PageContainer";
+import UserOnboarding from "@good-dog/components/user-onboarding/UserOnboarding";
 
 export default function Page() {
-  return <GeneralUserOnboarding type="resetPassword" />;
+  return (
+    <PageContainer background="gradient">
+      <UserOnboarding type="resetPassword" initialRole={undefined} />
+    </PageContainer>
+  );
 }
