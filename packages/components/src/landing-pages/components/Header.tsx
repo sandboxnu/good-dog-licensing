@@ -24,7 +24,7 @@ export default function Header({
     <div className="w-full flex flex-row gap-[32px] justify-between">
       <div className="flex flex-col gap-[8px]">
         <h3>{title}</h3>
-        <p className="text-caption">{subtitle}</p>
+        <p className="text-body3">{subtitle}</p>
       </div>
       <div className="flex flex-row gap-[16px] items-center">
         <SearchFilterForm/>

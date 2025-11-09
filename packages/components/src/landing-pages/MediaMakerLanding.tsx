@@ -1,3 +1,4 @@
+"use client"
 import { trpc } from "@good-dog/trpc/client";
 import Card from "../base/Card";
 import Header from "./components/Header";
