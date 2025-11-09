@@ -4,6 +4,7 @@ import TextArea from "@good-dog/components/base/TextArea";
 import TextInput from "@good-dog/components/base/TextInput";
 import Checkbox from "@good-dog/components/base/Checkbox";
 import Button from "@good-dog/components/base/Button";
+import ProfileDropdown from "@good-dog/components/base/ProfileDropdown";
 import MultiselectDropdown from "@good-dog/components/base/MultiselectDropdown";
 import Modal from "@good-dog/components/base/Modal";
 import { useState } from "react";
@@ -243,7 +244,7 @@ export default function Components() {
       </div>
       <div className="flex flex-col gap-4 bg-gray-100 w-full">
         <MultiselectDropdown
-          label={"Dropdown menu"}
+          label={"Multiseclect dropdown menu"}
           value={""}
           options={options}
           onChange={(newValue) => {
@@ -254,7 +255,7 @@ export default function Components() {
           variant={"standard"}
         />
         <MultiselectDropdown
-          label={"Dropdown menu"}
+          label={"Multiseclect dropdown menu"}
           value={""}
           options={options}
           onChange={(newValue) => {
@@ -265,7 +266,7 @@ export default function Components() {
           variant={"hover"}
         />
         <MultiselectDropdown
-          label={"Dropdown menu"}
+          label={"Multiseclect dropdown menu"}
           value={""}
           options={options}
           onChange={(newValue) => {
@@ -276,6 +277,9 @@ export default function Components() {
           variant={"inactive"}
           maxCount={4}
         />
+      </div>
+      <div>
+        <ProfileDropdown />
       </div>
       <div className="py-[50px]">
         <div className="flex flex-col gap-4 bg-gray-200 w-full h-[500px] relative">
