@@ -169,16 +169,16 @@ describe("get-submission-vals", () => {
     const expectedResult = {
       contributors: [
         {
-          firstName: "Wesley",
-          lastName: "Tran",
-          ipi: null,
-          affiliation: MusicAffiliation.NONE,
-        },
-        {
           firstName: "Humpty",
           lastName: "Dumpty",
           affiliation: MusicAffiliation.BMI,
           ipi: null,
+        },
+        {
+          firstName: "Wesley",
+          lastName: "Tran",
+          ipi: null,
+          affiliation: MusicAffiliation.NONE,
         },
       ],
       userAffiliation: MusicAffiliation.ASCAP,
@@ -196,10 +196,10 @@ describe("get-submission-vals", () => {
     const expectedResult = {
       contributors: [
         {
-          firstName: "Wesley",
-          lastName: "Tran",
-          ipi: "1234",
-          affiliation: MusicAffiliation.NONE,
+          firstName: "Fighter",
+          lastName: "Jet",
+          affiliation: MusicAffiliation.ASCAP,
+          ipi: null,
         },
         {
           firstName: "Humpty",
@@ -208,10 +208,10 @@ describe("get-submission-vals", () => {
           ipi: null,
         },
         {
-          firstName: "Fighter",
-          lastName: "Jet",
-          affiliation: MusicAffiliation.ASCAP,
-          ipi: null,
+          firstName: "Wesley",
+          lastName: "Tran",
+          ipi: "1234",
+          affiliation: MusicAffiliation.NONE,
         },
       ],
       userAffiliation: MusicAffiliation.ASCAP,

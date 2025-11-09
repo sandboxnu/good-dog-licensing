@@ -18,7 +18,7 @@ export const getMusicSubmissionPrefillValuesProcedure =
           MusicSubmission: { submitterId: ctx.session.user.userId },
         },
       });
-      
+
       previousContributors.reverse();
 
       const uniqueContributors = Object.values(
