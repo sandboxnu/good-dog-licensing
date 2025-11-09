@@ -1,6 +1,7 @@
 import React from "react";
 import Nav from "./Nav";
 import clsx from "clsx";
+import Footer from "./Footer";
 
 interface PageContainerProps {
   background: "solid" | "gradient";
@@ -21,10 +22,12 @@ export default function PageContainer({
       >
         <div className="px-[228px] flex flex-col max-w-[1500px] w-full pt-[32px]">
           <Nav />
-          <div className="pt-[32px] w-full">{children}</div>
+          <div className="pt-[32px] pb-[50px] w-full flex items-center justify-center">
+            {children}
+          </div>
         </div>
       </div>
-      <div className="h-[100px] bg-good-dog-main w-full" />
+      <Footer />
     </div>
   );
 }
