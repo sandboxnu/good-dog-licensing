@@ -7,6 +7,7 @@ interface ModalProps {
   headerText: string;
   height: number;
   width: number;
+  upperPadding?: boolean;
   children: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ export default function Modal({
   headerText,
   height,
   width,
+  upperPadding = true,
   children,
 }: ModalProps) {
   if (!open) return null;
@@ -34,7 +36,7 @@ export default function Modal({
             <CloseX />
           </button>
         </div>
-        <div className="pt-[18px] text-center">
+        <div className={`${upperPadding ? "pt-[18px]" : ""} text-center`}>
           <h3>{headerText}</h3>
         </div>
         <div className="flex flex-col items-center text-center">{children}</div>

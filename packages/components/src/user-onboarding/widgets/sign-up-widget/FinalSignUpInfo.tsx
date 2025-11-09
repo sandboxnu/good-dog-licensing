@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import Button from "../../../base/Button";
 import Link from "next/link";
+import PasswordRequirements from "../components/password-requirements";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -36,23 +37,27 @@ export default function FinalSignUpInfo({
     <form className="pr-[40px]" onSubmit={onSubmit}>
       <h1 className="text-h3 font-medium">{headerLabel}</h1>
       <h3 className="text-body3 font-normal">All fields below are required</h3>
-      <div className="pt-[32px] flex flex-row gap-[24px]">
-        <RHFTextInput<SignUpFormFields>
-          rhfName="password"
-          label="Password"
-          placeholder="Your password"
-          id="password"
-          errorText={errors.password?.message}
-          type="password"
-        />
-        <RHFTextInput<SignUpFormFields>
-          rhfName="confirmPassword"
-          label="Confirm Password"
-          placeholder="Confirm your password"
-          id="confirmPassword"
-          errorText={errors.confirmPassword?.message}
-          type="password"
-        />
+      <div className="gap-[8px]">
+        <div className="pt-[32px] flex flex-row gap-[24px]">
+          <RHFTextInput<SignUpFormFields>
+            rhfName="password"
+            label="Password"
+            placeholder="Your password"
+            id="password"
+            errorText={errors.password?.message}
+            type="password"
+          />
+
+          <RHFTextInput<SignUpFormFields>
+            rhfName="confirmPassword"
+            label="Confirm Password"
+            placeholder="Confirm your password"
+            id="confirmPassword"
+            errorText={errors.confirmPassword?.message}
+            type="password"
+          />
+        </div>
+        <PasswordRequirements />
       </div>
       <div className="pt-[32px]">
         <Button
