@@ -1,11 +1,10 @@
 import "server-only";
 
+import * as Sentry from "@sentry/node";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
 import { createTRPCContext } from "./internal/context";
 import { appRouter } from "./internal/router";
-
-import * as Sentry from "@sentry/node";
 
 export default (req: Request) =>
   fetchRequestHandler({
@@ -22,7 +21,7 @@ export default (req: Request) =>
         extra: {
           message: error.message,
           cause: error.cause?.toString(),
-        }
+        },
       });
     },
   });

@@ -1,6 +1,5 @@
-import { withSentryConfig } from "@sentry/nextjs";
-
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 import { env } from "@good-dog/env";
 
