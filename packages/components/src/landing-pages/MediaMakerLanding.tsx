@@ -7,10 +7,7 @@ export default function MediaMakerLanding() {
 
   return (
     <div className="flex flex-col gap-[32px] align-start w-full">
-      <Header
-        title={"Project Requests"}
-        subtitle={"This is where you view and manage your project requests"}
-      />
+      <Header title={"title"} subtitle={"sub"} requestPath={"/project-submission"}/>
       <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
         {data.projects.map((req) => (
           <Card

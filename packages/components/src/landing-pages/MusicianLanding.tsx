@@ -12,8 +12,7 @@ export default function MusicianLanding() {
     <div className="flex flex-col gap-[32px] align-start w-full">
       <Header
         title={"Song Submissions"}
-        subtitle={"This is where you view and manage your song submissions"}
-      />
+        subtitle={"This is where you view and manage your song submissions"} requestPath={"/music-submission"}      />
       <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
         {data.music.map((req, key) => (
           <Card

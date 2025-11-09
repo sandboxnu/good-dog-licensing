@@ -1,17 +1,24 @@
+"use client";
+
 import { Label } from "@good-dog/ui/label";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import clsx from "clsx";
-import { MultiSelect } from "@good-dog/ui/multi-select";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@good-dog/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@good-dog/ui/select";
+import { useFormContext } from "react-hook-form";
 
 interface MultiselectDropdownProps {
   label: string;
-  value: string;
+  rhfName: string; // 👈 new: connect to RHF
   options: {
     label: string;
     value: string;
   }[];
-  onChange: (newValue: string) => void;
   placeholder: string;
   id: string;
   variant?:
@@ -24,40 +31,32 @@ interface MultiselectDropdownProps {
   maxCount?: number;
   required?: boolean;
   helperText?: string;
-  errorText?: string;
 }
 
 /**
- * 
- * @param param0    className={clsx(
-          "w-full min-h-[32px] text-body3 text-body-primary rounded-[8px] border-[#858585] hover:border-[#404040]",
-          {
-            "!border-error !shadow-error": errorText,
-          },
-        )}
-        placeholder={placeholder}
-        id={id}
-        value={value}
-        onValueChange={onChange}
-        options={options}
-        variant={variant}
-        maxCount={maxCount}
-      />
- * @returns 
+ * RHF-compatible SingleDropdown
  */
-export default function SingleDropdown({
+export default function RHFSingleDropdown({
   label,
-  value,
+  rhfName,
   options,
-  onChange,
   placeholder,
   id,
   variant,
   maxCount,
   required = false,
   helperText,
-  errorText,
 }: MultiselectDropdownProps) {
+  const {
+    register,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+
+  const value = watch(rhfName);
+  const errorText = errors?.[rhfName]?.message as string | undefined;
+
   return (
     <div className="w-full flex flex-col gap-[4px]">
       <div className="flex flex-row gap-[2px]">
@@ -68,16 +67,30 @@ export default function SingleDropdown({
           <Label className="text-body3 text-required-star font-normal">*</Label>
         )}
       </div>
-      <Select>
-        <SelectTrigger className="w-[180px] bg-gray-100 border-dark-gray-200">
-            <SelectValue placeholder="Filter: None" />
+
+      <Select
+        value={value ?? ""}
+        onValueChange={(val) => setValue(rhfName, val, { shouldValidate: true })}
+      >
+        <SelectTrigger
+          id={id}
+          className={clsx(
+            "w-[180px] bg-gray-100 border-dark-gray-200 h-[32px] rounded-lg",
+            {
+              "!border-error !shadow-error": errorText,
+            }
+          )}
+        >
+          <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-            <SelectItem value="none">Filter: None</SelectItem>
-            <SelectItem value="alpha">A to Z</SelectItem>
-            <SelectItem value="newest">Newest</SelectItem>
+          {options.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
         </SelectContent>
-    </Select>
+      </Select>
 
       {helperText && !errorText && (
         <Label className="text-caption text-[#171717]">{helperText}</Label>

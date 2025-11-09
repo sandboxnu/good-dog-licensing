@@ -6,7 +6,7 @@ import {
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
-  projectAndRepertoirePagePermissions,
+  musicianOnlyPermissions,
   "read",
 ).query(async ({ ctx }) => {
   const music = await ctx.prisma.musicSubmission.findMany({

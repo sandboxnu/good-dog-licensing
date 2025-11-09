@@ -46,4 +46,5 @@ export const zForgotPasswordValues = z.object({
 
 export const zSearchTermValues = z.object({
   searchTerm: z.string(),
+  filter: z.string()
 });
