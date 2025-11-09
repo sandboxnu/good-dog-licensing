@@ -2,7 +2,7 @@ import { Spinner } from "@good-dog/components/oldStuff/loading/Spinner";
 
 export default function LoadingPage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-start bg-good-dog-violet pt-44 text-good-dog-pale-yellow">
+    <div className="bg-good-dog-violet text-good-dog-pale-yellow flex min-h-screen flex-col items-center justify-start pt-44">
       <div className="space-y-6 text-center">
         <h1 className="animate-fade-in text-7xl font-bold tracking-wider">
           LOADING
@@ -10,7 +10,7 @@ export default function LoadingPage() {
         <div className="flex justify-center">
           <Spinner className="text-good-dog-celadon" />
         </div>
-        <p className="animate-pulse text-lg text-good-dog-orange/70">
+        <p className="text-good-dog-orange/70 animate-pulse text-lg">
           Please wait while we fetch your content.
         </p>
       </div>

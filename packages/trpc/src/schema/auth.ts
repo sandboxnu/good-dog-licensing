@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { zRequiredEmail, zRequiredString } from "./base";
 
 export const zPasswordValidation = zRequiredString

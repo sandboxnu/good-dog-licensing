@@ -1,4 +1,5 @@
 import React from "react";
+
 import GrowOnScroll from "../motion/GrowOnScroll";
 
 interface SectionRowProps {
@@ -16,11 +17,11 @@ export default function SectionRow({
 }: SectionRowProps) {
   return (
     <GrowOnScroll>
-      <div className="flex flex-row w-full gap-[24px] justify-center items-center">
+      <div className="flex w-full flex-row items-center justify-center gap-[24px]">
         {imageLoc === "left" && <div className="w-1/2">{image}</div>}
-        <div className="w-1/2 text-left flex flex-col gap-[24px]">
+        <div className="flex w-1/2 flex-col gap-[24px] text-left">
           <h2>{headerText}</h2>
-          <p className="text-body1 text-secondary leading-normal">{bodyText}</p>
+          <p className="text-body1 leading-normal text-secondary">{bodyText}</p>
         </div>
         {imageLoc === "right" && <div className="w-1/2">{image}</div>}
       </div>

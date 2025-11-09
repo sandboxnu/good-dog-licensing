@@ -15,7 +15,7 @@ const Side = ({
 }>) => (
   <div
     className={clsx(
-      "relative h-full flex-1 overflow-hidden bg-good-dog-celadon",
+      "bg-good-dog-celadon relative h-full flex-1 overflow-hidden",
       color,
     )}
   >

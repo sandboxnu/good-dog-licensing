@@ -1,7 +1,8 @@
 import React from "react";
-import Nav from "./Nav";
 import clsx from "clsx";
+
 import Footer from "./Footer";
+import Nav from "./Nav";
 
 interface PageContainerProps {
   background: "solid" | "gradient";
@@ -13,16 +14,16 @@ export default function PageContainer({
   children,
 }: PageContainerProps) {
   return (
-    <div className="min-w-[1400px] w-full flex justify-center flex-col">
+    <div className="flex w-full min-w-[1400px] flex-col justify-center">
       <div
-        className={clsx("w-full min-h-screen flex justify-center", {
+        className={clsx("flex min-h-screen w-full justify-center", {
           "!bg-main-bg-gradient": background === "gradient",
           "!bg-main-bg-solid": background === "solid",
         })}
       >
-        <div className="px-[228px] flex flex-col max-w-[1500px] w-full pt-[32px]">
+        <div className="flex w-full max-w-[1500px] flex-col px-[228px] pt-[32px]">
           <Nav />
-          <div className="pt-[32px] pb-[50px] w-full flex items-center justify-center">
+          <div className="flex w-full items-center justify-center pb-[50px] pt-[32px]">
             {children}
           </div>
         </div>

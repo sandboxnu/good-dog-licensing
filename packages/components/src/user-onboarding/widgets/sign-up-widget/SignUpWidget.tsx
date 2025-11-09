@@ -1,18 +1,20 @@
 "use client";
 
-import { FormProvider, useForm } from "react-hook-form";
-import InitialSignUpInfo from "./InitialSignUpInfo";
 import type z from "zod";
-import { zSignUpValues } from "@good-dog/trpc/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
-import { trpc } from "@good-dog/trpc/client";
 import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+
+import { trpc } from "@good-dog/trpc/client";
+import { zSignUpValues } from "@good-dog/trpc/schema";
+
+import Camera from "../../../svg/onboarding/media-maker/Camera";
+import MusicianOnRecord from "../../../svg/onboarding/musician/MusicianOnRecord";
+import Teamwork from "../../../svg/onboarding/Teamwork";
+import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import EmailCodeModal from "./EmailCodeModal";
 import FinalSignUpInfo from "./FinalSignUpInfo";
-import MusicianOnRecord from "../../../svg/onboarding/musician/MusicianOnRecord";
-import Camera from "../../../svg/onboarding/media-maker/Camera";
-import Teamwork from "../../../svg/onboarding/Teamwork";
+import InitialSignUpInfo from "./InitialSignUpInfo";
 
 interface SignUpWidgetProps {
   initialRole: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -106,7 +108,7 @@ export default function SignUpWidget({
         resendEmail={handleVerifyEmail}
         codeIsWrong={emailCodeError}
       />
-      <div className="w-1/2 flex flex-col justify-center h-full">
+      <div className="flex h-full w-1/2 flex-col justify-center">
         <FormProvider {...formMethods}>
           {step === 1 && (
             <InitialSignUpInfo
@@ -136,7 +138,7 @@ export default function SignUpWidget({
           )}
         </FormProvider>
       </div>
-      <div className="w-1/2 h-full flex justify-center items-center">
+      <div className="flex h-full w-1/2 items-center justify-center">
         {role === "MUSICIAN" && <MusicianOnRecord />}
         {role === "MEDIA_MAKER" && <Camera />}
         {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}

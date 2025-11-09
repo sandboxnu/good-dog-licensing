@@ -1,14 +1,16 @@
 "use client";
 
-import { FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
-import { zProjectSubmissionValues } from "@good-dog/trpc/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import InitialProjectInfo from "./InitialProjectInfo";
 import { useState } from "react";
-import SongRequestsInfo from "./SongRequestsInfo";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+
 import { trpc } from "@good-dog/trpc/client";
+import { zProjectSubmissionValues } from "@good-dog/trpc/schema";
+
+import InitialProjectInfo from "./InitialProjectInfo";
 import ProjectSubmissionHeader from "./ProjectSubmissionHeader";
+import SongRequestsInfo from "./SongRequestsInfo";
 
 type SignUpFormFields = z.input<typeof zProjectSubmissionValues>;
 
@@ -69,7 +71,7 @@ export default function ProjectSubmissionWidget() {
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center w-[752px]">
+    <div className="flex w-[752px] flex-col items-center gap-4">
       <ProjectSubmissionHeader step={step} />
       <div className="flex w-full">
         <FormProvider {...formMethods}>
