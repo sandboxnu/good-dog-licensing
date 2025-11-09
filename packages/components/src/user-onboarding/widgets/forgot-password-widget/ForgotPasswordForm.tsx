@@ -3,12 +3,13 @@
 import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import Modal from "@good-dog/components/base/Modal";
 
+import Modal from "@good-dog/components/base/Modal";
 import { trpc } from "@good-dog/trpc/client";
 import { zForgotPasswordValues } from "@good-dog/trpc/schema";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
+
 import Button from "../../../base/Button";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 
 type FormValues = z.input<typeof zForgotPasswordValues>;
 

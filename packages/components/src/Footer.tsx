@@ -1,21 +1,23 @@
 "use client";
-import NavLogo from "./svg/NavLogo";
-import { FaFacebook, FaXTwitter, FaInstagram } from "react-icons/fa6";
-import { MdEmail } from "react-icons/md";
-import { FaYoutube } from "react-icons/fa";
+
 import Link from "next/link";
+import { FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaXTwitter } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
+
 import Button from "./base/Button";
+import NavLogo from "./svg/NavLogo";
 
 export default function Footer() {
   return (
-    <footer className="bg-good-dog-main text-white w-full h-[160px] ">
-      <div className="flex items-center justify-between px-8 py-6 h-full">
+    <footer className="h-[160px] w-full bg-good-dog-main text-white">
+      <div className="flex h-full items-center justify-between px-8 py-6">
         <div className="flex flex-row items-center justify-between">
           <div className="h-full">
             <NavLogo size={112} />
           </div>
-          <div className="pl-4 h-fit">
-            <h2 className="font-righteous text-[32px] pb-2 text-white">
+          <div className="h-fit pl-4">
+            <h2 className="pb-2 font-righteous text-[32px] text-white">
               GOOD DOG LICENSING
             </h2>
             <div className="flex flex-row gap-3">
@@ -32,14 +34,14 @@ export default function Footer() {
           <Link href="/">For Musicians</Link>
           <Link href="/">For Media Makers</Link>
         </div>
-        <div className="flex flex-col justify-between h-full">
-          <div className="font-bold mt-[10px] mb-auto text-xl">
+        <div className="flex h-full flex-col justify-between">
+          <div className="mb-auto mt-[10px] text-xl font-bold">
             Made by students at{" "}
             <a href="https://www.sandboxnu.com/" className="underline">
               Sandbox
             </a>
           </div>
-          <div className="flex justify-end ">
+          <div className="flex justify-end">
             <Button
               label="Back to top"
               size="large"

@@ -10,8 +10,8 @@ export default function PasswordRequirements() {
 
 function BulletPoint({ content }: { content: string }) {
   return (
-    <div className="flex flex-row gap-[4px] items-center">
-      <div className="w-[6px] h-[6px] rounded-full bg-good-dog-main"></div>
+    <div className="flex flex-row items-center gap-[4px]">
+      <div className="h-[6px] w-[6px] rounded-full bg-good-dog-main"></div>
       <p>{content}</p>
     </div>
   );

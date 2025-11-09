@@ -7,9 +7,9 @@ import ResetPasswordForm from "./ResetPasswordForm";
 export default function ResetPasswordWidget() {
   return (
     <UserOnboardingWidgetContainer>
-      <div className="flex flex-row w-full items-center ">
-        <div className="flex flex-row items-center w-1/2">
-          <div className="flex flex-col gap-[32px] w-full">
+      <div className="flex w-full flex-row items-center">
+        <div className="flex w-1/2 flex-row items-center">
+          <div className="flex w-full flex-col gap-[32px]">
             <div className="flex flex-col gap-[8px]">
               <h3>Reset password</h3>
               <p>Enter your details in the required fields below</p>

@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import LoginWidget from "./widgets/login-widget/LoginWidget";
-import SignUpWidget from "./widgets/sign-up-widget/SignUpWidget";
+
 import MediaMakerSection from "./MediaMakerSection";
 import MusicianSection from "./MusicianSection";
 import ForgotPasswordWidget from "./widgets/forgot-password-widget/ForgotPasswordWidget";
+import LoginWidget from "./widgets/login-widget/LoginWidget";
 import ResetPasswordWidget from "./widgets/reset-password-widget/ResetPasswordWidget";
+import SignUpWidget from "./widgets/sign-up-widget/SignUpWidget";
 
 interface UserOnboardingProps {
   initialRole: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -22,7 +23,7 @@ export default function UserOnboarding({
   );
 
   return (
-    <div className="w-full pt-[20px] flex flex-col">
+    <div className="flex w-full flex-col pt-[20px]">
       {type === "signUp" && (
         <SignUpWidget
           initialRole={role}

@@ -1,9 +1,11 @@
 "use client";
 
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
 import { useState } from "react";
-import Modal from "../../../base/Modal";
 import clsx from "clsx";
+
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
+
+import Modal from "../../../base/Modal";
 import ErrorExclamation from "../../../svg/ErrorExclamation";
 
 interface EmailCodeModalProps {
@@ -33,13 +35,13 @@ export default function EmailCodeModal({
       width={500}
       height={285}
     >
-      <p className="text-body2 pt-[4px]">
+      <p className="pt-[4px] text-body2">
         We sent a link to <strong>{email}</strong>
       </p>
       {codeIsWrong && (
         <div className="flex flex-row items-center justify-center gap-x-1 pt-[16px]">
           <ErrorExclamation size="medium" />
-          <p className="text-body2 text-error font-medium">Incorrect code</p>
+          <p className="text-body2 font-medium text-error">Incorrect code</p>
         </div>
       )}
       <div className="pt-[16px]">
@@ -63,7 +65,7 @@ export default function EmailCodeModal({
           </InputOTPGroup>
         </InputOTP>
       </div>
-      <div className="pt-[16px] flex flex-row flex-wrap justify-center space-x-1 items-center">
+      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px]">
         <p className="text-body2">Didn't get an email?</p>
         <button
           onClick={() => {
@@ -71,7 +73,7 @@ export default function EmailCodeModal({
             resendEmail();
           }}
           type="button"
-          className="text-body2 underline font-medium text-secondary"
+          className="text-body2 font-medium text-secondary underline"
         >
           Resend
         </button>
@@ -85,8 +87,8 @@ function OPTSlot({ index, error }: { index: number; error: boolean }) {
     <InputOTPSlot
       index={index}
       className={clsx(
-        "!text-h1 h-[64px] w-[48px] border border-solid border-[#858585] rounded-[4px]",
-        { "border-error shadown-error": error },
+        "h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] !text-h1",
+        { "shadown-error border-error": error },
       )}
     />
   );

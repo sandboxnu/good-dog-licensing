@@ -67,7 +67,7 @@ const ProjectCard = () => {
         height={248}
         style={{ maxWidth: "360px" }}
       ></Image>
-      <h3 className="pt-2 text-center font-semibold text-good-dog-pale-yellow">
+      <h3 className="text-good-dog-pale-yellow pt-2 text-center font-semibold">
         Lorem ipsum dolor sit amet
       </h3>
     </div>
@@ -139,7 +139,7 @@ const ProjectGallery = () => {
 
   return (
     <div className="pb-32">
-      <h2 className="m-16 font-righteous text-4xl text-good-dog-pale-yellow">
+      <h2 className="text-good-dog-pale-yellow m-16 font-righteous text-4xl">
         Project Gallery:
       </h2>
       <div

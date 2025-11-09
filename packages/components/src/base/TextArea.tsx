@@ -1,7 +1,9 @@
-import { Label } from "@good-dog/ui/label";
-import ErrorExclamation from "../svg/ErrorExclamation";
 import clsx from "clsx";
+
+import { Label } from "@good-dog/ui/label";
 import { Textarea } from "@good-dog/ui/textarea";
+
+import ErrorExclamation from "../svg/ErrorExclamation";
 
 interface TextInputProps {
   label: string;
@@ -25,18 +27,18 @@ export default function TextInput({
   errorText,
 }: TextInputProps) {
   return (
-    <div className="w-full flex flex-col gap-[4px]">
+    <div className="flex w-full flex-col gap-[4px]">
       <div className="flex flex-row gap-[2px]">
-        <Label htmlFor={id} className="text-body3 text-[#171717] font-normal">
+        <Label htmlFor={id} className="text-body3 font-normal text-[#171717]">
           {label}
         </Label>
         {required && (
-          <Label className="text-body3 text-required-star font-normal">*</Label>
+          <Label className="text-body3 font-normal text-required-star">*</Label>
         )}
       </div>
       <Textarea
         className={clsx(
-          "w-full h-[80px] pl-[8px] text-body3 text-body-primary rounded-[8px] border-[#858585]",
+          "h-[80px] w-full rounded-[8px] border-[#858585] pl-[8px] text-body3 text-body-primary",
           "placeholder:text-[#ADADAD]",
           "hover:border-[#404040]",
           "focus:border-[#098465] focus:shadow-active focus:outline-none",
@@ -53,7 +55,7 @@ export default function TextInput({
         <Label className="text-caption text-[#171717]">{helperText}</Label>
       )}
       {errorText && (
-        <div className="flex flex-row gap-[2px] items-center">
+        <div className="flex flex-row items-center gap-[2px]">
           <ErrorExclamation size="small" />
           <Label className="text-caption text-error">{errorText}</Label>
         </div>
