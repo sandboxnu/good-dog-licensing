@@ -68,7 +68,7 @@
     --green-700: #021913;
 
     --yellow-500-yellow-100: var(--yellow-500);
-    --grass-green-500-grass-green-50: var(--grass-green-500-grass-green-50):
+    --grass-green-500-grass-green-50: var(--grass-green-500):
       var(--grass-green-500);
     --red-400-red-50: var(--red-400);
     @media (prefers-color-scheme: dark) {
