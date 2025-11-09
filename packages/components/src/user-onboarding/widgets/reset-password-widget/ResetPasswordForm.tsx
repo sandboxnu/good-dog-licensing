@@ -5,12 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
+import Button from "@good-dog/components/base/Button";
 import { trpc } from "@good-dog/trpc/client";
 import { zResetPasswordValues } from "@good-dog/trpc/schema";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import Button from "@good-dog/components/base/Button";
-import PasswordRequirements from "../components/PasswordRequirements";
+
 import Modal from "../../../base/Modal";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
+import PasswordRequirements from "../components/PasswordRequirements";
 
 type FormValues = z.input<typeof zResetPasswordValues>;
 
@@ -60,7 +61,7 @@ export default function ResetPasswordForm() {
           </span>
         </div>
       ) : null}
-      <div className="flex flex-col w-full pr-[40px]">
+      <div className="flex w-full flex-col pr-[40px]">
         <div className="flex flex-col gap-[12px]">
           <div className="gap-[8px]">
             <RHFTextInput<FormValues>
@@ -112,7 +113,7 @@ export default function ResetPasswordForm() {
         height={212}
         width={440}
         children={
-          <div className="flex flex-col gap-[16px] pt-[16px] items-center">
+          <div className="flex flex-col items-center gap-[16px] pt-[16px]">
             <p>You can now sign in with your new password</p>
             <Button
               size={"medium"}

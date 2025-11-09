@@ -1,4 +1,5 @@
 import React from "react";
+
 import CloseX from "../svg/CloseX";
 
 interface ModalProps {
@@ -23,15 +24,15 @@ export default function Modal({
   if (!open) return null;
 
   return (
-    <div className={`absolute inset-0 flex items-center justify-center z-50`}>
+    <div className={`absolute inset-0 z-50 flex items-center justify-center`}>
       <div
-        className={`bg-white rounded-[16px] border border-body-primary shadow-modal`}
+        className={`rounded-[16px] border border-body-primary bg-white shadow-modal`}
         style={{
           width: `${width}px`,
           height: `${height}px`,
         }}
       >
-        <div className="pt-[24px] px-[21px] flex justify-end">
+        <div className="flex justify-end px-[21px] pt-[24px]">
           <button onClick={onClose}>
             <CloseX />
           </button>

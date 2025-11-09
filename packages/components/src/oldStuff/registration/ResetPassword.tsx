@@ -112,7 +112,7 @@ export default function ResetPasswordForm() {
           </div>
         ) : (
           <Button
-            className="mt-4 h-10 w-full rounded-full bg-good-dog-celadon px-4 py-3 text-lg text-good-dog-violet"
+            className="bg-good-dog-celadon text-good-dog-violet mt-4 h-10 w-full rounded-full px-4 py-3 text-lg"
             onClick={() => {
               router.push("/forgot-password");
             }}

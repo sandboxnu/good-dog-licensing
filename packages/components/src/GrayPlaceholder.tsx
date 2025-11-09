@@ -1,3 +1,3 @@
 export default function GrayPlaceholder() {
-  return <div className="w-full h-full bg-[#DCDDDF]" />;
+  return <div className="h-full w-full bg-[#DCDDDF]" />;
 }
