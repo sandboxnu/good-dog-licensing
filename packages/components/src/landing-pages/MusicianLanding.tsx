@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import { trpc } from "@good-dog/trpc/client";
 import Card from "../base/Card";
 import Header from "./components/Header";
@@ -14,7 +15,9 @@ export default function MusicianLanding() {
     <div className="flex flex-col gap-[32px] align-start w-full">
       <Header
         title={"Song Submissions"}
-        subtitle={"This is where you view and manage your song submissions"} requestPath={"/music"}      />
+        subtitle={"This is where you view and manage your song submissions"}
+        requestPath={"/music"}
+      />
       <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
         {data.music.map((req, key) => {
           const actionNeeded = !!req.matches.find((match) => match.matchState === MatchState.SONG_REQUESTED);

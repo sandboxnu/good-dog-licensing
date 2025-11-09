@@ -1,30 +1,33 @@
 import React from "react";
 import { Role } from "@good-dog/db";
 import GeneralLanding from "@good-dog/components/landing-pages/GeneralLanding";
-import AdminLanding from "@good-dog/components/landing-pages/AdminLanding";
-
 import MediaMakerLanding from "@good-dog/components/landing-pages/MediaMakerLanding";
 import MusicianLanding from "@good-dog/components/landing-pages/MusicianLanding";
 import ModeratorLanding from "@good-dog/components/landing-pages/ModeratorLanding";
-import Header from "@good-dog/components/landing-pages/components/Header";
-import { trpc } from "@good-dog/trpc/server";
+import { HydrateClient, trpc } from "@good-dog/trpc/server";
+import AdminPage from "./admin/page";
 
 export default async function Home() {
   const user = await trpc.user();
-  
+
+  if (user?.role === Role.MUSICIAN) {
+    void trpc.music.prefetch();
+  }
+  if (user?.role === Role.MEDIA_MAKER) {
+    void trpc.mediamakerProjects.prefetch();
+  }
+
   return (
     <>
-      {user?.role === Role.MUSICIAN ? (
-        <MusicianLanding />
-      ) : user?.role === Role.MEDIA_MAKER ? (
-        <MediaMakerLanding />
-      ) : user?.role === Role.MODERATOR ? (
-        <ModeratorLanding />
-      ) : user?.role === Role.ADMIN ? (
-        <AdminLanding />
-      ) : (
-        <GeneralLanding />
+      {user && (
+        <HydrateClient>
+          {user.role === Role.MUSICIAN && <MusicianLanding />}
+          {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
+          {user.role === Role.ADMIN && <AdminPage />}
+          {user.role === Role.MODERATOR && <ModeratorLanding />}
+        </HydrateClient>
       )}
+      {!user && <GeneralLanding />}
     </>
   );
 }
