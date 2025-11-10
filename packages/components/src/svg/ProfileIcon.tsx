@@ -11,9 +11,6 @@ export default function ProfileIcon({ color, size }: ProfileIconProps) {
   const user = userQuery[0];
   const letter = user?.firstName.substring(0, 1);
 
-  console.log("Hello this is the letter");
-  console.log(letter);
-
   return (
     <div className="w-full h-full relative flex items-center justify-center">
       <svg
