@@ -3,7 +3,6 @@ import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import clsx from "clsx";
 import { MultiSelect } from "@good-dog/ui/multi-select";
 
-
 interface MultiselectDropdownProps {
   label: string;
   value: string;

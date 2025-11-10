@@ -46,7 +46,7 @@ export default function StatusIndicator({
         ) : (
           <></>
         )}
-        <p className={`body3`}>{text}</p>
+        <p className={`body3 ${color}`}>{text}</p>
       </div>
     </div>
   );

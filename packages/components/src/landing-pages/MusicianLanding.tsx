@@ -8,51 +8,64 @@ import People from "../svg/People";
 import MusicNote from "../svg/MusicNote";
 import StatusIndicator from "../base/StatusIndicator";
 import { MatchState } from "@good-dog/db";
+import EmptyMessage from "./components/EmptyMessage";
+import EmptyMusicNote from "../svg/homepage/EmptyMusicNote";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
   return (
     <div className="flex flex-col gap-[32px] align-start w-full">
       <Header
-        title={"Song Submissions"}
+        title={"Song submissions"}
         subtitle={"This is where you view and manage your song submissions"}
         requestPath={"/music-submission"}
       />
-      <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
-        {data.music.map((req, key) => {
-          const actionNeeded = !!req.matches.find(
-            (match) => match.matchState === MatchState.SONG_REQUESTED,
-          );
-          return (
-            <Card
-              title={req.songName}
-              subheader={req.createdAt.toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-              children={
-                <div className="flex flex-col h-full gap-[24px]">
-                  <div>
-                    <Line text={req.performerName} icon={<People />} />
-                    <Line text={req.genre} icon={<MusicNote />} />
-                  </div>
+      {data.music.length === 0 && (
+        <EmptyMessage
+          title={"Find songs submissions here"}
+          description={
+            "Once you submit a song, you can track its status, view details, and manage all your songs here."
+          }
+          icon={<EmptyMusicNote />}
+        />
+      )}
+      {data.music.length > 0 && (
+        <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
+          {data.music.map((req, key) => {
+            const actionNeeded = !!req.matches.find(
+              (match) => match.matchState === MatchState.SONG_REQUESTED,
+            );
+            return (
+              <Card
+                title={req.songName}
+                subheader={req.createdAt.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+                children={
+                  <div className="flex flex-col h-full gap-[24px]">
+                    <div className="flex flex-col gap-[8px]">
+                      <Line text={req.performerName} icon={<People />} />
+                      <Line text={req.genre} icon={<MusicNote />} />
+                    </div>
 
-                  {/* absolutely position the indicator 24px from the bottom */}
-                  <div className="absolute bottom-[24px]">
-                    <StatusIndicator
-                      variant={actionNeeded ? "error" : "success"}
-                      text={actionNeeded ? "Action needed" : "Song submitted"}
-                    />
+                    {/* absolutely position the indicator 24px from the bottom */}
+                    <div className="absolute bottom-[24px]">
+                      <StatusIndicator
+                        variant={actionNeeded ? "error" : "success"}
+                        text={actionNeeded ? "Action needed" : "Song submitted"}
+                      />
+                    </div>
                   </div>
-                </div>
-              }
-              size="small"
-              key={key}
-            />
-          );
-        })}
-      </div>
+                }
+                size="small"
+                key={key}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
