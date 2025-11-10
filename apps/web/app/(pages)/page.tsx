@@ -28,16 +28,16 @@ export default function Home() {
             <div className="flex flex-col gap-[64px]">
               <div className="flex flex-col gap-[24px] text-body-primary">
                 <p className="text-body1 leading-normal">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco{" "}
+                  {
+                    "Northeastern University's student-run music synchronization service"
+                  }
                 </p>
 
                 <div className="flex justify-center gap-4">
                   <Button
                     size="large-text"
                     className="bg-good-dog-main text-off-white shadow-button"
-                    onClick={() => router.push("/login")}
+                    onClick={() => router.push("/signup")}
                   >
                     Get started
                   </Button>
@@ -73,20 +73,24 @@ function LearnMoreAboutRoles() {
         </p>
       </div>
       <div className="overflow-wrap flex flex-row gap-[48px]">
-        <VerticalDescriptionSection
-          title="Become a Media Maker"
-          text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
-          link={() => router.push("/signup/media-maker")}
-          linkText="Sign up as a media maker →"
-          image={<WomanInComputer />}
-        />
-        <VerticalDescriptionSection
-          title="Become a Musician"
-          text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
-          link={() => router.push("/signup/musician")}
-          linkText="Sign up as a musician →"
-          image={<ManWithSax />}
-        />
+        <div className="w-1/2">
+          <VerticalDescriptionSection
+            title="Become a Media Maker"
+            text="Submit a description of your project and the type of music you’re looking for. Good Dog takes care of everything and at no cost to you. Tell us what you need, we will source the music for you, and utilize our original licensing agreement."
+            link={() => router.push("/signup/media-maker")}
+            linkText="Sign up as a media maker →"
+            image={<WomanInComputer />}
+          />
+        </div>
+        <div className="w-1/2">
+          <VerticalDescriptionSection
+            title="Become a Musician"
+            text="Submit your music to our extensive catalog – we’re open to all genres and styles. You’ll be notified when media makers want to place your music in their projects! You can say no to any synch placement-but you should say “Yes!” GDL will never license your music without your permission."
+            link={() => router.push("/signup/musician")}
+            linkText="Sign up as a musician →"
+            image={<ManWithSax />}
+          />
+        </div>
       </div>
       <DescriptionSection
         order="text-left"
@@ -103,7 +107,7 @@ function LearnMoreAboutRoles() {
       <DescriptionSection
         order="text-left"
         title="Our partners"
-        text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups."
+        text="GDL is currently working directly with media producers and independent musicians to license music into media projects. Sandbox, Northeastern's student-led software consultancy, is developing an enterprise application so GDL can grow into a large-scale music licensing solution for creatives."
         image={<MusicStudio />}
       />
     </div>
@@ -150,7 +154,7 @@ export function VerticalDescriptionSection({
   image: ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-[24px] text-center">
+    <div className="flex flex-col items-center justify-center gap-[24px] text-justify">
       {image}
       <h2>{title}</h2>
       <p className="text-body1 leading-normal text-secondary">{text}</p>

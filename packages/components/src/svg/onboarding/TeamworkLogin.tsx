@@ -1,4 +1,4 @@
-export default function Teamwork() {
+export default function TeamworkLogin() {
   return (
     <svg
       width="448"

@@ -16,6 +16,7 @@ import GrayPlaceholder from "../../../GrayPlaceholder";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/ErrorExclamation";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
+import TeamworkLogin from "../../../svg/onboarding/TeamworkLogin";
 
 type LoginFormFields = z.input<typeof zSignInValues>;
 
@@ -117,8 +118,8 @@ export default function LoginWidget() {
           </form>
         </FormProvider>
       </div>
-      <div className="h-full w-1/2">
-        <GrayPlaceholder />
+      <div className="flex h-full w-1/2 items-center justify-center">
+        <TeamworkLogin />
       </div>
     </UserOnboardingWidgetContainer>
   );
