@@ -17,9 +17,9 @@ export const publicPagePermissions = new GoodDogPermissionsFactory({
 export const adminPagePermissions = superUserPermissions;
 
 export const projectAndRepertoirePagePermissions = adminPagePermissions.extend({
-  read: [Role.MODERATOR, Role.MUSICIAN],
-  modify: [Role.MODERATOR, Role.MUSICIAN],
-  submit: [Role.MODERATOR, Role.MUSICIAN],
+  read: [Role.MODERATOR],
+  modify: [Role.MODERATOR],
+  submit: [Role.MODERATOR],
 });
 
 export const mediaMakerOnlyPermissions =
