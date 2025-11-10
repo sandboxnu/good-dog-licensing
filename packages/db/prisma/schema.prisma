@@ -123,6 +123,20 @@ model MusicSubmission {
   contributors   MusicContributor[]
 }
 
+enum Genre {
+  ROCK
+  POP
+  HIP_HOP
+  JAZZ
+  CLASSICAL
+  ELECTRONIC
+  COUNTRY
+  REGGAE
+  BLUES
+  FOLK
+  OTHER
+}
+
 enum MusicRole {
   VOCALIST
   INSTRUMENTALIST

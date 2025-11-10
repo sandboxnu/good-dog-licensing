@@ -8,7 +8,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, ...props }, ref) => {
     return (
       <textarea
-        className={cn("border border-input", className)}
+        className={cn("border-input border", className)}
         ref={ref}
         {...props}
       />

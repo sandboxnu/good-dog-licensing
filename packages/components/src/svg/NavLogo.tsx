@@ -13,7 +13,7 @@ export default function NavLogo({ size = 34 }: NavLogProps) {
         width={size}
         height={size}
         viewBox="0 0 34 34"
-        fill="#07634C"
+        fill="none"
       >
         <circle cx="17" cy="17" r="17" fill="good-dog-main" />
       </svg>

@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+
 import { trpc } from "@good-dog/trpc/client";
+
 import NavLogo from "./svg/NavLogo";
 
 export default function Nav() {
@@ -13,39 +15,37 @@ export default function Nav() {
   });
 
   return (
-    <header className="w-full">
+    <header className="w-full text-good-dog-main">
       <div className="flex items-center justify-between bg-transparent">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />
-          <p className="font-righteous text-2xl text-good-dog-main">
-            GOOD DOG LICENSING
-          </p>
+          <p className="font-righteous text-2xl">GOOD DOG LICENSING</p>
         </Link>
 
-        <nav className="flex items-center gap-8 text-lg text-secondary">
-          <Link href="/" className="hover:underline underline-offset-4">
+        <nav className="flex items-center gap-8 text-lg">
+          <Link href="/" className="underline-offset-4 hover:underline">
             Home
           </Link>
-          <Link href="/about" className="hover:underline underline-offset-4">
+          <Link href="/about" className="underline-offset-4 hover:underline">
             About
           </Link>
           {user ? (
             <>
               <Link
                 href="/dashboard"
-                className="transition hover:underline underline-offset-4"
+                className="underline-offset-4 transition hover:underline"
               >
                 Account
               </Link>
               <button
                 onClick={() => signOutMutation.mutate()}
-                className="hover:underline underline-offset-4"
+                className="underline-offset-4 hover:underline"
               >
                 Logout
               </button>
             </>
           ) : (
-            <Link href="/login" className="hover:underline underline-offset-4">
+            <Link href="/login" className="underline-offset-4 hover:underline">
               Login
             </Link>
           )}

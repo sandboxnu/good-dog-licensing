@@ -50,19 +50,9 @@ export default function MusicSubmissionWidget() {
     }
   };
 
-  const handleSubmit = async () => {
-    const ContributorsInfoIsValid = await formMethods.trigger([
-      "contributors",
-      "submitterRoles",
-      "submitterAffiliation",
-      "submitterIpi",
-    ]);
-    if (ContributorsInfoIsValid) {
-      submitMusicMutation.mutate(formMethods.getValues());
-    } else {
-      console.log("Not valid");
-    }
-  };
+  const handleSubmit = formMethods.handleSubmit((data) => {
+    submitMusicMutation.mutate(data);
+  });
 
   const handleBack = () => {
     setStep(SubmissionStep.INITIAL);

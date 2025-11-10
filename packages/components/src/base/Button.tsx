@@ -1,6 +1,8 @@
-import { Button as ButtonShad } from "@good-dog/ui/button";
-import AddIcon from "../svg/AddIcon";
 import { ChevronUp } from "lucide-react";
+
+import { Button as ButtonShad } from "@good-dog/ui/button";
+
+import AddIcon from "../svg/AddIcon";
 
 interface ButtonProps {
   label?: string;
@@ -49,7 +51,7 @@ export default function Button({
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName}`}
     >
-      <div className="flex flex-row gap-[8px] items-center justify-center">
+      <div className="flex flex-row items-center justify-center gap-[8px]">
         {displayIcon && displayIcon === "plus" && (
           <AddIcon
             color={variant === "contained" ? "light" : "dark"}

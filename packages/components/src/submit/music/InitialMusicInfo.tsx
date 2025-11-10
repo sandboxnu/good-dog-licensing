@@ -7,6 +7,7 @@ import RHFTextArea from "../../rhf-base/RHFTextArea";
 import Button from "../../base/Button";
 import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
 import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
+import { Genre } from "@good-dog/db";
 
 interface InitialMusicInfoProps {
   onNext: () => void;
@@ -38,17 +39,17 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
   };
 
   const genres = [
-    { label: "Rock", value: "rock" },
-    { label: "Pop", value: "pop" },
-    { label: "Hip Hop", value: "hip_hop" },
-    { label: "Jazz", value: "jazz" },
-    { label: "Classical", value: "classical" },
-    { label: "Electronic", value: "electronic" },
-    { label: "Country", value: "country" },
-    { label: "Reggae", value: "reggae" },
-    { label: "Blues", value: "blues" },
-    { label: "Folk", value: "folk" },
-    { label: "Other", value: "other" },
+    { label: "Rock", value: Genre.ROCK },
+    { label: "Pop", value: Genre.POP },
+    { label: "Hip Hop", value: Genre.HIP_HOP },
+    { label: "Jazz", value: Genre.JAZZ },
+    { label: "Classical", value: Genre.CLASSICAL },
+    { label: "Electronic", value: Genre.ELECTRONIC },
+    { label: "Country", value: Genre.COUNTRY },
+    { label: "Reggae", value: Genre.REGGAE },
+    { label: "Blues", value: Genre.BLUES },
+    { label: "Folk", value: Genre.FOLK },
+    { label: "Other", value: Genre.OTHER },
   ];
 
   return (

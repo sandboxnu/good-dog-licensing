@@ -10,8 +10,8 @@ export default function ProjectSubmissionHeader({
   step,
 }: ProjectSubmissionHeaderProps) {
   return (
-    <div className="w-full text-black border-[.5px] bg-white py-6 px-10 gap-6 flex flex-col border-black rounded-2xl">
-      <p className="text-5xl font-medium">Project submission form</p>
+    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
+      <p className="text-5xl font-medium">Song request form</p>
       {step != SubmissionStep.SUBMITTED && (
         <div>
           <p className="text-lg font-medium">
@@ -19,7 +19,7 @@ export default function ProjectSubmissionHeader({
             our curators will get back to you with suitable music from our
             library. The more specific you are, the better we can assist!
           </p>
-          <p className="text-required-star font-semibold">
+          <p className="font-semibold text-required-star">
             * Indicates a required question.
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function ProjectSubmissionHeader({
             Your response has been recorded!
           </p>
           <a
-            className="text-secondary font-semibold hover:underline"
+            className="font-semibold text-secondary hover:underline"
             href="/project-submission"
           >
             Submit another project submission form

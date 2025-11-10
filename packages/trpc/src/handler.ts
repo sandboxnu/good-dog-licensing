@@ -11,10 +11,4 @@ export default (req: Request) =>
     req,
     router: appRouter,
     createContext: createTRPCContext,
-    onError: ({ path, error }) => {
-      console.error(`❌ tRPC failed on ${path ?? "<no-path>"}:`, error.message);
-      // Log the full error in development
-
-      console.error("Full error:", error);
-    },
   });

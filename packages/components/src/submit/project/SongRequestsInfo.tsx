@@ -1,11 +1,13 @@
 "use client";
 
-import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
-import { useFieldArray, useFormContext } from "react-hook-form";
 import type z from "zod";
-import RHFTextInput from "../../rhf-base/RHFTextInput";
-import RHFTextArea from "../../rhf-base/RHFTextArea";
+import { useFieldArray, useFormContext } from "react-hook-form";
+
+import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
+
 import Button from "../../base/Button";
+import RHFTextArea from "../../rhf-base/RHFTextArea";
+import RHFTextInput from "../../rhf-base/RHFTextInput";
 import Trash from "../../svg/TrashIcon";
 
 interface SongRequestsInfoProps {
@@ -30,7 +32,7 @@ export default function SongRequestsInfo({
   });
   return (
     <form
-      className="flex flex-col gap-8 w-full"
+      className="flex w-full flex-col gap-8"
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit();
@@ -41,10 +43,10 @@ export default function SongRequestsInfo({
         return (
           <div
             key={compoundKey}
-            className="w-full text-black border-[.5px] bg-white p-10 gap-6 flex flex-col border-black rounded-2xl"
+            className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black"
           >
-            <div className="flex flex-row justify-between items-center">
-              <p className="font-semibold text-xl">Song request #{index + 1}</p>
+            <div className="flex flex-row items-center justify-between">
+              <p className="text-xl font-semibold">Song request #{index + 1}</p>
               {fields.length > 1 && (
                 <button type="button" onClick={() => remove(index)}>
                   <Trash />

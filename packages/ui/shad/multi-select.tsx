@@ -13,23 +13,24 @@ import {
   CommandList,
 } from "@good-dog/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@good-dog/ui/popover";
+
 import X from "./X";
 
 const multiSelectVariants = cva(
-  "flex flex-row gap-1 text-body3 my-0.5 border-[1px] h-6",
+  "my-0.5 flex h-6 flex-row gap-1 border-[1px] text-body3",
   {
     variants: {
       variant: {
         standard:
-          "!text-good-dog-main bg-[#D3F4E2] border-good-dog-main rounded-lg",
+          "rounded-lg border-good-dog-main bg-[#D3F4E2] !text-good-dog-main",
         hover:
-          "!text-[#D3F4E2] bg-good-dog-main border-good-dog-main rounded-lg",
-        inactive: "!text-[#5C5C5C] bg-white border-[#5C5C5C] rounded-lg",
+          "rounded-lg border-good-dog-main bg-good-dog-main !text-[#D3F4E2]",
+        inactive: "rounded-lg border-[#5C5C5C] bg-white !text-[#5C5C5C]",
         round_standard:
-          "!text-good-dog-main bg-[#D3F4E2] border-good-dog-main rounded-2xl",
+          "rounded-2xl border-good-dog-main bg-[#D3F4E2] !text-good-dog-main",
         round_hover:
-          "!text-[#D3F4E2] bg-good-dog-main border-good-dog-main rounded-2xl",
-        round_inactive: "!text-[#5C5C5C] bg-white border-[#5C5C5C] rounded-2xl",
+          "rounded-2xl border-good-dog-main bg-good-dog-main !text-[#D3F4E2]",
+        round_inactive: "rounded-2xl border-[#5C5C5C] bg-white !text-[#5C5C5C]",
       },
     },
     defaultVariants: {
@@ -116,7 +117,7 @@ export const MultiSelect = React.forwardRef<
             {...props}
             onClick={handleTogglePopover}
             className={cn(
-              "flex min-h-8 w-full items-center justify-between rounded-md border bg-white p-1 cursor-default",
+              "flex min-h-8 w-full cursor-default items-center justify-between rounded-md border bg-white p-1",
               className,
               `${isPopoverOpen ? "border-[#098465] hover:border-[#098465]" : ""}`,
               `${selectedValues.length == 0 ? "max-h-6" : ""}`,
@@ -124,7 +125,7 @@ export const MultiSelect = React.forwardRef<
           >
             {selectedValues.length > 0 ? (
               <div className="flex w-full items-center justify-between">
-                <div className="flex-1 min-w-0 flex flex-wrap gap-2 items-center">
+                <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
                   {selectedValues.slice(0, maxCount).map((value) => {
                     const option = options.find((o) => o.value === value);
                     return (
@@ -149,7 +150,7 @@ export const MultiSelect = React.forwardRef<
                     <p>{`+ ${selectedValues.length - maxCount} more`}</p>
                   )}
                 </div>
-                <div className="flex-shrink-0 ml-2">
+                <div className="ml-2 flex-shrink-0">
                   <ChevronDown
                     className={`h-4 w-4 cursor-pointer transition-all ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
                   />
@@ -157,10 +158,10 @@ export const MultiSelect = React.forwardRef<
               </div>
             ) : (
               <div className="mx-auto flex w-full items-center justify-between">
-                <span className="mx-2 text-[#ADADAD] truncate">
+                <span className="mx-2 truncate text-[#ADADAD]">
                   {placeholder}
                 </span>
-                <div className="flex-shrink-0 ml-2">
+                <div className="ml-2 flex-shrink-0">
                   <ChevronDown
                     className={`h-4 w-4 cursor-pointer transition-all ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
                   />
@@ -170,7 +171,7 @@ export const MultiSelect = React.forwardRef<
           </button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto min-w-[var(--radix-popover-trigger-width)] p-0 bg-white border-[1px] border-light-green"
+          className="w-auto min-w-[var(--radix-popover-trigger-width)] border-[1px] border-light-green bg-white p-0"
           align="start"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
@@ -184,7 +185,7 @@ export const MultiSelect = React.forwardRef<
                     <CommandItem
                       key={option.value}
                       onSelect={() => toggleOption(option.value)}
-                      className="cursor-pointer hover:bg-[#E9F9F1] rounded-lg"
+                      className="cursor-pointer rounded-lg hover:bg-[#E9F9F1]"
                     >
                       <div
                         className={cn(
@@ -194,7 +195,7 @@ export const MultiSelect = React.forwardRef<
                             : "opacity-50 [&_svg]:invisible",
                         )}
                       >
-                        <CheckIcon className="h-4 w-4 bg-dark-green text-white rounded-[4px]" />
+                        <CheckIcon className="h-4 w-4 rounded-[4px] bg-dark-green text-white" />
                       </div>
                       <span>{option.label}</span>
                     </CommandItem>

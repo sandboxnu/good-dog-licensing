@@ -11,6 +11,7 @@ import RHFRadioGroup from "../../rhf-base/RHFRadioGroup";
 import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
 import RadioGroup from "../../base/RadioGroup";
 import { trpc } from "@good-dog/trpc/client";
+import { MusicAffiliation, MusicRole } from "@good-dog/db";
 
 interface ContributorsInfoProps {
   onSubmit: () => void;
@@ -24,17 +25,17 @@ export default function ContributorsInfo({
   onBack,
 }: ContributorsInfoProps) {
   const roleOptions = [
-    { label: "Vocalist", value: "VOCALIST" },
-    { label: "Instrumentalist", value: "INSTRUMENTALIST" },
-    { label: "Producer", value: "PRODUCER" },
-    { label: "Songwriter", value: "SONGWRITER" },
-    { label: "Lyricist", value: "LYRICIST" },
+    { label: "Vocalist", value: MusicRole.VOCALIST },
+    { label: "Instrumentalist", value: MusicRole.INSTRUMENTALIST },
+    { label: "Producer", value: MusicRole.PRODUCER },
+    { label: "Songwriter", value: MusicRole.SONGWRITER },
+    { label: "Lyricist", value: MusicRole.LYRICIST },
   ];
 
   const affiliationOptions = [
-    { label: "ASCAP", value: "ASCAP" },
-    { label: "BMI", value: "BMI" },
-    { label: "Neither", value: "NONE" },
+    { label: "ASCAP", value: MusicAffiliation.ASCAP },
+    { label: "BMI", value: MusicAffiliation.BMI },
+    { label: "Neither", value: MusicAffiliation.NONE },
   ];
 
   const {
@@ -141,8 +142,6 @@ export default function ContributorsInfo({
     index: number,
   ) => {
     const prefill = getOtherContributorPrefillInfo(firstName, lastName);
-
-    console.log("handlePrefill", prefill);
 
     setValue(
       `contributors.${index}.affiliation`,
