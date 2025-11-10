@@ -1,7 +1,4 @@
-import {
-  musicianOnlyPermissions,
-  projectAndRepertoirePagePermissions,
-} from "@good-dog/auth/permissions";
+import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 

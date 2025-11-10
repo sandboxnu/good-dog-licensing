@@ -16,7 +16,7 @@ export default function MusicianLanding() {
       <Header
         title={"Song Submissions"}
         subtitle={"This is where you view and manage your song submissions"}
-        requestPath={"/music"}
+        requestPath={"/music-submission"}
       />
       <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
         {data.music.map((req, key) => {
@@ -32,18 +32,22 @@ export default function MusicianLanding() {
                 day: "numeric",
               })}
               children={
-                <div className="flex flex-col pt-[16px] gap-[24px]">
+                <div className="flex flex-col h-full gap-[24px]">
                   <div>
                     <Line text={req.performerName} icon={<People />} />
                     <Line text={req.genre} icon={<MusicNote />} />
                   </div>
-                  <StatusIndicator
-                    variant={actionNeeded ? "error" : "success"}
-                    text={actionNeeded ? "Action needed" : "Song submitted"}
-                  />
+
+                  {/* absolutely position the indicator 24px from the bottom */}
+                  <div className="absolute bottom-[24px]">
+                    <StatusIndicator
+                      variant={actionNeeded ? "error" : "success"}
+                      text={actionNeeded ? "Action needed" : "Song submitted"}
+                    />
+                  </div>
                 </div>
               }
-              size={"small"}
+              size="small"
               key={key}
             />
           );

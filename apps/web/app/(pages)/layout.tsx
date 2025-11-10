@@ -15,7 +15,7 @@ export default function Layout({
     <HydrateClient>
       <ClientWrapper>
         <div className="flex flex-col items-center justify-center min-h-screen bg-custom-gradient">
-          <div className="px-[228px] min-w-[1250px] max-w-[1500px] w-full flex flex-col justify-center items-center">
+          <div className="px-[228px] min-h-screen min-w-[1250px] max-w-[1500px] w-full flex flex-col items-center">
             <Nav />
             {children}
           </div>

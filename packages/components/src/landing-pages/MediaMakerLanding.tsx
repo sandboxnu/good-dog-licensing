@@ -63,14 +63,16 @@ export default function MediaMakerLanding() {
                 day: "numeric",
               })}
               children={
-                <div className="flex flex-col pt-[16px] gap-[24px]">
-                  <p className="body3 text-dark-gray-100 dark:text-dark-gray-100 overflow-hidden text-base font-normal leading-tight break-words line-clamp-[2]">
+                <div className="flex flex-col h-full gap-[24px]">
+                  <p className="body3 text-dark-gray-100 dark:text-dark-gray-100 text-base font-normal leading-tight break-words line-clamp-[3]">
                     {req.description}
                   </p>
-                  <StatusIndicator
-                    variant={indicator.variant}
-                    text={indicator.text}
-                  />
+                  <div className="absolute bottom-[24px]">
+                    <StatusIndicator
+                      variant={indicator.variant}
+                      text={indicator.text}
+                    />
+                  </div>
                 </div>
               }
               key={key}
