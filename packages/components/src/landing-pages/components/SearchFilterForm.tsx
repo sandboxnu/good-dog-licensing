@@ -3,7 +3,7 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zSearchTermValues } from "@good-dog/trpc/schema";
-import { z } from "zod";
+import type { z } from "zod";
 import SearchBar from "../../base/SearchBar";
 import RHFSingleDropdown from "../../base/SingleDropdown";
 import Button from "../../base/Button";
@@ -27,7 +27,10 @@ export default function SearchFilterForm() {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-row gap-[16px] items-center">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-row gap-[16px] items-center"
+      >
         <SearchBar />
         <RHFSingleDropdown
           label=""

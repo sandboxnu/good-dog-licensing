@@ -55,7 +55,7 @@ export default function RHFSingleDropdown({
   } = useFormContext();
 
   const value = watch(rhfName);
-  const errorText = errors?.[rhfName]?.message as string | undefined;
+  const errorText = errors[rhfName]?.message as string | undefined;
 
   return (
     <div className="w-full flex flex-col gap-[4px]">
@@ -70,7 +70,9 @@ export default function RHFSingleDropdown({
 
       <Select
         value={value ?? ""}
-        onValueChange={(val) => setValue(rhfName, val, { shouldValidate: true })}
+        onValueChange={(val) =>
+          setValue(rhfName, val, { shouldValidate: true })
+        }
       >
         <SelectTrigger
           id={id}
@@ -78,7 +80,7 @@ export default function RHFSingleDropdown({
             "w-[180px] bg-gray-100 border-dark-gray-200 h-[32px] rounded-lg",
             {
               "!border-error !shadow-error": errorText,
-            }
+            },
           )}
         >
           <SelectValue placeholder={placeholder} />

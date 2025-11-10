@@ -1,18 +1,11 @@
-"use client"
-import { Search } from "lucide-react";
-import SearchBar from "../../base/SearchBar";
+"use client";
 import Button from "../../base/Button";
-import MultiselectDropdown from "../../base/MultiselectDropdown";
-import SingleDropdown from "../../base/SingleDropdown";
 import { useRouter } from "next/navigation";
-import SearchFilterForm from "./SearchFilterForm";
-
 
 export default function Header({
   title,
   subtitle,
   requestPath,
-
 }: {
   title: string;
   subtitle: string;
@@ -27,8 +20,13 @@ export default function Header({
         <p className="text-body3">{subtitle}</p>
       </div>
       <div className="flex flex-row gap-[16px] items-center">
-        <SearchFilterForm/>
-        <Button onClick={() => router.push(requestPath)} size={"medium"} variant={"contained"} label={"Request"} displayIcon={"plus"}/>
+        <Button
+          onClick={() => router.push(requestPath)}
+          size={"medium"}
+          variant={"contained"}
+          label={"Request"}
+          displayIcon={"plus"}
+        />
       </div>
     </div>
   );

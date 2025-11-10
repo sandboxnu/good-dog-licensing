@@ -11,10 +11,10 @@ export default async function Home() {
   const user = await trpc.user();
 
   if (user?.role === Role.MUSICIAN) {
-    void trpc.music.prefetch();
+    void trpc.userMusic.prefetch();
   }
   if (user?.role === Role.MEDIA_MAKER) {
-    void trpc.mediamakerProjects.prefetch();
+    void trpc.mediamakerProjectsWithData.prefetch();
   }
 
   return (

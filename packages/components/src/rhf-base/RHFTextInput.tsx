@@ -1,7 +1,7 @@
 import type { FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import TextInput from "../base/TextInput";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface RHFTextInputProps<TFieldValues extends FieldValues> {
   rhfName: Path<TFieldValues>;

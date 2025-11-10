@@ -53,5 +53,5 @@ export const zResetPasswordValues = z
 
 export const zSearchTermValues = z.object({
   searchTerm: z.string(),
-  filter: z.string()
+  filter: z.string(),
 });

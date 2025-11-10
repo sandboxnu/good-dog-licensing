@@ -1,12 +1,13 @@
 import Check from "../svg/status-icons/Check";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import ClockFull from "../svg/status-icons/ClockFull";
+import Hourglass from "../svg/status-icons/Hourglass";
 
 export default function StatusIndicator({
   variant,
   text,
 }: {
-  variant: "success" | "error" | "warning" | "gray";
+  variant: "success" | "error" | "warning" | "gray" | "blue";
   text: string;
 }) {
   let color = "";
@@ -25,6 +26,8 @@ export default function StatusIndicator({
     case "gray":
       color = "bg-gray-400 text-gray-600";
       break;
+    case "blue":
+      color = "bg-blue-50 text-blue-500 dark:bg-blue-300 dark:text-blue-50";
   }
 
   return (
@@ -38,6 +41,8 @@ export default function StatusIndicator({
           <ErrorExclamation />
         ) : variant === "warning" ? (
           <ClockFull />
+        ) : variant === "blue" ? (
+          <Hourglass />
         ) : (
           <></>
         )}

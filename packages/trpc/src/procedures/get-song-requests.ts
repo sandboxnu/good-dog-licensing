@@ -113,12 +113,29 @@ export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
     where: {
       projectOwnerId: ctx.session.user.userId,
     },
-    include: {
-      
-    },
+    include: {},
   });
   return { projects };
 });
+
+export const mediamakerProjectsWithDataProcedure =
+  rolePermissionsProcedureBuilder(mediaMakerOnlyPermissions, "read").query(
+    async ({ ctx }) => {
+      const projects = await ctx.prisma.projectSubmission.findMany({
+        where: {
+          projectOwnerId: ctx.session.user.userId,
+        },
+        include: {
+          songRequests: {
+            include: {
+              matches: true,
+            },
+          },
+        },
+      });
+      return { projects };
+    },
+  );
 
 //gets all of the song requests belonging to a project for a mediamaker
 export const mediamakerSongRequestsProcedure = rolePermissionsProcedureBuilder(

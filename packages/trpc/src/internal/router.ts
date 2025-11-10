@@ -20,6 +20,7 @@ import {
   getProjectSongRequestsProcedure,
   getUserSongRequestsProcedure,
   mediamakerProjectsProcedure,
+  mediamakerProjectsWithDataProcedure,
   mediamakerSongRequestsProcedure,
   songRequestProcedure,
 } from "../procedures/get-song-requests";
@@ -52,6 +53,7 @@ export const appRouter = createTRPCRouter({
   adminData: getAdminViewProcedure,
   projects: getProjectSongRequestsProcedure,
   mediamakerProjects: mediamakerProjectsProcedure,
+  mediamakerProjectsWithData: mediamakerProjectsWithDataProcedure,
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
   userProjects: getUserSongRequestsProcedure,
