@@ -10,11 +10,11 @@ import { zSignUpValues } from "@good-dog/trpc/schema";
 
 import Camera from "../../../svg/onboarding/media-maker/Camera";
 import MusicianOnRecord from "../../../svg/onboarding/musician/MusicianOnRecord";
+import SignupIdea from "../../../svg/onboarding/SignupIdea";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import EmailCodeModal from "./EmailCodeModal";
 import FinalSignUpInfo from "./FinalSignUpInfo";
 import InitialSignUpInfo from "./InitialSignUpInfo";
-import SignupIdea from "../../../svg/onboarding/SignupIdea";
 
 interface SignUpWidgetProps {
   initialRole: "MUSICIAN" | "MEDIA_MAKER" | undefined;

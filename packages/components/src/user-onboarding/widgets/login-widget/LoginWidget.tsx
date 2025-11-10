@@ -12,11 +12,10 @@ import { zSignInValues } from "@good-dog/trpc/schema";
 
 import Button from "../../../base/Button";
 import Checkbox from "../../../base/Checkbox";
-import GrayPlaceholder from "../../../GrayPlaceholder";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/ErrorExclamation";
-import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import TeamworkLogin from "../../../svg/onboarding/TeamworkLogin";
+import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 
 type LoginFormFields = z.input<typeof zSignInValues>;
 
