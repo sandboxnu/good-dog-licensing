@@ -25,10 +25,11 @@ import {
   songRequestProcedure,
 } from "../procedures/get-song-requests";
 import { createMatchProcedure } from "../procedures/matches/create-match";
+import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
-import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
+import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
@@ -37,7 +38,6 @@ import { projectSubmissionProcedure } from "../procedures/project/project-submis
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
-import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,

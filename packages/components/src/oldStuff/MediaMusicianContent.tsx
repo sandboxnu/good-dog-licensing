@@ -74,14 +74,14 @@ export default function MediaMusicianContent({ creator = "MEDIA MAKERS" }) {
       > */}
       <div className="m-9">
         <h1
-          className={`font-righteous text-10xl leading-none text-good-dog-celadon`}
+          className={`text-10xl text-good-dog-celadon font-righteous leading-none`}
         >
           {creator}
         </h1>
         <p className="py-8 text-white">{creatorObj?.description}</p>
         <div className="m-12 flex items-center justify-center">
           <Link href="/submit">
-            <div className="rounded-full bg-good-dog-celadon px-4 py-1 font-righteous font-semibold text-good-dog-violet">
+            <div className="bg-good-dog-celadon text-good-dog-violet rounded-full px-4 py-1 font-righteous font-semibold">
               {creatorObj?.buttonText}
             </div>
           </Link>

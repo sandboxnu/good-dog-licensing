@@ -3,6 +3,7 @@ import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import clsx from "clsx";
 import { MultiSelect } from "@good-dog/ui/multi-select";
 
+
 interface MultiselectDropdownProps {
   label: string;
   value: string;
@@ -40,18 +41,18 @@ export default function MultiselectDropdown({
   errorText,
 }: MultiselectDropdownProps) {
   return (
-    <div className="w-full flex flex-col gap-[4px]">
+    <div className="flex w-full flex-col gap-[4px]">
       <div className="flex flex-row gap-[2px]">
-        <Label htmlFor={id} className="text-body3 text-[#171717] font-normal">
+        <Label htmlFor={id} className="text-body3 font-normal text-[#171717]">
           {label}
         </Label>
         {required && (
-          <Label className="text-body3 text-required-star font-normal">*</Label>
+          <Label className="text-body3 font-normal text-required-star">*</Label>
         )}
       </div>
       <MultiSelect
         className={clsx(
-          "w-full min-h-[32px] text-body3 text-body-primary rounded-[8px] border-[#858585] hover:border-[#404040]",
+          "min-h-[32px] w-full rounded-[8px] border-[#858585] text-body3 text-body-primary hover:border-[#404040]",
           {
             "!border-error !shadow-error": errorText,
           },
@@ -68,8 +69,8 @@ export default function MultiselectDropdown({
         <Label className="text-caption text-[#171717]">{helperText}</Label>
       )}
       {errorText && (
-        <div className="flex flex-row gap-[2px] items-center">
-          <ErrorExclamation />
+        <div className="flex flex-row items-center gap-[2px]">
+          <ErrorExclamation size="small" />
           <Label className="text-caption text-error">{errorText}</Label>
         </div>
       )}

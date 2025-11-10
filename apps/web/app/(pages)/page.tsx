@@ -5,7 +5,8 @@ import MediaMakerLanding from "@good-dog/components/landing-pages/MediaMakerLand
 import MusicianLanding from "@good-dog/components/landing-pages/MusicianLanding";
 import ModeratorLanding from "@good-dog/components/landing-pages/ModeratorLanding";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
-import AdminPage from "./admin/page";
+import AdminLanding from "@good-dog/components/landing-pages/AdminLanding";
+import PageContainer from "@good-dog/components/PageContainer";
 
 export default async function Home() {
   const user = await trpc.user();
@@ -18,16 +19,16 @@ export default async function Home() {
   }
 
   return (
-    <>
+    <PageContainer background="gradient">
       {user && (
         <HydrateClient>
           {user.role === Role.MUSICIAN && <MusicianLanding />}
           {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
-          {user.role === Role.ADMIN && <AdminPage />}
+          {user.role === Role.ADMIN && <AdminLanding />}
           {user.role === Role.MODERATOR && <ModeratorLanding />}
         </HydrateClient>
       )}
       {!user && <GeneralLanding />}
-    </>
+    </PageContainer>
   );
 }

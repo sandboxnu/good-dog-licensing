@@ -12,7 +12,7 @@ const Input = React.forwardRef<
     return (
       <input
         type={type}
-        className={cn("border border-input", className)}
+        className={cn("border-input border", className)}
         ref={ref}
         {...props}
       />

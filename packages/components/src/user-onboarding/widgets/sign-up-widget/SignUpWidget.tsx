@@ -1,62 +1,73 @@
 "use client";
 
-import { FormProvider, useForm } from "react-hook-form";
-import InitialSignUpInfo from "./InitialSignUpInfo";
 import type z from "zod";
-import { zSignUpValues } from "@good-dog/trpc/schema";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import GrayPlaceholder from "../../../GrayPlaceholder";
-import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
+import { FormProvider, useForm } from "react-hook-form";
+
 import { trpc } from "@good-dog/trpc/client";
-import { useState } from "react";
+import { zSignUpValues } from "@good-dog/trpc/schema";
+
+import Camera from "../../../svg/onboarding/media-maker/Camera";
+import MusicianOnRecord from "../../../svg/onboarding/musician/MusicianOnRecord";
+import SignupIdea from "../../../svg/onboarding/SignupIdea";
+import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import EmailCodeModal from "./EmailCodeModal";
 import FinalSignUpInfo from "./FinalSignUpInfo";
+import InitialSignUpInfo from "./InitialSignUpInfo";
 
 interface SignUpWidgetProps {
-  role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
+  initialRole: "MUSICIAN" | "MEDIA_MAKER" | undefined;
+  onRoleChange: (newRole: "MUSICIAN" | "MEDIA_MAKER" | undefined) => void;
 }
 
 type SignUpFormFields = z.input<typeof zSignUpValues>;
 
-export default function SignUpWidget({ role }: SignUpWidgetProps) {
+export default function SignUpWidget({
+  initialRole,
+  onRoleChange,
+}: SignUpWidgetProps) {
   const formMethods = useForm<SignUpFormFields>({
     resolver: zodResolver(zSignUpValues),
     defaultValues: {
-      role,
-      referral: "FRIEND",
-      phoneNumber: "1234567890",
+      role: initialRole,
     },
   });
 
+  const role = formMethods.watch("role");
+
+  useEffect(() => {
+    onRoleChange(role);
+  }, [role, onRoleChange]);
+
   const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false);
   const [step, setStep] = useState(1);
+  const [emailCodeError, setEmailCodeError] = useState(false);
 
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: () => {
       setDisplayEmailCodeModal(true);
-    },
-    onError: (err) => {
-      // TODO: Alert toast to the user that there was an error
-      console.error(err);
     },
   });
 
   const verifyEmailCodeMutation = trpc.verifyEmailCode.useMutation({
     onSuccess: () => {
       setDisplayEmailCodeModal(false);
+      setEmailCodeError(false);
       setStep(2);
     },
-    onError: (err) => {
-      console.error(err);
+    onError: () => {
+      setEmailCodeError(true);
     },
   });
 
   const signUpMutation = trpc.signUp.useMutation({
-    onSuccess: () => {
-      window.location.href = "/";
-    },
-    onError: (err) => {
-      console.error(err);
+    onSuccess: (data) => {
+      if (data.status === "RESENT") {
+        setDisplayEmailCodeModal(true);
+      } else {
+        window.location.href = "/";
+      }
     },
   });
 
@@ -69,6 +80,7 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
   };
 
   const handleVerifyEmail = async () => {
+    sendEmailVerificationMutation.reset();
     const initialSignUpInfoIsValid = await formMethods.trigger([
       "firstName",
       "lastName",
@@ -93,19 +105,44 @@ export default function SignUpWidget({ role }: SignUpWidgetProps) {
         close={() => setDisplayEmailCodeModal(false)}
         email={formMethods.watch("email")}
         verifyCode={verifyEmailCode}
+        resendEmail={handleVerifyEmail}
+        codeIsWrong={emailCodeError}
       />
-      <div className="w-1/2 flex flex-col justify-center h-full">
+      <div className="flex h-full w-1/2 flex-col justify-center">
         <FormProvider {...formMethods}>
           {step === 1 && (
-            <InitialSignUpInfo role={role} onVerifyEmail={handleVerifyEmail} />
+            <InitialSignUpInfo
+              role={role}
+              onVerifyEmail={handleVerifyEmail}
+              errorMessage={
+                sendEmailVerificationMutation.error &&
+                sendEmailVerificationMutation.error.data?.code !== "CONFLICT"
+                  ? "Internal Error. Please try again."
+                  : undefined
+              }
+              emailAlreadyExists={
+                sendEmailVerificationMutation.error?.data?.code === "CONFLICT"
+              }
+            />
           )}
           {step === 2 && (
-            <FinalSignUpInfo role={role} onSubmit={handleSubmit} />
+            <FinalSignUpInfo
+              role={role}
+              onSubmit={handleSubmit}
+              errorMessage={
+                signUpMutation.error
+                  ? "Internal Error. Please try again."
+                  : undefined
+              }
+            />
           )}
         </FormProvider>
       </div>
-      <div className="w-1/2 h-full">
-        <GrayPlaceholder />
+      <div className="flex h-full w-1/2 items-center justify-center">
+        {role === "MUSICIAN" && <MusicianOnRecord />}
+        {role === "MEDIA_MAKER" && <Camera />}
+        {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+        {!role && <SignupIdea />}
       </div>
     </UserOnboardingWidgetContainer>
   );
