@@ -75,7 +75,7 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
         <RHFMultiselectDropdown<MusicSubmissionFormFields>
           rhfName="genres"
           label="Song genres"
-          placeholder="Select song genres"
+          placeholder="Select song genre(s)"
           id="genres"
           errorText={errors.genres?.message}
           options={genres}
