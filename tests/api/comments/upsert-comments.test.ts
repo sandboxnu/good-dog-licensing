@@ -8,7 +8,7 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { prisma } from "@good-dog/db";
+import { Genre, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCache } from "../../mocks/MockNextCache";
@@ -58,7 +58,7 @@ async function createData() {
       songName: "3005",
       songLink:
         "https://open.spotify.com/track/2X6b7zLdIxCejd6GqVcQ9M?si=b36f9306fab04109",
-      genres: ["hip hop"],
+      genres: [Genre.HIP_HOP],
       submitterId: musician.userId,
       performerName: "The Beatles",
     },

@@ -7,7 +7,7 @@ import {
   test,
 } from "bun:test";
 
-import { MusicAffiliation, MusicRole, prisma } from "@good-dog/db";
+import { Genre, MusicAffiliation, MusicRole, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockEmailService } from "../../mocks/MockEmailService";
@@ -105,7 +105,7 @@ describe("music-submission-procedure", () => {
     const response = await $api.submitMusic({
       songName: "Test Song",
       songLink: "https://example.com",
-      genres: ["Rock"],
+      genres: [Genre.ROCK],
       additionalInfo: "Some additional info",
       performerName: "The Beatles",
       contributors: [musicContributor1, musicContributor2, musicContributor3],
@@ -144,7 +144,7 @@ describe("music-submission-procedure", () => {
     // Verify that the music submission fields are updated correctly
     expect(musicSubmission?.songName).toEqual("Test Song");
     expect(musicSubmission?.songLink).toEqual("https://example.com");
-    expect(musicSubmission?.genres).toEqual(["Rock"]);
+    expect(musicSubmission?.genres).toEqual([Genre.ROCK]);
     expect(musicSubmission?.additionalInfo).toEqual("Some additional info");
     expect(musicSubmission?.performerName).toEqual("The Beatles");
     expect(musicSubmission?.submitterId).toEqual("musician-id-1");
@@ -176,7 +176,7 @@ describe("music-submission-procedure", () => {
     const response = await $api.submitMusic({
       songName: "Admin Test Song",
       songLink: "https://example.com/admin-song",
-      genres: ["Jazz"],
+      genres: [Genre.JAZZ],
       additionalInfo: "Admin additional info",
       performerName: "Grateful Dead",
       contributors: [],
@@ -197,7 +197,7 @@ describe("music-submission-procedure", () => {
 
     expect(musicSubmission?.songName).toEqual("Admin Test Song");
     expect(musicSubmission?.songLink).toEqual("https://example.com/admin-song");
-    expect(musicSubmission?.genres).toEqual(["Jazz"]);
+    expect(musicSubmission?.genres).toEqual([Genre.JAZZ]);
     expect(musicSubmission?.additionalInfo).toEqual("Admin additional info");
     expect(musicSubmission?.performerName).toEqual("Grateful Dead");
     expect(musicSubmission?.submitterId).toEqual("musician-id-1");
@@ -226,7 +226,7 @@ describe("music-submission-procedure", () => {
       $api.submitMusic({
         songName: "Test Song",
         songLink: "https:fakesonglink.com",
-        genres: ["R&B"],
+        genres: [Genre.HIP_HOP],
         additionalInfo: "None",
         performerName: "Anon",
         contributors: [musicContributor1],
@@ -256,7 +256,7 @@ describe("music-submission-procedure", () => {
     await $api.submitMusic({
       songName: "IPI Updates Test Song",
       songLink: "https://example.com/ipi-update",
-      genres: ["Pop"],
+      genres: [Genre.POP],
       additionalInfo: "Test update IPI",
       performerName: "Artist Test",
       contributors: [],
@@ -286,7 +286,7 @@ describe("music-submission-procedure", () => {
     await $api.submitMusic({
       songName: "IPI Updates Test Song",
       songLink: "https://example.com/ipi-update",
-      genres: ["Pop"],
+      genres: [Genre.POP],
       additionalInfo: "Test update IPI",
       performerName: "Artist Test",
       contributors: [],

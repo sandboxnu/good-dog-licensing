@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 
-import { MusicAffiliation, prisma } from "@good-dog/db";
+import { Genre, MusicAffiliation, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../../mocks/MockNextCookies";
@@ -63,7 +63,7 @@ async function createData() {
       },
       performerName: "Humpty Dumpty",
       songLink: "www.felloffthewall.com",
-      genres: ["rock"],
+      genres: [Genre.ROCK],
     },
   });
 }
@@ -115,7 +115,7 @@ async function createMoreData() {
       },
       performerName: "Humpty Dumpty",
       songLink: "www.felloffthewall.com",
-      genres: ["rock"],
+      genres: [Genre.ROCK],
     },
   });
 }

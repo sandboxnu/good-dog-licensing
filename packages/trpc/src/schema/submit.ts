@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { MusicAffiliation, MusicRole } from "@good-dog/db";
+import { Genre, MusicAffiliation, MusicRole } from "@good-dog/db";
 
 export const zProjectSubmissionValues = z.object({
   projectTitle: z.string().min(1, "Project title is required"),
@@ -60,7 +60,7 @@ export const zMusicSubmissionValues = z
   .object({
     songName: z.string().min(1, "Song name is required"),
     songLink: z.url().min(1, "Song link is required"),
-    genres: z.array(z.string()).min(1, "At least one genre is required"),
+    genres: z.array(z.enum(Genre)).min(1, "At least one genre is required"),
     additionalInfo: z.string().optional(),
     performerName: z.string().min(1, "Artist/Band name is required"),
     contributors: z.array(zMusicContributor),

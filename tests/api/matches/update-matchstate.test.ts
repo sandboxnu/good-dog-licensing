@@ -8,7 +8,7 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { MatchState, prisma } from "@good-dog/db";
+import { Genre, MatchState, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCache } from "../../mocks/MockNextCache";
@@ -79,7 +79,7 @@ async function createData() {
       musicId: "musicSubmission",
       songName: "Test Song",
       songLink: "https://open.spotify.com/track/test",
-      genres: ["hip hop"],
+      genres: [Genre.HIP_HOP],
       submitterId: musician.userId,
       performerName: "Test Artist",
     },
