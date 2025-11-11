@@ -8,6 +8,7 @@ import Button from "../../base/Button";
 import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
 import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
 import { Genre } from "@good-dog/db";
+import { getGenreLabel } from "../../../utils/enumLabelMapper";
 
 interface InitialMusicInfoProps {
   onNext: () => void;
@@ -38,19 +39,10 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
     });
   };
 
-  const genres = [
-    { label: "Rock", value: Genre.ROCK },
-    { label: "Pop", value: Genre.POP },
-    { label: "Hip Hop", value: Genre.HIP_HOP },
-    { label: "Jazz", value: Genre.JAZZ },
-    { label: "Classical", value: Genre.CLASSICAL },
-    { label: "Electronic", value: Genre.ELECTRONIC },
-    { label: "Country", value: Genre.COUNTRY },
-    { label: "Reggae", value: Genre.REGGAE },
-    { label: "Blues", value: Genre.BLUES },
-    { label: "Folk", value: Genre.FOLK },
-    { label: "Other", value: Genre.OTHER },
-  ];
+  const genres = Object.values(Genre).map((genre) => ({
+    label: getGenreLabel(genre),
+    value: genre,
+  }));
 
   return (
     <form

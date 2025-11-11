@@ -12,6 +12,10 @@ import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
 import RadioGroup from "../../base/RadioGroup";
 import { trpc } from "@good-dog/trpc/client";
 import { MusicAffiliation, MusicRole } from "@good-dog/db";
+import {
+  getMusicAffiliationLabel,
+  getMusicRoleLabel,
+} from "../../../utils/enumLabelMapper";
 
 interface ContributorsInfoProps {
   onSubmit: () => void;
@@ -24,19 +28,17 @@ export default function ContributorsInfo({
   onSubmit,
   onBack,
 }: ContributorsInfoProps) {
-  const roleOptions = [
-    { label: "Vocalist", value: MusicRole.VOCALIST },
-    { label: "Instrumentalist", value: MusicRole.INSTRUMENTALIST },
-    { label: "Producer", value: MusicRole.PRODUCER },
-    { label: "Songwriter", value: MusicRole.SONGWRITER },
-    { label: "Lyricist", value: MusicRole.LYRICIST },
-  ];
+  const roleOptions = Object.values(MusicRole).map((role) => ({
+    label: getMusicRoleLabel(role),
+    value: role,
+  }));
 
-  const affiliationOptions = [
-    { label: "ASCAP", value: MusicAffiliation.ASCAP },
-    { label: "BMI", value: MusicAffiliation.BMI },
-    { label: "Neither", value: MusicAffiliation.NONE },
-  ];
+  const affiliationOptions = Object.values(MusicAffiliation).map(
+    (affiliation) => ({
+      label: getMusicAffiliationLabel(affiliation),
+      value: affiliation,
+    }),
+  );
 
   const {
     formState: { errors },
