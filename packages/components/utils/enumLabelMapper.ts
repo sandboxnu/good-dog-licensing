@@ -9,7 +9,7 @@ export function getGenreLabel(value: Genre): string {
     case Genre.POP:
       return "Pop";
     case Genre.HIP_HOP:
-      return "Hip_Hop";
+      return "Hip Hop";
     case Genre.JAZZ:
       return "Jazz";
     case Genre.CLASSICAL:
