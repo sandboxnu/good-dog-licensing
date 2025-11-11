@@ -7,7 +7,7 @@ import ErrorExclamation from "../svg/ErrorExclamation";
 
 interface MultiselectDropdownProps {
   label: string;
-  value: string;
+  value: string[];
   options: {
     label: string;
     value: string;

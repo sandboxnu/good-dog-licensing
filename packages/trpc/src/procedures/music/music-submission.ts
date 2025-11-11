@@ -11,7 +11,8 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   .mutation(async ({ ctx, input }) => {
     // Creates a contributor for the submitter to be added to the music submission's list of contributors
     const submitterAsContributor = {
-      name: `${ctx.session.user.firstName} ${ctx.session.user.lastName}`,
+      firstName: ctx.session.user.firstName,
+      lastName: ctx.session.user.lastName,
       roles: input.submitterRoles,
       affiliation: input.submitterAffiliation,
       ipi: input.submitterIpi,
@@ -39,7 +40,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
           },
           songName: input.songName,
           songLink: input.songLink,
-          genre: input.genre.join(", "),
+          genres: input.genres,
           additionalInfo: input.additionalInfo ?? "",
           performerName: input.performerName,
           contributors: {

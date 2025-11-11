@@ -10,7 +10,7 @@ export default function ProjectSubmissionHeader({
   step,
 }: ProjectSubmissionHeaderProps) {
   return (
-    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white px-10 py-6 text-black">
+    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
       <p className="text-5xl font-medium">Song request form</p>
       {step != SubmissionStep.SUBMITTED && (
         <div>
@@ -33,7 +33,7 @@ export default function ProjectSubmissionHeader({
             className="font-semibold text-secondary hover:underline"
             href="/project-submission"
           >
-            Submit another song request form
+            Submit another project submission form
           </a>
         </div>
       )}

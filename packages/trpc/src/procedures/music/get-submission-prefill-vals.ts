@@ -4,7 +4,8 @@ import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 interface ContributorPrefillType {
-  name: string;
+  firstName: string;
+  lastName: string;
   affiliation: MusicAffiliation | null;
   ipi: string | null;
 }
@@ -18,6 +19,8 @@ export const getMusicSubmissionPrefillValuesProcedure =
         },
       });
 
+      previousContributors.reverse();
+
       const uniqueContributors = Object.values(
         previousContributors.reduce<Record<string, ContributorPrefillType>>(
           (contributorMap, contributor) => {
@@ -25,11 +28,14 @@ export const getMusicSubmissionPrefillValuesProcedure =
               // Should not add the submitter (their info goes in sepearely)
               !contributor.isSubmitter &&
               // if they aren't in the list or if a prev entry has the same name but no ipi -> add to list
-              (!contributorMap[contributor.name] ||
-                (!contributorMap[contributor.name]?.ipi && contributor.ipi))
+              (!contributorMap[contributor.firstName && contributor.lastName] ||
+                (!contributorMap[contributor.firstName && contributor.lastName]
+                  ?.ipi &&
+                  contributor.ipi))
             ) {
-              contributorMap[contributor.name] = {
-                name: contributor.name,
+              contributorMap[contributor.firstName && contributor.lastName] = {
+                firstName: contributor.firstName,
+                lastName: contributor.lastName,
                 affiliation: contributor.affiliation,
                 ipi: contributor.ipi,
               };
