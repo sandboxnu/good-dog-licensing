@@ -8,7 +8,7 @@
 @layer base {
   :root {
     --good-dog-main: #098465;
-    --custom-gradient: linear-gradient(180deg, #022119 55.17%, #021913 81.66%);
+    --custom-gradient: linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%);
     --header-primary: #E9F9F1;
     --body-text: #E9F9F1;
     --shadow-color: #098465
@@ -17,7 +17,7 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --good-dog-main: #07634C;
-      --custom-gradient: linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%);
+      --custom-gradient: linear-gradient(180deg, #022119 55.17%, #021913 81.66%);
       --header-primary: #022119;
       --body-text: #054233;
       --shadow-color: 

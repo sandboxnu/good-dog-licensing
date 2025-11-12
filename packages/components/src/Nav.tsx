@@ -6,6 +6,7 @@ import { trpc } from "@good-dog/trpc/client";
 
 import NavLogo from "./svg/NavLogo";
 import ProfileDropdown from "./base/ProfileDropdown";
+import DarkModeSwitch from "./base/DarkModeSwitch";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
@@ -37,6 +38,7 @@ export default function Nav() {
             </Link>
           )}
         </nav>
+        <DarkModeSwitch/>
       </div>
     </header>
   );

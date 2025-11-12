@@ -2,9 +2,11 @@ import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
+  darkMode: 'class',
   content: ["src/**/*.{ts,tsx}"],
   theme: {
     extend: {
+      
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         righteous: ["Righteous"],
@@ -39,8 +41,9 @@ export default {
         modal: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
       },
       backgroundImage: {
-        "main-bg-gradient":
-          "var(--custom-gradient)",
+        "main-bg-gradient-light": "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
+        "main-bg-gradient-dark": "linear-gradient(180deg, #022119 55.17%, #021913 81.66%)",
+
       },
     },
   },
