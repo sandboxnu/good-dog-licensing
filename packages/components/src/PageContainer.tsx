@@ -17,7 +17,7 @@ export default function PageContainer({
     <div className="flex w-full min-w-[1400px] flex-col justify-center">
       <div
         className={clsx("flex min-h-screen w-full justify-center", {
-          "bg-main-bg-gradient-light dark:bg-main-bg-gradient-dark": background === "gradient",
+          "!main-bg-gradient-light dark:!bg-main-bg-gradient-dark": background === "gradient",
           "!bg-main-bg-solid": background === "solid",
         })}
       >

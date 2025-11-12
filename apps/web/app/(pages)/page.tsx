@@ -11,7 +11,7 @@ import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
 import MusicStudio from "@good-dog/components/svg/homepage/MusicStudio";
 import PuzzleBuilding from "@good-dog/components/svg/homepage/PuzzleBuilding";
 import WomanInComputer from "@good-dog/components/svg/homepage/WomanInComputer";
-import { Button } from "@good-dog/ui/button";
+import Button from "@good-dog/components/base/Button";
 
 export default function Home() {
   const router = useRouter();
@@ -21,13 +21,13 @@ export default function Home() {
         <div className="flex w-full flex-col items-center justify-center gap-[144px]">
           <div className="flex flex-col justify-center gap-[37px] text-center">
             <div className="pt-[32px]">
-              <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-body-primary">
+              <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-body-primary dark:text-mint-300">
                 Connecting musicians and media makers
               </h1>
             </div>
             <div className="flex flex-col gap-[64px]">
               <div className="flex flex-col gap-[24px] text-body-primary">
-                <p className="text-body1 leading-normal">
+                <p className="text-body1 leading-normal text-gray-200">
                   {
                     "Northeastern University's student-run music synchronization service"
                   }
@@ -35,20 +35,19 @@ export default function Home() {
 
                 <div className="flex justify-center gap-4">
                   <Button
-                    size="large-text"
-                    className="bg-good-dog-main text-off-white shadow-button"
-                    onClick={() => router.push("/signup")}
-                  >
-                    Get started
-                  </Button>
+                    size="large"
+                    type="button"
+                    label="Get started"
+                    shadow={true}
+                    onClick={() => router.push("/signup")} 
+                    variant={"contained"} />
                   <Button
-                    size="large-text"
-                    variant="outlined"
-                    className="shadow-button"
+                    size="large"
+                    type="button"
+                    label="Learn more"
+                    shadow={true}
                     onClick={() => router.push("/about")}
-                  >
-                    Learn more
-                  </Button>
+                  />
                 </div>
               </div>
 
