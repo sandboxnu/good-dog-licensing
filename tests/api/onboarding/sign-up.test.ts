@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { prisma, ReferralSource, Role } from "@good-dog/db";
+import { prisma, Role } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockEmailService } from "../../mocks/MockEmailService";
@@ -25,10 +25,9 @@ describe("sign-up", () => {
     role: Role.MUSICIAN,
     email: "jordan@example.com",
     phoneNumber: "1234567890",
-    password: "Password",
-    confirmPassword: "Password",
+    password: "Mypassword1!",
+    confirmPassword: "Mypassword1!",
     emailCode: "019821",
-    referral: ReferralSource.FRIEND,
   };
 
   afterEach(async () => {
@@ -137,7 +136,6 @@ describe("sign-up", () => {
     expect(user?.role).toBe("MUSICIAN");
     expect(user?.phoneNumber).toBe("1234567890");
     expect(user?.hashedPassword).not.toBe("Password");
-    expect(user?.referral).toBe(ReferralSource.FRIEND);
 
     expect(mockEmails.send).not.toBeCalled();
     expect(mockEmails.generateSixDigitCode).not.toBeCalled();

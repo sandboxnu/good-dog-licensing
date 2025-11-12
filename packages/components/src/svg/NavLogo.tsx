@@ -9,13 +9,13 @@ export default function NavLogo({ size = 34 }: NavLogProps) {
       style={{ width: size, height: size }}
     >
       <svg
-        className="absolute"
+        className="absolute text-good-dog-main"
         width={size}
         height={size}
         viewBox="0 0 34 34"
         fill="none"
       >
-        <circle cx="17" cy="17" r="17" fill="good-dog-main" />
+        <circle cx="17" cy="17" r="17" fill="currentColor" />
       </svg>
       <svg
         className="absolute"

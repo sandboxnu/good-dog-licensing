@@ -7,7 +7,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
     return (
       <input
         type={type}
-        className={cn("border border-input", className)}
+        className={cn("border-input border", className)}
         ref={ref}
         {...props}
       />

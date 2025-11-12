@@ -1,4 +1,5 @@
 import React from "react";
+
 import CloseX from "../svg/CloseX";
 
 interface ModalProps {
@@ -7,6 +8,7 @@ interface ModalProps {
   headerText: string;
   height: number;
   width: number;
+  upperPadding?: boolean;
   children: React.ReactNode;
 }
 
@@ -16,25 +18,26 @@ export default function Modal({
   headerText,
   height,
   width,
+  upperPadding = true,
   children,
 }: ModalProps) {
   if (!open) return null;
 
   return (
-    <div className={`absolute inset-0 flex items-center justify-center z-50`}>
+    <div className={`absolute inset-0 z-50 flex items-center justify-center`}>
       <div
-        className={`bg-white rounded-[16px] border border-body-primary shadow-modal`}
+        className={`rounded-[16px] border border-body-primary bg-white shadow-modal`}
         style={{
           width: `${width}px`,
           height: `${height}px`,
         }}
       >
-        <div className="pt-[24px] px-[21px] flex justify-end">
+        <div className="flex justify-end px-[21px] pt-[24px]">
           <button onClick={onClose}>
             <CloseX />
           </button>
         </div>
-        <div className="pt-[18px] text-center">
+        <div className={`${upperPadding ? "pt-[18px]" : ""} text-center`}>
           <h3>{headerText}</h3>
         </div>
         <div className="flex flex-col items-center text-center">{children}</div>

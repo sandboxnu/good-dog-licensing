@@ -31,7 +31,7 @@ export default function TOSModal({
       <DialogContent className="max-h-[700px] overflow-y-scroll border-black sm:max-w-[912px]">
         <DialogHeader>
           <DialogTitle>View & Accept TOS</DialogTitle>
-          <DialogDescription className="font-afacad text-s p-7 text-center font-normal text-good-dog-violet">
+          <DialogDescription className="font-afacad text-s text-good-dog-violet p-7 text-center font-normal">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nisl
             sem, dapibus non tortor auctor, maximus auctor mauris. Donec id odio
             suscipit, pharetra felis a, cursus elit. Donec in lacus felis.

@@ -1,5 +1,10 @@
-import MediaMakerOnboarding from "@good-dog/components/user-onboarding/MediaMakerOnboarding";
+import PageContainer from "@good-dog/components/PageContainer";
+import UserOnboarding from "@good-dog/components/user-onboarding/UserOnboarding";
 
 export default function Page() {
-  return <MediaMakerOnboarding type="signUp" />;
+  return (
+    <PageContainer background="gradient">
+      <UserOnboarding type="signUp" initialRole="MEDIA_MAKER" />
+    </PageContainer>
+  );
 }

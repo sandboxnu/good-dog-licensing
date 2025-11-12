@@ -29,6 +29,7 @@ export default {
         "dark-green": "#07634C",
         "off-white": "#E9F9F1",
         "light-green": "#098465",
+        "main-bg-solid": "#FFFBF6",
       },
       boxShadow: {
         active: "0 0 3px 0 var(--pine-200, #4C8B79)",
@@ -38,7 +39,7 @@ export default {
         modal: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
       },
       backgroundImage: {
-        "custom-gradient":
+        "main-bg-gradient":
           "var(--custom-gradient)",
       },
     },
