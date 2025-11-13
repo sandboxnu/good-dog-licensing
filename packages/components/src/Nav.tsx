@@ -16,12 +16,12 @@ export default function Nav() {
       <div className="flex items-center justify-between bg-transparent">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />
-          <p className="font-righteous text-good-dog-main text-2xl">
+          <p className="font-righteous text-green-400 dark:text-mint-300 text-2xl">
             GOOD DOG LICENSING
           </p>
         </Link>
 
-        <nav className="flex items-center gap-8 text-lg">
+        <nav className="flex items-center gap-8 text-lg text-green-500 dark:text-mint-200">
           <Link href="/" className="underline-offset-4 hover:underline">
             Home
           </Link>
@@ -38,7 +38,7 @@ export default function Nav() {
             </Link>
           )}
         </nav>
-        <DarkModeSwitch/>
+        <DarkModeSwitch />
       </div>
     </header>
   );

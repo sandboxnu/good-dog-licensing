@@ -17,12 +17,12 @@ export default function Checkbox({
   errorText,
 }: CheckboxProps) {
   return (
-    <div className="flex w-full flex-col gap-2 text-black">
+    <div className="flex w-full flex-col gap-2 text-black dark:text-white">
       <div className="flex w-full flex-row items-center gap-2">
         <CheckboxShad
           required={required}
           id={id}
-          className={`border-good-dog-main data-[state=checked]:bg-good-dog-main ${errorText ? "border-error shadow-error" : ""}`}
+          className={`border-green-400 dark:border-green-100 data-[state=checked]:bg-good-dog-main ${errorText ? "border-error shadow-error" : ""}`}
         />
         <div className="flex flex-row items-center gap-[2px]">
           <Label className="text-body3" htmlFor={id}>

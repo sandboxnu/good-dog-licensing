@@ -57,8 +57,10 @@ export default function LoginWidget() {
       <div className="flex h-full w-1/2 flex-col justify-center">
         <FormProvider {...formMethods}>
           <form className="pr-[40px]" onSubmit={handleLogin}>
-            <h3>Welcome back!</h3>
-            <p>All fields below are required</p>
+            <h3 className="text-green-400 dark:text-mint-200">Welcome back!</h3>
+            <p className="text-dark-gray-600 dark:text-gray-100">
+              All fields below are required
+            </p>
             {loginMutation.isError && (
               <div className="flex flex-row items-center gap-[2px]">
                 <ErrorExclamation size="medium" />
@@ -89,7 +91,7 @@ export default function LoginWidget() {
                 <Checkbox label="Remember me" id="rememberMe" />
                 <Link
                   href="/forgot-password"
-                  className="whitespace-nowrap text-body3 font-medium text-secondary underline"
+                  className="whitespace-nowrap text-body3 font-medium text-secondary underline text-green-500 dark:text-mint-200"
                 >
                   Forgot password?
                 </Link>
@@ -106,10 +108,12 @@ export default function LoginWidget() {
               </div>
             </div>
             <div className="flex flex-row flex-wrap justify-center space-x-1 pt-[16px] text-body3">
-              <span className="font-normal">Don't have an account?</span>
+              <span className="font-normal text-dark-gray-500 text-gray-200">
+                Don't have an account?
+              </span>
               <Link
                 href="/signup"
-                className="font-medium text-secondary underline"
+                className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
               >
                 Sign up
               </Link>

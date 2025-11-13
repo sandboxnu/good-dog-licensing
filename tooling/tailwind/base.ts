@@ -2,11 +2,10 @@ import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
-  darkMode: 'class',
+  darkMode: "class",
   content: ["src/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         righteous: ["Righteous"],
@@ -22,7 +21,7 @@ export default {
         logo: "25px",
       },
       colors: {
-                "blue-50": "var(--blue-50)",
+        "blue-50": "var(--blue-50)",
         "blue-100": "var(--blue-100)",
         "blue-200": "var(--blue-200)",
         "blue-300": "var(--blue-300)",
@@ -82,7 +81,6 @@ export default {
         "green-600": "var(--green-600)",
         "green-700": "var(--green-700)",
 
-        
         "good-dog-main": "var(--good-dog-main)",
         "header-primary": "#022119",
         "body-primary": "#2E2E2E",
@@ -102,9 +100,10 @@ export default {
         modal: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
       },
       backgroundImage: {
-        "main-bg-gradient-light": "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
-        "main-bg-gradient-dark": "linear-gradient(180deg, #022119 55.17%, #021913 81.66%)",
-
+        "main-bg-gradient-light":
+          "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
+        "main-bg-gradient-dark":
+          "linear-gradient(180deg, #022119 55.17%, #021913 81.66%)",
       },
     },
   },

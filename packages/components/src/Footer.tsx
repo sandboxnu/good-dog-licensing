@@ -10,7 +10,7 @@ import NavLogo from "./svg/NavLogo";
 
 export default function Footer() {
   return (
-    <footer className="h-[160px] w-full bg-good-dog-main text-white">
+    <footer className="h-[160px] w-full bg-green-400 text-gray-100">
       <div className="flex h-full items-center justify-between px-8 py-6">
         <div className="flex flex-row items-center justify-between">
           <div className="h-full">

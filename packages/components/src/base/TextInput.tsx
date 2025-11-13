@@ -31,7 +31,10 @@ export default function TextInput({
   return (
     <div className="flex w-full flex-col gap-[4px]">
       <div className="flex flex-row gap-[2px]">
-        <Label htmlFor={id} className="text-body3 font-normal text-[#171717]">
+        <Label
+          htmlFor={id}
+          className="text-body3 font-normal text-dark-gray-600 dark:text-white"
+        >
           {label}
         </Label>
         {required && (

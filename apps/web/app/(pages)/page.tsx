@@ -27,7 +27,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-[64px]">
               <div className="flex flex-col gap-[24px] text-body-primary">
-                <p className="text-body1 leading-normal text-gray-200">
+                <p className="text-body1 leading-normal text-dark-gray-500 dark:text-gray-200">
                   {
                     "Northeastern University's student-run music synchronization service"
                   }
@@ -39,14 +39,16 @@ export default function Home() {
                     type="button"
                     label="Get started"
                     shadow={true}
-                    onClick={() => router.push("/signup")} 
-                    variant={"contained"} />
+                    onClick={() => router.push("/signup")}
+                    variant={"contained"}
+                  />
                   <Button
                     size="large"
                     type="button"
                     label="Learn more"
                     shadow={true}
                     onClick={() => router.push("/about")}
+                    variant={"contained"}
                   />
                 </div>
               </div>
@@ -65,8 +67,10 @@ function LearnMoreAboutRoles() {
   return (
     <div className="flex flex-col gap-[48px]">
       <div className="flex flex-row gap-[24px]">
-        <h2 className="w-1/2 leading-none">Learn more about different roles</h2>
-        <p className="w-1/2 text-body1 leading-normal text-secondary">
+        <h2 className="w-1/2 leading-none text-green-400 dark:text-mint-200">
+          Learn more about different roles
+        </h2>
+        <p className="w-1/2 text-body1 leading-normal text-secondary text-green-500 dark:text-mint-200">
           Lorem ipsum is placeholder text commonly used in the graphic, print,
           and publishing industries for previewing layouts and visual mockups.
         </p>
@@ -130,8 +134,10 @@ export function DescriptionSection({
         className={`flex gap-[24px] ${order == "text-left" ? "flex-row" : "flex-row-reverse"} items-center`}
       >
         <div className="flex w-1/2 flex-col gap-[24px]">
-          <h2>{title}</h2>
-          <p className="text-body1 leading-normal text-secondary">{text}</p>
+          <h2 className="text-green-400 dark:text-mint-200">{title}</h2>
+          <p className="text-body1 text-green-500 dark:text-mint-200 leading-normal text-secondary">
+            {text}
+          </p>
         </div>
         <div className="flex w-1/2 items-center justify-center">{image}</div>
       </div>
@@ -155,11 +161,10 @@ export function VerticalDescriptionSection({
   return (
     <div className="flex flex-col items-center justify-center gap-[24px] text-justify">
       {image}
-      <h2>{title}</h2>
-      <p className="text-body1 leading-normal text-secondary">{text}</p>
-      <Button variant={"text"} onClick={link}>
-        {linkText}
-      </Button>
+      <h2 className="text-green-400 dark:text-mint-200">{title}</h2>
+      <p className="text-body1 text-green-500 dark:text-mint-200 leading-normal text-secondary">
+        {text}
+      </p>
     </div>
   );
 }
