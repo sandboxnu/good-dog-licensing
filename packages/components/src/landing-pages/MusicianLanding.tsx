@@ -31,7 +31,7 @@ export default function MusicianLanding() {
       )}
       {data.music.length > 0 && (
         <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
-          {data.music.map((req, key) => {
+          {data.music.map((song, key) => {
             const actionNeeded = !!req.matches.find(
               (match) => match.matchState === MatchState.SONG_REQUESTED,
             );
