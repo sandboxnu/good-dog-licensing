@@ -26,7 +26,7 @@ export default function MediaMakerLanding() {
       )}
       {data.projects.length > 0 && (
         <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
-          {data.projects.map((req, key) => {
+          {data.projects.map((project, key) => {
             let actionRequired = false;
             let pendingApproval = false;
             let completed = true;
