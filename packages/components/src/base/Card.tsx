@@ -13,7 +13,7 @@ export default function Card({
 }) {
   return (
     <div
-      className={`relative p-[24px] w-[320px] h-[200px] bg-cream-100 rounded-3xl border-[0.5px] border-[cream-400] overflow-hidden  // ← added relative + overflow-hidden
+      className={`relative p-[24px] w-[320px] h-[200px] bg-cream-100 rounded-3xl border-[0.5px] border-[cream-400] overflow-hidden
     ${size === "small" ? "w-[320px]" : "w-[992px]"}`}
     >
       <div className="flex flex-col gap-[8px]">

@@ -105,20 +105,7 @@ export const getUserSongRequestsProcedure = rolePermissionsProcedureBuilder(
 // TODO: test these procedures as mentioned in #152
 
 // gets all of the projects belonging to a mediamaker
-export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
-  mediaMakerOnlyPermissions,
-  "read",
-).query(async ({ ctx }) => {
-  const projects = await ctx.prisma.projectSubmission.findMany({
-    where: {
-      projectOwnerId: ctx.session.user.userId,
-    },
-    include: {},
-  });
-  return { projects };
-});
-
-export const mediamakerProjectsWithDataProcedure =
+export const mediamakerProjectsProcedure =
   rolePermissionsProcedureBuilder(mediaMakerOnlyPermissions, "read").query(
     async ({ ctx }) => {
       const projects = await ctx.prisma.projectSubmission.findMany({
