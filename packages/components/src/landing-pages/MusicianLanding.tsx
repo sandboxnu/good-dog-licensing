@@ -47,7 +47,10 @@ export default function MusicianLanding() {
                   <div className="flex flex-col h-full gap-[24px]">
                     <div className="flex flex-col gap-[8px]">
                       <Line text={song.performerName} icon={<People />} />
-                      <Line text={song.genres.join(', ')} icon={<MusicNote />} />
+                      <Line
+                        text={song.genres.join(", ")}
+                        icon={<MusicNote />}
+                      />
                     </div>
 
                     {/* absolutely position the indicator 24px from the bottom */}
