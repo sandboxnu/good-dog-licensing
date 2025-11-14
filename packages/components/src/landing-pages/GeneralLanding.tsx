@@ -5,7 +5,6 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 import GrowOnScroll from "@good-dog/components/motion/GrowOnScroll";
-import PageContainer from "@good-dog/components/PageContainer";
 import CoupleWithGuitar from "@good-dog/components/svg/homepage/CoupleWithGuitar";
 import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
 import MusicStudio from "@good-dog/components/svg/homepage/MusicStudio";
@@ -16,49 +15,47 @@ import { Button } from "@good-dog/ui/button";
 export default function Home() {
   const router = useRouter();
   return (
-    <PageContainer background="gradient">
-      <div className="flex min-h-screen flex-col items-center justify-center pb-[32px]">
-        <div className="flex w-full flex-col items-center justify-center gap-[144px]">
-          <div className="flex flex-col justify-center gap-[37px] text-center">
-            <div className="pt-[32px]">
-              <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-body-primary">
-                Connecting musicians and media makers
-              </h1>
-            </div>
-            <div className="flex flex-col gap-[64px]">
-              <div className="flex flex-col gap-[24px] text-body-primary">
-                <p className="text-body1 leading-normal">
-                  {
-                    "Northeastern University's student-run music synchronization service"
-                  }
-                </p>
-
-                <div className="flex justify-center gap-4">
-                  <Button
-                    size="large-text"
-                    className="bg-good-dog-main text-off-white shadow-button"
-                    onClick={() => router.push("/signup")}
-                  >
-                    Get started
-                  </Button>
-                  <Button
-                    size="large-text"
-                    variant="outlined"
-                    className="shadow-button"
-                    onClick={() => router.push("/about")}
-                  >
-                    Learn more
-                  </Button>
-                </div>
-              </div>
-
-              <div className="h-[500px] w-full rounded-[20px] bg-gray-400 shadow-div"></div>
-            </div>
+    <div className="flex min-h-screen flex-col items-center justify-center pb-[32px]">
+      <div className="flex w-full flex-col items-center justify-center gap-[144px]">
+        <div className="flex flex-col justify-center gap-[37px] text-center">
+          <div className="pt-[32px]">
+            <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-body-primary">
+              Connecting musicians and media makers
+            </h1>
           </div>
-          <LearnMoreAboutRoles />
+          <div className="flex flex-col gap-[64px]">
+            <div className="flex flex-col gap-[24px] text-body-primary">
+              <p className="text-body1 leading-normal">
+                {
+                  "Northeastern University's student-run music synchronization service"
+                }
+              </p>
+
+              <div className="flex justify-center gap-4">
+                <Button
+                  size="large-text"
+                  className="bg-good-dog-main text-off-white shadow-button"
+                  onClick={() => router.push("/signup")}
+                >
+                  Get started
+                </Button>
+                <Button
+                  size="large-text"
+                  variant="outlined"
+                  className="shadow-button"
+                  onClick={() => router.push("/about")}
+                >
+                  Learn more
+                </Button>
+              </div>
+            </div>
+
+            <div className="h-[500px] w-full rounded-[20px] bg-gray-400 shadow-div"></div>
+          </div>
         </div>
+        <LearnMoreAboutRoles />
       </div>
-    </PageContainer>
+    </div>
   );
 }
 function LearnMoreAboutRoles() {
