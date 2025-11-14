@@ -43,7 +43,7 @@ export default function InitialProjectInfo({
         onNext();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white px-10 py-6 text-black">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
         <p className="text-xl font-semibold">Project information</p>
         <div className="flex flex-row gap-6">
           <RHFTextInput<ProjectSubmissionFormFields>

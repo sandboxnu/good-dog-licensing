@@ -1,7 +1,12 @@
 import React from "react";
 
-import { MusicSubmissionForm } from "@good-dog/components/oldStuff/submit/MusicSubmissionForm";
+import MusicSubmissionWidget from "@good-dog/components/submit/music/MusicSubmissionWidget";
+import PageContainer from "@good-dog/components/PageContainer";
 
 export default function MusicSubmissionPage() {
-  return <MusicSubmissionForm />;
+  return (
+    <PageContainer background={"solid"}>
+      <MusicSubmissionWidget />
+    </PageContainer>
+  );
 }
