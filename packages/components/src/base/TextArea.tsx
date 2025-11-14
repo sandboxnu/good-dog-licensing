@@ -1,9 +1,7 @@
 import clsx from "clsx";
-
 import { Label } from "@good-dog/ui/label";
+import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import { Textarea } from "@good-dog/ui/textarea";
-
-import ErrorExclamation from "../svg/ErrorExclamation";
 
 interface TextInputProps {
   label: string;

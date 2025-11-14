@@ -13,7 +13,7 @@ import { zSignInValues } from "@good-dog/trpc/schema";
 import Button from "../../../base/Button";
 import Checkbox from "../../../base/Checkbox";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import ErrorExclamation from "../../../svg/ErrorExclamation";
+import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import TeamworkLogin from "../../../svg/onboarding/TeamworkLogin";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 

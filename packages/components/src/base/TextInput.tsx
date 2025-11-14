@@ -2,8 +2,8 @@ import clsx from "clsx";
 
 import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
-
-import ErrorExclamation from "../svg/ErrorExclamation";
+import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
+import type { ReactNode } from "react";
 
 interface TextInputProps {
   label: string;
@@ -15,6 +15,7 @@ interface TextInputProps {
   required?: boolean;
   helperText?: string;
   errorText?: string;
+  icon?: ReactNode;
 }
 
 export default function TextInput({
@@ -27,6 +28,7 @@ export default function TextInput({
   required = false,
   helperText,
   errorText,
+  icon,
 }: TextInputProps) {
   return (
     <div className="flex w-full flex-col gap-[4px]">
@@ -53,6 +55,7 @@ export default function TextInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         type={type}
+        icon={icon}
       />
       {helperText && !errorText && (
         <Label className="text-caption text-[#171717]">{helperText}</Label>
