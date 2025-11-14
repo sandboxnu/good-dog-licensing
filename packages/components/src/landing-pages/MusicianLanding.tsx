@@ -31,14 +31,14 @@ export default function MusicianLanding() {
       )}
       {data.music.length > 0 && (
         <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
-          {data.music.map((req, key) => {
-            const actionNeeded = !!req.matches.find(
+          {data.music.map((song, key) => {
+            const actionNeeded = !!song.matches.find(
               (match) => match.matchState === MatchState.SONG_REQUESTED,
             );
             return (
               <Card
-                title={req.songName}
-                subheader={req.createdAt.toLocaleDateString("en-US", {
+                title={song.songName}
+                subheader={song.createdAt.toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -46,8 +46,8 @@ export default function MusicianLanding() {
                 children={
                   <div className="flex flex-col h-full gap-[24px]">
                     <div className="flex flex-col gap-[8px]">
-                      <Line text={req.performerName} icon={<People />} />
-                      <Line text={req.genre} icon={<MusicNote />} />
+                      <Line text={song.performerName} icon={<People />} />
+                      <Line text={song.genre} icon={<MusicNote />} />
                     </div>
 
                     {/* absolutely position the indicator 24px from the bottom */}

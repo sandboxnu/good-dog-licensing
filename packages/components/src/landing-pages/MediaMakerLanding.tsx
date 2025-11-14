@@ -26,28 +26,28 @@ export default function MediaMakerLanding() {
       )}
       {data.projects.length > 0 && (
         <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
-          {data.projects.map((req, key) => {
+          {data.projects.map((project, key) => {
             // New matches are sent to media maker for approval
-            const actionRequired = req.songRequests.some((songReq) =>
+            const actionRequired = project.songRequests.some((songReq) =>
                 songReq.matches.some(
                   (match) => match.matchState === MatchState.NEW,
               ),
             );
             // Something approved by media maker but not by musician
-            const pendingApproval = req.songRequests.some((songReq) =>
+            const pendingApproval = project.songRequests.some((songReq) =>
                 songReq.matches.some(
                   (match) => match.matchState === MatchState.SONG_REQUESTED,
               ),
             );    
             
             // Complete when all requests in approved by musician state
-            const completed = req.songRequests.every((scene) =>
+            const completed = project.songRequests.every((scene) =>
               scene.matches.every(
                 (match) => match.matchState === MatchState.APPROVED_BY_MUSICIAN
               )
             );
 
-            const matchSize = req.songRequests.reduce((prev, song) => {return prev + song.matches.length}, 0);
+            const matchSize = project.songRequests.reduce((prev, song) => {return prev + song.matches.length}, 0);
               
             const indicator: {
               variant: "error" | "success" | "warning" | "gray";
@@ -65,8 +65,8 @@ export default function MediaMakerLanding() {
             return (
               <Card
                 size="small"
-                title={req.projectTitle}
-                subheader={req.createdAt.toLocaleDateString("en-US", {
+                title={project.projectTitle}
+                subheader={project.createdAt.toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -74,7 +74,7 @@ export default function MediaMakerLanding() {
                 children={
                   <div className="flex flex-col h-full gap-[24px]">
                     <p className="body3 text-dark-gray-100 dark:text-dark-gray-100 text-base font-normal leading-tight break-words line-clamp-[3]">
-                      {req.description}
+                      {project.description}
                     </p>
                     <div className="absolute bottom-[24px]">
                       <StatusIndicator
