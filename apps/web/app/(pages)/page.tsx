@@ -15,7 +15,7 @@ export default async function Home() {
     void trpc.userMusic.prefetch();
   }
   if (user?.role === Role.MEDIA_MAKER) {
-    void trpc.mediamakerProjectsWithData.prefetch();
+    void trpc.mediamakerProjects.prefetch();
   }
 
   return (
