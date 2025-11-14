@@ -10,20 +10,22 @@ export default function StatusIndicator({
   variant: "success" | "error" | "warning" | "gray" | "blue";
   text: string;
 }) {
-  const getColorFromVariant =  (variant: "success" | "error" | "warning" | "gray" | "blue") => {
+  const getColorFromVariant = (
+    variant: "success" | "error" | "warning" | "gray" | "blue",
+  ) => {
     switch (variant) {
-    case "success":
-      return "bg-grass-green-50 dark:bg-grass-green-400 text-grass-green-500 dark:text-grass-green-50";
-    case "error":
-      return "bg-red-50 dark:bg-red-400 text-red-400 dark:text-red-50";
-    case "warning":
-      return "bg-yellow-100 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-100";
-    case "gray":
-      return "bg-gray-400 text-gray-600";
-    case "blue":
-      return "bg-blue-50 text-blue-500 dark:bg-blue-300 dark:text-blue-50";
+      case "success":
+        return "bg-grass-green-50 dark:bg-grass-green-400 text-grass-green-500 dark:text-grass-green-50";
+      case "error":
+        return "bg-red-50 dark:bg-red-400 text-red-400 dark:text-red-50";
+      case "warning":
+        return "bg-yellow-100 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-100";
+      case "gray":
+        return "bg-gray-400 text-gray-600";
+      case "blue":
+        return "bg-blue-50 text-blue-500 dark:bg-blue-300 dark:text-blue-50";
     }
-  }
+  };
 
   return (
     <div

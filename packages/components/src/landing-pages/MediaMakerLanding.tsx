@@ -29,38 +29,40 @@ export default function MediaMakerLanding() {
           {data.projects.map((project, key) => {
             // New matches are sent to media maker for approval
             const actionRequired = project.songRequests.some((songReq) =>
-                songReq.matches.some(
-                  (match) => match.matchState === MatchState.NEW,
+              songReq.matches.some(
+                (match) => match.matchState === MatchState.NEW,
               ),
             );
             // Something approved by media maker but not by musician
             const pendingApproval = project.songRequests.some((songReq) =>
-                songReq.matches.some(
-                  (match) => match.matchState === MatchState.SONG_REQUESTED,
+              songReq.matches.some(
+                (match) => match.matchState === MatchState.SONG_REQUESTED,
               ),
-            );    
-            
+            );
+
             // Complete when all requests in approved by musician state
             const completed = project.songRequests.every((scene) =>
               scene.matches.every(
-                (match) => match.matchState === MatchState.APPROVED_BY_MUSICIAN
-              )
+                (match) => match.matchState === MatchState.APPROVED_BY_MUSICIAN,
+              ),
             );
 
-            const matchSize = project.songRequests.reduce((prev, song) => {return prev + song.matches.length}, 0);
-              
+            const matchSize = project.songRequests.reduce((prev, song) => {
+              return prev + song.matches.length;
+            }, 0);
+
             const indicator: {
               variant: "error" | "success" | "warning" | "gray";
               text: string;
             } = actionRequired
               ? { variant: "error", text: "Action required" }
               : pendingApproval
-              ? { variant: "warning", text: "Pending approval" }
-              : matchSize === 0
-              ? { variant: "gray", text: "Project submitted" }
-              : completed
-              ? { variant: "success", text: "Completed" }
-              : { variant: "warning", text: "In progress" };
+                ? { variant: "warning", text: "Pending approval" }
+                : matchSize === 0
+                  ? { variant: "gray", text: "Project submitted" }
+                  : completed
+                    ? { variant: "success", text: "Completed" }
+                    : { variant: "warning", text: "In progress" };
 
             return (
               <Card
