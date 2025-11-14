@@ -19,16 +19,22 @@ export default async function Home() {
   }
 
   return (
-    <PageContainer background="gradient">
+    <>
       {user && (
-        <HydrateClient>
-          {user.role === Role.MUSICIAN && <MusicianLanding />}
-          {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
-          {user.role === Role.ADMIN && <AdminLanding />}
-          {user.role === Role.MODERATOR && <ModeratorLanding />}
-        </HydrateClient>
+        <PageContainer background="solid">
+          <HydrateClient>
+            {user.role === Role.MUSICIAN && <MusicianLanding />}
+            {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
+            {user.role === Role.ADMIN && <AdminLanding />}
+            {user.role === Role.MODERATOR && <ModeratorLanding />}
+          </HydrateClient>
+        </PageContainer>
       )}
-      {!user && <GeneralLanding />}
-    </PageContainer>
+      {!user && (
+        <PageContainer background="gradient">
+          <GeneralLanding />
+        </PageContainer>
+      )}
+    </>
   );
 }
