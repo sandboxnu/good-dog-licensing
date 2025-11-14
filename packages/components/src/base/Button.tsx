@@ -3,16 +3,18 @@ import { ChevronUp } from "lucide-react";
 import { Button as ButtonShad } from "@good-dog/ui/button";
 
 import AddIcon from "../svg/AddIcon";
+import PencilIcon from "../svg/PencilIcon";
 
 interface ButtonProps {
   label?: string;
   size: "medium" | "large";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
-  displayIcon?: "plus" | "arrow";
+  displayIcon?: "plus" | "arrow" | "pencil";
   shadow?: boolean;
   fullWidth?: boolean;
   type?: "submit" | "button";
+  error?: boolean;
 }
 
 type sizeOptions =
@@ -32,6 +34,7 @@ export default function Button({
   displayIcon,
   shadow = false,
   fullWidth = false,
+  error,
 }: ButtonProps) {
   const updatedSize: sizeOptions =
     label && displayIcon
@@ -42,6 +45,9 @@ export default function Button({
 
   const widthClassName = fullWidth ? "!w-full" : "";
   const shadowClassName = shadow ? "shadow-button" : "";
+  const divClassName = `flex flex-row items-center justify-center gap-[8px] ${
+    error ? "text-error border-error" : "" // adds text/border color if error
+  }`.trim();
 
   return (
     <ButtonShad
@@ -51,14 +57,17 @@ export default function Button({
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName}`}
     >
-      <div className="flex flex-row items-center justify-center gap-[8px]">
-        {displayIcon && displayIcon === "plus" && (
+      <div className={divClassName}>
+        {displayIcon === "plus" ? (
           <AddIcon
             color={variant === "contained" ? "light" : "dark"}
             size={size}
           />
-        )}
-        {displayIcon && displayIcon === "arrow" && <ChevronUp />}
+        ) : displayIcon === "arrow" ? (
+          <ChevronUp />
+        ) : displayIcon === "pencil" ? (
+          <PencilIcon />
+        ) : null}
         {label}
       </div>
     </ButtonShad>
