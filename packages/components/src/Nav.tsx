@@ -24,17 +24,23 @@ export default function Nav() {
           <Link href="/" className="underline-offset-4 hover:underline">
             Home
           </Link>
-          <Link href="/about" className="underline-offset-4 hover:underline">
-            About
-          </Link>
           {user ? (
-            <>
-              <ProfileDropdown />
-            </>
+            <ProfileDropdown />
           ) : (
-            <Link href="/login" className="underline-offset-4 hover:underline">
-              Login
-            </Link>
+            <>
+              <Link
+                href="/login"
+                className="underline-offset-4 hover:underline"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="underline-offset-4 hover:underline"
+              >
+                Sign up
+              </Link>
+            </>
           )}
         </nav>
       </div>

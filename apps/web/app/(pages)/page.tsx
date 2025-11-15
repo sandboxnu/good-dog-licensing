@@ -31,7 +31,7 @@ export default async function Home() {
         </PageContainer>
       )}
       {!user && (
-        <PageContainer background="gradient">
+        <PageContainer background="solid">
           <GeneralLanding />
         </PageContainer>
       )}
