@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { FaYoutube } from "react-icons/fa";
 import { FaFacebook, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";

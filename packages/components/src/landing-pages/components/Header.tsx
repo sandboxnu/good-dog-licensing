@@ -1,6 +1,8 @@
 "use client";
-import Button from "../../base/Button";
+
 import { useRouter } from "next/navigation";
+
+import Button from "../../base/Button";
 
 export default function Header({
   title,
@@ -14,12 +16,12 @@ export default function Header({
   const router = useRouter();
 
   return (
-    <div className="w-full flex flex-row gap-[32px] justify-between">
+    <div className="flex w-full flex-row justify-between gap-[32px]">
       <div className="flex flex-col gap-[8px]">
         <h3>{title}</h3>
         <p className="text-body3">{subtitle}</p>
       </div>
-      <div className="flex flex-row gap-[16px] items-center">
+      <div className="flex flex-row items-center gap-[16px]">
         <Button
           onClick={() => router.push(requestPath)}
           size={"medium"}

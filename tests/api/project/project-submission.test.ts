@@ -7,7 +7,7 @@ import {
   test,
 } from "bun:test";
 
-import { prisma } from "@good-dog/db";
+import { prisma, ProjectType } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockEmailService } from "../../mocks/MockEmailService";
@@ -91,20 +91,20 @@ describe("projectSubmission", () => {
       songRequests: [
         {
           description: "SongRequest 1 description",
-          musicType: "Classical",
+          feelingsConveyed: "Classical",
           similarSongs: "Song A, Song B",
           additionalInfo: "Some additional info",
-          oneLineSummary: "First Song Request",
         },
         {
           description: "SongRequest 2 description",
-          musicType: "Indie",
-          oneLineSummary: "Second Song Request",
+          feelingsConveyed: "Indie",
+          similarSongs: "Cool Song",
         },
       ],
       deadline: new Date(),
       videoLink: "https://test.com/video",
       additionalInfo: "General additional info",
+      projectType: ProjectType.MOTION_PICTURE,
     };
 
     const response = await $api.projectSubmission(input);
@@ -137,22 +137,16 @@ describe("projectSubmission", () => {
     expect(storedProject.songRequests[0]?.description).toBe(
       "SongRequest 1 description",
     );
-    expect(storedProject.songRequests[0]?.musicType).toBe("Classical");
+    expect(storedProject.songRequests[0]?.feelingsConveyed).toBe("Classical");
     expect(storedProject.songRequests[0]?.similarSongs).toBe("Song A, Song B");
     expect(storedProject.songRequests[0]?.additionalInfo).toBe(
       "Some additional info",
-    );
-    expect(storedProject.songRequests[0]?.oneLineSummary).toBe(
-      "First Song Request",
     );
 
     expect(storedProject.songRequests[1]?.description).toBe(
       "SongRequest 2 description",
     );
-    expect(storedProject.songRequests[1]?.musicType).toBe("Indie");
-    expect(storedProject.songRequests[1]?.oneLineSummary).toBe(
-      "Second Song Request",
-    );
+    expect(storedProject.songRequests[1]?.feelingsConveyed).toBe("Indie");
 
     expect(mockEmailService.send).toBeCalled();
 
@@ -181,6 +175,7 @@ describe("projectSubmission", () => {
       deadline: new Date(),
       videoLink: "https://test.com/video",
       additionalInfo: "General additional info",
+      projectType: ProjectType.SOCIAL_MEDIA_REEL,
     };
 
     expect($api.projectSubmission(input)).rejects.toThrow(

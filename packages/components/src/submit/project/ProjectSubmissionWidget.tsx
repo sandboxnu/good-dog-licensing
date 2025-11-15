@@ -34,9 +34,8 @@ export default function ProjectSubmissionWidget() {
     defaultValues: {
       songRequests: [
         {
-          oneLineSummary: "",
           description: "",
-          musicType: "",
+          feelingsConveyed: "",
           similarSongs: "",
           additionalInfo: "",
         },
@@ -49,6 +48,7 @@ export default function ProjectSubmissionWidget() {
       "projectTitle",
       "description",
       "deadline",
+      "projectType",
     ]);
     if (initialProjectInfoIsValid) {
       setStep(SubmissionStep.SONG_REQUESTS);

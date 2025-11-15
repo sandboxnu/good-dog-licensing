@@ -20,12 +20,12 @@ const Input = React.forwardRef<
   }
   return (
     <div className="relative w-full">
-      <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+      <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
         {icon}
       </div>
       <input
         type={type}
-        className={cn("border border-input w-full pl-10", className)}
+        className={cn("border-input w-full border pl-10", className)}
         ref={ref}
         {...props}
       />

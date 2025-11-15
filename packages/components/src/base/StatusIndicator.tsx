@@ -1,6 +1,6 @@
 import Check from "../svg/status-icons/Check";
-import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import ClockFull from "../svg/status-icons/ClockFull";
+import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import Hourglass from "../svg/status-icons/Hourglass";
 
 const getColorFromVariant = (
@@ -29,9 +29,9 @@ export default function StatusIndicator({
 }) {
   return (
     <div
-      className={`flex h-[24px] gap-[4px] pt-[4px] pb-[4px] pr-[8px] pl-[8px]  w-fit justify-center items-center align-center rounded ${getColorFromVariant(variant)}`}
+      className={`align-center flex h-[24px] w-fit items-center justify-center gap-[4px] rounded pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)}`}
     >
-      <div className="flex flex-row gap-[4px] items-center">
+      <div className="flex flex-row items-center gap-[4px]">
         {variant === "success" ? (
           <Check />
         ) : variant === "error" ? (

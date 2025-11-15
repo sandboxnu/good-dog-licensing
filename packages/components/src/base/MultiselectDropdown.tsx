@@ -1,7 +1,9 @@
-import { Label } from "@good-dog/ui/label";
-import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import clsx from "clsx";
+
+import { Label } from "@good-dog/ui/label";
 import { MultiSelect } from "@good-dog/ui/multi-select";
+
+import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 
 interface MultiselectDropdownProps {
   label: string;

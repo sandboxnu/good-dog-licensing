@@ -21,7 +21,7 @@ export default function PageContainer({
           "!bg-main-bg-solid": background === "solid",
         })}
       >
-        <div className="flex w-full w-[1500px] flex-col px-[228px] pt-[32px]">
+        <div className="flex w-[1500px] w-full flex-col px-[228px] pt-[32px]">
           <Nav />
           <div className="flex w-full items-center justify-center pb-[50px] pt-[32px]">
             {children}

@@ -1,21 +1,23 @@
 "use client";
 
-import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
-import { useCallback, useEffect, useState } from "react";
 import type z from "zod";
-import RHFTextInput from "../../rhf-base/RHFTextInput";
-import Button from "../../base/Button";
-import Trash from "../../svg/TrashIcon";
-import RHFRadioGroup from "../../rhf-base/RHFRadioGroup";
-import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
-import RadioGroup from "../../base/RadioGroup";
-import { trpc } from "@good-dog/trpc/client";
+import { useCallback, useEffect, useState } from "react";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+
+import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
 import { MusicAffiliation, MusicRole } from "@good-dog/db";
+import { trpc } from "@good-dog/trpc/client";
+
 import {
   getMusicAffiliationLabel,
   getMusicRoleLabel,
 } from "../../../utils/enumLabelMapper";
+import Button from "../../base/Button";
+import RadioGroup from "../../base/RadioGroup";
+import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
+import RHFRadioGroup from "../../rhf-base/RHFRadioGroup";
+import RHFTextInput from "../../rhf-base/RHFTextInput";
+import Trash from "../../svg/TrashIcon";
 
 interface ContributorsInfoProps {
   onSubmit: () => void;
@@ -154,14 +156,14 @@ export default function ContributorsInfo({
 
   return (
     <form
-      className="flex flex-col gap-4 w-full"
+      className="flex w-full flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit();
       }}
     >
-      <div className="w-full text-black border-[.5px] bg-white p-10 gap-6 flex flex-col border-black rounded-2xl">
-        <p className="font-semibold text-xl">Your Contributions</p>
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
+        <p className="text-xl font-semibold">Your Contributions</p>
 
         <RHFMultiselectDropdown<MusicSubmissionFormFields>
           rhfName={`submitterRoles`}
@@ -205,8 +207,8 @@ export default function ContributorsInfo({
           </>
         )}
       </div>
-      <div className="w-full text-black border-[.5px] bg-white p-10 gap-6 flex flex-col border-black rounded-2xl">
-        <p className="font-semibold text-xl">Other contributors</p>
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
+        <p className="text-xl font-semibold">Other contributors</p>
         <RadioGroup
           options={[
             { label: "Yes", value: "yes" },
@@ -230,10 +232,10 @@ export default function ContributorsInfo({
           return (
             <div
               key={compoundKey}
-              className="w-full text-black border-[.5px] bg-white p-10 gap-6 flex flex-col border-black rounded-2xl"
+              className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black"
             >
-              <div className="flex flex-row justify-between items-center">
-                <p className="font-semibold text-xl">
+              <div className="flex flex-row items-center justify-between">
+                <p className="text-xl font-semibold">
                   Contributor #{index + 1}
                 </p>
                 {fields.length > 1 && (

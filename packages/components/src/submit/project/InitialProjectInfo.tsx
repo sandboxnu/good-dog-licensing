@@ -4,8 +4,11 @@ import type z from "zod";
 import { useFormContext } from "react-hook-form";
 
 import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
+import { ProjectType } from "@good-dog/db";
 
+import { getProjectTypeLabel } from "../../../utils/enumLabelMapper";
 import Button from "../../base/Button";
+import RHFRadioGroup from "../../rhf-base/RHFRadioGroup";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
 
@@ -48,7 +51,7 @@ export default function InitialProjectInfo({
         <div className="flex flex-row gap-6">
           <RHFTextInput<ProjectSubmissionFormFields>
             rhfName="projectTitle"
-            label="Project Title"
+            label="Title of Project"
             placeholder="Enter project title"
             id="projectTitle"
             errorText={errors.projectTitle?.message}
@@ -56,16 +59,27 @@ export default function InitialProjectInfo({
           />
           <RHFTextInput<ProjectSubmissionFormFields>
             rhfName="deadline"
-            label="Project deadline"
+            label="Project release date (estimate is okay)"
             placeholder="mm/dd/yyyy"
             id="deadline"
             errorText={errors.deadline?.message}
             required={true}
           />
         </div>
+        <RHFRadioGroup<ProjectSubmissionFormFields>
+          rhfName="projectType"
+          label="Project Type"
+          id="projectType"
+          options={Object.values(ProjectType).map((type) => ({
+            label: getProjectTypeLabel(type),
+            value: type,
+          }))}
+          required
+          errorText={errors.projectType?.message}
+        />
         <RHFTextArea<ProjectSubmissionFormFields>
           rhfName="description"
-          label="Project description"
+          label="Project plot/description"
           placeholder="What is the project about?"
           id="description"
           errorText={errors.description?.message}

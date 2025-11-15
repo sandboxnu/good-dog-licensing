@@ -2,17 +2,18 @@
 
 import type { ReactNode } from "react";
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import GrowOnScroll from "@good-dog/components/motion/GrowOnScroll";
 import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
 import WomanInComputer from "@good-dog/components/svg/homepage/WomanInComputer";
-import LandingLogo from "../svg/homepage/LandingLogo";
+
 import Button from "../base/Button";
-import ThinkingPerson from "../svg/homepage/ThinkingPerson";
-import Check from "../svg/homepage/Check";
-import Image from "next/image";
 import { DictionaryWord } from "../base/DictionaryWord";
+import Check from "../svg/homepage/Check";
+import LandingLogo from "../svg/homepage/LandingLogo";
+import ThinkingPerson from "../svg/homepage/ThinkingPerson";
 
 export default function Home() {
   const router = useRouter();
@@ -53,12 +54,12 @@ export default function Home() {
           </div>
         </div>
         <GrowOnScroll>
-          <div className="flex flex-row gap-[40px] w-full items-center pt-[80px]">
-            <div className="flex flex-col w-4/5">
+          <div className="flex w-full flex-row items-center gap-[40px] pt-[80px]">
+            <div className="flex w-4/5 flex-col">
               <h1 className="text-dark-gray-500">Good Dog Licensing —</h1>
               <h1 className="text-green-500">now and tomorrow</h1>
               <div className="pt-[12px]">
-                <p className="text-body1 text-dark-gray-500 font-medium leading-[128%]">
+                <p className="text-body1 font-medium leading-[128%] text-dark-gray-500">
                   {
                     "Good Dog Licensing connects creatives by providing a legal framework for media producers to source high quality music from independent artists for their media projects. Good Dog Licensing connects independent media makers with independent musicians to enhance media projects and help musicians grow their audiences – all for free!"
                   }
@@ -69,13 +70,13 @@ export default function Home() {
           </div>
         </GrowOnScroll>
         <GrowOnScroll>
-          <div className="flex flex-row gap-[40px] w-full items-center pt-[80px]">
-            <div className="flex flex-col w-1/2">
+          <div className="flex w-full flex-row items-center gap-[40px] pt-[80px]">
+            <div className="flex w-1/2 flex-col">
               <h1 className="text-dark-gray-500">Our mission and vision.</h1>
               <h1 className="text-green-500">Connecting Creatives.</h1>
             </div>
             <div className="w-1/2">
-              <p className="text-body1 text-dark-gray-500 font-medium leading-[128%]">
+              <p className="text-body1 font-medium leading-[128%] text-dark-gray-500">
                 {
                   "We aspire to connect media makers who need great music to enhance their storytelling and independent musicians who seek a wider audience for their music. "
                 }
@@ -89,7 +90,7 @@ export default function Home() {
         <div className="pt-[80px]">
           <WhatMakesGoodDogGood />
         </div>
-        <div className="flex flex-col gap-[125px] pt-[80px] pb-[80px]">
+        <div className="flex flex-col gap-[125px] pb-[80px] pt-[80px]">
           <DescriptionSection
             order="text-right"
             title="Our founder"
@@ -138,12 +139,12 @@ export default function Home() {
 function WhatMakesGoodDogGood() {
   return (
     <GrowOnScroll>
-      <div className="flex flex-col gap-[24px] w-full">
+      <div className="flex w-full flex-col gap-[24px]">
         <h1 className="text-dark-gray-500">What makes Good Dog "Good"?</h1>
-        <p className="text-body1 text-dark-gray-500 font-medium">
+        <p className="text-body1 font-medium text-dark-gray-500">
           We are not in it for the money. REALLY.
         </p>
-        <div className="flex flex-row gap-[32px] justify-center">
+        <div className="flex flex-row justify-center gap-[32px]">
           <ThinkingPerson />
           <div className="flex flex-col gap-[8px]">
             <div className="flex flex-row gap-[8px]">
@@ -167,11 +168,11 @@ function WhatMakesGoodDogGood() {
 
 function Reason({ reason }: { reason: string }) {
   return (
-    <div className="w-[375px] h-[78px] p-[16px] items-center flex flex-row gap-[10px] bg-cream-100 border border-cream-400 rounded-[8px]">
+    <div className="flex h-[78px] w-[375px] flex-row items-center gap-[10px] rounded-[8px] border border-cream-400 bg-cream-100 p-[16px]">
       <div>
         <Check />
       </div>
-      <p className="text-body1 text-dark-gray-500 font-medium">{reason}</p>
+      <p className="text-body1 font-medium text-dark-gray-500">{reason}</p>
     </div>
   );
 }

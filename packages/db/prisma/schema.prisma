@@ -91,14 +91,14 @@ model ProjectSubmission {
   deadline       DateTime
   videoLink      String        @default("")
   additionalInfo String        @default("")
+  projectType    ProjectType
 }
 
 model SongRequest {
   songRequestId     String            @id @default(uuid())
-  oneLineSummary    String
   description       String
-  musicType         String
-  similarSongs      String            @default("")
+  feelingsConveyed  String
+  similarSongs      String
   additionalInfo    String            @default("")
   projectId         String
   projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
@@ -106,6 +106,12 @@ model SongRequest {
   comments          Comments[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+}
+
+enum ProjectType {
+  MOTION_PICTURE
+  SOCIAL_MEDIA_REEL
+  VIDEO_GAME
 }
 
 model MusicSubmission {

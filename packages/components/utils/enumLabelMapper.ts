@@ -1,4 +1,4 @@
-import { Genre, MusicAffiliation, MusicRole } from "@good-dog/db";
+import { Genre, MusicAffiliation, MusicRole, ProjectType } from "@good-dog/db";
 
 export function getGenreLabel(value: Genre): string {
   switch (value) {
@@ -50,5 +50,16 @@ export function getMusicAffiliationLabel(value: MusicAffiliation): string {
       return "BMI";
     case MusicAffiliation.NONE:
       return "Neither";
+  }
+}
+
+export function getProjectTypeLabel(value: ProjectType): string {
+  switch (value) {
+    case ProjectType.MOTION_PICTURE:
+      return "Motion Picture/Audio Visual Work";
+    case ProjectType.SOCIAL_MEDIA_REEL:
+      return "Social Media Reel";
+    case ProjectType.VIDEO_GAME:
+      return "Video Game";
   }
 }

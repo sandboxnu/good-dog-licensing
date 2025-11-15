@@ -1,14 +1,16 @@
 "use client";
 
-import { FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
-import { zMusicSubmissionValues } from "@good-dog/trpc/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+
 import { trpc } from "@good-dog/trpc/client";
-import MusicSubmissionHeader from "./MusicSubmissionHeader";
-import InitialMusicInfo from "./InitialMusicInfo";
+import { zMusicSubmissionValues } from "@good-dog/trpc/schema";
+
 import ContributorsInfo from "./ContributorsInfo";
+import InitialMusicInfo from "./InitialMusicInfo";
+import MusicSubmissionHeader from "./MusicSubmissionHeader";
 
 type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
 
@@ -59,7 +61,7 @@ export default function MusicSubmissionWidget() {
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center w-[752px]">
+    <div className="flex w-[752px] flex-col items-center gap-4">
       <MusicSubmissionHeader step={step} />
       <div className="flex w-full">
         <FormProvider {...formMethods}>

@@ -1,12 +1,13 @@
 import React from "react";
-import { Role } from "@good-dog/db";
+
+import AdminLanding from "@good-dog/components/landing-pages/AdminLanding";
 import GeneralLanding from "@good-dog/components/landing-pages/GeneralLanding";
 import MediaMakerLanding from "@good-dog/components/landing-pages/MediaMakerLanding";
-import MusicianLanding from "@good-dog/components/landing-pages/MusicianLanding";
 import ModeratorLanding from "@good-dog/components/landing-pages/ModeratorLanding";
-import { HydrateClient, trpc } from "@good-dog/trpc/server";
-import AdminLanding from "@good-dog/components/landing-pages/AdminLanding";
+import MusicianLanding from "@good-dog/components/landing-pages/MusicianLanding";
 import PageContainer from "@good-dog/components/PageContainer";
+import { Role } from "@good-dog/db";
+import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
 export default async function Home() {
   const user = await trpc.user();

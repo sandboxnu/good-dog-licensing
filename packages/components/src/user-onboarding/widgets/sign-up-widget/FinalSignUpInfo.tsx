@@ -9,8 +9,8 @@ import type { zSignUpValues } from "@good-dog/trpc/schema";
 
 import Button from "../../../base/Button";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import PasswordRequirements from "../components/PasswordRequirements";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
+import PasswordRequirements from "../components/PasswordRequirements";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;

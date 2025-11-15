@@ -1,14 +1,16 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
 import type z from "zod";
-import RHFTextInput from "../../rhf-base/RHFTextInput";
-import RHFTextArea from "../../rhf-base/RHFTextArea";
-import Button from "../../base/Button";
+import { useFormContext } from "react-hook-form";
+
 import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
-import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
 import { Genre } from "@good-dog/db";
+
 import { getGenreLabel } from "../../../utils/enumLabelMapper";
+import Button from "../../base/Button";
+import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
+import RHFTextArea from "../../rhf-base/RHFTextArea";
+import RHFTextInput from "../../rhf-base/RHFTextInput";
 
 interface InitialMusicInfoProps {
   onNext: () => void;
@@ -46,14 +48,14 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
 
   return (
     <form
-      className="flex flex-col gap-8 w-full"
+      className="flex w-full flex-col gap-8"
       onSubmit={(e) => {
         e.preventDefault();
         onNext();
       }}
     >
-      <div className="w-full text-black border-[.5px] bg-white p-10 gap-6 flex flex-col border-black rounded-2xl">
-        <p className="font-semibold text-xl">Song information</p>
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
+        <p className="text-xl font-semibold">Song information</p>
         <div className="flex flex-row gap-6">
           <RHFTextInput<MusicSubmissionFormFields>
             rhfName="songName"
