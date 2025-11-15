@@ -26,15 +26,15 @@ const multiSelectVariants = cva(
     variants: {
       variant: {
         standard:
-          "rounded-lg border-good-dog-main bg-[#D3F4E2] !text-good-dog-main",
+          "rounded-lg border-good-dog-main bg-mint-300 !text-good-dog-main",
         hover:
-          "rounded-lg border-good-dog-main bg-good-dog-main !text-[#D3F4E2]",
-        inactive: "rounded-lg border-[#5C5C5C] bg-white !text-[#5C5C5C]",
+          "rounded-lg border-good-dog-main bg-good-dog-main !text-mint-300",
+        inactive: "rounded-lg border-dark-gray-300 bg-white !text-dark-gray-300",
         round_standard:
-          "rounded-2xl border-good-dog-main bg-[#D3F4E2] !text-good-dog-main",
+          "rounded-2xl border-good-dog-main bg-mint-300 !text-good-dog-main",
         round_hover:
-          "rounded-2xl border-good-dog-main bg-good-dog-main !text-[#D3F4E2]",
-        round_inactive: "rounded-2xl border-[#5C5C5C] bg-white !text-[#5C5C5C]",
+          "rounded-2xl border-good-dog-main bg-good-dog-main !text-mint-300",
+        round_inactive: "rounded-2xl border-dark-gray-300 bg-white !text-dark-gray-300",
       },
     },
     defaultVariants: {
@@ -151,7 +151,7 @@ export const MultiSelect = React.forwardRef<
             className={cn(
               "flex min-h-8 w-full cursor-default items-center justify-between rounded-md border bg-white p-1",
               className,
-              `${isPopoverOpen ? "border-[#098465] hover:border-[#098465]" : ""}`,
+              `${isPopoverOpen ? "border-bg-green-300 hover:border-bg-green-300" : ""}`,
               `${selectedValues.length == 0 ? "max-h-6" : ""}`,
             )}
           >
@@ -190,7 +190,7 @@ export const MultiSelect = React.forwardRef<
               </div>
             ) : (
               <div className="mx-auto flex w-full items-center justify-between">
-                <span className="mx-2 truncate text-[#ADADAD]">
+                <span className="mx-2 truncate text-dark-gray-100">
                   {placeholder}
                 </span>
                 <div className="ml-2 flex-shrink-0">
@@ -217,7 +217,7 @@ export const MultiSelect = React.forwardRef<
                     <CommandItem
                       key={option.value}
                       onSelect={() => toggleOption(option.value)}
-                      className="cursor-pointer rounded-lg hover:bg-[#E9F9F1]"
+                      className="cursor-pointer rounded-lg hover:bg-mint-200"
                     >
                       <div
                         className={cn(

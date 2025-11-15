@@ -10,12 +10,12 @@ interface XProps {
 
 export default function X({ variant }: XProps) {
   const COLOR_BY_VARIANT: Record<NonNullable<XProps["variant"]>, string> = {
-    standard: "#07634C",
-    hover: "#D3F4E2",
-    inactive: "#5C5C5C",
-    round_standard: "#07634C",
-    round_hover: "#D3F4E2",
-    round_inactive: "#5C5C5C",
+    standard: "green-400",
+    hover: "mint-300",
+    inactive: "dark-gray-300",
+    round_standard: "green-400",
+    round_hover: "mint-300",
+    round_inactive: "dark-gray-300",
   };
 
   const color = COLOR_BY_VARIANT[variant ?? "standard"];

@@ -29,7 +29,7 @@ export default function TextInput({
   return (
     <div className="flex w-full flex-col gap-[4px]">
       <div className="flex flex-row gap-[2px]">
-        <Label htmlFor={id} className="text-body3 font-normal text-[#171717]">
+        <Label htmlFor={id} className="text-body3 font-normal text-dark-gray-600">
           {label}
         </Label>
         {required && (
@@ -38,10 +38,10 @@ export default function TextInput({
       </div>
       <Textarea
         className={clsx(
-          "h-[80px] w-full rounded-[8px] border-[#858585] pl-[8px] text-body3 text-body-primary",
-          "placeholder:text-[#ADADAD]",
-          "hover:border-[#404040]",
-          "focus:border-[#098465] focus:shadow-active focus:outline-none",
+          "h-[80px] w-full rounded-[8px] border-dark-gray-200 pl-[8px] text-body3 text-body-primary",
+          "placeholder:text-dark-gray-100",
+          "hover:border-gray-600",
+          "focus:border-bg-green-300 focus:shadow-active focus:outline-none",
           {
             "!border-red-400 !shadow-red-400 !dark:border-red-300 !dark:shadow-red-300": errorText,
           },
@@ -52,7 +52,7 @@ export default function TextInput({
         onChange={(e) => onChange(e.target.value)}
       />
       {helperText && !errorText && (
-        <Label className="text-caption text-[#171717]">{helperText}</Label>
+        <Label className="text-caption text-dark-gray-600">{helperText}</Label>
       )}
       {errorText && (
         <div className="flex flex-row items-center gap-[2px]">

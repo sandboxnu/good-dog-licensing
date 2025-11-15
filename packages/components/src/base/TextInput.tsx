@@ -44,9 +44,9 @@ export default function TextInput({
       <Input
         className={clsx(
           "h-[32px] w-full rounded-[8px] border-dark-gray-200 dark:border-dark-gray-300 pl-[8px] text-body3 text-body-primary dark:bg-dark-gray-500",
-          "placeholder:text-[#ADADAD]",
-          "hover:border-[#404040]",
-          "focus:border-[#098465] focus:shadow-active focus:outline-none",
+          "placeholder:text-dark-gray-100",
+          "hover:border-gray-600",
+          "focus:border-bg-green-300 focus:shadow-active focus:outline-none",
           {
             "!border-red-400 !shadow-red-400 !dark:border-red-400 !dark:shadow-red-400": errorText,
           },
@@ -58,7 +58,7 @@ export default function TextInput({
         type={type}
       />
       {helperText && !errorText && (
-        <Label className="text-caption text-[#171717]">{helperText}</Label>
+        <Label className="text-caption text-dark-gray-600">{helperText}</Label>
       )}
       {errorText && (
         <div className="flex flex-row items-center gap-[2px]">

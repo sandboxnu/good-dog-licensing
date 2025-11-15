@@ -96,7 +96,7 @@ export function MusicSubmissionForm() {
               <div className="flex justify-center">
                 <Button
                   type="submit"
-                  className="bg-[#098465] hover:bg-[#098465]"
+                  className="bg-green-300 hover:bg-green-300"
                 >
                   Submit
                 </Button>
