@@ -12,6 +12,7 @@ import Button from "../base/Button";
 import ThinkingPerson from "../svg/homepage/ThinkingPerson";
 import Check from "../svg/homepage/Check";
 import Image from "next/image";
+import { DictionaryWord } from "../base/DictionaryWord";
 
 export default function Home() {
   const router = useRouter();
@@ -27,9 +28,14 @@ export default function Home() {
           <div className="flex flex-col gap-[64px]">
             <div className="flex flex-col gap-[24px] text-body-primary">
               <p className="text-body1 leading-normal">
+                Northeastern University's free, student-run music{" "}
                 {
-                  "Northeastern University's free, student-run music synchronization service"
-                }
+                  <DictionaryWord
+                    word="synchronization"
+                    definition="Music sync, or synchronization licensing, is the process of using a piece of recorded music in conjunction with a visual work, such as a film, TV show, social media reel, advertisement, or video game."
+                  />
+                }{" "}
+                service
               </p>
 
               <div className="flex justify-center gap-4">
