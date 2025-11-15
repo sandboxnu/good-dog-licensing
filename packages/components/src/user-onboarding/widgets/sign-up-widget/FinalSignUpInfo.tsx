@@ -45,7 +45,7 @@ export default function FinalSignUpInfo({
       {errorMessage && (
         <div className="flex flex-row items-center gap-[4px] pt-[12px]">
           <ErrorExclamation size="medium" />
-          <p className="text-error">{errorMessage}</p>
+          <p className="text-red-400 dark:text-red-300">{errorMessage}</p>
         </div>
       )}
       <div className="flex flex-col gap-[24px] pt-[32px]">

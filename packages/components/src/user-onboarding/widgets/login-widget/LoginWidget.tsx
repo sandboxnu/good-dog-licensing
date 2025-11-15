@@ -64,7 +64,7 @@ export default function LoginWidget() {
             {loginMutation.isError && (
               <div className="flex flex-row items-center gap-[2px]">
                 <ErrorExclamation size="medium" />
-                <h3 className="text-body3 font-normal text-error">
+                <h3 className="text-body3 font-normal text-red-400 dark:text-red-300">
                   {errorMessage}
                 </h3>
               </div>

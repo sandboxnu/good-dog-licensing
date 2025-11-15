@@ -55,7 +55,7 @@ export default function MultiselectDropdown({
         className={clsx(
           "min-h-[32px] w-full rounded-[8px] border-[#858585] text-body3 text-body-primary hover:border-[#404040]",
           {
-            "!border-error !shadow-error": errorText,
+            "!border-red-400 !shadow-red-400 !dark:border-red-300 !dark:shadow-red-300": errorText,
           },
         )}
         placeholder={placeholder}
@@ -72,7 +72,7 @@ export default function MultiselectDropdown({
       {errorText && (
         <div className="flex flex-row items-center gap-[2px]">
           <ErrorExclamation size="small" />
-          <Label className="text-caption text-error">{errorText}</Label>
+          <Label className="text-caption text-red-400 dark:text-red-300">{errorText}</Label>
         </div>
       )}
     </div>

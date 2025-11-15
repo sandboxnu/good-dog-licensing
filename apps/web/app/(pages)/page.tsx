@@ -53,7 +53,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="h-[500px] w-full rounded-[20px] bg-gray-400 shadow-div"></div>
+              <div className="h-[500px] w-full rounded-[20px] bg-gray-400 shadow-div dark:shadow-grass-green-300"></div>
             </div>
           </div>
           <LearnMoreAboutRoles />

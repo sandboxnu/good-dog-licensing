@@ -41,7 +41,7 @@ export default function EmailCodeModal({
       {codeIsWrong && (
         <div className="flex flex-row items-center justify-center gap-x-1 pt-[16px]">
           <ErrorExclamation size="medium" />
-          <p className="text-body2 font-medium text-error">Incorrect code</p>
+          <p className="text-body2 font-medium text-red-400 dark:text-red-300">Incorrect code</p>
         </div>
       )}
       <div className="pt-[16px]">
@@ -88,7 +88,7 @@ function OPTSlot({ index, error }: { index: number; error: boolean }) {
       index={index}
       className={clsx(
         "h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] !text-h1",
-        { "shadown-error border-error": error },
+        { "shadow-red-400 border-red-400 dark:shadow-red-300 dark:border-red-300": error },
       )}
     />
   );

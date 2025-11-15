@@ -30,7 +30,7 @@ export default function ProfileDropdown() {
         </DropdownMenuItem>
         <DropdownMenuItem className="text-base h-[22px]">
           <button
-            className="text-error"
+            className="text-red-400 dark:text-red-300"
             onClick={() => signOutMutation.mutate()}
           >
             Log out

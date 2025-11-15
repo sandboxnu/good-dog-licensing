@@ -78,6 +78,8 @@
     --body-text: #e9f9f1;
     --shadow-color: #098465;
     --cream-300-green-600: var(--cream-300);
+    --green-600-green-300: var(--green-600);
+    --green-400-grass-green-300: var(--green-400);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -91,6 +93,8 @@
       --header-primary: #022119;
       --body-text: #054233;
       --cream-300-green-600: var(--green-600);
+      --green-600-green-300: var(--green-300);
+      --green-400-grass-green-300: var(--green-300);
     }
   }
 

@@ -47,7 +47,7 @@ export default function RadioGroup({
               className="flex w-full flex-row items-center gap-2"
             >
               <RadioGroupItem
-                className={`border-good-dog-main ${errorText ? "border-error shadow-error" : ""}`}
+                className={`border-good-dog-main ${errorText ? "border-red-400 shadow-red-400 dark:border-red-300 dark:shadow-red-300" : ""}`}
                 value={option.value}
                 id={`${id}-${index}`}
               />
@@ -61,7 +61,7 @@ export default function RadioGroup({
       {errorText && (
         <div className="flex flex-row items-center gap-[2px]">
           <ErrorExclamation size="small" />
-          <Label className="text-caption text-error">{errorText}</Label>
+          <Label className="text-caption text-red-400 dark:text-red-300">{errorText}</Label>
         </div>
       )}
     </div>

@@ -41,7 +41,7 @@ export default function Button({
         : `${size}-icon`;
 
   const widthClassName = fullWidth ? "!w-full" : "";
-  const shadowClassName = shadow ? "shadow-button" : "";
+  const shadowClassName = shadow ? "shadow-button dark:shadow-grass-green-200" : "";
 
   return (
     <ButtonShad
