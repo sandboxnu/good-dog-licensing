@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { trpc } from "@good-dog/trpc/client";
 import {
   DropdownMenu,
@@ -5,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@good-dog/ui/dropdown-menu";
-import Link from "next/link";
+
 import ProfileIcon from "../svg/ProfileIcon";
 
 export default function ProfileDropdown() {
@@ -23,12 +25,12 @@ export default function ProfileDropdown() {
       <DropdownMenuContent
         align="end"
         side="bottom"
-        className="w-[138px] gap-2 py-4 px-2 bg-white border-light-green flex flex-col gap-2"
+        className="flex w-[138px] flex-col gap-2 border-light-green bg-white px-2 py-4"
       >
-        <DropdownMenuItem className="text-base h-[22px]">
+        <DropdownMenuItem className="h-[22px] text-base">
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="text-base h-[22px]">
+        <DropdownMenuItem className="h-[22px] text-base">
           <button
             className="text-error"
             onClick={() => signOutMutation.mutate()}

@@ -2,28 +2,42 @@
 
 import { SubmissionStep } from "./MusicSubmissionWidget";
 
-interface ProjectSubmissionHeaderProps {
+interface SongSubmissionHeaderProps {
   step: SubmissionStep;
 }
 
-export default function ProjectSubmissionHeader({
+export default function SongSubmissionHeader({
   step,
-}: ProjectSubmissionHeaderProps) {
+}: SongSubmissionHeaderProps) {
   return (
-    <div className="w-full text-black border-[.5px] bg-white py-6 px-10 gap-6 flex flex-col border-black rounded-2xl">
-      <p className="text-5xl font-medium">Music submission form</p>
+    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white px-10 py-6 text-black">
+      <p className="text-5xl font-medium">Song submission form</p>
       {step != SubmissionStep.SUBMITTED && (
-        <div>
+        <div className="flex flex-col gap-[12px]">
+          <p className="text-lg font-medium">Say “Yes” to Licensing!</p>
           <p className="text-lg font-medium">
-            We are so thrilled that you're interested! Good Dog Licensing is
-            Northeastern's student-run music-licensing platform for independent
-            musicians. We aspire to connect independent artists and independent
-            content creators. 100% of any money earned from a synch deal will go
-            to you! Good Dog will be no-risk and non-exclusive. You will keep
-            all your rights, you can say “no” to any placements and you will be
-            able to withdraw your music at any time!!
+            Your music should be heard! Good Dog is all about expanding your
+            creative network, expanding your audience, and getting your metadata
+            into the music industry ecosystem so you can get paid. Good Dog can
+            help you reach new listeners, make great new connections within the
+            entertainment industry, and build a sustainable career.
           </p>
-          <p className="text-required-star font-semibold">
+          <div className="flex flex-col gap-[4px] pl-[10px]">
+            <p className="text-lg font-medium">
+              • You can say no to any synch placement-but you should say “Yes!”
+              GDL will never license your music without your permission.
+            </p>
+            <p className="text-lg font-medium">
+              • You retain 100% of your copyrights
+            </p>
+            <p className="text-lg font-medium">
+              • You receive full attribution for all uses of your music
+            </p>
+            <p className="text-lg font-medium">
+              • You can earn public performance royalties through ASCAP or BMI
+            </p>
+          </div>
+          <p className="font-semibold text-required-star">
             * Indicates a required question.
           </p>
         </div>
@@ -34,7 +48,7 @@ export default function ProjectSubmissionHeader({
             Your response has been recorded!
           </p>
           <a
-            className="text-secondary font-semibold hover:underline"
+            className="font-semibold text-secondary hover:underline"
             href="/music-submission"
           >
             Submit another music submission form

@@ -1,20 +1,22 @@
 "use client";
 
-import { trpc } from "@good-dog/trpc/client";
-import Card from "../base/Card";
-import Header from "./components/Header";
 import type { ReactNode } from "react";
-import People from "../svg/People";
-import MusicNote from "../svg/MusicNote";
-import StatusIndicator from "../base/StatusIndicator";
+
 import { MatchState } from "@good-dog/db";
-import EmptyMessage from "./components/EmptyMessage";
+import { trpc } from "@good-dog/trpc/client";
+
+import Card from "../base/Card";
+import StatusIndicator from "../base/StatusIndicator";
 import EmptyMusicNote from "../svg/homepage/EmptyMusicNote";
+import MusicNote from "../svg/MusicNote";
+import People from "../svg/People";
+import EmptyMessage from "./components/EmptyMessage";
+import Header from "./components/Header";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
   return (
-    <div className="flex flex-col gap-[32px] align-start w-full">
+    <div className="align-start flex w-full flex-col gap-[32px]">
       <Header
         title={"Song submissions"}
         subtitle={"This is where you view and manage your song submissions"}
@@ -30,7 +32,7 @@ export default function MusicianLanding() {
         />
       )}
       {data.music.length > 0 && (
-        <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
+        <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.music.map((song, key) => {
             const actionNeeded = !!song.matches.find(
               (match) => match.matchState === MatchState.SONG_REQUESTED,
@@ -44,7 +46,7 @@ export default function MusicianLanding() {
                   day: "numeric",
                 })}
                 children={
-                  <div className="flex flex-col h-full gap-[24px]">
+                  <div className="flex h-full flex-col gap-[24px]">
                     <div className="flex flex-col gap-[8px]">
                       <Line text={song.performerName} icon={<People />} />
                       <Line
@@ -75,7 +77,7 @@ export default function MusicianLanding() {
 
 function Line({ text, icon }: { text: string; icon: ReactNode }) {
   return (
-    <div className="flex flex-row gap-[8px] items-center">
+    <div className="flex flex-row items-center gap-[8px]">
       {icon}
       <p className="text-body3 text-dark-gray-500 dark:text-mint-300">{text}</p>
     </div>

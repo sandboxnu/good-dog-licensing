@@ -9,4 +9,5 @@ export {
   MusicAffiliation,
   MusicRole,
   Genre,
+  ProjectType,
 } from "@prisma/client";

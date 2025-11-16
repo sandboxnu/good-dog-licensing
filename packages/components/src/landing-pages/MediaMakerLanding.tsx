@@ -1,17 +1,19 @@
 "use client";
-import { trpc } from "@good-dog/trpc/client";
-import Card from "../base/Card";
-import Header from "./components/Header";
-import StatusIndicator from "../base/StatusIndicator";
+
 import { MatchState } from "@good-dog/db";
-import EmptyMessage from "./components/EmptyMessage";
+import { trpc } from "@good-dog/trpc/client";
+
+import Card from "../base/Card";
+import StatusIndicator from "../base/StatusIndicator";
 import EmptyFolder from "../svg/homepage/EmptyFolder";
+import EmptyMessage from "./components/EmptyMessage";
+import Header from "./components/Header";
 
 export default function MediaMakerLanding() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
 
   return (
-    <div className="flex flex-col gap-[32px] align-start w-full">
+    <div className="align-start flex w-full flex-col gap-[32px]">
       <Header
         title={"Project requests"}
         subtitle={"This is where you view and manage your project requests"}
@@ -25,7 +27,7 @@ export default function MediaMakerLanding() {
         />
       )}
       {data.projects.length > 0 && (
-        <div className="flex flex-wrap justify-start gap-4 mx-auto max-w-fit pb-[36px]">
+        <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.projects.map((project, key) => {
             // New matches are sent to media maker for approval
             const actionRequired = project.songRequests.some((songReq) =>
@@ -74,8 +76,8 @@ export default function MediaMakerLanding() {
                   day: "numeric",
                 })}
                 children={
-                  <div className="flex flex-col h-full gap-[24px]">
-                    <p className="body3 text-dark-gray-100 dark:text-dark-gray-100 text-base font-normal leading-tight break-words line-clamp-[3]">
+                  <div className="flex h-full flex-col gap-[24px]">
+                    <p className="body3 line-clamp-[3] break-words text-base font-normal leading-tight text-dark-gray-100 dark:text-dark-gray-100">
                       {project.description}
                     </p>
                     <div className="absolute bottom-[24px]">

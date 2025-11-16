@@ -8,7 +8,7 @@ export default function GrowOnScroll({
   children: React.ReactNode;
 }) {
   const controls = useAnimation();
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
 
   useEffect(() => {
     if (inView) {

@@ -10,9 +10,9 @@ export default function EmptyMessage({
   icon: ReactNode;
 }) {
   return (
-    <div className="flex flex-col w-full justify-center items-center gap-[24px] pt-[152px]">
+    <div className="flex w-full flex-col items-center justify-center gap-[24px] pt-[152px]">
       {icon}
-      <div className="flex flex-col gap-[16px] w-[464px] text-center">
+      <div className="flex w-[464px] flex-col gap-[16px] text-center">
         <h3>{title}</h3>
         <p className="text-body1 text-dark-gray-200 dark:text-dark-gray-100">
           {description}

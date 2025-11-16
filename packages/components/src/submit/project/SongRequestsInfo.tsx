@@ -7,7 +7,6 @@ import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
 
 import Button from "../../base/Button";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
-import RHFTextInput from "../../rhf-base/RHFTextInput";
 import Trash from "../../svg/TrashIcon";
 
 interface SongRequestsInfoProps {
@@ -53,37 +52,31 @@ export default function SongRequestsInfo({
                 </button>
               )}
             </div>
-            <RHFTextInput<ProjectSubmissionFormFields>
-              rhfName={`songRequests.${index}.oneLineSummary`}
-              label="What is the song for?"
-              placeholder="Write a brief summary for the song request"
-              id={`oneLineSummary-${index}`}
-              errorText={errors.songRequests?.[index]?.oneLineSummary?.message}
-              required={true}
-            />
             <RHFTextArea<ProjectSubmissionFormFields>
               rhfName={`songRequests.${index}.description`}
-              label="Why do you need a song?"
-              placeholder="What will the song be used for?"
+              label="What will the song be used for?"
+              placeholder=""
               id={`description-${index}`}
               errorText={errors.songRequests?.[index]?.description?.message}
               required={true}
             />
             <RHFTextArea<ProjectSubmissionFormFields>
-              rhfName={`songRequests.${index}.musicType`}
-              label="Type of song/genre needed"
-              placeholder="What is the project about?"
+              rhfName={`songRequests.${index}.feelingsConveyed`}
+              label="What message(s)/feelings do you want the music to convey to the audience? "
+              placeholder=""
               id={`musicType-${index}`}
-              errorText={errors.songRequests?.[index]?.musicType?.message}
+              errorText={
+                errors.songRequests?.[index]?.feelingsConveyed?.message
+              }
               required={true}
             />
             <RHFTextArea<ProjectSubmissionFormFields>
               rhfName={`songRequests.${index}.similarSongs`}
-              label="List Example Artists, Tracks, Songs, or Instrumentals"
-              placeholder="List similar songs you’re looking for"
+              label="Examples of the kind of music you’re looking for "
+              placeholder=""
               id={`similarSongs-${index}`}
               errorText={errors.songRequests?.[index]?.similarSongs?.message}
-              required={false}
+              required={true}
             />
             <RHFTextArea<ProjectSubmissionFormFields>
               rhfName={`songRequests.${index}.additionalInfo`}
@@ -120,9 +113,8 @@ export default function SongRequestsInfo({
           displayIcon="plus"
           onClick={() =>
             append({
-              oneLineSummary: "",
               description: "",
-              musicType: "",
+              feelingsConveyed: "",
               similarSongs: "",
               additionalInfo: "",
             })

@@ -1,9 +1,10 @@
+import type { ReactNode } from "react";
 import clsx from "clsx";
 
 import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
+
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
-import type { ReactNode } from "react";
 
 interface TextInputProps {
   label: string;

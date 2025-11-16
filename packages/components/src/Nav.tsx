@@ -4,8 +4,8 @@ import Link from "next/link";
 
 import { trpc } from "@good-dog/trpc/client";
 
-import NavLogo from "./svg/NavLogo";
 import ProfileDropdown from "./base/ProfileDropdown";
+import NavLogo from "./svg/NavLogo";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
@@ -15,7 +15,7 @@ export default function Nav() {
       <div className="flex items-center justify-between bg-transparent">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />
-          <p className="font-righteous text-good-dog-main text-2xl">
+          <p className="font-righteous text-2xl text-good-dog-main">
             GOOD DOG LICENSING
           </p>
         </Link>
@@ -24,17 +24,23 @@ export default function Nav() {
           <Link href="/" className="underline-offset-4 hover:underline">
             Home
           </Link>
-          <Link href="/about" className="underline-offset-4 hover:underline">
-            About
-          </Link>
           {user ? (
-            <>
-              <ProfileDropdown />
-            </>
+            <ProfileDropdown />
           ) : (
-            <Link href="/login" className="underline-offset-4 hover:underline">
-              Login
-            </Link>
+            <>
+              <Link
+                href="/login"
+                className="underline-offset-4 hover:underline"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="underline-offset-4 hover:underline"
+              >
+                Sign up
+              </Link>
+            </>
           )}
         </nav>
       </div>
