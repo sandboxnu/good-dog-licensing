@@ -50,7 +50,7 @@ export default function Home() {
               </div>
             </div>
             <Image
-              src={"/images/landingMainImage.jpg"}
+              src={"/images/mainLandingImage.webp"}
               alt="Dashboard Example"
               width={1062}
               height={712}
