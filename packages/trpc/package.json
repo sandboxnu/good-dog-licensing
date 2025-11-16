@@ -32,6 +32,7 @@
     "@good-dog/db": "workspace:*",
     "@good-dog/email": "workspace:*",
     "@good-dog/env": "workspace:*",
+    "@sentry/node": "^10.25.0",
     "@tanstack/react-query": "5.56.2",
     "@trpc/client": "11.0.0-rc.544",
     "@trpc/react-query": "11.0.0-rc.544",
