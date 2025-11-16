@@ -43,6 +43,38 @@ describe("projectSubmission", () => {
           },
         },
       }),
+      prisma.user.create({
+        data: {
+          firstName: "Gavin",
+          lastName: "Normand",
+          role: "MEDIA_MAKER",
+          email: "gavin@test.org",
+          phoneNumber: "123-456-7890",
+          hashedPassword: "password123",
+          sessions: {
+            create: {
+              sessionId: "gavin-session-id",
+              expiresAt: new Date("2099-01-01"),
+            },
+          },
+        },
+      }),
+      prisma.user.create({
+        data: {
+          firstName: "Meggan",
+          lastName: "Shvartsberg",
+          role: "MUSICIAN",
+          email: "meggan@test.org",
+          phoneNumber: "123-456-7890",
+          hashedPassword: "password123",
+          sessions: {
+            create: {
+              sessionId: "meggan-session-id",
+              expiresAt: new Date("2099-01-01"),
+            },
+          },
+        },
+      }),
       prisma.projectSubmission.create({
         data: {
           projectId: "project-id-1",
@@ -68,17 +100,23 @@ describe("projectSubmission", () => {
   afterAll(async () => {
     await prisma.user.deleteMany({
       where: {
-        email: "damian@test.org",
+        OR: [
+          {
+            email: "damian@test.org",
+          },
+          {
+            email: "gavin@test.org",
+          },
+          {
+            email: "meggan@test.org",
+          },
+        ],
       },
     });
 
     await prisma.projectSubmission.deleteMany({
       where: {
-        OR: [
-          {
-            projectId: "project-id-1",
-          },
-        ],
+        projectId: "project-id-1",
       },
     });
   });
@@ -139,5 +177,41 @@ describe("projectSubmission", () => {
         projectId: projectAfter.projectId,
       },
     });
+  });
+
+  test("create a song request submission as a musician", () => {
+    mockCookies.set("sessionId", "meggan-session-id");
+
+    const input = {
+      projectId: "project-id-1",
+      songRequest: {
+        description: "SongRequest 1 description",
+        feelingsConveyed: "Classical",
+        similarSongs: "Song A, Song B",
+        additionalInfo: "Some additional info",
+      },
+    };
+
+    expect($api.songRequestSubmission(input)).rejects.toThrow(
+      "permission to submit",
+    );
+  });
+
+  test("create a song request submission as a media maker that doesn't own the project", () => {
+    mockCookies.set("sessionId", "gavin-session-id");
+
+    const input = {
+      projectId: "project-id-1",
+      songRequest: {
+        description: "SongRequest 1 description",
+        feelingsConveyed: "Classical",
+        similarSongs: "Song A, Song B",
+        additionalInfo: "Some additional info",
+      },
+    };
+
+    expect($api.songRequestSubmission(input)).rejects.toThrow(
+      "Project not found or you don't have permission",
+    );
   });
 });
