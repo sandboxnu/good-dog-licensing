@@ -12,7 +12,7 @@ export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
 
   return (
-    <header className="w-full text-good-dog-main">
+    <header className="w-full">
       <div className="flex items-center justify-between bg-transparent">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />

@@ -38,7 +38,7 @@ export default function TextInput({
       </div>
       <Textarea
         className={clsx(
-          "h-[80px] w-full rounded-[8px] border-dark-gray-200 pl-[8px] text-body3 text-body-primary",
+          "h-[80px] w-full rounded-[8px] border-dark-gray-200 pl-[8px] text-body3 text-dark-gray-500 dark:text-gray-200",
           "placeholder:text-dark-gray-100",
           "hover:border-gray-600",
           "focus:border-bg-green-300 focus:shadow-active focus:outline-none",

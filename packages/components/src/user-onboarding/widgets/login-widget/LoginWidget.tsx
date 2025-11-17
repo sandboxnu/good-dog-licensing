@@ -108,7 +108,7 @@ export default function LoginWidget() {
               </div>
             </div>
             <div className="flex flex-row flex-wrap justify-center space-x-1 pt-[16px] text-body3">
-              <span className="font-normal text-dark-gray-500 text-gray-200">
+              <span className="font-normal text-dark-gray-500 dark:text-gray-200">
                 Don't have an account?
               </span>
               <Link
