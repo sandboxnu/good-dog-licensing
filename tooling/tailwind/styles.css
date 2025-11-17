@@ -67,7 +67,6 @@
     --green-600: #022119;
     --green-700: #021913;
 
-    --good-dog-main: #098465;
     --custom-gradient: linear-gradient(
       180deg,
       #fffbf6 29.69%,
@@ -84,7 +83,6 @@
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --good-dog-main: #07634c;
       --custom-gradient: linear-gradient(
         180deg,
         #022119 55.17%,
@@ -95,6 +93,14 @@
       --cream-300-green-600: var(--green-600);
       --green-600-green-300: var(--green-300);
       --green-400-grass-green-300: var(--green-300);
+
+      p {
+        color: #2e2e2e;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 96%;
+      }
     }
   }
 

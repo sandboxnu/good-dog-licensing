@@ -80,10 +80,7 @@ export default {
         "green-500": "var(--green-500)",
         "green-600": "var(--green-600)",
         "green-700": "var(--green-700)",
-
-        "good-dog-main": "var(--good-dog-main)",
         "header-primary": "#022119",
-        "body-primary": "#2E2E2E",
         secondary: "#054233",
         error: "#B13433",
         "required-star": "#F4392D",

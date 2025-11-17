@@ -22,7 +22,7 @@ export default function Checkbox({
         <CheckboxShad
           required={required}
           id={id}
-          className={`border-green-400 dark:border-green-100 data-[state=checked]:bg-good-dog-main ${errorText ? "border-red-400 shadow-red-400 dark:border-red-400 dark:shadow-red-400" : ""}`}
+          className={`border-green-400 dark:border-green-100 data-[state=checked]:bg-green-400 data-[state=checked]:bg-mint-300 ${errorText ? "border-red-400 shadow-red-400 dark:border-red-400 dark:shadow-red-400" : ""}`}
         />
         <div className="flex flex-row items-center gap-[2px]">
           <Label className="text-body3" htmlFor={id}>
