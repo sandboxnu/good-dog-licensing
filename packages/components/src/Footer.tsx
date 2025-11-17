@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { FaYoutube } from "react-icons/fa";
 import { FaFacebook, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
@@ -28,11 +27,6 @@ export default function Footer() {
               <FaInstagram size={19} />
             </div>
           </div>
-        </div>
-        <div className="flex flex-col text-lg">
-          <Link href="/about">About Us</Link>
-          <Link href="/">For Musicians</Link>
-          <Link href="/">For Media Makers</Link>
         </div>
         <div className="flex h-full flex-col justify-between">
           <div className="mb-auto mt-[10px] text-xl font-bold">

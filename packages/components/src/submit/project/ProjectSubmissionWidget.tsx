@@ -12,7 +12,7 @@ import InitialProjectInfo from "./InitialProjectInfo";
 import ProjectSubmissionHeader from "./ProjectSubmissionHeader";
 import SongRequestsInfo from "./SongRequestsInfo";
 
-type SignUpFormFields = z.input<typeof zProjectSubmissionValues>;
+type ProjectSubmissionFormFields = z.input<typeof zProjectSubmissionValues>;
 
 export enum SubmissionStep {
   INITIAL,
@@ -29,14 +29,13 @@ export default function ProjectSubmissionWidget() {
     },
   });
 
-  const formMethods = useForm<SignUpFormFields>({
+  const formMethods = useForm<ProjectSubmissionFormFields>({
     resolver: zodResolver(zProjectSubmissionValues),
     defaultValues: {
       songRequests: [
         {
-          oneLineSummary: "",
           description: "",
-          musicType: "",
+          feelingsConveyed: "",
           similarSongs: "",
           additionalInfo: "",
         },
@@ -49,6 +48,7 @@ export default function ProjectSubmissionWidget() {
       "projectTitle",
       "description",
       "deadline",
+      "projectType",
     ]);
     if (initialProjectInfoIsValid) {
       setStep(SubmissionStep.SONG_REQUESTS);

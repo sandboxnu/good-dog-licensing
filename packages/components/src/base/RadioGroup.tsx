@@ -4,7 +4,7 @@ import {
   RadioGroup as RadioGroupShad,
 } from "@good-dog/ui/radio-group";
 
-import ErrorExclamation from "../svg/ErrorExclamation";
+import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 
 interface RadioGroupProps {
   options: {

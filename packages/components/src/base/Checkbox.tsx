@@ -1,7 +1,7 @@
 import { Checkbox as CheckboxShad } from "@good-dog/ui/checkbox";
 import { Label } from "@good-dog/ui/label";
 
-import ErrorExclamation from "../svg/ErrorExclamation";
+import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 
 interface CheckboxProps {
   label: string;

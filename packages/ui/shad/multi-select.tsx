@@ -16,10 +16,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@good-dog/ui/popover";
 
 import X from "./X";
 
-/**
- * Variants for the multi-select component to handle different styles.
- * Uses class-variance-authority (cva) to define different styles based on "variant" prop.
- */
 const multiSelectVariants = cva(
   "my-0.5 flex h-6 flex-row gap-1 border-[1px] text-body3",
   {
@@ -43,63 +39,26 @@ const multiSelectVariants = cva(
   },
 );
 
-/**
- * Props for MultiSelect component
- */
 interface MultiSelectProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof multiSelectVariants> {
-  /**
-   * An array of option objects to be displayed in the multi-select component.
-   * Each option object has a label, value, and an optional icon.
-   */
   options: {
-    /** The text to display for the option. */
     label: string;
-    /** The unique value associated with the option. */
     value: string;
-    /** Optional icon component to display alongside the option. */
     icon?: React.ComponentType<{ className?: string }>;
   }[];
-
-  /**
-   * Callback function triggered when the selected values change.
-   * Receives an array of the new selected values.
-   */
   onValueChange: (value: string[]) => void;
 
-  /** The default selected values when the component mounts. */
+  /** The controlled value of selected items */
+  value?: string[];
+
+  /** @deprecated Use `value` prop instead for controlled behavior */
   defaultValue?: string[];
 
-  /**
-   * Placeholder text to be displayed when no values are selected.
-   * Optional, defaults to "Select options".
-   */
   placeholder?: string;
-
-  /**
-   * Maximum number of items to display. Extra selected items will be summarized.
-   * Optional, defaults to 3.
-   */
   maxCount?: number;
-
-  /**
-   * The modality of the popover. When set to true, interaction with outside elements
-   * will be disabled and only popover content will be visible to screen readers.
-   * Optional, defaults to false.
-   */
   modalPopover?: boolean;
-
-  /**
-   * If true, renders the multi-select component as a child of another component.
-   * Optional, defaults to false.
-   */
   asChild?: boolean;
-
-  /**
-   * Additional class names to apply custom styles to the multi-select component.
-   * Optional, can be used to add custom styles.
-   */
   className?: string;
 }
 
@@ -112,6 +71,7 @@ export const MultiSelect = React.forwardRef<
       options,
       onValueChange,
       variant,
+      value, // Now accepting value prop
       defaultValue = [],
       placeholder = "Select options",
       maxCount = 3,
@@ -121,16 +81,24 @@ export const MultiSelect = React.forwardRef<
     },
     ref,
   ) => {
-    const [selectedValues, setSelectedValues] =
+    const isControlled = value !== undefined;
+    const [internalSelectedValues, setInternalSelectedValues] =
       React.useState<string[]>(defaultValue);
+
+    const selectedValues = isControlled ? value : internalSelectedValues;
+
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 
     const toggleOption = (option: string) => {
       const newSelectedValues = selectedValues.includes(option)
-        ? selectedValues.filter((value) => value !== option)
+        ? selectedValues.filter((v) => v !== option)
         : [...selectedValues, option];
-      setSelectedValues(newSelectedValues);
+
       onValueChange(newSelectedValues);
+
+      if (!isControlled) {
+        setInternalSelectedValues(newSelectedValues);
+      }
     };
 
     const handleTogglePopover = () => {

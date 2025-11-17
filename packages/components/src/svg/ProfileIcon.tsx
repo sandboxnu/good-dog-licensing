@@ -12,7 +12,7 @@ export default function ProfileIcon({ color, size }: ProfileIconProps) {
   const letter = user?.firstName.substring(0, 1);
 
   return (
-    <div className="w-full h-full relative flex items-center justify-center">
+    <div className="relative flex h-full w-full items-center justify-center">
       <svg
         width={circleSize}
         height={circleSize}

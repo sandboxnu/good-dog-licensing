@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
 
 import Modal from "../../../base/Modal";
-import ErrorExclamation from "../../../svg/ErrorExclamation";
+import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 
 interface EmailCodeModalProps {
   isOpen: boolean;

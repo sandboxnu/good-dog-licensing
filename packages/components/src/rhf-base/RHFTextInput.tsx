@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 
@@ -12,6 +13,7 @@ interface RHFTextInputProps<TFieldValues extends FieldValues> {
   required?: boolean;
   helperText?: string;
   errorText?: string;
+  icon?: ReactNode;
 }
 
 export default function RHFTextInput<TFieldValues extends FieldValues>({

@@ -3,6 +3,7 @@ import SuperJSON from "superjson";
 import { ZodError } from "zod";
 
 import { env } from "@good-dog/env";
+import * as Sentry from "@sentry/node";
 
 import type { createTRPCContext } from "./context";
 
@@ -40,5 +41,11 @@ const t = initTRPC
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 
+const sentryMiddleware = t.middleware(
+  Sentry.trpcMiddleware({
+    attachRpcInput: true,
+  }),
+);
+
 // Procedure builders
-export const baseProcedureBuilder = t.procedure;
+export const baseProcedureBuilder = t.procedure.use(sentryMiddleware);

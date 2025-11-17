@@ -7,7 +7,7 @@ import {
   test,
 } from "bun:test";
 
-import { prisma } from "@good-dog/db";
+import { prisma, ProjectType } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
@@ -85,6 +85,7 @@ describe("get-projects", () => {
           projectTitle: "title",
           description: "description-1",
           deadline: new Date(Date.now() + 600_000),
+          projectType: ProjectType.MOTION_PICTURE,
         },
       }),
       prisma.projectSubmission.create({
@@ -104,6 +105,7 @@ describe("get-projects", () => {
           projectTitle: "title",
           description: "description-2",
           deadline: new Date(Date.now() + 600_000),
+          projectType: ProjectType.MOTION_PICTURE,
         },
       }),
       prisma.projectSubmission.create({
@@ -123,6 +125,7 @@ describe("get-projects", () => {
           projectTitle: "Another Project Title",
           description: "description-3",
           deadline: new Date(Date.now() + 600_000),
+          projectType: ProjectType.MOTION_PICTURE,
         },
       }),
       prisma.user.create({
@@ -149,6 +152,7 @@ describe("get-projects", () => {
           projectOwnerId: "anzhuo-mediamaker-id",
           description: "Project 1",
           deadline: new Date(Date.now() + 600_000),
+          projectType: ProjectType.MOTION_PICTURE,
         },
       }),
       prisma.projectSubmission.create({
@@ -158,6 +162,7 @@ describe("get-projects", () => {
           projectOwnerId: "anzhuo-mediamaker-id",
           description: "Project 2",
           deadline: new Date(Date.now() + 600_000),
+          projectType: ProjectType.MOTION_PICTURE,
         },
       }),
       prisma.user.create({

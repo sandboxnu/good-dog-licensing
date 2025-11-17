@@ -32,6 +32,7 @@ export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
     },
     include: {
       submitter: true,
+      matches: true,
     },
   });
   return { music };
