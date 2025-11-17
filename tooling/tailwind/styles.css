@@ -67,40 +67,12 @@
     --green-600: #022119;
     --green-700: #021913;
 
-    --custom-gradient: linear-gradient(
-      180deg,
-      #fffbf6 29.69%,
-      #e9f8ec 55.49%,
-      #d3f4e2 96.78%
-    );
-    --header-primary: #e9f9f1;
     --body-text: #e9f9f1;
-    --shadow-color: #098465;
-    --cream-300-green-600: var(--cream-300);
-    --green-600-green-300: var(--green-600);
-    --green-400-grass-green-300: var(--green-400);
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --custom-gradient: linear-gradient(
-        180deg,
-        #022119 55.17%,
-        #021913 81.66%
-      );
-      --header-primary: #022119;
       --body-text: #054233;
-      --cream-300-green-600: var(--green-600);
-      --green-600-green-300: var(--green-300);
-      --green-400-grass-green-300: var(--green-300);
-
-      p {
-        color: #2e2e2e;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 96%;
-      }
     }
   }
 
