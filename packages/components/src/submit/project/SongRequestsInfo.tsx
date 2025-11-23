@@ -83,7 +83,7 @@ export default function SongRequestsInfo({
             />
             <RHFTextArea<ProjectSubmissionFormFields>
               rhfName={`songRequests.${index}.similarSongs`}
-              label="Examples of the kind of music you’re looking for "
+              label="Examples of the kind of music you're looking for "
               placeholder=""
               id={`similarSongs-${index}`}
               errorText={errors.songRequests?.[index]?.similarSongs?.message}

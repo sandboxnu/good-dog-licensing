@@ -58,14 +58,9 @@ export default function ProjectSubmissionWidget() {
     }
   };
 
-  const handleSubmit = async () => {
-    const songRequestsInfoIsValid = await formMethods.trigger(["songRequests"]);
-    if (songRequestsInfoIsValid) {
-      submitProjectMutation.mutate(formMethods.getValues());
-    } else {
-      console.log("Not valid");
-    }
-  };
+  const handleSubmit = formMethods.handleSubmit((data) => {
+    submitProjectMutation.mutate(data);
+  });
 
   const handleBack = () => {
     setStep(SubmissionStep.INITIAL);
