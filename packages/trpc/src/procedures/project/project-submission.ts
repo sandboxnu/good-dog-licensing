@@ -20,6 +20,7 @@ export const projectSubmissionProcedure = rolePermissionsProcedureBuilder(
         description: input.description,
         songRequests: {
           create: input.songRequests.map((songRequest) => ({
+            songRequestTitle: songRequest.songRequestTitle,
             description: songRequest.description,
             feelingsConveyed: songRequest.feelingsConveyed,
             similarSongs: songRequest.similarSongs,

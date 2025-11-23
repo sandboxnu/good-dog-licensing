@@ -7,6 +7,7 @@ export const zProjectSubmissionValues = z.object({
   description: z.string().min(1, "Project description is required"),
   songRequests: z.array(
     z.object({
+      songRequestTitle: z.string().min(1, "This is required"),
       description: z.string().min(1, "This is required"),
       feelingsConveyed: z.string().min(1, "This is required"),
       similarSongs: z.string().min(1, "This is required"),
