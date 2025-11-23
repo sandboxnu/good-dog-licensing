@@ -8,6 +8,7 @@ import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
 import Button from "../../base/Button";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
 import Trash from "../../svg/TrashIcon";
+import RHFTextInput from "../../rhf-base/RHFTextInput";
 
 interface SongRequestsInfoProps {
   onSubmit: () => void;
@@ -52,6 +53,16 @@ export default function SongRequestsInfo({
                 </button>
               )}
             </div>
+            <RHFTextInput<ProjectSubmissionFormFields>
+              rhfName={`songRequests.${index}.songRequestTitle`}
+              label="Title of your song request"
+              placeholder=""
+              id={`title-${index}`}
+              errorText={
+                errors.songRequests?.[index]?.songRequestTitle?.message
+              }
+              required={true}
+            />
             <RHFTextArea<ProjectSubmissionFormFields>
               rhfName={`songRequests.${index}.description`}
               label="What will the song be used for?"
@@ -113,6 +124,7 @@ export default function SongRequestsInfo({
           displayIcon="plus"
           onClick={() =>
             append({
+              songRequestTitle: "",
               description: "",
               feelingsConveyed: "",
               similarSongs: "",

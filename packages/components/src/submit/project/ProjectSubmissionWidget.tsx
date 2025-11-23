@@ -34,6 +34,7 @@ export default function ProjectSubmissionWidget() {
     defaultValues: {
       songRequests: [
         {
+          songRequestTitle: "",
           description: "",
           feelingsConveyed: "",
           similarSongs: "",
