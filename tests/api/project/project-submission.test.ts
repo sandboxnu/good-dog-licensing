@@ -139,7 +139,9 @@ describe("projectSubmission", () => {
     expect(storedProject.songRequests[0]?.description).toBe(
       "SongRequest 1 description",
     );
-    expect(storedProject.songRequests[0]?.songRequestTitle).toBe("Epic Adventure");
+    expect(storedProject.songRequests[0]?.songRequestTitle).toBe(
+      "Epic Adventure",
+    );
     expect(storedProject.songRequests[0]?.feelingsConveyed).toBe("Classical");
     expect(storedProject.songRequests[0]?.similarSongs).toBe("Song A, Song B");
     expect(storedProject.songRequests[0]?.additionalInfo).toBe(
