@@ -7,6 +7,7 @@ import type { zSongRequest } from "@good-dog/trpc/schema";
 
 import Button from "../../base/Button";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
+import RHFTextInput from "../../rhf-base/RHFTextInput";
 
 interface SongRequestsInfoProps {
   onSubmit: () => void;
@@ -34,6 +35,14 @@ export default function SongRequestInfo({
         <div className="flex flex-row items-center justify-between">
           <p className="text-xl font-semibold">New song request</p>
         </div>
+        <RHFTextInput<SongRequestSubmissionFormFields>
+          rhfName={`songRequestTitle`}
+          label="Title of your song request"
+          placeholder=""
+          id={`title`}
+          errorText={errors.songRequestTitle?.message}
+          required={true}
+        />
         <RHFTextArea<SongRequestSubmissionFormFields>
           rhfName={`description`}
           label="What will the song be used for?"

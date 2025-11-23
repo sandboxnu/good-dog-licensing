@@ -121,12 +121,13 @@ describe("projectSubmission", () => {
     });
   });
 
-  test("create a project submission", async () => {
+  test("create a song request submission", async () => {
     mockCookies.set("sessionId", "damian-session-id");
 
     const input = {
       projectId: "project-id-1",
       songRequest: {
+        songRequestTitle: "Song Request 1",
         description: "SongRequest 1 description",
         feelingsConveyed: "Classical",
         similarSongs: "Song A, Song B",
@@ -185,6 +186,7 @@ describe("projectSubmission", () => {
     const input = {
       projectId: "project-id-1",
       songRequest: {
+        songRequestTitle: "Song Request 1",
         description: "SongRequest 1 description",
         feelingsConveyed: "Classical",
         similarSongs: "Song A, Song B",
@@ -203,6 +205,7 @@ describe("projectSubmission", () => {
     const input = {
       projectId: "project-id-1",
       songRequest: {
+        songRequestTitle: "Song Request 1",
         description: "SongRequest 1 description",
         feelingsConveyed: "Classical",
         similarSongs: "Song A, Song B",

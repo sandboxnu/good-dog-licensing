@@ -1,12 +1,14 @@
-"use client";
-
 import PageContainer from "@good-dog/components/PageContainer";
 import SongRequestSubmissionWidget from "@good-dog/components/submit/song-request/SongRequestSubmissionWidget";
-import { useParams } from "next/navigation";
 
-export default function SubmissionForm() {
-  const params = useParams();
-  const projectId = params.id as string;
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function Page({ params }: PageProps) {
+  const projectId = params.id;
   return (
     <PageContainer background="solid">
       <SongRequestSubmissionWidget projectId={projectId} />

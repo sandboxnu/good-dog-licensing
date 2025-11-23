@@ -3,6 +3,7 @@ import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zSongRequest } from "../../schema";
 import z from "zod";
+import { TRPCError } from "@trpc/server";
 
 export const songRequestSubmissionProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
@@ -23,7 +24,10 @@ export const songRequestSubmissionProcedure = rolePermissionsProcedureBuilder(
     });
 
     if (!project) {
-      throw new Error("Project not found or you don't have permission");
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Project not found or you don't have permission",
+      });
     }
 
     // Create the song request submission
@@ -32,6 +36,7 @@ export const songRequestSubmissionProcedure = rolePermissionsProcedureBuilder(
         projectSubmission: {
           connect: project,
         },
+        songRequestTitle: input.songRequest.songRequestTitle,
         description: input.songRequest.description,
         feelingsConveyed: input.songRequest.feelingsConveyed,
         similarSongs: input.songRequest.similarSongs,

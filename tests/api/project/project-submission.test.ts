@@ -90,12 +90,14 @@ describe("projectSubmission", () => {
       description: "A test project for submission",
       songRequests: [
         {
+          songRequestTitle: "Epic Adventure",
           description: "SongRequest 1 description",
           feelingsConveyed: "Classical",
           similarSongs: "Song A, Song B",
           additionalInfo: "Some additional info",
         },
         {
+          songRequestTitle: "Chill Vibes",
           description: "SongRequest 2 description",
           feelingsConveyed: "Indie",
           similarSongs: "Cool Song",
@@ -137,6 +139,9 @@ describe("projectSubmission", () => {
     expect(storedProject.songRequests[0]?.description).toBe(
       "SongRequest 1 description",
     );
+    expect(storedProject.songRequests[0]?.songRequestTitle).toBe(
+      "Epic Adventure",
+    );
     expect(storedProject.songRequests[0]?.feelingsConveyed).toBe("Classical");
     expect(storedProject.songRequests[0]?.similarSongs).toBe("Song A, Song B");
     expect(storedProject.songRequests[0]?.additionalInfo).toBe(
@@ -147,6 +152,7 @@ describe("projectSubmission", () => {
       "SongRequest 2 description",
     );
     expect(storedProject.songRequests[1]?.feelingsConveyed).toBe("Indie");
+    expect(storedProject.songRequests[1]?.songRequestTitle).toBe("Chill Vibes");
 
     expect(mockEmailService.send).toBeCalled();
 

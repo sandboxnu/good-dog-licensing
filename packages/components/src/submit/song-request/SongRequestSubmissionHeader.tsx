@@ -2,15 +2,15 @@
 
 import { SubmissionStep } from "./SongRequestSubmissionWidget";
 
-interface ProjectSubmissionHeaderProps {
+interface SongRequestSubmissionHeaderProps {
   step: SubmissionStep;
   projectId: string;
 }
 
-export default function ProjectSubmissionHeader({
+export default function SongRequestSubmissionHeader({
   step,
   projectId,
-}: ProjectSubmissionHeaderProps) {
+}: SongRequestSubmissionHeaderProps) {
   return (
     <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
       <p className="text-5xl font-medium">Song request submission form</p>

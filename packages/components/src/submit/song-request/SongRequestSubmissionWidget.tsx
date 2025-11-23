@@ -1,7 +1,7 @@
 "use client";
 
 import type z from "zod";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -11,7 +11,7 @@ import { zSongRequest } from "@good-dog/trpc/schema";
 import SongRequestSubmissionHeader from "./SongRequestSubmissionHeader";
 import SongRequestInfo from "./SongRequestInfo";
 
-type ProjectSubmissionFormFields = z.input<typeof zSongRequest>;
+type SongRequestSubmissionFormFields = z.input<typeof zSongRequest>;
 
 export enum SubmissionStep {
   INFO,
@@ -31,9 +31,10 @@ export default function SongRequestSubmissionWidget({
     },
   });
 
-  const formMethods = useForm<ProjectSubmissionFormFields>({
+  const formMethods = useForm<SongRequestSubmissionFormFields>({
     resolver: zodResolver(zSongRequest),
     defaultValues: {
+      songRequestTitle: "",
       description: "",
       feelingsConveyed: "",
       similarSongs: "",
@@ -41,21 +42,16 @@ export default function SongRequestSubmissionWidget({
     },
   });
 
-  const handleSubmit = async () => {
-    const songRequestInfoIsValid = await formMethods.trigger();
-    if (songRequestInfoIsValid) {
-      submitSongRequestMutation.mutate({
-        projectId: projectId,
-        songRequest: formMethods.getValues(),
-      });
-    } else {
-      console.log("Not valid");
-    }
-  };
+  const handleSubmit = formMethods.handleSubmit((data) => {
+    submitSongRequestMutation.mutate({
+      projectId: projectId,
+      songRequest: data,
+    });
+  });
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     window.location.replace(`/project/${projectId}/`);
-  };
+  }, [projectId]);
 
   return (
     <div className="flex w-[752px] flex-col items-center gap-4">
