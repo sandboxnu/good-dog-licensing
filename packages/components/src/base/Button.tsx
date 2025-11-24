@@ -7,7 +7,7 @@ import PencilIcon from "../svg/PencilIcon";
 
 interface ButtonProps {
   label?: string;
-  size: "medium" | "large";
+  size: "small" | "medium" | "large";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
   displayIcon?: "plus" | "arrow" | "pencil";
@@ -18,10 +18,13 @@ interface ButtonProps {
 }
 
 type sizeOptions =
+  | "small-text"
   | "medium-text"
   | "large-text"
   | "medium-text-with-icon"
+  | "small-text-with-icon"
   | "large-text-with-icon"
+  | "small-icon"
   | "medium-icon"
   | "large-icon";
 

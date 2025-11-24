@@ -1,36 +1,57 @@
 import Button from "../../../base/Button";
 import ErrorExclamation from "../../../svg/ErrorExclamation";
 
+function InfoField({ header, content }: { header: string; content: string }) {
+  return (
+    <div className="flex flex-col">
+      <header className="text-[#858585]">{header}</header>
+      <div>{content}</div>
+    </div>
+  );
+}
+
 export default function ProfileWidget() {
   return (
     <div className="flex flex-col gap-[24px] w-[752px]">
       <div>pfp + name + role</div>
       <div className="flex flex-col gap-y-[16px]">
         <div className="rounded-2xl bg-white border">
-          <header className="flex bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] pl-[23.5]">
+          <header className="flex justify-between items-center bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[23.5]">
             Personal details
-            <Button size="medium" variant="outlined" />
+            <Button
+              size="small"
+              variant="outlined"
+              displayIcon="pencil"
+              label="Edit"
+            />
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
-            woooo
+            <div className="flex flex-row ">
+              <div className="w-[380px]">
+                <InfoField header="First name" content="John" />
+              </div>
+              <InfoField header="Last name" content="Doe" />
+            </div>
+            <div className="flex flex-row ">
+              <div className="w-[380px]">
+                <InfoField header="Group" content="ASCAP" />
+              </div>
+              <InfoField header="IPI No." content="000106060" />
+            </div>
           </div>
         </div>
         <div className="rounded-2xl bg-white border">
-          <header className="bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] pl-[23.5]">
+          <header className="bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[23.5]">
             Security
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
-            <div className="text-gray-400">email</div>
-            <div>actual sensitive email info</div>
-            <div>
-              <div className="text-gray-400">password</div>
-              <div>actual sensitive password info</div>
-            </div>
+            <InfoField header="Email" content="actualEmail@example.com" />
+            <InfoField header="Password" content="example password" />
           </div>
         </div>
 
         <div className="rounded-2xl bg-white border">
-          <header className="bg-gray pb-[12px] pt-[13px] pl-[23.5px] text-error">
+          <header className="bg-gray pb-[12px] pt-[13px] px-[23.5px] text-error">
             Delete account
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
