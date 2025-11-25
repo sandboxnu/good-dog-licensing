@@ -2,17 +2,18 @@ import { z } from "zod";
 
 import { Genre, MusicAffiliation, MusicRole, ProjectType } from "@good-dog/db";
 
+export const zSongRequest = z.object({
+  songRequestTitle: z.string().min(1, "This is required"),
+  description: z.string().min(1, "This is required"),
+  feelingsConveyed: z.string().min(1, "This is required"),
+  similarSongs: z.string().min(1, "This is required"),
+  additionalInfo: z.string().optional(),
+});
+
 export const zProjectSubmissionValues = z.object({
   projectTitle: z.string().min(1, "Project title is required"),
   description: z.string().min(1, "Project description is required"),
-  songRequests: z.array(
-    z.object({
-      description: z.string().min(1, "This is required"),
-      feelingsConveyed: z.string().min(1, "This is required"),
-      similarSongs: z.string().min(1, "This is required"),
-      additionalInfo: z.string().optional(),
-    }),
-  ),
+  songRequests: z.array(zSongRequest),
   deadline: z.coerce.date(),
   videoLink: z.string().optional(),
   additionalInfo: z.string().optional(),

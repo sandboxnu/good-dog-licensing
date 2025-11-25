@@ -138,6 +138,7 @@ async function createData() {
   // Create song request
   await prisma.songRequest.create({
     data: {
+      songRequestTitle: "Test Song Request",
       songRequestId: "songRequest",
       description: "Test description",
       feelingsConveyed: "rnb, soul",
