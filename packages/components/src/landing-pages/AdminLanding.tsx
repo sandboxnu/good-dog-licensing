@@ -1,14 +1,12 @@
 "use client";
-import type { ReactNode} from "react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import SubmissionTabIcon from "../svg/homepage/admin/SubmissionTabIcon";
 import SongTabIcon from "../svg/homepage/admin/SongTabIcon";
 import UsersTabIcon from "../svg/homepage/admin/UsersTabIcon";
 import Header from "./components/Header";
 import { trpc } from "@good-dog/trpc/client";
 import { MatchState } from "@good-dog/db";
-import type { ProjectSubmissionWithSongRequestAndMatches } from "../../utils/getStatusFromProject";
-import getStatusFromProject from "../../utils/getStatusFromProject";
+import getStatusFromProject, { ProjectSubmissionWithSongRequestAndMatches } from "../../utils/getStatusFromProject";
 
 export default function AdminLanding() {
   const [activeTab, setActiveTab] = useState<"submissions" | "songs" | "users">("submissions");
@@ -36,7 +34,7 @@ function SubmissionStatusTab({
   onClick : () => void
 }) {
   
-  return <div className={`flex flex-col p-[16px] gap-[8px] shadow-[0_2px_6px_0_#ECE6DF] rounded-[16px] ${active ? "bg-green-400" : "bg-gray-100"}`} onClick={onClick}>
+  return <div className={`flex flex-1 flex-col p-[16px] gap-[8px] shadow-[0_2px_6px_0_#ECE6DF] rounded-[16px] ${active ? "bg-green-400" : "bg-gray-100"}`} onClick={onClick}>
     <div className="flex flex-row gap-[8px] items-center">
       <p className={`text-body1 font-medium leading-[128%] ${active ? "text-gray-100" : "text-dark-gray-500"}`}>{title}</p>
 <div className={`rounded-[4px] flex items-center justify-center h-[16px] w-[23px] ${active ? "bg-grass-green-50" : "bg-gray-500"}`}>
@@ -53,10 +51,10 @@ function Submissions() {
   return <div className="flex flex-col gap-[32px]">
     <Header title={"Submissions"} subtitle={"Pending project submissions"} requestPath={""}/>
     <div className="flex flex-row gap-[24px]">
-      <SubmissionStatusTab title={"Not started"} subtitle={"Projects that aren't assigned"} number={0} active={activeStatus === "not started"} onClick={() => setActiveStatus("not started")}/>
-      <SubmissionStatusTab title={"In progress"} subtitle={"Projects currently being worked on"} number={0} active={activeStatus === "in progress"} onClick={() => setActiveStatus("in progress")}/>
-      <SubmissionStatusTab title={"In review"} subtitle={"Projects currently being reviewed"} number={0} active={activeStatus === "in review"} onClick={() => setActiveStatus("in review")}/>
-      <SubmissionStatusTab title={"Completed"} subtitle={"Completed projects"} number={0} active={activeStatus === "completed"} onClick={() => setActiveStatus("completed")}/>
+      <SubmissionStatusTab title={"Not started"} subtitle={"Projects that aren't assigned"} number={data.projects.filter(project => getStatusFromProject(project) === "not started").length} active={activeStatus === "not started"} onClick={() => setActiveStatus("not started")}/>
+      <SubmissionStatusTab title={"In progress"} subtitle={"Projects currently being worked on"} number={data.projects.filter(project => getStatusFromProject(project) === "in progress").length} active={activeStatus === "in progress"} onClick={() => setActiveStatus("in progress")}/>
+      <SubmissionStatusTab title={"In review"} subtitle={"Projects currently being reviewed"} number={data.projects.filter(project => getStatusFromProject(project) === "in review").length} active={activeStatus === "in review"} onClick={() => setActiveStatus("in review")}/>
+      <SubmissionStatusTab title={"Completed"} subtitle={"Completed projects"} number={data.projects.filter(project => getStatusFromProject(project) === "completed").length} active={activeStatus === "completed"} onClick={() => setActiveStatus("completed")}/>
     </div>
     <SubmissionTable data={data.projects.filter(project => getStatusFromProject(project) === activeStatus)}/>
   </div>
@@ -70,7 +68,7 @@ function SubmissionTable(
   return <div className="pt-[32px] pr-[24px] pl-[24px] pb-[48px] flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 dark:bg-dark-gray-600 shadow-[0_2px_6px_0_#ECE6DF]
 ">
 <div className="flex flex-col">
-  <div className="p-[16px] bg-cream-100 rounded-t-[8px] flex flex-row gap-[50px] border-[0.2px] border-solid border-cream-400">
+  <div className="p-[16px] bg-cream-100 rounded-t-[8px] flex flex-row gap-[50px] border-[0.2px] border-solid border-cream-400 items-center">
     <p className="flex-1">Project Name</p>
     <p className="flex-1">Project Description</p>
     <p className="flex-1">Media Maker</p>
