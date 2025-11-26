@@ -45,8 +45,14 @@ export default function ProfileWidget() {
             Security
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
-            <InfoField header="Email" content="actualEmail@example.com" />
-            <InfoField header="Password" content="example password" />
+            <div className="flex flex-row justify-between items-center">
+              <InfoField header="Email" content="actualEmail@example.com" />
+              <Button label="Change email" size="small" variant="outlined" />
+            </div>
+            <div className="flex flex-row justify-between items-center">
+              <InfoField header="Password" content="example password" />
+              <Button label="Change password" size="small" variant="outlined" />
+            </div>
           </div>
         </div>
 

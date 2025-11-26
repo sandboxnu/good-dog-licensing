@@ -15,7 +15,7 @@ const buttonVariants = cva("rounded-lg", {
       text: "bg-transparent text-[#054233] hover:bg-[#E9F9F1] active:bg-[#D3F4E2]",
     },
     size: {
-      "small-text": "h-[31px] w-[72px] !text-body4",
+      "small-text": "h-[31px] px-[16px] !text-body4", // NOTE: really forced...
       "medium-text": "h-[40px] w-[104px] !text-body3",
       "large-text": "h-[48px] w-[128px] !text-body2",
       "small-text-with-icon": "h-[31px] w-[80px] !text-body4",
