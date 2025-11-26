@@ -36,7 +36,7 @@ export default function TextInput({
       <div className="flex flex-row gap-[2px]">
         <Label
           htmlFor={id}
-          className="text-body3 font-normal text-dark-gray-600 dark:text-white"
+          className="text-body3 font-normal text-dark-gray-600 dark:text-gray-100"
         >
           {label}
         </Label>

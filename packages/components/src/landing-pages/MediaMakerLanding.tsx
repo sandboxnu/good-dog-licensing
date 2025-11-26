@@ -18,8 +18,7 @@ export default function MediaMakerLanding() {
       <Header
         title={"Project requests"}
         subtitle={"This is where you view and manage your project requests"}
-        requestPath={"/project-submission"}
-      />
+        requestPath={"/project-submission"} buttonContent={"Request"}      />
       {data.projects.length === 0 && (
         <EmptyMessage
           title={"Find projects requests here"}

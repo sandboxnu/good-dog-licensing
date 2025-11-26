@@ -11,7 +11,7 @@ const buttonVariants = cva("rounded-lg", {
       contained:
         "bg-green-400 dark:bg-green-300 text-mint-200 hover:bg-green-500 active:bg-green-600",
       outlined:
-        "border-[0.5px] border-gray-600 bg-cream-100 text-bg-green-500 hover:bg-mint-200 active:bg-mint-300",
+        "border-[0.5px] border-gray-600 bg-cream-100 text-green-500 hover:bg-mint-200 active:bg-mint-300",
       text: "bg-transparent text-bg-green-500 hover:bg-mint-200 active:bg-mint-300",
     },
     size: {

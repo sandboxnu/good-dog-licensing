@@ -51,7 +51,7 @@ function Submissions() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
   const [activeStatus, setActiveStatus] = useState<"not started" | "in progress" | "in review" | "completed">("not started");
   return <div className="flex flex-col gap-[32px]">
-    <Header title={"Submissions"} subtitle={"Pending project submissions"} requestPath={""}/>
+    <Header title={"Submissions"} subtitle={"Pending project submissions"} requestPath={""} buttonContent={"Invite"}/>
     <div className="flex flex-row gap-[24px]">
       <SubmissionStatusTab title={"Not started"} subtitle={"Projects that aren't assigned"} number={0} active={activeStatus === "not started"} onClick={() => setActiveStatus("not started")}/>
       <SubmissionStatusTab title={"In progress"} subtitle={"Projects currently being worked on"} number={0} active={activeStatus === "in progress"} onClick={() => setActiveStatus("in progress")}/>

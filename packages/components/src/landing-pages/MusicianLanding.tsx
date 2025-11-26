@@ -21,6 +21,7 @@ export default function MusicianLanding() {
         title={"Song submissions"}
         subtitle={"This is where you view and manage your song submissions"}
         requestPath={"/music-submission"}
+        buttonContent="Song"
       />
       {data.music.length === 0 && (
         <EmptyMessage
