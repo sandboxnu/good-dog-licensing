@@ -14,14 +14,14 @@ export default function PageContainer({
   children,
 }: PageContainerProps) {
   return (
-    <div className="flex w-full min-w-[1400px] flex-col justify-center">
+    <div className="flex w-full min-w-[1500px] flex-col justify-center">
       <div
         className={clsx("flex min-h-screen w-full justify-center", {
           "!bg-main-bg-gradient": background === "gradient",
           "!bg-main-bg-solid": background === "solid",
         })}
       >
-        <div className="flex w-full max-w-[1500px] flex-col px-[228px] pt-[32px]">
+        <div className="flex w-[1500px] w-full flex-col px-[228px] pt-[32px]">
           <Nav />
           <div className="flex w-full items-center justify-center pb-[50px] pt-[32px]">
             {children}

@@ -10,7 +10,7 @@ import { zSignUpValues } from "@good-dog/trpc/schema";
 
 import Camera from "../../../svg/onboarding/media-maker/Camera";
 import MusicianOnRecord from "../../../svg/onboarding/musician/MusicianOnRecord";
-import Teamwork from "../../../svg/onboarding/Teamwork";
+import SignupIdea from "../../../svg/onboarding/SignupIdea";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 import EmailCodeModal from "./EmailCodeModal";
 import FinalSignUpInfo from "./FinalSignUpInfo";
@@ -142,7 +142,7 @@ export default function SignUpWidget({
         {role === "MUSICIAN" && <MusicianOnRecord />}
         {role === "MEDIA_MAKER" && <Camera />}
         {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-        {!role && <Teamwork />}
+        {!role && <SignupIdea />}
       </div>
     </UserOnboardingWidgetContainer>
   );

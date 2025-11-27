@@ -8,7 +8,7 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { MatchState, prisma } from "@good-dog/db";
+import { Genre, MatchState, prisma, ProjectType } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCache } from "../../mocks/MockNextCache";
@@ -80,7 +80,7 @@ async function createData() {
       songName: "3005",
       songLink:
         "https://open.spotify.com/track/2X6b7zLdIxCejd6GqVcQ9M?si=b36f9306fab04109",
-      genre: "hip hop",
+      genres: [Genre.HIP_HOP],
       submitterId: musician.userId,
       performerName: "Twinsies",
     },
@@ -94,17 +94,19 @@ async function createData() {
       projectTitle: "title",
       description: "a project hoping to showcase the effects of climate change",
       deadline: new Date(Date.now() + 2_000_000_000),
+      projectType: ProjectType.MOTION_PICTURE,
     },
   });
 
   // Create a song request
   await prisma.songRequest.create({
     data: {
-      oneLineSummary: "Test One Line Summary",
+      songRequestTitle: "Save the Earth",
       songRequestId: "songRequestOneSubmission",
       description: "wildfires in CA",
-      musicType: "rnb, soul",
+      feelingsConveyed: "rnb, soul",
       projectId: projectSubmission.projectId,
+      similarSongs: "Let It Be",
     },
   });
 

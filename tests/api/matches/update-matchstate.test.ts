@@ -8,7 +8,7 @@ import {
 } from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
-import { MatchState, prisma } from "@good-dog/db";
+import { Genre, MatchState, prisma, ProjectType } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCache } from "../../mocks/MockNextCache";
@@ -79,7 +79,7 @@ async function createData() {
       musicId: "musicSubmission",
       songName: "Test Song",
       songLink: "https://open.spotify.com/track/test",
-      genre: "hip hop",
+      genres: [Genre.HIP_HOP],
       submitterId: musician.userId,
       performerName: "Test Artist",
     },
@@ -131,17 +131,19 @@ async function createData() {
       projectTitle: "Test Project",
       description: "A test project",
       deadline: new Date(Date.now() + 2_000_000_000),
+      projectType: ProjectType.MOTION_PICTURE,
     },
   });
 
   // Create song request
   await prisma.songRequest.create({
     data: {
-      oneLineSummary: "Test One Line Summary",
+      songRequestTitle: "Test Song Request",
       songRequestId: "songRequest",
       description: "Test description",
-      musicType: "rnb, soul",
+      feelingsConveyed: "rnb, soul",
       projectId: projectSubmission.projectId,
+      similarSongs: "Hey Jude",
     },
   });
 

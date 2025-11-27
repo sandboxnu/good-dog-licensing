@@ -113,7 +113,13 @@ export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
     where: {
       projectOwnerId: ctx.session.user.userId,
     },
-    include: {},
+    include: {
+      songRequests: {
+        include: {
+          matches: true,
+        },
+      },
+    },
   });
   return { projects };
 });

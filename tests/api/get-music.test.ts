@@ -7,7 +7,7 @@ import {
   test,
 } from "bun:test";
 
-import { prisma, Role } from "@good-dog/db";
+import { Genre, prisma, Role } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
@@ -84,7 +84,7 @@ describe("get-music", () => {
             },
           },
           songLink: "https://www.youtube.com/1",
-          genre: "genre-1",
+          genres: [Genre.BLUES],
           performerName: "The Beatles",
         },
       }),
@@ -104,7 +104,7 @@ describe("get-music", () => {
             },
           },
           songLink: "https://www.youtube.com/2",
-          genre: "genre-2",
+          genres: [Genre.CLASSICAL],
           performerName: "Grateful Dead",
         },
       }),
@@ -124,7 +124,7 @@ describe("get-music", () => {
             },
           },
           songLink: "https://www.youtube.com/3",
-          genre: "genre-3",
+          genres: [Genre.COUNTRY],
           performerName: "Taylor Swift",
         },
       }),
@@ -155,7 +155,7 @@ describe("get-music", () => {
             },
           },
           songLink: "https://www.youtube.com/song1",
-          genre: "genre3",
+          genres: [Genre.COUNTRY],
           performerName: "The Rolling Stones",
         },
       }),
@@ -169,7 +169,7 @@ describe("get-music", () => {
             },
           },
           songLink: "https://www.youtube.com/song2",
-          genre: "genre3",
+          genres: [Genre.COUNTRY],
           performerName: "JP's Band",
         },
       }),

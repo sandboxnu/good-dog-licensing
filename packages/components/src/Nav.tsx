@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { trpc } from "@good-dog/trpc/client";
 
+import ProfileDropdown from "./base/ProfileDropdown";
 import NavLogo from "./svg/NavLogo";
 import ProfileDropdown from "./base/ProfileDropdown";
 
@@ -24,17 +25,12 @@ export default function Nav() {
           <Link href="/" className="underline-offset-4 hover:underline">
             Home
           </Link>
-          <Link href="/about" className="underline-offset-4 hover:underline">
-            About
-          </Link>
           {user ? (
+            <ProfileDropdown />
+          ) : (
             <>
               <ProfileDropdown />
             </>
-          ) : (
-            <Link href="/login" className="underline-offset-4 hover:underline">
-              Login
-            </Link>
           )}
         </nav>
       </div>

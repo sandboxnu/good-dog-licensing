@@ -12,9 +12,9 @@ import { zSignInValues } from "@good-dog/trpc/schema";
 
 import Button from "../../../base/Button";
 import Checkbox from "../../../base/Checkbox";
-import GrayPlaceholder from "../../../GrayPlaceholder";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import ErrorExclamation from "../../../svg/ErrorExclamation";
+import TeamworkLogin from "../../../svg/onboarding/TeamworkLogin";
+import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
 
 type LoginFormFields = z.input<typeof zSignInValues>;
@@ -117,8 +117,8 @@ export default function LoginWidget() {
           </form>
         </FormProvider>
       </div>
-      <div className="h-full w-1/2">
-        <GrayPlaceholder />
+      <div className="flex h-full w-1/2 items-center justify-center">
+        <TeamworkLogin />
       </div>
     </UserOnboardingWidgetContainer>
   );

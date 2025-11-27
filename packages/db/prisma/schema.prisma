@@ -91,14 +91,15 @@ model ProjectSubmission {
   deadline       DateTime
   videoLink      String        @default("")
   additionalInfo String        @default("")
+  projectType    ProjectType
 }
 
 model SongRequest {
   songRequestId     String            @id @default(uuid())
-  oneLineSummary    String
+  songRequestTitle  String
   description       String
-  musicType         String
-  similarSongs      String            @default("")
+  feelingsConveyed  String
+  similarSongs      String
   additionalInfo    String            @default("")
   projectId         String
   projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
@@ -106,6 +107,12 @@ model SongRequest {
   comments          Comments[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+}
+
+enum ProjectType {
+  MOTION_PICTURE
+  SOCIAL_MEDIA_REEL
+  VIDEO_GAME
 }
 
 model MusicSubmission {
@@ -117,10 +124,24 @@ model MusicSubmission {
   submitter      User               @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
   submitterId    String
   songLink       String
-  genre          String
+  genres         Genre[]
   additionalInfo String             @default("")
   matches        Match[]
   contributors   MusicContributor[]
+}
+
+enum Genre {
+  ROCK
+  POP
+  HIP_HOP
+  JAZZ
+  CLASSICAL
+  ELECTRONIC
+  COUNTRY
+  REGGAE
+  BLUES
+  FOLK
+  OTHER
 }
 
 enum MusicRole {
@@ -139,7 +160,8 @@ enum MusicAffiliation {
 
 model MusicContributor {
   contributorId     String            @id @default(uuid())
-  name              String
+  firstName         String
+  lastName          String
   roles             MusicRole[]
   affiliation       MusicAffiliation?
   ipi               String?

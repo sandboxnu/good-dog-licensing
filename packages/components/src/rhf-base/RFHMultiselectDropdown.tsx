@@ -39,7 +39,7 @@ export default function RHFMultiselectDropdown<
       render={({ field }) => (
         <MultiselectDropdown
           {...multiselectDropdownProps}
-          value={field.value || ""}
+          value={field.value || []}
           onChange={field.onChange}
         />
       )}

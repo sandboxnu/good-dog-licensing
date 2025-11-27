@@ -10,14 +10,17 @@ export default function ProjectSubmissionHeader({
   step,
 }: ProjectSubmissionHeaderProps) {
   return (
-    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white px-10 py-6 text-black">
-      <p className="text-5xl font-medium">Song request form</p>
+    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
+      <p className="text-5xl font-medium">Project submission form</p>
       {step != SubmissionStep.SUBMITTED && (
-        <div>
+        <div className="flex flex-col gap-[10px]">
           <p className="text-lg font-medium">
-            Need help finding a song from our catalog? Submit a brief and one of
-            our curators will get back to you with suitable music from our
-            library. The more specific you are, the better we can assist!
+            Getting the rights to music can be an extremely expensive and
+            cumbersome process. Even finding the right music can be a struggle.
+            Good Dog takes care of everything and at no cost to you. Tell us
+            what you need, we will source the music for you, and utilize our
+            original licensing agreement. The entire process is seamless and
+            perfectly tailored to each party.
           </p>
           <p className="font-semibold text-required-star">
             * Indicates a required question.
@@ -33,7 +36,7 @@ export default function ProjectSubmissionHeader({
             className="font-semibold text-secondary hover:underline"
             href="/project-submission"
           >
-            Submit another song request form
+            Submit another project submission form
           </a>
         </div>
       )}
