@@ -1,6 +1,4 @@
-interface PencilIconProps {}
-
-export default function PencilIcon({}: PencilIconProps) {
+export default function PencilIcon() {
   return (
     <svg
       width="13"
