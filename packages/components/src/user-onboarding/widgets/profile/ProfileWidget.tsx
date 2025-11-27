@@ -1,5 +1,11 @@
+"use client";
+
+import { trpc } from "@good-dog/trpc/client";
+import { useRouter } from "next/navigation";
 import Button from "../../../base/Button";
 import ErrorExclamation from "../../../svg/ErrorExclamation";
+import ProfileIcon from "../../../svg/ProfileIcon";
+import { useEffect } from "react";
 
 function InfoField({ header, content }: { header: string; content: string }) {
   return (
@@ -11,9 +17,27 @@ function InfoField({ header, content }: { header: string; content: string }) {
 }
 
 export default function ProfileWidget() {
+  // const router = useRouter();
+  // const { data: user } = trpc.user.useQuery();
+  //
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.push("/login");
+  //   }
+  // }, [user, router]);
+
   return (
-    <div className="flex flex-col gap-[24px] w-[752px]">
-      <div>pfp + name + role</div>
+    <div className="flex flex-col gap-6 w-[752px]">
+      <div className="flex flex-row items-center gap-4">
+        <ProfileIcon color="light" size={56} editable={true} />
+        <div className="flex flex-col">
+          <header className="text-good-dog-main text-xl font-semibold">
+            John Doe
+          </header>
+          <div className="text-[#858585]">Musician | Since Oct 2023</div>
+        </div>
+      </div>
+
       <div className="flex flex-col gap-y-[16px]">
         <div className="rounded-2xl bg-white border">
           <header className="flex justify-between items-center bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[23.5]">
