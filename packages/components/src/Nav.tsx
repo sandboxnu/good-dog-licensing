@@ -6,7 +6,6 @@ import { trpc } from "@good-dog/trpc/client";
 
 import ProfileDropdown from "./base/ProfileDropdown";
 import NavLogo from "./svg/NavLogo";
-import ProfileDropdown from "./base/ProfileDropdown";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();

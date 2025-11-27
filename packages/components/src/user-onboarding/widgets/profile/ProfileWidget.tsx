@@ -3,7 +3,7 @@
 import { trpc } from "@good-dog/trpc/client";
 import { useRouter } from "next/navigation";
 import Button from "../../../base/Button";
-import ErrorExclamation from "../../../svg/ErrorExclamation";
+import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import { useEffect } from "react";
 
