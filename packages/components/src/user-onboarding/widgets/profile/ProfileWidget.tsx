@@ -17,14 +17,14 @@ function InfoField({ header, content }: { header: string; content: string }) {
 }
 
 export default function ProfileWidget() {
-  // const router = useRouter();
-  // const { data: user } = trpc.user.useQuery();
-  //
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.push("/login");
-  //   }
-  // }, [user, router]);
+  const router = useRouter();
+  const { data: user } = trpc.user.useQuery();
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, router]);
 
   return (
     <div className="flex flex-col gap-6 w-[752px]">
@@ -90,12 +90,14 @@ export default function ProfileWidget() {
               your account and all your information. This action can't be
               undone!
             </div>
-            <Button
-              label="Delete account"
-              size="medium"
-              variant="outlined"
-              error={true}
-            />
+            <div>
+              <Button
+                label="Delete account"
+                size="small"
+                variant="outlined"
+                error={true}
+              />
+            </div>
           </div>
         </div>
       </div>

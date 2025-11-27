@@ -49,7 +49,7 @@ export default function Button({
   const widthClassName = fullWidth ? "!w-full" : "";
   const shadowClassName = shadow ? "shadow-button" : "";
   const divClassName = `flex flex-row items-center justify-center gap-[8px] ${
-    error ? "text-error border-error" : "" // adds text/border color if error
+    error ? "text-error " : "" // adds text/border color if error
   }`.trim();
 
   return (
@@ -58,7 +58,7 @@ export default function Button({
       size={updatedSize}
       type={type}
       onClick={onClick}
-      className={`${widthClassName} ${shadowClassName}`}
+      className={`${widthClassName} ${shadowClassName} ${error ? "border-error" : ""}`}
     >
       <div className={divClassName}>
         {displayIcon === "plus" ? (
