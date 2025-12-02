@@ -80,13 +80,9 @@ export default {
         "green-500": "var(--green-500)",
         "green-600": "var(--green-600)",
         "green-700": "var(--green-700)",
-        "header-primary": "#022119",
         secondary: "#054233",
         error: "#B13433",
         "required-star": "#F4392D",
-        "dark-green": "#07634C",
-        "off-white": "#E9F9F1",
-        "light-green": "#098465",
       },
       boxShadow: {
         active: "0 0 3px 0 var(--pine-200, #4C8B79)",

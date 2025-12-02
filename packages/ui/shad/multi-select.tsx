@@ -171,7 +171,7 @@ export const MultiSelect = React.forwardRef<
           </button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto min-w-[var(--radix-popover-trigger-width)] border-[1px] border-light-green bg-white p-0"
+          className="w-auto min-w-[var(--radix-popover-trigger-width)] border-[1px] border-green-300 bg-white p-0"
           align="start"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
@@ -189,13 +189,13 @@ export const MultiSelect = React.forwardRef<
                     >
                       <div
                         className={cn(
-                          "mr-2 flex h-4 w-4 items-center justify-center rounded-[4px] border border-dark-green",
+                          "mr-2 flex h-4 w-4 items-center justify-center rounded-[4px] border border-green-400",
                           isSelected
                             ? "bg-primary text-primary-foreground"
                             : "opacity-50 [&_svg]:invisible",
                         )}
                       >
-                        <CheckIcon className="h-4 w-4 rounded-[4px] bg-dark-green text-white" />
+                        <CheckIcon className="h-4 w-4 rounded-[4px] bg-green-400 text-white" />
                       </div>
                       <span>{option.label}</span>
                     </CommandItem>

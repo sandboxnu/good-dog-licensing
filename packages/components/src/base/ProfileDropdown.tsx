@@ -25,7 +25,7 @@ export default function ProfileDropdown() {
       <DropdownMenuContent
         align="end"
         side="bottom"
-        className="flex w-[138px] flex-col gap-2 border-light-green bg-white px-2 py-4"
+        className="flex w-[138px] flex-col gap-2 border-green-300 bg-white px-2 py-4"
       >
         <DropdownMenuItem className="h-[22px] text-base">
           <Link href="/profile">Profile</Link>
