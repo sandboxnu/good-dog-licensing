@@ -43,7 +43,7 @@ export default function MusicianLanding() {
             return (
               <Card
                 title={song.songName}
-                subheader={song.createdAt.toLocaleDateString("en-US", {
+                subheader={"Submitted " + song.createdAt.toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",

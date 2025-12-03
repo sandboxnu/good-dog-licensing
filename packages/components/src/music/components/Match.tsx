@@ -66,16 +66,16 @@ export function Match({
 
   return (
     <div
-      className={`flex flex-row justify-between items-center cursor-pointer bg-gray-200 w-[728px] box-content px-6 py-4 rounded-2xl border-[1px] shadow-md ${selected ? `border-light-green` : `border-light-gray`}`}
+      className={`flex flex-row justify-between items-center cursor-pointer w-[728px] box-content px-6 py-4 rounded-2xl border-[1px] shadow-md ${selected ? `border-light-green hover:border-good-dog-main` : `border-light-gray hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
       onClick={handleClick}
     >
-      <div className="flex flex-row items-center gap-4">
+      <div className="flex flex-row flex-shrink-0 items-center gap-4">
         <MusicNote />
-        <div className="flex flex-col gap-2">
-          <p className="text-xl text-body-primary font-semibold">
+        <div className="flex flex-col gap-2 w-[584px]">
+          <p className="text-xl text-body-primary font-semibold truncate">
             {match.songRequest.songRequestTitle}
           </p>
-          <p className="text-body-gray">{match.songRequest.description}</p>
+          <p className="text-body-gray truncate">{match.songRequest.description}</p>
         </div>
       </div>
       {state === "INCOMING" && (

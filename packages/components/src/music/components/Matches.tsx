@@ -1,6 +1,7 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { Match } from "./Match";
 import { MatchState } from "@good-dog/db";
+import Hourglass from "../../svg/Hourglass";
 
 type MatchesWithSongRequests =
   GetProcedureOutput<"getMusicSubmissionById">["matches"][number];
@@ -31,7 +32,13 @@ export function Matches({
 
   return (
     <div className="flex flex-col gap-4">
-      <p>Review and approve/deny the songs matched below</p>
+      <p className="w-full">Review and approve/deny the songs matched below</p>
+      {matches.length === 0 && (
+        <div className="flex flex-col items-center gap-2 mt-16 min-w-[778px]">
+          <Hourglass />
+          <p>No requests active at this time</p>
+        </div>
+      )}
       {matches.map((match) => (
         <Match
           key={match.matchId}

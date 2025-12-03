@@ -22,7 +22,7 @@ export default function MatchInformation({
     <div className="flex flex-col gap-3">
       <p className="text-4xl">Match Information</p>
       <div className="flex flex-row gap-6 w-full">
-        <div className="flex flex-col gap-3 w-[512px]">
+        <div className="flex flex-col gap-3 w-[512px] box-content">
           <ProjectInformation
             projectSubmission={selectedMatch?.songRequest.projectSubmission}
             projectOwner={
@@ -33,6 +33,9 @@ export default function MatchInformation({
         </div>
         <div className="flex flex-col gap-4">
           <MatchStatusTabs
+            numActionRequired={
+              matches.filter((m) => m.matchState === "SONG_REQUESTED").length
+            }
             incomingContent={
               <Matches
                 state={"INCOMING"}

@@ -1,11 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
 import type { ReactNode } from "react";
+import { NotificationBadge } from "./NotificationBadge";
 
 export function MatchStatusTabs({
+  numActionRequired,
   incomingContent,
   matchedContent,
   rejectedContent,
 }: {
+  numActionRequired: number;
   incomingContent: ReactNode;
   matchedContent: ReactNode;
   rejectedContent: ReactNode;
@@ -15,9 +18,10 @@ export function MatchStatusTabs({
       <TabsList className="rounded-full bg-good-dog-main h-auto">
         <TabsTrigger
           value="incoming"
-          className="rounded-full text-white data-[state=active]:bg-white w-[224px] data-[state=active]:text-black px-4 py-3 box-content"
+          className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-[224px] data-[state=active]:text-black px-4 py-3 box-content"
         >
           Incoming matches
+          <NotificationBadge number={numActionRequired}/>
         </TabsTrigger>
 
         <TabsTrigger
