@@ -43,11 +43,14 @@ export default function MusicianLanding() {
             return (
               <Card
                 title={song.songName}
-                subheader={"Submitted " + song.createdAt.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                subheader={
+                  "Submitted " +
+                  song.createdAt.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                }
                 children={
                   <div className="flex flex-col gap-[24px]">
                     <div className="flex flex-col gap-[8px]">

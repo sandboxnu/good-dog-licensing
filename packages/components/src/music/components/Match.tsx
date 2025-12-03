@@ -75,7 +75,9 @@ export function Match({
           <p className="text-xl text-body-primary font-semibold truncate">
             {match.songRequest.songRequestTitle}
           </p>
-          <p className="text-body-gray truncate">{match.songRequest.description}</p>
+          <p className="text-body-gray truncate">
+            {match.songRequest.description}
+          </p>
         </div>
       </div>
       {state === "INCOMING" && (

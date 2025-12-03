@@ -21,7 +21,7 @@ export function MatchStatusTabs({
           className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-[224px] data-[state=active]:text-black px-4 py-3 box-content"
         >
           Incoming matches
-          <NotificationBadge number={numActionRequired}/>
+          <NotificationBadge number={numActionRequired} />
         </TabsTrigger>
 
         <TabsTrigger

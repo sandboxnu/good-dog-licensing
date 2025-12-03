@@ -91,7 +91,7 @@ export default {
         "off-white": "#E9F9F1",
         "light-green": "#098465",
         "main-bg-solid": "#FFFBF6",
-        "gray": "#858585",
+        gray: "#858585",
         "light-gray": "#BFBCB8",
       },
       boxShadow: {

@@ -21,9 +21,7 @@ export default function Card({
       </div>
 
       {/* Wrap children in a flex-col container so text stays above indicator */}
-      <div className="flex flex-col gap-[24px] pt-[16px]">
-        {children}
-      </div>
+      <div className="flex flex-col gap-[24px] pt-[16px]">{children}</div>
     </div>
   );
 }

@@ -8,7 +8,6 @@ import {
   DialogFooter,
   DialogClose,
 } from "@good-dog/ui/dialog";
-import { X } from "lucide-react";
 
 interface ConfirmDenyDialogProps {
   open: boolean;
