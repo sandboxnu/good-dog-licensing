@@ -114,6 +114,7 @@ export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
       projectOwnerId: ctx.session.user.userId,
     },
     include: {
+      projectOwner: true,
       songRequests: {
         include: {
           matches: true,

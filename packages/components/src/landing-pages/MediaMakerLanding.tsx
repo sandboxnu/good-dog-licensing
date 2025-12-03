@@ -30,20 +30,21 @@ export default function MediaMakerLanding() {
       {data.projects.length > 0 && (
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.projects.map((project, key) => {
-            const status = getStatusFromProject(project)
+            const status = getStatusFromProject(project);
 
             const indicator: {
               variant: "error" | "success" | "warning" | "gray";
               text: string;
-            } = status === "in progress"
-              ? { variant: "error", text: "Action required" }
-              : status === "in review"
-                ? { variant: "warning", text: "Pending approval" }
-                : status === "not started"
-                  ? { variant: "gray", text: "Project submitted" }
-                  : status === "completed"
-                    ? { variant: "success", text: "Completed" }
-                    : { variant: "warning", text: "In progress" };
+            } =
+              status === "in progress"
+                ? { variant: "error", text: "Action required" }
+                : status === "in review"
+                  ? { variant: "warning", text: "Pending approval" }
+                  : status === "not started"
+                    ? { variant: "gray", text: "Project submitted" }
+                    : status === "completed"
+                      ? { variant: "success", text: "Completed" }
+                      : { variant: "warning", text: "In progress" };
 
             return (
               <Card
