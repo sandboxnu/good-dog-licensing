@@ -71,11 +71,14 @@ export default function MediaMakerLanding() {
               <Card
                 size="small"
                 title={project.projectTitle}
-                subheader={"Submitted " + project.createdAt.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                subheader={
+                  "Submitted " +
+                  project.createdAt.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                }
                 children={
                   <div className="flex flex-col gap-[24px]">
                     <p className="body3 line-clamp-[3] break-words text-base font-normal leading-tight text-dark-gray-100 dark:text-dark-gray-100">
@@ -87,7 +90,11 @@ export default function MediaMakerLanding() {
                         text={indicator.text}
                       />
                       <ChevronRight
-                        onClick={() => window.location.replace(`/project/${project.projectId}`)}
+                        onClick={() =>
+                          window.location.replace(
+                            `/project/${project.projectId}`,
+                          )
+                        }
                         className="hover:cursor-pointer"
                       />
                     </div>

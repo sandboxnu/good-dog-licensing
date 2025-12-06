@@ -37,7 +37,11 @@ export default function SongRequestDashboard({
       <SongRequests
         songRequests={projectSubmission.songRequests.filter((songRequest) => {
           return songRequest.matches.some(
-            (match) => match.matchState !== "NEW" && match.matchState !== "APPROVED_BY_MUSICIAN" && match.matchState !== "REJECTED_BY_MEDIA_MAKER" && match.matchState !== "REJECTED_BY_MUSICIAN",
+            (match) =>
+              match.matchState !== "NEW" &&
+              match.matchState !== "APPROVED_BY_MUSICIAN" &&
+              match.matchState !== "REJECTED_BY_MEDIA_MAKER" &&
+              match.matchState !== "REJECTED_BY_MUSICIAN",
           );
         })}
         status="IN_REVIEW"
@@ -53,7 +57,9 @@ export default function SongRequestDashboard({
       <SongRequests
         songRequests={projectSubmission.songRequests.filter((songRequest) => {
           return songRequest.matches.some(
-            (match) => match.matchState === "REJECTED_BY_MEDIA_MAKER" || match.matchState === "REJECTED_BY_MUSICIAN",
+            (match) =>
+              match.matchState === "REJECTED_BY_MEDIA_MAKER" ||
+              match.matchState === "REJECTED_BY_MUSICIAN",
           );
         })}
         status="NO_MATCHES"

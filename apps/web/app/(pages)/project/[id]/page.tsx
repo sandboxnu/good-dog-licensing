@@ -11,7 +11,7 @@ export default function Page({ params }: PageProps) {
   const projectId = params.id;
   return (
     <PageContainer background="solid">
-        <SongRequestDashboard projectId={projectId} />
+      <SongRequestDashboard projectId={projectId} />
     </PageContainer>
   );
 }
