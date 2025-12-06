@@ -7,13 +7,39 @@ import { ChevronRight } from "lucide-react";
 
 export default function SongRequest({
   songRequest,
+  status,
 }: {
   songRequest: SongRequest;
+  status: "TO_DO" | "IN_REVIEW" | "ACCEPTED" | "NO_MATCHES";
 }) {
+  const variant = () => {
+    if (status === "TO_DO") return "error";
+    if (status === "IN_REVIEW") return "blue";
+    if (status === "ACCEPTED") return "success";
+    else return "warning";
+  };
+
+  const text = () => {
+    if (status === "TO_DO") return "Action needed";
+    if (status === "IN_REVIEW") return "Pending approval";
+    if (status === "ACCEPTED") return "Accepted";
+    else return "Awaiting match";
+  };
+
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    window.location.replace(
+      "/project/" +
+        songRequest.projectId +
+        "/song-request/" +
+        songRequest.songRequestId,
+    );
+    e.stopPropagation();
+  };
+
   return (
     <div
-      className="border-[1px] border-cream-500 rounded-2xl p-6 flex flex-row justify-between hover:cursor-pointer items-center"
-      onClick={() => window.location.replace("TODO:")}
+      className="border-[1px] bg-cream-100 border-cream-500 rounded-2xl p-6 flex flex-row justify-between hover:cursor-pointer items-center"
+      onClick={handleClick}
     >
       <div className="flex flex-row gap-4 items-center">
         <MusicNoteIcon />
@@ -22,7 +48,7 @@ export default function SongRequest({
             <p className="text-xl font-semibold">
               {songRequest.songRequestTitle}
             </p>
-            <StatusIndicator variant={"success"} text={"Approved"} />
+            <StatusIndicator variant={variant()} text={text()} />
           </div>
           <p>{songRequest.description}</p>
         </div>

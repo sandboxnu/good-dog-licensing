@@ -26,9 +26,38 @@ export default function SongRequestDashboard({
         </div>
         <ProjectInformation project={projectSubmission} />
       </div>
-      <SongRequests songRequests={projectSubmission.songRequests} status="TO_DO" />
-      <SongRequests songRequests={projectSubmission.songRequests} status="IN_REVIEW" />
-      <SongRequests songRequests={projectSubmission.songRequests} status="ACCEPTED" />
+      <SongRequests
+        songRequests={projectSubmission.songRequests.filter((songRequest) => {
+          return songRequest.matches.some(
+            (match) => match.matchState === "NEW",
+          );
+        })}
+        status="TO_DO"
+      />
+      <SongRequests
+        songRequests={projectSubmission.songRequests.filter((songRequest) => {
+          return songRequest.matches.some(
+            (match) => match.matchState !== "NEW" && match.matchState !== "APPROVED_BY_MUSICIAN" && match.matchState !== "REJECTED_BY_MEDIA_MAKER" && match.matchState !== "REJECTED_BY_MUSICIAN",
+          );
+        })}
+        status="IN_REVIEW"
+      />
+      <SongRequests
+        songRequests={projectSubmission.songRequests.filter((songRequest) => {
+          return songRequest.matches.some(
+            (match) => match.matchState === "APPROVED_BY_MUSICIAN",
+          );
+        })}
+        status="ACCEPTED"
+      />
+      <SongRequests
+        songRequests={projectSubmission.songRequests.filter((songRequest) => {
+          return songRequest.matches.some(
+            (match) => match.matchState === "REJECTED_BY_MEDIA_MAKER" || match.matchState === "REJECTED_BY_MUSICIAN",
+          );
+        })}
+        status="NO_MATCHES"
+      />
     </div>
   );
 }

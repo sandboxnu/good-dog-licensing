@@ -18,7 +18,11 @@ export const getProjectSubmissionByIdProcedure =
         },
         include: {
           projectOwner: true,
-          songRequests: true,
+          songRequests: {
+            include: {
+              matches: true,
+            },
+          },
         },
       });
 
