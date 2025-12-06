@@ -69,9 +69,15 @@ export default function ProfileWidget() {
             </div>
             <div className="flex flex-row ">
               <div className="w-[380px]">
-                <InfoField header="Group" content="ASCAP" />
+                <InfoField
+                  header="Group"
+                  content={user?.affiliation ? user.affiliation : "NONE"}
+                />
               </div>
-              <InfoField header="IPI No." content="000106060" />
+              <InfoField
+                header="IPI No."
+                content={user?.ipi ? user.ipi : "NONE"}
+              />
             </div>
           </div>
         </div>
@@ -85,7 +91,7 @@ export default function ProfileWidget() {
               <Button label="Change email" size="small" variant="outlined" />
             </div>
             <div className="flex flex-row justify-between items-center">
-              <InfoField header="Password" content="example password" />
+              <InfoField header="Password" content="**********" />
               <Button label="Change password" size="small" variant="outlined" />
             </div>
           </div>

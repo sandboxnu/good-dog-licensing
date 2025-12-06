@@ -1,7 +1,7 @@
 import type { TRPCClientErrorLike } from "@trpc/client";
 import type { inferProcedureOutput } from "@trpc/server";
 
-import type { Role } from "@good-dog/db";
+import type { MusicAffiliation, Role } from "@good-dog/db";
 
 import type { AppRouter } from "./internal/router";
 
@@ -20,4 +20,6 @@ export interface UserWithSession {
     expiresAt: Date;
     refreshRequired: boolean;
   };
+  affiliation: MusicAffiliation | null;
+  ipi: string | null;
 }
