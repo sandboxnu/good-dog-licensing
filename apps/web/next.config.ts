@@ -12,6 +12,7 @@ const config: NextConfig = {
   experimental: {
     authInterrupts: true,
   },
+  transpilePackages: ["@good-dog/db"],
 };
 
 export default config;
