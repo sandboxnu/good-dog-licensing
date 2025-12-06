@@ -21,7 +21,8 @@ export class EmailService {
   constructor(apiKey?: string) {
     this.apiKey = apiKey;
 
-    this.resend = new Resend(apiKey ?? "re_123");
+    // this.resend = new Resend(apiKey ?? "re_123");
+    this.resend = new Resend("re_123");
 
     this.sentFrom = `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`;
   }

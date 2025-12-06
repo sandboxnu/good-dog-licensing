@@ -19,9 +19,16 @@ function InfoField({ header, content }: { header: string; content: string }) {
 export default function ProfileWidget() {
   const router = useRouter();
   const { data: user } = trpc.user.useQuery();
+
   const userRoleFormatted = user
     ? user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase()
     : "Unknown";
+  const userCreatedAtFormatted = user
+    ? user.createdAt.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    })
+    : "";
 
   useEffect(() => {
     if (!user) {
@@ -38,7 +45,7 @@ export default function ProfileWidget() {
             {user?.firstName + " " + user?.lastName}
           </header>
           <div className="text-dark-gray-200">
-            {userRoleFormatted} | Since Oct 2023
+            {userRoleFormatted} | Since {userCreatedAtFormatted}
           </div>
         </div>
       </div>

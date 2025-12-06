@@ -20,6 +20,7 @@ export interface UserWithSession {
     expiresAt: Date;
     refreshRequired: boolean;
   };
+  createdAt: Date;
   affiliation: MusicAffiliation | null;
   ipi: string | null;
 }
