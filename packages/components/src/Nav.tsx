@@ -28,7 +28,18 @@ export default function Nav() {
             <ProfileDropdown />
           ) : (
             <>
-              <ProfileDropdown />
+              <Link
+                href="/login"
+                className="underline-offset-4 hover:underline"
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className="underline-offset-4 hover:underline"
+              >
+                Sign up
+              </Link>
             </>
           )}
         </nav>

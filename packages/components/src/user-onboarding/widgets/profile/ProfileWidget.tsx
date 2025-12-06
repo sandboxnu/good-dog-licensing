@@ -10,7 +10,7 @@ import { useEffect } from "react";
 function InfoField({ header, content }: { header: string; content: string }) {
   return (
     <div className="flex flex-col">
-      <header className="text-[#858585]">{header}</header>
+      <header className="text-dark-gray-200">{header}</header>
       <div>{content}</div>
     </div>
   );
@@ -19,6 +19,9 @@ function InfoField({ header, content }: { header: string; content: string }) {
 export default function ProfileWidget() {
   const router = useRouter();
   const { data: user } = trpc.user.useQuery();
+  const userRoleFormatted = user
+    ? user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase()
+    : "Unknown";
 
   useEffect(() => {
     if (!user) {
@@ -32,9 +35,11 @@ export default function ProfileWidget() {
         <ProfileIcon color="light" size={56} editable={true} />
         <div className="flex flex-col">
           <header className="text-good-dog-main text-xl font-semibold">
-            John Doe
+            {user?.firstName + " " + user?.lastName}
           </header>
-          <div className="text-[#858585]">Musician | Since Oct 2023</div>
+          <div className="text-dark-gray-200">
+            {userRoleFormatted} | Since Oct 2023
+          </div>
         </div>
       </div>
 
@@ -52,9 +57,15 @@ export default function ProfileWidget() {
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
             <div className="flex flex-row ">
               <div className="w-[380px]">
-                <InfoField header="First name" content="John" />
+                <InfoField
+                  header="First name"
+                  content={user ? user.firstName : ""}
+                />
               </div>
-              <InfoField header="Last name" content="Doe" />
+              <InfoField
+                header="Last name"
+                content={user ? user.lastName : ""}
+              />
             </div>
             <div className="flex flex-row ">
               <div className="w-[380px]">
@@ -70,7 +81,7 @@ export default function ProfileWidget() {
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
             <div className="flex flex-row justify-between items-center">
-              <InfoField header="Email" content="actualEmail@example.com" />
+              <InfoField header="Email" content={user ? user.email : ""} />
               <Button label="Change email" size="small" variant="outlined" />
             </div>
             <div className="flex flex-row justify-between items-center">
@@ -85,7 +96,7 @@ export default function ProfileWidget() {
             Delete account
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
-            <div className="flex flex-row justify-left items-center text-[#5C5C5C]">
+            <div className="flex flex-row justify-left items-center text-dark-gray-300">
               <ErrorExclamation size="medium" /> This will permanently delete
               your account and all your information. This action can't be
               undone!
