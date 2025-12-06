@@ -14,6 +14,7 @@
   "dependencies": {
     "@good-dog/auth": "workspace:*",
     "@good-dog/components": "workspace:*",
+    "@good-dog/db": "workspace:*",
     "@good-dog/env": "workspace:*",
     "@good-dog/hooks": "workspace:*",
     "@good-dog/tailwind": "workspace:*",
