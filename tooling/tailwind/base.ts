@@ -90,6 +90,7 @@ export default {
         "off-white": "#E9F9F1",
         "light-green": "#098465",
         "main-bg-solid": "#FFFBF6",
+        gray: "#858585",
       },
       boxShadow: {
         active: "0 0 3px 0 var(--pine-200, #4C8B79)",

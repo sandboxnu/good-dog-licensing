@@ -8,6 +8,7 @@ import StatusIndicator from "../base/StatusIndicator";
 import EmptyFolder from "../svg/homepage/EmptyFolder";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
+import { ChevronRight } from "lucide-react";
 
 export default function MediaMakerLanding() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
@@ -70,20 +71,24 @@ export default function MediaMakerLanding() {
               <Card
                 size="small"
                 title={project.projectTitle}
-                subheader={project.createdAt.toLocaleDateString("en-US", {
+                subheader={"Submitted " + project.createdAt.toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
                 })}
                 children={
-                  <div className="flex h-full flex-col gap-[24px]">
+                  <div className="flex flex-col gap-[24px]">
                     <p className="body3 line-clamp-[3] break-words text-base font-normal leading-tight text-dark-gray-100 dark:text-dark-gray-100">
                       {project.description}
                     </p>
-                    <div className="absolute bottom-[24px]">
+                    <div className="w-full flex flex-row justify-between">
                       <StatusIndicator
                         variant={indicator.variant}
                         text={indicator.text}
+                      />
+                      <ChevronRight
+                        onClick={() => window.location.replace(`/project/${project.projectId}`)}
+                        className="hover:cursor-pointer"
                       />
                     </div>
                   </div>
