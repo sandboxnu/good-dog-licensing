@@ -25,9 +25,9 @@ export default function ProfileWidget() {
     : "Unknown";
   const userCreatedAtFormatted = user
     ? user.createdAt.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    })
+        month: "long",
+        year: "numeric",
+      })
     : "";
 
   useEffect(() => {
