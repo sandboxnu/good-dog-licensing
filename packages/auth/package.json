@@ -28,7 +28,7 @@
   "prettier": "@good-dog/prettier",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "next": "15.1.6",
+    "next": "15.1.9",
     "react": "18.3.1"
   }
 }

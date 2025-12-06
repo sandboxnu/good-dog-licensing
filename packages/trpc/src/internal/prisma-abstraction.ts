@@ -31,6 +31,7 @@ export const getSessionMemoized = React.cache(
               role: true,
               affiliation: true,
               ipi: true,
+              createdAt: true,
             },
           },
         },

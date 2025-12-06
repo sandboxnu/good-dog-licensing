@@ -7,7 +7,7 @@ import {
   test,
 } from "bun:test";
 
-import { prisma } from "@good-dog/db";
+import { MusicAffiliation, prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
 import { MockNextCookies } from "../mocks/MockNextCookies";
@@ -32,6 +32,8 @@ describe("get user", () => {
               expiresAt: new Date(Date.now() + 5_000_000_000),
             },
           },
+          affiliation: MusicAffiliation.ASCAP,
+          ipi: "has",
         },
       }),
       prisma.user.create({
@@ -49,6 +51,7 @@ describe("get user", () => {
               expiresAt: new Date(Date.now() + 600_000),
             },
           },
+          affiliation: MusicAffiliation.NONE,
         },
       }),
       prisma.user.create({
@@ -124,6 +127,31 @@ describe("get user", () => {
     if (user) {
       expect(user.email).toEqual("owen@test.org");
       expect(user.session.refreshRequired).toBeFalse();
+    }
+  });
+
+  test("User with affiliations and ipis as expected", async () => {
+    cookies.set("sessionId", "owen-session-id");
+
+    const user = await $api.user();
+
+    expect(user).not.toBeNull();
+    if (user) {
+      expect(user.affiliation).toEqual("ASCAP");
+      expect(user.ipi).toEqual("has");
+    }
+  });
+
+  test("User with NONE affiliation is not the same as null affiliation", async () => {
+    cookies.set("sessionId", "gavin-session-id");
+
+    const user = await $api.user();
+
+    expect(user).not.toBeNull();
+    if (user) {
+      expect(user.affiliation).toEqual("NONE");
+      expect(user.affiliation).not.toBeNull();
+      expect(user.ipi).toBeNull();
     }
   });
 
