@@ -83,6 +83,7 @@ export default {
         "good-dog-main": "#07634C",
         "header-primary": "#022119",
         "body-primary": "#2E2E2E",
+        "body-gray": "#5C5C5C",
         secondary: "#054233",
         error: "#B13433",
         "required-star": "#F4392D",
@@ -90,6 +91,8 @@ export default {
         "off-white": "#E9F9F1",
         "light-green": "#098465",
         "main-bg-solid": "#FFFBF6",
+        gray: "#858585",
+        "light-gray": "#BFBCB8",
       },
       boxShadow: {
         active: "0 0 3px 0 var(--pine-200, #4C8B79)",
