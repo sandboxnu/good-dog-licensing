@@ -1,10 +1,23 @@
 interface AddIconProps {
   color: "light" | "dark";
-  size: "medium" | "large";
+  size: "small" | "medium" | "large";
 }
 
 export default function AddIcon({ color, size }: AddIconProps) {
-  return size === "medium" ? (
+  return size === "small" ? (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8.7999 3.1999C8.7999 2.7574 8.4424 2.3999 7.9999 2.3999C7.5574 2.3999 7.1999 2.7574 7.1999 3.1999V7.1999H3.1999C2.7574 7.1999 2.3999 7.5574 2.3999 7.9999C2.3999 8.4424 2.7574 8.7999 3.1999 8.7999H7.1999V12.7999C7.1999 13.2424 7.5574 13.5999 7.9999 13.5999C8.4424 13.5999 8.7999 13.2424 8.7999 12.7999V8.7999H12.7999C13.2424 8.7999 13.5999 8.4424 13.5999 7.9999C13.5999 7.5574 13.2424 7.1999 12.7999 7.1999H8.7999V3.1999Z"
+        fill={color === "light" ? "#D3F4E2" : "#054233"}
+      />
+    </svg>
+  ) : size === "medium" ? (
     <svg
       width="16"
       height="16"
