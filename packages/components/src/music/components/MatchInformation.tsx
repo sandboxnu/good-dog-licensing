@@ -10,10 +10,10 @@ export default function MatchInformation({
 }: {
   musicSubmissionId: string;
 }) {
-  const { data: musicSubmission } = trpc.getMusicSubmissionById.useQuery({
+  const [musicSubmission] = trpc.getMusicSubmissionById.useSuspenseQuery({
     musicId: musicSubmissionId,
   });
-  const matches = musicSubmission?.matches ?? [];
+  const matches = musicSubmission.matches;
 
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
   const selectedMatch = matches.find((m) => m.matchId === selectedMatchId);
