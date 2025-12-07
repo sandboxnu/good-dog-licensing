@@ -32,7 +32,7 @@ export function Matches({
       <p className="w-full">Review and approve/deny the songs matched below</p>
       {filteredMatches.length === 0 && (
         <div className="flex flex-col items-center gap-2 mt-16 min-w-[778px]">
-          <Hourglass />
+          <Hourglass size="large" />
           <p>No requests active at this time</p>
         </div>
       )}

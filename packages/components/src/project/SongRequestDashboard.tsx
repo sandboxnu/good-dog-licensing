@@ -1,0 +1,67 @@
+"use client";
+
+import { trpc } from "@good-dog/trpc/client";
+import { ChevronLeft } from "lucide-react";
+import ProjectInformation from "./components/ProjectInformation";
+import SongRequests from "./components/SongRequests";
+import { useRouter } from "next/navigation";
+
+export default function SongRequestDashboard({
+  projectId,
+}: {
+  projectId: string;
+}) {
+  const [projectSubmission] = trpc.getProjectSubmissionById.useSuspenseQuery({
+    projectId: projectId,
+  });
+  const router = useRouter();
+
+  return (
+    <div className="w-[992px] flex flex-col gap-6">
+      <div className="flex flex-col gap-10">
+        <div
+          className="flex flex-row items-center text-secondary hover:cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          <ChevronLeft className="h-4 w-4" />
+          <p className="underline font-medium">Projects</p>
+        </div>
+        <ProjectInformation project={projectSubmission} />
+      </div>
+      <SongRequests
+        songRequests={projectSubmission.songRequests.filter((songRequest) => {
+          return songRequest.matches.some(
+            (match) => match.matchState === "NEW",
+          );
+        })}
+        status="TO_DO"
+      />
+      <SongRequests
+        songRequests={projectSubmission.songRequests.filter((songRequest) => {
+          return songRequest.matches.some(
+            (match) => match.matchState === "SONG_REQUESTED",
+          );
+        })}
+        status="IN_REVIEW"
+      />
+      <SongRequests
+        songRequests={projectSubmission.songRequests.filter((songRequest) => {
+          return songRequest.matches.some(
+            (match) => match.matchState === "APPROVED_BY_MUSICIAN",
+          );
+        })}
+        status="ACCEPTED"
+      />
+      <SongRequests
+        songRequests={projectSubmission.songRequests.filter((songRequest) => {
+          return songRequest.matches.some(
+            (match) =>
+              match.matchState === "REJECTED_BY_MEDIA_MAKER" ||
+              match.matchState === "REJECTED_BY_MUSICIAN",
+          );
+        })}
+        status="NO_MATCHES"
+      />
+    </div>
+  );
+}

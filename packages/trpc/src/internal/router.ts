@@ -16,6 +16,7 @@ import {
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
+import { getProjectSubmissionByIdProcedure } from "../procedures/get-project";
 import {
   getProjectSongRequestByIdProcedure,
   getProjectSongRequestsProcedure,
@@ -72,6 +73,7 @@ export const appRouter = createTRPCRouter({
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValuesProcedure,
   deleteMatch: deleteMatchProcedure,
   songRequestSubmission: songRequestSubmissionProcedure,
+  getProjectSubmissionById: getProjectSubmissionByIdProcedure,
   getMusicSubmissionById: getMusicSubmissionByIdProcedure,
 });
 
