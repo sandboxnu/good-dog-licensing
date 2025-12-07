@@ -52,7 +52,7 @@ export default function ProfileWidget() {
 
       <div className="flex flex-col gap-y-[16px]">
         <div className="rounded-2xl bg-white border">
-          <header className="flex justify-between items-center bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[23.5]">
+          <header className="flex justify-between items-center bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[24px]">
             Personal details
             <Button
               size="small"
@@ -105,7 +105,7 @@ export default function ProfileWidget() {
         </div>
 
         <div className="rounded-2xl bg-white border">
-          <header className="bg-gray pb-[12px] pt-[13px] px-[23.5px] text-error">
+          <header className="rounded-t-2xl bg-white pb-[12px] pt-[13px] px-[23.5px] text-error">
             Delete account
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">

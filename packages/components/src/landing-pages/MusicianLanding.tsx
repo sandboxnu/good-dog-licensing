@@ -58,7 +58,11 @@ export default function MusicianLanding() {
                       <Line text={song.performerName} icon={<People />} />
                       <Line
                         text={formatAllCapsList(song.genres)}
-                        icon={<MusicNote />}
+                        icon={
+                          <div className="flex-shrink-0">
+                            <MusicNote />
+                          </div>
+                        }
                       />
                     </div>
 

@@ -23,9 +23,12 @@ export enum SubmissionStep {
 export default function MusicSubmissionWidget() {
   const [step, setStep] = useState<SubmissionStep>(SubmissionStep.INITIAL);
 
+  const utils = trpc.useUtils();
+
   const submitMusicMutation = trpc.submitMusic.useMutation({
     onSuccess: () => {
       setStep(SubmissionStep.SUBMITTED);
+      void utils.userMusic.invalidate();
     },
   });
 
