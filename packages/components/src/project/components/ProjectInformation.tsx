@@ -2,12 +2,15 @@
 
 import type { ProjectSubmission } from ".prisma/client";
 import Button from "../../base/Button";
+import { useRouter } from "next/navigation";
 
 export default function ProjectInformation({
   project,
 }: {
   project: ProjectSubmission;
 }) {
+  const router = useRouter();
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
@@ -37,9 +40,7 @@ export default function ProjectInformation({
           displayIcon="plus"
           size={"medium"}
           onClick={() =>
-            window.location.replace(
-              "/project/" + project.projectId + "/add-song-request",
-            )
+            router.push("/project/" + project.projectId + "/add-song-request")
           }
           label="Request"
         />

@@ -4,6 +4,7 @@ import type { SongRequest } from ".prisma/client";
 import MusicNoteIcon from "../../svg/MusicNoteIcon";
 import StatusIndicator from "../../base/StatusIndicator";
 import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function SongRequest({
   songRequest,
@@ -12,6 +13,8 @@ export default function SongRequest({
   songRequest: SongRequest;
   status: "TO_DO" | "IN_REVIEW" | "ACCEPTED" | "NO_MATCHES";
 }) {
+  const router = useRouter();
+
   const variant = () => {
     if (status === "TO_DO") return "error";
     if (status === "IN_REVIEW") return "blue";
@@ -27,7 +30,7 @@ export default function SongRequest({
   };
 
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    window.location.replace(
+    router.push(
       "/project/" +
         songRequest.projectId +
         "/song-request/" +

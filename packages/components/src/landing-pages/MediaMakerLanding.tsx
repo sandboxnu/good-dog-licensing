@@ -9,9 +9,12 @@ import EmptyFolder from "../svg/homepage/EmptyFolder";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
 import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function MediaMakerLanding() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
+
+  const router = useRouter();
 
   return (
     <div className="align-start flex w-full flex-col gap-[32px]">
@@ -91,9 +94,7 @@ export default function MediaMakerLanding() {
                       />
                       <ChevronRight
                         onClick={() =>
-                          window.location.replace(
-                            `/project/${project.projectId}`,
-                          )
+                          router.push(`/project/${project.projectId}`)
                         }
                         className="hover:cursor-pointer"
                       />
