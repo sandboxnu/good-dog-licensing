@@ -12,9 +12,12 @@ import MusicNote from "../svg/MusicNote";
 import People from "../svg/People";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
+import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
+  const router = useRouter();
   return (
     <div className="align-start flex w-full flex-col gap-[32px]">
       <Header
@@ -40,13 +43,16 @@ export default function MusicianLanding() {
             return (
               <Card
                 title={song.songName}
-                subheader={song.createdAt.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                subheader={
+                  "Submitted " +
+                  song.createdAt.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                }
                 children={
-                  <div className="flex h-full flex-col gap-[24px]">
+                  <div className="flex flex-col gap-[24px]">
                     <div className="flex flex-col gap-[8px]">
                       <Line text={song.performerName} icon={<People />} />
                       <Line
@@ -55,11 +61,14 @@ export default function MusicianLanding() {
                       />
                     </div>
 
-                    {/* absolutely position the indicator 24px from the bottom */}
-                    <div className="absolute bottom-[24px]">
+                    <div className="w-full flex flex-row justify-between">
                       <StatusIndicator
                         variant={actionNeeded ? "error" : "success"}
                         text={actionNeeded ? "Action needed" : "Song submitted"}
+                      />
+                      <ChevronRight
+                        onClick={() => router.push("/song/" + song.musicId)}
+                        className="hover:cursor-pointer"
                       />
                     </div>
                   </div>

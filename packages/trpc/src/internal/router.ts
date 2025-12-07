@@ -11,6 +11,7 @@ import {
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
 import {
+  getMusicSubmissionByIdProcedure,
   getMusicSubmissionsProcedure,
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
@@ -73,6 +74,7 @@ export const appRouter = createTRPCRouter({
   deleteMatch: deleteMatchProcedure,
   songRequestSubmission: songRequestSubmissionProcedure,
   getProjectSubmissionById: getProjectSubmissionByIdProcedure,
+  getMusicSubmissionById: getMusicSubmissionByIdProcedure,
 });
 
 export type AppRouter = typeof appRouter;
