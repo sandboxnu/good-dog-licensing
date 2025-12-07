@@ -1,5 +1,6 @@
 import { trpc } from "@good-dog/trpc/client";
 import { Link } from "lucide-react";
+import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
 
 export default function MusicInformation({
   musicSubmissionId,
@@ -9,21 +10,6 @@ export default function MusicInformation({
   const [musicSubmission] = trpc.getMusicSubmissionById.useSuspenseQuery({
     musicId: musicSubmissionId,
   });
-
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -41,14 +27,7 @@ export default function MusicInformation({
             </div>
             <div className="flex flex-col gap-1">
               <p className="text-gray">Genre(s)</p>
-              {musicSubmission.genres
-                .map((genre) =>
-                  genre
-                    .charAt(0)
-                    .toUpperCase()
-                    .concat(genre.slice(1).toLowerCase()),
-                )
-                .join(", ")}
+              {formatAllCapsList(musicSubmission.genres)}
             </div>
           </div>
           <div className="w-[1px] bg-light-gray" />
@@ -56,11 +35,11 @@ export default function MusicInformation({
             <div className="flex flex-col gap-1">
               <p className="text-gray">Date Submitted</p>
               <p>
-                {monthNames[musicSubmission.createdAt.getMonth()] +
-                  " " +
-                  musicSubmission.createdAt.getDate().toString() +
-                  ", " +
-                  musicSubmission.createdAt.getFullYear().toString()}
+                {musicSubmission.createdAt.toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
               </p>
             </div>
             <div className="flex flex-col gap-1">

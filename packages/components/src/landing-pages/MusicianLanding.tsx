@@ -61,7 +61,6 @@ export default function MusicianLanding() {
                       />
                     </div>
 
-                    {/* absolutely position the indicator 24px from the bottom */}
                     <div className="w-full flex flex-row justify-between">
                       <StatusIndicator
                         variant={actionNeeded ? "error" : "success"}

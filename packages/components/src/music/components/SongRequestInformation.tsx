@@ -5,21 +5,6 @@ export default function SongRequestInformation({
 }: {
   songRequest: SongRequest | undefined;
 }) {
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   return (
     <div className="flex flex-col gap-4 p-6 rounded-2xl border-[0.5px] border-light-gray shadow-md">
       <p className="text-xl text-gray">Song Request Information</p>
@@ -30,13 +15,11 @@ export default function SongRequestInformation({
       <div className="flex flex-col gap-1">
         <p className="text-gray">Request Added</p>
         <p>
-          {songRequest
-            ? monthNames[songRequest.createdAt.getMonth()] +
-              " " +
-              songRequest.createdAt.getDate().toString() +
-              ", " +
-              songRequest.createdAt.getFullYear().toString()
-            : "..."}
+          {songRequest?.createdAt.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}
         </p>
       </div>
       <div className="flex flex-col gap-1">
