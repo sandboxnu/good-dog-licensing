@@ -1,16 +1,19 @@
 "use client";
 
-import type { SongRequest } from ".prisma/client";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import SongRequestComponent from "./SongRequest";
 import Hourglass from "../../svg/Hourglass";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
+type SongRequestWithMatchesType =
+  GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
 
 export default function SongRequests({
   songRequests,
   status,
 }: {
-  songRequests: SongRequest[];
+  songRequests: SongRequestWithMatchesType[];
   status: "TO_DO" | "IN_REVIEW" | "ACCEPTED" | "NO_MATCHES";
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -52,7 +55,6 @@ export default function SongRequests({
             <SongRequestComponent
               key={songRequest.songRequestId}
               songRequest={songRequest}
-              status={status}
             />
           ))
         ) : (

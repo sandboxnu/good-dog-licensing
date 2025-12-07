@@ -1,4 +1,4 @@
-import { GetProcedureOutput } from "@good-dog/trpc/types";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { MatchStatusTabs } from "./MatchStatusTabs";
 import { ListOfMatches } from "./ListOfMatches";
 

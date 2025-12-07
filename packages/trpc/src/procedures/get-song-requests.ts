@@ -53,6 +53,12 @@ export const getProjectSongRequestByIdProcedure =
             include: {
               musicSubmission: {
                 include: {
+                  contributors: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
+                  },
                   submitter: {
                     select: {
                       firstName: true,
