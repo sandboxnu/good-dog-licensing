@@ -54,10 +54,13 @@ export default function SongRequestDashboard({
       />
       <SongRequests
         songRequests={projectSubmission.songRequests.filter((songRequest) => {
-          return songRequest.matches.some(
-            (match) =>
-              match.matchState === "REJECTED_BY_MEDIA_MAKER" ||
-              match.matchState === "REJECTED_BY_MUSICIAN",
+          return (
+            songRequest.matches.length === 0 ||
+            songRequest.matches.every(
+              (match) =>
+                match.matchState === "REJECTED_BY_MEDIA_MAKER" ||
+                match.matchState === "REJECTED_BY_MUSICIAN",
+            )
           );
         })}
         status="NO_MATCHES"

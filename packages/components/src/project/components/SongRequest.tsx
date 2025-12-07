@@ -5,37 +5,21 @@ import MusicNoteIcon from "../../svg/MusicNoteIcon";
 import StatusIndicator from "../../base/StatusIndicator";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { getSongRequestStatus } from "../../../utils/getStatusHelper";
+
+type SongRequestWithMatchesType =
+  GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
 
 export default function SongRequest({
   songRequest,
-  status,
 }: {
-  songRequest: SongRequest;
-  status: "TO_DO" | "IN_REVIEW" | "ACCEPTED" | "NO_MATCHES";
+  songRequest: SongRequestWithMatchesType;
 }) {
   const router = useRouter();
 
-  const variant = () => {
-    if (status === "TO_DO") return "error";
-    if (status === "IN_REVIEW") return "blue";
-    if (status === "ACCEPTED") return "success";
-    else return "warning";
-  };
-
-  const text = () => {
-    if (status === "TO_DO") return "Action needed";
-    if (status === "IN_REVIEW") return "Pending approval";
-    if (status === "ACCEPTED") return "Accepted";
-    else return "Awaiting match";
-  };
-
   const handleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    router.push(
-      "/project/" +
-        songRequest.projectId +
-        "/song-request/" +
-        songRequest.songRequestId,
-    );
+    router.push("/song-request/" + songRequest.songRequestId);
     e.stopPropagation();
   };
 
@@ -51,7 +35,7 @@ export default function SongRequest({
             <p className="text-xl font-semibold">
               {songRequest.songRequestTitle}
             </p>
-            <StatusIndicator variant={variant()} text={text()} />
+            <StatusIndicator {...getSongRequestStatus(songRequest)} />
           </div>
           <p>{songRequest.description}</p>
         </div>

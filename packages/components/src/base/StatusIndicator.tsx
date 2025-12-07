@@ -20,13 +20,15 @@ const getColorFromVariant = (
   }
 };
 
+export interface StatusIndicatorType {
+  variant: "success" | "error" | "warning" | "gray" | "blue";
+  text: string;
+}
+
 export default function StatusIndicator({
   variant,
   text,
-}: {
-  variant: "success" | "error" | "warning" | "gray" | "blue";
-  text: string;
-}) {
+}: StatusIndicatorType) {
   return (
     <div
       className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center gap-[4px] rounded pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)}`}

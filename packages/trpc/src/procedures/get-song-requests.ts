@@ -36,7 +36,7 @@ export const getProjectSongRequestsProcedure = rolePermissionsProcedureBuilder(
 
 // TODO - Test this api route. Ticket #149
 export const getProjectSongRequestByIdProcedure =
-  rolePermissionsProcedureBuilder(projectAndRepertoirePagePermissions, "read")
+  rolePermissionsProcedureBuilder(mediaMakerOnlyPermissions, "read")
     .input(
       z.object({
         songRequestId: z.string(),
@@ -53,6 +53,12 @@ export const getProjectSongRequestByIdProcedure =
             include: {
               musicSubmission: {
                 include: {
+                  contributors: {
+                    select: {
+                      firstName: true,
+                      lastName: true,
+                    },
+                  },
                   submitter: {
                     select: {
                       firstName: true,
@@ -80,6 +86,15 @@ export const getProjectSongRequestByIdProcedure =
         throw new TRPCError({
           code: "NOT_FOUND",
           message: `Project Song Request ID was not found.`,
+        });
+      }
+
+      if (
+        songRequest.projectSubmission.projectOwnerId !== ctx.session.user.userId
+      ) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You don't have permission to view this song request.",
         });
       }
 
