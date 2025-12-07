@@ -14,6 +14,7 @@ import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { formatAllCapsList } from "../../utils/allCapsListFormatter";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
@@ -37,7 +38,7 @@ export default function MusicianLanding() {
       {data.music.length > 0 && (
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.music.map((song, key) => {
-            const actionNeeded = !!song.matches.find(
+            const actionNeeded = !song.matches.find(
               (match) => match.matchState === MatchState.SONG_REQUESTED,
             );
             return (
@@ -56,7 +57,7 @@ export default function MusicianLanding() {
                     <div className="flex flex-col gap-[8px]">
                       <Line text={song.performerName} icon={<People />} />
                       <Line
-                        text={song.genres.join(", ")}
+                        text={formatAllCapsList(song.genres)}
                         icon={<MusicNote />}
                       />
                     </div>
