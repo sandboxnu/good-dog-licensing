@@ -10,6 +10,7 @@ import { zSongRequest } from "@good-dog/trpc/schema";
 
 import SongRequestSubmissionHeader from "./SongRequestSubmissionHeader";
 import SongRequestInfo from "./SongRequestInfo";
+import { useRouter } from "next/navigation";
 
 type SongRequestSubmissionFormFields = z.input<typeof zSongRequest>;
 
@@ -23,6 +24,7 @@ export default function SongRequestSubmissionWidget({
 }: {
   projectId: string;
 }) {
+  const router = useRouter();
   const [step, setStep] = useState<SubmissionStep>(SubmissionStep.INFO);
 
   const submitSongRequestMutation = trpc.songRequestSubmission.useMutation({
@@ -50,8 +52,8 @@ export default function SongRequestSubmissionWidget({
   });
 
   const handleBack = useCallback(() => {
-    window.location.replace(`/project/${projectId}/`);
-  }, [projectId]);
+    router.push(`/project/${projectId}/`);
+  }, [projectId, router]);
 
   return (
     <div className="flex w-[752px] flex-col items-center gap-4">

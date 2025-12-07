@@ -1,6 +1,5 @@
 import PageContainer from "@good-dog/components/PageContainer";
-import MusicDashboard from "@good-dog/components/music/MusicDashboard";
-import { trpc } from "@good-dog/trpc/server";
+import SongRequestDashboard from "@good-dog/components/project/SongRequestDashboard";
 
 interface PageProps {
   params: Promise<{
@@ -9,13 +8,11 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { id: musicId } = await params;
-
-  await trpc.getMusicSubmissionById.prefetch({ musicId });
+  const { id: projectId } = await params;
 
   return (
     <PageContainer background="solid">
-      <MusicDashboard musicId={musicId} />
+      <SongRequestDashboard projectId={projectId} />
     </PageContainer>
   );
 }

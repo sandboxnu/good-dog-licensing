@@ -41,7 +41,7 @@ export function Match({
     setOpenReject(true);
   };
 
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
   const updateMatchState = trpc.updateMatchState.useMutation({
     onSuccess: () => {
       void utils.getMusicSubmissionById.invalidate({ musicId: match.musicId });

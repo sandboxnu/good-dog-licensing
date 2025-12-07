@@ -14,15 +14,18 @@
   "dependencies": {
     "@good-dog/auth": "workspace:*",
     "@good-dog/components": "workspace:*",
+    "@good-dog/db": "workspace:*",
     "@good-dog/env": "workspace:*",
     "@good-dog/hooks": "workspace:*",
     "@good-dog/tailwind": "workspace:*",
     "@good-dog/trpc": "workspace:*",
     "@good-dog/ui": "workspace:*",
+    "lucide-react": "^0.484.0",
     "next": "15.1.9",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "server-only": "^0.0.1",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^4"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import type { User, ProjectSubmission } from ".prisma/client";
+import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
 
 export default function ProjectInformation({
   projectSubmission,
@@ -7,21 +8,6 @@ export default function ProjectInformation({
   projectSubmission: ProjectSubmission | undefined;
   projectOwner: User | undefined;
 }) {
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   return (
     <div className="flex flex-col gap-4 p-6 rounded-2xl border-[0.5px] border-light-gray shadow-md">
       <p className="text-xl text-gray">Project Information</p>
@@ -32,13 +18,11 @@ export default function ProjectInformation({
       <div className="flex flex-col gap-1">
         <p className="text-gray">Project Deadline</p>
         <p>
-          {projectSubmission
-            ? monthNames[projectSubmission.deadline.getMonth()] +
-              " " +
-              projectSubmission.deadline.getDate().toString() +
-              ", " +
-              projectSubmission.deadline.getFullYear().toString()
-            : "..."}
+          {projectSubmission?.deadline.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}
         </p>
       </div>
       <div className="flex flex-col gap-1">
@@ -53,13 +37,7 @@ export default function ProjectInformation({
         <p className="text-gray">Media Type</p>
         <p>
           {projectSubmission
-            ? projectSubmission.projectType
-                .split("_")
-                .map(
-                  (word) =>
-                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
-                )
-                .join(" ")
+            ? formatAllCapsList(projectSubmission.projectType.split("_"))
             : "..."}
         </p>
       </div>
