@@ -52,7 +52,7 @@ export default function ProfileWidget() {
 
       <div className="flex flex-col gap-y-[16px]">
         <div className="rounded-2xl bg-white border">
-          <header className="flex justify-between items-center bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[23.5]">
+          <header className="flex justify-between items-center bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[24px]">
             Personal details
             <Button
               size="small"
@@ -89,7 +89,7 @@ export default function ProfileWidget() {
           </div>
         </div>
         <div className="rounded-2xl bg-white border">
-          <header className="bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[23.5]">
+          <header className="bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[23.5px]">
             Security
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
@@ -109,7 +109,7 @@ export default function ProfileWidget() {
             Delete account
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
-            <div className="flex flex-row justify-left items-center text-dark-gray-300">
+            <div className="flex flex-row justify-left items-center text-dark-gray-300 rounded-t-2xl">
               <ErrorExclamation size="medium" /> This will permanently delete
               your account and all your information. This action can't be
               undone!
