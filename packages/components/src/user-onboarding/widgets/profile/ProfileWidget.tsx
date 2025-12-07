@@ -89,7 +89,7 @@ export default function ProfileWidget() {
           </div>
         </div>
         <div className="rounded-2xl bg-white border">
-          <header className="bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[23.5]">
+          <header className="bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[24px]">
             Security
           </header>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">

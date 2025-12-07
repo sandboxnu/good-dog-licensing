@@ -37,10 +37,12 @@ export default function SongRequestInformation({
         <p className="text-gray">Similar songs</p>
         <p>{songRequest.similarSongs}</p>
       </div>
-      <div className="flex flex-col gap-1">
-        <p className="text-gray">Additional information</p>
-        <p>{songRequest.additionalInfo}</p>
-      </div>
+      {songRequest.additionalInfo.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <p className="text-gray">Additional information</p>
+          <p>{songRequest.additionalInfo}</p>
+        </div>
+      )}
     </div>
   );
 }
