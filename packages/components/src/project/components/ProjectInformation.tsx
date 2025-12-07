@@ -28,22 +28,26 @@ export default function ProjectInformation({
               year: "numeric",
             })}
           </p>
-          <p className="text-gray">Project deadline: {project.description}</p>
+          <p className="text-gray">
+            Project description: {project.description}
+          </p>
           {project.additionalInfo.length > 0 && (
             <p className="text-gray">
               Additional information: {project.additionalInfo}
             </p>
           )}
         </div>
-        <Button
-          variant="contained"
-          displayIcon="plus"
-          size={"medium"}
-          onClick={() =>
-            router.push("/project/" + project.projectId + "/add-song-request")
-          }
-          label="Request"
-        />
+        <div className="flex-shrink-0">
+          <Button
+            variant="contained"
+            displayIcon="plus"
+            size={"medium"}
+            onClick={() =>
+              router.push("/project/" + project.projectId + "/add-song-request")
+            }
+            label="Request"
+          />
+        </div>
       </div>
     </div>
   );

@@ -30,10 +30,12 @@ export default function SongRequestInformation({
         <p className="text-gray">Purpose</p>
         <p>{songRequest ? songRequest.feelingsConveyed : "..."}</p>
       </div>
-      <div className="flex flex-col gap-1">
-        <p className="text-gray">Additional Information</p>
-        <p>{songRequest ? songRequest.additionalInfo : "..."}</p>
-      </div>
+      {songRequest && songRequest.additionalInfo.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <p className="text-gray">Additional Information</p>
+          <p>{songRequest.additionalInfo}</p>
+        </div>
+      )}
     </div>
   );
 }

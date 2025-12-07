@@ -45,10 +45,12 @@ export default function ProjectInformation({
         <p className="text-gray">Project Description</p>
         <p>{projectSubmission ? projectSubmission.description : "..."}</p>
       </div>
-      <div className="flex flex-col gap-1">
-        <p className="text-gray">Additional Information</p>
-        <p>{projectSubmission ? projectSubmission.additionalInfo : "..."}</p>
-      </div>
+      {projectSubmission && projectSubmission.additionalInfo.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <p className="text-gray">Additional Information</p>
+          <p>{projectSubmission.additionalInfo}</p>
+        </div>
+      )}
     </div>
   );
 }
