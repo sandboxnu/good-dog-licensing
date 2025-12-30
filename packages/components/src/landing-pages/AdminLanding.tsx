@@ -100,7 +100,9 @@ function Submissions() {
       <Header
         title={"Submissions"}
         subtitle={"Pending project submissions"}
-        requestPath={""}
+        buttonPath={""}
+        buttonLabel="Invite"
+
       />
       <div className="flex flex-row gap-[24px]">
         <SubmissionStatusTab
@@ -210,7 +212,7 @@ function Songs() {
 }
 
 function Users() {
-  return <p></p>;
+  return <p></p>
 }
 
 function SideBar({

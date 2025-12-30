@@ -7,11 +7,13 @@ import Button from "../../base/Button";
 export default function Header({
   title,
   subtitle,
-  requestPath,
+  buttonPath,
+  buttonLabel
 }: {
   title: string;
   subtitle: string;
-  requestPath: string;
+  buttonPath: string;
+  buttonLabel: string;
 }) {
   const router = useRouter();
 
@@ -23,10 +25,10 @@ export default function Header({
       </div>
       <div className="flex flex-row items-center gap-[16px]">
         <Button
-          onClick={() => router.push(requestPath)}
+          onClick={() => router.push(buttonPath)}
           size={"medium"}
           variant={"contained"}
-          label={"Request"}
+          label={buttonLabel}
           displayIcon={"plus"}
         />
       </div>
