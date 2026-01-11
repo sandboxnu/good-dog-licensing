@@ -23,9 +23,12 @@ export enum SubmissionStep {
 export default function ProjectSubmissionWidget() {
   const [step, setStep] = useState<SubmissionStep>(SubmissionStep.INITIAL);
 
+  const utils = trpc.useUtils();
+
   const submitProjectMutation = trpc.projectSubmission.useMutation({
     onSuccess: () => {
       setStep(SubmissionStep.SUBMITTED);
+      void utils.userProjects.invalidate();
     },
   });
 

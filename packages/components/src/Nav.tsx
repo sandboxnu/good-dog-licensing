@@ -16,7 +16,7 @@ export default function Nav() {
       <div className="flex items-center justify-between bg-transparent">
         <Link href="/" className="flex items-center gap-3">
           <NavLogo />
-          <p className="font-righteous text-2xl text-green-400 dark:text-mint-300">
+          <p className="font-righteous text-green-400 dark:text-mint-300 text-2xl">
             GOOD DOG LICENSING
           </p>
         </Link>

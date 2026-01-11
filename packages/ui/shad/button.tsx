@@ -15,10 +15,13 @@ const buttonVariants = cva("rounded-lg", {
       text: "bg-transparent text-bg-green-500 hover:bg-mint-200 active:bg-mint-300",
     },
     size: {
+      "small-text": "h-[31px] px-[16px] !text-body4", // NOTE: really forced...
       "medium-text": "h-[40px] w-[104px] !text-body3",
       "large-text": "h-[48px] w-[128px] !text-body2",
+      "small-text-with-icon": "h-[31px] w-[80px] !text-body4",
       "medium-text-with-icon": "h-[40px] w-[120px] !text-body3",
       "large-text-with-icon": "h-[48px] w-[136px] !text-body2",
+      "small-icon": "h-[31px] w-[32px]",
       "medium-icon": "h-[40px] w-[40px]",
       "large-icon": "h-[48px] w-[48px]",
     },
