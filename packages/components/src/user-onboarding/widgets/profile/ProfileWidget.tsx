@@ -39,7 +39,7 @@ export default function ProfileWidget() {
   return (
     <div className="flex flex-col gap-6 w-[752px]">
       <div className="flex flex-row items-center gap-4">
-        <ProfileIcon color="light" size={56} editable={true} />
+        <ProfileIcon color="light" size={56} />
         <div className="flex flex-col">
           <header className="text-good-dog-main text-xl font-semibold">
             {user?.firstName + " " + user?.lastName}
