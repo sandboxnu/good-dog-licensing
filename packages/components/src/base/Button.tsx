@@ -58,7 +58,8 @@ export default function Button({
       size={updatedSize}
       type={type}
       onClick={onClick}
-      className={`${widthClassName} ${shadowClassName} ${error ? "border-error" : ""}`}
+      // TODO: not sure we have a color for this hover yet even in the figma so this is template
+      className={`${widthClassName} ${shadowClassName} ${error ? "border-error hover:bg-red-50" : ""}`}
     >
       <div className={divClassName}>
         {displayIcon === "plus" ? (
