@@ -13,12 +13,12 @@ export const zProfileValues = z.object({
   affiliation: zAffiliationValidation,
 });
 
-export const zChangeEmailValues = z.object({
+export const zSetEmailValues = z.object({
   email: zRequiredEmail,
   emailCode: zRequiredString,
 });
 
-export const zChangePasswordValues = z.object({
+export const zSetPasswordValues = z.object({
   password: zPasswordValidation,
   confirmPassword: zRequiredString,
 });
