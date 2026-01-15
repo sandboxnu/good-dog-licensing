@@ -9,22 +9,45 @@ import { useEffect, useState } from "react";
 import SetEmailModal from "./SetEmailModal";
 import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
-import { zSignUpValues } from "@good-dog/trpc/schema";
+import {
+  zChangeEmailValues,
+  zChangePasswordValues,
+  zProfileValues,
+} from "@good-dog/trpc/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import EmailCodeModal from "../sign-up-widget/EmailCodeModal";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
+import { MusicAffiliation } from "@good-dog/db";
 
 type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
 type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
 
-type SignUpFormFields = z.input<typeof zSignUpValues>;
+type ProfileValuesFields = z.input<typeof zProfileValues>;
+type ChangeEmailValuesFields = z.input<typeof zChangeEmailValues>;
+type ChangePasswordValuesFields = z.input<typeof zChangePasswordValues>;
 
 export default function ProfileWidget() {
   const router = useRouter();
   const { data: user, isLoading } = trpc.user.useQuery();
 
-  const formMethods = useForm<SignUpFormFields>({
-    resolver: zodResolver(zSignUpValues),
+  const profileFormMethods = useForm<ProfileValuesFields>({
+    resolver: zodResolver(zProfileValues),
+    defaultValues: {
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      ipi: user?.ipi ? user.ipi : "",
+      affiliation: user?.affiliation
+        ? user?.affiliation
+        : MusicAffiliation.NONE,
+    },
+  });
+
+  const emailFormMethods = useForm<ChangeEmailValuesFields>({
+    resolver: zodResolver(zChangeEmailValues),
+  });
+
+  const passwordFormMethods = useForm<ChangePasswordValuesFields>({
+    resolver: zodResolver(zChangePasswordValues),
   });
 
   const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
@@ -69,26 +92,30 @@ export default function ProfileWidget() {
   });
 
   const verifyEmailCode = (code: string) => {
-    formMethods.setValue("emailCode", code);
+    emailFormMethods.setValue("emailCode", code);
     verifyEmailCodeMutation.mutate({
-      email: formMethods.watch("email"),
+      email: emailFormMethods.watch("email"),
       emailCode: code,
     });
   };
 
   const handleVerifyEmail = async () => {
     sendEmailVerificationMutation.reset();
-    const initialSignUpInfoIsValid = await formMethods.trigger(["email"]);
-    if (initialSignUpInfoIsValid) {
+    const requestedEmailIsValid = await emailFormMethods.trigger(["email"]);
+
+    console.log(emailFormMethods.getValues("email"));
+    console.log("requestedEmailIsValid:", requestedEmailIsValid);
+    if (requestedEmailIsValid) {
+      console.log("is valid passwed");
       sendEmailVerificationMutation.mutate({
-        email: formMethods.watch("email"),
+        email: emailFormMethods.watch("email"),
       });
     }
   };
 
   return (
     <div className="flex flex-col gap-6 w-[752px]">
-      <FormProvider {...formMethods}>
+      <FormProvider {...emailFormMethods}>
         <SetEmailModal
           isOpen={displaySetEmailModal}
           close={() => setDisplaySetEmailModal(false)}
@@ -100,11 +127,13 @@ export default function ProfileWidget() {
         <EmailCodeModal
           isOpen={displayEmailCodeModal}
           close={() => setDisplayEmailCodeModal(false)}
-          email={formMethods.watch("email")}
+          email={emailFormMethods.watch("email")}
           verifyCode={verifyEmailCode}
           resendEmail={handleVerifyEmail}
           codeIsWrong={submitEmailCodeError}
         />
+      </FormProvider>
+      <FormProvider {...profileFormMethods}>
         <div className="flex flex-row items-center gap-4">
           <ProfileIcon color="light" size={56} />
           <div className="flex flex-col">
@@ -155,34 +184,33 @@ export default function ProfileWidget() {
                 <>
                   <div className="flex flex-row ">
                     <div className="w-[380px]">
-                      <RHFTextInput<SignUpFormFields>
+                      <RHFTextInput<ProfileValuesFields>
                         rhfName={"firstName"}
                         label={"First name"}
-                        placeholder={user ? user.firstName : ""}
+                        placeholder={""}
                         id={"firstName"}
                       />
                     </div>
-                    <RHFTextInput<SignUpFormFields>
+                    <RHFTextInput<ProfileValuesFields>
                       rhfName={"lastName"}
                       label={"Last Name"}
-                      placeholder={user ? user.lastName : ""}
+                      placeholder={""}
                       id={"lastName"}
                     />
                   </div>
                   <div className="flex flex-row ">
                     <div className="w-[380px]">
-                      {/* TODO: Drop down + group isn't in signupformfield */}
-                      {/* <RHFTextInput<SignUpFormFields> */}
-                      {/*   rhfName={"Group"}  */}
-                      {/*   label={"Last Name"} */}
-                      {/*   placeholder={user ? user.lastName : ""} */}
-                      {/*   id={"lastName"} */}
-                      {/* /> */}
+                      <RHFTextInput<ProfileValuesFields>
+                        rhfName={"affiliation"}
+                        label={"Last Name"}
+                        placeholder={""}
+                        id={"lastName"}
+                      />
                     </div>
-                    <RHFTextInput<SignUpFormFields>
+                    <RHFTextInput<ProfileValuesFields>
                       rhfName={"ipi"}
                       label={"IPI No."}
-                      placeholder={user?.ipi ? user.ipi : "NONE"}
+                      placeholder={""}
                       id={"ipi"}
                     />
                   </div>
