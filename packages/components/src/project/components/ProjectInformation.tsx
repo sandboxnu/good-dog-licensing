@@ -14,13 +14,13 @@ export default function ProjectInformation({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <p className="text-4xl font-medium">Song requests</p>
-        <p>This is where you view and manage your song requests</p>
+        <p className="text-4xl font-medium text-dark-gray-500 dark:text-mint-300">Song requests</p>
+        <p className="text-dark-gray-500 dark:text-gray-200">This is where you view and manage your song requests</p>
       </div>
       <div className="flex flex-row justify-between items-end">
         <div className="flex flex-col gap-2">
-          <p className="font-medium">Project Title: {project.projectTitle}</p>
-          <p className="text-gray">
+          <p className="font-medium text-dark-gray-500 dark:text-gray-200">Project Title: {project.projectTitle}</p>
+          <p className="text-dark-gray-500 dark:text-gray-200">
             Project deadline:{" "}
             {project.deadline.toLocaleDateString("en-US", {
               month: "long",
@@ -28,11 +28,11 @@ export default function ProjectInformation({
               year: "numeric",
             })}
           </p>
-          <p className="text-gray">
+          <p className="text-dark-gray-500 dark:text-gray-200">
             Project description: {project.description}
           </p>
           {project.additionalInfo.length > 0 && (
-            <p className="text-gray">
+            <p className="text-dark-gray-500 dark:text-gray-200">
               Additional information: {project.additionalInfo}
             </p>
           )}

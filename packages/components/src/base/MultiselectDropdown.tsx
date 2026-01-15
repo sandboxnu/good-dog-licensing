@@ -71,7 +71,7 @@ export default function MultiselectDropdown({
       )}
       {errorText && (
         <div className="flex flex-row items-center gap-[2px]">
-          <ErrorExclamation size="small" />
+          <ErrorExclamation size="small" dark={true}/>
           <Label className="text-caption text-red-400 dark:text-red-300">{errorText}</Label>
         </div>
       )}

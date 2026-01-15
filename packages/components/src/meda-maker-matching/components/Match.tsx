@@ -47,7 +47,7 @@ export function Match({
       >
         <div className="flex flex-row flex-shrink-0 items-center gap-4 justify-center">
           <ChevronRight
-            className={`${!dropdownOpen ? "rotate-0" : "rotate-90"} transition-all`}
+            className={`${!dropdownOpen ? "rotate-0" : "rotate-90"} transition-all text-green-500 dark:text-mint-200`}
           />
           <p className="text-xl text-body-primary font-semibold truncate">
             {`"${match.musicSubmission.songName}" by ${match.musicSubmission.performerName}`}

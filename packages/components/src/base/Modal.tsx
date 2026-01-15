@@ -38,7 +38,7 @@ export default function Modal({
           </button>
         </div>
         <div className={`${upperPadding ? "pt-[18px]" : ""} text-center text-dark-gray-500 dark:text-mint-300`}>
-          <h3>{headerText}</h3>
+          <h3 className="text-dark-gray-500 dark:text-mint-300">{headerText}</h3>
         </div>
         <div className="flex flex-col items-center text-center">{children}</div>
       </div>

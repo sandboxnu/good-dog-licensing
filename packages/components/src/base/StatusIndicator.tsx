@@ -37,7 +37,7 @@ export default function StatusIndicator({
         {variant === "success" ? (
           <Check />
         ) : variant === "error" ? (
-          <ErrorExclamation size={"small"} />
+          <ErrorExclamation size={"small"} dark={false}/>
         ) : variant === "warning" ? (
           <ClockFull />
         ) : variant === "blue" ? (

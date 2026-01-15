@@ -32,8 +32,8 @@ export default function TextInput({
   icon,
 }: TextInputProps) {
   return (
-    <div className="flex w-full flex-col gap-[4px]">
-      <div className="flex flex-row gap-[2px]">
+    <div className="flex w-full flex-col gap-[4px] ">
+      <div className="flex flex-row gap-[2px] ">
         <Label
           htmlFor={id}
           className="text-body3 font-normal text-dark-gray-600 dark:text-gray-100"

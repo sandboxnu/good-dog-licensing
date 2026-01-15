@@ -6,69 +6,6 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --blue-50: #eef6ff;
-    --blue-100: #a4c7f1;
-    --blue-200: #77ace9;
-    --blue-300: #4a90e2;
-    --blue-400: #386ca9;
-    --blue-500: #254871;
-    --blue-600: #132439;
-    --mint-100: #f4fcf8;
-    --mint-200: #e9f9f1;
-    --mint-300: #d3f4e2;
-    --mint-400: #9eb7a9;
-    --mint-500: #6a7a71;
-    --mint-600: #353d39;
-    --cream-100: #fffdfb;
-    --cream-200: #fffcf8;
-    --cream-300: #fffbf6;
-    --cream-400: #bfbcb8;
-    --cream-500: #807e7b;
-    --cream-600: #403f3e;
-    --yellow-100: #ffe5bf;
-    --yellow-200: #ffcb80;
-    --yellow-300: #ff9800;
-    --yellow-400: #bf7200;
-    --yellow-500: #804c00;
-    --yellow-600: #402600;
-    --gray-100: #ffffff;
-    --gray-200: #f3f3f3;
-    --gray-300: #dcdddf;
-    --gray-400: #dcdddf;
-    --gray-500: #808080;
-    --gray-600: #404040;
-    --gray-700: #000000;
-    --dark-gray-100: #adadad;
-    --dark-gray-200: #858585;
-    --dark-gray-300: #5c5c5c;
-    --dark-gray-400: #454545;
-    --dark-gray-500: #2e2e2e;
-    --dark-gray-600: #171717;
-    --grass-green-50: #c9f7d4;
-    --grass-green-100: #99e3ac;
-    --grass-green-200: #66d583;
-    --grass-green-300: #33c75a;
-    --grass-green-400: #269544;
-    --grass-green-500: #1a642d;
-    --grass-green-600: #0d3217;
-    --red-50: #fedbd9;
-    --red-100: #ff9d97;
-    --red-200: #ff6c64;
-    --red-300: #ff3b30;
-    --red-400: #b13433;
-    --red-500: #852726;
-    --red-600: #591a1a;
-    --green-100: #c1e0d8;
-    --green-200: #84c1b2;
-    --green-300: #098465;
-    --green-400: #07634c;
-    --green-500: #054233;
-    --green-600: #022119;
-    --green-700: #021913;
-
-    --body-text: #e9f9f1;
-  }
 
   @media (prefers-color-scheme: dark) {
     :root {

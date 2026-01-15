@@ -16,7 +16,6 @@ import Button from "@good-dog/components/base/Button";
 export default function Home() {
   const router = useRouter();
   return (
-    <PageContainer background="gradient">
       <div className="flex min-h-screen flex-col items-center justify-center pb-[32px]">
         <div className="flex w-full flex-col items-center justify-center gap-[144px]">
           <div className="flex flex-col justify-center gap-[37px] text-center">
@@ -59,7 +58,6 @@ export default function Home() {
           <LearnMoreAboutRoles />
         </div>
       </div>
-    </PageContainer>
   );
 }
 function LearnMoreAboutRoles() {

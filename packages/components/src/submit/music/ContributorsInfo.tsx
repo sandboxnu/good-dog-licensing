@@ -162,8 +162,8 @@ export default function ContributorsInfo({
         onSubmit();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
-        <p className="text-xl font-semibold">Your Contributions</p>
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-white p-10 text-black bg-gray-100 dark:bg-dark-gray-600">
+        <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">Your Contributions</p>
 
         <RHFMultiselectDropdown<MusicSubmissionFormFields>
           rhfName={`submitterRoles`}
@@ -207,8 +207,8 @@ export default function ContributorsInfo({
           </>
         )}
       </div>
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black">
-        <p className="text-xl font-semibold">Other contributors</p>
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-white p-10 text-black bg-gray-100 dark:bg-dark-gray-600">
+        <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">Other contributors</p>
         <RadioGroup
           options={[
             { label: "Yes", value: "yes" },
@@ -232,10 +232,10 @@ export default function ContributorsInfo({
           return (
             <div
               key={compoundKey}
-              className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black"
+              className="flex w-full border-gray-400 flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black bg-gray-100 dark:bg-dark-gray-600"
             >
               <div className="flex flex-row items-center justify-between">
-                <p className="text-xl font-semibold">
+                <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
                   Contributor #{index + 1}
                 </p>
                 {fields.length > 1 && (

@@ -152,7 +152,7 @@ export const MultiSelect = React.forwardRef<
                 </div>
                 <div className="ml-2 flex-shrink-0">
                   <ChevronDown
-                    className={`h-4 w-4 cursor-pointer transition-all ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
+                    className={`h-4 w-4 cursor-pointer transition-all text-green-500 dark:text-mint-200 ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
                   />
                 </div>
               </div>
@@ -163,7 +163,7 @@ export const MultiSelect = React.forwardRef<
                 </span>
                 <div className="ml-2 flex-shrink-0">
                   <ChevronDown
-                    className={`h-4 w-4 cursor-pointer transition-all ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
+                    className={`h-4 w-4 cursor-pointer transition-all text-green-500 dark:text-mint-200 ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
                   />
                 </div>
               </div>

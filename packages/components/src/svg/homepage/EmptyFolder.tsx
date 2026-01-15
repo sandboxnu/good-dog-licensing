@@ -11,7 +11,7 @@ export default function EmptyFolder() {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M150 29.9997V24.9982C150 19.4806 145.522 15.0002 140 15.0002H75V10.0004C75 4.4812 70.5221 0 64.9995 0H39.9996C34.4779 0 30 4.4812 30 10.0004V24.9982V29.9997H150Z"
-        fill="#07634C"
+        className="fill-green-400 dark:fill-grass-green-300"
       />
       <path
         fillRule="evenodd"

@@ -44,11 +44,11 @@ export default function SongSubmissionHeader({
       )}
       {step == SubmissionStep.SUBMITTED && (
         <div className="flex flex-col gap-6">
-          <p className="text-lg font-medium">
+          <p className="text-lg font-medium text-dark-gray-500 dark:text-gray-200">
             Your response has been recorded!
           </p>
           <a
-            className="font-semibold text-secondary hover:underline"
+            className="font-semibold text-secondary hover:underline text-green-500 dark:text-mint-200"
             href="/music-submission"
           >
             Submit another music submission form

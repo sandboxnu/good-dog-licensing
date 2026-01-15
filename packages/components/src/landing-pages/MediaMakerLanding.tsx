@@ -62,7 +62,7 @@ export default function MediaMakerLanding() {
                 }
                 children={
                   <div className="flex flex-col gap-[24px]">
-                    <p className="body3 line-clamp-[3] break-words text-base font-normal leading-tight text-dark-gray-100 dark:text-dark-gray-100">
+                    <p className="body3 line-clamp-[3] break-words text-base font-normal leading-tight text-dark-gray-200 dark:text-dark-gray-100">
                       {project.description}
                     </p>
                     <div className="w-full flex flex-row justify-between">
@@ -74,7 +74,8 @@ export default function MediaMakerLanding() {
                         onClick={() =>
                           router.push(`/project/${project.projectId}`)
                         }
-                        className="hover:cursor-pointer"
+                        className="hover:cursor-pointer text-black dark:text-mint-100"
+                        fill="none"
                       />
                     </div>
                   </div>

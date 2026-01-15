@@ -20,8 +20,8 @@ export default function SectionRow({
       <div className="flex w-full flex-row items-center justify-center gap-[24px]">
         {imageLoc === "left" && <div className="w-1/2">{image}</div>}
         <div className="flex w-1/2 flex-col gap-[24px] text-left">
-          <h2>{headerText}</h2>
-          <p className="text-body1 leading-normal text-secondary">{bodyText}</p>
+          <h2 className="text-green-400 dark:text-mint-200">{headerText}</h2>
+          <p className="text-body1 leading-normal text-secondary text-green-500 dark:text-mint-200">{bodyText}</p>
         </div>
         {imageLoc === "right" && <div className="w-1/2">{image}</div>}
       </div>

@@ -67,7 +67,7 @@ export default function Button({
             size={size}
           />
         ) : displayIcon === "arrow" ? (
-          <ChevronUp />
+          <ChevronUp className="text-green-500 dark:text-mint-200"/>
         ) : displayIcon === "pencil" ? (
           <PencilIcon />
         ) : null}
