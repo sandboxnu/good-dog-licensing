@@ -3,7 +3,7 @@
 import type z from "zod";
 import Modal from "../../../base/Modal";
 
-import { zSignUpValues } from "@good-dog/trpc/schema";
+import { zSetEmailValues } from "@good-dog/trpc/schema";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { useFormContext } from "react-hook-form";
 import Button from "../../../base/Button";
@@ -17,7 +17,7 @@ interface SetEmailModalProps {
   error: boolean;
 }
 
-type SignUpFormFields = z.input<typeof zSignUpValues>;
+type SetEmailFormFields = z.input<typeof zSetEmailValues>;
 
 export default function SetEmailModal({
   isOpen,
@@ -29,7 +29,7 @@ export default function SetEmailModal({
 }: SetEmailModalProps) {
   const {
     formState: { errors },
-  } = useFormContext<SignUpFormFields>();
+  } = useFormContext<SetEmailFormFields>();
 
   return (
     <div className="flex flex-col">
@@ -41,7 +41,7 @@ export default function SetEmailModal({
         height={322}
       >
         <div className="w-3/4 pt-4">
-          <RHFTextInput<SignUpFormFields>
+          <RHFTextInput<SetEmailFormFields>
             rhfName="email"
             label="Email"
             placeholder="example@email.com"

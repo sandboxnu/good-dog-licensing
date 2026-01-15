@@ -10,21 +10,22 @@ import SetEmailModal from "./SetEmailModal";
 import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
 import {
-  zChangeEmailValues,
-  zChangePasswordValues,
+  zSetEmailValues,
+  zSetPasswordValues,
   zProfileValues,
 } from "@good-dog/trpc/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import EmailCodeModal from "../sign-up-widget/EmailCodeModal";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { MusicAffiliation } from "@good-dog/db";
+import SetPasswordModal from "./SetPasswordModal";
 
 type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
 type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
 
 type ProfileValuesFields = z.input<typeof zProfileValues>;
-type ChangeEmailValuesFields = z.input<typeof zChangeEmailValues>;
-type ChangePasswordValuesFields = z.input<typeof zChangePasswordValues>;
+type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
+type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
 
 export default function ProfileWidget() {
   const router = useRouter();
@@ -43,11 +44,11 @@ export default function ProfileWidget() {
   });
 
   const emailFormMethods = useForm<ChangeEmailValuesFields>({
-    resolver: zodResolver(zChangeEmailValues),
+    resolver: zodResolver(zSetEmailValues),
   });
 
   const passwordFormMethods = useForm<ChangePasswordValuesFields>({
-    resolver: zodResolver(zChangePasswordValues),
+    resolver: zodResolver(zSetPasswordValues),
   });
 
   const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
@@ -65,19 +66,22 @@ export default function ProfileWidget() {
   }, [user, isLoading, router]);
 
   const [editingPersonalDetails, setEditingPersonalDetails] = useState(false);
+
   const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
-  const [changeEmailError, setChangeEmailError] = useState(false);
+  const [setEmailError, setSetEmailError] = useState(false);
   const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false); // code verification
   const [submitEmailCodeError, setSubmitEmailCodeError] = useState(false);
 
-  // doesn't work since user is logged in and there the procedure uses a not auth'd template
+  const [displaySetPasswordModal, setDisplaySetPasswordModal] = useState(false);
+  const [setPasswordError, setSetPasswordError] = useState(false);
+
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: () => {
       setDisplaySetEmailModal(false);
       setDisplayEmailCodeModal(true);
     },
     onError: () => {
-      setChangeEmailError(true);
+      setSetEmailError(true);
     },
   });
 
@@ -102,11 +106,7 @@ export default function ProfileWidget() {
   const handleVerifyEmail = async () => {
     sendEmailVerificationMutation.reset();
     const requestedEmailIsValid = await emailFormMethods.trigger(["email"]);
-
-    console.log(emailFormMethods.getValues("email"));
-    console.log("requestedEmailIsValid:", requestedEmailIsValid);
     if (requestedEmailIsValid) {
-      console.log("is valid passwed");
       sendEmailVerificationMutation.mutate({
         email: emailFormMethods.watch("email"),
       });
@@ -122,7 +122,7 @@ export default function ProfileWidget() {
           onVerifyEmail={handleVerifyEmail}
           resendEmail={handleVerifyEmail} // a little out of place..
           emailAlreadyExists={false}
-          error={changeEmailError}
+          error={setEmailError}
         />
         <EmailCodeModal
           isOpen={displayEmailCodeModal}
@@ -131,6 +131,14 @@ export default function ProfileWidget() {
           verifyCode={verifyEmailCode}
           resendEmail={handleVerifyEmail}
           codeIsWrong={submitEmailCodeError}
+        />
+      </FormProvider>
+      <FormProvider {...passwordFormMethods}>
+        <SetPasswordModal
+          isOpen={displaySetPasswordModal}
+          close={() => setDisplaySetPasswordModal(false)}
+          onSetPassword={() => console.log("not implemented yet")}
+          error={setPasswordError}
         />
       </FormProvider>
       <FormProvider {...profileFormMethods}>
@@ -265,6 +273,7 @@ export default function ProfileWidget() {
                   label="Change password"
                   size="small"
                   variant="outlined"
+                  onClick={() => setDisplaySetPasswordModal(true)}
                 />
               </div>
             </div>
