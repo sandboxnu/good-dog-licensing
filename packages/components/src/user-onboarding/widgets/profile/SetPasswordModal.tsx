@@ -12,7 +12,7 @@ import PasswordRequirements from "../components/PasswordRequirements";
 interface SetPasswordModalProps {
   isOpen: boolean;
   close: () => void;
-  onSetPassword: () => void;
+  onSetPassword: (newPassword: string) => void;
   error: boolean;
 }
 
@@ -25,8 +25,13 @@ export default function SetPasswordModal({
   error,
 }: SetPasswordModalProps) {
   const {
+    handleSubmit,
     formState: { errors },
   } = useFormContext<SetPasswordFormFields>();
+
+  const onSubmit = (data: SetPasswordFormFields) => {
+    onSetPassword(data.password);
+  };
 
   return (
     <div className="flex flex-col">
@@ -62,7 +67,7 @@ export default function SetPasswordModal({
               label="Set new password"
               size="small"
               variant="contained"
-              onClick={onSetPassword}
+              onClick={handleSubmit(onSubmit)}
             />
           </div>
         </div>

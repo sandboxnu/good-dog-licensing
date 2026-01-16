@@ -1,17 +1,21 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 
-export const changePasswordProcedure = authenticatedProcedureBuilder
+// TODO: Not sure if I need a passwordResetRequest if they are requesting and changing in the same procedure but just in case
+
+export const changeNewPasswordByEmailProcedure = authenticatedProcedureBuilder
   .input(
     z.object({
-      newPassword: z.string(),
+      userEmail: z.email(),
+      newPassword: z.string().min(8),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.prisma.user.update({
+    const user = await ctx.prisma.user.update({
       where: {
-        userId: ctx.session.user.userId,
+        email: input.userEmail,
       },
       data: {
         hashedPassword: await ctx.passwordService.hashPassword(
@@ -20,6 +24,12 @@ export const changePasswordProcedure = authenticatedProcedureBuilder
       },
     });
 
+    if (!user) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User not found",
+      });
+    }
     return {
       message: "Password reset.",
     };
