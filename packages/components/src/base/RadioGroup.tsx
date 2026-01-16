@@ -31,7 +31,9 @@ export default function RadioGroup({
   return (
     <div className="flex w-full flex-col gap-[0px] text-black">
       <div className="flex flex-row gap-[2px]">
-        <Label className="text-body3 text-dark-gray-600 dark:text-gray-100">{label}</Label>
+        <Label className="text-body3 text-dark-gray-600 dark:text-gray-100">
+          {label}
+        </Label>
         {required && <Label className="text-body3 text-required-star">*</Label>}
       </div>
       <RadioGroupShad
@@ -51,7 +53,10 @@ export default function RadioGroup({
                 value={option.value}
                 id={`${id}-${index}`}
               />
-              <Label htmlFor={`${id}-${index}`} className="text-body3 text-dark-gray-600 dark:text-gray-100">
+              <Label
+                htmlFor={`${id}-${index}`}
+                className="text-body3 text-dark-gray-600 dark:text-gray-100"
+              >
                 {option.label}
               </Label>
             </div>
@@ -61,7 +66,9 @@ export default function RadioGroup({
       {errorText && (
         <div className="flex flex-row items-center gap-[2px]">
           <ErrorExclamation size="small" />
-          <Label className="text-caption text-red-400 dark:text-red-300">{errorText}</Label>
+          <Label className="text-caption text-red-400 dark:text-red-300">
+            {errorText}
+          </Label>
         </div>
       )}
     </div>

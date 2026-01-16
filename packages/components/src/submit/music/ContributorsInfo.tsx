@@ -163,7 +163,9 @@ export default function ContributorsInfo({
       }}
     >
       <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-white p-10 text-black bg-gray-100 dark:bg-dark-gray-600">
-        <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">Your Contributions</p>
+        <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
+          Your Contributions
+        </p>
 
         <RHFMultiselectDropdown<MusicSubmissionFormFields>
           rhfName={`submitterRoles`}
@@ -208,7 +210,9 @@ export default function ContributorsInfo({
         )}
       </div>
       <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-white p-10 text-black bg-gray-100 dark:bg-dark-gray-600">
-        <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">Other contributors</p>
+        <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
+          Other contributors
+        </p>
         <RadioGroup
           options={[
             { label: "Yes", value: "yes" },

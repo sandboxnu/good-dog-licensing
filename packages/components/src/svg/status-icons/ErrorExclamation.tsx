@@ -3,7 +3,10 @@ interface ErrorExclamationProps {
   dark?: boolean;
 }
 
-export default function ErrorExclamation({ size, dark }: ErrorExclamationProps) {
+export default function ErrorExclamation({
+  size,
+  dark,
+}: ErrorExclamationProps) {
   return (
     <>
       {size === "small" && (

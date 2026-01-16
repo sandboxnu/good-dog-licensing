@@ -6,7 +6,6 @@
 @tailwind utilities;
 
 @layer base {
-
   @media (prefers-color-scheme: dark) {
     :root {
       --body-text: #054233;

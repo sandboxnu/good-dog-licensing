@@ -24,7 +24,9 @@ export default function SongRequestDashboard({
           onClick={() => router.push("/")}
         >
           <ChevronLeft className="h-4 w-4 text-green-500 dark:text-mint-300" />
-          <p className="underline font-medium text-green-500 dark:text-mint-200">Projects</p>
+          <p className="underline font-medium text-green-500 dark:text-mint-200">
+            Projects
+          </p>
         </div>
         <ProjectInformation project={projectSubmission} />
       </div>

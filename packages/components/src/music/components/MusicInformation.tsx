@@ -13,27 +13,41 @@ export default function MusicInformation({
 
   return (
     <div className="flex flex-col gap-3 w-full">
-      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">Music Information</p>
+      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">
+        Music Information
+      </p>
       <div className="flex flex-row gap-6 bg-cream-100 dark:bg-green-500 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
         <div className="flex flex-row flex-grow gap-6">
           <div className="flex flex-col gap-4 justify-start flex-grow">
             <div className="flex flex-col gap-1">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">Song</p>
-              <p className="text-dark-gray-500 dark:text-gray-200">{musicSubmission.songName}</p>
+              <p className="text-dark-gray-500 dark:text-gray-200">
+                {musicSubmission.songName}
+              </p>
             </div>
             <div className="flex flex-col gap-1">
-              <p className="text-dark-gray-200 dark:text-dark-gray-100">Artist/Band</p>
-              <p className="text-dark-gray-500 dark:text-gray-200">{musicSubmission.performerName}</p>
+              <p className="text-dark-gray-200 dark:text-dark-gray-100">
+                Artist/Band
+              </p>
+              <p className="text-dark-gray-500 dark:text-gray-200">
+                {musicSubmission.performerName}
+              </p>
             </div>
             <div className="flex flex-col gap-1">
-              <p className="text-dark-gray-200 dark:text-dark-gray-100">Genre(s)</p>
-              <p className="text-dark-gray-500 dark:text-gray-200">{formatAllCapsList(musicSubmission.genres)}</p>
+              <p className="text-dark-gray-200 dark:text-dark-gray-100">
+                Genre(s)
+              </p>
+              <p className="text-dark-gray-500 dark:text-gray-200">
+                {formatAllCapsList(musicSubmission.genres)}
+              </p>
             </div>
           </div>
           <div className="w-[1px] bg-light-gray" />
           <div className="flex flex-col gap-4 justify-start flex-grow">
             <div className="flex flex-col gap-1">
-              <p className="text-dark-gray-200 dark:text-dark-gray-100">Date Submitted</p>
+              <p className="text-dark-gray-200 dark:text-dark-gray-100">
+                Date Submitted
+              </p>
               <p className="text-dark-gray-500 dark:text-gray-200">
                 {musicSubmission.createdAt.toLocaleDateString("en-US", {
                   month: "long",
@@ -61,8 +75,12 @@ export default function MusicInformation({
         <div className="w-[1px] bg-light-gray" />
         {musicSubmission.additionalInfo.length > 0 && (
           <div className="flex flex-col gap-1 flex-grow">
-            <p className="text-dark-gray-200 dark:text-dark-gray-100">Additional Information</p>
-            <p className="text-dark-gray-500 dark:text-gray-200">{musicSubmission.additionalInfo}</p>
+            <p className="text-dark-gray-200 dark:text-dark-gray-100">
+              Additional Information
+            </p>
+            <p className="text-dark-gray-500 dark:text-gray-200">
+              {musicSubmission.additionalInfo}
+            </p>
           </div>
         )}
       </div>

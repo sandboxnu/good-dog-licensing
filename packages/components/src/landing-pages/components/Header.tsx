@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 
 import Button from "../../base/Button";
-import { ReactNode } from "react";
 
 export default function Header({
   title,

@@ -6,7 +6,9 @@ import SectionRow from "./SectionRow";
 export default function MediaMakerSection() {
   return (
     <div className="flex w-full flex-col items-center justify-center gap-[140px] pb-[200px] pt-[100px] text-center">
-      <h1 className="text-green-500 dark:text-mint-200">Tell us about your project and we’ll find music that matches!</h1>
+      <h1 className="text-green-500 dark:text-mint-200">
+        Tell us about your project and we’ll find music that matches!
+      </h1>
       <SectionRow
         headerText="Submit your project"
         bodyText="Fill out our brief submission form to generate a description of your project and music needs. We’ll use your brief to find music from independent artists that fits your work."

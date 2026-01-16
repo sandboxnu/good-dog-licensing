@@ -106,7 +106,8 @@ export default function WomanInComputer() {
         <path
           opacity="0.58"
           d="M82.0462 156.674C82.0462 156.674 75.3032 154.824 73.853 148.528C73.853 148.528 84.2993 146.408 84.6024 157.233L82.0462 156.674Z"
-          className="fill-green-400 dark:fill-grass-green-300"        />
+          className="fill-green-400 dark:fill-grass-green-300"
+        />
         <path
           opacity="0.73"
           d="M82.8737 156C82.8737 156 78.1627 148.528 82.3084 141.542C82.3084 141.542 90.2558 146.605 86.7245 156.016L82.8737 156Z"

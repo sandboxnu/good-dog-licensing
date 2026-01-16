@@ -51,7 +51,8 @@ export default function TextInput({
           "hover:border-gray-600",
           "focus:border-bg-green-300 focus:shadow-active focus:outline-none",
           {
-            "!border-red-400 !shadow-red-400 !dark:border-red-400 !dark:shadow-red-400": errorText,
+            "!border-red-400 !shadow-red-400 !dark:border-red-400 !dark:shadow-red-400":
+              errorText,
           },
         )}
         placeholder={placeholder}
@@ -67,7 +68,9 @@ export default function TextInput({
       {errorText && (
         <div className="flex flex-row items-center gap-[2px]">
           <ErrorExclamation size="small" />
-          <Label className="text-caption text-red-400 dark:text-red-300">{errorText}</Label>
+          <Label className="text-caption text-red-400 dark:text-red-300">
+            {errorText}
+          </Label>
         </div>
       )}
     </div>

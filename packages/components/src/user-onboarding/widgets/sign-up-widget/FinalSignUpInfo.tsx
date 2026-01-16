@@ -41,7 +41,9 @@ export default function FinalSignUpInfo({
   return (
     <form className="pr-[40px]" onSubmit={onSubmit}>
       <h3 className="text-green-500 dark:text-mint-200">{headerLabel}</h3>
-      <p className="pt-[8px] text-dark-gray-500 dark:text-gray-200">All fields below are required</p>
+      <p className="pt-[8px] text-dark-gray-500 dark:text-gray-200">
+        All fields below are required
+      </p>
       {errorMessage && (
         <div className="flex flex-row items-center gap-[4px] pt-[12px]">
           <ErrorExclamation size="medium" />
@@ -87,8 +89,13 @@ export default function FinalSignUpInfo({
         />
       </div>
       <div className="flex flex-row flex-wrap justify-center space-x-1 pt-[16px] text-body3">
-        <span className="font-normal text-dark-gray-500 dark:text-gray-200">Already have an account?</span>
-        <Link href="/login" className="font-medium text-secondary underline text-green-500 dark:text-mint-200">
+        <span className="font-normal text-dark-gray-500 dark:text-gray-200">
+          Already have an account?
+        </span>
+        <Link
+          href="/login"
+          className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
+        >
           Log in
         </Link>
       </div>

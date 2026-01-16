@@ -104,7 +104,6 @@ export default {
         "main-bg-solid-light": "#FFFBF6",
         "main-bg-solid-dark": "#022119",
       },
-
     },
   },
 } satisfies Config;

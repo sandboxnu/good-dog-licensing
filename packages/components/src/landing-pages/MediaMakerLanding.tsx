@@ -10,7 +10,6 @@ import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import getStatusFromProject from "../../utils/getStatusFromProject";
 
 export default function MediaMakerLanding() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
@@ -22,7 +21,9 @@ export default function MediaMakerLanding() {
       <Header
         title={"Project requests"}
         subtitle={"This is where you view and manage your project requests"}
-        requestPath={"/project-submission"} buttonContent={"Request"}      />
+        requestPath={"/project-submission"}
+        buttonContent={"Request"}
+      />
       {data.projects.length === 0 && (
         <EmptyMessage
           title={"Find projects requests here"}

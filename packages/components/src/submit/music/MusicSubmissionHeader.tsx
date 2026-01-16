@@ -11,10 +11,14 @@ export default function SongSubmissionHeader({
 }: SongSubmissionHeaderProps) {
   return (
     <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 dark:bg-dark-gray-600 px-10 py-6 ">
-      <p className="text-5xl font-medium text-green-500 dark:text-mint-200">Song submission form</p>
+      <p className="text-5xl font-medium text-green-500 dark:text-mint-200">
+        Song submission form
+      </p>
       {step != SubmissionStep.SUBMITTED && (
         <div className="flex flex-col gap-[12px]">
-          <p className="text-lg font-medium text-dark-gray-500 dark:text-gray-200">Say “Yes” to Licensing!</p>
+          <p className="text-lg font-medium text-dark-gray-500 dark:text-gray-200">
+            Say “Yes” to Licensing!
+          </p>
           <p className="text-lg font-medium text-dark-gray-500 dark:text-gray-200">
             Your music should be heard! Good Dog is all about expanding your
             creative network, expanding your audience, and getting your metadata

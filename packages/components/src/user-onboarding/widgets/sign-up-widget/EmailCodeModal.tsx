@@ -41,7 +41,9 @@ export default function EmailCodeModal({
       {codeIsWrong && (
         <div className="flex flex-row items-center justify-center gap-x-1 pt-[16px]">
           <ErrorExclamation size="medium" />
-          <p className="text-body2 font-medium text-red-400 dark:text-red-300">Incorrect code</p>
+          <p className="text-body2 font-medium text-red-400 dark:text-red-300">
+            Incorrect code
+          </p>
         </div>
       )}
       <div className="pt-[16px]">
@@ -66,7 +68,9 @@ export default function EmailCodeModal({
         </InputOTP>
       </div>
       <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px]">
-        <p className="text-body2 text-dark-gray-500 dark:text-gray-200">Didn't get an email?</p>
+        <p className="text-body2 text-dark-gray-500 dark:text-gray-200">
+          Didn't get an email?
+        </p>
         <button
           onClick={() => {
             setEmailCode("");
@@ -88,7 +92,10 @@ function OPTSlot({ index, error }: { index: number; error: boolean }) {
       index={index}
       className={clsx(
         "h-[64px] w-[48px] rounded-[4px] border border-solid border-dark-gray-200 !text-h1 dark:text-gray-100",
-        { "shadow-red-400 border-red-400 dark:shadow-red-300 dark:border-red-300": error },
+        {
+          "shadow-red-400 border-red-400 dark:shadow-red-300 dark:border-red-300":
+            error,
+        },
       )}
     />
   );

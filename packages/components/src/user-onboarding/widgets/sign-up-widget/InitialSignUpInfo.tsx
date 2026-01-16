@@ -49,7 +49,9 @@ export default function InitialSignUpInfo({
       }}
     >
       <h3 className="text-green-400 dark:text-mint-200">{headerLabel}</h3>
-      <p className="pt-[8px] text-dark-gray-200 dark:text-gray-200">All fields below are required</p>
+      <p className="pt-[8px] text-dark-gray-200 dark:text-gray-200">
+        All fields below are required
+      </p>
       {errorMessage && (
         <div className="flex flex-row items-center gap-[4px] pt-[12px]">
           <ErrorExclamation size="medium" />
@@ -112,8 +114,13 @@ export default function InitialSignUpInfo({
         />
       </div>
       <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px] text-body3">
-        <p className="text-dark-gray-500 dark:text-gray-200">Already have an account?</p>
-        <Link href="/login" className="font-medium text-secondary underline text-green-500 dark:text-mint-200">
+        <p className="text-dark-gray-500 dark:text-gray-200">
+          Already have an account?
+        </p>
+        <Link
+          href="/login"
+          className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
+        >
           Log in
         </Link>
       </div>

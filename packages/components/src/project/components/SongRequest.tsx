@@ -37,10 +37,12 @@ export default function SongRequest({
             </p>
             <StatusIndicator {...getSongRequestStatus(songRequest)} />
           </div>
-          <p className="text-dark-gray-500 dark:text-gray-200">{songRequest.description}</p>
+          <p className="text-dark-gray-500 dark:text-gray-200">
+            {songRequest.description}
+          </p>
         </div>
       </div>
-      <ChevronRight className="text-green-500 dark:text-mint-200"/>
+      <ChevronRight className="text-green-500 dark:text-mint-200" />
     </div>
   );
 }

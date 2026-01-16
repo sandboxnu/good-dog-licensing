@@ -42,10 +42,8 @@ export default function Nav() {
                 Sign up
               </Link>
             </>
-            
           )}
-                  <DarkModeSwitch />
-
+          <DarkModeSwitch />
         </nav>
       </div>
     </header>

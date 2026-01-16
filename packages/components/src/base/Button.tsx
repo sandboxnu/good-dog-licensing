@@ -47,7 +47,9 @@ export default function Button({
         : `${size}-icon`;
 
   const widthClassName = fullWidth ? "!w-full" : "";
-  const shadowClassName = shadow ? "shadow-button dark:shadow-grass-green-200" : "";
+  const shadowClassName = shadow
+    ? "shadow-button dark:shadow-grass-green-200"
+    : "";
   const divClassName = `flex flex-row items-center justify-center gap-[8px] ${
     error ? "text-error " : "" // adds text/border color if error
   }`.trim();
@@ -67,7 +69,7 @@ export default function Button({
             size={size}
           />
         ) : displayIcon === "arrow" ? (
-          <ChevronUp className="text-green-500 dark:text-mint-200"/>
+          <ChevronUp className="text-green-500 dark:text-mint-200" />
         ) : displayIcon === "pencil" ? (
           <PencilIcon />
         ) : null}

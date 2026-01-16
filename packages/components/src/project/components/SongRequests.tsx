@@ -42,8 +42,12 @@ export default function SongRequests({
     >
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col gap-2">
-          <p className="font-semibold text-xl text-dark-gray-500 dark:text-mint-300">{header()}</p>
-          <p className="text-dark-gray-500 dark:text-mint-300">{description()}</p>
+          <p className="font-semibold text-xl text-dark-gray-500 dark:text-mint-300">
+            {header()}
+          </p>
+          <p className="text-dark-gray-500 dark:text-mint-300">
+            {description()}
+          </p>
         </div>
         <ChevronDown
           className={`h-6 w-6 ${dropdownOpen ? "rotate-0" : "-rotate-90"} transition-all text-green-500 dark:text-mint-200`}
@@ -60,7 +64,9 @@ export default function SongRequests({
         ) : (
           <div className="flex flex-col items-center gap-2">
             <Hourglass size="small" />
-            <p className="text-dark-gray-500 dark:text-gray-200">No requests active at this time</p>
+            <p className="text-dark-gray-500 dark:text-gray-200">
+              No requests active at this time
+            </p>
           </div>
         ))}
     </div>

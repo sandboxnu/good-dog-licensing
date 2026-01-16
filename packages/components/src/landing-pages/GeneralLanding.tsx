@@ -5,7 +5,6 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 import GrowOnScroll from "@good-dog/components/motion/GrowOnScroll";
-import PageContainer from "@good-dog/components/PageContainer";
 import CoupleWithGuitar from "@good-dog/components/svg/homepage/CoupleWithGuitar";
 import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
 import MusicStudio from "@good-dog/components/svg/homepage/MusicStudio";
@@ -16,52 +15,51 @@ import Button from "@good-dog/components/base/Button";
 export default function Home() {
   const router = useRouter();
   return (
-      <div className="flex min-h-screen flex-col items-center justify-center pb-[32px]">
-        <div className="flex w-full flex-col items-center justify-center gap-[144px]">
-          <div className="flex flex-col justify-center gap-[37px] text-center">
-            <div className="pt-[32px]">
-              <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-dark-gray-500 dark:text-gray-200 dark:text-mint-300">
-                Connecting musicians and media makers
-              </h1>
-            </div>
-            <div className="flex flex-col gap-[64px]">
-              <div className="flex flex-col gap-[24px] text-dark-gray-500 dark:text-gray-200">
-                <p className="text-body1 leading-normal text-dark-gray-500 dark:text-gray-200">
-                  {
-                    "Northeastern University's student-run music synchronization service"
-                  }
-                </p>
-
-                <div className="flex justify-center gap-4">
-                  <Button
-                    size="large"
-                    type="button"
-                    label="Get started"
-                    shadow={true}
-                    onClick={() => router.push("/signup")}
-                    variant={"contained"}
-                  />
-                  <Button
-                    size="large"
-                    type="button"
-                    label="Learn more"
-                    shadow={true}
-                    onClick={() => router.push("/about")}
-                    variant={"contained"}
-                  />
-                </div>
-              </div>
-
-              <div className="h-[500px] w-full rounded-[20px] bg-gray-400 shadow-div dark:shadow-grass-green-300"></div>
-            </div>
+    <div className="flex min-h-screen flex-col items-center justify-center pb-[32px]">
+      <div className="flex w-full flex-col items-center justify-center gap-[144px]">
+        <div className="flex flex-col justify-center gap-[37px] text-center">
+          <div className="pt-[32px]">
+            <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-dark-gray-500 dark:text-gray-200 dark:text-mint-300">
+              Connecting musicians and media makers
+            </h1>
           </div>
-          <LearnMoreAboutRoles />
+          <div className="flex flex-col gap-[64px]">
+            <div className="flex flex-col gap-[24px] text-dark-gray-500 dark:text-gray-200">
+              <p className="text-body1 leading-normal text-dark-gray-500 dark:text-gray-200">
+                {
+                  "Northeastern University's student-run music synchronization service"
+                }
+              </p>
+
+              <div className="flex justify-center gap-4">
+                <Button
+                  size="large"
+                  type="button"
+                  label="Get started"
+                  shadow={true}
+                  onClick={() => router.push("/signup")}
+                  variant={"contained"}
+                />
+                <Button
+                  size="large"
+                  type="button"
+                  label="Learn more"
+                  shadow={true}
+                  onClick={() => router.push("/about")}
+                  variant={"contained"}
+                />
+              </div>
+            </div>
+
+            <div className="h-[500px] w-full rounded-[20px] bg-gray-400 shadow-div dark:shadow-grass-green-300"></div>
+          </div>
         </div>
+        <LearnMoreAboutRoles />
       </div>
+    </div>
   );
 }
 function LearnMoreAboutRoles() {
-  const router = useRouter();
   return (
     <div className="flex flex-col gap-[48px]">
       <div className="flex flex-row gap-[24px]">
@@ -78,8 +76,6 @@ function LearnMoreAboutRoles() {
           <VerticalDescriptionSection
             title="Become a Media Maker"
             text="Submit a description of your project and the type of music you’re looking for. Good Dog takes care of everything and at no cost to you. Tell us what you need, we will source the music for you, and utilize our original licensing agreement."
-            link={() => router.push("/signup/media-maker")}
-            linkText="Sign up as a media maker →"
             image={<WomanInComputer />}
           />
         </div>
@@ -87,8 +83,6 @@ function LearnMoreAboutRoles() {
           <VerticalDescriptionSection
             title="Become a Musician"
             text="Submit your music to our extensive catalog – we’re open to all genres and styles. You’ll be notified when media makers want to place your music in their projects! You can say no to any synch placement-but you should say “Yes!” GDL will never license your music without your permission."
-            link={() => router.push("/signup/musician")}
-            linkText="Sign up as a musician →"
             image={<ManWithSax />}
           />
         </div>
@@ -146,14 +140,10 @@ export function DescriptionSection({
 export function VerticalDescriptionSection({
   title,
   text,
-  link,
-  linkText,
   image,
 }: {
   title: string;
   text: string;
-  link: () => void;
-  linkText: string;
   image: ReactNode;
 }) {
   return (

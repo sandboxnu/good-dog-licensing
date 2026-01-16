@@ -21,16 +21,15 @@ const multiSelectVariants = cva(
   {
     variants: {
       variant: {
-        standard:
-          "rounded-lg border-green-400 bg-mint-300 !text-green-400",
-        hover:
-          "rounded-lg border-green-400 bg-green-400 !text-mint-300",
-        inactive: "rounded-lg border-dark-gray-300 bg-white !text-dark-gray-300",
+        standard: "rounded-lg border-green-400 bg-mint-300 !text-green-400",
+        hover: "rounded-lg border-green-400 bg-green-400 !text-mint-300",
+        inactive:
+          "rounded-lg border-dark-gray-300 bg-white !text-dark-gray-300",
         round_standard:
           "rounded-2xl border-green-400 bg-mint-300 !text-green-400",
-        round_hover:
-          "rounded-2xl border-green-400 bg-green-400 !text-mint-300",
-        round_inactive: "rounded-2xl border-dark-gray-300 bg-white !text-dark-gray-300",
+        round_hover: "rounded-2xl border-green-400 bg-green-400 !text-mint-300",
+        round_inactive:
+          "rounded-2xl border-dark-gray-300 bg-white !text-dark-gray-300",
       },
     },
     defaultVariants: {

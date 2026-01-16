@@ -72,7 +72,10 @@ export default function Checklist() {
         d="M333.496 95.6953H376.719V138.937H333.496V95.6953Z"
         className="fill-yellow-300"
       />
-      <path d="M333.496 158.8H376.719V202.042H333.496V158.8Z" className="fill-yellow-300" />
+      <path
+        d="M333.496 158.8H376.719V202.042H333.496V158.8Z"
+        className="fill-yellow-300"
+      />
       <path
         d="M333.496 221.92H376.719V265.162H333.496V221.92Z"
         className="fill-yellow-300"

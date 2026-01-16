@@ -46,7 +46,9 @@ export default function SongRequestsInfo({
             className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 dark:bg-dark-gray-600 p-10 text-black"
           >
             <div className="flex flex-row items-center justify-between">
-              <p className="text-xl font-semibold text-green-500 dark:text-mint-200">Song request #{index + 1}</p>
+              <p className="text-xl font-semibold text-green-500 dark:text-mint-200">
+                Song request #{index + 1}
+              </p>
               {fields.length > 1 && (
                 <button type="button" onClick={() => remove(index)}>
                   <Trash />
