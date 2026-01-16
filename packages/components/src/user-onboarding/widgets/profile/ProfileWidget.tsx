@@ -103,6 +103,15 @@ export default function ProfileWidget() {
     },
   });
 
+  const changePasswordMutation = trpc.changePasswordByEmail.useMutation({
+    onSuccess: () => {
+      setDisplaySetPasswordModal(false);
+    },
+    onError: () => {
+      setSetPasswordError(true);
+    },
+  });
+
   const verifyEmailCode = (code: string) => {
     emailFormMethods.setValue("emailCode", code);
     verifyEmailCodeMutation.mutate({
@@ -119,6 +128,14 @@ export default function ProfileWidget() {
         email: emailFormMethods.watch("email"),
       });
     }
+  };
+
+  // TODO: write tests for changePasswordMutation
+  const handleChangePassword = async (newPassword: string) => {
+    changePasswordMutation.mutate({
+      userEmail: user?.email ?? "", // user should always be logged in and the procedure is auth'd only
+      newPassword,
+    });
   };
 
   return (
@@ -145,7 +162,7 @@ export default function ProfileWidget() {
         <SetPasswordModal
           isOpen={displaySetPasswordModal}
           close={() => setDisplaySetPasswordModal(false)}
-          onSetPassword={() => console.log("not implemented yet")}
+          onSetPassword={handleChangePassword}
           error={setPasswordError}
         />
       </FormProvider>
