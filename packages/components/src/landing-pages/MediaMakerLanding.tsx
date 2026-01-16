@@ -33,18 +33,40 @@ export default function MediaMakerLanding() {
       {data.projects.length > 0 && (
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.projects.map((project, key) => {
-            const status = getStatusFromProject(project)
+            // New matches are sent to media maker for approval
+            const actionRequired = project.songRequests.some((songReq) =>
+              songReq.matches.some(
+                (match) => match.matchState === MatchState.NEW,
+              ),
+            );
+            // Something approved by media maker but not by musician
+            const pendingApproval = project.songRequests.some((songReq) =>
+              songReq.matches.some(
+                (match) => match.matchState === MatchState.SONG_REQUESTED,
+              ),
+            );
+
+            // Complete when all requests in approved by musician state
+            const completed = project.songRequests.every((scene) =>
+              scene.matches.every(
+                (match) => match.matchState === MatchState.APPROVED_BY_MUSICIAN,
+              ),
+            );
+
+            const matchSize = project.songRequests.reduce((prev, song) => {
+              return prev + song.matches.length;
+            }, 0);
 
             const indicator: {
               variant: "error" | "success" | "warning" | "gray";
               text: string;
-            } = status === "in progress"
+            } = actionRequired
               ? { variant: "error", text: "Action required" }
-              : status === "in review"
+              : pendingApproval
                 ? { variant: "warning", text: "Pending approval" }
-                : status === "not started"
+                : matchSize === 0
                   ? { variant: "gray", text: "Project submitted" }
-                  : status === "completed"
+                  : completed
                     ? { variant: "success", text: "Completed" }
                     : { variant: "warning", text: "In progress" };
 
