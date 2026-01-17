@@ -182,7 +182,7 @@ describe("assignProjectManager", () => {
     expect(updatedProject?.projectManagerId).toBe(moderatorUserId);
   });
 
-  test("reject assignment of MEDIA_MAKER as project manager", async () => {
+  test("reject assignment of MEDIA_MAKER as project manager", () => {
     mockCookies.set("sessionId", "admin-session-id");
 
     expect(
@@ -193,7 +193,7 @@ describe("assignProjectManager", () => {
     ).rejects.toThrow("Project manager must be an admin or moderator");
   });
 
-  test("reject assignment with non-existent project manager", async () => {
+  test("reject assignment with non-existent project manager", () => {
     mockCookies.set("sessionId", "admin-session-id");
 
     expect(
@@ -204,7 +204,7 @@ describe("assignProjectManager", () => {
     ).rejects.toThrow("Project manager id not found");
   });
 
-  test("reject assignment without admin permissions", async () => {
+  test("reject assignment without admin permissions", () => {
     mockCookies.set("sessionId", "mediamaker-session-id");
 
     expect(
