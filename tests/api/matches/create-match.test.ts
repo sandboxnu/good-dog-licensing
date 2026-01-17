@@ -90,6 +90,7 @@ async function createData() {
       description: "a project hoping to showcase the effects of climate change",
       deadline: new Date(Date.now() + 2_000_000_000),
       projectType: ProjectType.MOTION_PICTURE,
+      projectManagerId: "matcher",
     },
   });
 
@@ -191,7 +192,7 @@ describe("match procedure", () => {
     cache.clear();
   });
 
-  it("should allow a moderator to create a match", async () => {
+  it("should allow a moderator to create a NEW match (as projectManager)", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.createMatch({
@@ -216,7 +217,7 @@ describe("match procedure", () => {
     expect(match?.matcherUserId).toBe("matcher");
   });
 
-  it("should allow an admin to create a match", async () => {
+  it("should allow an admin to create a WAITING_FOR_MANAGER_APPROVAL match (not as projectManager)", async () => {
     cookies.set("sessionId", "sanjana-session-id");
 
     const response = await $api.createMatch({
@@ -235,7 +236,7 @@ describe("match procedure", () => {
     });
 
     expect(match).toBeDefined();
-    expect(match?.matchState).toBe(MatchState.NEW);
+    expect(match?.matchState).toBe(MatchState.WAITING_FOR_MANAGER_APPROVAL);
     expect(match?.songRequestId).toBe("songRequestOneSubmission");
     expect(match?.musicId).toBe("musicSubmission");
     expect(match?.matcherUserId).toBe("sanjana");
