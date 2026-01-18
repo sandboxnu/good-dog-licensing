@@ -49,12 +49,14 @@ export default function Home() {
                 />
               </div>
             </div>
-            <Image
-              src={"/images/mainLandingImage.webp"}
-              alt="Dashboard Example"
-              width={1062}
-              height={712}
-            />
+            <div className="w-full">
+              <Image
+                src={"/images/mainLandingImage.png"}
+                alt="Dashboard Example"
+                width={1062}
+                height={712}
+              />
+            </div>
           </div>
         </div>
         <GrowOnScroll>
