@@ -19,6 +19,7 @@ import EmailCodeModal from "../sign-up-widget/EmailCodeModal";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { MusicAffiliation } from "@good-dog/db";
 import SetPasswordModal from "./SetPasswordModal";
+import DeleteAccountModal from "./DeleteAccountModal";
 
 function InfoField({ header, content }: { header: string; content: string }) {
   return (
@@ -81,6 +82,9 @@ export default function ProfileWidget() {
 
   const [displaySetPasswordModal, setDisplaySetPasswordModal] = useState(false);
 
+  const [displayDeleteAccountModal, setDisplayDeleteAccountModal] =
+    useState(false);
+
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: () => {
       setDisplaySetEmailModal(false);
@@ -101,6 +105,13 @@ export default function ProfileWidget() {
   const changePasswordMutation = trpc.changePasswordByEmail.useMutation({
     onSuccess: () => {
       setDisplaySetPasswordModal(false);
+    },
+  });
+
+  const deleteAccountMutation = trpc.deleteAccount.useMutation({
+    onSuccess: () => {
+      setDisplayDeleteAccountModal(false);
+      router.push("/");
     },
   });
 
@@ -128,6 +139,10 @@ export default function ProfileWidget() {
       userEmail: user?.email ?? "", // user should always be logged in and the procedure is auth'd only
       newPassword,
     });
+  };
+
+  const handleDeleteAccount = async () => {
+    deleteAccountMutation.mutate();
   };
 
   return (
@@ -169,6 +184,11 @@ export default function ProfileWidget() {
           }
         />
       </FormProvider>
+      <DeleteAccountModal
+        isOpen={displayDeleteAccountModal}
+        close={() => setDisplayDeleteAccountModal(false)}
+        onDeleteAccount={handleDeleteAccount}
+      />
       <FormProvider {...profileFormMethods}>
         <div className="flex flex-row items-center gap-4">
           <ProfileIcon color="light" size={56} />
@@ -308,10 +328,10 @@ export default function ProfileWidget() {
           </div>
 
           <div className="rounded-2xl bg-white border">
-            <header className="rounded-t-2xl bg-white py-2.5 px-[23.5px] text-error font-medium">
+            <header className="rounded-t-2xl bg-white pt-2.5 px-[23.5px] text-error font-medium text-lg">
               Delete account
             </header>
-            <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
+            <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[18px]">
               <div className="flex flex-row justify-left items-center text-dark-gray-300">
                 <ErrorExclamation size="medium" /> This will permanently delete
                 your account and all your information. This action can't be
@@ -322,6 +342,7 @@ export default function ProfileWidget() {
                   label="Delete account"
                   size="small"
                   variant="outlined"
+                  onClick={() => setDisplayDeleteAccountModal(true)}
                   error={true}
                 />
               </div>

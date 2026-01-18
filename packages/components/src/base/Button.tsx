@@ -48,9 +48,9 @@ export default function Button({
 
   const widthClassName = fullWidth ? "!w-full" : "";
   const shadowClassName = shadow ? "shadow-button" : "";
-  const divClassName = `flex flex-row items-center justify-center gap-[8px] ${
-    error ? "text-error " : "" // adds text/border color if error
-  }`.trim();
+
+  const errorContained = error && variant === "contained";
+  const errorOutlined = error && variant !== "contained";
 
   return (
     <ButtonShad
@@ -58,10 +58,21 @@ export default function Button({
       size={updatedSize}
       type={type}
       onClick={onClick}
-      // TODO: not sure we have a color for this hover yet even in the figma so this is template
-      className={`${widthClassName} ${shadowClassName} ${error ? "border-error hover:bg-red-50" : ""}`}
+      className={`${widthClassName} ${shadowClassName} group ${
+        errorContained
+          ? "bg-red-400 hover:bg-[#852726] active:bg-[#591A1A]"
+          : ""
+      } ${errorOutlined ? "border-error active:bg-[#852726] hover:bg-red-200" : ""}`}
     >
-      <div className={divClassName}>
+      <div
+        className={`flex flex-row items-center justify-center gap-[8px] ${
+          errorContained ? "text-white" : ""
+        } ${
+          errorOutlined
+            ? "text-error group-hover:text-[#591A1A] group-active:text-white"
+            : ""
+        }`}
+      >
         {displayIcon === "plus" ? (
           <AddIcon
             color={variant === "contained" ? "light" : "dark"}

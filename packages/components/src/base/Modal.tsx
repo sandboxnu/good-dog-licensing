@@ -1,6 +1,7 @@
 import React from "react";
 
 import CloseX from "../svg/CloseX";
+import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 
 interface ModalProps {
   open: boolean;
@@ -9,6 +10,7 @@ interface ModalProps {
   height: number;
   width: number;
   upperPadding?: boolean;
+  danger?: boolean;
   children: React.ReactNode;
 }
 
@@ -19,6 +21,7 @@ export default function Modal({
   height,
   width,
   upperPadding = true,
+  danger,
   children,
 }: ModalProps) {
   if (!open) return null;
@@ -37,6 +40,11 @@ export default function Modal({
             <CloseX />
           </button>
         </div>
+        {danger && (
+          <div className="flex items-center justify-center">
+            <ErrorExclamation size="large" />
+          </div>
+        )}
         <div className={`${upperPadding ? "pt-[18px]" : ""} text-center`}>
           <h3>{headerText}</h3>
         </div>

@@ -14,7 +14,7 @@ interface SetPasswordModalProps {
   isOpen: boolean;
   close: () => void;
   onSetPassword: (newPassword: string) => void;
-  error: boolean;
+  errorMessage?: String;
 }
 
 type SetPasswordFormFields = z.input<typeof zSetPasswordValues>;
@@ -23,7 +23,7 @@ export default function SetPasswordModal({
   isOpen,
   close,
   onSetPassword,
-  error,
+  errorMessage,
 }: SetPasswordModalProps) {
   const {
     handleSubmit,
@@ -32,48 +32,51 @@ export default function SetPasswordModal({
 
   const onSubmit = (data: SetPasswordFormFields) => {
     onSetPassword(data.password);
-    console.log("data: ", data);
   };
 
   return (
-    <div className="flex flex-col">
-      <Modal
-        open={isOpen}
-        onClose={close}
-        headerText="Set new password"
-        width={500}
-        height={404}
-      >
-        <div className="flex flex-col w-3/4 gap-4 pt-4">
-          <div className="flex flex-col gap-[8px]">
-            <RHFTextInput<SetPasswordFormFields>
-              rhfName="password"
-              label="Password"
-              placeholder="Your password"
-              id="password"
-              errorText={errors.password?.message}
-              type="password"
-            />
-            {!errors.password?.message && <PasswordRequirements />}
-          </div>
+    <Modal
+      open={isOpen}
+      onClose={close}
+      headerText="Set new password"
+      width={500}
+      height={404}
+    >
+      <div className="flex flex-col w-3/4 gap-4 pt-4">
+        <div className="flex flex-col gap-[8px]">
+          {errorMessage && (
+            <div className="flex flex-row items-center gap-[4px] pt-[12px]">
+              <ErrorExclamation size="medium" />
+              <p className="text-error">{errorMessage}</p>
+            </div>
+          )}
           <RHFTextInput<SetPasswordFormFields>
-            rhfName="confirmPassword"
-            label="Confirm Password"
-            placeholder="Re-enter password"
-            id="confirmPassword"
-            errorText={errors.confirmPassword?.message}
+            rhfName="password"
+            label="Password"
+            placeholder="Your password"
+            id="password"
+            errorText={errors.password?.message}
             type="password"
           />
-          <div>
-            <Button
-              label="Set new password"
-              size="small"
-              variant="contained"
-              onClick={handleSubmit(onSubmit)}
-            />
-          </div>
+          {!errors.password?.message && <PasswordRequirements />}
         </div>
-      </Modal>
-    </div>
+        <RHFTextInput<SetPasswordFormFields>
+          rhfName="confirmPassword"
+          label="Confirm Password"
+          placeholder="Re-enter password"
+          id="confirmPassword"
+          errorText={errors.confirmPassword?.message}
+          type="password"
+        />
+        <div>
+          <Button
+            label="Set new password"
+            size="small"
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+          />
+        </div>
+      </div>
+    </Modal>
   );
 }

@@ -1,5 +1,5 @@
 interface ErrorExclamationProps {
-  size: "small" | "medium";
+  size: "small" | "medium" | "large";
 }
 
 export default function ErrorExclamation({ size }: ErrorExclamationProps) {
@@ -32,6 +32,22 @@ export default function ErrorExclamation({ size }: ErrorExclamationProps) {
             fill="var(--red-400-red-50)"
           />
         </svg>
+      )}
+      {size === "large" && (
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 48 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M24 43.1998C13.395 43.1998 4.80005 34.6048 4.80005 23.9998C4.80005 13.3948 13.395 4.7998 24 4.7998C34.605 4.7998 43.2001 13.3948 43.2001 23.9998C43.2001 34.6048 34.605 43.1998 24 43.1998ZM24 28.7998C22.6725 28.7998 21.6 29.8723 21.6 31.1998C21.6 32.5273 22.6725 33.5998 24 33.5998C25.3275 33.5998 26.4 32.5273 26.4 31.1998C26.4 29.8723 25.3275 28.7998 24 28.7998ZM24 14.3998C22.635 14.3998 21.5475 15.5623 21.645 16.9273L22.2 24.7273C22.2675 25.6723 23.055 26.3998 23.9925 26.3998C24.9375 26.3998 25.7175 25.6723 25.785 24.7273L26.3401 16.9273C26.4376 15.5623 25.3575 14.3998 23.985 14.3998H24Z"
+              fill="#B13433"
+            />
+          </svg>
+        </div>
       )}
     </>
   );
