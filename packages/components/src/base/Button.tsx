@@ -47,9 +47,7 @@ export default function Button({
         : `${size}-icon`;
 
   const widthClassName = fullWidth ? "!w-full" : "";
-  const shadowClassName = shadow
-    ? "shadow-button dark:shadow-grass-green-200"
-    : "";
+  const shadowClassName = shadow ? "shadow-button" : "";
 
   const errorContained = error && variant === "contained";
   const errorOutlined = error && variant !== "contained";
@@ -62,9 +60,9 @@ export default function Button({
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName} group ${
         errorContained
-          ? "bg-red-400  dark:bg-dark-gray-600 dark:active:bg-[#591A1A] hover:bg-red-500"
+          ? "bg-red-400 hover:bg-[#852726] active:bg-[#591A1A]"
           : ""
-      } ${errorOutlined ? "border-error active:bg-500 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
+      } ${errorOutlined ? "border-error active:bg-[#852726] hover:bg-red-200" : ""}`}
     >
       <div
         className={`flex flex-row items-center justify-center gap-[8px] ${
