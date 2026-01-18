@@ -7,6 +7,7 @@ import { zSetEmailValues } from "@good-dog/trpc/schema";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { useFormContext } from "react-hook-form";
 import Button from "../../../base/Button";
+import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 
 interface SetEmailModalProps {
   isOpen: boolean;
@@ -14,7 +15,7 @@ interface SetEmailModalProps {
   onVerifyEmail: () => void;
   resendEmail: () => void;
   emailAlreadyExists: boolean;
-  error: boolean;
+  errorMessage?: String;
 }
 
 type SetEmailFormFields = z.input<typeof zSetEmailValues>;
@@ -25,7 +26,7 @@ export default function SetEmailModal({
   onVerifyEmail,
   resendEmail,
   emailAlreadyExists,
-  error,
+  errorMessage,
 }: SetEmailModalProps) {
   const {
     formState: { errors },
@@ -41,6 +42,12 @@ export default function SetEmailModal({
         height={322}
       >
         <div className="w-3/4 pt-4">
+          {errorMessage && (
+            <div className="flex flex-row items-center gap-[4px] pt-[12px]">
+              <ErrorExclamation size="medium" />
+              <p className="text-error">{errorMessage}</p>
+            </div>
+          )}
           <RHFTextInput<SetEmailFormFields>
             rhfName="email"
             label="Email"

@@ -76,20 +76,15 @@ export default function ProfileWidget() {
   const [editingPersonalDetails, setEditingPersonalDetails] = useState(false);
 
   const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
-  const [setEmailError, setSetEmailError] = useState(false);
   const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false); // code verification
   const [submitEmailCodeError, setSubmitEmailCodeError] = useState(false);
 
   const [displaySetPasswordModal, setDisplaySetPasswordModal] = useState(false);
-  const [setPasswordError, setSetPasswordError] = useState(false);
 
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: () => {
       setDisplaySetEmailModal(false);
       setDisplayEmailCodeModal(true);
-    },
-    onError: () => {
-      setSetEmailError(true);
     },
   });
 
@@ -106,9 +101,6 @@ export default function ProfileWidget() {
   const changePasswordMutation = trpc.changePasswordByEmail.useMutation({
     onSuccess: () => {
       setDisplaySetPasswordModal(false);
-    },
-    onError: () => {
-      setSetPasswordError(true);
     },
   });
 
@@ -145,9 +137,16 @@ export default function ProfileWidget() {
           isOpen={displaySetEmailModal}
           close={() => setDisplaySetEmailModal(false)}
           onVerifyEmail={handleVerifyEmail}
-          resendEmail={handleVerifyEmail} // a little out of place..
-          emailAlreadyExists={false}
-          error={setEmailError}
+          resendEmail={() => console.log("resend before entering email?")} // a little out of place..
+          emailAlreadyExists={
+            sendEmailVerificationMutation.error?.data?.code === "CONFLICT"
+          }
+          errorMessage={
+            sendEmailVerificationMutation.error &&
+            sendEmailVerificationMutation.error.data?.code !== "CONFLICT"
+              ? "Internal Error. Please try again."
+              : undefined
+          }
         />
         <EmailCodeModal
           isOpen={displayEmailCodeModal}
@@ -163,7 +162,11 @@ export default function ProfileWidget() {
           isOpen={displaySetPasswordModal}
           close={() => setDisplaySetPasswordModal(false)}
           onSetPassword={handleChangePassword}
-          error={setPasswordError}
+          errorMessage={
+            changePasswordMutation.error
+              ? "Internal Error. Please try again."
+              : undefined
+          }
         />
       </FormProvider>
       <FormProvider {...profileFormMethods}>

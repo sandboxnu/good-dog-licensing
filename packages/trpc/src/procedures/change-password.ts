@@ -9,7 +9,7 @@ export const changeNewPasswordByEmailProcedure = authenticatedProcedureBuilder
   .input(
     z.object({
       userEmail: z.email(),
-      newPassword: z.string().min(8),
+      newPassword: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {

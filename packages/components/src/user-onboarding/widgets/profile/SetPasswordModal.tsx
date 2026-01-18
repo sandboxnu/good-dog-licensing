@@ -8,6 +8,7 @@ import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { useFormContext } from "react-hook-form";
 import Button from "../../../base/Button";
 import PasswordRequirements from "../components/PasswordRequirements";
+import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 
 interface SetPasswordModalProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ export default function SetPasswordModal({
 
   const onSubmit = (data: SetPasswordFormFields) => {
     onSetPassword(data.password);
+    console.log("data: ", data);
   };
 
   return (

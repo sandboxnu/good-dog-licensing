@@ -18,7 +18,12 @@ export const zSetEmailValues = z.object({
   emailCode: zRequiredString,
 });
 
-export const zSetPasswordValues = z.object({
-  password: zPasswordValidation,
-  confirmPassword: zRequiredString,
-});
+export const zSetPasswordValues = z
+  .object({
+    password: zPasswordValidation,
+    confirmPassword: zRequiredString,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
