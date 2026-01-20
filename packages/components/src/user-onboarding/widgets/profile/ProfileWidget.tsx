@@ -20,6 +20,8 @@ import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { MusicAffiliation } from "@good-dog/db";
 import SetPasswordModal from "./SetPasswordModal";
 import DeleteAccountModal from "./DeleteAccountModal";
+import { getMusicAffiliationLabel } from "../../../../utils/enumLabelMapper";
+import RHFDropdown from "../../../rhf-base/RHFDropdown";
 
 function InfoField({ header, content }: { header: string; content: string }) {
   return (
@@ -145,6 +147,14 @@ export default function ProfileWidget() {
     deleteAccountMutation.mutate();
   };
 
+  const affiliations = Object.values(MusicAffiliation).map((affiliation) => ({
+    label:
+      getMusicAffiliationLabel(affiliation) === "Neither"
+        ? "NONE"
+        : getMusicAffiliationLabel(affiliation),
+    value: affiliation,
+  }));
+
   return (
     <div className="flex flex-col gap-6 w-[752px]">
       <FormProvider {...emailFormMethods}>
@@ -210,8 +220,7 @@ export default function ProfileWidget() {
               </p>
 
               {editingPersonalDetails ? (
-                // TODO: look at figma for the spacing / button designs
-                <div className="flex flex-row gap-3">
+                <div className="flex flex-row gap-2">
                   <Button
                     size="small"
                     variant="contained"
@@ -238,8 +247,8 @@ export default function ProfileWidget() {
             <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
               {editingPersonalDetails ? (
                 <>
-                  <div className="flex flex-row ">
-                    <div className="w-[380px]">
+                  <div className="flex flex-row gap-16">
+                    <div className="flex-1">
                       <RHFTextInput<ProfileValuesFields>
                         rhfName={"firstName"}
                         label={"First name"}
@@ -247,28 +256,34 @@ export default function ProfileWidget() {
                         id={"firstName"}
                       />
                     </div>
-                    <RHFTextInput<ProfileValuesFields>
-                      rhfName={"lastName"}
-                      label={"Last Name"}
-                      placeholder={""}
-                      id={"lastName"}
-                    />
-                  </div>
-                  <div className="flex flex-row ">
-                    <div className="w-[380px]">
+                    <div className="flex-1">
                       <RHFTextInput<ProfileValuesFields>
-                        rhfName={"affiliation"}
+                        rhfName={"lastName"}
                         label={"Last Name"}
                         placeholder={""}
                         id={"lastName"}
                       />
                     </div>
-                    <RHFTextInput<ProfileValuesFields>
-                      rhfName={"ipi"}
-                      label={"IPI No."}
-                      placeholder={""}
-                      id={"ipi"}
-                    />
+                  </div>
+                  <div className="flex flex-row gap-16">
+                    <div className="flex-1">
+                      <RHFDropdown<ProfileValuesFields>
+                        rhfName={"affiliation"}
+                        label={"Group"}
+                        placeholder={""}
+                        options={affiliations}
+                        arrow={true}
+                        id={"affiliation"}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <RHFTextInput<ProfileValuesFields>
+                        rhfName={"ipi"}
+                        label={"IPI No."}
+                        placeholder={""}
+                        id={"ipi"}
+                      />
+                    </div>
                   </div>
                 </>
               ) : (
