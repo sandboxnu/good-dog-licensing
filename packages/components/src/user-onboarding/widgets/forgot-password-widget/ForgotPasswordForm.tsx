@@ -47,14 +47,11 @@ export default function ForgotPasswordForm() {
           />
         </div>
         <div className="flex flex-row flex-wrap justify-center space-x-1 pt-[16px] text-body3">
-              <span className="font-normal">Back to</span>
-              <Link
-                href="/login"
-                className="font-medium text-secondary underline"
-              >
-                Login
-              </Link>
-            </div>
+          <span className="font-normal">Back to</span>
+          <Link href="/login" className="font-medium text-secondary underline">
+            Login
+          </Link>
+        </div>
         <Modal
           open={
             forgotPasswordMutation.isSuccess &&
