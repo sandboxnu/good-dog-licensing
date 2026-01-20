@@ -22,7 +22,7 @@ export default async function Home() {
   return (
     <>
       {user && (
-        <PageContainer background="solid">
+        <PageContainer background="gradient">
           <HydrateClient>
             {user.role === Role.MUSICIAN && <MusicianLanding />}
             {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
@@ -32,7 +32,7 @@ export default async function Home() {
         </PageContainer>
       )}
       {!user && (
-        <PageContainer background="solid">
+        <PageContainer background="gradient">
           <GeneralLanding />
         </PageContainer>
       )}
