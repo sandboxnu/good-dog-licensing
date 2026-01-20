@@ -21,7 +21,7 @@ export default function Nav() {
         </Link>
 
         <nav className="flex items-center gap-8 text-lg">
-          <Link href="/" className="underline-offset-4 hover:underline">
+          <Link href="/" className="underline-offset-[6px] hover:underline">
             Home
           </Link>
           {user ? (
@@ -30,13 +30,13 @@ export default function Nav() {
             <>
               <Link
                 href="/login"
-                className="underline-offset-4 hover:underline"
+                className="underline-offset-[6px] hover:underline"
               >
                 Login
               </Link>
               <Link
                 href="/signup"
-                className="underline-offset-4 hover:underline"
+                className="underline-offset-[6px] hover:underline"
               >
                 Sign up
               </Link>

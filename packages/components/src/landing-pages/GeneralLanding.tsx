@@ -49,12 +49,14 @@ export default function Home() {
                 />
               </div>
             </div>
-            <Image
-              src={"/images/mainLandingImage.webp"}
-              alt="Dashboard Example"
-              width={1062}
-              height={712}
-            />
+            <div className="w-full">
+              <Image
+                src={"/images/mainLandingImage.png"}
+                alt="Dashboard Example"
+                width={1062}
+                height={712}
+              />
+            </div>
           </div>
         </div>
         <GrowOnScroll>
@@ -63,7 +65,7 @@ export default function Home() {
               <h1 className="text-dark-gray-500">Good Dog Licensing —</h1>
               <h1 className="text-green-500">now and tomorrow</h1>
               <div className="pt-[12px]">
-                <p className="text-body1 font-medium leading-[128%] text-dark-gray-500">
+                <p className="text-body1 font-medium leading-[128%] text-secondary">
                   {
                     "Good Dog Licensing connects creatives by providing a legal framework for media producers to source high quality music from independent artists for their media projects. Good Dog Licensing connects independent media makers with independent musicians to enhance media projects and help musicians grow their audiences – all for free!"
                   }
@@ -80,7 +82,7 @@ export default function Home() {
               <h1 className="text-green-500">Connecting Creatives.</h1>
             </div>
             <div className="w-1/2">
-              <p className="text-body1 font-medium leading-[128%] text-dark-gray-500">
+              <p className="text-body1 font-medium leading-[128%] text-secondary">
                 {
                   "We aspire to connect media makers who need great music to enhance their storytelling and independent musicians who seek a wider audience for their music. "
                 }
@@ -144,7 +146,7 @@ function WhatMakesGoodDogGood() {
   return (
     <GrowOnScroll>
       <div className="flex w-full flex-col gap-[24px]">
-        <h1 className="text-dark-gray-500">What makes Good Dog "Good"?</h1>
+        <h1 className="text-green-400">What makes Good Dog "Good"?</h1>
         <p className="text-body1 font-medium text-dark-gray-500">
           We are not in it for the money. REALLY.
         </p>
@@ -228,7 +230,7 @@ export function DescriptionSection({
         className={`flex gap-[24px] ${order == "text-left" ? "flex-row" : "flex-row-reverse"} items-center`}
       >
         <div className="flex w-[70%] flex-col gap-[10px]">
-          <h2>{title}</h2>
+          <h2 className="text-green-400">{title}</h2>
           <p className="text-body1 leading-normal text-secondary">{text}</p>
         </div>
         <div className="flex w-[30%] items-center justify-center">{image}</div>
@@ -254,8 +256,14 @@ export function VerticalDescriptionSection({
     <div className="flex flex-col items-center justify-center gap-[24px] text-justify">
       {image}
       <h2>{title}</h2>
-      <p className="text-body1 leading-normal text-secondary">{text}</p>
-      <button type="button" onClick={link} className="text-body1">
+      <p className="text-body1 leading-normal text-secondary text-center">
+        {text}
+      </p>
+      <button
+        type="button"
+        onClick={link}
+        className="text-body1 text-secondary"
+      >
         {linkText}
       </button>
     </div>

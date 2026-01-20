@@ -57,8 +57,8 @@ export default function LoginWidget() {
       <div className="flex h-full w-1/2 flex-col justify-center">
         <FormProvider {...formMethods}>
           <form className="pr-[40px]" onSubmit={handleLogin}>
-            <h3>Welcome back!</h3>
-            <p>All fields below are required</p>
+            <h3 className="text-green-400">Welcome back!</h3>
+            <p className="text-error">* Indicates a required question</p>
             {loginMutation.isError && (
               <div className="flex flex-row items-center gap-[2px]">
                 <ErrorExclamation size="medium" />
@@ -73,6 +73,7 @@ export default function LoginWidget() {
                 label={"Email"}
                 placeholder={"example@gmail.com"}
                 id="email"
+                required = {true}
                 errorText={formMethods.formState.errors.email?.message}
               />
             </div>
@@ -82,6 +83,7 @@ export default function LoginWidget() {
                 label={"Password"}
                 placeholder={"Enter password"}
                 id="password"
+                required = {true}
                 type="password"
                 errorText={formMethods.formState.errors.password?.message}
               />

@@ -10,6 +10,7 @@ import { zForgotPasswordValues } from "@good-dog/trpc/schema";
 
 import Button from "../../../base/Button";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
+import Link from "next/link";
 
 type FormValues = z.input<typeof zForgotPasswordValues>;
 
@@ -44,6 +45,12 @@ export default function ForgotPasswordForm() {
             fullWidth
             shadow
           />
+        </div>
+        <div className="flex flex-row flex-wrap justify-center space-x-1 pt-[16px] text-body3">
+          <span className="font-normal">Back to</span>
+          <Link href="/login" className="font-medium text-secondary underline">
+            Login
+          </Link>
         </div>
         <Modal
           open={
