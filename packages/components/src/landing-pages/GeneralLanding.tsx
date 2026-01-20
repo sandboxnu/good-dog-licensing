@@ -256,7 +256,9 @@ export function VerticalDescriptionSection({
     <div className="flex flex-col items-center justify-center gap-[24px] text-justify">
       {image}
       <h2>{title}</h2>
-      <p className="text-body1 leading-normal text-secondary">{text}</p>
+      <p className="text-body1 leading-normal text-secondary text-center">
+        {text}
+      </p>
       <button
         type="button"
         onClick={link}
