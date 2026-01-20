@@ -38,7 +38,7 @@ export default function TextInput({
           {label}
         </Label>
         {required && (
-          <Label className="text-body3 font-normal text-required-star">*</Label>
+          <Label className="text-body3 font-normal text-error">*</Label>
         )}
       </div>
       <Input
