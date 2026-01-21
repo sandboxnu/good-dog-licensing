@@ -105,7 +105,7 @@ export default function ProfileWidget() {
     },
   });
 
-  const changePasswordMutation = trpc.changePasswordByEmail.useMutation({
+  const changePasswordMutation = trpc.changePassword.useMutation({
     onSuccess: () => {
       setDisplaySetPasswordModal(false);
     },
@@ -161,7 +161,6 @@ export default function ProfileWidget() {
 
   const handleChangeProfileValues = profileFormMethods.handleSubmit((data) => {
     changeProfileValuesMutation.mutate({
-      email: user?.email ?? "",
       firstName: data.firstName,
       lastName: data.lastName,
       affiliation: data.affiliation,

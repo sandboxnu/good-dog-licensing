@@ -77,7 +77,7 @@ export const appRouter = createTRPCRouter({
   songRequestSubmission: songRequestSubmissionProcedure,
   getProjectSubmissionById: getProjectSubmissionByIdProcedure,
   getMusicSubmissionById: getMusicSubmissionByIdProcedure,
-  changePasswordByEmail: changePasswordProcedure,
+  changePassword: changePasswordProcedure,
   changeProfileValues: changeProfileValuesProcedure,
 });
 

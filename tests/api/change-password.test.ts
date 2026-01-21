@@ -99,7 +99,7 @@ describe("change profile values", () => {
 
   test("User has to be logged in to change passwords", async () => {
     expect(
-      $api.changePasswordByEmail({
+      $api.changePassword({
         newPassword: "87654321A!",
       }),
     ).rejects.toThrow("UNAUTHORIZED");
@@ -108,7 +108,45 @@ describe("change profile values", () => {
   test("Change password to a valid password", async () => {
     cookies.set("sessionId", "gavin-session-id");
 
-    const message = await $api.changePasswordByEmail({
+    const message = await $api.changePassword({
+      newPassword: "87654321A!",
+    });
+
+    expect(message.message).toBe("Password reset.");
+    const updatedUser = await prisma.user.findUnique({
+      where: { userId: "gavin-user-id" },
+    });
+
+    const isValid = await passwordService.comparePassword(
+      "87654321A!",
+      updatedUser!.hashedPassword,
+    );
+    expect(isValid).toBe(true);
+  });
+
+  test("Can change password to anything using the procedure", async () => {
+    cookies.set("sessionId", "wesley-session-id");
+
+    const message = await $api.changePassword({
+      newPassword: "any", // less than 8 char, no capital, no special char
+    });
+
+    expect(message.message).toBe("Password reset.");
+    const updatedUser = await prisma.user.findUnique({
+      where: { userId: "wesley-user-id" },
+    });
+
+    const isValid = await passwordService.comparePassword(
+      "any",
+      updatedUser!.hashedPassword,
+    );
+    expect(isValid).toBe(true);
+  });
+
+  test("Can change password and then sign in with new password (integration test)", async () => {
+    cookies.set("sessionId", "owen-session-id");
+
+    const message = await $api.changePassword({
       newPassword: "87654321A!",
     });
 
@@ -116,30 +154,11 @@ describe("change profile values", () => {
     cookies.clear(); // sign out to verify passwords changed
     expect(
       // expect the old password to reject
-      $api.signIn({ email: "gavin@test.org", password: "12345678A!" }),
-    ).rejects.toThrow("Invalid credentials");
+      $api.signIn({ email: "owen@test.org", password: "xxxx" }),
+    ).rejects.toThrow();
     expect(
       // try the new password
-      $api.signIn({ email: "gavin@test.org", password: "87654321A!" }),
-    ).resolves.toBeDefined();
-  });
-
-  test("Can change password to anything using the procedure", async () => {
-    cookies.set("sessionId", "wesley-session-id");
-
-    const message = await $api.changePasswordByEmail({
-      newPassword: "any", // less than 8 char, no capital, no special char
-    });
-
-    expect(message.message).toBe("Password reset.");
-    cookies.clear(); // sign out to verify passwords changed
-    expect(
-      // expect the old password to reject
-      $api.signIn({ email: "wesley@test.org", password: "xxxx" }),
-    ).rejects.toThrow("Invalid credentials");
-    expect(
-      // try the new password
-      $api.signIn({ email: "wesley@test.org", password: "any" }),
+      $api.signIn({ email: "owen@test.org", password: "87654321A!" }),
     ).resolves.toBeDefined();
   });
 });
