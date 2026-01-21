@@ -1,5 +1,5 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { Check, ChevronRight, X } from "lucide-react";
+import { Check, ChevronRight, Link, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
@@ -84,13 +84,17 @@ export function Match({
           </div>
           <div className="flex flex-col gap-[6px] text-left">
             <p className="text-gray-500">Link</p>
-            <a
-              className="underline"
-              href={match.musicSubmission.songLink}
-              target="_blank"
-            >
-              View Song
-            </a>
+            <div className="flex flex-row gap-1 text-secondary font-extrabold items-center">
+              <Link size={16} />
+              <a
+                href={match.musicSubmission.songLink}
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-4"
+              >
+                View Song
+              </a>
+            </div>
           </div>
         </div>
       )}
