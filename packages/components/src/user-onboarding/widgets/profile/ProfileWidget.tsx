@@ -20,6 +20,11 @@ import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { MusicAffiliation } from "@good-dog/db";
 import SetPasswordModal from "./SetPasswordModal";
 import DeleteAccountModal from "./DeleteAccountModal";
+import {
+  getMusicAffiliationLabel,
+  getRoleLabel,
+} from "../../../../utils/enumLabelMapper";
+import RHFDropdown from "../../../rhf-base/RHFDropdown";
 
 type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
 type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
@@ -30,6 +35,7 @@ type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
 
 export default function ProfileWidget() {
   const router = useRouter();
+  const utils = trpc.useUtils();
   const { data: user, isLoading } = trpc.user.useQuery();
 
   const profileFormMethods = useForm<ProfileValuesFields>({
@@ -52,7 +58,6 @@ export default function ProfileWidget() {
     resolver: zodResolver(zSetPasswordValues),
   });
 
-  const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
   const userCreatedAtFormatted = user
     ? user.createdAt.toLocaleDateString("en-US", {
         month: "long",
@@ -115,6 +120,13 @@ export default function ProfileWidget() {
     },
   });
 
+  const changeProfileValuesMutation = trpc.changeProfileValues.useMutation({
+    onSuccess: () => {
+      utils.user.invalidate();
+      setEditingPersonalDetails(false);
+    },
+  });
+
   const verifyEmailCode = (code: string) => {
     emailFormMethods.setValue("emailCode", code);
     verifyEmailCodeMutation.mutate({
@@ -136,10 +148,20 @@ export default function ProfileWidget() {
   // TODO: write tests for changePasswordMutation
   const handleChangePassword = async (newPassword: string) => {
     changePasswordMutation.mutate({
-      userEmail: user?.email ?? "", // user should always be logged in and the procedure is auth'd only
+      email: user?.email ?? "", // user should always be logged in and the procedure is auth'd only
       newPassword,
     });
   };
+
+  const handleChangeProfileValues = profileFormMethods.handleSubmit((data) => {
+    changeProfileValuesMutation.mutate({
+      email: user?.email ?? "",
+      firstName: data.firstName,
+      lastName: data.lastName,
+      affiliation: data.affiliation,
+      ipi: data.ipi,
+    });
+  });
 
   const handleDeleteAccount = async () => {
     deleteAccountMutation.mutate();
@@ -186,7 +208,8 @@ export default function ProfileWidget() {
               {user?.firstName + " " + user?.lastName}
             </header>
             <div className="text-dark-gray-200">
-              {userRoleFormatted} | Since {userCreatedAtFormatted}
+              {user ? getRoleLabel(user.role) : "Undefined"} | Since{" "}
+              {userCreatedAtFormatted}
             </div>
           </div>
         </div>
@@ -205,7 +228,7 @@ export default function ProfileWidget() {
                     size="small"
                     variant="contained"
                     label="Save"
-                    onClick={() => console.log("save but not implemented yet")}
+                    onClick={handleChangeProfileValues}
                   />
                   <Button
                     size="small"

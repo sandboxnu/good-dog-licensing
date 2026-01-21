@@ -9,8 +9,8 @@ export const zAffiliationValidation = z.enum(MusicAffiliation);
 export const zProfileValues = z.object({
   firstName: zRequiredString,
   lastName: zRequiredString,
-  ipi: z.string().optional().nullable(),
-  affiliation: zAffiliationValidation.optional().nullable(),
+  ipi: zRequiredString.optional(),
+  affiliation: zAffiliationValidation.optional(),
 });
 
 export const zSetEmailValues = z.object({

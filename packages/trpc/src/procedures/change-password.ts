@@ -8,14 +8,14 @@ import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 export const changeNewPasswordByEmailProcedure = authenticatedProcedureBuilder
   .input(
     z.object({
-      userEmail: z.email(),
-      newPassword: z.string().min(8),
+      email: z.email(),
+      newPassword: z.string(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
     const user = await ctx.prisma.user.update({
       where: {
-        email: input.userEmail,
+        email: input.email,
       },
       data: {
         hashedPassword: await ctx.passwordService.hashPassword(

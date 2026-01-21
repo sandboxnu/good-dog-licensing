@@ -6,6 +6,19 @@ import {
   Role,
 } from "@good-dog/db";
 
+export function getRoleLabel(value: Role): string {
+  switch (value) {
+    case Role.ADMIN:
+      return "Admin";
+    case Role.MEDIA_MAKER:
+      return "Media Maker";
+    case Role.MODERATOR:
+      return "Moderator";
+    case Role.MUSICIAN:
+      return "Musician";
+  }
+}
+
 export function getGenreLabel(value: Genre): string {
   switch (value) {
     case Genre.ROCK:
