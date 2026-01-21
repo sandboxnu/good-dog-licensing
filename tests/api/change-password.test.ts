@@ -54,6 +54,23 @@ describe("change profile values", () => {
           affiliation: MusicAffiliation.NONE,
         },
       }),
+      prisma.user.create({
+        data: {
+          userId: "wesley-user-id",
+          email: "wesley@test.org",
+          phoneNumber: "6268221322",
+          hashedPassword: "xxxx",
+          firstName: "Wesley",
+          lastName: "Tran",
+          role: "MUSICIAN",
+          sessions: {
+            create: {
+              sessionId: "wesley-session-id",
+              expiresAt: new Date(Date.now() + 600_000),
+            },
+          },
+        },
+      }),
     ]);
   });
 
@@ -74,7 +91,7 @@ describe("change profile values", () => {
     await prisma.user.deleteMany({
       where: {
         userId: {
-          in: ["owen-user-id", "isabelle-user-id", "gavin-user-id"],
+          in: ["owen-user-id", "wesley-user-id", "gavin-user-id"],
         },
       },
     });
@@ -83,17 +100,15 @@ describe("change profile values", () => {
   test("User has to be logged in to change passwords", async () => {
     expect(
       $api.changePasswordByEmail({
-        email: "owen@test.org",
         newPassword: "87654321A!",
       }),
     ).rejects.toThrow("UNAUTHORIZED");
   });
 
-  test("Change password to a valid password given a valid email", async () => {
-    cookies.set("sessionId", "owen-session-id");
+  test("Change password to a valid password", async () => {
+    cookies.set("sessionId", "gavin-session-id");
 
     const message = await $api.changePasswordByEmail({
-      email: "owen@test.org",
       newPassword: "87654321A!",
     });
 
@@ -101,19 +116,18 @@ describe("change profile values", () => {
     cookies.clear(); // sign out to verify passwords changed
     expect(
       // expect the old password to reject
-      $api.signIn({ email: "owen@test.org", password: "12345678A!" }),
-    ).rejects.toThrow();
+      $api.signIn({ email: "gavin@test.org", password: "12345678A!" }),
+    ).rejects.toThrow("Invalid credentials");
     expect(
       // try the new password
-      $api.signIn({ email: "owen@test.org", password: "87654321A!" }),
+      $api.signIn({ email: "gavin@test.org", password: "87654321A!" }),
     ).resolves.toBeDefined();
   });
 
   test("Can change password to anything using the procedure", async () => {
-    cookies.set("sessionId", "gavin-session-id");
+    cookies.set("sessionId", "wesley-session-id");
 
     const message = await $api.changePasswordByEmail({
-      email: "gavin@test.org",
       newPassword: "any", // less than 8 char, no capital, no special char
     });
 
@@ -121,22 +135,11 @@ describe("change profile values", () => {
     cookies.clear(); // sign out to verify passwords changed
     expect(
       // expect the old password to reject
-      $api.signIn({ email: "gavin@test.org", password: "xxxx" }),
-    ).rejects.toThrow();
+      $api.signIn({ email: "wesley@test.org", password: "xxxx" }),
+    ).rejects.toThrow("Invalid credentials");
     expect(
       // try the new password
-      $api.signIn({ email: "gavin@test.org", password: "any" }),
+      $api.signIn({ email: "wesley@test.org", password: "any" }),
     ).resolves.toBeDefined();
-  });
-
-  test("Fail after trying to change password linked to email that doesn't exist", async () => {
-    cookies.set("sessionId", "gavin-session-id");
-
-    expect(
-      $api.changePasswordByEmail({
-        email: "no-one@test.org",
-        newPassword: "any",
-      }),
-    ).rejects.toThrow("User not found");
   });
 });

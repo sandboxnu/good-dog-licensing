@@ -153,10 +153,8 @@ export default function ProfileWidget() {
     }
   };
 
-  // TODO: write tests for changePasswordMutation
   const handleChangePassword = (newPassword: string) => {
     changePasswordMutation.mutate({
-      email: user?.email ?? "", // user should always be logged in and the procedure is auth'd only
       newPassword,
     });
   };
