@@ -12,8 +12,8 @@ import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 interface SetEmailModalProps {
   isOpen: boolean;
   close: () => void;
+  onCancel: () => void;
   onVerifyEmail: () => void;
-  resendEmail: () => void;
   emailAlreadyExists: boolean;
   errorMessage?: String;
 }
@@ -23,8 +23,8 @@ type SetEmailFormFields = z.input<typeof zSetEmailValues>;
 export default function SetEmailModal({
   isOpen,
   close,
+  onCancel,
   onVerifyEmail,
-  resendEmail,
   emailAlreadyExists,
   errorMessage,
 }: SetEmailModalProps) {
@@ -38,9 +38,9 @@ export default function SetEmailModal({
       onClose={close}
       headerText="Set new email"
       width={500}
-      height={322}
+      height={283}
     >
-      <div className="w-3/4 pt-4">
+      <div className="w-3/4 py-4">
         {errorMessage && (
           <div className="flex flex-row items-center gap-[4px] pt-[12px]">
             <ErrorExclamation size="medium" />
@@ -60,24 +60,20 @@ export default function SetEmailModal({
           required
         />
       </div>
-      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 py-4">
-        <p className="text-body2">Didn't get an email?</p>
-        <button
-          onClick={() => {
-            resendEmail();
-          }}
-          type="button"
-          className="text-body2 font-medium text-secondary underline"
-        >
-          Resend
-        </button>
+      <div className="space-x-2">
+        <Button
+          label="Cancel"
+          size={"small"}
+          variant="outlined"
+          onClick={onCancel}
+        />
+        <Button
+          label="Verify email"
+          size="small"
+          variant="contained"
+          onClick={onVerifyEmail}
+        />
       </div>
-      <Button
-        label="Verify email"
-        size="small"
-        variant="contained"
-        onClick={onVerifyEmail}
-      ></Button>
     </Modal>
   );
 }

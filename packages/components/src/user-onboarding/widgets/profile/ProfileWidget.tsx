@@ -90,7 +90,7 @@ export default function ProfileWidget() {
 
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: () => {
-      setDisplaySetEmailModal(false);
+      handleCloseSetEmailModal();
       setDisplayEmailCodeModal(true);
     },
   });
@@ -125,6 +125,16 @@ export default function ProfileWidget() {
     },
   });
 
+  const handleCloseSetEmailModal = () => {
+    emailFormMethods.reset();
+    setDisplaySetEmailModal(false);
+  };
+
+  const handleCloseChangePasswordModal = () => {
+    passwordFormMethods.reset();
+    setDisplaySetPasswordModal(false);
+  };
+
   const verifyEmailCode = (code: string) => {
     emailFormMethods.setValue("emailCode", code);
     verifyEmailCodeMutation.mutate({
@@ -144,7 +154,7 @@ export default function ProfileWidget() {
   };
 
   // TODO: write tests for changePasswordMutation
-  const handleChangePassword = async (newPassword: string) => {
+  const handleChangePassword = (newPassword: string) => {
     changePasswordMutation.mutate({
       email: user?.email ?? "", // user should always be logged in and the procedure is auth'd only
       newPassword,
@@ -161,7 +171,7 @@ export default function ProfileWidget() {
     });
   });
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
     deleteAccountMutation.mutate();
   };
 
@@ -178,9 +188,9 @@ export default function ProfileWidget() {
       <FormProvider {...emailFormMethods}>
         <SetEmailModal
           isOpen={displaySetEmailModal}
-          close={() => setDisplaySetEmailModal(false)}
+          close={handleCloseSetEmailModal}
+          onCancel={handleCloseSetEmailModal}
           onVerifyEmail={handleVerifyEmail}
-          resendEmail={() => console.log("resend before entering email?")} // a little out of place..
           emailAlreadyExists={
             sendEmailVerificationMutation.error?.data?.code === "CONFLICT"
           }
@@ -203,7 +213,7 @@ export default function ProfileWidget() {
       <FormProvider {...passwordFormMethods}>
         <SetPasswordModal
           isOpen={displaySetPasswordModal}
-          close={() => setDisplaySetPasswordModal(false)}
+          close={handleCloseChangePasswordModal}
           onSetPassword={handleChangePassword}
           errorMessage={
             changePasswordMutation.error
