@@ -34,7 +34,7 @@ export default function MatchInformation({
         <div className="flex flex-col gap-4">
           <MatchStatusTabs
             numActionRequired={
-              matches.filter((m) => m.matchState === "SONG_REQUESTED").length
+              matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
             }
             incomingContent={
               <Matches

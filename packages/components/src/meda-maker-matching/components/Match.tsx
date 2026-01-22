@@ -26,7 +26,7 @@ export function Match({
   const handleApprove = () => {
     updateMatchState.mutate({
       matchId: match.matchId,
-      state: "SONG_REQUESTED",
+      state: "SENT_TO_MUSICIAN",
     });
   };
 

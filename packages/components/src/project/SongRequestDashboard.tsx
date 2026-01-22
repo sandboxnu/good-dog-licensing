@@ -39,7 +39,7 @@ export default function SongRequestDashboard({
       <SongRequests
         songRequests={projectSubmission.songRequests.filter((songRequest) => {
           return songRequest.matches.some(
-            (match) => match.matchState === "SONG_REQUESTED",
+            (match) => match.matchState === "SENT_TO_MUSICIAN",
           );
         })}
         status="IN_REVIEW"

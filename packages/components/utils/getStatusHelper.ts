@@ -20,7 +20,7 @@ export function getSongRequestStatus(
 
   if (
     songRequestWithMatches.matches.some(
-      (match) => match.matchState === "SONG_REQUESTED",
+      (match) => match.matchState === "SENT_TO_MUSICIAN",
     )
   ) {
     return { variant: "blue", text: "Pending approval" };
