@@ -6,7 +6,7 @@ import SectionRow from "./SectionRow";
 export default function MusicianSection() {
   return (
     <div className="flex w-full flex-col items-center justify-center gap-[140px] pb-[200px] pt-[100px] text-center">
-      <h1>
+      <h1 className="text-green-500 dark:text-mint-200">
         Add your music to the Good Dog catalog for media makers to discover!
       </h1>
       <SectionRow

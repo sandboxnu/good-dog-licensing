@@ -25,22 +25,24 @@ export default function SongRequest({
 
   return (
     <div
-      className="border-[1px] bg-cream-100 border-cream-500 rounded-2xl p-6 flex flex-row justify-between hover:cursor-pointer items-center"
+      className="border-[1px] bg-cream-100 dark:bg-green-500 border-cream-500 rounded-2xl p-6 flex flex-row justify-between hover:cursor-pointer items-center"
       onClick={handleClick}
     >
       <div className="flex flex-row gap-4 items-center">
         <MusicNoteIcon />
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-4">
-            <p className="text-xl font-semibold">
+            <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
               {songRequest.songRequestTitle}
             </p>
             <StatusIndicator {...getSongRequestStatus(songRequest)} />
           </div>
-          <p>{songRequest.description}</p>
+          <p className="text-dark-gray-500 dark:text-gray-200">
+            {songRequest.description}
+          </p>
         </div>
       </div>
-      <ChevronRight />
+      <ChevronRight className="text-green-500 dark:text-mint-200" />
     </div>
   );
 }

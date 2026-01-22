@@ -11,24 +11,30 @@ export default function MusicInformation({
 }) {
   return (
     <div className="flex flex-col gap-4 p-6 rounded-2xl border-[0.5px] border-light-gray shadow-md">
-      <p className="text-xl text-gray">Music Information</p>
+      <p className="text-xl text-gray-200 dark:text-gray-100">
+        Music Information
+      </p>
       <div className="flex flex-col gap-1">
-        <p className="text-gray">Music Title</p>
-        <p>{musicSubmission ? musicSubmission.songName : "..."}</p>
+        <p className="text-gray-200 dark:text-gray-100y">Music Title</p>
+        <p className="text-gray-200 dark:text-gray-100">
+          {musicSubmission ? musicSubmission.songName : "..."}
+        </p>
       </div>
       <div className="flex flex-col gap-1">
-        <p className="text-gray">Artist/Band</p>
-        <p>{musicSubmission ? musicSubmission.performerName : "..."}</p>
+        <p className="text-gray-200 dark:text-gray-100">Artist/Band</p>
+        <p className="text-gray-200 dark:text-gray-100">
+          {musicSubmission ? musicSubmission.performerName : "..."}
+        </p>
       </div>
       <div className="flex flex-col gap-1">
-        <p className="text-gray">Genre(s)</p>
-        <p>
+        <p className="text-gray-200 dark:text-gray-100">Genre(s)</p>
+        <p className="text-gray-200 dark:text-gray-100">
           {musicSubmission ? formatAllCapsList(musicSubmission.genres) : "..."}
         </p>
       </div>
       <div className="flex flex-col gap-1">
-        <p className="text-gray">Date Submitted</p>
-        <p>
+        <p className="text-gray-200 dark:text-gray-100">Date Submitted</p>
+        <p className="text-gray-200 dark:text-gray-100">
           {musicSubmission?.createdAt.toLocaleDateString("en-US", {
             month: "long",
             day: "numeric",
@@ -37,7 +43,7 @@ export default function MusicInformation({
         </p>
       </div>
       <div className="flex flex-col gap-1">
-        <p className="text-gray">Link</p>
+        <p className="text-gray-200 dark:text-gray-100">Link</p>
 
         {musicSubmission ? (
           <div className="flex flex-row gap-1 text-secondary font-extrabold items-center">
@@ -52,19 +58,23 @@ export default function MusicInformation({
             </a>
           </div>
         ) : (
-          <p>{"..."}</p>
+          <p className="text-gray-200 dark:text-gray-100">{"..."}</p>
         )}
       </div>
       <div className="flex flex-col gap-1">
-        <p className="text-gray">Submitter</p>
-        <p>
+        <p className="text-gray-200 dark:text-gray-100">Submitter</p>
+        <p className="text-gray-200 dark:text-gray-100">
           {submitter ? submitter.firstName + " " + submitter.lastName : "..."}
         </p>
       </div>
       {musicSubmission && musicSubmission.additionalInfo.length > 0 && (
         <div className="flex flex-col gap-1">
-          <p className="text-gray">Additional Information</p>
-          <p>{musicSubmission.additionalInfo}</p>
+          <p className="text-gray-200 dark:text-gray-100">
+            Additional Information
+          </p>
+          <p className="text-gray-200 dark:text-gray-100">
+            {musicSubmission.additionalInfo}
+          </p>
         </div>
       )}
     </div>

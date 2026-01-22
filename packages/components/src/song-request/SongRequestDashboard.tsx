@@ -23,12 +23,9 @@ export default function SongRequestDashboard({
         className="flex flex-row gap-[4px] items-center max-w-[130px]"
         onClick={() => router.push(`/project/${songRequest.projectId}`)}
       >
-        <ChevronLeft />
+        <ChevronLeft className="text-green-500 dark:text-mint-200" />
         <p className="text-green-500 underline text-body2">Song requests</p>
       </button>
-      <div className="pt-[40px]">
-        <h3>{songRequest.songRequestTitle}</h3>
-      </div>
       <SongRequestInformation songRequest={songRequest} />
       <MatchInformation matches={songRequest.matches} />
     </div>

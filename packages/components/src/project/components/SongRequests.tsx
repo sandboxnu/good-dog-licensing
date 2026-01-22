@@ -37,16 +37,20 @@ export default function SongRequests({
 
   return (
     <div
-      className="bg-white border-[.5px] border-cream-500 rounded-2xl p-6 shadow-md flex flex-col gap-4 cursor-pointer"
+      className="bg-gray-100 dark:bg-dark-gray-600 border-[.5px] border-cream-500 rounded-2xl p-6 shadow-md flex flex-col gap-4 cursor-pointer"
       onClick={() => setDropdownOpen(!dropdownOpen)}
     >
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col gap-2">
-          <p className="font-semibold text-xl">{header()}</p>
-          <p>{description()}</p>
+          <p className="font-semibold text-xl text-dark-gray-500 dark:text-mint-300">
+            {header()}
+          </p>
+          <p className="text-dark-gray-500 dark:text-mint-300">
+            {description()}
+          </p>
         </div>
         <ChevronDown
-          className={`h-6 w-6 ${dropdownOpen ? "rotate-0" : "-rotate-90"} transition-all`}
+          className={`h-6 w-6 ${dropdownOpen ? "rotate-0" : "-rotate-90"} transition-all text-green-500 dark:text-mint-200`}
         />
       </div>
       {dropdownOpen &&
@@ -60,7 +64,9 @@ export default function SongRequests({
         ) : (
           <div className="flex flex-col items-center gap-2">
             <Hourglass size="small" />
-            <p>No requests active at this time</p>
+            <p className="text-dark-gray-500 dark:text-gray-200">
+              No requests active at this time
+            </p>
           </div>
         ))}
     </div>

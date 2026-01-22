@@ -16,6 +16,25 @@ import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
 
 async function createData() {
+  // Create admin
+  await prisma.user.create({
+    data: {
+      userId: "admin",
+      firstName: "Admin",
+      lastName: "User",
+      role: "ADMIN",
+      phoneNumber: "1234556788",
+      email: "admin@gmail.com",
+      hashedPassword: await passwordService.hashPassword("password123"),
+      sessions: {
+        create: {
+          sessionId: "admin-session-id",
+          expiresAt: new Date(Date.now() + 5_000_000_000),
+        },
+      },
+    },
+  });
+
   // Create moderator
   await prisma.user.create({
     data: {
@@ -85,6 +104,18 @@ async function createData() {
     },
   });
 
+  // Create another music submission
+  await prisma.musicSubmission.create({
+    data: {
+      musicId: "musicSubmission2",
+      songName: "Test Song",
+      songLink: "https://open.spotify.com/track/test",
+      genres: [Genre.HIP_HOP],
+      submitterId: musician.userId,
+      performerName: "Test Artist",
+    },
+  });
+
   // Create project owner (media maker)
   const projectOwner = await prisma.user.create({
     data: {
@@ -128,6 +159,7 @@ async function createData() {
     data: {
       projectId: "projectSubmission",
       projectOwnerId: projectOwner.userId,
+      projectManagerId: "moderator",
       projectTitle: "Test Project",
       description: "A test project",
       deadline: new Date(Date.now() + 2_000_000_000),
@@ -147,14 +179,48 @@ async function createData() {
     },
   });
 
-  // Create match
+  // Create another song request
+  await prisma.songRequest.create({
+    data: {
+      songRequestTitle: "Test Song Request",
+      songRequestId: "songRequest2",
+      description: "Test description",
+      feelingsConveyed: "rnb, soul",
+      projectId: projectSubmission.projectId,
+      similarSongs: "Hey Jude",
+    },
+  });
+
+  // Create SENT_TO_MEDIA_MAKER match
   await prisma.match.create({
     data: {
       matchId: "match",
       songRequestId: "songRequest",
       musicId: "musicSubmission",
       matcherUserId: "moderator",
-      matchState: MatchState.NEW,
+      matchState: MatchState.SENT_TO_MEDIA_MAKER,
+    },
+  });
+
+  // Create SENT_TO_MUSICIAN match
+  await prisma.match.create({
+    data: {
+      matchId: "match-song-requested",
+      songRequestId: "songRequest",
+      musicId: "musicSubmission2",
+      matcherUserId: "moderator",
+      matchState: MatchState.SENT_TO_MUSICIAN,
+    },
+  });
+
+  // Create WAITING_FOR_MANAGER_APPROVAL match
+  await prisma.match.create({
+    data: {
+      matchId: "match-waiting",
+      songRequestId: "songRequest2",
+      musicId: "musicSubmission",
+      matcherUserId: "moderator",
+      matchState: MatchState.WAITING_FOR_MANAGER_APPROVAL,
     },
   });
 }
@@ -162,12 +228,20 @@ async function createData() {
 async function deleteData() {
   // Delete Match
   await prisma.match.deleteMany({
-    where: { matchId: "match" },
+    where: {
+      matchId: {
+        in: ["match", "match-song-requested", "match-waiting"],
+      },
+    },
   });
 
   // Delete SongRequest
   await prisma.songRequest.deleteMany({
     where: { songRequestId: "songRequest" },
+  });
+
+  await prisma.songRequest.deleteMany({
+    where: { songRequestId: "songRequest2" },
   });
 
   // Delete ProjectSubmission
@@ -180,11 +254,16 @@ async function deleteData() {
     where: { musicId: "musicSubmission" },
   });
 
+  await prisma.musicSubmission.deleteMany({
+    where: { musicId: "musicSubmission2" },
+  });
+
   // Delete Users
   await prisma.user.deleteMany({
     where: {
       userId: {
         in: [
+          "admin",
           "moderator",
           "musician",
           "otherMusician",
@@ -221,25 +300,25 @@ describe("updateMatchState procedure", () => {
 
   // SUCCESS CASES - MEDIA MAKER
 
-  it("should allow project owner to update match to SONG_REQUESTED", async () => {
+  it("should allow project owner to update SENT_TO_MEDIA_MAKER match to SENT_TO_MUSICIAN", async () => {
     cookies.set("sessionId", "project-session-id");
 
     const response = await $api.updateMatchState({
       matchId: "match",
-      state: MatchState.SONG_REQUESTED,
+      state: MatchState.SENT_TO_MUSICIAN,
     });
 
     expect(response.message).toEqual("Match state updated successfully");
-    expect(response.match.matchState).toBe(MatchState.SONG_REQUESTED);
+    expect(response.match.matchState).toBe(MatchState.SENT_TO_MUSICIAN);
 
     const match = await prisma.match.findUnique({
       where: { matchId: "match" },
     });
 
-    expect(match?.matchState).toBe(MatchState.SONG_REQUESTED);
+    expect(match?.matchState).toBe(MatchState.SENT_TO_MUSICIAN);
   });
 
-  it("should allow project owner to update match to REJECTED_BY_MEDIA_MAKER", async () => {
+  it("should allow project owner to update SENT_TO_MEDIA_MAKER match to REJECTED_BY_MEDIA_MAKER", async () => {
     cookies.set("sessionId", "project-session-id");
 
     const response = await $api.updateMatchState({
@@ -259,11 +338,11 @@ describe("updateMatchState procedure", () => {
 
   // SUCCESS CASES - MUSICIAN
 
-  it("should allow musician to update match to APPROVED_BY_MUSICIAN", async () => {
+  it("should allow musician to update SENT_TO_MUSICIAN match to APPROVED_BY_MUSICIAN", async () => {
     cookies.set("sessionId", "musician-session-id");
 
     const response = await $api.updateMatchState({
-      matchId: "match",
+      matchId: "match-song-requested",
       state: MatchState.APPROVED_BY_MUSICIAN,
     });
 
@@ -271,17 +350,17 @@ describe("updateMatchState procedure", () => {
     expect(response.match.matchState).toBe(MatchState.APPROVED_BY_MUSICIAN);
 
     const match = await prisma.match.findUnique({
-      where: { matchId: "match" },
+      where: { matchId: "match-song-requested" },
     });
 
     expect(match?.matchState).toBe(MatchState.APPROVED_BY_MUSICIAN);
   });
 
-  it("should allow musician to update match to REJECTED_BY_MUSICIAN", async () => {
+  it("should allow musician to update SENT_TO_MUSICIAN match to REJECTED_BY_MUSICIAN", async () => {
     cookies.set("sessionId", "musician-session-id");
 
     const response = await $api.updateMatchState({
-      matchId: "match",
+      matchId: "match-song-requested",
       state: MatchState.REJECTED_BY_MUSICIAN,
     });
 
@@ -289,46 +368,53 @@ describe("updateMatchState procedure", () => {
     expect(response.match.matchState).toBe(MatchState.REJECTED_BY_MUSICIAN);
 
     const match = await prisma.match.findUnique({
-      where: { matchId: "match" },
+      where: { matchId: "match-song-requested" },
     });
 
     expect(match?.matchState).toBe(MatchState.REJECTED_BY_MUSICIAN);
   });
 
-  // FAILURE CASES - CANNOT GO BACK TO NEW
+  // SUCCESS CASES - ADMIN/MODERATOR
 
-  it("should not allow updating match back to NEW state", () => {
-    cookies.set("sessionId", "project-session-id");
+  it("should allow admin/moderator to update match from WAITING to SENT_TO_MEDIA_MAKER", async () => {
+    cookies.set("sessionId", "moderator-session-id");
 
-    expect(
-      $api.updateMatchState({
-        matchId: "match",
-        state: MatchState.NEW,
-      }),
-    ).rejects.toThrow("Cannot update a match back to NEW state");
+    const response = await $api.updateMatchState({
+      matchId: "match-waiting",
+      state: MatchState.SENT_TO_MEDIA_MAKER,
+    });
+
+    expect(response.message).toEqual("Match state updated successfully");
+    expect(response.match.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
+
+    const match = await prisma.match.findUnique({
+      where: { matchId: "match-waiting" },
+    });
+
+    expect(match?.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
   });
 
   // FAILURE CASES - ROLE PERMISSIONS
 
-  it("should not allow musician to update match to SONG_REQUESTED", () => {
+  it("should not allow musician to update SENT_TO_MEDIA_MAKER match", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
       $api.updateMatchState({
         matchId: "match",
-        state: MatchState.SONG_REQUESTED,
+        state: MatchState.APPROVED_BY_MUSICIAN,
       }),
     ).rejects.toThrow(
       "This role does not have permission to perform the requested match state change",
     );
   });
 
-  it("should not allow musician to update match to REJECTED_BY_MEDIA_MAKER", () => {
+  it("should not allow musician to update SENT_TO_MUSICIAN match to REJECTED_BY_MEDIA_MAKER", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
       $api.updateMatchState({
-        matchId: "match",
+        matchId: "match-song-requested",
         state: MatchState.REJECTED_BY_MEDIA_MAKER,
       }),
     ).rejects.toThrow(
@@ -349,39 +435,26 @@ describe("updateMatchState procedure", () => {
     );
   });
 
-  it("should not allow media maker to update match to REJECTED_BY_MUSICIAN", () => {
+  it("should not allow media maker to update SENT_TO_MUSICIAN match", () => {
     cookies.set("sessionId", "project-session-id");
 
     expect(
       $api.updateMatchState({
-        matchId: "match",
-        state: MatchState.REJECTED_BY_MUSICIAN,
+        matchId: "match-song-requested",
+        state: MatchState.SENT_TO_MUSICIAN,
       }),
     ).rejects.toThrow(
       "This role does not have permission to perform the requested match state change",
     );
   });
 
-  it("should not allow moderator to update match to SONG_REQUESTED", () => {
+  it("should not allow moderator to update match to SENT_TO_MUSICIAN", () => {
     cookies.set("sessionId", "moderator-session-id");
 
     expect(
       $api.updateMatchState({
-        matchId: "match",
-        state: MatchState.SONG_REQUESTED,
-      }),
-    ).rejects.toThrow(
-      "This role does not have permission to perform the requested match state change",
-    );
-  });
-
-  it("should not allow moderator to update match to APPROVED_BY_MUSICIAN", () => {
-    cookies.set("sessionId", "moderator-session-id");
-
-    expect(
-      $api.updateMatchState({
-        matchId: "match",
-        state: MatchState.APPROVED_BY_MUSICIAN,
+        matchId: "match-waiting",
+        state: MatchState.SENT_TO_MUSICIAN,
       }),
     ).rejects.toThrow(
       "This role does not have permission to perform the requested match state change",
@@ -396,7 +469,7 @@ describe("updateMatchState procedure", () => {
     expect(
       $api.updateMatchState({
         matchId: "match",
-        state: MatchState.SONG_REQUESTED,
+        state: MatchState.SENT_TO_MUSICIAN,
       }),
     ).rejects.toThrow(
       "Media makers can only update the state of matches that involve their projects",
@@ -408,11 +481,25 @@ describe("updateMatchState procedure", () => {
 
     expect(
       $api.updateMatchState({
-        matchId: "match",
+        matchId: "match-song-requested",
         state: MatchState.APPROVED_BY_MUSICIAN,
       }),
     ).rejects.toThrow(
       "Musicians can only update the state of matches that involve their projects",
+    );
+  });
+
+  // FAILURE CASES - WRONG PROJECT MANAGER
+  it("should not allow admin/moderator to update match for a project they don't manage", () => {
+    cookies.set("sessionId", "admin-session-id");
+
+    expect(
+      $api.updateMatchState({
+        matchId: "match-waiting",
+        state: MatchState.SENT_TO_MEDIA_MAKER,
+      }),
+    ).rejects.toThrow(
+      "Admins and moderators can only update the state of matches that are managed by them",
     );
   });
 
@@ -424,7 +511,7 @@ describe("updateMatchState procedure", () => {
     expect(
       $api.updateMatchState({
         matchId: "nonexistent-match",
-        state: MatchState.SONG_REQUESTED,
+        state: MatchState.SENT_TO_MUSICIAN,
       }),
     ).rejects.toThrow("Match id does not exist");
   });

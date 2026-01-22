@@ -16,7 +16,7 @@ export default function MatchInformation({
   const selectedMatch = matches.find((m) => m.matchId === selectedMatchId);
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-4xl">Match Information</p>
+      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">Match Information</p>
       <div className="flex flex-row gap-6 w-full">
         <div className="w-[512px] box-content">
           <MusicInformation
@@ -26,7 +26,7 @@ export default function MatchInformation({
         </div>
         <MatchStatusTabs
           numActionRequired={
-            matches.filter((m) => m.matchState === "NEW").length
+            matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER").length
           }
           incomingContent={
             <Matches

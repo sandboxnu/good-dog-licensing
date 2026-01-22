@@ -9,10 +9,10 @@ const buttonVariants = cva("rounded-lg", {
   variants: {
     variant: {
       contained:
-        "bg-good-dog-main text-[#E9F9F1] hover:bg-[#054233] active:bg-[#022119]",
+        "bg-green-400 dark:bg-green-300 text-mint-200 hover:bg-green-500 active:bg-green-600",
       outlined:
-        "border-[0.5px] border-[#404040] bg-[#FFFDFB] text-[#054233] hover:bg-[#E9F9F1] active:bg-[#D3F4E2]",
-      text: "bg-transparent text-[#054233] hover:bg-[#E9F9F1] active:bg-[#D3F4E2]",
+        "border-[0.5px] border-gray-600 bg-cream-100 text-green-500 hover:bg-mint-200 active:bg-mint-300",
+      text: "bg-transparent text-bg-green-500 dark:bg-mint-200 dark:hover:bg-green-500 hover:bg-mint-200 active:bg-mint-300",
     },
     size: {
       "small-text": "h-[31px] px-[16px] !text-body4", // NOTE: really forced...
