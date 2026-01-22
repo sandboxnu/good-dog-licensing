@@ -8,7 +8,7 @@ import ProfileIcon from "../../../svg/ProfileIcon";
 import { useEffect, useState } from "react";
 import SetEmailModal from "./SetEmailModal";
 import { FormProvider, useForm } from "react-hook-form";
-import z from "zod";
+import type z from "zod";
 import {
   zSetEmailValues,
   zSetPasswordValues,
@@ -20,10 +20,7 @@ import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { MusicAffiliation } from "@good-dog/db";
 import SetPasswordModal from "./SetPasswordModal";
 import DeleteAccountModal from "./DeleteAccountModal";
-import {
-  getMusicAffiliationLabel,
-  getRoleLabel,
-} from "../../../../utils/enumLabelMapper";
+import { getMusicAffiliationLabel } from "../../../../utils/enumLabelMapper";
 import RHFDropdown from "../../../rhf-base/RHFDropdown";
 
 function InfoField({ header, content }: { header: string; content: string }) {
@@ -50,11 +47,12 @@ export default function ProfileWidget() {
       firstName: user?.firstName,
       lastName: user?.lastName,
       ipi: user?.ipi ? user.ipi : "",
-      affiliation: user?.affiliation
-        ? user?.affiliation
-        : MusicAffiliation.NONE,
+      affiliation: user?.affiliation ? user.affiliation : MusicAffiliation.NONE,
     },
   });
+
+  const affiliation = profileFormMethods.watch("affiliation");
+  const showIpiField = affiliation && affiliation !== MusicAffiliation.NONE;
 
   const emailFormMethods = useForm<ChangeEmailValuesFields>({
     resolver: zodResolver(zSetEmailValues),
@@ -122,12 +120,10 @@ export default function ProfileWidget() {
   });
 
   const changeProfileValuesMutation = trpc.changeProfileValues.useMutation({
-    onSuccess: () => {
-      utils.user.invalidate();
+    onSuccess: async () => {
+      await utils.user.invalidate();
       setEditingPersonalDetails(false);
     },
-    // TODO: right now, when the user saves, the RHFTextInput doesn't tell them they can't have an empty first/last name
-    // To fix it though, I'd need to change how error is displayed in the RHFTextInput that would end up everywhere.
   });
 
   const handleCloseSetEmailModal = () => {
@@ -284,6 +280,12 @@ export default function ProfileWidget() {
                         label={"First name"}
                         placeholder={""}
                         id={"firstName"}
+                        errorText={
+                          profileFormMethods.formState.errors.firstName
+                            ? profileFormMethods.formState.errors.firstName
+                                .message
+                            : undefined
+                        }
                         clearIcon
                       />
                     </div>
@@ -293,6 +295,12 @@ export default function ProfileWidget() {
                         label={"Last Name"}
                         placeholder={""}
                         id={"lastName"}
+                        errorText={
+                          profileFormMethods.formState.errors.lastName
+                            ? profileFormMethods.formState.errors.lastName
+                                .message
+                            : undefined
+                        }
                         clearIcon
                       />
                     </div>
@@ -306,44 +314,63 @@ export default function ProfileWidget() {
                         options={affiliations}
                         arrow={true}
                         id={"affiliation"}
+                        errorText={
+                          profileFormMethods.formState.errors.affiliation
+                            ? profileFormMethods.formState.errors.affiliation
+                                .message
+                            : undefined
+                        }
                       />
                     </div>
                     <div className="flex-1">
-                      <RHFTextInput<ProfileValuesFields>
-                        rhfName={"ipi"}
-                        label={"IPI No."}
-                        placeholder={""}
-                        id={"ipi"}
-                        clearIcon
-                      />
+                      {showIpiField && (
+                        <RHFTextInput<ProfileValuesFields>
+                          rhfName={"ipi"}
+                          label={"IPI No."}
+                          placeholder={""}
+                          id={"ipi"}
+                          errorText={
+                            profileFormMethods.formState.errors.ipi
+                              ? profileFormMethods.formState.errors.ipi.message
+                              : undefined
+                          }
+                          clearIcon
+                        />
+                      )}
                     </div>
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="flex flex-row ">
-                    <div className="w-[380px]">
+                  <div className="flex flex-row gap-16">
+                    <div className="flex-1">
                       <InfoField
                         header="First name"
                         content={user ? user.firstName : ""}
                       />
                     </div>
-                    <InfoField
-                      header="Last name"
-                      content={user ? user.lastName : ""}
-                    />
+                    <div className="flex-1">
+                      <InfoField
+                        header="Last name"
+                        content={user ? user.lastName : ""}
+                      />
+                    </div>
                   </div>
-                  <div className="flex flex-row ">
-                    <div className="w-[380px]">
+                  <div className="flex flex-row gap-16">
+                    <div className="flex-1">
                       <InfoField
                         header="Group"
                         content={user?.affiliation ? user.affiliation : "NONE"}
                       />
                     </div>
-                    <InfoField
-                      header="IPI No."
-                      content={user?.ipi ? user.ipi : "NONE"}
-                    />
+                    <div className="flex-1">
+                      {showIpiField && (
+                        <InfoField
+                          header="IPI No."
+                          content={user?.ipi ? user.ipi : "NONE"}
+                        />
+                      )}
+                    </div>
                   </div>
                 </>
               )}

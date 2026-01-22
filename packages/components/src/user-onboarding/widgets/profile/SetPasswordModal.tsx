@@ -3,7 +3,7 @@
 import type z from "zod";
 import Modal from "../../../base/Modal";
 
-import { zSetPasswordValues } from "@good-dog/trpc/schema";
+import type { zSetPasswordValues } from "@good-dog/trpc/schema";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { useFormContext } from "react-hook-form";
 import Button from "../../../base/Button";
@@ -14,7 +14,7 @@ interface SetPasswordModalProps {
   isOpen: boolean;
   close: () => void;
   onSetPassword: (newPassword: string) => void;
-  errorMessage?: String;
+  errorMessage?: string;
 }
 
 type SetPasswordFormFields = z.input<typeof zSetPasswordValues>;

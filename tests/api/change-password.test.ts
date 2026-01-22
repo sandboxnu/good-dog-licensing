@@ -97,7 +97,7 @@ describe("change profile values", () => {
     });
   });
 
-  test("User has to be logged in to change passwords", async () => {
+  test("User has to be logged in to change passwords", () => {
     expect(
       $api.changePassword({
         newPassword: "87654321A!",

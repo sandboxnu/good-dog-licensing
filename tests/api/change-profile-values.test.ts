@@ -98,7 +98,7 @@ describe("change profile values", () => {
     });
   });
 
-  test("User has to be logged in to change their own values", async () => {
+  test("User has to be logged in to change their own values", () => {
     expect(
       $api.changeProfileValues({
         firstName: "testFirst",
@@ -171,7 +171,8 @@ describe("change profile values", () => {
     const message = await $api.changeProfileValues({
       firstName: "NewOwen",
       lastName: "NewSimpson",
-      ipi: "",
+      affiliation: null,
+      ipi: null,
     });
 
     expect(message.message).toBe("Profile values updated.");
@@ -180,7 +181,7 @@ describe("change profile values", () => {
     });
     expect(updatedUser?.firstName).toBe("NewOwen");
     expect(updatedUser?.lastName).toBe("NewSimpson");
-    expect(updatedUser?.affiliation).toBeUndefined();
-    expect(updatedUser?.ipi).toBeUndefined();
+    expect(updatedUser?.affiliation).toBeNull();
+    expect(updatedUser?.ipi).toBeNull();
   });
 });

@@ -3,7 +3,7 @@
 import type z from "zod";
 import Modal from "../../../base/Modal";
 
-import { zSetEmailValues } from "@good-dog/trpc/schema";
+import type { zSetEmailValues } from "@good-dog/trpc/schema";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import { useFormContext } from "react-hook-form";
 import Button from "../../../base/Button";
@@ -15,7 +15,7 @@ interface SetEmailModalProps {
   onCancel: () => void;
   onVerifyEmail: () => void;
   emailAlreadyExists: boolean;
-  errorMessage?: String;
+  errorMessage?: string;
 }
 
 type SetEmailFormFields = z.input<typeof zSetEmailValues>;
