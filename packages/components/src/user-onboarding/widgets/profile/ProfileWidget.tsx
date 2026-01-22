@@ -64,6 +64,9 @@ export default function ProfileWidget() {
     resolver: zodResolver(zSetPasswordValues),
   });
 
+  const userRoleFormatted = user
+    ? user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase()
+    : "Unknown";
   const userCreatedAtFormatted = user
     ? user.createdAt.toLocaleDateString("en-US", {
         month: "long",
@@ -234,8 +237,7 @@ export default function ProfileWidget() {
               {user?.firstName + " " + user?.lastName}
             </header>
             <div className="text-dark-gray-200">
-              {user ? getRoleLabel(user.role) : "Undefined"} | Since{" "}
-              {userCreatedAtFormatted}
+              {userRoleFormatted} | Since {userCreatedAtFormatted}
             </div>
           </div>
         </div>
