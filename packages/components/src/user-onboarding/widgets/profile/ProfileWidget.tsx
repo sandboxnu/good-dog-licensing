@@ -123,6 +123,8 @@ export default function ProfileWidget() {
       utils.user.invalidate();
       setEditingPersonalDetails(false);
     },
+    // TODO: right now, when the user saves, the RHFTextInput doesn't tell them they can't have an empty first/last name
+    // To fix it though, I'd need to change how error is displayed in the RHFTextInput that would end up everywhere.
   });
 
   const handleCloseSetEmailModal = () => {
@@ -280,6 +282,7 @@ export default function ProfileWidget() {
                         label={"First name"}
                         placeholder={""}
                         id={"firstName"}
+                        clearIcon
                       />
                     </div>
                     <div className="flex-1">
@@ -288,6 +291,7 @@ export default function ProfileWidget() {
                         label={"Last Name"}
                         placeholder={""}
                         id={"lastName"}
+                        clearIcon
                       />
                     </div>
                   </div>
@@ -308,6 +312,7 @@ export default function ProfileWidget() {
                         label={"IPI No."}
                         placeholder={""}
                         id={"ipi"}
+                        clearIcon
                       />
                     </div>
                   </div>

@@ -1,19 +1,24 @@
 import React from "react";
 
 import { cn } from "@good-dog/ui";
+import X from "./X";
 
 const Input = React.forwardRef<
   HTMLInputElement,
   React.ComponentProps<"input"> & {
     icon?: React.ReactNode;
+    onClear?: () => void;
   }
->(({ className, type, icon, ...props }, ref) => {
-  if (!icon) {
+>(({ className, type, icon, value, onClear, ...props }, ref) => {
+  const showClearButton = onClear && value;
+
+  if (!icon && !showClearButton) {
     return (
       <input
         type={type}
         className={cn("border-input border", className)}
         ref={ref}
+        value={value}
         {...props}
       />
     );
@@ -27,8 +32,19 @@ const Input = React.forwardRef<
         type={type}
         className={cn("border-input w-full border pl-10", className)}
         ref={ref}
+        value={value}
         {...props}
       />
+      {showClearButton && (
+        <button
+          type="button"
+          onClick={onClear}
+          className="absolute right-0 top-0 flex h-full items-center px-2 text-[#858585] hover:text-[#404040]"
+          aria-label="Clear input"
+        >
+          <X />
+        </button>
+      )}
     </div>
   );
 });

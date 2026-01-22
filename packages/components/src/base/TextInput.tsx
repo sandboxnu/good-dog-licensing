@@ -17,6 +17,7 @@ interface TextInputProps {
   helperText?: string;
   errorText?: string;
   icon?: ReactNode;
+  onClear?: () => void;
 }
 
 export default function TextInput({
@@ -30,6 +31,7 @@ export default function TextInput({
   helperText,
   errorText,
   icon,
+  onClear,
 }: TextInputProps) {
   return (
     <div className="flex w-full flex-col gap-[4px]">
@@ -57,6 +59,7 @@ export default function TextInput({
         onChange={(e) => onChange(e.target.value)}
         type={type}
         icon={icon}
+        onClear={onClear}
       />
       {helperText && !errorText && (
         <Label className="text-caption text-[#171717]">{helperText}</Label>
