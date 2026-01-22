@@ -6,23 +6,23 @@ import { MatchState, prisma, Role } from "@good-dog/db";
 import { authenticatedProcedureBuilder } from "../../middleware/authenticated";
 
 const allowedStartingStatesByRole: Record<Role, MatchState[]> = {
-  [Role.MEDIA_MAKER]: [MatchState.NEW],
-  [Role.MUSICIAN]: [MatchState.SONG_REQUESTED],
+  [Role.MEDIA_MAKER]: [MatchState.SENT_TO_MEDIA_MAKER],
+  [Role.MUSICIAN]: [MatchState.SENT_TO_MUSICIAN],
   [Role.ADMIN]: [MatchState.WAITING_FOR_MANAGER_APPROVAL],
   [Role.MODERATOR]: [MatchState.WAITING_FOR_MANAGER_APPROVAL],
 };
 
 const allowedEndingStatesByRole: Record<Role, MatchState[]> = {
   [Role.MEDIA_MAKER]: [
-    MatchState.SONG_REQUESTED,
+    MatchState.SENT_TO_MUSICIAN,
     MatchState.REJECTED_BY_MEDIA_MAKER,
   ],
   [Role.MUSICIAN]: [
     MatchState.APPROVED_BY_MUSICIAN,
     MatchState.REJECTED_BY_MUSICIAN,
   ],
-  [Role.ADMIN]: [MatchState.NEW],
-  [Role.MODERATOR]: [MatchState.NEW],
+  [Role.ADMIN]: [MatchState.SENT_TO_MEDIA_MAKER],
+  [Role.MODERATOR]: [MatchState.SENT_TO_MEDIA_MAKER],
 };
 
 export const updateMatchStateProcedure = authenticatedProcedureBuilder

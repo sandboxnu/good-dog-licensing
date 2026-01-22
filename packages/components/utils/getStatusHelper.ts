@@ -11,7 +11,9 @@ export function getSongRequestStatus(
   songRequestWithMatches: SongRequestWithMatches,
 ): StatusIndicatorType {
   if (
-    songRequestWithMatches.matches.some((match) => match.matchState === "NEW")
+    songRequestWithMatches.matches.some(
+      (match) => match.matchState === "SENT_TO_MEDIA_MAKER",
+    )
   ) {
     return { variant: "error", text: "Action needed" };
   }

@@ -26,11 +26,11 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
       },
     });
 
-    // if user is the project manager, set to NEW, else WAITING_FOR_MANAGER_APPROVAL
+    // if user is the project manager, set to SENT_TO_MEDIA_MAKER, else WAITING_FOR_MANAGER_APPROVAL
     const matchStateToUse =
       project?.projectManagerId &&
       project.projectManagerId === ctx.session.user.userId
-        ? MatchState.NEW
+        ? MatchState.SENT_TO_MEDIA_MAKER
         : MatchState.WAITING_FOR_MANAGER_APPROVAL;
 
     await ctx.prisma.match.create({

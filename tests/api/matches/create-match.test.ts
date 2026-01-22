@@ -211,7 +211,7 @@ describe("match procedure", () => {
     });
 
     expect(match).toBeDefined();
-    expect(match?.matchState).toBe(MatchState.NEW);
+    expect(match?.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
     expect(match?.songRequestId).toBe("songRequestOneSubmission");
     expect(match?.musicId).toBe("musicSubmission");
     expect(match?.matcherUserId).toBe("matcher");

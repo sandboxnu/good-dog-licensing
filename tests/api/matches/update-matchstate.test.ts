@@ -191,25 +191,25 @@ async function createData() {
     },
   });
 
-  // Create NEW match
+  // Create SENT_TO_MEDIA_MAKER match
   await prisma.match.create({
     data: {
       matchId: "match",
       songRequestId: "songRequest",
       musicId: "musicSubmission",
       matcherUserId: "moderator",
-      matchState: MatchState.NEW,
+      matchState: MatchState.SENT_TO_MEDIA_MAKER,
     },
   });
 
-  // Create SONG_REQUEST match
+  // Create SENT_TO_MUSICIAN match
   await prisma.match.create({
     data: {
       matchId: "match-song-requested",
       songRequestId: "songRequest",
       musicId: "musicSubmission2",
       matcherUserId: "moderator",
-      matchState: MatchState.SONG_REQUESTED,
+      matchState: MatchState.SENT_TO_MUSICIAN,
     },
   });
 
@@ -300,25 +300,25 @@ describe("updateMatchState procedure", () => {
 
   // SUCCESS CASES - MEDIA MAKER
 
-  it("should allow project owner to update NEW match to SONG_REQUESTED", async () => {
+  it("should allow project owner to update SENT_TO_MEDIA_MAKER match to SENT_TO_MUSICIAN", async () => {
     cookies.set("sessionId", "project-session-id");
 
     const response = await $api.updateMatchState({
       matchId: "match",
-      state: MatchState.SONG_REQUESTED,
+      state: MatchState.SENT_TO_MUSICIAN,
     });
 
     expect(response.message).toEqual("Match state updated successfully");
-    expect(response.match.matchState).toBe(MatchState.SONG_REQUESTED);
+    expect(response.match.matchState).toBe(MatchState.SENT_TO_MUSICIAN);
 
     const match = await prisma.match.findUnique({
       where: { matchId: "match" },
     });
 
-    expect(match?.matchState).toBe(MatchState.SONG_REQUESTED);
+    expect(match?.matchState).toBe(MatchState.SENT_TO_MUSICIAN);
   });
 
-  it("should allow project owner to update NEW match to REJECTED_BY_MEDIA_MAKER", async () => {
+  it("should allow project owner to update SENT_TO_MEDIA_MAKER match to REJECTED_BY_MEDIA_MAKER", async () => {
     cookies.set("sessionId", "project-session-id");
 
     const response = await $api.updateMatchState({
@@ -338,7 +338,7 @@ describe("updateMatchState procedure", () => {
 
   // SUCCESS CASES - MUSICIAN
 
-  it("should allow musician to update SONG_REQUESTED match to APPROVED_BY_MUSICIAN", async () => {
+  it("should allow musician to update SENT_TO_MUSICIAN match to APPROVED_BY_MUSICIAN", async () => {
     cookies.set("sessionId", "musician-session-id");
 
     const response = await $api.updateMatchState({
@@ -356,7 +356,7 @@ describe("updateMatchState procedure", () => {
     expect(match?.matchState).toBe(MatchState.APPROVED_BY_MUSICIAN);
   });
 
-  it("should allow musician to update SONG_REQUESTED match to REJECTED_BY_MUSICIAN", async () => {
+  it("should allow musician to update SENT_TO_MUSICIAN match to REJECTED_BY_MUSICIAN", async () => {
     cookies.set("sessionId", "musician-session-id");
 
     const response = await $api.updateMatchState({
@@ -376,27 +376,27 @@ describe("updateMatchState procedure", () => {
 
   // SUCCESS CASES - ADMIN/MODERATOR
 
-  it("should allow admin/moderator to update match from WAITING to NEW", async () => {
+  it("should allow admin/moderator to update match from WAITING to SENT_TO_MEDIA_MAKER", async () => {
     cookies.set("sessionId", "moderator-session-id");
 
     const response = await $api.updateMatchState({
       matchId: "match-waiting",
-      state: MatchState.NEW,
+      state: MatchState.SENT_TO_MEDIA_MAKER,
     });
 
     expect(response.message).toEqual("Match state updated successfully");
-    expect(response.match.matchState).toBe(MatchState.NEW);
+    expect(response.match.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
 
     const match = await prisma.match.findUnique({
       where: { matchId: "match-waiting" },
     });
 
-    expect(match?.matchState).toBe(MatchState.NEW);
+    expect(match?.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
   });
 
   // FAILURE CASES - ROLE PERMISSIONS
 
-  it("should not allow musician to update NEW match", () => {
+  it("should not allow musician to update SENT_TO_MEDIA_MAKER match", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
@@ -409,7 +409,7 @@ describe("updateMatchState procedure", () => {
     );
   });
 
-  it("should not allow musician to update SONG_REQUESTED match to REJECTED_BY_MEDIA_MAKER", () => {
+  it("should not allow musician to update SENT_TO_MUSICIAN match to REJECTED_BY_MEDIA_MAKER", () => {
     cookies.set("sessionId", "musician-session-id");
 
     expect(
@@ -435,26 +435,26 @@ describe("updateMatchState procedure", () => {
     );
   });
 
-  it("should not allow media maker to update SONG_REQUESTED match", () => {
+  it("should not allow media maker to update SENT_TO_MUSICIAN match", () => {
     cookies.set("sessionId", "project-session-id");
 
     expect(
       $api.updateMatchState({
         matchId: "match-song-requested",
-        state: MatchState.SONG_REQUESTED,
+        state: MatchState.SENT_TO_MUSICIAN,
       }),
     ).rejects.toThrow(
       "This role does not have permission to perform the requested match state change",
     );
   });
 
-  it("should not allow moderator to update match to SONG_REQUESTED", () => {
+  it("should not allow moderator to update match to SENT_TO_MUSICIAN", () => {
     cookies.set("sessionId", "moderator-session-id");
 
     expect(
       $api.updateMatchState({
         matchId: "match-waiting",
-        state: MatchState.SONG_REQUESTED,
+        state: MatchState.SENT_TO_MUSICIAN,
       }),
     ).rejects.toThrow(
       "This role does not have permission to perform the requested match state change",
@@ -469,7 +469,7 @@ describe("updateMatchState procedure", () => {
     expect(
       $api.updateMatchState({
         matchId: "match",
-        state: MatchState.SONG_REQUESTED,
+        state: MatchState.SENT_TO_MUSICIAN,
       }),
     ).rejects.toThrow(
       "Media makers can only update the state of matches that involve their projects",
@@ -496,7 +496,7 @@ describe("updateMatchState procedure", () => {
     expect(
       $api.updateMatchState({
         matchId: "match-waiting",
-        state: MatchState.NEW,
+        state: MatchState.SENT_TO_MEDIA_MAKER,
       }),
     ).rejects.toThrow(
       "Admins and moderators can only update the state of matches that are managed by them",
@@ -511,7 +511,7 @@ describe("updateMatchState procedure", () => {
     expect(
       $api.updateMatchState({
         matchId: "nonexistent-match",
-        state: MatchState.SONG_REQUESTED,
+        state: MatchState.SENT_TO_MUSICIAN,
       }),
     ).rejects.toThrow("Match id does not exist");
   });

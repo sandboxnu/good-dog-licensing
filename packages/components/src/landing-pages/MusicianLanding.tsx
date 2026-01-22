@@ -39,7 +39,7 @@ export default function MusicianLanding() {
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.music.map((song, key) => {
             const actionNeeded = song.matches.some(
-              (match) => match.matchState === MatchState.SONG_REQUESTED,
+              (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
             );
             return (
               <Card

@@ -33,16 +33,16 @@ export default function MediaMakerLanding() {
       {data.projects.length > 0 && (
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.projects.map((project, key) => {
-            // New matches are sent to media maker for approval
+            // SENT_TO_MEDIA_MAKER matches are sent to media maker for approval
             const actionRequired = project.songRequests.some((songReq) =>
               songReq.matches.some(
-                (match) => match.matchState === MatchState.NEW,
+                (match) => match.matchState === MatchState.SENT_TO_MEDIA_MAKER,
               ),
             );
             // Something approved by media maker but not by musician
             const pendingApproval = project.songRequests.some((songReq) =>
               songReq.matches.some(
-                (match) => match.matchState === MatchState.SONG_REQUESTED,
+                (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
               ),
             );
 

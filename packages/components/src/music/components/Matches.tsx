@@ -19,7 +19,7 @@ export function Matches({
 }) {
   const filteredMatches = matches.filter((match) => {
     if (state === "INCOMING") {
-      return match.matchState === MatchState.SONG_REQUESTED;
+      return match.matchState === MatchState.SENT_TO_MUSICIAN;
     } else if (state === "MATCHED") {
       return match.matchState === MatchState.APPROVED_BY_MUSICIAN;
     } else {
