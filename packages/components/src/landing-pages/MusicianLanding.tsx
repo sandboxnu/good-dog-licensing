@@ -25,6 +25,7 @@ export default function MusicianLanding() {
         title={"Song submissions"}
         subtitle={"This is where you view and manage your song submissions"}
         requestPath={"/music-submission"}
+        buttonContent="Song"
       />
       {data.music.length === 0 && (
         <EmptyMessage
@@ -73,7 +74,7 @@ export default function MusicianLanding() {
                       />
                       <ChevronRight
                         onClick={() => router.push("/song/" + song.musicId)}
-                        className="hover:cursor-pointer"
+                        className="hover:cursor-pointer text-black dark:text-mint-100"
                       />
                     </div>
                   </div>

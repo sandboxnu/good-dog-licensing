@@ -26,7 +26,7 @@ export default function Modal({
   return (
     <div className={`absolute inset-0 z-50 flex items-center justify-center`}>
       <div
-        className={`rounded-[16px] border border-body-primary bg-white shadow-modal`}
+        className={`rounded-[16px] border border-dark-gray-500 bg-gray-100 dark:bg-dark-gray-600 shadow-modal`}
         style={{
           width: `${width}px`,
           height: `${height}px`,
@@ -37,8 +37,12 @@ export default function Modal({
             <CloseX />
           </button>
         </div>
-        <div className={`${upperPadding ? "pt-[18px]" : ""} text-center`}>
-          <h3>{headerText}</h3>
+        <div
+          className={`${upperPadding ? "pt-[18px]" : ""} text-center text-dark-gray-500 dark:text-mint-300`}
+        >
+          <h3 className="text-dark-gray-500 dark:text-mint-300">
+            {headerText}
+          </h3>
         </div>
         <div className="flex flex-col items-center text-center">{children}</div>
       </div>

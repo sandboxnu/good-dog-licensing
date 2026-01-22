@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
+  darkMode: "class",
   content: ["src/**/*.{ts,tsx}"],
   theme: {
     extend: {
@@ -79,18 +80,10 @@ export default {
         "green-500": "var(--green-500)",
         "green-600": "var(--green-600)",
         "green-700": "var(--green-700)",
-
-        "good-dog-main": "#07634C",
-        "header-primary": "#022119",
-        "body-primary": "#2E2E2E",
         "body-gray": "#5C5C5C",
         secondary: "#054233",
         error: "#B13433",
         "required-star": "#F4392D",
-        "dark-green": "#07634C",
-        "off-white": "#E9F9F1",
-        "light-green": "#098465",
-        "main-bg-solid": "#FFFBF6",
         gray: "#858585",
         "light-gray": "#BFBCB8",
       },
@@ -102,8 +95,14 @@ export default {
         modal: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
       },
       backgroundImage: {
-        "main-bg-gradient":
+        "main-bg-gradient-light":
           "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
+        "main-bg-gradient-dark":
+          "linear-gradient(180deg, #022119 55.17%, #021913 81.66%)",
+      },
+      backgroundColor: {
+        "main-bg-solid-light": "#FFFBF6",
+        "main-bg-solid-dark": "#022119",
       },
     },
   },

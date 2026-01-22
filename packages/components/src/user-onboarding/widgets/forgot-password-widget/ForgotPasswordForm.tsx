@@ -56,7 +56,7 @@ export default function ForgotPasswordForm() {
           width={440}
           children={
             <div className="gap-[8px]">
-              <p>
+              <p className="text-dark-gray-500 dark:text-gray-200">
                 We sent a link to{" "}
                 <strong>{forgotPasswordForm.getValues().email}</strong>
               </p>

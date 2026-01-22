@@ -17,12 +17,12 @@ export default function Checkbox({
   errorText,
 }: CheckboxProps) {
   return (
-    <div className="flex w-full flex-col gap-2 text-black">
+    <div className="flex w-full flex-col gap-2 text-black dark:text-white">
       <div className="flex w-full flex-row items-center gap-2">
         <CheckboxShad
           required={required}
           id={id}
-          className={`border-good-dog-main data-[state=checked]:bg-good-dog-main ${errorText ? "border-error shadow-error" : ""}`}
+          className={`border-green-400 dark:border-green-100 data-[state=checked]:bg-green-400 data-[state=checked]:bg-mint-300 ${errorText ? "border-red-400 shadow-red-400 dark:border-red-400 dark:shadow-red-400" : ""}`}
         />
         <div className="flex flex-row items-center gap-[2px]">
           <Label className="text-body3" htmlFor={id}>
@@ -35,8 +35,8 @@ export default function Checkbox({
       </div>
       {errorText && (
         <div className="flex flex-row items-center gap-[2px]">
-          <ErrorExclamation size="small" />
-          <Label className="text-caption text-error">{errorText}</Label>
+          <ErrorExclamation size="small" dark={true} />
+          <Label className="text-caption text-red-400">{errorText}</Label>
         </div>
       )}
     </div>
