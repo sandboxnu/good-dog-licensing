@@ -125,6 +125,8 @@ export default function ProfileWidget() {
       utils.user.invalidate();
       setEditingPersonalDetails(false);
     },
+    // TODO: right now, when the user saves, the RHFTextInput doesn't tell them they can't have an empty first/last name
+    // To fix it though, I'd need to change how error is displayed in the RHFTextInput that would end up everywhere.
   });
 
   const verifyEmailCode = (code: string) => {
@@ -257,6 +259,7 @@ export default function ProfileWidget() {
                         label={"First name"}
                         placeholder={""}
                         id={"firstName"}
+                        clearIcon
                       />
                     </div>
                     <RHFTextInput<ProfileValuesFields>
@@ -273,14 +276,30 @@ export default function ProfileWidget() {
                         label={"Last Name"}
                         placeholder={""}
                         id={"lastName"}
+                        clearIcon
                       />
                     </div>
-                    <RHFTextInput<ProfileValuesFields>
-                      rhfName={"ipi"}
-                      label={"IPI No."}
-                      placeholder={""}
-                      id={"ipi"}
-                    />
+                  </div>
+                  <div className="flex flex-row gap-16">
+                    <div className="flex-1">
+                      <RHFDropdown<ProfileValuesFields>
+                        rhfName={"affiliation"}
+                        label={"Group"}
+                        placeholder={""}
+                        options={affiliations}
+                        arrow={true}
+                        id={"affiliation"}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <RHFTextInput<ProfileValuesFields>
+                        rhfName={"ipi"}
+                        label={"IPI No."}
+                        placeholder={""}
+                        id={"ipi"}
+                        clearIcon
+                      />
+                    </div>
                   </div>
                 </>
               ) : (

@@ -11,9 +11,8 @@ const Input = React.forwardRef<
   }
 >(({ className, type, icon, value, onClear, ...props }, ref) => {
   const showClearButton = onClear && value;
-  const hasWrapper = icon ?? onClear;
 
-  if (!hasWrapper) {
+  if (!icon && !showClearButton) {
     return (
       <input
         type={type}
@@ -45,10 +44,10 @@ const Input = React.forwardRef<
         <button
           type="button"
           onClick={onClear}
-          className="absolute right-0 top-0 flex h-full items-center px-2 text-dark-gray-200 hover:text-gray-600"
+          className="absolute right-0 top-0 flex h-full items-center px-2 text-[#858585] hover:text-[#404040]"
           aria-label="Clear input"
         >
-          <X variant={"inactive"} />
+          <X />
         </button>
       )}
     </div>
