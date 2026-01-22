@@ -17,7 +17,7 @@ export type ProjectSubmissionWithSongRequestAndMatches = ProjectSubmission &
 
 export default function getStatusFromProject(
   project: ProjectSubmissionWithSongRequestAndMatches,
-) {
+) : "Not assigned" | "In progress" | "In review" | "Matched"{
   const actionRequired = project.songRequests.some((songReq) =>
     songReq.matches.some((match) => match.matchState === MatchState.NEW),
   );
@@ -29,7 +29,7 @@ export default function getStatusFromProject(
   );
 
   // Complete when all requests in approved by musician state
-  const completed = project.songRequests.every((scene) =>
+  const Matched = project.songRequests.every((scene) =>
     scene.matches.every(
       (match) => match.matchState === MatchState.APPROVED_BY_MUSICIAN,
     ),
@@ -40,12 +40,12 @@ export default function getStatusFromProject(
   }, 0);
 
   return actionRequired
-    ? "in progress"
+    ? "In progress"
     : pendingApproval
-      ? "in review"
+      ? "In review"
       : matchSize === 0
-        ? "not started"
-        : completed
-          ? "completed"
-          : "unknown";
+        ? "Not assigned"
+        : Matched
+          ? "Matched"
+          : "Not assigned";
 }

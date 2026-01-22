@@ -10,6 +10,8 @@ import type {
   ProjectSubmissionWithSongRequestAndMatches,
 } from "../../utils/getStatusFromProject";
 import getStatusFromProject from "../../utils/getStatusFromProject";
+import ProfileIcon from "../svg/ProfileIcon";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function AdminLanding() {
   const [activeTab, setActiveTab] = useState<"submissions" | "songs" | "users">(
@@ -77,16 +79,15 @@ function SubmissionStatusTab({
 function Submissions() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
   const [activeStatuses, setActiveStatuses] = useState<
-    ("not started" | "in progress" | "in review" | "completed" | "unknown")[]
-  >(["not started"]);
+    ("Not assigned" | "In progress" | "In review" | "Matched")[]
+  >(["Not assigned"]);
 
   const toggleActiveStatus = (
     status:
-      | "not started"
-      | "in progress"
-      | "in review"
-      | "completed"
-      | "unknown",
+      | "Not assigned"
+      | "In progress"
+      | "In review"
+      | "Matched"
   ) => {
     if (activeStatuses.includes(status)) {
       setActiveStatuses(activeStatuses.filter((s) => s !== status));
@@ -104,50 +105,51 @@ function Submissions() {
         buttonLabel="Invite"
 
       />
+      
       <div className="flex flex-row gap-[24px]">
         <SubmissionStatusTab
-          title={"Not started"}
+          title={"Not assigned"}
           subtitle={"Projects that aren't assigned"}
           number={
             data.projects.filter(
-              (project) => getStatusFromProject(project) === "not started",
+              (project) => getStatusFromProject(project) === "Not assigned",
             ).length
           }
-          active={activeStatuses.includes("not started")}
-          onClick={() => toggleActiveStatus("not started")}
+          active={activeStatuses.includes("Not assigned")}
+          onClick={() => toggleActiveStatus("Not assigned")}
         />
         <SubmissionStatusTab
           title={"In progress"}
           subtitle={"Projects currently being worked on"}
           number={
             data.projects.filter(
-              (project) => getStatusFromProject(project) === "in progress",
+              (project) => getStatusFromProject(project) === "In progress",
             ).length
           }
-          active={activeStatuses.includes("in progress")}
-          onClick={() => toggleActiveStatus("in progress")}
+          active={activeStatuses.includes("In progress")}
+          onClick={() => toggleActiveStatus("In progress")}
         />
         <SubmissionStatusTab
           title={"In review"}
           subtitle={"Projects currently being reviewed"}
           number={
             data.projects.filter(
-              (project) => getStatusFromProject(project) === "in review",
+              (project) => getStatusFromProject(project) === "In review",
             ).length
           }
-          active={activeStatuses.includes("in review")}
-          onClick={() => toggleActiveStatus("in review")}
+          active={activeStatuses.includes("In review")}
+          onClick={() => toggleActiveStatus("In review")}
         />
         <SubmissionStatusTab
-          title={"Completed"}
-          subtitle={"Completed projects"}
+          title={"Matched"}
+          subtitle={"Matched projects"}
           number={
             data.projects.filter(
-              (project) => getStatusFromProject(project) === "completed",
+              (project) => getStatusFromProject(project) === "Matched",
             ).length
           }
-          active={activeStatuses.includes("completed")}
-          onClick={() => toggleActiveStatus("completed")}
+          active={activeStatuses.includes("Matched")}
+          onClick={() => toggleActiveStatus("Matched")}
         />
       </div>
       <SubmissionTable
@@ -164,46 +166,94 @@ function SubmissionTable({
 }: {
   data: ProjectSubmissionWithSongRequestAndMatches[];
 }) {
+ const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  if (!data) {
+    return <p>Loading...</p>;
+  }
+
+  // Calculate pagination
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = data.slice(startIndex, endIndex);
+
   return (
     <div
       className="pt-[32px] pr-[24px] pl-[24px] pb-[48px] flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 dark:bg-dark-gray-600 shadow-[0_2px_6px_0_#ECE6DF]
 "
     >
-      <div className="flex flex-col">
-        <div className="p-[16px] bg-cream-100 rounded-t-[8px] flex flex-row gap-[50px] border-[0.2px] border-solid border-cream-400 items-center">
-          <p className="flex-1">Project Name</p>
-          <p className="flex-1">Project Description</p>
-          <p className="flex-1">Media Maker</p>
-          <p className="flex-1">Deadline</p>
-          <p className="flex-1">Assignee</p>
-          <p className="flex-1">Status</p>
-        </div>
+<div className="flex flex-col">
+  <div className="p-[16px] bg-cream-100 rounded-t-[8px] grid grid-cols-7 gap-4 border-[0.2px] border-solid border-cream-400 items-center">
+    <p>Project Name</p>
+    <p>Project Description</p>
+    <p>Media Maker</p>
+    <p>Date submitted</p>
+    <p>Deadline</p>
+    <p>Assignee</p>
+    <p>Status</p>
+  </div>
 
-        {data.map(
-          (project: ProjectSubmissionWithSongRequestAndMatches, key) => {
-            return (
-              <div
-                key={key}
-                className="p-[16px] bg-white flex flex-row gap-[50px] border-[0.2px] border-t-0 border-solid border-cream-400 items-center"
+  {data.map(
+    (project: ProjectSubmissionWithSongRequestAndMatches, key) => {
+      return (
+        <div
+          key={key}
+          className={`p-[16px] bg-white grid grid-cols-7 gap-4 border-[0.2px] border-t-0 border-solid border-cream-400 items-center ${key === data.length - 1 ? "rounded-b-[8px]" : ""}`}
+        >
+          <p>{project.projectTitle}</p>
+          <p>{project.description}</p>
+          <p>
+            {project.projectOwner.firstName +
+              " " +
+              project.projectOwner.lastName}
+          </p>
+          <p>
+            {project.createdAt.toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric'
+            })}
+          </p>
+          <p>
+            {project.deadline.toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric'
+            })}
+          </p>
+          <div>assigned pnr rep</div>
+          <div>
+            <AdminStatusIndicator status={getStatusFromProject(project)} />
+          </div>
+        </div>
+      );
+    },
+  )}
+</div>   
+<div className="flex p-[8px] items-center gap-[4px] self-center">
+  <ChevronLeft onClick={() => currentPage > 1 ? setCurrentPage(prev => Math.max(prev - 1, 1)) : null} className={ currentPage > 1 ? "text-green-500 dark:text-mint-200" : "text-gray-400"}/>
+  <div className="flex gap-1">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`flex h-[32px] items-center gap-[8px] px-2 rounded  ${
+                  currentPage === page
+                    ? 'bg-green-400 dark:bg-green-300 text-mint-200'
+                    : 'bg-transparent text-green-200 dark:text-mint-200'
+                }`}
               >
-                <p className="flex-1">{project.projectTitle}</p>
-                <p className="flex-1">{project.description}</p>
-                <p className="flex-1">
-                  {project.projectOwner.firstName +
-                    " " +
-                    project.projectOwner.lastName}
-                </p>
-                <p className="flex-1">
-                  {project.createdAt.toLocaleDateString("en-GB")}
-                </p>
-                <p className="flex-1">Assignees</p>
-                <p className="flex-1">Status</p>
-              </div>
-            );
-          },
-        )}
-      </div>
-    </div>
+                {page}
+              </button>
+            ))}
+          </div>
+          <div></div>
+    <ChevronRight onClick={() => currentPage != totalPages ? setCurrentPage(prev => Math.min(prev + 1, totalPages)): null} className={ currentPage != totalPages ? "text-green-500 dark:text-mint-200" : "text-gray-400"}/>
+          
+</div>
+    </div> 
   );
 }
 
@@ -275,3 +325,23 @@ function SideBarEntry({
     </div>
   );
 }
+
+
+function AdminStatusIndicator({
+  status,
+}: {
+  status: "In progress" | "Matched" | "In review" | "Not assigned";
+}) {
+  const statusColors = {
+    "Matched": "bg-grass-green-50 dark:bg-grass-green-500 text:grass-green-500 dark:text-grass-green-50",
+    "In progress": "bg-blue-50 dark:bg-blue-300 text-blue-500 dark:text-blue-50",
+    "In review": "bg-yellow-100 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-100",
+    "Not assigned": "bg-gray-300 dark:bg-gray-400 text-gray-500",
+  };
+
+  return (
+    <div className={`h-[24px] w-[100px] p-[4px] text-center rounded ${statusColors[status]}`}>
+      <p className="text-dark-gray-500">{status}</p>
+    </div>
+  );
+}   
