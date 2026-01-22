@@ -31,37 +31,35 @@ export default function MatchInformation({
           />
           <SongRequestInformation songRequest={selectedMatch?.songRequest} />
         </div>
-        <div className="flex flex-col gap-4">
-          <MatchStatusTabs
-            numActionRequired={
-              matches.filter((m) => m.matchState === "SONG_REQUESTED").length
-            }
-            incomingContent={
-              <Matches
-                state={"INCOMING"}
-                matches={matches}
-                selectedMatchId={selectedMatchId}
-                setSelectedMatchId={setSelectedMatchId}
-              />
-            }
-            matchedContent={
-              <Matches
-                state={"MATCHED"}
-                matches={matches}
-                selectedMatchId={selectedMatchId}
-                setSelectedMatchId={setSelectedMatchId}
-              />
-            }
-            rejectedContent={
-              <Matches
-                state={"REJECTED"}
-                matches={matches}
-                selectedMatchId={selectedMatchId}
-                setSelectedMatchId={setSelectedMatchId}
-              />
-            }
-          />
-        </div>
+        <MatchStatusTabs
+          numActionRequired={
+            matches.filter((m) => m.matchState === "SONG_REQUESTED").length
+          }
+          incomingContent={
+            <Matches
+              state={"INCOMING"}
+              matches={matches}
+              selectedMatchId={selectedMatchId}
+              setSelectedMatchId={setSelectedMatchId}
+            />
+          }
+          matchedContent={
+            <Matches
+              state={"MATCHED"}
+              matches={matches}
+              selectedMatchId={selectedMatchId}
+              setSelectedMatchId={setSelectedMatchId}
+            />
+          }
+          rejectedContent={
+            <Matches
+              state={"REJECTED"}
+              matches={matches}
+              selectedMatchId={selectedMatchId}
+              setSelectedMatchId={setSelectedMatchId}
+            />
+          }
+        />
       </div>
     </div>
   );

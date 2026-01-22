@@ -58,12 +58,14 @@ export default function MusicInformation({
             </div>
           </div>
         </div>
-        <div className="w-[1px] bg-light-gray" />
         {musicSubmission.additionalInfo.length > 0 && (
-          <div className="flex flex-col gap-1 flex-grow">
-            <p className="text-gray">Additional Information</p>
-            <p>{musicSubmission.additionalInfo}</p>
-          </div>
+          <>
+            <div className="w-[1px] bg-light-gray" />
+            <div className="flex flex-col gap-1 flex-grow">
+              <p className="text-gray">Additional Information</p>
+              <p>{musicSubmission.additionalInfo}</p>
+            </div>
+          </>
         )}
       </div>
     </div>
