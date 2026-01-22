@@ -26,7 +26,7 @@ import RHFDropdown from "../../../rhf-base/RHFDropdown";
 function InfoField({ header, content }: { header: string; content: string }) {
   return (
     <div className="flex flex-col">
-      <header className="text-dark-gray-200">{header}</header>
+      <header className="text-dark-gray-200 bg-dark-gray-500">{header}</header>
       <div>{content}</div>
     </div>
   );

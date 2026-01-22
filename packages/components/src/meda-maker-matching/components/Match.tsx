@@ -1,5 +1,5 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { Check, ChevronRight, X } from "lucide-react";
+import { Check, ChevronRight, Link, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
@@ -26,7 +26,7 @@ export function Match({
   const handleApprove = () => {
     updateMatchState.mutate({
       matchId: match.matchId,
-      state: "SONG_REQUESTED",
+      state: "SENT_TO_MUSICIAN",
     });
   };
 
@@ -47,7 +47,7 @@ export function Match({
       >
         <div className="flex flex-row flex-shrink-0 items-center gap-4 justify-center">
           <ChevronRight
-            className={`${!dropdownOpen ? "rotate-0" : "rotate-90"} transition-all`}
+            className={`${!dropdownOpen ? "rotate-0" : "rotate-90"} transition-all text-green-500 dark:text-mint-200`}
           />
           <p className="text-xl text-body-primary font-semibold truncate">
             {`"${match.musicSubmission.songName}" by ${match.musicSubmission.performerName}`}
@@ -84,13 +84,17 @@ export function Match({
           </div>
           <div className="flex flex-col gap-[6px] text-left">
             <p className="text-gray-500">Link</p>
-            <a
-              className="underline"
-              href={match.musicSubmission.songLink}
-              target="_blank"
-            >
-              View Song
-            </a>
+            <div className="flex flex-row gap-1 text-secondary font-extrabold items-center">
+              <Link size={16} />
+              <a
+                href={match.musicSubmission.songLink}
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-4"
+              >
+                View Song
+              </a>
+            </div>
           </div>
         </div>
       )}

@@ -22,13 +22,13 @@ export default function Home() {
       <div className="flex w-full flex-col items-center justify-center gap-[50px]">
         <div className="flex flex-col justify-center gap-[37px] text-center">
           <div className="pt-[32px]">
-            <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-body-primary">
+            <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-body-primary text-dark-gray-500 dark:text-mint-300">
               Connecting musicians and media makers
             </h1>
           </div>
           <div className="flex flex-col gap-[64px]">
             <div className="flex flex-col gap-[24px] text-body-primary">
-              <p className="text-body1 leading-normal">
+              <p className="text-body1 leading-normal text-dark-gray-500 dark:text-gray-200">
                 Northeastern University's free, student-run music{" "}
                 {
                   <DictionaryWord
@@ -60,10 +60,14 @@ export default function Home() {
         <GrowOnScroll>
           <div className="flex w-full flex-row items-center gap-[40px] pt-[80px]">
             <div className="flex w-4/5 flex-col">
-              <h1 className="text-dark-gray-500">Good Dog Licensing —</h1>
-              <h1 className="text-green-500">now and tomorrow</h1>
+              <h1 className="text-dark-gray-500 dark:text-mint-300">
+                Good Dog Licensing —
+              </h1>
+              <h1 className="text-green-400 dark:text-mint-200">
+                now and tomorrow
+              </h1>
               <div className="pt-[12px]">
-                <p className="text-body1 font-medium leading-[128%] text-dark-gray-500">
+                <p className="text-body1 font-medium leading-[128%] text-dark-gray-500 dark:text-gray-200">
                   {
                     "Good Dog Licensing connects creatives by providing a legal framework for media producers to source high quality music from independent artists for their media projects. Good Dog Licensing connects independent media makers with independent musicians to enhance media projects and help musicians grow their audiences – all for free!"
                   }
@@ -76,11 +80,15 @@ export default function Home() {
         <GrowOnScroll>
           <div className="flex w-full flex-row items-center gap-[40px] pt-[80px]">
             <div className="flex w-1/2 flex-col">
-              <h1 className="text-dark-gray-500">Our mission and vision.</h1>
-              <h1 className="text-green-500">Connecting Creatives.</h1>
+              <h1 className="text-dark-gray-500 dark:text-mint-300">
+                Our mission and vision.
+              </h1>
+              <h1 className="text-green-400 dark:text-mint-200">
+                Connecting Creatives.
+              </h1>
             </div>
             <div className="w-1/2">
-              <p className="text-body1 font-medium leading-[128%] text-dark-gray-500">
+              <p className="text-body1 font-medium leading-[128%] text-dark-gray-500 dark:text-gray-200">
                 {
                   "We aspire to connect media makers who need great music to enhance their storytelling and independent musicians who seek a wider audience for their music. "
                 }
@@ -144,8 +152,10 @@ function WhatMakesGoodDogGood() {
   return (
     <GrowOnScroll>
       <div className="flex w-full flex-col gap-[24px]">
-        <h1 className="text-dark-gray-500">What makes Good Dog "Good"?</h1>
-        <p className="text-body1 font-medium text-dark-gray-500">
+        <h1 className="text-dark-gray-500 dark:text-mint-300">
+          What makes Good Dog "Good"?
+        </h1>
+        <p className="text-body1 font-medium text-dark-gray-500 dark:text-mint-200">
           We are not in it for the money. REALLY.
         </p>
         <div className="flex flex-row justify-center gap-[32px]">
@@ -172,11 +182,13 @@ function WhatMakesGoodDogGood() {
 
 function Reason({ reason }: { reason: string }) {
   return (
-    <div className="flex h-[78px] w-[375px] flex-row items-center gap-[10px] rounded-[8px] border border-cream-400 bg-cream-100 p-[16px]">
+    <div className="flex h-[78px] w-[375px] flex-row items-center gap-[10px] rounded-[8px] border border-cream-400 bg-cream-100 dark:bg-green-500 p-[16px]">
       <div>
         <Check />
       </div>
-      <p className="text-body1 font-medium text-dark-gray-500">{reason}</p>
+      <p className="text-body1 font-medium text-dark-gray-500 dark:text-gray-200">
+        {reason}
+      </p>
     </div>
   );
 }
@@ -228,8 +240,10 @@ export function DescriptionSection({
         className={`flex gap-[24px] ${order == "text-left" ? "flex-row" : "flex-row-reverse"} items-center`}
       >
         <div className="flex w-[70%] flex-col gap-[10px]">
-          <h2>{title}</h2>
-          <p className="text-body1 leading-normal text-secondary">{text}</p>
+          <h2 className="text-dark-gray-500 dark:text-mint-300">{title}</h2>
+          <p className="text-body1 leading-normal text-secondary text-dark-gray-500 dark:text-gray-200">
+            {text}
+          </p>
         </div>
         <div className="flex w-[30%] items-center justify-center">{image}</div>
       </div>
@@ -253,9 +267,15 @@ export function VerticalDescriptionSection({
   return (
     <div className="flex flex-col items-center justify-center gap-[24px] text-justify">
       {image}
-      <h2>{title}</h2>
-      <p className="text-body1 leading-normal text-secondary">{text}</p>
-      <button type="button" onClick={link} className="text-body1">
+      <h2 className="text-green-400 dark:text-mint-200">{title}</h2>
+      <p className="text-body1 leading-normal text-secondary text-green-500 dark:text-mint-200">
+        {text}
+      </p>
+      <button
+        type="button"
+        onClick={link}
+        className="text-body1 text-dark-green-500 dark:text-mint-200"
+      >
         {linkText}
       </button>
     </div>

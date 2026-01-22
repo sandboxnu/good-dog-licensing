@@ -22,6 +22,7 @@ export default function MediaMakerLanding() {
         title={"Project requests"}
         subtitle={"This is where you view and manage your project requests"}
         requestPath={"/project-submission"}
+        buttonContent={"Request"}
       />
       {data.projects.length === 0 && (
         <EmptyMessage
@@ -33,16 +34,16 @@ export default function MediaMakerLanding() {
       {data.projects.length > 0 && (
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.projects.map((project, key) => {
-            // New matches are sent to media maker for approval
+            // SENT_TO_MEDIA_MAKER matches are sent to media maker for approval
             const actionRequired = project.songRequests.some((songReq) =>
               songReq.matches.some(
-                (match) => match.matchState === MatchState.NEW,
+                (match) => match.matchState === MatchState.SENT_TO_MEDIA_MAKER,
               ),
             );
             // Something approved by media maker but not by musician
             const pendingApproval = project.songRequests.some((songReq) =>
               songReq.matches.some(
-                (match) => match.matchState === MatchState.SONG_REQUESTED,
+                (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
               ),
             );
 
@@ -84,7 +85,7 @@ export default function MediaMakerLanding() {
                 }
                 children={
                   <div className="flex flex-col gap-[24px]">
-                    <p className="body3 line-clamp-[3] break-words text-base font-normal leading-tight text-dark-gray-100 dark:text-dark-gray-100">
+                    <p className="body3 line-clamp-[3] break-words text-base font-normal leading-tight text-dark-gray-200 dark:text-dark-gray-100">
                       {project.description}
                     </p>
                     <div className="w-full flex flex-row justify-between">
@@ -96,7 +97,8 @@ export default function MediaMakerLanding() {
                         onClick={() =>
                           router.push(`/project/${project.projectId}`)
                         }
-                        className="hover:cursor-pointer"
+                        className="hover:cursor-pointer text-black dark:text-mint-100"
+                        fill="none"
                       />
                     </div>
                   </div>

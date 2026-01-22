@@ -172,7 +172,7 @@ describe("deleteMatch procedure", () => {
       data: {
         songRequestId: "songRequestOneSubmission",
         musicId: "musicSubmission",
-        matchState: MatchState.NEW,
+        matchState: MatchState.SENT_TO_MEDIA_MAKER,
         matcherUserId: "moderator",
       },
     });

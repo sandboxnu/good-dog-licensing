@@ -19,7 +19,7 @@ export function Matches({
 }) {
   const filteredMatches = matches.filter((match) => {
     if (state === "INCOMING") {
-      return match.matchState === MatchState.SONG_REQUESTED;
+      return match.matchState === MatchState.SENT_TO_MUSICIAN;
     } else if (state === "MATCHED") {
       return match.matchState === MatchState.APPROVED_BY_MUSICIAN;
     } else {
@@ -29,11 +29,15 @@ export function Matches({
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="w-full">Review and approve/deny the songs matched below</p>
+      <p className="w-full text-dark-gray-500 dark:text-mint-200">
+        Review and approve/deny the songs matched below
+      </p>
       {filteredMatches.length === 0 && (
         <div className="flex flex-col items-center gap-2 mt-16 min-w-[778px]">
           <Hourglass size="large" />
-          <p>No requests active at this time</p>
+          <p className="text-dark-gray-500 dark:text-gray-200">
+            No requests active at this time
+          </p>
         </div>
       )}
       {filteredMatches.map((match) => (

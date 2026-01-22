@@ -37,6 +37,7 @@ import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
+import { assignProjectManagerProcedure } from "../procedures/project/assign-project-manager";
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { songRequestSubmissionProcedure } from "../procedures/project/song-request-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
@@ -79,6 +80,7 @@ export const appRouter = createTRPCRouter({
   getMusicSubmissionById: getMusicSubmissionByIdProcedure,
   changePassword: changePasswordProcedure,
   changeProfileValues: changeProfileValuesProcedure,
+  assignProjectManager: assignProjectManagerProcedure,
 });
 
 export type AppRouter = typeof appRouter;
