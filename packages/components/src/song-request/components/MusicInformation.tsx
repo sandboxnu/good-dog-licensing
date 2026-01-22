@@ -10,12 +10,12 @@ export default function MusicInformation({
   submitter: { firstName: string; lastName: string } | undefined;
 }) {
   return (
-    <div className="flex flex-col gap-4 p-6 rounded-2xl border-[0.5px] border-light-gray shadow-md">
+    <div className="flex flex-col gap-4 p-6 rounded-2xl border-[0.5px] border-light-gray shadow-md max-w-[220px]">
       <p className="text-xl text-gray-200 dark:text-gray-100">
         Music Information
       </p>
       <div className="flex flex-col gap-1">
-        <p className="text-gray-200 dark:text-gray-100y">Music Title</p>
+        <p className="text-gray-200 dark:text-gray-100">Music Title</p>
         <p className="text-gray-200 dark:text-gray-100">
           {musicSubmission ? musicSubmission.songName : "..."}
         </p>

@@ -19,11 +19,13 @@ export default function SongRequestInformation({
       <div className="flex flex-col gap-1">
         <p className="text-gray-200 dark:text-gray-100">Request Added</p>
         <p className="text-gray-200 dark:text-gray-100">
-          {songRequest ? songRequest.createdAt.toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          }) : "..."}
+          {songRequest
+            ? songRequest.createdAt.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })
+            : "..."}
         </p>
       </div>
       <div className="flex flex-col gap-1">

@@ -74,7 +74,8 @@ export function Match({
         <MusicNote />
         <div className="flex flex-col gap-2 w-[584px]">
           <p className="text-xl text-body-primary font-semibold truncate">
-            {match.musicSubmission.songName} by {match.musicSubmission.performerName}
+            {match.musicSubmission.songName} by{" "}
+            {match.musicSubmission.performerName}
           </p>
           <p className="text-body-gray truncate">
             {"Genres: " + formatAllCapsList(match.musicSubmission.genres)}
