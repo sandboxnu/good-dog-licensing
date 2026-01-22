@@ -45,7 +45,9 @@ export default function Modal({
             <ErrorExclamation size="large" />
           </div>
         )}
-        <div className={`${upperPadding ? "pt-[18px]" : ""} text-center text-dark-gray-500 dark:text-mint-300`}>
+        <div
+          className={`${upperPadding ? "pt-[18px]" : ""} text-center text-dark-gray-500 dark:text-mint-300`}
+        >
           <h3 className="text-dark-gray-500 dark:text-mint-300">
             {headerText}
           </h3>
