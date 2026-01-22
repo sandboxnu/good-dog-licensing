@@ -1,6 +1,0 @@
-# pack-refs with: peeled fully-peeled sorted 
-b0c17cb3993a2b564543377eca9530db22edee12 refs/remotes/origin/admin-dashboard
-b7e8898c8a1432db127daff49ea7336efaf612af refs/remotes/origin/bug_fix_padding
-ac6969ad2a9b5b051ecca4cac06d8715963c4320 refs/remotes/origin/dark-mode-config
-1d696983e285b27bc5811b754065d5f36d7353be refs/remotes/origin/main
-12c9158407b2c1b5f47114b1a9778e4b112e6427 refs/remotes/origin/profile+navbar
