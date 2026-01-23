@@ -33,7 +33,7 @@ export default function SongRequestDashboard({
       <SongRequests
         songRequests={projectSubmission.songRequests.filter((songRequest) => {
           return songRequest.matches.some(
-            (match) => match.matchState === "NEW",
+            (match) => match.matchState === "SENT_TO_MEDIA_MAKER",
           );
         })}
         status="TO_DO"
@@ -41,7 +41,7 @@ export default function SongRequestDashboard({
       <SongRequests
         songRequests={projectSubmission.songRequests.filter((songRequest) => {
           return songRequest.matches.some(
-            (match) => match.matchState === "SONG_REQUESTED",
+            (match) => match.matchState === "SENT_TO_MUSICIAN",
           );
         })}
         status="IN_REVIEW"
