@@ -41,7 +41,7 @@ export default function FinalSignUpInfo({
   return (
     <form className="pr-[40px]" onSubmit={onSubmit}>
       <h3>{headerLabel}</h3>
-      <p className="pt-[8px]">All fields below are required</p>
+      <p className="pt-[8px]">* Indicates a required question</p>
       {errorMessage && (
         <div className="flex flex-row items-center gap-[4px] pt-[12px]">
           <ErrorExclamation size="medium" />
