@@ -35,7 +35,7 @@ export default function EmailCodeModal({
       width={500}
       height={285}
     >
-      <p className="pt-[4px] text-body2">
+      <p className="pt-[16px] text-body3">
         We sent a link to <strong>{email}</strong>
       </p>
       {codeIsWrong && (
