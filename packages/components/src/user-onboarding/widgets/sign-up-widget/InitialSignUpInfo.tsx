@@ -49,7 +49,7 @@ export default function InitialSignUpInfo({
       }}
     >
       <h3 className="text-green-400">{headerLabel}</h3>
-      <p className="pt-[8px] text-error">* Indicates a required field</p>
+      <p className="pt-[8px] text-error">* Indicates a required question</p>
       {errorMessage && (
         <div className="flex flex-row items-center gap-[4px] pt-[12px]">
           <ErrorExclamation size="medium" />
