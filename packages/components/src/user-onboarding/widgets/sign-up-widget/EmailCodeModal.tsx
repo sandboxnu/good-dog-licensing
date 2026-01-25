@@ -27,10 +27,15 @@ export default function EmailCodeModal({
 }: EmailCodeModalProps) {
   const [emailCode, setEmailCode] = useState<string>("");
 
+  const handleClose = () => {
+    setEmailCode("");
+    close();
+  };
+
   return (
     <Modal
       open={isOpen}
-      onClose={close}
+      onClose={handleClose}
       headerText="Verify your email address"
       width={500}
       height={330}
