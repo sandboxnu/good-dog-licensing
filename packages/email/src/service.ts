@@ -53,17 +53,20 @@ export class EmailService {
 
   private async getAllAdminAndPNREmails(): Promise<string[]> {
     return (
-      await prisma.user.findMany({
-        where: {
-          role: {
-            in: ["ADMIN", "MODERATOR"],
+      // if this starts failing, we probably need to add ctx. before it (pass context in as argument)
+      (
+        await prisma.user.findMany({
+          where: {
+            role: {
+              in: ["ADMIN", "MODERATOR"],
+            },
           },
-        },
-        select: {
-          email: true,
-        },
-      })
-    ).map((user) => user.email);
+          select: {
+            email: true,
+          },
+        })
+      ).map((user) => user.email)
+    );
   }
 
   async send(params: EmailMessage) {

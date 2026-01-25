@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { baseProcedureBuilder } from "../internal/init";
 import { getSessionMemoized } from "../internal/prisma-abstraction";
 
-export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
+export const authenticatedAndActiveProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
     const sessionId = ctx.cookiesService.getSessionCookie();
 
@@ -16,6 +16,10 @@ export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
     if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
       // Session expired or not found
       throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    if (!sessionOrNull.user.active) {
+      throw new TRPCError({ code: "FORBIDDEN" });
     }
 
     return next({

@@ -32,6 +32,10 @@ export const layoutWithPermissions = <
   async function Layout(props: LayoutProps) {
     const user = await trpc.user();
 
+    if (!user?.active) {
+      return <div>Your account is inactive.</div>;
+    }
+
     if (!permissions.canRead(user?.role)) {
       forbidden();
     }
