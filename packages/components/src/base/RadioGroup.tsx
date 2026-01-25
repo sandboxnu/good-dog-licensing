@@ -32,7 +32,7 @@ export default function RadioGroup({
     <div className="flex w-full flex-col gap-[0px] text-black">
       <div className="flex flex-row gap-[2px]">
         <Label className="text-body3">{label}</Label>
-        {required && <Label className="text-body3 text-required-star">*</Label>}
+        {required && <Label className="text-body3 text-error">*</Label>}
       </div>
       <RadioGroupShad
         required={required}
