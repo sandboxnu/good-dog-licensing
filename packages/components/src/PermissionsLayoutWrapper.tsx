@@ -36,7 +36,7 @@ export const layoutWithPermissions = <
       return <div>Your account is inactive.</div>;
     }
 
-    if (!permissions.canRead(user?.role)) {
+    if (!permissions.canRead(user.role)) {
       forbidden();
     }
 

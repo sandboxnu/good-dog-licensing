@@ -111,6 +111,7 @@ export const refreshSessionProcedure =
             affiliation: true,
             ipi: true,
             createdAt: true,
+            active: true,
           },
         },
       },
