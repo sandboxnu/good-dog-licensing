@@ -1,6 +1,6 @@
 export default function PasswordRequirements() {
   return (
-    <div className="flex flex-wrap justify-start gap-x-10">
+    <div className="flex flex-wrap justify-start gap-x-10 gap-y-[8px]">
       <BulletPoint content="8 characters minimum" />
       <BulletPoint content="1+ special character" />
       <BulletPoint content="1+ uppercase character" />

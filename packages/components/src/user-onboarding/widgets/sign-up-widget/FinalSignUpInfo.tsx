@@ -62,7 +62,7 @@ export default function FinalSignUpInfo({
         </div>
         <RHFTextInput<SignUpFormFields>
           rhfName="confirmPassword"
-          label="Confirm Password"
+          label="Confirm password"
           placeholder="Confirm your password"
           id="confirmPassword"
           errorText={errors.confirmPassword?.message}
@@ -70,7 +70,7 @@ export default function FinalSignUpInfo({
         />
         <RHFTextInput<SignUpFormFields>
           rhfName="phoneNumber"
-          label="Phone Number"
+          label="Phone number"
           placeholder="123-456-7890"
           id="phoneNumber"
           errorText={errors.phoneNumber?.message}
