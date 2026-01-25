@@ -23,14 +23,14 @@ export default function ProfileDropdown() {
       <DropdownMenuContent
         align="end"
         side="bottom"
-        className="w-[138px] gap-2 py-4 px-2 bg-white border-light-green flex flex-col gap-2"
+        className="w-[138px] gap-2 py-4 px-2 bg-white border-green-300 flex flex-col gap-2"
       >
         <DropdownMenuItem className="text-base h-[22px]">
           <Link href="/profile">Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="text-base h-[22px]">
           <button
-            className="text-error"
+            className="text-red-400 dark:text-red-300"
             onClick={() => signOutMutation.mutate()}
           >
             Log out

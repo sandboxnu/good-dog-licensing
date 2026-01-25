@@ -6,6 +6,12 @@
 @tailwind utilities;
 
 @layer base {
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --body-text: #054233;
+    }
+  }
+
   :root {
     --blue-50: #eef6ff;
     --blue-100: #a4c7f1;
@@ -79,8 +85,7 @@
   }
 
   body {
-    font-family: "Afacad", sans-serif;
-    color: #2e2e2e;
+    @apply font-['Afacad',sans-serif] text-[var(--body-text)];
     font-feature-settings:
       "rlig" 1,
       "calt" 1;

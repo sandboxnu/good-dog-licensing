@@ -23,15 +23,17 @@ export default function SongRequestDashboard({
           className="flex flex-row items-center text-secondary hover:cursor-pointer"
           onClick={() => router.push("/")}
         >
-          <ChevronLeft className="h-4 w-4" />
-          <p className="underline font-medium">Projects</p>
+          <ChevronLeft className="h-4 w-4 text-green-500 dark:text-mint-300" />
+          <p className="underline font-medium text-green-500 dark:text-mint-200">
+            Projects
+          </p>
         </div>
         <ProjectInformation project={projectSubmission} />
       </div>
       <SongRequests
         songRequests={projectSubmission.songRequests.filter((songRequest) => {
           return songRequest.matches.some(
-            (match) => match.matchState === "NEW",
+            (match) => match.matchState === "SENT_TO_MEDIA_MAKER",
           );
         })}
         status="TO_DO"
@@ -39,7 +41,7 @@ export default function SongRequestDashboard({
       <SongRequests
         songRequests={projectSubmission.songRequests.filter((songRequest) => {
           return songRequest.matches.some(
-            (match) => match.matchState === "SONG_REQUESTED",
+            (match) => match.matchState === "SENT_TO_MUSICIAN",
           );
         })}
         status="IN_REVIEW"

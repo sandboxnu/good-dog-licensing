@@ -130,7 +130,7 @@ async function createMoreData() {
       songRequestId: "songRequestOneSubmission",
       musicId: "musicSubmission",
       matcherUserId: "matcher",
-      matchState: "NEW",
+      matchState: "SENT_TO_MEDIA_MAKER",
     },
   });
 

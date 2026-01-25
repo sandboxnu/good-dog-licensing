@@ -25,6 +25,7 @@ export default function MusicianLanding() {
         title={"Song submissions"}
         subtitle={"This is where you view and manage your song submissions"}
         requestPath={"/music-submission"}
+        buttonContent="Song"
       />
       {data.music.length === 0 && (
         <EmptyMessage
@@ -39,7 +40,7 @@ export default function MusicianLanding() {
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.music.map((song, key) => {
             const actionNeeded = song.matches.some(
-              (match) => match.matchState === MatchState.SONG_REQUESTED,
+              (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
             );
             return (
               <Card
@@ -73,7 +74,7 @@ export default function MusicianLanding() {
                       />
                       <ChevronRight
                         onClick={() => router.push("/song/" + song.musicId)}
-                        className="hover:cursor-pointer"
+                        className="hover:cursor-pointer text-black dark:text-mint-100"
                       />
                     </div>
                   </div>

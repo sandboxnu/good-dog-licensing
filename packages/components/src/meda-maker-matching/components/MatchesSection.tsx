@@ -13,7 +13,9 @@ export default function MatchesSection({
   return (
     <div className="flex flex-col gap-4">
       <MatchStatusTabs
-        numActionRequired={matches.filter((m) => m.matchState === "NEW").length}
+        numActionRequired={
+          matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER").length
+        }
         incomingContent={<ListOfMatches state={"INCOMING"} matches={matches} />}
         pendingApprovalContent={
           <ListOfMatches state={"PENDING_APPROVAL"} matches={matches} />

@@ -16,12 +16,29 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
     }),
   )
   .mutation(async ({ ctx, input }) => {
+    const project = await ctx.prisma.projectSubmission.findFirst({
+      where: {
+        songRequests: {
+          some: {
+            songRequestId: input.songRequestId,
+          },
+        },
+      },
+    });
+
+    // if user is the project manager, set to SENT_TO_MEDIA_MAKER, else WAITING_FOR_MANAGER_APPROVAL
+    const matchStateToUse =
+      project?.projectManagerId &&
+      project.projectManagerId === ctx.session.user.userId
+        ? MatchState.SENT_TO_MEDIA_MAKER
+        : MatchState.WAITING_FOR_MANAGER_APPROVAL;
+
     await ctx.prisma.match.create({
       data: {
         songRequestId: input.songRequestId,
         musicId: input.musicId,
         matcherUserId: ctx.session.user.userId,
-        matchState: MatchState.NEW,
+        matchState: matchStateToUse,
       },
     });
 
