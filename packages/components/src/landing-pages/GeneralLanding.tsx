@@ -153,15 +153,15 @@ function WhatMakesGoodDogGood() {
         <div className="flex flex-row justify-center gap-[32px]">
           <ThinkingPerson />
           <div className="flex flex-col gap-[8px]">
-            <div className="flex flex-row gap-[8px]">
-              <Reason reason="Artists retain 100% of their  copyrights." />
+            <div className="flex flex-row gap-[8px] leading-[1.28]">
+              <Reason reason="Artists retain 100% of their copyrights." />
               <Reason reason="No up-front fee and no commission and our service is non-exclusive." />
             </div>
-            <div className="flex flex-row gap-[8px]">
+            <div className="flex flex-row gap-[8px] leading-[1.28]">
               <Reason reason="Artists can say no to any synch  placement but you should say “Yes!”" />
               <Reason reason="We take the hassle out of finding picture-perfect music for projects." />
             </div>
-            <div className="flex flex-row gap-[8px]">
+            <div className="flex flex-row gap-[8px] leading-[1.2]">
               <Reason reason="Artists can earn public performance royalties through ASCAP or BMI." />
               <Reason reason="Artists receive full attribution for all uses of their music." />
             </div>
