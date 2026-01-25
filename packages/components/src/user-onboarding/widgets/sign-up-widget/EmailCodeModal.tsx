@@ -92,7 +92,7 @@ function OPTSlot({ index, error }: { index: number; error: boolean }) {
     <InputOTPSlot
       index={index}
       className={clsx(
-        "h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] !text-h1",
+        "h-[64px] w-[48px] rounded-[4px] border border-solid border-[#858585] !text-h1 ring-green-400",
         { "shadown-error border-error": error },
       )}
     />
