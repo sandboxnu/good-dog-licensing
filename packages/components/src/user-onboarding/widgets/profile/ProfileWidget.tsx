@@ -6,6 +6,7 @@ import Button from "../../../base/Button";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import { useEffect } from "react";
+import { getRoleLabel } from "../../../../utils/enumLabelMapper";
 
 function InfoField({ header, content }: { header: string; content: string }) {
   return (
@@ -21,7 +22,7 @@ export default function ProfileWidget() {
   const { data: user } = trpc.user.useQuery();
 
   const userRoleFormatted = user
-    ? user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase()
+    ? getRoleLabel(user.role)
     : "Unknown";
   const userCreatedAtFormatted = user
     ? user.createdAt.toLocaleDateString("en-US", {

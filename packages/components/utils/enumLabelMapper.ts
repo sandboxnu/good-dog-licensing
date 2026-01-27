@@ -1,4 +1,4 @@
-import { Genre, MusicAffiliation, MusicRole, ProjectType } from "@good-dog/db";
+import { Genre, MusicAffiliation, MusicRole, ProjectType, Role } from "@good-dog/db";
 
 export function getGenreLabel(value: Genre): string {
   switch (value) {
@@ -24,6 +24,19 @@ export function getGenreLabel(value: Genre): string {
       return "Blues";
     case Genre.OTHER:
       return "Other";
+  }
+}
+
+export function getRoleLabel(value: Role): string {
+  switch (value) {
+    case Role.MUSICIAN:
+      return "Musician"
+    case Role.MEDIA_MAKER:
+      return "Media Maker"
+    case Role.ADMIN:
+      return "Admin"
+    case Role.MODERATOR:
+      return "Moderator"
   }
 }
 
