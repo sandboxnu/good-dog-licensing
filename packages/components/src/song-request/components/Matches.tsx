@@ -6,12 +6,16 @@ import { Match } from "./Match";
 type MatchesWithMusicSubmission =
   GetProcedureOutput<"getSongRequestById">["matches"][number];
 
-export function ListOfMatches({
+export function Matches({
   state,
   matches,
+  selectedMatchId,
+  setSelectedMatchId,
 }: {
   state: "INCOMING" | "PENDING_APPROVAL" | "MATCHED" | "REJECTED";
   matches: MatchesWithMusicSubmission[];
+  selectedMatchId: string | null;
+  setSelectedMatchId: (matchId: string | null) => void;
 }) {
   const filteredMatches = matches.filter((match) => {
     if (state === "INCOMING") {
@@ -42,7 +46,13 @@ export function ListOfMatches({
         </div>
       )}
       {filteredMatches.map((match) => (
-        <Match key={match.matchId} state={state} match={match} />
+        <Match
+          key={match.matchId}
+          state={state}
+          match={match}
+          selectedMatchId={selectedMatchId}
+          setSelectedMatchId={setSelectedMatchId}
+        />
       ))}
     </div>
   );

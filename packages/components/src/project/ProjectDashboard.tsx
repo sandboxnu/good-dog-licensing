@@ -6,11 +6,7 @@ import ProjectInformation from "./components/ProjectInformation";
 import SongRequests from "./components/SongRequests";
 import { useRouter } from "next/navigation";
 
-export default function SongRequestDashboard({
-  projectId,
-}: {
-  projectId: string;
-}) {
+export default function ProjectDashboard({ projectId }: { projectId: string }) {
   const [projectSubmission] = trpc.getProjectSubmissionById.useSuspenseQuery({
     projectId: projectId,
   });

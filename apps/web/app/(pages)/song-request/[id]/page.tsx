@@ -1,5 +1,5 @@
 import PageContainer from "@good-dog/components/PageContainer";
-import MediaMakerMatchingDashboard from "@good-dog/components/meda-maker-matching/MediaMakerMatchingDashboard";
+import SongRequestDashboard from "@good-dog/components/song-request/SongRequestDashboard";
 import { trpc } from "@good-dog/trpc/server";
 
 interface PageProps {
@@ -15,7 +15,7 @@ export default async function MediaMakerMatchingPage({ params }: PageProps) {
 
   return (
     <PageContainer background="solid">
-      <MediaMakerMatchingDashboard songRequestId={songRequestId} />
+      <SongRequestDashboard songRequestId={songRequestId} />
     </PageContainer>
   );
 }

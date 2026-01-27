@@ -1,5 +1,5 @@
 import PageContainer from "@good-dog/components/PageContainer";
-import SongRequestDashboard from "@good-dog/components/project/SongRequestDashboard";
+import ProjectDashboard from "@good-dog/components/project/ProjectDashboard";
 import { trpc } from "@good-dog/trpc/server";
 
 interface PageProps {
@@ -15,7 +15,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <PageContainer background="solid">
-      <SongRequestDashboard projectId={projectId} />
+      <ProjectDashboard projectId={projectId} />
     </PageContainer>
   );
 }
