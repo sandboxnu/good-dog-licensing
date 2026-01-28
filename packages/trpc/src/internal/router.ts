@@ -11,10 +11,12 @@ import {
   sendForgotPasswordEmailProcedure,
 } from "../procedures/forgot-password";
 import {
+  getMusicSubmissionByIdProcedure,
   getMusicSubmissionsProcedure,
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
+import { getProjectSubmissionByIdProcedure } from "../procedures/get-project";
 import {
   getProjectSongRequestByIdProcedure,
   getProjectSongRequestsProcedure,
@@ -33,6 +35,7 @@ import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
+import { assignProjectManagerProcedure } from "../procedures/project/assign-project-manager";
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { songRequestSubmissionProcedure } from "../procedures/project/song-request-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
@@ -71,6 +74,9 @@ export const appRouter = createTRPCRouter({
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValuesProcedure,
   deleteMatch: deleteMatchProcedure,
   songRequestSubmission: songRequestSubmissionProcedure,
+  getProjectSubmissionById: getProjectSubmissionByIdProcedure,
+  getMusicSubmissionById: getMusicSubmissionByIdProcedure,
+  assignProjectManager: assignProjectManagerProcedure,
 });
 
 export type AppRouter = typeof appRouter;

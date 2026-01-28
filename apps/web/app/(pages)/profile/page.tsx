@@ -1,9 +1,10 @@
 import PageContainer from "@good-dog/components/PageContainer";
+import ProfileWidget from "@good-dog/components/user-onboarding/widgets/profile/ProfileWidget";
 
-export default function Profile() {
+export default function Page() {
   return (
     <PageContainer background="solid">
-      <h2 className="pt-[200px]">Profile Page Coming Soon ...</h2>
+      <ProfileWidget />
     </PageContainer>
   );
 }

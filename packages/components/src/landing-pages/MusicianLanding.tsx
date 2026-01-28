@@ -12,15 +12,20 @@ import MusicNote from "../svg/MusicNote";
 import People from "../svg/People";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
+import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { formatAllCapsList } from "../../utils/allCapsListFormatter";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
+  const router = useRouter();
   return (
     <div className="align-start flex w-full flex-col gap-[32px]">
       <Header
         title={"Song submissions"}
         subtitle={"This is where you view and manage your song submissions"}
         requestPath={"/music-submission"}
+        buttonContent="Song"
       />
       {data.music.length === 0 && (
         <EmptyMessage
@@ -34,32 +39,42 @@ export default function MusicianLanding() {
       {data.music.length > 0 && (
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.music.map((song, key) => {
-            const actionNeeded = !!song.matches.find(
-              (match) => match.matchState === MatchState.SONG_REQUESTED,
+            const actionNeeded = song.matches.some(
+              (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
             );
             return (
               <Card
                 title={song.songName}
-                subheader={song.createdAt.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                subheader={
+                  "Submitted " +
+                  song.createdAt.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                }
                 children={
-                  <div className="flex h-full flex-col gap-[24px]">
+                  <div className="flex flex-col gap-[24px] pt-[16px] h-full justify-between">
                     <div className="flex flex-col gap-[8px]">
                       <Line text={song.performerName} icon={<People />} />
                       <Line
-                        text={song.genres.join(", ")}
-                        icon={<MusicNote />}
+                        text={formatAllCapsList(song.genres)}
+                        icon={
+                          <div className="flex-shrink-0">
+                            <MusicNote />
+                          </div>
+                        }
                       />
                     </div>
 
-                    {/* absolutely position the indicator 24px from the bottom */}
-                    <div className="absolute bottom-[24px]">
+                    <div className="w-full flex flex-row justify-between">
                       <StatusIndicator
                         variant={actionNeeded ? "error" : "success"}
                         text={actionNeeded ? "Action needed" : "Song submitted"}
+                      />
+                      <ChevronRight
+                        onClick={() => router.push("/song/" + song.musicId)}
+                        className="hover:cursor-pointer text-black dark:text-mint-100"
                       />
                     </div>
                   </div>

@@ -22,31 +22,33 @@ enum Role {
 }
 
 enum MatchState {
-  NEW
-  SONG_REQUESTED
+  WAITING_FOR_MANAGER_APPROVAL
+  SENT_TO_MEDIA_MAKER
+  SENT_TO_MUSICIAN
   REJECTED_BY_MEDIA_MAKER
   REJECTED_BY_MUSICIAN
   APPROVED_BY_MUSICIAN
 }
 
 model User {
-  userId             String              @id @default(uuid()) @map("id")
-  email              String              @unique
-  phoneNumber        String
-  hashedPassword     String              @map("password")
-  firstName          String
-  lastName           String
-  role               Role
-  affiliation        MusicAffiliation?
-  ipi                String?
-  passwordResetReq   PasswordResetReq?
-  sessions           Session[]
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  projectSubmissions ProjectSubmission[]
-  musicSubmissions   MusicSubmission[]
-  matches            Match[]             @relation("Matcher")
-  comments           Comments[]
+  userId                      String              @id @default(uuid()) @map("id")
+  email                       String              @unique
+  phoneNumber                 String
+  hashedPassword              String              @map("password")
+  firstName                   String
+  lastName                    String
+  role                        Role
+  affiliation                 MusicAffiliation?
+  ipi                         String?
+  passwordResetReq            PasswordResetReq?
+  sessions                    Session[]
+  createdAt                   DateTime            @default(now())
+  updatedAt                   DateTime            @updatedAt
+  projectSubmissionsAsOwner   ProjectSubmission[] @relation("ProjectOwner")
+  projectSubmissionsAsManager ProjectSubmission[] @relation("ProjectManager")
+  musicSubmissions            MusicSubmission[]
+  matches                     Match[]             @relation("Matcher")
+  comments                    Comments[]
 }
 
 model Session {
@@ -80,18 +82,20 @@ model ModeratorInvite {
 }
 
 model ProjectSubmission {
-  projectId      String        @id @default(uuid())
-  projectOwnerId String
-  projectOwner   User          @relation(fields: [projectOwnerId], references: [userId], onDelete: Cascade)
-  projectTitle   String
-  description    String
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  songRequests   SongRequest[]
-  deadline       DateTime
-  videoLink      String        @default("")
-  additionalInfo String        @default("")
-  projectType    ProjectType
+  projectId        String        @id @default(uuid())
+  projectOwnerId   String
+  projectOwner     User          @relation("ProjectOwner", fields: [projectOwnerId], references: [userId], onDelete: Cascade)
+  projectManagerId String?
+  projectManager   User?         @relation("ProjectManager", fields: [projectManagerId], references: [userId], onDelete: Cascade)
+  projectTitle     String
+  description      String
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  songRequests     SongRequest[]
+  deadline         DateTime
+  videoLink        String        @default("")
+  additionalInfo   String        @default("")
+  projectType      ProjectType
 }
 
 model SongRequest {
