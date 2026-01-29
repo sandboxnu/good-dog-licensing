@@ -46,8 +46,8 @@ export default function ProfileWidget() {
     defaultValues: {
       firstName: user?.firstName,
       lastName: user?.lastName,
-      ipi: user?.ipi ? user.ipi : "",
-      affiliation: user?.affiliation ? user.affiliation : MusicAffiliation.NONE,
+      ipi: user?.ipi || "",
+      affiliation: user?.affiliation || MusicAffiliation.NONE,
     },
   });
 
@@ -281,10 +281,7 @@ export default function ProfileWidget() {
                         placeholder={""}
                         id={"firstName"}
                         errorText={
-                          profileFormMethods.formState.errors.firstName
-                            ? profileFormMethods.formState.errors.firstName
-                                .message
-                            : undefined
+                          profileFormMethods.formState.errors.firstName?.message
                         }
                         clearIcon
                       />
@@ -296,10 +293,7 @@ export default function ProfileWidget() {
                         placeholder={""}
                         id={"lastName"}
                         errorText={
-                          profileFormMethods.formState.errors.lastName
-                            ? profileFormMethods.formState.errors.lastName
-                                .message
-                            : undefined
+                          profileFormMethods.formState.errors.lastName?.message
                         }
                         clearIcon
                       />
@@ -316,9 +310,7 @@ export default function ProfileWidget() {
                         id={"affiliation"}
                         errorText={
                           profileFormMethods.formState.errors.affiliation
-                            ? profileFormMethods.formState.errors.affiliation
-                                .message
-                            : undefined
+                            ?.message
                         }
                       />
                     </div>
@@ -330,9 +322,7 @@ export default function ProfileWidget() {
                           placeholder={""}
                           id={"ipi"}
                           errorText={
-                            profileFormMethods.formState.errors.ipi
-                              ? profileFormMethods.formState.errors.ipi.message
-                              : undefined
+                            profileFormMethods.formState.errors.ipi?.message
                           }
                           clearIcon
                         />
@@ -346,13 +336,13 @@ export default function ProfileWidget() {
                     <div className="flex-1">
                       <InfoField
                         header="First name"
-                        content={user ? user.firstName : ""}
+                        content={user?.firstName || ""}
                       />
                     </div>
                     <div className="flex-1">
                       <InfoField
                         header="Last name"
-                        content={user ? user.lastName : ""}
+                        content={user?.lastName || ""}
                       />
                     </div>
                   </div>
@@ -360,14 +350,14 @@ export default function ProfileWidget() {
                     <div className="flex-1">
                       <InfoField
                         header="Group"
-                        content={user?.affiliation ? user.affiliation : "NONE"}
+                        content={user?.affiliation || "NONE"}
                       />
                     </div>
                     <div className="flex-1">
                       {showIpiField && (
                         <InfoField
                           header="IPI No."
-                          content={user?.ipi ? user.ipi : "NONE"}
+                          content={user?.ipi || "NONE"}
                         />
                       )}
                     </div>
