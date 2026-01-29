@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { forbidden, redirect } from "next/navigation";
 
 import type { GoodDogPermissionsFactory } from "@good-dog/auth/permissions";
 import type { Role } from "@good-dog/db";
@@ -7,7 +7,7 @@ import {
   HydrateClient,
   trpc,
 } from "@good-dog/trpc/server";
-import { UnauthorizedWrapper } from "./UnauthorizedWrapper";
+import { UnauthenticatedWrapper } from "./UnauthenticatedWrapper";
 
 const getTrpcLikeQueryKey = <I extends object>(path: string[], input?: I) => [
   path.flatMap((part) => part.split(".")),
@@ -33,8 +33,14 @@ export const layoutWithPermissions = <
   async function Layout(props: LayoutProps) {
     const user = await trpc.user();
 
+    // Unauthenticated (logged out) users are redirected to login page
+    if (!user) {
+      return <UnauthenticatedWrapper />;
+    }
+
+    // Unauthorized (logged in but insufficient permissions) users see 403 page
     if (!permissions.canRead(user?.role)) {
-      return <UnauthorizedWrapper />;
+      forbidden();
     }
 
     const serverQueryClient = getServerQueryClient();

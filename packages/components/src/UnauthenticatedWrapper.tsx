@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-export function UnauthorizedWrapper() {
+export function UnauthenticatedWrapper() {
   const pathname = usePathname();
 
   useEffect(() => {
