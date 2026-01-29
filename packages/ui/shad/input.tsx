@@ -11,8 +11,9 @@ const Input = React.forwardRef<
   }
 >(({ className, type, icon, value, onClear, ...props }, ref) => {
   const showClearButton = onClear && value;
+  const hasWrapper = icon || onClear;
 
-  if (!icon && !showClearButton) {
+  if (!hasWrapper) {
     return (
       <input
         type={type}
@@ -23,14 +24,19 @@ const Input = React.forwardRef<
       />
     );
   }
+
+  // `hasWrapper` ensures that the html structure is static when there is an icon / onClear so the
+  // component doesn't re-render in weird places, effectively forcing the user to click back into the textArea
   return (
     <div className="relative w-full">
-      <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
-        {icon}
-      </div>
+      {icon && (
+        <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
+          {icon}
+        </div>
+      )}
       <input
         type={type}
-        className={cn("border-input w-full border pl-10", className)}
+        className={cn("border-input w-full border", icon && "pl-10", className)}
         ref={ref}
         value={value}
         {...props}
@@ -39,10 +45,10 @@ const Input = React.forwardRef<
         <button
           type="button"
           onClick={onClear}
-          className="absolute right-0 top-0 flex h-full items-center px-2 text-gray hover:text-gray-600"
+          className="absolute right-0 top-0 flex h-full items-center px-2 text-dark-gray-200 hover:text-gray-600"
           aria-label="Clear input"
         >
-          <X />
+          <X variant={"inactive"} />
         </button>
       )}
     </div>
