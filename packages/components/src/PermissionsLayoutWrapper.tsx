@@ -1,4 +1,4 @@
-import { forbidden, redirect } from "next/navigation";
+import { forbidden } from "next/navigation";
 
 import type { GoodDogPermissionsFactory } from "@good-dog/auth/permissions";
 import type { Role } from "@good-dog/db";
@@ -39,7 +39,7 @@ export const layoutWithPermissions = <
     }
 
     // Unauthorized (logged in but insufficient permissions) users see 403 page
-    if (!permissions.canRead(user?.role)) {
+    if (!permissions.canRead(user.role)) {
       forbidden();
     }
 

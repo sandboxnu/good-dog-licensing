@@ -22,7 +22,7 @@ type LoginFormFields = z.input<typeof zSignInValues>;
 export default function LoginWidget() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/";
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const formMethods = useForm<LoginFormFields>({
     resolver: zodResolver(zSignInValues),
