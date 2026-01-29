@@ -58,7 +58,7 @@ export default function ProfileWidget() {
 
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: () => {
-      handleCloseSetEmailModal();
+      setDisplaySetEmailModal(false);
       setDisplayEmailCodeModal(true);
     },
   });
@@ -86,14 +86,14 @@ export default function ProfileWidget() {
     },
   });
 
-  const handleCloseSetEmailModal = () => {
-    emailFormMethods.reset();
-    setDisplaySetEmailModal(false);
-  };
-
   const handleCloseChangePasswordModal = () => {
     passwordFormMethods.reset();
     setDisplaySetPasswordModal(false);
+  };
+
+  const handleCloseSetEmailModal = () => {
+    emailFormMethods.reset();
+    setDisplaySetEmailModal(false);
   };
 
   const verifyEmailCode = (code: string) => {
