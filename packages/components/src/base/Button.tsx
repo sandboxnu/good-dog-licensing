@@ -61,10 +61,8 @@ export default function Button({
       type={type}
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName} group ${
-        errorContained
-          ? "bg-red-400 hover:bg-[#852726] active:bg-[#591A1A]"
-          : ""
-      } ${errorOutlined ? "border-error active:bg-[#852726] hover:bg-red-200" : ""}`}
+        errorContained ? "bg-red-400 hover:bg-red-500 active:bg-[#591A1A]" : ""
+      } ${errorOutlined ? "border-error active:bg-500 hover:bg-red-200" : ""}`}
     >
       <div
         className={`flex flex-row items-center justify-center gap-[8px] ${

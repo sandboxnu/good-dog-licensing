@@ -51,7 +51,10 @@ export default function Dropdown({
   return (
     <div className="flex w-full flex-col gap-[4px]">
       <div className="flex flex-row gap-[2px]">
-        <Label htmlFor={id} className="text-body3 font-normal text-[#171717]">
+        <Label
+          htmlFor={id}
+          className="text-body3 font-normal text-dark-gray-600"
+        >
           {label}
         </Label>
         {required && (
@@ -61,15 +64,15 @@ export default function Dropdown({
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
           asChild
-          className="h-[32px] w-full rounded-[8px] border border-[#858585] px-2 text-body3 text-body-primary placeholder:text-[#ADADAD] hover:border-[#404040] focus:border-[#098465] focus:shadow-active focus:outline-none"
+          className="h-[32px] w-full rounded-[8px] border border-gray px-2 text-body3 text-body-primary placeholder:text-dark-gray-100 hover:border-gray-600 focus:border-green-300 focus:shadow-active focus:outline-none"
         >
           <div className="flex justify-between items-center">
             <span>{currentLabel}</span>
             {arrow &&
               (isOpen ? (
-                <ChevronUp className="h-4 w-4 text-[#858585]" />
+                <ChevronUp className="h-4 w-4 text-gray" />
               ) : (
-                <ChevronDown className="h-4 w-4 text-[#858585]" />
+                <ChevronDown className="h-4 w-4 text-gray" />
               ))}
           </div>
         </DropdownMenuTrigger>
