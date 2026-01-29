@@ -36,7 +36,7 @@ export const zSignUpValues = z
 export const zSignInValues = z.object({
   email: zRequiredEmail,
   password: zRequiredString,
-  rememberMe: z.boolean().default(true),
+  rememberMe: z.boolean().default(false),
 });
 
 export const zForgotPasswordValues = z.object({

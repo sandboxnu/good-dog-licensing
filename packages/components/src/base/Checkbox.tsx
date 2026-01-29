@@ -8,6 +8,8 @@ interface CheckboxProps {
   id: string;
   required?: boolean;
   errorText?: string;
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
 }
 
 export default function Checkbox({
@@ -15,6 +17,8 @@ export default function Checkbox({
   id,
   required = false,
   errorText,
+  checked = false,
+  onCheckedChange,
 }: CheckboxProps) {
   return (
     <div className="flex w-full flex-col gap-2 text-black dark:text-white">
@@ -22,6 +26,8 @@ export default function Checkbox({
         <CheckboxShad
           required={required}
           id={id}
+          checked={checked}
+          onCheckedChange={onCheckedChange}
           className={`border-green-400 dark:border-green-100 data-[state=checked]:bg-green-400 data-[state=checked]:bg-mint-300 ${errorText ? "border-red-400 shadow-red-400 dark:border-red-400 dark:shadow-red-400" : ""}`}
         />
         <div className="flex flex-row items-center gap-[2px]">
