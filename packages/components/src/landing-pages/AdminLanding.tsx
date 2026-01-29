@@ -11,7 +11,10 @@ import type {
 } from "../../utils/getStatusFromProject";
 import getStatusFromProject from "../../utils/getStatusFromProject";
 import ProfileIcon from "../svg/ProfileIcon";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Link } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@good-dog/ui/dropdown-menu";
+import FilterIcon from "../svg/FilterIcon";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../base/Select";
 
 export default function AdminLanding() {
   const [activeTab, setActiveTab] = useState<"submissions" | "songs" | "users">(
@@ -98,11 +101,13 @@ function Submissions() {
 
   return (
     <div className="flex flex-col gap-[32px]">
+      <ExampleFunction/>
+      <DropdownMenu/>
       <Header
         title={"Submissions"}
         subtitle={"Pending project submissions"}
-        buttonPath={""}
-        buttonLabel="Invite"
+        requestPath={""}
+        buttonContent="Invite"
 
       />
       
@@ -184,6 +189,7 @@ function SubmissionTable({
       className="pt-[32px] pr-[24px] pl-[24px] pb-[48px] flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 dark:bg-dark-gray-600 shadow-[0_2px_6px_0_#ECE6DF]
 "
     >
+      <FilterDropdown/>
 <div className="flex flex-col">
   <div className="p-[16px] bg-cream-100 rounded-t-[8px] grid grid-cols-7 gap-4 border-[0.2px] border-solid border-cream-400 items-center">
     <p>Project Name</p>
@@ -345,3 +351,41 @@ function AdminStatusIndicator({
     </div>
   );
 }   
+
+export function ExampleFunction() {
+  return <Select>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Theme" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="light">Light</SelectItem>
+    <SelectItem value="dark">Dark</SelectItem>
+    <SelectItem value="system">System</SelectItem>
+  </SelectContent>
+</Select>
+
+}
+
+export function FilterDropdown() {
+  return (
+<Select>
+  <SelectTrigger className="w-[180px] justify-between">
+    <div className="flex items-center text-gray-400 gap-[4px]">
+<FilterIcon/>
+            Filter 
+    </div>
+    
+   
+  </SelectTrigger>
+  <SelectContent  align="end"
+        side="bottom"
+        className="w-[296px] gap-2 py-4 px-2 bg-white border-green-300 flex flex-col gap-2">
+    <SelectItem value="light">Light</SelectItem>
+    <SelectItem value="dark">Dark</SelectItem>
+    <SelectItem value="system">System</SelectItem>
+  </SelectContent>
+</Select>
+  );
+}
+
+
