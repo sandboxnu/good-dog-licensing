@@ -21,8 +21,14 @@ const allowedEndingStatesByRole: Record<Role, MatchState[]> = {
     MatchState.APPROVED_BY_MUSICIAN,
     MatchState.REJECTED_BY_MUSICIAN,
   ],
-  [Role.ADMIN]: [MatchState.SENT_TO_MEDIA_MAKER],
-  [Role.MODERATOR]: [MatchState.SENT_TO_MEDIA_MAKER],
+  [Role.ADMIN]: [
+    MatchState.SENT_TO_MEDIA_MAKER,
+    MatchState.REJECTED_BY_MANAGER,
+  ],
+  [Role.MODERATOR]: [
+    MatchState.SENT_TO_MEDIA_MAKER,
+    MatchState.REJECTED_BY_MANAGER,
+  ],
 };
 
 export const updateMatchStateProcedure = authenticatedProcedureBuilder
