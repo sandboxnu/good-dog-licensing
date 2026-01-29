@@ -1,4 +1,4 @@
-import { forbidden } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import type { GoodDogPermissionsFactory } from "@good-dog/auth/permissions";
 import type { Role } from "@good-dog/db";
@@ -7,6 +7,7 @@ import {
   HydrateClient,
   trpc,
 } from "@good-dog/trpc/server";
+import { UnauthorizedWrapper } from "./UnauthorizedWrapper";
 
 const getTrpcLikeQueryKey = <I extends object>(path: string[], input?: I) => [
   path.flatMap((part) => part.split(".")),
@@ -33,7 +34,7 @@ export const layoutWithPermissions = <
     const user = await trpc.user();
 
     if (!permissions.canRead(user?.role)) {
-      forbidden();
+      return <UnauthorizedWrapper />;
     }
 
     const serverQueryClient = getServerQueryClient();
