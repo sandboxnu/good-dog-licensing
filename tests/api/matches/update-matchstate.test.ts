@@ -394,6 +394,24 @@ describe("updateMatchState procedure", () => {
     expect(match?.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
   });
 
+  it("should allow admin/moderator to update match from WAITING to REJECTED_BY_MANAGER", async () => {
+    cookies.set("sessionId", "moderator-session-id");
+
+    const response = await $api.updateMatchState({
+      matchId: "match-waiting",
+      state: MatchState.REJECTED_BY_MANAGER,
+    });
+
+    expect(response.message).toEqual("Match state updated successfully");
+    expect(response.match.matchState).toBe(MatchState.REJECTED_BY_MANAGER);
+
+    const match = await prisma.match.findUnique({
+      where: { matchId: "match-waiting" },
+    });
+
+    expect(match?.matchState).toBe(MatchState.REJECTED_BY_MANAGER);
+  });
+
   // FAILURE CASES - ROLE PERMISSIONS
 
   it("should not allow musician to update SENT_TO_MEDIA_MAKER match", () => {

@@ -1,45 +1,46 @@
-import { trpc } from "@good-dog/trpc/client";
-import ProjectInformation from "./ProjectInformation";
-import { useState } from "react";
-import SongRequestInformation from "./SongRequestInformation";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { MatchStatusTabs } from "./MatchStatusTabs";
 import { Matches } from "./Matches";
+import MusicInformation from "./MusicInformation";
+import { useState } from "react";
+
+type SongRequestMatchesType =
+  GetProcedureOutput<"getSongRequestById">["matches"];
 
 export default function MatchInformation({
-  musicSubmissionId,
+  matches,
 }: {
-  musicSubmissionId: string;
+  matches: SongRequestMatchesType;
 }) {
-  const [musicSubmission] = trpc.getMusicSubmissionById.useSuspenseQuery({
-    musicId: musicSubmissionId,
-  });
-  const matches = musicSubmission.matches;
-
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
   const selectedMatch = matches.find((m) => m.matchId === selectedMatchId);
-
   return (
     <div className="flex flex-col gap-3">
       <p className="text-4xl text-dark-gray-300 dark:text-mint-300">
         Match Information
       </p>
       <div className="flex flex-row gap-6 w-full">
-        <div className="flex flex-col gap-3 w-[512px] box-content">
-          <ProjectInformation
-            projectSubmission={selectedMatch?.songRequest.projectSubmission}
-            projectOwner={
-              selectedMatch?.songRequest.projectSubmission.projectOwner
-            }
+        <div className="w-[512px] box-content">
+          <MusicInformation
+            musicSubmission={selectedMatch?.musicSubmission}
+            submitter={selectedMatch?.musicSubmission.submitter}
           />
-          <SongRequestInformation songRequest={selectedMatch?.songRequest} />
         </div>
         <MatchStatusTabs
           numActionRequired={
-            matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
+            matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER").length
           }
           incomingContent={
             <Matches
               state={"INCOMING"}
+              matches={matches}
+              selectedMatchId={selectedMatchId}
+              setSelectedMatchId={setSelectedMatchId}
+            />
+          }
+          pendingApprovalContent={
+            <Matches
+              state={"PENDING_APPROVAL"}
               matches={matches}
               selectedMatchId={selectedMatchId}
               setSelectedMatchId={setSelectedMatchId}
