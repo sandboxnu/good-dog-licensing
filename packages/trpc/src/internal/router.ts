@@ -42,7 +42,7 @@ import { sendModeratorInviteEmailProcedure } from "../procedures/manage-users/se
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { promoteToAdminProcedure } from "../procedures/manage-users/promote-to-admin";
-import { inactivateUserProcedure } from "../procedures/manage-users/inactivate-user";
+import { deactivateUserProcedure } from "../procedures/manage-users/deactivate-user";
 import { activateUserProcedure } from "../procedures/manage-users/activate-user";
 
 export const appRouter = createTRPCRouter({
@@ -70,7 +70,7 @@ export const appRouter = createTRPCRouter({
   createMatch: createMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
-  inactivateUser: inactivateUserProcedure,
+  deactivateUser: deactivateUserProcedure,
   activateUser: activateUserProcedure,
   promoteToAdmin: promoteToAdminProcedure,
   projectSubmission: projectSubmissionProcedure,

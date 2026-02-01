@@ -4,7 +4,7 @@ import { adminPagePermissions } from "@good-dog/auth/permissions";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { TRPCError } from "@trpc/server";
 
-export const inactivateUserProcedure = rolePermissionsProcedureBuilder(
+export const deactivateUserProcedure = rolePermissionsProcedureBuilder(
   adminPagePermissions,
   "modify",
 )
@@ -37,6 +37,6 @@ export const inactivateUserProcedure = rolePermissionsProcedureBuilder(
     });
 
     return {
-      message: "User successfully inactivated.",
+      message: "User successfully deactivated.",
     };
   });

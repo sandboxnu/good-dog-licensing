@@ -33,7 +33,7 @@ export const layoutWithPermissions = <
     const user = await trpc.user();
 
     if (!user?.active) {
-      return <div>Your account is inactive.</div>;
+      return <div>Your account is has been deactivated.</div>;
     }
 
     if (!permissions.canRead(user.role)) {

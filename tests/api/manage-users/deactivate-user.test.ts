@@ -8,7 +8,7 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
 
-describe("inactivate-user", () => {
+describe("deactivate-user", () => {
   const mockCookies = new MockNextCookies();
 
   const $api = $createTrpcCaller({
@@ -73,59 +73,59 @@ describe("inactivate-user", () => {
     ]);
   });
 
-  describe("inactivateUser", () => {
+  describe("deactivateUser", () => {
     test("User does not exist.", async () => {
       await createAdmin();
       mockCookies.set("sessionId", "admin-session-id");
 
       expect(
-        $api.inactivateUser({
+        $api.deactivateUser({
           userId: "non-existent-user-id",
         }),
       ).rejects.toThrow("User does not exist");
     });
 
-    test("Successfully inactivate moderator.", async () => {
+    test("Successfully deactivate moderator.", async () => {
       await createAdmin();
       await createUser("moderator@gmail.com", "MODERATOR");
 
       mockCookies.set("sessionId", "admin-session-id");
 
-      const response = await $api.inactivateUser({
+      const response = await $api.deactivateUser({
         userId: "user-moderator-id",
       });
 
-      const inactivatedUser = await prisma.user.findUnique({
+      const deactivatedUser = await prisma.user.findUnique({
         where: {
           userId: "user-moderator-id",
         },
       });
 
-      expect(inactivatedUser?.active).toBe(false);
-      expect(response.message).toEqual("User successfully inactivated.");
+      expect(deactivatedUser?.active).toBe(false);
+      expect(response.message).toEqual("User successfully deactivated.");
     });
 
-    test("Successfully inactivate media maker.", async () => {
+    test("Successfully deactivate media maker.", async () => {
       await createAdmin();
       await createUser("media-maker@gmail.com", "MEDIA_MAKER");
 
       mockCookies.set("sessionId", "admin-session-id");
 
-      const response = await $api.inactivateUser({
+      const response = await $api.deactivateUser({
         userId: "user-media_maker-id",
       });
 
-      const inactivatedUser = await prisma.user.findUnique({
+      const deactivatedUser = await prisma.user.findUnique({
         where: {
           userId: "user-media_maker-id",
         },
       });
 
-      expect(inactivatedUser?.active).toBe(false);
-      expect(response.message).toEqual("User successfully inactivated.");
+      expect(deactivatedUser?.active).toBe(false);
+      expect(response.message).toEqual("User successfully deactivated.");
     });
 
-    test("Inactivate already inactive user.", async () => {
+    test("Deactivate already inactive user.", async () => {
       await createAdmin();
 
       const inactiveUser = await prisma.user.create({
@@ -143,7 +143,7 @@ describe("inactivate-user", () => {
 
       mockCookies.set("sessionId", "admin-session-id");
 
-      const response = await $api.inactivateUser({
+      const response = await $api.deactivateUser({
         userId: inactiveUser.userId,
       });
 
@@ -154,7 +154,7 @@ describe("inactivate-user", () => {
       });
 
       expect(user?.active).toBe(false);
-      expect(response.message).toEqual("User successfully inactivated.");
+      expect(response.message).toEqual("User successfully deactivated.");
     });
   });
 });
