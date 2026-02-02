@@ -7,6 +7,7 @@ import {
   HydrateClient,
   trpc,
 } from "@good-dog/trpc/server";
+import { UnauthenticatedWrapper } from "./UnauthenticatedWrapper";
 
 const getTrpcLikeQueryKey = <I extends object>(path: string[], input?: I) => [
   path.flatMap((part) => part.split(".")),
@@ -32,10 +33,16 @@ export const layoutWithPermissions = <
   async function Layout(props: LayoutProps) {
     const user = await trpc.user();
 
-    if (!user?.active) {
+    // Unauthenticated (logged out) users are redirected to login page
+    if (!user) {
+      return <UnauthenticatedWrapper />;
+    }
+
+    if (!user.active) {
       return <div>Your account is has been deactivated.</div>;
     }
 
+    // Unauthorized (logged in but insufficient permissions) users see 403 page
     if (!permissions.canRead(user.role)) {
       forbidden();
     }
