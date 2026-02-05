@@ -38,6 +38,10 @@ export const layoutWithPermissions = <
       return <UnauthenticatedWrapper />;
     }
 
+    if (!user.active) {
+      return <div>Your account is has been deactivated.</div>;
+    }
+
     // Unauthorized (logged in but insufficient permissions) users see 403 page
     if (!permissions.canRead(user.role)) {
       forbidden();

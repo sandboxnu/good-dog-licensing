@@ -3,8 +3,8 @@ import { z } from "zod";
 
 import { env } from "@good-dog/env";
 
-import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
-import { zPasswordValidation } from "../schema";
+import { notAuthenticatedProcedureBuilder } from "../../middleware/not-authenticated";
+import { zPasswordValidation } from "../../schema";
 
 // Expiration date for Moderator Invite is one week
 const getModeratorInviteExpirationDate = () =>
