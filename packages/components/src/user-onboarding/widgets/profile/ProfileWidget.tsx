@@ -21,9 +21,7 @@ export default function ProfileWidget() {
   const router = useRouter();
   const { data: user } = trpc.user.useQuery();
 
-  const userRoleFormatted = user
-    ? getRoleLabel(user.role)
-    : "Unknown";
+  const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
   const userCreatedAtFormatted = user
     ? user.createdAt.toLocaleDateString("en-US", {
         month: "long",
