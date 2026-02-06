@@ -5,22 +5,26 @@ interface ProfileIconProps {
   color: "light" | "dark";
   size?: number;
   editable?: boolean;
+  name?: string;
 }
 
 export default function ProfileIcon({
   color,
   size,
   editable,
+  name,
 }: ProfileIconProps) {
   const circleSize = size ? size : 48;
   const userQuery = trpc.user.useSuspenseQuery();
   const user = userQuery[0];
-  const letter = user?.firstName.substring(0, 1);
+  const letter = name
+    ? name.substring(0, 1).toUpperCase()
+    : user?.firstName.substring(0, 1).toUpperCase();
 
   return editable ? (
     <div className="relative inline-block pr-[4.5px]">
       {/* ^ padding to account for the pencil icon */}
-      <div className="w-full h-full relative flex items-center justify-center">
+      <div className="relative flex items-center justify-center">
         <svg
           width={circleSize}
           height={circleSize}
@@ -80,7 +84,7 @@ export default function ProfileIcon({
       </svg>
     </div>
   ) : (
-    <div className="w-full h-full relative flex items-center justify-center">
+    <div className="relative flex items-center justify-center">
       <svg
         width={circleSize}
         height={circleSize}

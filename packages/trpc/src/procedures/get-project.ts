@@ -18,6 +18,7 @@ export const getProjectSubmissionByIdProcedure =
         },
         include: {
           projectOwner: true,
+          projectManager: true,
           songRequests: {
             include: {
               matches: true,

@@ -4,16 +4,16 @@ import { NotificationBadge } from "../../base/NotificationBadge";
 
 export function MatchStatusTabs({
   numActionRequired,
-  incomingContent,
-  pendingApprovalContent,
-  matchedContent,
-  rejectedContent,
+  suggestions,
+  inProgress,
+  matched,
+  rejected,
 }: {
   numActionRequired: number;
-  incomingContent: ReactNode;
-  pendingApprovalContent: ReactNode;
-  matchedContent: ReactNode;
-  rejectedContent: ReactNode;
+  suggestions: ReactNode;
+  inProgress: ReactNode;
+  matched: ReactNode;
+  rejected: ReactNode;
 }) {
   return (
     <Tabs defaultValue="incoming">
@@ -22,7 +22,7 @@ export function MatchStatusTabs({
           value="incoming"
           className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-[182px] data-[state=active]:text-black px-4 py-3 box-content"
         >
-          Incoming matches
+          Suggestions
           {numActionRequired > 0 && (
             <NotificationBadge number={numActionRequired} />
           )}
@@ -32,7 +32,7 @@ export function MatchStatusTabs({
           value="pendingApproval"
           className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-[182px] data-[state=active]:text-black px-4 py-3 box-content"
         >
-          Pending approval
+          In progress
         </TabsTrigger>
 
         <TabsTrigger
@@ -50,12 +50,12 @@ export function MatchStatusTabs({
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="incoming">{incomingContent}</TabsContent>
+      <TabsContent value="incoming">{suggestions}</TabsContent>
       <TabsContent value="pendingApproval">
-        {pendingApprovalContent}
+        {inProgress}
       </TabsContent>
-      <TabsContent value="matched">{matchedContent}</TabsContent>
-      <TabsContent value="rejected">{rejectedContent}</TabsContent>
+      <TabsContent value="matched">{matched}</TabsContent>
+      <TabsContent value="rejected">{rejected}</TabsContent>
     </Tabs>
   );
 }
