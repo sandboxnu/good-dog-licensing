@@ -37,9 +37,9 @@ export default function ProfileWidget() {
   const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
   const userCreatedAtFormatted = user
     ? user.createdAt.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    })
+        month: "long",
+        year: "numeric",
+      })
     : "";
 
   const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
@@ -132,7 +132,7 @@ export default function ProfileWidget() {
           }
           errorMessage={
             sendEmailVerificationMutation.error &&
-              sendEmailVerificationMutation.error.data?.code !== "CONFLICT"
+            sendEmailVerificationMutation.error.data?.code !== "CONFLICT"
               ? "Internal Error. Please try again."
               : undefined
           }
