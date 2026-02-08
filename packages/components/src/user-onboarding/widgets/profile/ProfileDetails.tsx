@@ -4,9 +4,8 @@ import { zProfileValues } from "@good-dog/trpc/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
-import z from "zod";
+import type z from "zod";
 import { getMusicAffiliationLabel } from "../../../../utils/enumLabelMapper";
-import Button from "../../../base/Button";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import RHFDropdown from "../../../rhf-base/RHFDropdown";
 import InfoField from "./InfoField";
@@ -23,8 +22,8 @@ export default function ProfileDetails() {
     defaultValues: {
       firstName: user?.firstName,
       lastName: user?.lastName,
-      ipi: user?.ipi || "",
-      affiliation: user?.affiliation || MusicAffiliation.NONE,
+      ipi: user?.ipi ?? "",
+      affiliation: user?.affiliation ?? MusicAffiliation.NONE,
     },
   });
 
@@ -135,13 +134,13 @@ export default function ProfileDetails() {
                 <div className="flex-1">
                   <InfoField
                     header="First name"
-                    content={user?.firstName || ""}
+                    content={user?.firstName ?? ""}
                   />
                 </div>
                 <div className="flex-1">
                   <InfoField
                     header="Last name"
-                    content={user?.lastName || ""}
+                    content={user?.lastName ?? ""}
                   />
                 </div>
               </div>
@@ -149,12 +148,12 @@ export default function ProfileDetails() {
                 <div className="flex-1">
                   <InfoField
                     header="Group"
-                    content={user?.affiliation || "NONE"}
+                    content={user?.affiliation ?? "NONE"}
                   />
                 </div>
                 <div className="flex-1">
                   {showIpiField && (
-                    <InfoField header="IPI No." content={user?.ipi || "NONE"} />
+                    <InfoField header="IPI No." content={user?.ipi ?? "NONE"} />
                   )}
                 </div>
               </div>

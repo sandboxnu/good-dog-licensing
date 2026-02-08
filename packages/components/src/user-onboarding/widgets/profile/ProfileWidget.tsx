@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "../../../base/Button";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import ProfileIcon from "../../../svg/ProfileIcon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SetEmailModal from "./SetEmailModal";
 import { FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
@@ -40,7 +40,7 @@ export default function ProfileWidget() {
     user?.createdAt.toLocaleDateString("en-US", {
       month: "long",
       year: "numeric",
-    }) || "";
+    }) ?? "";
 
   const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
   const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false); // code verification
