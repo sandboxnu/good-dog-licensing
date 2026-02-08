@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "../../../base/Button";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import ProfileIcon from "../../../svg/ProfileIcon";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SetEmailModal from "./SetEmailModal";
 import { FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
@@ -37,9 +37,9 @@ export default function ProfileWidget() {
   const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
   const userCreatedAtFormatted = user
     ? user.createdAt.toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      })
+      month: "long",
+      year: "numeric",
+    })
     : "";
 
   const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
@@ -106,7 +106,6 @@ export default function ProfileWidget() {
       sendEmailVerificationMutation.mutate({
         email: emailFormMethods.watch("email"),
       });
-
     }
   };
 
@@ -133,7 +132,7 @@ export default function ProfileWidget() {
           }
           errorMessage={
             sendEmailVerificationMutation.error &&
-            sendEmailVerificationMutation.error.data?.code !== "CONFLICT"
+              sendEmailVerificationMutation.error.data?.code !== "CONFLICT"
               ? "Internal Error. Please try again."
               : undefined
           }
