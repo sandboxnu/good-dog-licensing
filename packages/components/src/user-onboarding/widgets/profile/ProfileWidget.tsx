@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "../../../base/Button";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import ProfileIcon from "../../../svg/ProfileIcon";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SetEmailModal from "./SetEmailModal";
 import { FormProvider, useForm } from "react-hook-form";
 import z from "zod";
@@ -58,20 +58,14 @@ export default function ProfileWidget() {
     resolver: zodResolver(zSetPasswordValues),
   });
 
-  const userCreatedAtFormatted = user
-    ? user.createdAt.toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      })
-    : "";
-
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push("/login");
-    }
-  }, [user, isLoading, router]);
-
-  const [editingPersonalDetails, setEditingPersonalDetails] = useState(false);
+  const userRoleFormatted = user
+    ? user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase()
+    : "Unknown";
+  const userCreatedAtFormatted =
+    user?.createdAt.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    }) ?? "";
 
   const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
   const [setEmailError, setSetEmailError] = useState(false);

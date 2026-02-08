@@ -11,6 +11,7 @@ const Input = React.forwardRef<
   }
 >(({ className, type, icon, value, onClear, ...props }, ref) => {
   const showClearButton = onClear && value;
+  const hasWrapper = icon ?? onClear;
 
   if (!icon && !showClearButton) {
     return (
