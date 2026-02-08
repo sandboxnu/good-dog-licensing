@@ -10,6 +10,7 @@ import Button from "../../../base/Button";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import RHFDropdown from "../../../rhf-base/RHFDropdown";
 import InfoField from "./InfoField";
+import ProfileSection from "./ProfileSection";
 
 type ProfileValuesFields = z.input<typeof zProfileValues>;
 
@@ -61,37 +62,14 @@ export default function ProfileDetails() {
 
   return (
     <FormProvider {...profileFormMethods}>
-      <div className="rounded-2xl bg-white border">
-        <header className="flex justify-between items-center bg-gray-200 rounded-t-2xl py-2.5 px-[24px]">
-          <p className="text-lg font-medium text-good-dog-main">
-            Personal details
-          </p>
-
-          {editingPersonalDetails ? (
-            <div className="flex flex-row gap-2">
-              <Button
-                size="small"
-                variant="contained"
-                label="Save"
-                onClick={handleChangeProfileValues}
-              />
-              <Button
-                size="small"
-                variant="outlined"
-                label="Cancel"
-                onClick={() => setEditingPersonalDetails(false)}
-              />
-            </div>
-          ) : (
-            <Button
-              size="small"
-              variant="outlined"
-              displayIcon="pencil"
-              label="Edit"
-              onClick={() => setEditingPersonalDetails(true)}
-            />
-          )}
-        </header>
+      <ProfileSection
+        header="Personal Details"
+        editable
+        editing={editingPersonalDetails}
+        onSave={handleChangeProfileValues}
+        onCancel={() => setEditingPersonalDetails(false)}
+        onEdit={() => setEditingPersonalDetails(true)}
+      >
         <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
           {editingPersonalDetails ? (
             <>
@@ -183,7 +161,7 @@ export default function ProfileDetails() {
             </>
           )}
         </div>
-      </div>
+      </ProfileSection>
     </FormProvider>
   );
 }

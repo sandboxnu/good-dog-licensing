@@ -16,13 +16,14 @@ import SetPasswordModal from "./SetPasswordModal";
 import DeleteAccountModal from "./DeleteAccountModal";
 import InfoField from "./InfoField";
 import ProfileDetails from "./ProfileDetails";
+import ProfileSection from "./ProfileSection";
 
 type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
 type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
 
 export default function ProfileWidget() {
   const router = useRouter();
-  const { data: user, isLoading } = trpc.user.useQuery();
+  const { data: user } = trpc.user.useQuery();
 
   const emailFormMethods = useForm<ChangeEmailValuesFields>({
     resolver: zodResolver(zSetEmailValues),
@@ -40,12 +41,6 @@ export default function ProfileWidget() {
       month: "long",
       year: "numeric",
     }) || "";
-
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push("/login");
-    }
-  }, [user, isLoading, router]);
 
   const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
   const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false); // code verification
@@ -171,7 +166,7 @@ export default function ProfileWidget() {
       <div className="flex flex-row items-center gap-4">
         <ProfileIcon color="light" size={56} />
         <div className="flex flex-col">
-          <header className="text-good-dog-main text-xl font-semibold">
+          <header className="text-good-dog-main dark:text-mint-200 text-xl font-semibold">
             {user?.firstName + " " + user?.lastName}
           </header>
           <div className="text-dark-gray-200">
@@ -181,10 +176,7 @@ export default function ProfileWidget() {
       </div>
       <div className="flex flex-col gap-y-[16px]">
         <ProfileDetails />
-        <div className="rounded-2xl bg-white border">
-          <header className="text-lg font-medium text-good-dog-main bg-gray-200 rounded-t-2xl py-2.5 px-[24px]">
-            Security
-          </header>
+        <ProfileSection header="Security">
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
             <div className="flex flex-row justify-between items-center">
               <InfoField header="Email" content={user ? user.email : ""} />
@@ -205,11 +197,8 @@ export default function ProfileWidget() {
               />
             </div>
           </div>
-        </div>
-        <div className="rounded-2xl bg-white border">
-          <header className="rounded-t-2xl bg-white pt-2.5 px-[23.5px] text-error font-medium text-lg">
-            Delete account
-          </header>
+        </ProfileSection>
+        <ProfileSection header="Delete account" transparentHeader danger>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[18px]">
             <div className="flex flex-row justify-left items-center text-dark-gray-300">
               <ErrorExclamation size="medium" /> This will permanently delete
@@ -226,7 +215,7 @@ export default function ProfileWidget() {
               />
             </div>
           </div>
-        </div>
+        </ProfileSection>
       </div>
     </div>
   );

@@ -53,7 +53,7 @@ export default function Dropdown({
       <div className="flex flex-row gap-[2px]">
         <Label
           htmlFor={id}
-          className="text-body3 font-normal text-dark-gray-600"
+          className="text-body3 font-normal text-dark-gray-600 dark:text-gray-100"
         >
           {label}
         </Label>
@@ -64,7 +64,7 @@ export default function Dropdown({
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
           asChild
-          className="h-[32px] w-full rounded-[8px] border border-gray px-2 text-body3 text-body-primary placeholder:text-dark-gray-100 hover:border-gray-600 focus:border-green-300 focus:shadow-active focus:outline-none"
+          className="h-[32px] w-full rounded-[8px] border border-dark-gray-200 dark:border-dark-gray-300 px-2 text-body3 text-dark-gray-500 dark:text-gray-200 dark:bg-dark-gray-500 placeholder:text-dark-gray-100 hover:border-gray-600 focus:border-green-300 focus:shadow-active focus:outline-none"
         >
           <div className="flex justify-between items-center">
             <span>{currentLabel}</span>
@@ -77,7 +77,7 @@ export default function Dropdown({
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-[var(--radix-dropdown-menu-trigger-width)] rounded-lg bg-white py-2 space-y-1"
+          className="w-[var(--radix-dropdown-menu-trigger-width)] border border-dark-gray-200 dark:border-dark-gray-300 rounded-lg text-body3 text-dark-gray-500 dark:text-gray-200 bg-white dark:bg-dark-gray-500 py-2 space-y-1"
           align="start"
           sideOffset={4}
         >
@@ -87,8 +87,8 @@ export default function Dropdown({
               <DropdownMenuItem
                 key={option.value}
                 onSelect={() => onChange(option.value)}
-                className={`flex items-center justify-between text-[16px] rounded-lg text-body3 focus:bg-[#E6F4F0] ${
-                  isSelected ? "bg-[#E6F4F0]" : ""
+                className={`flex items-center justify-between text-[16px] rounded-lg text-body3 focus:bg-mint-300 dark:focus:bg-mint-500 ${
+                  isSelected ? "bg-mint-300 dark:bg-mint-500" : ""
                 }`}
               >
                 <span>{option.label}</span>
