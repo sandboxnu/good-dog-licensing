@@ -62,8 +62,8 @@ export default function LoginWidget() {
         <FormProvider {...formMethods}>
           <form className="pr-[40px]" onSubmit={handleLogin}>
             <h3 className="text-green-400 dark:text-mint-200">Welcome back!</h3>
-            <p className="text-dark-gray-600 dark:text-gray-100">
-              All fields below are required
+            <p className="text-error dark:text-red-300">
+              *Indicates a required field
             </p>
             {loginMutation.isError && (
               <div className="flex flex-row items-center gap-[2px]">
