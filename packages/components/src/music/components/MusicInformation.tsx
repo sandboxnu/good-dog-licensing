@@ -75,11 +75,11 @@ export default function MusicInformation({
         {musicSubmission.additionalInfo.length > 0 && (
           <>
             <div className="w-[1px] bg-light-gray" />
-            <div className="flex flex-col gap-1 flex-grow">
+            <div className="flex flex-col gap-1 flex-grow min-w-0">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Additional Information
               </p>
-              <p className="text-dark-gray-500 dark:text-gray-200">
+              <p className="text-dark-gray-500 dark:text-gray-200 break-words">
                 {musicSubmission.additionalInfo}
               </p>
             </div>
