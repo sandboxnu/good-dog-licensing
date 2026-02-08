@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { trpc } from "@good-dog/trpc/client";
@@ -10,6 +11,7 @@ import NavLogo from "./svg/NavLogo";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
+  const pathname = usePathname();
 
   return (
     <header className="w-full">
@@ -22,7 +24,10 @@ export default function Nav() {
         </Link>
 
         <nav className="flex items-center gap-8 text-lg text-green-500 dark:text-mint-200">
-          <Link href="/" className="underline-offset-4 hover:underline">
+          <Link
+            href="/"
+            className={`underline-offset-[6px] hover:underline ${pathname === "/" ? "underline" : ""}`}
+          >
             Home
           </Link>
           {user ? (
@@ -31,13 +36,13 @@ export default function Nav() {
             <>
               <Link
                 href="/login"
-                className="underline-offset-4 hover:underline"
+                className={`underline-offset-[6px] hover:underline ${pathname === "/login" ? "underline" : ""}`}
               >
                 Login
               </Link>
               <Link
                 href="/signup"
-                className="underline-offset-4 hover:underline"
+                className={`underline-offset-[6px] hover:underline ${pathname === "/signup" ? "underline" : ""}`}
               >
                 Sign up
               </Link>
