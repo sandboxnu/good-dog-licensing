@@ -62,7 +62,7 @@ export default function Button({
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName} group ${
         errorContained
-          ? "bg-red-400  dark:bg-dark-gray-600 dark:active:bg-[#591A1A] hover:bg-red-500"
+          ? "!bg-red-400 dark:active:bg-[#591A1A] hover:!bg-red-500"
           : ""
       } ${errorOutlined ? "border-error active:bg-500 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
     >

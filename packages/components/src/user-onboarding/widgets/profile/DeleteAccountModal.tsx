@@ -41,7 +41,7 @@ export default function DeleteAccountModal({
             label="Delete Account"
             size="small"
             variant="contained"
-            error={true}
+            error
             onClick={onDeleteAccount}
           />
         </div>
