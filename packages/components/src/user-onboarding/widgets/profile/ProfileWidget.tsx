@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "../../../base/Button";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import ProfileIcon from "../../../svg/ProfileIcon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SetEmailModal from "./SetEmailModal";
 import { FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
@@ -17,6 +17,7 @@ import DeleteAccountModal from "./DeleteAccountModal";
 import InfoField from "./InfoField";
 import ProfileDetails from "./ProfileDetails";
 import ProfileSection from "./ProfileSection";
+import { getRoleLabel } from "../../../../utils/enumLabelMapper";
 
 type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
 type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
@@ -33,14 +34,13 @@ export default function ProfileWidget() {
     resolver: zodResolver(zSetPasswordValues),
   });
 
-  const userRoleFormatted = user
-    ? user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase()
-    : "Unknown";
-  const userCreatedAtFormatted =
-    user?.createdAt.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    }) ?? "";
+  const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
+  const userCreatedAtFormatted = user
+    ? user.createdAt.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
+    : "";
 
   const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
   const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false); // code verification
@@ -106,6 +106,7 @@ export default function ProfileWidget() {
       sendEmailVerificationMutation.mutate({
         email: emailFormMethods.watch("email"),
       });
+
     }
   };
 
