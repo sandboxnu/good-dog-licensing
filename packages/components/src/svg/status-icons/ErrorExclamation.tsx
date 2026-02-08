@@ -1,5 +1,6 @@
 interface ErrorExclamationProps {
   size: "small" | "medium" | "large";
+  dark?: boolean;
 }
 
 export default function ErrorExclamation({

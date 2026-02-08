@@ -1,4 +1,4 @@
-import { Spinner } from "@good-dog/components/loading/Spinner";
+import { Spinner } from "@good-dog/components/oldStuff/loading/Spinner";
 
 export default function LoadingPage() {
   return (

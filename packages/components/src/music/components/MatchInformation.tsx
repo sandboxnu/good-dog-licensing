@@ -33,35 +33,37 @@ export default function MatchInformation({
           />
           <SongRequestInformation songRequest={selectedMatch?.songRequest} />
         </div>
-        <MatchStatusTabs
-          numActionRequired={
-            matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
-          }
-          incomingContent={
-            <Matches
-              state={"INCOMING"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          matchedContent={
-            <Matches
-              state={"MATCHED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          rejectedContent={
-            <Matches
-              state={"REJECTED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-        />
+        <div className="flex flex-col gap-4">
+          <MatchStatusTabs
+            numActionRequired={
+              matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
+            }
+            incomingContent={
+              <Matches
+                state={"INCOMING"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            matchedContent={
+              <Matches
+                state={"MATCHED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            rejectedContent={
+              <Matches
+                state={"REJECTED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+          />
+        </div>
       </div>
     </div>
   );

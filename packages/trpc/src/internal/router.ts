@@ -5,7 +5,7 @@ import {
   signInProcedure,
   signOutProcedure,
 } from "../procedures/auth";
-import { changeNewPasswordByEmailProcedure } from "../procedures/change-password";
+import { changePasswordProcedure } from "../procedures/change-password";
 import { changeProfileValuesProcedure } from "../procedures/change-profile-values";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 import {
@@ -78,8 +78,9 @@ export const appRouter = createTRPCRouter({
   songRequestSubmission: songRequestSubmissionProcedure,
   getProjectSubmissionById: getProjectSubmissionByIdProcedure,
   getMusicSubmissionById: getMusicSubmissionByIdProcedure,
-  changePasswordByEmail: changeNewPasswordByEmailProcedure,
+  changePassword: changePasswordProcedure,
   changeProfileValues: changeProfileValuesProcedure,
+  assignProjectManager: assignProjectManagerProcedure,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,2 +1,0 @@
--- AlterEnum
-ALTER TYPE "MatchState" ADD VALUE 'REJECTED_BY_MANAGER';

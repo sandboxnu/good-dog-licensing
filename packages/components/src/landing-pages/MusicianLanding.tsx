@@ -54,7 +54,7 @@ export default function MusicianLanding() {
                   })
                 }
                 children={
-                  <div className="flex flex-col gap-[24px] pt-[16px] h-full justify-between">
+                  <div className="flex flex-col gap-[24px]">
                     <div className="flex flex-col gap-[8px]">
                       <Line text={song.performerName} icon={<People />} />
                       <Line

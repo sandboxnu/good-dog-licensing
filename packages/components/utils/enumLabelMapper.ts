@@ -1,23 +1,4 @@
-import {
-  Genre,
-  MusicAffiliation,
-  MusicRole,
-  ProjectType,
-  Role,
-} from "@good-dog/db";
-
-export function getRoleLabel(value: Role): string {
-  switch (value) {
-    case Role.ADMIN:
-      return "Admin";
-    case Role.MEDIA_MAKER:
-      return "Media Maker";
-    case Role.MODERATOR:
-      return "Moderator";
-    case Role.MUSICIAN:
-      return "Musician";
-  }
-}
+import { Genre, MusicAffiliation, MusicRole, ProjectType } from "@good-dog/db";
 
 export function getGenreLabel(value: Genre): string {
   switch (value) {
@@ -58,19 +39,6 @@ export function getMusicRoleLabel(value: MusicRole): string {
       return "Songwriter";
     case MusicRole.LYRICIST:
       return "Lyricist";
-  }
-}
-
-export function getRoleLabel(value: Role): string {
-  switch (value) {
-    case Role.MUSICIAN:
-      return "Musician";
-    case Role.MEDIA_MAKER:
-      return "Media Maker";
-    case Role.ADMIN:
-      return "Admin";
-    case Role.MODERATOR:
-      return "Moderator";
   }
 }
 
