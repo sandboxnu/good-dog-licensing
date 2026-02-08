@@ -39,7 +39,7 @@ export const layoutWithPermissions = <
     }
 
     if (!user.active) {
-      return <div>Your account is has been deactivated.</div>;
+      return <div>Your account has been deactivated.</div>;
     }
 
     // Unauthorized (logged in but insufficient permissions) users see 403 page
