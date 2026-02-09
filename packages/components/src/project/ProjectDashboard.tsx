@@ -17,7 +17,7 @@ export default function ProjectDashboard({ projectId }: { projectId: string }) {
       <div className="flex flex-col gap-10">
         <div
           className="flex flex-row items-center text-secondary hover:cursor-pointer"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/home")}
         >
           <ChevronLeft className="h-4 w-4 text-green-500 dark:text-mint-300" />
           <p className="underline font-medium text-green-500 dark:text-mint-200">
