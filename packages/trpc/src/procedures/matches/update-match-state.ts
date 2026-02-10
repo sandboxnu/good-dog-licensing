@@ -91,9 +91,9 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
       });
     }
 
-    // If admin or moderator, then they must be the project manager
+    // If moderator, then they must be the project manager (admins can bypass)
     if (
-      (role === Role.ADMIN || role === Role.MODERATOR) &&
+      role === Role.MODERATOR &&
       match.songRequest.projectSubmission.projectManagerId !==
         ctx.session.user.userId
     ) {
