@@ -9,6 +9,7 @@ import {
 } from "@good-dog/trpc/server";
 import { UnauthenticatedWrapper } from "./UnauthenticatedWrapper";
 import Deactivated from "./Deactivated";
+import PageContainer from "./PageContainer";
 
 const getTrpcLikeQueryKey = <I extends object>(path: string[], input?: I) => [
   path.flatMap((part) => part.split(".")),
@@ -40,7 +41,11 @@ export const layoutWithPermissions = <
     }
 
     if (!user.active) {
-      return <Deactivated />;
+      return (
+        <PageContainer background="solid">
+          <Deactivated />
+        </PageContainer>
+      );
     }
 
     // Unauthorized (logged in but insufficient permissions) users see 403 page

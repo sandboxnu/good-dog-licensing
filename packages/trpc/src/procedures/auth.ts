@@ -4,6 +4,7 @@ import type { UserWithSession } from "../types";
 import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 import { zSignInValues } from "../schema";
+import { authenticatedOnlyProcedureBuilder } from "../middleware/authenticated-only";
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
@@ -55,7 +56,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
     };
   });
 
-export const signOutProcedure = authenticatedAndActiveProcedureBuilder.mutation(
+export const signOutProcedure = authenticatedOnlyProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.session.delete({
       where: {
