@@ -99,7 +99,7 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
     ) {
       throw new TRPCError({
         code: "FORBIDDEN",
-        message: `Admins and moderators can only update the state of matches that are managed by them`,
+        message: `Moderators can only update the state of matches that are managed by them`,
       });
     }
 
