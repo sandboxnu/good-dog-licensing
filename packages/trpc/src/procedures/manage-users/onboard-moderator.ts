@@ -102,6 +102,7 @@ export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
               expiresAt: getNewSessionExpirationDate(),
             },
           },
+          active: true,
         },
         select: {
           sessions: true,
