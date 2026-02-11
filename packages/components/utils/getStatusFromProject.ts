@@ -17,7 +17,7 @@ export type ProjectSubmissionWithSongRequestAndMatches = ProjectSubmission &
 
 export default function getStatusFromProject(
   project: ProjectSubmissionWithSongRequestAndMatches,
-) : "Not assigned" | "In progress" | "In review" | "Matched"{
+): "Not assigned" | "In progress" | "In review" | "Matched" {
   const actionRequired = project.songRequests.some((songReq) =>
     songReq.matches.some((match) => match.matchState === MatchState.NEW),
   );
