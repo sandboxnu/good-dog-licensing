@@ -4,6 +4,7 @@ import { trpc } from "@good-dog/trpc/client";
 import Header from "../Header";
 import type { MusicSubmission } from "@prisma/client";
 import {
+  TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
   TableRowFormatting,
@@ -28,16 +29,15 @@ export default function Songs() {
 }
 
 function SongTable({ data }: { data: MusicSubmission[] }) {
-
   return (
     <TableOuterFormatting>
       <div className="flex flex-col">
         <TableHeaderFormatting columnCount={6}>
-          <p>Song Name</p>
-          <p>Musician</p>
-          <p>Genre</p>
-          <p>Date Submitted</p>
-          <p>Song Link</p>
+          <p className="dark:text-white">Song Name</p>
+          <p className="dark:text-white">Musician</p>
+          <p className="dark:text-white">Genre</p>
+          <p className="dark:text-white">Date Submitted</p>
+          <p className="dark:text-white">Song Link</p>
         </TableHeaderFormatting>
 
         {data.map((user: MusicSubmission, key) => {
@@ -47,9 +47,9 @@ function SongTable({ data }: { data: MusicSubmission[] }) {
               isLast={key === data.length - 1}
               columnCount={6}
             >
-              <p className="truncate">{user.songName}</p>
-              <p className="truncate">{user.performerName}</p>
-              <div className="flex gap-1 overflow-hidden">
+              <p className="dark:text-white truncate">{user.songName}</p>
+              <p className="dark:text-white truncate">{user.performerName}</p>
+              <div className="dark:text-white flex gap-1 overflow-hidden">
                 {user.genres.slice(0, 1).map((genre, index) => (
                   <GenreCard genre={genre} key={index} />
                 ))}
@@ -59,19 +59,20 @@ function SongTable({ data }: { data: MusicSubmission[] }) {
                   </div>
                 )}
               </div>
-              <p>
+              <p className="dark:text-white">
                 {user.createdAt.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
                 })}
               </p>
-              <a href={user.songLink} className="truncate">
+              <a href={user.songLink} className="dark:text-white truncate">
                 <u>{user.songLink}</u>
               </a>
             </TableRowFormatting>
           );
         })}
+        {data.length == 0 && <TableEmptyMessage />}
       </div>
     </TableOuterFormatting>
   );

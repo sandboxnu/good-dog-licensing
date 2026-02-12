@@ -20,7 +20,7 @@ export default function AdminLanding() {
         <Projects />
       ) : activeTab === "songs" ? (
         <Songs />
-      ) :  (
+      ) : (
         <Users />
       )}
     </div>

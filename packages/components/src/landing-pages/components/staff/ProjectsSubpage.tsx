@@ -2,7 +2,12 @@ import { useState } from "react";
 import type { ProjectSubmissionWithSongRequestAndMatches } from "../../../../utils/getStatusFromProject";
 import getStatusFromProject from "../../../../utils/getStatusFromProject";
 import Header from "../Header";
-import { TableHeaderFormatting, TableOuterFormatting, TableRowFormatting } from "./TableFormatting";
+import {
+  TableEmptyMessage,
+  TableHeaderFormatting,
+  TableOuterFormatting,
+  TableRowFormatting,
+} from "./TableFormatting";
 import { trpc } from "@good-dog/trpc/client";
 
 export default function Projects() {
@@ -94,48 +99,55 @@ function SubmissionTable({
     <TableOuterFormatting>
       <div className="flex flex-col">
         <TableHeaderFormatting>
-          <p>Project Name</p>
-          <p>Project Description</p>
-          <p>Media Maker</p>
-          <p>Date submitted</p>
-          <p>Deadline</p>
-          <p>Assignee</p>
-          <p>Status</p>
+          <p className="dark:text-white">Project Name</p>
+          <p className="dark:text-white">Project Description</p>
+          <p className="dark:text-white">Status</p>
+          <p className="dark:text-white">Media Maker</p>
+          <p className="dark:text-white">Date submitted</p>
+          <p className="dark:text-white">Deadline</p>
+          <p className="dark:text-white">Assignee</p>
         </TableHeaderFormatting>
 
-        {data.map((project: ProjectSubmissionWithSongRequestAndMatches, key) => {
+        {data.map(
+          (project: ProjectSubmissionWithSongRequestAndMatches, key) => {
             return (
-                <TableRowFormatting key={key} isLast={key === data.length - 1}>
-                <p>{project.projectTitle}</p>
-                <p>{project.description}</p>
-                <p>
+              <TableRowFormatting key={key} isLast={key === data.length - 1}>
+                <p className="dark:text-white truncate">
+                  {project.projectTitle}
+                </p>
+                <p className="dark:text-white truncate">
+                  {project.description}
+                </p>
+                <div>
+                  <AdminStatusIndicator
+                    status={getStatusFromProject(project)}
+                  />
+                </div>
+                <p className="dark:text-white truncate">
                   {project.projectOwner.firstName +
                     " " +
                     project.projectOwner.lastName}
                 </p>
-                <p>
+                <p className="dark:text-white truncate">
                   {project.createdAt.toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
                   })}
                 </p>
-                <p>
+                <p className="dark:text-white truncate">
                   {project.deadline.toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
                   })}
                 </p>
-                <div>assigned pnr rep</div>
-                <div>
-                  <AdminStatusIndicator
-                    status={getStatusFromProject(project)}
-                  />
-                </div>
+                <div className="dark:text-white truncate">+</div>
               </TableRowFormatting>
             );
-          })}
+          },
+        )}
+        {data.length == 0 && <TableEmptyMessage />}
       </div>
     </TableOuterFormatting>
   );
