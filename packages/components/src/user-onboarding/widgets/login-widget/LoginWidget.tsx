@@ -3,7 +3,7 @@
 import type { z } from "zod";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -21,6 +21,8 @@ type LoginFormFields = z.input<typeof zSignInValues>;
 
 export default function LoginWidget() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/";
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const formMethods = useForm<LoginFormFields>({
     resolver: zodResolver(zSignInValues),
@@ -40,7 +42,9 @@ export default function LoginWidget() {
       await trpcUtils.user.reset();
 
       // TODO: Alert toast to the user that they have successfully logged in
-      router.push("/");
+      // If a user was on a page they were unauthorized for, redirect them back there
+      // Else, redirect to homepage
+      router.push(callbackUrl);
     },
     onError: (err) => {
       // TODO: Alert toast to the user that there was an error logging in
