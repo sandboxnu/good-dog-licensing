@@ -49,10 +49,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
       },
     });
 
-    ctx.cookiesService.setSessionCookie(
-      session.sessionId,
-      input.rememberMe ? session.expiresAt : undefined,
-    );
+    ctx.cookiesService.setSessionCookie(session.sessionId, session.expiresAt);
 
     return {
       message: `Successfully logged in as ${input.email}`,
