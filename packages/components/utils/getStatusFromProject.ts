@@ -19,12 +19,14 @@ export default function getStatusFromProject(
   project: ProjectSubmissionWithSongRequestAndMatches,
 ): "Not assigned" | "In progress" | "In review" | "Matched" {
   const actionRequired = project.songRequests.some((songReq) =>
-    songReq.matches.some((match) => match.matchState === MatchState.NEW),
+    songReq.matches.some(
+      (match) => match.matchState === MatchState.SENT_TO_MEDIA_MAKER,
+    ),
   );
   // Something approved by media maker but not by musician
   const pendingApproval = project.songRequests.some((songReq) =>
     songReq.matches.some(
-      (match) => match.matchState === MatchState.SONG_REQUESTED,
+      (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
     ),
   );
 
