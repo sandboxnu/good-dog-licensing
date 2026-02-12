@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import type { ProjectSubmissionWithSongRequestAndMatches } from "../../../../utils/getStatusFromProject";
 import getStatusFromProject from "../../../../utils/getStatusFromProject";
