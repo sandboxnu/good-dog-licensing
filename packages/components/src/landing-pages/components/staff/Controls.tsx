@@ -1,10 +1,18 @@
+"use client";
 import { zDashboardControls } from "@good-dog/trpc/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import z from "zod";
+import type z from "zod";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../base/Select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../base/Select";
 import { FilterIcon } from "lucide-react";
+import type { Dispatch, SetStateAction } from "react";
 
 const filterOptions = [
   { label: "No filter", value: null },
@@ -15,14 +23,14 @@ const filterOptions = [
 type FormValues = z.input<typeof zDashboardControls>;
 
 /**
- * Search and filter controls for the admin dashboard. 
+ * Search and filter controls for the admin dashboard.
  */
 export function Controls({
   setSelectedFilter,
-  setSearchTerm
+  setSearchTerm,
 }: {
-  setSelectedFilter: Function;
-  setSearchTerm: Function;
+  setSelectedFilter: Dispatch<SetStateAction<string | null>>;
+  setSearchTerm: Dispatch<SetStateAction<string | undefined>>;
 }) {
   const controlsForm = useForm<FormValues>({
     resolver: zodResolver(zDashboardControls),
@@ -40,7 +48,8 @@ export function Controls({
           errorText={controlsForm.formState.errors.searchTerm?.message}
         />
       </div>
-      <Select       onValueChange={(value: string | null) => setSelectedFilter(value)}
+      <Select
+        onValueChange={(value: string | null) => setSelectedFilter(value)}
       >
         <SelectTrigger className="w-[296px] justify-between">
           <SelectValue

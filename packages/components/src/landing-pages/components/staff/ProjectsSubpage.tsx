@@ -1,12 +1,12 @@
 import { useState } from "react";
-import getStatusFromProject, { ProjectSubmissionWithSongRequestAndMatches } from "../../../../utils/getStatusFromProject";
+import type { ProjectSubmissionWithSongRequestAndMatches } from "../../../../utils/getStatusFromProject";
+import getStatusFromProject from "../../../../utils/getStatusFromProject";
 import Header from "../Header";
 import { TableHeaderFormatting, TableOuterFormatting, TableRowFormatting } from "./TableFormatting";
 import { trpc } from "@good-dog/trpc/client";
-import { Controls } from "./Controls";
 
 export default function Projects() {
-  const [data] = trpc.mediamakerProjects.useSuspenseQuery();
+  const [data] = trpc.media.useSuspenseQuery();
   const [activeStatuses, setActiveStatuses] = useState<
     ("Not assigned" | "In progress" | "In review" | "Matched")[]
   >(["Not assigned"]);
@@ -90,20 +90,8 @@ function SubmissionTable({
 }: {
   data: ProjectSubmissionWithSongRequestAndMatches[];
 }) {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string | null>(null);
-
-  if (!data) {
-    return <p>Loading...</p>;
-  }
-
-  // Calculate pagination
-  const userQuery = trpc.user.useSuspenseQuery();
-  const user = userQuery[0];
-
   return (
     <TableOuterFormatting>
-      <Controls setSelectedFilter={setSelectedFilter} setSearchTerm={setSearchTerm} />
       <div className="flex flex-col">
         <TableHeaderFormatting>
           <p>Project Name</p>
@@ -115,23 +103,7 @@ function SubmissionTable({
           <p>Status</p>
         </TableHeaderFormatting>
 
-        {data
-          .filter((project: ProjectSubmissionWithSongRequestAndMatches) => {
-            if (selectedFilter === "assigned_to_me") {
-              // Replace "currentUserId" with the actual ID of the current user
-              const currentUserId = user?.userId; // Example user ID
-              return project.projectManagerId === currentUserId;
-            } else if (selectedFilter === "dealine_this_week") {
-              const now = new Date();
-              const oneWeekFromNow = new Date();
-              oneWeekFromNow.setDate(now.getDate() + 7);
-              return (
-                project.deadline >= now && project.deadline <= oneWeekFromNow
-              );
-            }
-            return true; // No filter applied, include all projects
-          })
-          .map((project: ProjectSubmissionWithSongRequestAndMatches, key) => {
+        {data.map((project: ProjectSubmissionWithSongRequestAndMatches, key) => {
             return (
                 <TableRowFormatting key={key} isLast={key === data.length - 1}>
                 <p>{project.projectTitle}</p>

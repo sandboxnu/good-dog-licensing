@@ -8,7 +8,6 @@ import StatusIndicator from "../base/StatusIndicator";
 import EmptyFolder from "../svg/homepage/EmptyFolder";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
-import getStatusFromProject from "../../utils/getStatusFromProject";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -62,16 +61,15 @@ export default function MediaMakerLanding() {
             const indicator: {
               variant: "error" | "success" | "warning" | "gray";
               text: string;
-            } =
-              status === "in progress"
-                ? { variant: "error", text: "Action required" }
-                : status === "in review"
-                  ? { variant: "warning", text: "Pending approval" }
-                  : status === "not started"
-                    ? { variant: "gray", text: "Project submitted" }
-                    : status === "completed"
-                      ? { variant: "success", text: "Completed" }
-                      : { variant: "warning", text: "In progress" };
+            } = actionRequired
+              ? { variant: "error", text: "Action required" }
+              : pendingApproval
+                ? { variant: "warning", text: "Pending approval" }
+                : matchSize === 0
+                  ? { variant: "gray", text: "Project submitted" }
+                  : completed
+                    ? { variant: "success", text: "Completed" }
+                    : { variant: "warning", text: "In progress" };
 
             return (
               <Card

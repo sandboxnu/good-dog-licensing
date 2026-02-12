@@ -1,82 +1,86 @@
+"use client";
+
 import { trpc } from "@good-dog/trpc/client";
 import Header from "../Header";
-import type {
-  MusicSubmission,
-} from "@prisma/client";
-import { useState } from "react";
-import { TableHeaderFormatting, TableOuterFormatting, TableRowFormatting } from "./TableFormatting";
-import { Controls } from "./Controls";
+import type { MusicSubmission } from "@prisma/client";
+import {
+  TableHeaderFormatting,
+  TableOuterFormatting,
+  TableRowFormatting,
+} from "./TableFormatting";
 
 /**
  * Song sub-page of admin dashboard.
  */
 export default function Songs() {
-    const [data] = trpc.music.useSuspenseQuery();
-  return <p className="flex flex-col gap-[32px]">
-    <Header
+  const [data] = trpc.music.useSuspenseQuery();
+  return (
+    <div className="flex flex-col gap-[32px]">
+      <Header
         title={"Songs"}
         subtitle={"Subtitle here"}
         requestPath={""}
         buttonContent="Invite"
       />
-      <SongTable
-        data={data.music}
-      />
-
-  </p>;
+      <SongTable data={data.music} />
+    </div>
+  );
 }
 
-function SongTable({
-  data,
-}: {
-  data: MusicSubmission[];
-}) {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string | null>(null);
-
-  if (!data) {
-    return <p>Loading...</p>;
-  }
-
-  // Calculate pagination
-  const userQuery = trpc.user.useSuspenseQuery();
-  const user = userQuery[0];
+function SongTable({ data }: { data: MusicSubmission[] }) {
 
   return (
     <TableOuterFormatting>
-      <Controls setSelectedFilter={setSelectedFilter} setSearchTerm={setSearchTerm} />
       <div className="flex flex-col">
-        <TableHeaderFormatting>
+        <TableHeaderFormatting columnCount={6}>
           <p>Song Name</p>
           <p>Musician</p>
-          <p>Description</p>
+          <p>Genre</p>
           <p>Date Submitted</p>
           <p>Song Link</p>
         </TableHeaderFormatting>
 
-        {data
-          .map((user: MusicSubmission, key) => {
-            return (
-                <TableRowFormatting key={key} isLast={key === data.length - 1}>
-                <p>{user.songName}</p>
-                <p>{user.performerName}</p>
-                <p>
-                  {"Need description"}
-                </p>
-                <p>
-                    {user.createdAt.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                </p>
-                <a href={user.songLink}>
-                    {user.songLink}
-                    </a>
-              </TableRowFormatting>
-            );
-          })}
+        {data.map((user: MusicSubmission, key) => {
+          return (
+            <TableRowFormatting
+              key={key}
+              isLast={key === data.length - 1}
+              columnCount={6}
+            >
+              <p className="truncate">{user.songName}</p>
+              <p className="truncate">{user.performerName}</p>
+              <div className="flex gap-1 overflow-hidden">
+                {user.genres.slice(0, 1).map((genre, index) => (
+                  <GenreCard genre={genre} key={index} />
+                ))}
+                {user.genres.length > 1 && (
+                  <div className="flex h-6 px-2 py-1 justify-center items-center gap-1 bg-gray-300 dark:bg-gray-400 text-gray-500 rounded w-fit">
+                    +{user.genres.length - 2}
+                  </div>
+                )}
+              </div>
+              <p>
+                {user.createdAt.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </p>
+              <a href={user.songLink} className="truncate">
+                <u>{user.songLink}</u>
+              </a>
+            </TableRowFormatting>
+          );
+        })}
       </div>
     </TableOuterFormatting>
+  );
+}
+
+function GenreCard({ genre }: { genre: string }) {
+  return (
+    <div className="flex h-6 px-2 py-1 justify-center items-center gap-1 bg-gray-300 dark:bg-gray-400 text-gray-500 rounded w-fit">
+      {genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase()}
+    </div>
   );
 }

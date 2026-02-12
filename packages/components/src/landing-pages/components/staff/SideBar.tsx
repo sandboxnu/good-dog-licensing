@@ -1,10 +1,12 @@
-import { ReactNode } from "react";
+"use client";
+
+import type { ReactNode } from "react";
 import SongTabIcon from "../../../svg/homepage/admin/SongTabIcon";
 import SubmissionTabIcon from "../../../svg/homepage/admin/SubmissionTabIcon";
 import UsersTabIcon from "../../../svg/homepage/admin/UsersTabIcon";
 
 /**
- * Bar that contains navigation to different pages on the right 
+ * Bar that contains navigation to different pages on the right
  */
 export default function SideBar({
   activeTab,
@@ -12,7 +14,7 @@ export default function SideBar({
   isAdminView,
 }: {
   activeTab: "submissions" | "songs" | "users";
-  setActiveTab: Function;
+  setActiveTab: (tab: "submissions" | "songs" | "users") => void;
   isAdminView: boolean;
 }) {
   return (
@@ -30,18 +32,18 @@ export default function SideBar({
           icon={<SongTabIcon active={activeTab === "songs"} />}
           onClick={() => setActiveTab("songs")}
         />
-        {isAdminView && <SideBarEntry
-          active={activeTab === "users"}
-          text={"Users"}
-          icon={<UsersTabIcon active={activeTab === "users"} />}
-          onClick={() => setActiveTab("users")}
-        />}
+        {isAdminView && (
+          <SideBarEntry
+            active={activeTab === "users"}
+            text={"Users"}
+            icon={<UsersTabIcon active={activeTab === "users"} />}
+            onClick={() => setActiveTab("users")}
+          />
+        )}
       </div>
     </div>
   );
 }
-
-
 
 /**
  * Used to navigate between different pages on the left sidebar.  Pages include submissions, songs, and users.

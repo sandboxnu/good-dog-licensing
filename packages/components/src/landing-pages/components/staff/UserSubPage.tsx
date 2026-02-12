@@ -5,9 +5,6 @@ import { Role } from "@good-dog/db";
 import type {
   User,
 } from "@prisma/client";
-import { useState } from "react";
-import { Controls } from "./Controls";
-
 type DisplayUser = Omit<User, 'hashedPassword'> 
 /**
  * User sub-page of admin dashboard.
@@ -34,22 +31,11 @@ function UserTable({
 }: {
   data: DisplayUser[];
 }) {
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string | null>(null);
-
-  if (!data) {
-    return <p>Loading...</p>;
-  }
-
-  // Calculate pagination
-  const userQuery = trpc.user.useSuspenseQuery();
-  const user = userQuery[0];
 
   return (
     <TableOuterFormatting>
-      <Controls setSelectedFilter={setSelectedFilter} setSearchTerm={setSearchTerm} />
       <div className="flex flex-col">
-        <TableHeaderFormatting>
+        <TableHeaderFormatting columnCount={5}>
           <p>First Name</p>
           <p>Last Name</p>
           <p>Email Address</p>
@@ -60,10 +46,10 @@ function UserTable({
         {data
           .map((user: DisplayUser, key) => {
             return (
-                <TableRowFormatting key={key} isLast={key === data.length - 1}>
-                <p>{user.firstName}</p>
-                <p>{user.lastName}</p>
-                <p>
+                <TableRowFormatting key={key} isLast={key === data.length - 1} columnCount={5}>
+                <p className="truncate">{user.firstName}</p>
+                <p className="truncate">{user.lastName}</p>
+                <p className="truncate">
                   {user.email}
                 </p>
                 <p>
