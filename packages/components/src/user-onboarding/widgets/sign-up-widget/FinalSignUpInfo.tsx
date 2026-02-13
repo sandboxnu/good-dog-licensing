@@ -11,6 +11,7 @@ import Button from "../../../base/Button";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import PasswordRequirements from "../components/PasswordRequirements";
+import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -76,6 +77,20 @@ export default function FinalSignUpInfo({
           placeholder="123-456-7890"
           id="phoneNumber"
           errorText={errors.phoneNumber?.message}
+        />
+        <RHFMultiselectDropdown<SignUpFormFields>
+          rhfName="howHeardAboutUs"
+          label="How did you hear about Good Dog?"
+          id="howHeardAboutUs"
+          options={[
+            { value: "friend_colleague", label: "Friend/Colleague" },
+            { value: "green_line_records", label: "Green Line Records" },
+            { value: "social_media", label: "Social Media" },
+            { value: "other", label: "Other" },
+          ]}
+          errorText={errors.howHeardAboutUs?.message}
+          required
+          placeholder="Select"
         />
       </div>
       <div className="pt-[32px]">
