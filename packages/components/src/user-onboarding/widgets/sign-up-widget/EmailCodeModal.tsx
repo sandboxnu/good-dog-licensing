@@ -67,7 +67,7 @@ export default function EmailCodeModal({
           </InputOTPGroup>
         </InputOTP>
       </div>
-      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px]">
+      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px] pb-[56px]">
         <p className="text-body2 text-dark-gray-500 dark:text-gray-200">
           Didn't get an email?
         </p>
