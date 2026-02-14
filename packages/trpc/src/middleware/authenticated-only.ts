@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { baseProcedureBuilder } from "../internal/init";
 import { getSessionMemoized } from "../internal/prisma-abstraction";
 
-export const authenticatedProcedureBuilder = baseProcedureBuilder.use(
+export const authenticatedOnlyProcedureBuilder = baseProcedureBuilder.use(
   async ({ ctx, next }) => {
     const sessionId = ctx.cookiesService.getSessionCookie();
 

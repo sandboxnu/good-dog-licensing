@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import type { GoodDogPermissionsFactory } from "@good-dog/auth/permissions";
 import type { Role } from "@good-dog/db";
 
-import { authenticatedProcedureBuilder } from "./authenticated";
+import { authenticatedAndActiveProcedureBuilder } from "./authenticated-active";
 
 export const rolePermissionsProcedureBuilder = <
   Read extends Role,
@@ -13,7 +13,7 @@ export const rolePermissionsProcedureBuilder = <
   permissions: GoodDogPermissionsFactory<Read, Modify, Submit>,
   key: "read" | "modify" | "submit",
 ) =>
-  authenticatedProcedureBuilder.use(async ({ ctx, next }) => {
+  authenticatedAndActiveProcedureBuilder.use(async ({ ctx, next }) => {
     switch (key) {
       case "read":
         if (!permissions.canRead(ctx.session.user.role)) {

@@ -66,7 +66,7 @@ export default function SignUpWidget({
       if (data.status === "RESENT") {
         setDisplayEmailCodeModal(true);
       } else {
-        window.location.href = "/";
+        window.location.href = "/home";
       }
     },
   });

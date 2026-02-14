@@ -1,9 +1,10 @@
 import { TRPCError } from "@trpc/server";
 
 import type { UserWithSession } from "../types";
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
+import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 import { zSignInValues } from "../schema";
+import { authenticatedOnlyProcedureBuilder } from "../middleware/authenticated-only";
 
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
@@ -55,7 +56,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
     };
   });
 
-export const signOutProcedure = authenticatedProcedureBuilder.mutation(
+export const signOutProcedure = authenticatedOnlyProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.session.delete({
       where: {
@@ -71,8 +72,8 @@ export const signOutProcedure = authenticatedProcedureBuilder.mutation(
   },
 );
 
-export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
-  async ({ ctx }) => {
+export const deleteAccountProcedure =
+  authenticatedAndActiveProcedureBuilder.mutation(async ({ ctx }) => {
     await ctx.prisma.user.delete({
       where: {
         userId: ctx.session.user.userId,
@@ -84,11 +85,10 @@ export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
     return {
       message: "Successfully deleted account",
     };
-  },
-);
+  });
 
-export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
-  async ({ ctx }) => {
+export const refreshSessionProcedure =
+  authenticatedAndActiveProcedureBuilder.mutation(async ({ ctx }) => {
     const sessionId = ctx.session.sessionId;
 
     const updatedSession = await ctx.prisma.session.update({
@@ -112,6 +112,7 @@ export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
             affiliation: true,
             ipi: true,
             createdAt: true,
+            active: true,
           },
         },
       },
@@ -134,5 +135,4 @@ export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
       message: "Session refreshed",
       user,
     };
-  },
-);
+  });

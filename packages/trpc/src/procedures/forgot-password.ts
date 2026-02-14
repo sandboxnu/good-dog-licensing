@@ -13,7 +13,7 @@ const getNewPasswordResetExpirationDate = () =>
 export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
   .input(
     z.object({
-      email: z.string().email(),
+      email: z.email(),
     }),
   )
   .mutation(async ({ ctx, input }) => {

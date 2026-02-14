@@ -7,7 +7,7 @@ export function UnauthenticatedWrapper() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const callbackUrl = pathname || "/";
+    const callbackUrl = pathname || "/home";
     const loginUrl = `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`;
     window.location.href = loginUrl;
   }, [pathname]);
