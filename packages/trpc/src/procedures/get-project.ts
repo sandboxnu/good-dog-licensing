@@ -1,8 +1,28 @@
-import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
+import {
+  mediaMakerOnlyPermissions,
+  projectAndRepertoirePagePermissions,
+} from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 import z from "zod";
 import { TRPCError } from "@trpc/server";
+
+export const getMediaSubmissionsProcedure = rolePermissionsProcedureBuilder(
+  projectAndRepertoirePagePermissions,
+  "read",
+).query(async ({ ctx }) => {
+  const projects = await ctx.prisma.projectSubmission.findMany({
+    include: {
+      projectOwner: true,
+      songRequests: {
+        include: {
+          matches: true,
+        },
+      },
+    },
+  });
+  return { projects };
+});
 
 export const getProjectSubmissionByIdProcedure =
   rolePermissionsProcedureBuilder(mediaMakerOnlyPermissions, "read")

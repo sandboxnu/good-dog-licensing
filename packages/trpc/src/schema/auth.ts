@@ -56,3 +56,8 @@ export const zSearchTermValues = z.object({
   searchTerm: z.string(),
   filter: z.string(),
 });
+
+export const zDashboardControls = z.object({
+  searchTerm: z.string().optional(),
+  filter: z.string().optional(),
+});
