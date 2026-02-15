@@ -18,6 +18,15 @@ export default async function Home() {
   if (user?.role === Role.MEDIA_MAKER) {
     void trpc.mediamakerProjects.prefetch();
   }
+  if (user?.role === Role.ADMIN) {
+    void trpc.allProjects.prefetch();
+    void trpc.allMusic.prefetch();
+    void trpc.adminAndModeratorUsers.prefetch();
+  }
+  if (user?.role === Role.MODERATOR) {
+    void trpc.allProjects.prefetch();
+    void trpc.allMusic.prefetch();
+  }
 
   return (
     <>

@@ -52,8 +52,3 @@ export const zResetPasswordValues = z
     message: "Passwords don't match",
     path: ["confirmPassword"], // This targets the confirmPassword field specifically
   });
-
-export const zSearchTermValues = z.object({
-  searchTerm: z.string(),
-  filter: z.string(),
-});
