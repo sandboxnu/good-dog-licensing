@@ -1,5 +1,4 @@
 "use client";
-import { zDashboardControls } from "@good-dog/trpc/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
@@ -13,6 +12,7 @@ import {
 } from "../../../base/Select";
 import { FilterIcon } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
+import { zDashboardControls } from "../../../../../trpc/src/schema/base";
 
 const filterOptions = [
   { label: "No filter", value: null },

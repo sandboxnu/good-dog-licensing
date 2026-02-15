@@ -11,15 +11,15 @@ import {
 } from "./TableFormatting";
 import { trpc } from "@good-dog/trpc/client";
 
-export default function Projects() {
-  const [data] = trpc.media.useSuspenseQuery();
-  const [activeStatuses, setActiveStatuses] = useState<
-    ("Not assigned" | "In progress" | "In review" | "Matched")[]
-  >(["Not assigned"]);
+type ProjectStatus = "Not assigned" | "In progress" | "In review" | "Matched";
 
-  const toggleActiveStatus = (
-    status: "Not assigned" | "In progress" | "In review" | "Matched",
-  ) => {
+export default function ProjectsSubpage() {
+  const [data] = trpc.allProjects.useSuspenseQuery();
+  const [activeStatuses, setActiveStatuses] = useState<ProjectStatus[]>([
+    "Not assigned",
+  ]);
+
+  const toggleActiveStatus = (status: ProjectStatus) => {
     if (activeStatuses.includes(status)) {
       setActiveStatuses(activeStatuses.filter((s) => s !== status));
     } else {

@@ -13,8 +13,8 @@ import {
 /**
  * Song sub-page of admin dashboard.
  */
-export default function Songs() {
-  const [data] = trpc.music.useSuspenseQuery();
+export default function SongsSubpage() {
+  const [data] = trpc.allMusic.useSuspenseQuery();
   return (
     <div className="flex flex-col gap-[32px]">
       <Header

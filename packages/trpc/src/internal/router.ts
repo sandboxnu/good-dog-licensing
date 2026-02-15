@@ -17,7 +17,7 @@ import {
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
-  getMediaSubmissionsProcedure,
+  getAllProjectsWithSongRequestsAndMatchesProcedure,
   getProjectSubmissionByIdProcedure,
 } from "../procedures/get-project";
 import {
@@ -61,10 +61,10 @@ export const appRouter = createTRPCRouter({
   mediamakerProjects: mediamakerProjectsProcedure,
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
-  media: getMediaSubmissionsProcedure,
+  allProjects: getAllProjectsWithSongRequestsAndMatchesProcedure,
   userProjects: getUserSongRequestsProcedure,
   updateMatchState: updateMatchStateProcedure,
-  music: getMusicSubmissionsProcedure,
+  allMusic: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   songRequest: songRequestProcedure,
   comment: upsertCommentsProcedure,

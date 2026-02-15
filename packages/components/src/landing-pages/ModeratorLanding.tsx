@@ -1,22 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import SideBar from "./components/staff/SideBar";
-import Projects from "./components/staff/ProjectsSubpage";
-import Songs from "./components/staff/SongsSubpage";
+import SideBar, { SidebarTabs } from "./components/staff/SideBar";
+import ProjectsSubpage from "./components/staff/ProjectsSubpage";
+import SongsSubpage from "./components/staff/SongsSubpage";
 
 export default function ModeratorLanding() {
-  const [activeTab, setActiveTab] = useState<"submissions" | "songs" | "users">(
-    "submissions",
+  const [activeTab, setActiveTab] = useState<SidebarTabs>(
+    SidebarTabs.SUBMISSIONS,
   );
   return (
     <div className="flex flex-row gap-[24px] w-[1360px]">
       <SideBar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={(newTab: SidebarTabs) => {
+          if (newTab === SidebarTabs.USERS) {
+            // do nothing since moderators don't have access to users page
+            return;
+          }
+          setActiveTab(newTab);
+        }}
         isAdminView={false}
       />
-      {activeTab === "submissions" ? <Projects /> : <Songs />}
+      {activeTab === SidebarTabs.SUBMISSIONS ? (
+        <ProjectsSubpage />
+      ) : (
+        <SongsSubpage />
+      )}
     </div>
   );
 }

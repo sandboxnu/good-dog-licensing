@@ -12,7 +12,7 @@ type DisplayUser = Omit<User, "hashedPassword">;
 /**
  * User sub-page of admin dashboard.
  */
-export default function Users() {
+export default function UserSubPage() {
   const [data] = trpc.adminData.useSuspenseQuery();
   return (
     <div className="flex flex-col gap-[32px]">
