@@ -35,6 +35,7 @@ export const zSignUpValues = z
         "other",
       ]),
     ),
+    termsOfService: z.literal(true),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

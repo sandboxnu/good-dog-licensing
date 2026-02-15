@@ -12,6 +12,7 @@ import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import PasswordRequirements from "../components/PasswordRequirements";
 import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
+import Checkbox from "../../../base/Checkbox";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -91,6 +92,21 @@ export default function FinalSignUpInfo({
           errorText={errors.howHeardAboutUs?.message}
           required
           placeholder="Select"
+        />
+        <Checkbox
+          label={
+            <div>
+              <p className="dark:text-white">
+                I agree to the{" "}
+                <span className="text-green-400 dark:text-mint-200 underline">
+                  Terms and Privacy
+                </span>
+              </p>
+            </div>
+          }
+          id="termsOfService"
+          required
+          errorText={errors.termsOfService?.message}
         />
       </div>
       <div className="pt-[32px]">
