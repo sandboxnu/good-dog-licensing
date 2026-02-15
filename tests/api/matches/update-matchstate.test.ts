@@ -54,6 +54,25 @@ async function createData() {
     },
   });
 
+  // Create moderator 2
+  await prisma.user.create({
+    data: {
+      userId: "moderator2",
+      firstName: "Jane",
+      lastName: "Doe",
+      role: "MODERATOR",
+      phoneNumber: "1234556789",
+      email: "moderator2@gmail.com",
+      hashedPassword: await passwordService.hashPassword("password123"),
+      sessions: {
+        create: {
+          sessionId: "moderator2-session-id",
+          expiresAt: new Date(Date.now() + 5_000_000_000),
+        },
+      },
+    },
+  });
+
   // Create musician
   const musician = await prisma.user.create({
     data: {
@@ -265,6 +284,7 @@ async function deleteData() {
         in: [
           "admin",
           "moderator",
+          "moderator2",
           "musician",
           "otherMusician",
           "projectOwner",
@@ -378,6 +398,24 @@ describe("updateMatchState procedure", () => {
 
   it("should allow admin/moderator to update match from WAITING to SENT_TO_MEDIA_MAKER", async () => {
     cookies.set("sessionId", "moderator-session-id");
+
+    const response = await $api.updateMatchState({
+      matchId: "match-waiting",
+      state: MatchState.SENT_TO_MEDIA_MAKER,
+    });
+
+    expect(response.message).toEqual("Match state updated successfully");
+    expect(response.match.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
+
+    const match = await prisma.match.findUnique({
+      where: { matchId: "match-waiting" },
+    });
+
+    expect(match?.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
+  });
+
+  it("should allow ADMIN to update match from WAITING to SENT_TO_MEDIA_MAKER even when they aren't PM", async () => {
+    cookies.set("sessionId", "admin-session-id");
 
     const response = await $api.updateMatchState({
       matchId: "match-waiting",
@@ -508,8 +546,8 @@ describe("updateMatchState procedure", () => {
   });
 
   // FAILURE CASES - WRONG PROJECT MANAGER
-  it("should not allow admin/moderator to update match for a project they don't manage", () => {
-    cookies.set("sessionId", "admin-session-id");
+  it("should not allow moderator to update match for a project they don't manage", () => {
+    cookies.set("sessionId", "moderator2-session-id");
 
     expect(
       $api.updateMatchState({
@@ -517,7 +555,7 @@ describe("updateMatchState procedure", () => {
         state: MatchState.SENT_TO_MEDIA_MAKER,
       }),
     ).rejects.toThrow(
-      "Admins and moderators can only update the state of matches that are managed by them",
+      "Moderators can only update the state of matches that are managed by them",
     );
   });
 
