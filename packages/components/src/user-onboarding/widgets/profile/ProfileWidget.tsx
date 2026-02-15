@@ -166,7 +166,7 @@ export default function ProfileWidget() {
       <div className="flex flex-row items-center gap-4">
         <ProfileIcon color="light" size={56} />
         <div className="flex flex-col">
-          <header className="text-good-dog-main dark:text-mint-200 text-xl font-semibold">
+          <header className="text-green-400 dark:text-mint-200 text-xl font-semibold">
             {user?.firstName + " " + user?.lastName}
           </header>
           <div className="text-dark-gray-200">
