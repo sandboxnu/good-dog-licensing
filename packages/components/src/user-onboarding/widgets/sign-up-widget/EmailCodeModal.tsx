@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import clsx from "clsx";
 
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
@@ -26,6 +26,10 @@ export default function EmailCodeModal({
   codeIsWrong = true,
 }: EmailCodeModalProps) {
   const [emailCode, setEmailCode] = useState<string>("");
+
+  useEffect(() => {
+    if (!isOpen) setEmailCode("");
+  }, [isOpen]);
 
   return (
     <Modal

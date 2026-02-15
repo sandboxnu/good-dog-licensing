@@ -103,7 +103,10 @@ export default function SignUpWidget({
     <UserOnboardingWidgetContainer>
       <EmailCodeModal
         isOpen={displayEmailCodeModal}
-        close={() => setDisplayEmailCodeModal(false)}
+        close={() => {
+          setDisplayEmailCodeModal(false);
+          setEmailCodeError(false);
+        }}
         email={formMethods.watch("email")}
         verifyCode={verifyEmailCode}
         resendEmail={handleVerifyEmail}
