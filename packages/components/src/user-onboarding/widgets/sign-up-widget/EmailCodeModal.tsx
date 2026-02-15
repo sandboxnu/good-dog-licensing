@@ -37,7 +37,7 @@ export default function EmailCodeModal({
       onClose={close}
       headerText="Verify your email address"
       width={500}
-      height={285}
+      height={300}
     >
       <p className="pt-[4px] text-body2 text-dark-gray-500 dark:text-gray-200">
         We sent a link to <strong>{email}</strong>
