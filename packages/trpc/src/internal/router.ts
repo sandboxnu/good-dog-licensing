@@ -1,4 +1,4 @@
-import { getAdminViewProcedure } from "../procedures/admin-view";
+import { getAdminAndModeratorUsers } from "../procedures/admin-view";
 import {
   signInProcedure,
   signOutProcedure,
@@ -17,7 +17,10 @@ import {
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
-import { getProjectSubmissionByIdProcedure } from "../procedures/get-project";
+import {
+  getAllProjectsWithSongRequestsAndMatchesProcedure,
+  getProjectSubmissionByIdProcedure,
+} from "../procedures/get-project";
 import {
   getProjectSongRequestByIdProcedure,
   getProjectSongRequestsProcedure,
@@ -56,14 +59,15 @@ export const appRouter = createTRPCRouter({
   user: getUserProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
-  adminData: getAdminViewProcedure,
+  adminAndModeratorUsers: getAdminAndModeratorUsers,
   projects: getProjectSongRequestsProcedure,
   mediamakerProjects: mediamakerProjectsProcedure,
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
+  allProjects: getAllProjectsWithSongRequestsAndMatchesProcedure,
   userProjects: getUserSongRequestsProcedure,
   updateMatchState: updateMatchStateProcedure,
-  music: getMusicSubmissionsProcedure,
+  allMusic: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   songRequest: songRequestProcedure,
   comment: upsertCommentsProcedure,
