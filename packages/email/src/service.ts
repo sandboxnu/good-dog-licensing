@@ -70,6 +70,12 @@ export class EmailService {
     if (!this.apiKey) {
       throw new TypeError("Failed to send email: No api key provided.");
     }
+
+    if (params.to.length == 0) {
+      console.log("There are no internal users to notify of new submission.");
+      return;
+    }
+
     const { data, error } = await this.resend.emails.send(params);
 
     if (error) {
@@ -121,12 +127,12 @@ export class EmailService {
 
     const toEmails = await this.getAllAdminAndPNREmails();
 
-    if (toEmails.length == 0) {
-      console.log(
-        "There are no internal users to notify of new music submission.",
-      );
-      return;
-    }
+    // if (toEmails.length == 0) {
+    //   console.log(
+    //     "There are no internal users to notify of new music submission.",
+    //   );
+    //   return;
+    // }
 
     const params: EmailMessage = {
       from: this.sentFrom,
@@ -143,12 +149,12 @@ export class EmailService {
 
     const toEmails = await this.getAllAdminAndPNREmails();
 
-    if (toEmails.length == 0) {
-      console.log(
-        "There are no internal users to notify of new project submission.",
-      );
-      return;
-    }
+    // if (toEmails.length == 0) {
+    //   console.log(
+    //     "There are no internal users to notify of new project submission.",
+    //   );
+    //   return;
+    // }
 
     const params: EmailMessage = {
       from: this.sentFrom,
