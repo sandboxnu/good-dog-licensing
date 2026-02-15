@@ -5,21 +5,34 @@ import { useRouter } from "next/navigation";
 import Button from "../../../base/Button";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import ProfileIcon from "../../../svg/ProfileIcon";
-import { useEffect } from "react";
+import { useState } from "react";
+import SetEmailModal from "./SetEmailModal";
+import { FormProvider, useForm } from "react-hook-form";
+import type z from "zod";
+import { zSetEmailValues, zSetPasswordValues } from "@good-dog/trpc/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import EmailCodeModal from "../sign-up-widget/EmailCodeModal";
+import SetPasswordModal from "./SetPasswordModal";
+import DeleteAccountModal from "./DeleteAccountModal";
+import InfoField from "./InfoField";
+import ProfileDetails from "./ProfileDetails";
+import ProfileSection from "./ProfileSection";
 import { getRoleLabel } from "../../../../utils/enumLabelMapper";
 
-function InfoField({ header, content }: { header: string; content: string }) {
-  return (
-    <div className="flex flex-col">
-      <header className="text-dark-gray-200 bg-dark-gray-500">{header}</header>
-      <div>{content}</div>
-    </div>
-  );
-}
+type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
+type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
 
 export default function ProfileWidget() {
   const router = useRouter();
   const { data: user } = trpc.user.useQuery();
+
+  const emailFormMethods = useForm<ChangeEmailValuesFields>({
+    resolver: zodResolver(zSetEmailValues),
+  });
+
+  const passwordFormMethods = useForm<ChangePasswordValuesFields>({
+    resolver: zodResolver(zSetPasswordValues),
+  });
 
   const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
   const userCreatedAtFormatted = user
@@ -29,18 +42,131 @@ export default function ProfileWidget() {
       })
     : "";
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
+  const [displaySetEmailModal, setDisplaySetEmailModal] = useState(false); // which email to change to
+  const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false); // code verification
+  const [submitEmailCodeError, setSubmitEmailCodeError] = useState(false);
+
+  const [displaySetPasswordModal, setDisplaySetPasswordModal] = useState(false);
+
+  const [displayDeleteAccountModal, setDisplayDeleteAccountModal] =
+    useState(false);
+
+  const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
+    onSuccess: () => {
+      setDisplaySetEmailModal(false);
+      setDisplayEmailCodeModal(true);
+    },
+  });
+
+  const verifyEmailCodeMutation = trpc.verifyEmailCode.useMutation({
+    onSuccess: () => {
+      setDisplayEmailCodeModal(false);
+      setSubmitEmailCodeError(false);
+    },
+    onError: () => {
+      setSubmitEmailCodeError(true);
+    },
+  });
+
+  const changePasswordMutation = trpc.changePassword.useMutation({
+    onSuccess: () => {
+      setDisplaySetPasswordModal(false);
+    },
+  });
+
+  const deleteAccountMutation = trpc.deleteAccount.useMutation({
+    onSuccess: () => {
+      setDisplayDeleteAccountModal(false);
+      router.push("/");
+    },
+  });
+
+  const handleCloseChangePasswordModal = () => {
+    passwordFormMethods.reset();
+    setDisplaySetPasswordModal(false);
+  };
+
+  const handleCloseSetEmailModal = () => {
+    emailFormMethods.reset();
+    setDisplaySetEmailModal(false);
+  };
+
+  const verifyEmailCode = (code: string) => {
+    emailFormMethods.setValue("emailCode", code);
+    verifyEmailCodeMutation.mutate({
+      email: emailFormMethods.watch("email"),
+      emailCode: code,
+    });
+  };
+
+  const handleVerifyEmail = async () => {
+    sendEmailVerificationMutation.reset();
+    const requestedEmailIsValid = await emailFormMethods.trigger(["email"]);
+    if (requestedEmailIsValid) {
+      sendEmailVerificationMutation.mutate({
+        email: emailFormMethods.watch("email"),
+      });
     }
-  }, [user, router]);
+  };
+
+  const handleChangePassword = (newPassword: string) => {
+    changePasswordMutation.mutate({
+      newPassword,
+    });
+  };
+
+  const handleDeleteAccount = () => {
+    deleteAccountMutation.mutate();
+  };
 
   return (
     <div className="flex flex-col gap-6 w-[752px]">
+      <FormProvider {...emailFormMethods}>
+        <SetEmailModal
+          isOpen={displaySetEmailModal}
+          close={handleCloseSetEmailModal}
+          onCancel={handleCloseSetEmailModal}
+          onVerifyEmail={handleVerifyEmail}
+          emailAlreadyExists={
+            sendEmailVerificationMutation.error?.data?.code === "CONFLICT"
+          }
+          errorMessage={
+            sendEmailVerificationMutation.error &&
+            sendEmailVerificationMutation.error.data?.code !== "CONFLICT"
+              ? "Internal Error. Please try again."
+              : undefined
+          }
+        />
+        <EmailCodeModal
+          isOpen={displayEmailCodeModal}
+          close={() => setDisplayEmailCodeModal(false)}
+          email={emailFormMethods.watch("email")}
+          verifyCode={verifyEmailCode}
+          resendEmail={handleVerifyEmail}
+          codeIsWrong={submitEmailCodeError}
+        />
+      </FormProvider>
+      <FormProvider {...passwordFormMethods}>
+        <SetPasswordModal
+          isOpen={displaySetPasswordModal}
+          close={handleCloseChangePasswordModal}
+          onSetPassword={handleChangePassword}
+          errorMessage={
+            changePasswordMutation.error
+              ? "Internal Error. Please try again."
+              : undefined
+          }
+        />
+      </FormProvider>
+      <DeleteAccountModal
+        isOpen={displayDeleteAccountModal}
+        close={() => setDisplayDeleteAccountModal(false)}
+        onDeleteAccount={handleDeleteAccount}
+      />
       <div className="flex flex-row items-center gap-4">
-        <ProfileIcon color="light" size={56} editable={true} />
+        <ProfileIcon color="light" size={56} />
         <div className="flex flex-col">
-          <header className="text-green-400 text-xl font-semibold">
+          <header className="text-green-400 dark:text-mint-200 text-xl font-semibold">
             {user?.firstName + " " + user?.lastName}
           </header>
           <div className="text-dark-gray-200">
@@ -48,66 +174,32 @@ export default function ProfileWidget() {
           </div>
         </div>
       </div>
-
       <div className="flex flex-col gap-y-[16px]">
-        <div className="rounded-2xl bg-white border">
-          <header className="flex justify-between items-center bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[24px]">
-            Personal details
-            <Button
-              size="small"
-              variant="outlined"
-              displayIcon="pencil"
-              label="Edit"
-            />
-          </header>
-          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
-            <div className="flex flex-row ">
-              <div className="w-[380px]">
-                <InfoField
-                  header="First name"
-                  content={user ? user.firstName : ""}
-                />
-              </div>
-              <InfoField
-                header="Last name"
-                content={user ? user.lastName : ""}
-              />
-            </div>
-            <div className="flex flex-row ">
-              <div className="w-[380px]">
-                <InfoField
-                  header="Group"
-                  content={user?.affiliation ? user.affiliation : "NONE"}
-                />
-              </div>
-              <InfoField
-                header="IPI No."
-                content={user?.ipi ? user.ipi : "NONE"}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="rounded-2xl bg-white border">
-          <header className="bg-gray-200 rounded-t-2xl pb-[12px] pt-[13px] px-[24px]">
-            Security
-          </header>
+        <ProfileDetails />
+        <ProfileSection header="Security">
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
             <div className="flex flex-row justify-between items-center">
               <InfoField header="Email" content={user ? user.email : ""} />
-              <Button label="Change email" size="small" variant="outlined" />
+              <Button
+                label="Change email"
+                size="small"
+                variant="outlined"
+                onClick={() => setDisplaySetEmailModal(true)}
+              />
             </div>
             <div className="flex flex-row justify-between items-center">
               <InfoField header="Password" content="**********" />
-              <Button label="Change password" size="small" variant="outlined" />
+              <Button
+                label="Change password"
+                size="small"
+                variant="outlined"
+                onClick={() => setDisplaySetPasswordModal(true)}
+              />
             </div>
           </div>
-        </div>
-
-        <div className="rounded-2xl bg-white border">
-          <header className="rounded-t-2xl bg-white pb-[12px] pt-[13px] px-[23.5px] text-error">
-            Delete account
-          </header>
-          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
+        </ProfileSection>
+        <ProfileSection header="Delete account" transparentHeader danger>
+          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[18px]">
             <div className="flex flex-row justify-left items-center text-dark-gray-300">
               <ErrorExclamation size="medium" /> This will permanently delete
               your account and all your information. This action can't be
@@ -118,11 +210,12 @@ export default function ProfileWidget() {
                 label="Delete account"
                 size="small"
                 variant="outlined"
+                onClick={() => setDisplayDeleteAccountModal(true)}
                 error={true}
               />
             </div>
           </div>
-        </div>
+        </ProfileSection>
       </div>
     </div>
   );
