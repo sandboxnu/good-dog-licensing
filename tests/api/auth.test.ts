@@ -1,4 +1,11 @@
-import { afterEach, describe, expect, test } from "bun:test";
+import {
+  afterEach,
+  beforeEach,
+  setSystemTime,
+  describe,
+  expect,
+  test,
+} from "bun:test";
 
 import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
@@ -50,6 +57,13 @@ describe("auth", () => {
       },
     });
 
+  const oneMonthAfter = new Date("2025-03-13T12:00:00Z");
+  const twelveHoursAfter = new Date("2025-02-12T00:00:00Z");
+
+  beforeEach(() => {
+    setSystemTime(new Date("2025-02-11T12:00:00Z"));
+  });
+
   afterEach(async () => {
     await Promise.all([
       prisma.user.deleteMany({
@@ -67,10 +81,32 @@ describe("auth", () => {
 
   afterEach(() => {
     mockCookies.clear();
+    setSystemTime(); // reset time to normal
   });
 
   describe("with existing account", () => {
-    test("auth/signIn", async () => {
+    test("auth/signIn with rememeber_me", async () => {
+      await createAccount();
+
+      const signInResponse = await $api.signIn({
+        email: "damian@gmail.com",
+        password: "password123",
+        rememberMe: true,
+      });
+
+      expect(signInResponse.message).toEqual(
+        "Successfully logged in as damian@gmail.com",
+      );
+      expect(mockCookies.set).toBeCalledWith("sessionId", expect.any(String), {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        path: "/",
+        expires: oneMonthAfter,
+      });
+    });
+
+    test("auth/signIn without rememeber_me", async () => {
       await createAccount();
 
       const signInResponse = await $api.signIn({
@@ -86,7 +122,7 @@ describe("auth", () => {
         secure: true,
         sameSite: "lax",
         path: "/",
-        expires: expect.any(Date),
+        expires: twelveHoursAfter,
       });
     });
 
@@ -124,23 +160,5 @@ describe("auth", () => {
       "Successfully deleted account",
     );
     expect(mockCookies.delete).toBeCalledWith("sessionId");
-  });
-
-  test("auth/refreshSession", async () => {
-    const session = await createSession();
-    mockCookies.set("sessionId", session.sessionId);
-    mockCookies.set.mockRestore();
-
-    const refreshSessionResponse = await $api.refreshSession();
-
-    expect(refreshSessionResponse.message).toEqual("Session refreshed");
-
-    expect(mockCookies.set).toBeCalledWith("sessionId", session.sessionId, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "lax",
-      path: "/",
-      expires: expect.any(Date),
-    });
   });
 });
