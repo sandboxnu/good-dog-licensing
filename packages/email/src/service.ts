@@ -73,6 +73,12 @@ export class EmailService {
     if (!this.apiKey) {
       throw new TypeError("Failed to send email: No api key provided.");
     }
+
+    if (params.to.length === 0) {
+      console.error("There are no internal users to notify of new submission.");
+      return;
+    }
+
     const { data, error } = await this.resend.emails.send(params);
 
     if (error) {
