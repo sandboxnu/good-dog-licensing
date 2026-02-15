@@ -21,7 +21,10 @@ export default function ForgotPasswordWidget() {
             <ForgotPasswordForm />
             <div className="flex justify-center">
               <p className=" text-black dark:text-white">
-                Back to <span className="underline"><a href="/login">Login</a></span>
+                Back to{" "}
+                <span className="underline">
+                  <a href="/login">Login</a>
+                </span>
               </p>
             </div>
           </div>
