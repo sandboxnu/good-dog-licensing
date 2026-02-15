@@ -62,7 +62,7 @@ export default function Button({
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName} group ${
         errorContained
-          ? "!bg-red-400 dark:active:bg-[#591A1A] hover:!bg-red-500"
+          ? "!bg-red-400 dark:active:bg-red-600 hover:!bg-red-500"
           : ""
       } ${errorOutlined ? "border-error active:bg-500 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
     >
@@ -71,7 +71,7 @@ export default function Button({
           errorContained ? "text-white" : ""
         } ${
           errorOutlined
-            ? "text-error group-hover:text-[#591A1A] group-active:text-white"
+            ? "text-error group-hover:text-red-600 group-active:text-white"
             : ""
         }`}
       >
