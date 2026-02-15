@@ -1,10 +1,11 @@
 import { getAdminViewProcedure } from "../procedures/admin-view";
 import {
   deleteAccountProcedure,
-  refreshSessionProcedure,
   signInProcedure,
   signOutProcedure,
 } from "../procedures/auth";
+import { changePasswordProcedure } from "../procedures/change-password";
+import { changeProfileValuesProcedure } from "../procedures/change-profile-values";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 import {
   confirmPasswordResetProcedure,
@@ -51,7 +52,6 @@ export const appRouter = createTRPCRouter({
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
-  refreshSession: refreshSessionProcedure,
   deleteAccount: deleteAccountProcedure,
   user: getUserProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
@@ -80,6 +80,8 @@ export const appRouter = createTRPCRouter({
   songRequestSubmission: songRequestSubmissionProcedure,
   getProjectSubmissionById: getProjectSubmissionByIdProcedure,
   getMusicSubmissionById: getMusicSubmissionByIdProcedure,
+  changePassword: changePasswordProcedure,
+  changeProfileValues: changeProfileValuesProcedure,
   assignProjectManager: assignProjectManagerProcedure,
 });
 

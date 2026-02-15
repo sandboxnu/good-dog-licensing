@@ -8,13 +8,13 @@ export const getSessionCookieBuilder =
   };
 
 export const setSessionCookieBuilder =
-  (cookies: ReadonlyRequestCookies) => (sessionId: string, expires: Date) => {
+  (cookies: ReadonlyRequestCookies) => (sessionId: string, expires?: Date) => {
     cookies.set(SESSION_COOKIE_NAME, sessionId, {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
       path: "/",
-      expires,
+      ...(expires && { expires }),
     });
   };
 
