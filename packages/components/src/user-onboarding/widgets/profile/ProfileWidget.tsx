@@ -13,11 +13,11 @@ import { zSetEmailValues, zSetPasswordValues } from "@good-dog/trpc/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import EmailCodeModal from "../sign-up-widget/EmailCodeModal";
 import SetPasswordModal from "./SetPasswordModal";
-import DeleteAccountModal from "./DeleteAccountModal";
 import InfoField from "./InfoField";
 import ProfileDetails from "./ProfileDetails";
 import ProfileSection from "./ProfileSection";
 import { getRoleLabel } from "../../../../utils/enumLabelMapper";
+import DeactivateAccountModal from "./DeactivateAccountModal";
 
 type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
 type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
@@ -48,7 +48,7 @@ export default function ProfileWidget() {
 
   const [displaySetPasswordModal, setDisplaySetPasswordModal] = useState(false);
 
-  const [displayDeleteAccountModal, setDisplayDeleteAccountModal] =
+  const [displayDeactivateAccountModal, setDisplayDeactivateAccountModal] =
     useState(false);
 
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
@@ -74,9 +74,9 @@ export default function ProfileWidget() {
     },
   });
 
-  const deleteAccountMutation = trpc.deleteAccount.useMutation({
+  const deactivateSelfMutation = trpc.deactivateSelf.useMutation({
     onSuccess: () => {
-      setDisplayDeleteAccountModal(false);
+      setDisplayDeactivateAccountModal(false);
       router.push("/");
     },
   });
@@ -115,8 +115,8 @@ export default function ProfileWidget() {
     });
   };
 
-  const handleDeleteAccount = () => {
-    deleteAccountMutation.mutate();
+  const handleDeactivateAccount = () => {
+    deactivateSelfMutation.mutate();
   };
 
   return (
@@ -158,10 +158,10 @@ export default function ProfileWidget() {
           }
         />
       </FormProvider>
-      <DeleteAccountModal
-        isOpen={displayDeleteAccountModal}
-        close={() => setDisplayDeleteAccountModal(false)}
-        onDeleteAccount={handleDeleteAccount}
+      <DeactivateAccountModal
+        isOpen={displayDeactivateAccountModal}
+        close={() => setDisplayDeactivateAccountModal(false)}
+        onDeactivateAccount={handleDeactivateAccount}
       />
       <div className="flex flex-row items-center gap-4">
         <ProfileIcon color="light" size={56} />
@@ -198,19 +198,18 @@ export default function ProfileWidget() {
             </div>
           </div>
         </ProfileSection>
-        <ProfileSection header="Delete account" transparentHeader danger>
+        <ProfileSection header="Deactivate account" transparentHeader danger>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[18px]">
             <div className="flex flex-row justify-left items-center text-dark-gray-300">
-              <ErrorExclamation size="medium" /> This will permanently delete
-              your account and all your information. This action can't be
-              undone!
+              <ErrorExclamation size="medium" /> This will deactivate your
+              account until you choose to reactivate it.
             </div>
             <div>
               <Button
-                label="Delete account"
+                label="Deactivate account"
                 size="small"
                 variant="outlined"
-                onClick={() => setDisplayDeleteAccountModal(true)}
+                onClick={() => setDisplayDeactivateAccountModal(true)}
                 error={true}
               />
             </div>

@@ -73,17 +73,18 @@ export const signOutProcedure = authenticatedOnlyProcedureBuilder.mutation(
   },
 );
 
-export const deleteAccountProcedure =
+export const deactivateSelfProcedure =
   authenticatedAndActiveProcedureBuilder.mutation(async ({ ctx }) => {
-    await ctx.prisma.user.delete({
+    await ctx.prisma.user.update({
       where: {
         userId: ctx.session.user.userId,
       },
+      data: {
+        active: false,
+      },
     });
 
-    ctx.cookiesService.deleteSessionCookie();
-
     return {
-      message: "Successfully deleted account",
+      message: "Successfully deactivated account",
     };
   });

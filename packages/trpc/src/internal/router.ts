@@ -1,8 +1,8 @@
 import { getAdminViewProcedure } from "../procedures/admin-view";
 import {
-  deleteAccountProcedure,
   signInProcedure,
   signOutProcedure,
+  deactivateSelfProcedure,
 } from "../procedures/auth";
 import { changePasswordProcedure } from "../procedures/change-password";
 import { changeProfileValuesProcedure } from "../procedures/change-profile-values";
@@ -52,7 +52,7 @@ export const appRouter = createTRPCRouter({
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
-  deleteAccount: deleteAccountProcedure,
+  deactivateSelf: deactivateSelfProcedure,
   user: getUserProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
