@@ -1,7 +1,6 @@
 import React from "react";
 
 import AdminLanding from "@good-dog/components/landing-pages/AdminLanding";
-import GeneralLanding from "@good-dog/components/landing-pages/GeneralLanding";
 import MediaMakerLanding from "@good-dog/components/landing-pages/MediaMakerLanding";
 import ModeratorLanding from "@good-dog/components/landing-pages/ModeratorLanding";
 import MusicianLanding from "@good-dog/components/landing-pages/MusicianLanding";
@@ -12,39 +11,35 @@ import { HydrateClient, trpc } from "@good-dog/trpc/server";
 export default async function Home() {
   const user = await trpc.user();
 
-  if (user?.role === Role.MUSICIAN) {
+  if (!user) {
+    // The code should never get here. Validated by layout.
+    return <div>Something went wrong.</div>;
+  }
+
+  if (user.role === Role.MUSICIAN) {
     void trpc.userMusic.prefetch();
   }
-  if (user?.role === Role.MEDIA_MAKER) {
+  if (user.role === Role.MEDIA_MAKER) {
     void trpc.mediamakerProjects.prefetch();
   }
-  if (user?.role === Role.ADMIN) {
+  if (user.role === Role.ADMIN) {
     void trpc.allProjects.prefetch();
     void trpc.allMusic.prefetch();
     void trpc.adminAndModeratorUsers.prefetch();
   }
-  if (user?.role === Role.MODERATOR) {
+  if (user.role === Role.MODERATOR) {
     void trpc.allProjects.prefetch();
     void trpc.allMusic.prefetch();
   }
 
   return (
-    <>
-      {user && (
-        <PageContainer background="solid">
-          <HydrateClient>
-            {user.role === Role.MUSICIAN && <MusicianLanding />}
-            {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
-            {user.role === Role.ADMIN && <AdminLanding />}
-            {user.role === Role.MODERATOR && <ModeratorLanding />}
-          </HydrateClient>
-        </PageContainer>
-      )}
-      {!user && (
-        <PageContainer background="solid">
-          <GeneralLanding />
-        </PageContainer>
-      )}
-    </>
+    <PageContainer background="solid">
+      <HydrateClient>
+        {user.role === Role.MUSICIAN && <MusicianLanding />}
+        {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
+        {user.role === Role.ADMIN && <AdminLanding />}
+        {user.role === Role.MODERATOR && <ModeratorLanding />}
+      </HydrateClient>
+    </PageContainer>
   );
 }

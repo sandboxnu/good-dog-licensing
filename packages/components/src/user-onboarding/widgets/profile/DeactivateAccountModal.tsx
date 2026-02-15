@@ -4,22 +4,22 @@ import Modal from "../../../base/Modal";
 
 import Button from "../../../base/Button";
 
-interface DeleteAccountModalProps {
+interface DeactivateAccountModalProps {
   isOpen: boolean;
   close: () => void;
-  onDeleteAccount: () => void;
+  onDeactivateAccount: () => void;
 }
 
-export default function DeleteAccountModal({
+export default function DeactivateAccountModal({
   isOpen,
   close,
-  onDeleteAccount,
-}: DeleteAccountModalProps) {
+  onDeactivateAccount,
+}: DeactivateAccountModalProps) {
   return (
     <Modal
       open={isOpen}
       onClose={close}
-      headerText="Delete your account?"
+      headerText="Deactivate your account?"
       upperPadding={false}
       width={500}
       height={308}
@@ -27,8 +27,8 @@ export default function DeleteAccountModal({
     >
       <div className="flex flex-col w-3/4 gap-4 pt-4">
         <div className="flex flex-col gap-[8px] text-body-gray">
-          This action cannot be undone. Your entire account will be permanently
-          deleted.
+          Your entire account will be deactivated until you choose to reactivate
+          it.
         </div>
         <div className="flex flex-row gap-2 justify-center">
           <Button
@@ -38,11 +38,11 @@ export default function DeleteAccountModal({
             onClick={close}
           />
           <Button
-            label="Delete Account"
+            label="Deactivate Account"
             size="small"
             variant="contained"
             error
-            onClick={onDeleteAccount}
+            onClick={onDeactivateAccount}
           />
         </div>
       </div>

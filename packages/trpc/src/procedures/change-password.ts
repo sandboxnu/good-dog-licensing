@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
+import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
-export const changePasswordProcedure = authenticatedProcedureBuilder
+export const changePasswordProcedure = authenticatedAndActiveProcedureBuilder
   .input(
     z.object({
       newPassword: z.string(),

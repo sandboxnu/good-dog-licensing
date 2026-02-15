@@ -1,9 +1,9 @@
 import { TRPCError } from "@trpc/server";
 import z from "zod";
 
-import { MatchState, prisma, Role } from "@good-dog/db";
+import { MatchState, Role } from "@good-dog/db";
 
-import { authenticatedProcedureBuilder } from "../../middleware/authenticated";
+import { authenticatedAndActiveProcedureBuilder } from "../../middleware/authenticated-active";
 
 const allowedStartingStatesByRole: Record<Role, MatchState[]> = {
   [Role.MEDIA_MAKER]: [MatchState.SENT_TO_MEDIA_MAKER],
@@ -31,10 +31,10 @@ const allowedEndingStatesByRole: Record<Role, MatchState[]> = {
   ],
 };
 
-export const updateMatchStateProcedure = authenticatedProcedureBuilder
+export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
   .input(z.object({ matchId: z.string(), state: z.enum(MatchState) }))
   .mutation(async ({ ctx, input }) => {
-    const match = await prisma.match.findUnique({
+    const match = await ctx.prisma.match.findUnique({
       where: { matchId: input.matchId },
       include: {
         musicSubmission: true,
@@ -104,7 +104,7 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
     }
 
     // If we made it here, all checks passed, so update the match state
-    const result = await prisma.match.update({
+    const result = await ctx.prisma.match.update({
       where: { matchId: input.matchId },
       data: { matchState: input.state },
     });
