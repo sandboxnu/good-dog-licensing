@@ -1,14 +1,14 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { notAuthenticatedProcedureBuilder } from "../../middleware/not-authenticated";
 import { sendEmailHelper } from "../../utils";
+import { baseProcedureBuilder } from "../../internal/init";
 
 // Expiration date for email verification codes is 15 minutes
 export const getEmailVerificationCodeExpirationDate = () =>
   new Date(Date.now() + 60_000 * 15);
 
-export const sendEmailVerificationProcedure = notAuthenticatedProcedureBuilder
+export const sendEmailVerificationProcedure = baseProcedureBuilder
   .input(z.object({ email: z.email() }))
   .mutation(async ({ ctx, input }) => {
     // Check if there is an existing user with the given email
