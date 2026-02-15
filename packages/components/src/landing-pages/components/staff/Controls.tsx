@@ -35,7 +35,11 @@ export function Controls({
   const controlsForm = useForm<FormValues>({
     resolver: zodResolver(zDashboardControls),
   });
-  setSearchTerm(controlsForm.watch("searchTerm"));
+const searchTerm = controlsForm.watch("searchTerm");
+
+useEffect(() => {
+  setSearchTerm(searchTerm);
+}, [searchTerm, setSearchTerm]);
 
   return (
     <FormProvider {...controlsForm}>
