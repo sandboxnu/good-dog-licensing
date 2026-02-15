@@ -91,15 +91,15 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
       });
     }
 
-    // If admin or moderator, then they must be the project manager
+    // If moderator, then they must be the project manager (admins can bypass)
     if (
-      (role === Role.ADMIN || role === Role.MODERATOR) &&
+      role === Role.MODERATOR &&
       match.songRequest.projectSubmission.projectManagerId !==
         ctx.session.user.userId
     ) {
       throw new TRPCError({
         code: "FORBIDDEN",
-        message: `Admins and moderators can only update the state of matches that are managed by them`,
+        message: `Moderators can only update the state of matches that are managed by them`,
       });
     }
 
