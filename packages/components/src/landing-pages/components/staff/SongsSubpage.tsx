@@ -19,7 +19,7 @@ export default function SongsSubpage() {
     <div className="flex flex-col gap-[32px]">
       <Header
         title={"Songs"}
-        subtitle={"Subtitle here"}
+        subtitle={"Song submissions"}
         requestPath={""}
         buttonContent="Invite"
       />

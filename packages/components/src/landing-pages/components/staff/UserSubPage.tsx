@@ -18,7 +18,7 @@ export default function UserSubPage() {
     <div className="flex flex-col gap-[32px]">
       <Header
         title={"Users"}
-        subtitle={"Subtitle here"}
+        subtitle={"Admins and PnR representatives"}
         requestPath={""}
         buttonContent="Invite"
       />

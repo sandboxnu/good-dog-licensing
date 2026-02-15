@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "../../../base/Select";
 import { FilterIcon } from "lucide-react";
+import { useEffect } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { zDashboardControls } from "../../../../../trpc/src/schema/base";
 
@@ -35,11 +36,11 @@ export function Controls({
   const controlsForm = useForm<FormValues>({
     resolver: zodResolver(zDashboardControls),
   });
-const searchTerm = controlsForm.watch("searchTerm");
+  const searchTerm = controlsForm.watch("searchTerm");
 
-useEffect(() => {
-  setSearchTerm(searchTerm);
-}, [searchTerm, setSearchTerm]);
+  useEffect(() => {
+    setSearchTerm(searchTerm);
+  }, [searchTerm, setSearchTerm]);
 
   return (
     <FormProvider {...controlsForm}>
