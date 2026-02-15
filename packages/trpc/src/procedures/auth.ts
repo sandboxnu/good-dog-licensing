@@ -1,14 +1,9 @@
 import { TRPCError } from "@trpc/server";
 
-<<<<<<< HEAD
-import type { UserWithSession } from "../types";
-import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
-=======
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
->>>>>>> main
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 import { zSignInValues } from "../schema";
 import { authenticatedOnlyProcedureBuilder } from "../middleware/authenticated-only";
+import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
 const getNewSessionExpirationDate = (rememberMe: boolean) =>
   rememberMe
@@ -91,5 +86,4 @@ export const deleteAccountProcedure =
     return {
       message: "Successfully deleted account",
     };
-  },
-);
+  });
