@@ -71,8 +71,8 @@ export class EmailService {
       throw new TypeError("Failed to send email: No api key provided.");
     }
 
-    if (params.to.length == 0) {
-      console.log("There are no internal users to notify of new submission.");
+    if (params.to.length === 0) {
+      console.error("There are no internal users to notify of new submission.");
       return;
     }
 
