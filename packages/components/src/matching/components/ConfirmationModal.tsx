@@ -16,7 +16,7 @@ interface ConfirmDenyDialogProps {
   type: "approve" | "deny";
 }
 
-export function Popup({
+export function ConfirmationModal({
   open,
   onOpenChange,
   onAction,

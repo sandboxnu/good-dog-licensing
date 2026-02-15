@@ -2,8 +2,12 @@ import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import Button from "../../base/Button";
 import { MatchStatusTabs } from "./MatchStatusTabs";
 import { Matches } from "./Matches";
+import { useState } from "react";
+import { MusicSearchModal } from "./MusicSearchModal";
+import { trpc } from "@good-dog/trpc/client";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
+type MusicSubmissionType = GetProcedureOutput<"music">[number];
 
 export default function MatchingInformation({
   songRequest,
@@ -11,6 +15,26 @@ export default function MatchingInformation({
   songRequest: SongRequestType;
 }) {
   const matches = songRequest.matches;
+
+  const utils = trpc.useContext();
+  const createMatch = trpc.createMatch.useMutation({
+    onSuccess: async () => {
+      await utils.getSongRequestById.invalidate({
+        songRequestId: songRequest.songRequestId,
+      });
+    },
+  });
+
+  const [openSearch, setOpenSearch] = useState(false);
+  const handleDoneSearch = (music: MusicSubmissionType[]) => {
+    music.forEach((musicSubmission) => {
+      createMatch.mutate({
+        songRequestId: songRequest.songRequestId,
+        musicId: musicSubmission.musicId,
+      });
+    });
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
@@ -20,6 +44,13 @@ export default function MatchingInformation({
             label={"Search for songs"}
             size={"small"}
             variant={"contained"}
+            onClick={() => setOpenSearch(true)}
+          />
+          <MusicSearchModal
+            open={openSearch}
+            onOpenChange={setOpenSearch}
+            onAction={handleDoneSearch}
+            matches={matches}
           />
         </div>
         <p>

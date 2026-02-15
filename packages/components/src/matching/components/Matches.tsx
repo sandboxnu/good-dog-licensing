@@ -25,7 +25,8 @@ export function Matches({
     } else {
       return (
         match.matchState === MatchState.REJECTED_BY_MEDIA_MAKER ||
-        match.matchState === MatchState.REJECTED_BY_MUSICIAN
+        match.matchState === MatchState.REJECTED_BY_MUSICIAN ||
+        match.matchState === MatchState.REJECTED_BY_MANAGER
       );
     }
   });

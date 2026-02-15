@@ -3,7 +3,7 @@ import { Check, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
-import { Popup } from "./Popup";
+import { ConfirmationModal } from "./ConfirmationModal";
 
 type MatchWithMusicSubmission =
   GetProcedureOutput<"getSongRequestById">["matches"][number];
@@ -81,13 +81,13 @@ export function Match({
             <X className="hover:text-required-star hover:bg-required-star/25 rounded-md" />
           </button>
           <div onClick={(e) => e.stopPropagation()}>
-            <Popup
+            <ConfirmationModal
               open={openApprove}
               onOpenChange={setOpenApprove}
               onAction={handleApprove}
               type="approve"
             />
-            <Popup
+            <ConfirmationModal
               open={openReject}
               onOpenChange={setOpenReject}
               onAction={handleReject}
