@@ -11,7 +11,11 @@ import {
 } from "./TableFormatting";
 import { trpc } from "@good-dog/trpc/client";
 
-type ProjectStatus = "Not assigned" | "In progress" | "In review" | "Matched";
+export type ProjectStatus =
+  | "Not assigned"
+  | "In progress"
+  | "In review"
+  | "Matched";
 
 export default function ProjectsSubpage() {
   const [data] = trpc.allProjects.useSuspenseQuery();
@@ -200,11 +204,7 @@ function SubmissionStatusTab({
 /**
  * Indicates which status a project is in.  Used b/c users may select to look at multiple statuses at once.
  */
-function AdminStatusIndicator({
-  status,
-}: {
-  status: "In progress" | "Matched" | "In review" | "Not assigned";
-}) {
+function AdminStatusIndicator({ status }: { status: ProjectStatus }) {
   const statusColors = {
     Matched:
       "bg-grass-green-50 dark:bg-grass-green-500 text:grass-green-500 dark:text-grass-green-50",

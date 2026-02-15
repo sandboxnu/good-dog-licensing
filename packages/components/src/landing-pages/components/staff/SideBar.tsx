@@ -5,7 +5,7 @@ import SongTabIcon from "../../../svg/homepage/admin/SongTabIcon";
 import SubmissionTabIcon from "../../../svg/homepage/admin/SubmissionTabIcon";
 import UsersTabIcon from "../../../svg/homepage/admin/UsersTabIcon";
 
-export enum SidebarTabs {
+export enum SidebarTab {
   SUBMISSIONS = "submissions",
   SONGS = "songs",
   USERS = "users",
@@ -19,33 +19,33 @@ export default function SideBar({
   setActiveTab,
   isAdminView,
 }: {
-  activeTab: SidebarTabs;
-  setActiveTab: (tab: SidebarTabs) => void;
+  activeTab: SidebarTab;
+  setActiveTab: (tab: SidebarTab) => void;
   isAdminView: boolean;
 }) {
   return (
     <div className="flex bg-gray-100 dark:bg-dark-gray-600 flex-1 w-[207px] h-[776px] pt-[32px] pl-[16px] pr-[16px] shadow-[0_2px_6px_0_#ECE6DF] rounded-[24px] h-[40px]">
       <div className="flex flex-col gap-[4px]">
         <SideBarEntry
-          active={activeTab === SidebarTabs.SUBMISSIONS}
+          active={activeTab === SidebarTab.SUBMISSIONS}
           text={"Submissions"}
           icon={
-            <SubmissionTabIcon active={activeTab === SidebarTabs.SUBMISSIONS} />
+            <SubmissionTabIcon active={activeTab === SidebarTab.SUBMISSIONS} />
           }
-          onClick={() => setActiveTab(SidebarTabs.SUBMISSIONS)}
+          onClick={() => setActiveTab(SidebarTab.SUBMISSIONS)}
         />
         <SideBarEntry
-          active={activeTab === SidebarTabs.SONGS}
+          active={activeTab === SidebarTab.SONGS}
           text={"Songs"}
-          icon={<SongTabIcon active={activeTab === SidebarTabs.SONGS} />}
-          onClick={() => setActiveTab(SidebarTabs.SONGS)}
+          icon={<SongTabIcon active={activeTab === SidebarTab.SONGS} />}
+          onClick={() => setActiveTab(SidebarTab.SONGS)}
         />
         {isAdminView && (
           <SideBarEntry
-            active={activeTab === SidebarTabs.USERS}
+            active={activeTab === SidebarTab.USERS}
             text={"Users"}
-            icon={<UsersTabIcon active={activeTab === SidebarTabs.USERS} />}
-            onClick={() => setActiveTab(SidebarTabs.USERS)}
+            icon={<UsersTabIcon active={activeTab === SidebarTab.USERS} />}
+            onClick={() => setActiveTab(SidebarTab.USERS)}
           />
         )}
       </div>

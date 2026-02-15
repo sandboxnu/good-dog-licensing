@@ -5,6 +5,7 @@ import type {
   SongRequest,
   User,
 } from "@prisma/client";
+import type { ProjectStatus } from "../src/landing-pages/components/staff/ProjectsSubpage";
 
 type SongRequestWithMatch = SongRequest & { matches: Match[] };
 
@@ -17,7 +18,7 @@ export type ProjectSubmissionWithSongRequestAndMatches = ProjectSubmission &
 
 export default function getStatusFromProject(
   project: ProjectSubmissionWithSongRequestAndMatches,
-): "Not assigned" | "In progress" | "In review" | "Matched" {
+): ProjectStatus {
   const actionRequired = project.songRequests.some((songReq) =>
     songReq.matches.some(
       (match) => match.matchState === MatchState.SENT_TO_MEDIA_MAKER,
