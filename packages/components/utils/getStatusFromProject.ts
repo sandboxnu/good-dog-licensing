@@ -31,7 +31,7 @@ export default function getStatusFromProject(
   );
 
   // Complete when all requests in approved by musician state
-  const Matched = project.songRequests.every((scene) =>
+  const matched = project.songRequests.every((scene) =>
     scene.matches.every(
       (match) => match.matchState === MatchState.APPROVED_BY_MUSICIAN,
     ),
@@ -47,7 +47,7 @@ export default function getStatusFromProject(
       ? "In review"
       : matchSize === 0
         ? "Not assigned"
-        : Matched
+        : matched
           ? "Matched"
           : "Not assigned";
 }

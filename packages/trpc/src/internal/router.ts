@@ -1,4 +1,4 @@
-import { getAdminViewProcedure } from "../procedures/admin-view";
+import { getAdminAndModeratorUsers } from "../procedures/admin-view";
 import {
   deleteAccountProcedure,
   signInProcedure,
@@ -56,7 +56,7 @@ export const appRouter = createTRPCRouter({
   user: getUserProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
-  adminData: getAdminViewProcedure,
+  adminAndModeratorUsers: getAdminAndModeratorUsers,
   projects: getProjectSongRequestsProcedure,
   mediamakerProjects: mediamakerProjectsProcedure,
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
