@@ -4,6 +4,9 @@ import { passwordService } from "@good-dog/auth/password";
 import { prisma, Role } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
+import type { z } from "zod";
+import type { zSignUpValues } from "@good-dog/trpc/schema";
+
 import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
@@ -19,7 +22,7 @@ describe("sign-up", () => {
     passwordService: passwordService,
   });
 
-  const signUpInput = {
+  const signUpInput: z.infer<typeof zSignUpValues> = {
     firstName: "Jordan",
     lastName: "Smith",
     role: Role.MUSICIAN,
@@ -28,14 +31,9 @@ describe("sign-up", () => {
     password: "Mypassword1!",
     confirmPassword: "Mypassword1!",
     emailCode: "019821",
-    termsOfService: true as true,
-    howHeardAboutUs: [] as (
-      | "friend_colleague"
-      | "green_line_records"
-      | "social_media"
-      | "other"
-    )[],
-  };
+    termsOfService: true,
+    howHeardAboutUs: [],
+  } 
 
   afterEach(async () => {
     mockCookies.clear();
