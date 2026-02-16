@@ -33,7 +33,7 @@ describe("sign-up", () => {
     emailCode: "019821",
     termsOfService: true,
     howHeardAboutUs: [],
-  } 
+  };
 
   afterEach(async () => {
     mockCookies.clear();
