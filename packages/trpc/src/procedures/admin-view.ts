@@ -2,7 +2,7 @@ import { adminPagePermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
-export const getAdminViewProcedure = rolePermissionsProcedureBuilder(
+export const getAdminAndModeratorUsers = rolePermissionsProcedureBuilder(
   adminPagePermissions,
   "read",
 ).query(async ({ ctx }) => {

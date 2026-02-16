@@ -3,7 +3,7 @@
 import type { z } from "zod";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -11,8 +11,8 @@ import { trpc } from "@good-dog/trpc/client";
 import { zSignInValues } from "@good-dog/trpc/schema";
 
 import Button from "../../../base/Button";
-import Checkbox from "../../../base/Checkbox";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
+import RHFCheckbox from "../../../rhf-base/RHFCheckbox";
 import TeamworkLogin from "../../../svg/onboarding/TeamworkLogin";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
@@ -21,9 +21,14 @@ type LoginFormFields = z.input<typeof zSignInValues>;
 
 export default function LoginWidget() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/home";
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const formMethods = useForm<LoginFormFields>({
     resolver: zodResolver(zSignInValues),
+    defaultValues: {
+      rememberMe: false,
+    },
   });
 
   const handleLogin = formMethods.handleSubmit((values) => {
@@ -37,14 +42,16 @@ export default function LoginWidget() {
       await trpcUtils.user.reset();
 
       // TODO: Alert toast to the user that they have successfully logged in
-      router.push("/");
+      // If a user was on a page they were unauthorized for, redirect them back there
+      // Else, redirect to homepage
+      router.push(callbackUrl);
     },
     onError: (err) => {
       // TODO: Alert toast to the user that there was an error logging in
       console.error(err);
 
+      // this message is hard coded from sign in procedure
       if (err.data?.code === "UNAUTHORIZED") {
-        // this message is hard coded from sign in procedure
         setErrorMessage("The email or password entered is incorrect");
       } else {
         setErrorMessage("Something went wrong. Please try again later");
@@ -88,7 +95,12 @@ export default function LoginWidget() {
                 errorText={formMethods.formState.errors.password?.message}
               />
               <div className="flex flex-row justify-between pt-[24px]">
-                <Checkbox label="Remember me" id="rememberMe" />
+                <RHFCheckbox<LoginFormFields>
+                  rhfName={"rememberMe"}
+                  label="Remember me"
+                  id="rememberMe"
+                  errorText={formMethods.formState.errors.rememberMe?.message}
+                />
                 <Link
                   href="/forgot-password"
                   className="whitespace-nowrap text-body3 font-medium text-secondary underline text-green-500 dark:text-mint-200"

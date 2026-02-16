@@ -1,9 +1,8 @@
 import type z from "zod";
 
-import type { zSearchTermValues } from "@good-dog/trpc/schema";
-
 import RHFTextInput from "../rhf-base/RHFTextInput";
 import Search from "../svg/Search";
+import type { zSearchTermValues } from "../../../trpc/src/schema/base";
 
 type SearchTermFormFields = z.input<typeof zSearchTermValues>;
 

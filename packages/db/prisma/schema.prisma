@@ -39,6 +39,7 @@ model User {
   firstName                   String
   lastName                    String
   role                        Role
+  active                      Boolean             @default(true)
   affiliation                 MusicAffiliation?
   ipi                         String?
   passwordResetReq            PasswordResetReq?

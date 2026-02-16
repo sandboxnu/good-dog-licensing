@@ -1,12 +1,14 @@
 import { TRPCError } from "@trpc/server";
 
-import type { UserWithSession } from "../types";
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 import { zSignInValues } from "../schema";
+import { authenticatedOnlyProcedureBuilder } from "../middleware/authenticated-only";
+import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
-const getNewSessionExpirationDate = () =>
-  new Date(Date.now() + 60_000 * 60 * 24 * 30);
+const getNewSessionExpirationDate = (rememberMe: boolean) =>
+  rememberMe
+    ? new Date(Date.now() + 60_000 * 60 * 24 * 30)
+    : new Date(Date.now() + 60_000 * 60 * 12);
 
 export const signInProcedure = notAuthenticatedProcedureBuilder
   .input(zSignInValues)
@@ -24,7 +26,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
       });
 
     if (!user) {
-      // Failed loggin attempt, don't reveal if user exists
+      // Failed login attempt, don't reveal if user exists
       throw error();
     }
 
@@ -44,7 +46,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
             userId: user.userId,
           },
         },
-        expiresAt: getNewSessionExpirationDate(),
+        expiresAt: getNewSessionExpirationDate(input.rememberMe),
       },
     });
 
@@ -55,7 +57,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
     };
   });
 
-export const signOutProcedure = authenticatedProcedureBuilder.mutation(
+export const signOutProcedure = authenticatedOnlyProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.session.delete({
       where: {
@@ -71,68 +73,18 @@ export const signOutProcedure = authenticatedProcedureBuilder.mutation(
   },
 );
 
-export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
-  async ({ ctx }) => {
-    await ctx.prisma.user.delete({
+export const deactivateSelfProcedure =
+  authenticatedAndActiveProcedureBuilder.mutation(async ({ ctx }) => {
+    await ctx.prisma.user.update({
       where: {
         userId: ctx.session.user.userId,
       },
-    });
-
-    ctx.cookiesService.deleteSessionCookie();
-
-    return {
-      message: "Successfully deleted account",
-    };
-  },
-);
-
-export const refreshSessionProcedure = authenticatedProcedureBuilder.mutation(
-  async ({ ctx }) => {
-    const sessionId = ctx.session.sessionId;
-
-    const updatedSession = await ctx.prisma.session.update({
-      where: {
-        sessionId: sessionId,
-      },
       data: {
-        expiresAt: getNewSessionExpirationDate(),
-      },
-      select: {
-        sessionId: true,
-        expiresAt: true,
-        user: {
-          select: {
-            userId: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-            phoneNumber: true,
-            role: true,
-            affiliation: true,
-            ipi: true,
-            createdAt: true,
-          },
-        },
+        active: false,
       },
     });
 
-    ctx.cookiesService.setSessionCookie(
-      updatedSession.sessionId,
-      updatedSession.expiresAt,
-    );
-
-    const user: UserWithSession = {
-      ...updatedSession.user,
-      session: {
-        expiresAt: updatedSession.expiresAt,
-        refreshRequired: false,
-      },
-    };
-
     return {
-      message: "Session refreshed",
-      user,
+      message: "Successfully deactivated account",
     };
-  },
-);
+  });

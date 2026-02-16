@@ -87,7 +87,7 @@ describe("middleware", () => {
     });
   });
 
-  describe("authenticatedProcedure", () => {
+  describe("authenticatedOnlyProcedure", () => {
     it("should reject with no session id", () => {
       expect($api.signOut()).rejects.toMatchObject({
         code: "UNAUTHORIZED",

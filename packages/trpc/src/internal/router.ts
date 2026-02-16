@@ -1,10 +1,11 @@
-import { getAdminViewProcedure } from "../procedures/admin-view";
+import { getAdminAndModeratorUsers } from "../procedures/admin-view";
 import {
-  deleteAccountProcedure,
-  refreshSessionProcedure,
   signInProcedure,
   signOutProcedure,
+  deactivateSelfProcedure,
 } from "../procedures/auth";
+import { changePasswordProcedure } from "../procedures/change-password";
+import { changeProfileValuesProcedure } from "../procedures/change-profile-values";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
 import {
   confirmPasswordResetProcedure,
@@ -16,7 +17,10 @@ import {
   getUserMusicSubmissionsProcedure,
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
-import { getProjectSubmissionByIdProcedure } from "../procedures/get-project";
+import {
+  getAllProjectsWithSongRequestsAndMatchesProcedure,
+  getProjectSubmissionByIdProcedure,
+} from "../procedures/get-project";
 import {
   getProjectSongRequestByIdProcedure,
   getProjectSongRequestsProcedure,
@@ -31,16 +35,19 @@ import { updateMatchStateProcedure } from "../procedures/matches/update-match-st
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
 import { submitMusicProcedure } from "../procedures/music/music-submission";
-import { onboardModeratorProcedure } from "../procedures/onboard-moderator";
+import { onboardModeratorProcedure } from "../procedures/manage-users/onboard-moderator";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
 import { assignProjectManagerProcedure } from "../procedures/project/assign-project-manager";
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { songRequestSubmissionProcedure } from "../procedures/project/song-request-submission";
-import { sendModeratorInviteEmailProcedure } from "../procedures/send-moderator-invite";
+import { sendModeratorInviteEmailProcedure } from "../procedures/manage-users/send-moderator-invite";
 import { getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
+import { promoteToAdminProcedure } from "../procedures/manage-users/promote-to-admin";
+import { deactivateUserProcedure } from "../procedures/manage-users/deactivate-user";
+import { activateUserProcedure } from "../procedures/manage-users/activate-user";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -48,25 +55,28 @@ export const appRouter = createTRPCRouter({
   signIn: signInProcedure,
   signOut: signOutProcedure,
   signUp: signUpProcedure,
-  refreshSession: refreshSessionProcedure,
-  deleteAccount: deleteAccountProcedure,
+  deactivateSelf: deactivateSelfProcedure,
   user: getUserProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
-  adminData: getAdminViewProcedure,
+  adminAndModeratorUsers: getAdminAndModeratorUsers,
   projects: getProjectSongRequestsProcedure,
   mediamakerProjects: mediamakerProjectsProcedure,
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
+  allProjects: getAllProjectsWithSongRequestsAndMatchesProcedure,
   userProjects: getUserSongRequestsProcedure,
   updateMatchState: updateMatchStateProcedure,
-  music: getMusicSubmissionsProcedure,
+  allMusic: getMusicSubmissionsProcedure,
   userMusic: getUserMusicSubmissionsProcedure,
   songRequest: songRequestProcedure,
   comment: upsertCommentsProcedure,
   createMatch: createMatchProcedure,
   sendModeratorInviteEmail: sendModeratorInviteEmailProcedure,
   onboardModerator: onboardModeratorProcedure,
+  deactivateUser: deactivateUserProcedure,
+  activateUser: activateUserProcedure,
+  promoteToAdmin: promoteToAdminProcedure,
   projectSubmission: projectSubmissionProcedure,
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
@@ -76,6 +86,8 @@ export const appRouter = createTRPCRouter({
   songRequestSubmission: songRequestSubmissionProcedure,
   getProjectSubmissionById: getProjectSubmissionByIdProcedure,
   getMusicSubmissionById: getMusicSubmissionByIdProcedure,
+  changePassword: changePasswordProcedure,
+  changeProfileValues: changeProfileValuesProcedure,
   assignProjectManager: assignProjectManagerProcedure,
 });
 

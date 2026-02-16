@@ -223,7 +223,7 @@ describe("get-music", () => {
   // All submissions [admin/moderator]
   test("Correct music is returned when they have an ADMIN session.", async () => {
     cookies.set("sessionId", "owen-session-id");
-    const { music } = await $api.music();
+    const { music } = await $api.allMusic();
 
     expect(music).not.toBeNull();
     music.forEach((m) => {
@@ -239,7 +239,7 @@ describe("get-music", () => {
 
   test("Correct music is returned when they have a MODERATOR session.", async () => {
     cookies.set("sessionId", "gavin-session-id");
-    const { music } = await $api.music();
+    const { music } = await $api.allMusic();
 
     expect(music).not.toBeNull();
     music.forEach((m) => {
@@ -255,7 +255,7 @@ describe("get-music", () => {
 
   test("No music is returned when they have a NON MODERATOR OR ADMIN session.", () => {
     cookies.set("sessionId", "amoli-session-id");
-    expect($api.music()).rejects.toThrow("permission to read");
+    expect($api.allMusic()).rejects.toThrow("permission to read");
   });
 
   // Retrieve by user [musician]

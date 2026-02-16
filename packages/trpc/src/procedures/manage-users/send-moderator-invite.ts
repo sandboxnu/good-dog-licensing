@@ -4,7 +4,7 @@ import { z } from "zod";
 import { adminPagePermissions } from "@good-dog/auth/permissions";
 import { env } from "@good-dog/env";
 
-import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
+import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 // Expiration date for Moderator Invite is one week
 const getModeratorInviteExpirationDate = () =>
@@ -14,7 +14,7 @@ export const sendModeratorInviteEmailProcedure =
   rolePermissionsProcedureBuilder(adminPagePermissions, "modify")
     .input(
       z.object({
-        moderatorEmail: z.string().email(),
+        moderatorEmail: z.email(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

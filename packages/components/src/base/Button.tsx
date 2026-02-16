@@ -50,9 +50,9 @@ export default function Button({
   const shadowClassName = shadow
     ? "shadow-button dark:shadow-grass-green-200"
     : "";
-  const divClassName = `flex flex-row items-center justify-center gap-[8px] ${
-    error ? "text-error " : "" // adds text/border color if error
-  }`.trim();
+
+  const errorContained = error && variant === "contained";
+  const errorOutlined = error && variant !== "contained";
 
   return (
     <ButtonShad
@@ -60,9 +60,21 @@ export default function Button({
       size={updatedSize}
       type={type}
       onClick={onClick}
-      className={`${widthClassName} ${shadowClassName} ${error ? "border-error" : ""}`}
+      className={`${widthClassName} ${shadowClassName} group ${
+        errorContained
+          ? "!bg-red-400 dark:active:bg-red-600 hover:!bg-red-500"
+          : ""
+      } ${errorOutlined ? "border-error active:bg-500 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
     >
-      <div className={divClassName}>
+      <div
+        className={`flex flex-row items-center justify-center gap-[8px] ${
+          errorContained ? "text-white" : ""
+        } ${
+          errorOutlined
+            ? "text-error group-hover:text-red-600 group-active:text-white"
+            : ""
+        }`}
+      >
         {displayIcon === "plus" ? (
           <AddIcon
             color={variant === "contained" ? "light" : "dark"}
