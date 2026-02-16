@@ -6,7 +6,7 @@ import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import FileIcon from "../../svg/FileIcon";
 import GreyMusicNote from "../../svg/GreyMusicNote";
 
-type MusicSubmissionType = GetProcedureOutput<"music">[number];
+type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 
 export function MusicSubmissionCard({
   musicSubmission,

@@ -10,7 +10,7 @@ import { MusicSubmissionCard } from "./MusicSubmissionCard";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { MusicSearchBar } from "./MusicSearchBar";
 
-type MusicSubmissionType = GetProcedureOutput<"music">[number];
+type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 type MatchesRequestType = GetProcedureOutput<"getSongRequestById">["matches"];
 
 interface MusicSearchModalProps {

@@ -7,7 +7,7 @@ import { MusicSearchModal } from "./MusicSearchModal";
 import { trpc } from "@good-dog/trpc/client";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
-type MusicSubmissionType = GetProcedureOutput<"music">[number];
+type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 
 export default function MatchingInformation({
   songRequest,

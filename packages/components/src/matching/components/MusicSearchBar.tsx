@@ -3,14 +3,14 @@ import NavLogo from "../../svg/NavLogo";
 import { trpc } from "@good-dog/trpc/client";
 import { search } from "../../../utils/search";
 
-type MusicSubmissionType = GetProcedureOutput<"music">[number];
+type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 
 export function MusicSearchBar({
   setSearchedMusic,
 }: {
   setSearchedMusic: (searchedMusic: MusicSubmissionType[]) => void;
 }) {
-  const [music] = trpc.music.useSuspenseQuery();
+  const [music] = trpc.allMusic.useSuspenseQuery();
 
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
