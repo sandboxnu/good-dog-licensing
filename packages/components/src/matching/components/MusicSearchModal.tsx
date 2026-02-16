@@ -1,5 +1,10 @@
 import { Button } from "@good-dog/ui/button";
-import { Dialog, DialogContent, DialogClose } from "@good-dog/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogClose,
+  DialogTitle,
+} from "@good-dog/ui/dialog";
 import { useState } from "react";
 import { MusicSubmissionCard } from "./MusicSubmissionCard";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
@@ -42,6 +47,7 @@ export function MusicSearchModal({
         className="min-w-[800px] min-h-[432px] rounded-2xl p-6 bg-white flex flex-col"
         hideCloseButton
       >
+        <DialogTitle>Search for songs</DialogTitle>
         <div className="flex flex-col gap-4 w-full flex-1">
           <MusicSearchBar setSearchedMusic={setSearchedMusic} />
 
