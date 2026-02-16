@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import clsx from "clsx";
 
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@good-dog/ui/input-otp";
@@ -27,14 +27,15 @@ export default function EmailCodeModal({
 }: EmailCodeModalProps) {
   const [emailCode, setEmailCode] = useState<string>("");
 
-  useEffect(() => {
-    if (!isOpen) setEmailCode("");
-  }, [isOpen]);
+  const handleClose = () => {
+    setEmailCode("");
+    close();
+  };
 
   return (
     <Modal
       open={isOpen}
-      onClose={close}
+      onClose={handleClose}
       headerText="Verify your email address"
       width={500}
       height={300}

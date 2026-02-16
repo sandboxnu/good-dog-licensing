@@ -28,6 +28,13 @@ describe("sign-up", () => {
     password: "Mypassword1!",
     confirmPassword: "Mypassword1!",
     emailCode: "019821",
+    termsOfService: true as true,
+    howHeardAboutUs: [] as (
+      | "friend_colleague"
+      | "green_line_records"
+      | "social_media"
+      | "other"
+    )[],
   };
 
   afterEach(async () => {
