@@ -7,6 +7,8 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
+import type { z } from "zod";
+import type { zSignUpValues } from "@good-dog/trpc/schema";
 
 describe("sign-up", () => {
   const mockEmails = new MockEmailService();
@@ -28,14 +30,9 @@ describe("sign-up", () => {
     password: "Mypassword1!",
     confirmPassword: "Mypassword1!",
     emailCode: "019821",
-    termsOfService: true as true,
-    howHeardAboutUs: [] as (
-      | "friend_colleague"
-      | "green_line_records"
-      | "social_media"
-      | "other"
-    )[],
-  };
+    termsOfService: true,
+    howHeardAboutUs: [],
+  } as z.input<typeof zSignUpValues>;
 
   afterEach(async () => {
     mockCookies.clear();
