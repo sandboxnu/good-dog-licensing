@@ -23,4 +23,5 @@ export interface UserWithSession {
   createdAt: Date;
   affiliation: MusicAffiliation | null;
   ipi: string | null;
+  active: boolean;
 }

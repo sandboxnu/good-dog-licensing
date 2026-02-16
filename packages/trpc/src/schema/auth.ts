@@ -45,6 +45,7 @@ export const zSignUpValues = z
 export const zSignInValues = z.object({
   email: zRequiredEmail,
   password: zRequiredString,
+  rememberMe: z.boolean().default(false),
 });
 
 export const zForgotPasswordValues = z.object({
@@ -60,8 +61,3 @@ export const zResetPasswordValues = z
     message: "Passwords don't match",
     path: ["confirmPassword"], // This targets the confirmPassword field specifically
   });
-
-export const zSearchTermValues = z.object({
-  searchTerm: z.string(),
-  filter: z.string(),
-});

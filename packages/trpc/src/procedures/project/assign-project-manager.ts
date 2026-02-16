@@ -25,6 +25,13 @@ export const assignProjectManagerProcedure = rolePermissionsProcedureBuilder(
       });
     }
 
+    if (!projectManager.active) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Project manager must be active.",
+      });
+    }
+
     if (
       projectManager.role !== "ADMIN" &&
       projectManager.role !== "MODERATOR"

@@ -13,10 +13,12 @@ export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
   const pathname = usePathname();
 
+  const homeLink = user ? "/home" : "/";
+
   return (
     <header className="w-full">
       <div className="flex items-center justify-between bg-transparent">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href={homeLink} className="flex items-center gap-3">
           <NavLogo />
           <p className="font-righteous text-green-400 dark:text-mint-300 text-2xl">
             GOOD DOG LICENSING

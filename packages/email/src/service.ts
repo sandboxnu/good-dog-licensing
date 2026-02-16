@@ -53,23 +53,32 @@ export class EmailService {
 
   private async getAllAdminAndPNREmails(): Promise<string[]> {
     return (
-      await prisma.user.findMany({
-        where: {
-          role: {
-            in: ["ADMIN", "MODERATOR"],
+      // if this starts failing, we probably need to add ctx. before it (pass context in as argument)
+      (
+        await prisma.user.findMany({
+          where: {
+            role: {
+              in: ["ADMIN", "MODERATOR"],
+            },
           },
-        },
-        select: {
-          email: true,
-        },
-      })
-    ).map((user) => user.email);
+          select: {
+            email: true,
+          },
+        })
+      ).map((user) => user.email)
+    );
   }
 
   async send(params: EmailMessage) {
     if (!this.apiKey) {
       throw new TypeError("Failed to send email: No api key provided.");
     }
+
+    if (params.to.length === 0) {
+      console.error("There are no internal users to notify of new submission.");
+      return;
+    }
+
     const { data, error } = await this.resend.emails.send(params);
 
     if (error) {
