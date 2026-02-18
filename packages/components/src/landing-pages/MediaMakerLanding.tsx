@@ -62,14 +62,14 @@ export default function MediaMakerLanding() {
               variant: "error" | "success" | "warning" | "gray";
               text: string;
             } = actionRequired
-              ? { variant: "error", text: "Action required" }
-              : pendingApproval
-                ? { variant: "warning", text: "Pending approval" }
-                : matchSize === 0
-                  ? { variant: "gray", text: "Project submitted" }
-                  : completed
-                    ? { variant: "success", text: "Completed" }
-                    : { variant: "warning", text: "In progress" };
+                ? { variant: "error", text: "Action required" }
+                : pendingApproval
+                  ? { variant: "warning", text: "Pending approval" }
+                  : matchSize === 0
+                    ? { variant: "gray", text: "Project submitted" }
+                    : completed
+                      ? { variant: "success", text: "Completed" }
+                      : { variant: "warning", text: "In progress" };
 
             return (
               <Card

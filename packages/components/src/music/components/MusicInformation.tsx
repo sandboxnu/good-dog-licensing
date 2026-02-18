@@ -13,10 +13,10 @@ export default function MusicInformation({
 
   return (
     <div className="flex flex-col gap-3 w-full">
-      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">
+      <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Music Information
       </p>
-      <div className="flex flex-row gap-6 bg-cream-100 dark:bg-green-500 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
+      <div className="flex flex-row gap-6 bg-cream-100 dark:bg-dark-gray-600 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
         <div className="flex flex-row flex-grow gap-6">
           <div className="flex flex-col gap-4 justify-start flex-grow">
             <div className="flex flex-col gap-1">
@@ -59,12 +59,12 @@ export default function MusicInformation({
             <div className="flex flex-col gap-1">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">Link</p>
               <div className="flex flex-row gap-1 text-secondary font-extrabold items-center">
-                <Link size={16} />
+                <Link size={16} className="text-green-500 dark:text-mint-200" />
                 <a
                   href={musicSubmission.songLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="underline underline-offset-4 text-dark-gray-500 dark:text-gray-200"
+                  className="underline underline-offset-4 text-green-500 dark:text-mint-200"
                 >
                   View Song
                 </a>
