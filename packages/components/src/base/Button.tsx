@@ -78,7 +78,7 @@ export default function Button({
         {displayIcon === "plus" ? (
           <AddIcon size={size} />
         ) : displayIcon === "arrow" ? (
-          <ChevronUp className="text-green-500 dark:text-mint-200" />
+          <ChevronUp />
         ) : displayIcon === "pencil" ? (
           <PencilIcon />
         ) : displayIcon === "check" ? (
