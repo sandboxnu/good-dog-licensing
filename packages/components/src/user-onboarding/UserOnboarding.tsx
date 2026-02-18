@@ -8,10 +8,11 @@ import ForgotPasswordWidget from "./widgets/forgot-password-widget/ForgotPasswor
 import LoginWidget from "./widgets/login-widget/LoginWidget";
 import ResetPasswordWidget from "./widgets/reset-password-widget/ResetPasswordWidget";
 import SignUpWidget from "./widgets/sign-up-widget/SignUpWidget";
+import PnrSignUpWidget from "./widgets/pnr-sign-up-widget/PnrSignUpWidget";
 
 interface UserOnboardingProps {
   initialRole: "MUSICIAN" | "MEDIA_MAKER" | undefined;
-  type: "signUp" | "logIn" | "forgotPassword" | "resetPassword";
+  type: "signUp" | "logIn" | "forgotPassword" | "resetPassword" | "pnrSignUp";
 }
 
 export default function UserOnboarding({
@@ -35,6 +36,7 @@ export default function UserOnboarding({
       {type === "logIn" && <LoginWidget />}
       {type === "forgotPassword" && <ForgotPasswordWidget />}
       {type === "resetPassword" && <ResetPasswordWidget />}
+      {type === "pnrSignUp" && <PnrSignUpWidget />}
       {role === "MEDIA_MAKER" && <MediaMakerSection />}
       {role === "MUSICIAN" && <MusicianSection />}
     </div>
