@@ -21,10 +21,16 @@ export default function MatchingDashboard({
     <div className="flex flex-col gap-6">
       <button
         className="flex flex-row gap-[4px] items-center max-w-[130px]"
-        onClick={() => router.push(`/project/${songRequest.projectId}`)}
+        onClick={() =>
+          router.push(
+            `/home?projectId=${songRequest.projectSubmission.projectId}`,
+          )
+        }
       >
         <ChevronLeft className="text-green-500 dark:text-mint-200" />
-        <p className="text-green-500 underline text-body2">{songRequest.projectSubmission.projectTitle}</p>
+        <p className="text-green-500 underline text-body2">
+          {songRequest.projectSubmission.projectTitle}
+        </p>
       </button>
       <div className="flex flex-row gap-10">
         <SongRequestInformation songRequest={songRequest} />

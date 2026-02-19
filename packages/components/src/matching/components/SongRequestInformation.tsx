@@ -54,7 +54,7 @@ export default function SongRequestInformation({
       {/* Song Request Title Header */}
       <div className="flex flex-row justify-between">
         <p className="text-xl">{songRequest.songRequestTitle}</p>
-        <div className="flex flex-row items-center gap-1 ">
+        <div className="flex flex-row items-center gap-1">
           <p className="text-xs text-cream-600">Assigned to </p>
           {songRequest.projectSubmission.projectManager ? (
             <User
