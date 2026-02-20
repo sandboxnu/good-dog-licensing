@@ -27,7 +27,9 @@ export function ConfirmationModal({
       <DialogContent className="max-w-md rounded-2xl p-8 bg-white">
         <DialogHeader className="text-center space-y-2">
           <DialogTitle className="text-4xl text-center">
-            {type === "approve" ? "Send to Media Maker?" : "Want to remove this song?"}
+            {type === "approve"
+              ? "Send to Media Maker?"
+              : "Want to remove this song?"}
           </DialogTitle>
 
           <DialogDescription className="text-center text-base">

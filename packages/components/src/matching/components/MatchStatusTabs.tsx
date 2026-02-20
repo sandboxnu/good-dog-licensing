@@ -51,9 +51,7 @@ export function MatchStatusTabs({
       </TabsList>
 
       <TabsContent value="incoming">{suggestions}</TabsContent>
-      <TabsContent value="pendingApproval">
-        {inProgress}
-      </TabsContent>
+      <TabsContent value="pendingApproval">{inProgress}</TabsContent>
       <TabsContent value="matched">{matched}</TabsContent>
       <TabsContent value="rejected">{rejected}</TabsContent>
     </Tabs>

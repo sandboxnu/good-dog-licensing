@@ -88,7 +88,9 @@ export default function SongRequestInformation({
             <div className="flex flex-col gap-2 w-[188px]">
               <div className="flex flex-row gap-1 items-center">
                 <Camera />
-                <p className="text-sm text-cream-600 dark:text-gray-200">Media Maker</p>
+                <p className="text-sm text-cream-600 dark:text-gray-200">
+                  Media Maker
+                </p>
               </div>
               <User
                 name={
@@ -101,7 +103,9 @@ export default function SongRequestInformation({
             <div className="flex flex-col gap-2 w-[188px]">
               <div className="flex flex-row gap-1 items-center">
                 <Check />
-                <p className="text-sm text-cream-600 dark:text-gray-200">Status</p>
+                <p className="text-sm text-cream-600 dark:text-gray-200">
+                  Status
+                </p>
               </div>
               <StatusIndicator variant={status.variant} text={status.text} />
             </div>
@@ -111,7 +115,9 @@ export default function SongRequestInformation({
             <div className="flex flex-col gap-2 w-[188px]">
               <div className="flex flex-row gap-1 items-center">
                 <Deadline />
-                <p className="text-sm text-cream-600 dark:text-gray-200">Deadline</p>
+                <p className="text-sm text-cream-600 dark:text-gray-200">
+                  Deadline
+                </p>
               </div>
               <p className="text-sm text-dark-gray-400 dark:text-gray-200">
                 {songRequest.projectSubmission.deadline.toLocaleDateString(
@@ -127,7 +133,9 @@ export default function SongRequestInformation({
             <div className="flex flex-col gap-2 w-[188px]">
               <div className="flex flex-row gap-1 items-center">
                 <Calendar />
-                <p className="text-sm text-cream-600 dark:text-gray-200">Date submitted</p>
+                <p className="text-sm text-cream-600 dark:text-gray-200">
+                  Date submitted
+                </p>
               </div>
               <p className="text-sm text-dark-gray-400 dark:text-gray-200">
                 {songRequest.createdAt.toLocaleDateString("en-US", {
@@ -143,7 +151,9 @@ export default function SongRequestInformation({
             <div className="flex flex-col gap-2 w-[188px]">
               <div className="flex flex-row gap-1 items-center">
                 <GreyMusicNote />
-                <p className="text-sm text-cream-600 dark:text-gray-200">Feelings conveyed</p>
+                <p className="text-sm text-cream-600 dark:text-gray-200">
+                  Feelings conveyed
+                </p>
               </div>
               <p className="text-sm text-dark-gray-300 dark:text-gray-200">
                 {songRequest.feelingsConveyed}
