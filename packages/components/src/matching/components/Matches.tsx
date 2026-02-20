@@ -3,23 +3,28 @@ import { MatchState } from "@good-dog/db";
 import Hourglass from "../../svg/Hourglass";
 import { Match } from "./Match";
 
-type MatchesWithMusicSubmission =
+type MatchWithMusicSubmission =
   GetProcedureOutput<"getSongRequestById">["matches"][number];
 
 export function Matches({
   state,
   matches,
   projectManagerId,
+  onMatchClick,
 }: {
   state: "SUGGESTED" | "IN_PROGRESS" | "MATCHED" | "REJECTED";
-  matches: MatchesWithMusicSubmission[];
-  projectManagerId: string | null,
+  matches: MatchWithMusicSubmission[];
+  projectManagerId: string | null;
+  onMatchClick: (match: MatchWithMusicSubmission) => void;
 }) {
   const filteredMatches = matches.filter((match) => {
     if (state === "SUGGESTED") {
       return match.matchState === MatchState.WAITING_FOR_MANAGER_APPROVAL;
     } else if (state === "IN_PROGRESS") {
-      return match.matchState === MatchState.SENT_TO_MUSICIAN || match.matchState === MatchState.SENT_TO_MEDIA_MAKER;;
+      return (
+        match.matchState === MatchState.SENT_TO_MUSICIAN ||
+        match.matchState === MatchState.SENT_TO_MEDIA_MAKER
+      );
     } else if (state === "MATCHED") {
       return match.matchState === MatchState.APPROVED_BY_MUSICIAN;
     } else {
@@ -50,6 +55,7 @@ export function Matches({
           state={state}
           match={match}
           projectManagerId={projectManagerId}
+          onMatchClick={onMatchClick}
         />
       ))}
     </div>

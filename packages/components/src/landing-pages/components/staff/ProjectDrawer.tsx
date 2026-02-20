@@ -29,16 +29,16 @@ export default function ProjectDrawer({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="w-[60vw] px-9 py-12 flex flex-col bg-white rounded-l-2xl"
+        className="w-[50vw] px-9 py-12 flex flex-col bg-white dark:bg-main-bg-solid-dark rounded-l-2xl"
       >
         {/* Header */}
         <SheetHeader>
           <SheetTitle className="flex flex-row justify-between items-center">
-            <p className="text-4xl">
+            <p className="text-4xl dark:text-mint-300">
               {projectSubmission ? projectSubmission.projectTitle : "..."}
             </p>
-            <div className="flex flex-row items-center gap-1 ">
-              <p className="text-xs text-cream-600">Assigned to </p>
+            <div className="flex flex-row items-center gap-1">
+              <p className="text-xs text-cream-600 dark:text-gray-200">Assigned to </p>
               {projectSubmission && projectSubmission.projectManager ? (
                 <User
                   name={
@@ -48,7 +48,7 @@ export default function ProjectDrawer({
                   }
                 />
               ) : (
-                <p className="text-cream-600 italic">No Assignment Yet</p>
+                <p className="text-cream-600 dark:text-gray-200 italic">No Assignment Yet</p>
               )}
             </div>
           </SheetTitle>
@@ -62,7 +62,7 @@ export default function ProjectDrawer({
             <div className="flex flex-row gap-6">
               <div className="flex flex-row gap-1 items-center">
                 <Camera />
-                <p className="text-sm text-cream-600">Media Maker</p>
+                <p className="text-sm text-cream-600 dark:text-gray-200">Media Maker</p>
               </div>
               <User
                 name={
@@ -78,9 +78,9 @@ export default function ProjectDrawer({
             <div className="flex flex-row gap-6">
               <div className="flex flex-row gap-1 items-center">
                 <Deadline />
-                <p className="text-sm text-cream-600">Deadline</p>
+                <p className="text-sm text-cream-600 dark:text-gray-200">Deadline</p>
               </div>
-              <p className="text-sm text-dark-gray-400">
+              <p className="text-sm text-dark-gray-400 dark:text-gray-200">
                 {projectSubmission
                   ? projectSubmission.deadline.toLocaleDateString("en-US", {
                       year: "numeric",
@@ -94,9 +94,9 @@ export default function ProjectDrawer({
             <div className="flex flex-col gap-1">
               <div className="flex flex-row gap-1 items-center">
                 <FileIcon />
-                <p className="text-sm text-cream-600">Project information</p>
+                <p className="text-sm text-cream-600 dark:text-gray-200">Project information</p>
               </div>
-              <p className="text-sm text-dark-gray-400">
+              <p className="text-sm text-dark-gray-400 dark:text-gray-200">
                 {projectSubmission ? projectSubmission.description : "..."}
               </p>
             </div>
@@ -106,21 +106,24 @@ export default function ProjectDrawer({
                 <div className="flex flex-col gap-1">
                   <div className="flex flex-row gap-1 items-center">
                     <FileIcon />
-                    <p className="text-sm text-cream-600">
+                    <p className="text-sm text-cream-600 dark:text-gray-200">
                       Additional information
                     </p>
                   </div>
-                  <p className="text-sm text-dark-gray-400">
+                  <p className="text-sm text-dark-gray-400 dark:text-gray-200">
                     {projectSubmission.additionalInfo}
                   </p>
                 </div>
               )}
           </div>
 
-          <p className="text-xl">Song requests</p>
+          <p className="text-xl dark:text-gray-200">Song requests</p>
           <div className="flex flex-col gap-4">
             {projectSubmission?.songRequests.map((songRequest) => (
-              <SongRequest songRequest={songRequest} key={songRequest.songRequestId} />
+              <SongRequest
+                songRequest={songRequest}
+                key={songRequest.songRequestId}
+              />
             ))}
           </div>
         </div>

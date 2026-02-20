@@ -5,9 +5,11 @@ import { Matches } from "./Matches";
 import { useState } from "react";
 import { MusicSearchModal } from "./MusicSearchModal";
 import { trpc } from "@good-dog/trpc/client";
+import MatchDrawer from "./MatchDrawer";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
+type MatchType = SongRequestType["matches"][number] | null;
 
 export default function MatchingInformation({
   songRequest,
@@ -35,11 +37,17 @@ export default function MatchingInformation({
     });
   };
 
+  const [selectedMatch, setSelectedMatch] = useState<MatchType>(null);
+
+  const handleClickMatch = (match: MatchType) => {
+    setSelectedMatch(match);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between items-center">
-          <p className="text-xl">Song suggestions</p>
+          <p className="text-xl dark:text-gray-200">Song suggestions</p>
           <Button
             label={"Search for songs"}
             size={"small"}
@@ -53,7 +61,7 @@ export default function MatchingInformation({
             matches={matches}
           />
         </div>
-        <p>
+        <p className="dark:text-gray-200">
           Search for licensed songs and add them below as recommendations for
           media maker
         </p>
@@ -68,6 +76,7 @@ export default function MatchingInformation({
             state={"SUGGESTED"}
             matches={matches}
             projectManagerId={songRequest.projectSubmission.projectManagerId}
+            onMatchClick={handleClickMatch}
           />
         }
         inProgress={
@@ -75,6 +84,7 @@ export default function MatchingInformation({
             state={"IN_PROGRESS"}
             matches={matches}
             projectManagerId={songRequest.projectSubmission.projectManagerId}
+            onMatchClick={handleClickMatch}
           />
         }
         matched={
@@ -82,6 +92,7 @@ export default function MatchingInformation({
             state={"MATCHED"}
             matches={matches}
             projectManagerId={songRequest.projectSubmission.projectManagerId}
+            onMatchClick={handleClickMatch}
           />
         }
         rejected={
@@ -89,8 +100,14 @@ export default function MatchingInformation({
             state={"REJECTED"}
             matches={matches}
             projectManagerId={songRequest.projectSubmission.projectManagerId}
+            onMatchClick={handleClickMatch}
           />
         }
+      />
+      <MatchDrawer
+        match={selectedMatch}
+        open={!!selectedMatch}
+        onClose={() => setSelectedMatch(null)}
       />
     </div>
   );

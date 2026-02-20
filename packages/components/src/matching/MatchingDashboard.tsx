@@ -28,7 +28,7 @@ export default function MatchingDashboard({
         }
       >
         <ChevronLeft className="text-green-500 dark:text-mint-200" />
-        <p className="text-green-500 underline text-body2">
+        <p className="text-green-500 underline text-body2 dark:text-gray-200">
           {songRequest.projectSubmission.projectTitle}
         </p>
       </button>
