@@ -17,38 +17,36 @@ export default function SongRequestInformation({
 }: {
   songRequest: SongRequestType;
 }) {
-  const status = {
-    variant: "" as "success" | "error" | "warning" | "gray" | "blue",
-    text: "",
-  };
+  const getSongRequestStatus = (
+    matches: { matchState: string }[],
+  ): {
+    variant: "success" | "error" | "warning" | "gray" | "blue";
+    text: string;
+  } => {
+    if (!matches || matches.length === 0) {
+      return { variant: "gray", text: "No Match" };
+    }
 
-  if (
-    songRequest.matches.some(
-      (match) => match.matchState === "APPROVED_BY_MUSICIAN",
-    )
-  ) {
-    status.variant = "success";
-    status.text = "Complete";
-  } else if (
-    songRequest.matches.some(
-      (match) =>
-        match.matchState == "SENT_TO_MEDIA_MAKER" ||
-        match.matchState == "SENT_TO_MUSICIAN",
-    )
-  ) {
-    status.variant = "blue";
-    status.text = "Awaiting Response";
-  } else if (
-    songRequest.matches.some(
-      (match) => match.matchState === "WAITING_FOR_MANAGER_APPROVAL",
-    )
-  ) {
-    status.variant = "warning";
-    status.text = "Awaiting Manager Approval";
-  } else {
-    status.variant = "error";
-    status.text = "Needs Attention";
-  }
+    if (matches.some((m) => m.matchState === "APPROVED_BY_MUSICIAN")) {
+      return { variant: "success", text: "Complete" };
+    }
+
+    if (
+      matches.some(
+        (m) =>
+          m.matchState === "SENT_TO_MEDIA_MAKER" ||
+          m.matchState === "SENT_TO_MUSICIAN",
+      )
+    ) {
+      return { variant: "blue", text: "Awaiting Response" };
+    }
+
+    if (matches.some((m) => m.matchState === "WAITING_FOR_MANAGER_APPROVAL")) {
+      return { variant: "warning", text: "Awaiting Manager Approval" };
+    }
+
+    return { variant: "error", text: "Needs Attention" };
+  };
   return (
     <div className="flex flex-col gap-4">
       {/* Song Request Title Header */}
@@ -107,7 +105,7 @@ export default function SongRequestInformation({
                   Status
                 </p>
               </div>
-              <StatusIndicator variant={status.variant} text={status.text} />
+              <StatusIndicator variant={getSongRequestStatus(songRequest.matches).variant} text={getSongRequestStatus(songRequest.matches).text} />
             </div>
           </div>
 

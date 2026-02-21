@@ -8,7 +8,10 @@ import {
 } from "@good-dog/ui/sheet";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import MusicNote from "../../svg/GreyMusicNote";
-import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
+import {
+  formatAllCapsList,
+  formatAllCapsWord,
+} from "../../../utils/allCapsListFormatter";
 import Calendar from "../../svg/Calendar";
 import { Link } from "lucide-react";
 import User from "./User";
@@ -28,30 +31,33 @@ export default function MatchDrawer({
   open: boolean;
   onClose: () => void;
 }) {
-  const status = {
-    variant: "" as "success" | "error" | "warning" | "gray" | "blue",
-    text: "",
-  };
+  const getMatchStatus = (
+    match?: { matchState: string } | null,
+  ): {
+    variant: "success" | "error" | "warning" | "gray" | "blue";
+    text: string;
+  } => {
+    if (!match) {
+      return { variant: "gray", text: "No Match" };
+    }
 
-  if (!match) {
-    status.variant = "gray";
-    status.text = "No Match";
-  } else if (match.matchState === "APPROVED_BY_MUSICIAN") {
-    status.variant = "success";
-    status.text = "Complete";
-  } else if (
-    match.matchState === "SENT_TO_MEDIA_MAKER" ||
-    match.matchState === "SENT_TO_MUSICIAN"
-  ) {
-    status.variant = "blue";
-    status.text = "Awaiting Response";
-  } else if (match.matchState === "WAITING_FOR_MANAGER_APPROVAL") {
-    status.variant = "warning";
-    status.text = "Awaiting Manager Approval";
-  } else {
-    status.variant = "error";
-    status.text = "Needs Attention";
-  }
+    if (match.matchState === "APPROVED_BY_MUSICIAN") {
+      return { variant: "success", text: "Complete" };
+    }
+
+    if (
+      match.matchState === "SENT_TO_MEDIA_MAKER" ||
+      match.matchState === "SENT_TO_MUSICIAN"
+    ) {
+      return { variant: "blue", text: "Awaiting Response" };
+    }
+
+    if (match.matchState === "WAITING_FOR_MANAGER_APPROVAL") {
+      return { variant: "warning", text: "Awaiting Manager Approval" };
+    }
+
+    return { variant: "error", text: "Needs Attention" };
+  };
 
   return (
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
@@ -186,7 +192,10 @@ export default function MatchDrawer({
                 </p>
               </div>
               {match ? (
-                <StatusIndicator variant={status.variant} text={status.text} />
+                <StatusIndicator
+                  variant={getMatchStatus(match).variant}
+                  text={getMatchStatus(match).variant}
+                />
               ) : (
                 <p className="text-sm text-dark-gray-400">{"..."}</p>
               )}
@@ -203,10 +212,7 @@ export default function MatchDrawer({
                 {match
                   ? match.matchState
                       .split("_")
-                      .map(
-                        (w) =>
-                          w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
-                      )
+                      .map((w) => formatAllCapsWord(w))
                       .join(" ")
                   : "..."}
               </p>

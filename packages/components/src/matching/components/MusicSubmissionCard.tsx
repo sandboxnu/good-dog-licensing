@@ -5,6 +5,7 @@ import Group from "../../svg/Group";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import FileIcon from "../../svg/FileIcon";
 import GreyMusicNote from "../../svg/GreyMusicNote";
+import { formatAllCapsWord } from "../../../utils/allCapsListFormatter";
 
 type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 
@@ -51,10 +52,7 @@ export function MusicSubmissionCard({
                 >
                   {genre
                     .split("_")
-                    .map(
-                      (w) =>
-                        w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
-                    )
+                    .map((w) => formatAllCapsWord(w))
                     .join(" ")}
                 </p>
               ))}
@@ -110,10 +108,7 @@ export function MusicSubmissionCard({
                   >
                     {genre
                       .split("_")
-                      .map(
-                        (w) =>
-                          w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
-                      )
+                      .map((w) => formatAllCapsWord(w))
                       .join(" ")}
                   </p>
                 ))}
