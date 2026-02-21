@@ -2,6 +2,7 @@ import { Resend } from "resend";
 
 import { prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
+import { passwordResetTemplate } from "./templates/passswordReset";
 
 export interface EmailMessage {
   from: string;
@@ -88,101 +89,17 @@ export class EmailService {
     return data;
   }
 
-  private emailTemplate(title: string, content: string) {
-    return `
-      <div style="margin:0;padding:0;background-color:#e5e7eb;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#e5e7eb;padding:40px 0;">
-          <tr>
-            <td align="center">
-
-              <table width="100%" cellpadding="0" cellspacing="0"
-                style="max-width:600px;background-color:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;border-collapse:collapse;">
-
-                <!-- Header -->
-                <tr>
-                  <td style="background-color:#07634C;padding:32px;">
-                    <table width="100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td style="color:#ffffff;font-size:24px;font-weight:600;">
-                          ${title}
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-
-                <!-- Body -->
-                <tr>
-                  <td style="padding:32px;background-color:#f3f4f6;color:#374151;font-size:16px;line-height:1.6;">
-                    ${content}
-                  </td>
-                </tr>
-
-              </table>
-
-            </td>
-          </tr>
-        </table>
-      </div>
-      `;
-  }
-
-  private buttonCard(options: {
-    text: string;
-    buttonText: string;
-    buttonHref: string;
-  }) {
-    const { text, buttonText, buttonHref } = options;
-
-    return `
-    <table width="100%" cellpadding="0" cellspacing="0"
-      style="margin:24px 0;background-color:#ffffff;border-radius:12px;">
-      <tr>
-        <td style="
-            padding:28px;
-            border:1px solid #e5e7eb;
-            border-radius:12px;
-            text-align:center;
-        ">
-
-          <p style="margin:0 0 20px;color:#374151;font-size:16px;">
-            ${text}
-          </p>
-
-          <table align="center" cellpadding="0" cellspacing="0">
-            <tr>
-              <td align="center" bgcolor="#166534"
-                  style="border-radius:8px;">
-                <a href="${buttonHref}"
-                   style="
-                     display:inline-block;
-                     padding:12px 26px;
-                     font-size:14px;
-                     font-weight:600;
-                     color:#ffffff;
-                     text-decoration:none;
-                     border-radius:8px;
-                   ">
-                  ${buttonText}
-                </a>
-              </td>
-            </tr>
-          </table>
-
-        </td>
-      </tr>
-    </table>
-  `;
-  }
-
   async sendPasswordResetEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
+    const link = `${baseURL}/reset-password/?reset_id=${cuid}`;
 
     const params: EmailMessage = {
       from: this.sentFrom,
       to: [toEmail],
       subject: "Reset Your Password - Good Dog Licensing",
-      html: `<p>Follow <a href="${baseURL}/reset-password/?reset_id=${cuid}">this link</a> to reset your password.</p>`,
+      html: passwordResetTemplate({
+        resetLink: link,
+      }),
     };
 
     return this.send(params);
