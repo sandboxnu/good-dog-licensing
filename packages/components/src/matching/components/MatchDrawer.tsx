@@ -194,7 +194,7 @@ export default function MatchDrawer({
               {match ? (
                 <StatusIndicator
                   variant={getMatchStatus(match).variant}
-                  text={getMatchStatus(match).variant}
+                  text={getMatchStatus(match).text}
                 />
               ) : (
                 <p className="text-sm text-dark-gray-400">{"..."}</p>
