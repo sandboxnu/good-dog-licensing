@@ -24,13 +24,13 @@ export function Popup({
 }: ConfirmDenyDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md rounded-2xl p-8 bg-white">
+      <DialogContent className="max-w-md rounded-2xl p-8 bg-white dark:bg-dark-gray-600 border border-cream-500">
         <DialogHeader className="text-center space-y-2">
-          <DialogTitle className="text-4xl text-center">
+          <DialogTitle className="text-4xl text-center text-gray-500 dark:text-gray-200">
             Confirm selection
           </DialogTitle>
 
-          <DialogDescription className="text-center text-base">
+          <DialogDescription className="text-center text-dark-gray-500 dark:text-gray-200">
             {type === "approve"
               ? "Are you sure you want to request this song for licensing? This action cannot be undone."
               : "Are you sure you want to deny this song for licensing? This action cannot be undone."}

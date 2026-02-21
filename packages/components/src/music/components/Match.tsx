@@ -1,5 +1,5 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import MusicNote from "./MusicNote";
+import MusicNoteIcon from "../../svg/MusicNoteIcon";
 import { Check, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
@@ -66,16 +66,16 @@ export function Match({
 
   return (
     <div
-      className={`flex flex-row justify-between items-center cursor-pointer w-[728px] box-content px-6 py-4 rounded-2xl border-[1px] shadow-md ${selected ? `border-light-green hover:border-good-dog-main` : `border-light-gray hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
+      className={`flex flex-row justify-between items-center bg-cream-100 dark:bg-green-500 cursor-pointer w-[984px] box-content px-6 py-4 rounded-2xl border-[1px] shadow-md ${selected ? `border-green-300 hover:border-green-400 dark:border-grass-green-100 dark:hover:border-grass-green-200` : `border-cream-500 hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
       onClick={handleClick}
     >
       <div className="flex flex-row flex-shrink-0 items-center gap-4">
-        <MusicNote />
+        <MusicNoteIcon />
         <div className="flex flex-col gap-2 w-[584px]">
-          <p className="text-xl text-body-primary font-semibold truncate">
+          <p className="text-xl text-dark-gray-500 dark:text-mint-300 font-semibold truncate">
             {match.songRequest.songRequestTitle}
           </p>
-          <p className="text-body-gray truncate">
+          <p className="text-dark-gray-200 dark:text-dark-gray-200 truncate">
             {match.songRequest.description}
           </p>
         </div>
@@ -83,10 +83,10 @@ export function Match({
       {state === "INCOMING" && (
         <div className="flex flex-row gap-4">
           <button type="button" onClick={handleCheck}>
-            <Check className="hover:text-light-green hover:bg-light-green/25 rounded-md" />
+            <Check className="text-dark-gray-300 hover:text-mint-300/25 hover:bg-mint-300 dark:hover:bg-mint-200 rounded-full hover:border hover:border-green-400 dark:hover:border-mint-300" />
           </button>
           <button type="button" onClick={handleX}>
-            <X className="hover:text-required-star hover:bg-required-star/25 rounded-md" />
+            <X className="text-dark-gray-300 hover:text-required-star hover:bg-required-star/25 rounded-md" />
           </button>
           <div onClick={(e) => e.stopPropagation()}>
             <Popup

@@ -53,7 +53,7 @@ export default function MusicInformation({
 
         {musicSubmission ? (
           <div className="flex flex-row gap-1 text-secondary font-extrabold items-center">
-            <Link size={16} />
+            <Link size={16} className="text-green-500 dark:text-mint-200" />
             <a
               href={musicSubmission.songLink}
               target="_blank"
