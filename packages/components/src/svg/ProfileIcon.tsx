@@ -3,16 +3,19 @@ import { trpc } from "@good-dog/trpc/client";
 interface ProfileIconProps {
   color: "light" | "dark";
   size?: number;
+  name?: string;
 }
 
-export default function ProfileIcon({ color, size }: ProfileIconProps) {
+export default function ProfileIcon({ color, size, name }: ProfileIconProps) {
   const circleSize = size ? size : 48;
   const userQuery = trpc.user.useSuspenseQuery();
   const user = userQuery[0];
-  const letter = user?.firstName.substring(0, 1);
+  const letter = name
+    ? name.substring(0, 1).toUpperCase()
+    : user?.firstName.substring(0, 1).toUpperCase();
 
   return (
-    <div className="h-full relative inline-block flex items-center justify-center">
+    <div className="h-full relative flex items-center justify-center">
       <svg
         width={circleSize}
         height={circleSize}

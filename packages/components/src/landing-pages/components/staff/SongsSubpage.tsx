@@ -2,13 +2,15 @@
 
 import { trpc } from "@good-dog/trpc/client";
 import Header from "../Header";
-import type { MusicSubmission } from "@prisma/client";
 import {
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
+type MusicSubmission = GetProcedureOutput<"allMusic">[number];
 
 /**
  * Song sub-page of admin dashboard.
@@ -23,7 +25,7 @@ export default function SongsSubpage() {
         requestPath={""}
         buttonContent="Invite"
       />
-      <SongTable data={data.music} />
+      <SongTable data={data} />
     </div>
   );
 }

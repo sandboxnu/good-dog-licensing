@@ -19,9 +19,10 @@ export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
           lastName: true,
         },
       },
+      contributors: true,
     },
   });
-  return { music };
+  return music;
 });
 
 export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
@@ -69,6 +70,7 @@ export const getMusicSubmissionByIdProcedure = rolePermissionsProcedureBuilder(
             },
           },
         },
+        contributors: true,
       },
     });
 
