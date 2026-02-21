@@ -23,7 +23,7 @@ export default function SongRequestInformation({
     variant: "success" | "error" | "warning" | "gray" | "blue";
     text: string;
   } => {
-    if (!matches || matches.length === 0) {
+    if (matches.length === 0) {
       return { variant: "gray", text: "No Match" };
     }
 
@@ -105,7 +105,10 @@ export default function SongRequestInformation({
                   Status
                 </p>
               </div>
-              <StatusIndicator variant={getSongRequestStatus(songRequest.matches).variant} text={getSongRequestStatus(songRequest.matches).text} />
+              <StatusIndicator
+                variant={getSongRequestStatus(songRequest.matches).variant}
+                text={getSongRequestStatus(songRequest.matches).text}
+              />
             </div>
           </div>
 
