@@ -15,6 +15,7 @@ export default async function SongRequestPage({ params }: PageProps) {
   const { id: songRequestId } = await params;
 
   void trpc.getSongRequestById.prefetch({ songRequestId });
+  void trpc.allMusic.prefetch();
 
   return (
     <PageContainer background="solid">
