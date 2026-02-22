@@ -138,9 +138,7 @@ export class EmailService {
     return this.send(params);
   }
 
-  async notifyInternalUsersNewMusicSubmitted(
-    musicSubmissionId: string,
-  ) {
+  async notifyInternalUsersNewMusicSubmitted(musicSubmissionId: string) {
     const baseURL = this.getBaseUrl();
     const link = `${baseURL}/dashboard/songs/?id=${musicSubmissionId}`;
 
@@ -158,9 +156,7 @@ export class EmailService {
     return this.send(params);
   }
 
-  async notifyInternalUsersNewProjectSubmitted(
-    projectSubmissionId: string,
-  ) {
+  async notifyInternalUsersNewProjectSubmitted(projectSubmissionId: string) {
     const baseURL = this.getBaseUrl();
     const link = `${baseURL}/dashboard/projects/?id=${projectSubmissionId}`;
 

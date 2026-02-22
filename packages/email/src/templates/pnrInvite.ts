@@ -1,8 +1,6 @@
 import { emailLayout } from "../layout";
 
-export function pnrInviteTemplate(options: {
-  inviteLink: string;
-}) {
+export function pnrInviteTemplate(options: { inviteLink: string }) {
   const { inviteLink } = options;
 
   const content = `
