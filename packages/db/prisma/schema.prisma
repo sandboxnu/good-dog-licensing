@@ -21,6 +21,13 @@ enum Role {
   MODERATOR
 }
 
+enum HowHeardAboutUsLabel {
+  FRIEND
+  GREEN_LINE_RECORDS
+  SOCIAL_MEDIA
+  OTHER
+}
+
 enum MatchState {
   WAITING_FOR_MANAGER_APPROVAL
   REJECTED_BY_MANAGER

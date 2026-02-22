@@ -7,12 +7,14 @@ import { useFormContext } from "react-hook-form";
 
 import type { zSignUpValues } from "@good-dog/trpc/schema";
 
+import { HowHeardAboutUsLabel } from "@good-dog/db";
 import Button from "../../../base/Button";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import PasswordRequirements from "../components/PasswordRequirements";
 import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
 import Checkbox from "../../../base/Checkbox";
+import { getHowHeardAboutUsLabel } from "../../../../utils/enumLabelMapper";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -38,6 +40,13 @@ export default function FinalSignUpInfo({
   const headerLabel = useMemo(
     () => (role ? `Sign up as a ${formatRole(role)}` : "Create Account"),
     [role],
+  );
+
+  const howHeardAboutUsOptions = Object.values(HowHeardAboutUsLabel).map(
+    (label) => ({
+      label: getHowHeardAboutUsLabel(label),
+      value: label,
+    }),
   );
 
   return (
@@ -83,12 +92,7 @@ export default function FinalSignUpInfo({
           rhfName="howHeardAboutUs"
           label="How did you hear about Good Dog?"
           id="howHeardAboutUs"
-          options={[
-            { value: "friend_colleague", label: "Friend/Colleague" },
-            { value: "green_line_records", label: "Green Line Records" },
-            { value: "social_media", label: "Social Media" },
-            { value: "other", label: "Other" },
-          ]}
+          options={howHeardAboutUsOptions}
           errorText={errors.howHeardAboutUs?.message}
           required
           placeholder="Select"

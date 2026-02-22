@@ -27,14 +27,12 @@ export const zSignUpValues = z
     lastName: zRequiredString,
     role: z.enum(["MUSICIAN", "MEDIA_MAKER"], { error: "This is required" }),
     emailCode: zRequiredString,
-    howHeardAboutUs: z.array(
-      z.enum([
-        "friend_colleague",
-        "green_line_records",
-        "social_media",
-        "other",
-      ]),
-    ),
+    howHeardAboutUs: z.enum([
+      "FRIEND",
+      "GREEN_LINE_RECORDS",
+      "SOCIAL_MEDIA",
+      "OTHER",
+    ]),
     termsOfService: z.literal(true),
   })
   .refine((data) => data.password === data.confirmPassword, {

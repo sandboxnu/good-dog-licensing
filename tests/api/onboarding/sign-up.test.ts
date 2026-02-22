@@ -32,7 +32,7 @@ describe("sign-up", () => {
     confirmPassword: "Mypassword1!",
     emailCode: "019821",
     termsOfService: true,
-    howHeardAboutUs: [],
+    howHeardAboutUs: "FRIEND",
   };
 
   afterEach(async () => {
