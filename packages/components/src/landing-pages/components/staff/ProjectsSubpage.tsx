@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import type { ProjectSubmissionWithSongRequestAndMatches } from "../../../../utils/getStatusFromProject";
 import getStatusFromProject from "../../../../utils/getStatusFromProject";
 import Header from "../Header";
 import {
@@ -10,6 +9,12 @@ import {
   TableRowFormatting,
 } from "./TableFormatting";
 import { trpc } from "@good-dog/trpc/client";
+import ProjectDrawer from "./ProjectDrawer";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { useRouter, useSearchParams } from "next/navigation";
+
+type ProjectSubmissionType =
+  GetProcedureOutput<"allProjects">["projects"][number];
 
 export type ProjectStatus =
   | "Not assigned"
@@ -30,6 +35,13 @@ export default function ProjectsSubpage() {
       setActiveStatuses([...activeStatuses, status]);
     }
   };
+
+  const searchParams = useSearchParams();
+  const projectIdFromUrl = searchParams.get("projectId");
+
+  const selectedProject =
+    data.projects.find((project) => project.projectId === projectIdFromUrl) ??
+    null;
 
   return (
     <div className="flex flex-col gap-[32px]">
@@ -90,6 +102,7 @@ export default function ProjectsSubpage() {
         data={data.projects.filter((project) =>
           activeStatuses.includes(getStatusFromProject(project)),
         )}
+        selectedProject={selectedProject}
       />
     </div>
   );
@@ -97,9 +110,12 @@ export default function ProjectsSubpage() {
 
 function SubmissionTable({
   data,
+  selectedProject,
 }: {
-  data: ProjectSubmissionWithSongRequestAndMatches[];
+  data: ProjectSubmissionType[];
+  selectedProject: ProjectSubmissionType | null;
 }) {
+  const router = useRouter();
   return (
     <TableOuterFormatting>
       <div className="flex flex-col">
@@ -113,9 +129,16 @@ function SubmissionTable({
           <p className="dark:text-white">Assignee</p>
         </TableHeaderFormatting>
 
-        {data.map(
-          (project: ProjectSubmissionWithSongRequestAndMatches, key) => {
-            return (
+        {data.map((project: ProjectSubmissionType, key) => {
+          return (
+            <div
+              className="cursor-pointer"
+              onClick={() =>
+                router.replace(`?projectId=${project.projectId}`, {
+                  scroll: false,
+                })
+              }
+            >
               <TableRowFormatting key={key} isLast={key === data.length - 1}>
                 <p className="dark:text-white truncate">
                   {project.projectTitle}
@@ -149,11 +172,16 @@ function SubmissionTable({
                 </p>
                 <div className="dark:text-white truncate">+</div>
               </TableRowFormatting>
-            );
-          },
-        )}
+            </div>
+          );
+        })}
         {data.length == 0 && <TableEmptyMessage />}
       </div>
+      <ProjectDrawer
+        projectSubmission={selectedProject}
+        open={!!selectedProject}
+        onClose={() => router.replace("/home", { scroll: false })}
+      />
     </TableOuterFormatting>
   );
 }

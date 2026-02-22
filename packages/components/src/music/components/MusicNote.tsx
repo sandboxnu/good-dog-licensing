@@ -1,6 +1,6 @@
 export default function MusicNote() {
   return (
-    <div className="rounded-lg bg-good-dog-main w-8 h-8 flex items-center justify-center">
+    <div className="rounded-lg bg-green-400 w-8 h-8 flex items-center justify-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"

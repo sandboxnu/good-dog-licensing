@@ -10,7 +10,7 @@ export default function MusicInformation({
   submitter: { firstName: string; lastName: string } | undefined;
 }) {
   return (
-    <div className="flex flex-col gap-4 p-6 rounded-2xl border-[0.5px] border-light-gray shadow-md max-w-[220px]">
+    <div className="flex flex-col gap-4 p-6 rounded-2xl border-[0.5px] border-light-gray shadow-md">
       <p className="text-xl text-gray-200 dark:text-gray-100">
         Music Information
       </p>

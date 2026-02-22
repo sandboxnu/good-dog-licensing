@@ -48,7 +48,12 @@ export const getProjectSongRequestByIdProcedure =
           songRequestId: input.songRequestId,
         },
         include: {
-          projectSubmission: true,
+          projectSubmission: {
+            include: {
+              projectManager: true,
+              projectOwner: true,
+            },
+          },
           matches: {
             include: {
               musicSubmission: {

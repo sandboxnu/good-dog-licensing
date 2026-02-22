@@ -15,6 +15,7 @@ export const getAllProjectsWithSongRequestsAndMatchesProcedure =
     const projects = await ctx.prisma.projectSubmission.findMany({
       include: {
         projectOwner: true,
+        projectManager: true,
         songRequests: {
           include: {
             matches: true,
@@ -39,6 +40,7 @@ export const getProjectSubmissionByIdProcedure =
         },
         include: {
           projectOwner: true,
+          projectManager: true,
           songRequests: {
             include: {
               matches: true,
