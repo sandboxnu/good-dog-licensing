@@ -1,7 +1,7 @@
 "use client";
 
 import type { SongRequest } from ".prisma/client";
-import MusicNote from "../../svg/MusicNote";
+import MusicNoteIcon from "../../svg/MusicNoteIcon";
 import StatusIndicator from "../../base/StatusIndicator";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -29,7 +29,7 @@ export default function SongRequest({
       onClick={handleClick}
     >
       <div className="flex flex-row gap-4 items-center">
-        <MusicNote />
+        <MusicNoteIcon />
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-4">
             <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">

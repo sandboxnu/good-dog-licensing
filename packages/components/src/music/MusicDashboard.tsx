@@ -14,8 +14,10 @@ export default function MusicDashboard({ musicId }: { musicId: string }) {
         className="flex flex-row gap-[4px] items-center max-w-[130px]"
         onClick={() => router.push(`/`)}
       >
-        <ChevronLeft />
-        <p className="text-green-500 underline text-body2">Music</p>
+        <ChevronLeft className="text-green-500 dark:text-mint-200" />
+        <p className="text-green-500 dark:text-mint-200 underline text-body2">
+          Music
+        </p>
       </button>
       <MusicInformation musicSubmissionId={musicId} />
       <MatchInformation musicSubmissionId={musicId} />

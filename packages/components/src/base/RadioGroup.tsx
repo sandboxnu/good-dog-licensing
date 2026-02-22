@@ -49,7 +49,7 @@ export default function RadioGroup({
               className="flex w-full flex-row items-center gap-2"
             >
               <RadioGroupItem
-                className={`border-green-400 ${errorText ? "border-red-400 shadow-red-400 dark:border-red-300 dark:shadow-red-300" : ""}`}
+                className={`border-green-400 text-green-400 dark:text-mint-300 ${errorText ? "border-red-400 shadow-red-400 dark:border-red-300 dark:shadow-red-300" : ""}`}
                 value={option.value}
                 id={`${id}-${index}`}
               />

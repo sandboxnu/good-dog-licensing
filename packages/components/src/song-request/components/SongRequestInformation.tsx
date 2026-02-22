@@ -11,10 +11,10 @@ export default function SongRequestInformation({
 }) {
   return (
     <div className="flex flex-col gap-3 w-full">
-      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">
+      <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Song Request Information
       </p>
-      <div className="flex flex-row gap-6 bg-cream-100 dark:bg-green-500 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
+      <div className="flex flex-row gap-6 bg-cream-100 dark:bg-green-600 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
         <div className="flex flex-row flex-grow gap-6">
           <div className="flex flex-col gap-4 justify-start flex-grow">
             <div className="flex flex-col gap-1">
