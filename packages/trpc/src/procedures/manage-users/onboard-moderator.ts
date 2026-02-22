@@ -64,7 +64,6 @@ export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
         await ctx.emailService.sendPRInviteEmail(
           createdModeratorInvite.email,
           createdModeratorInvite.moderatorInviteId,
-          input.firstName,
         );
       } catch (error) {
         if (env.NODE_ENV === "development") {

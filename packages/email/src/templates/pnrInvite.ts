@@ -2,12 +2,11 @@ import { emailLayout } from "../layout";
 
 export function pnrInviteTemplate(options: {
   inviteLink: string;
-  firstName: string;
 }) {
-  const { inviteLink, firstName } = options;
+  const { inviteLink } = options;
 
   const content = `
-    <p>Hi <strong>${firstName}</strong>,</p>
+    <p>Hi,</p>
 
     <p>
       Follow <a href="${inviteLink}">this link</a> to sign up as a PR.

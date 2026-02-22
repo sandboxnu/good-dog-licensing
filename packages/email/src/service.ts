@@ -122,7 +122,7 @@ export class EmailService {
     return this.send(params);
   }
 
-  async sendPRInviteEmail(toEmail: string, cuid: string, firstName: string) {
+  async sendPRInviteEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
     const link = `${baseURL}/pnr-invite/?id=${cuid}`;
 
@@ -132,7 +132,6 @@ export class EmailService {
       subject: "Sign Up to be a P&R - Good Dog Licensing",
       html: pnrInviteTemplate({
         inviteLink: link,
-        firstName: firstName,
       }),
     };
 
@@ -141,7 +140,6 @@ export class EmailService {
 
   async notifyInternalUsersNewMusicSubmitted(
     musicSubmissionId: string,
-    firstName: string,
   ) {
     const baseURL = this.getBaseUrl();
     const link = `${baseURL}/dashboard/songs/?id=${musicSubmissionId}`;
@@ -154,7 +152,6 @@ export class EmailService {
       subject: "New Music Submission - Good Dog Licensing",
       html: notifyInternalUsersNewMusicSubmittedTemplate({
         link: link,
-        firstName: firstName,
       }),
     };
 
@@ -163,7 +160,6 @@ export class EmailService {
 
   async notifyInternalUsersNewProjectSubmitted(
     projectSubmissionId: string,
-    firstName: string,
   ) {
     const baseURL = this.getBaseUrl();
     const link = `${baseURL}/dashboard/projects/?id=${projectSubmissionId}`;
@@ -176,7 +172,6 @@ export class EmailService {
       subject: "New Project Submission - Good Dog Licensing",
       html: notifyInternalUsersNewProjectSubmittedTemplate({
         link: link,
-        firstName: firstName,
       }),
     };
 

@@ -2,12 +2,11 @@ import { emailLayout } from "../layout";
 
 export function notifyInternalUsersNewMusicSubmittedTemplate(options: {
   link: string;
-  firstName: string;
 }) {
-  const { link, firstName } = options;
+  const { link } = options;
 
   const content = `
-    <p>Hi <strong>${firstName}</strong>,</p>
+    <p>Hi,</p>
 
     <p>
       A new music submission has been made. Review it <a href="${link}">here</a>.
