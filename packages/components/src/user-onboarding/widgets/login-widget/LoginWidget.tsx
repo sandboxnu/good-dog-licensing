@@ -41,15 +41,11 @@ export default function LoginWidget() {
     onSuccess: async () => {
       await trpcUtils.user.reset();
 
-      // TODO: Alert toast to the user that they have successfully logged in
       // If a user was on a page they were unauthorized for, redirect them back there
       // Else, redirect to homepage
       router.push(callbackUrl);
     },
     onError: (err) => {
-      // TODO: Alert toast to the user that there was an error logging in
-      console.error(err);
-
       // this message is hard coded from sign in procedure
       if (err.data?.code === "UNAUTHORIZED") {
         setErrorMessage("The email or password entered is incorrect");
