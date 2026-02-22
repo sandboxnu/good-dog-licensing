@@ -12,7 +12,12 @@ import PnrSignUpWidget from "./widgets/pnr-sign-up-widget/PnrSignUpWidget";
 
 interface UserOnboardingProps {
   initialRole: "MUSICIAN" | "MEDIA_MAKER" | undefined;
-  type: "signUp" | "logIn" | "forgotPassword" | "resetPassword" | "pnrSignUp";
+  type:
+    | "SIGN_UP"
+    | "LOG_IN"
+    | "FORGOT_PASSWORD"
+    | "RESET_PASSWORD"
+    | "PNR_SIGN_UP";
 }
 
 export default function UserOnboarding({
@@ -25,7 +30,7 @@ export default function UserOnboarding({
 
   return (
     <div className="flex w-full flex-col pt-[20px]">
-      {type === "signUp" && (
+      {type === "SIGN_UP" && (
         <SignUpWidget
           initialRole={role}
           onRoleChange={(newRole) => {
@@ -33,10 +38,10 @@ export default function UserOnboarding({
           }}
         />
       )}
-      {type === "logIn" && <LoginWidget />}
-      {type === "forgotPassword" && <ForgotPasswordWidget />}
-      {type === "resetPassword" && <ResetPasswordWidget />}
-      {type === "pnrSignUp" && <PnrSignUpWidget />}
+      {type === "LOG_IN" && <LoginWidget />}
+      {type === "FORGOT_PASSWORD" && <ForgotPasswordWidget />}
+      {type === "RESET_PASSWORD" && <ResetPasswordWidget />}
+      {type === "PNR_SIGN_UP" && <PnrSignUpWidget />}
       {role === "MEDIA_MAKER" && <MediaMakerSection />}
       {role === "MUSICIAN" && <MusicianSection />}
     </div>
