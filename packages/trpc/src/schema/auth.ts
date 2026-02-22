@@ -27,6 +27,13 @@ export const zSignUpValues = z
     lastName: zRequiredString,
     role: z.enum(["MUSICIAN", "MEDIA_MAKER"], { error: "This is required" }),
     emailCode: zRequiredString,
+    howHeardAboutUs: z.enum([
+      "FRIEND",
+      "GREEN_LINE_RECORDS",
+      "SOCIAL_MEDIA",
+      "OTHER",
+    ]),
+    termsOfService: z.literal(true),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

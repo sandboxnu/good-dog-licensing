@@ -10,4 +10,5 @@ export {
   MusicRole,
   Genre,
   ProjectType,
+  HowHeardAboutUsLabel,
 } from "@prisma/client";

@@ -56,7 +56,7 @@ export default function MultiselectDropdown({
       </div>
       <MultiSelect
         className={clsx(
-          "min-h-[32px] w-full rounded-[8px] border-dark-gray-200 text-body3 text-dark-gray-500 dark:text-gray-200 dark:bg-dark-gray-500 hover:border-gray-600",
+          "min-h-[32px] w-full rounded-[8px] border border-dark-gray-200 bg-white text-body3 text-dark-gray-500 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200 hover:border-gray-600 dark:hover:border-gray-400",
           {
             "!border-red-400 !shadow-red-400 !dark:border-red-300 !dark:shadow-red-300":
               errorText,

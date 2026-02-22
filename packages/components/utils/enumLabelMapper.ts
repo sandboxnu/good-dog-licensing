@@ -4,6 +4,7 @@ import {
   MusicRole,
   ProjectType,
   Role,
+  HowHeardAboutUsLabel,
 } from "@good-dog/db";
 
 export function getGenreLabel(value: Genre): string {
@@ -80,5 +81,18 @@ export function getProjectTypeLabel(value: ProjectType): string {
       return "Social Media Reel";
     case ProjectType.VIDEO_GAME:
       return "Video Game";
+  }
+}
+
+export function getHowHeardAboutUsLabel(value: HowHeardAboutUsLabel): string {
+  switch (value) {
+    case HowHeardAboutUsLabel.FRIEND:
+      return "Friend/Colleague";
+    case HowHeardAboutUsLabel.GREEN_LINE_RECORDS:
+      return "Green Line Records";
+    case HowHeardAboutUsLabel.SOCIAL_MEDIA:
+      return "Social Media";
+    case HowHeardAboutUsLabel.OTHER:
+      return "Other";
   }
 }
