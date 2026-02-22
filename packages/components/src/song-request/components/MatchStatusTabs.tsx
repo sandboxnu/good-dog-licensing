@@ -17,7 +17,7 @@ export function MatchStatusTabs({
 }) {
   return (
     <Tabs defaultValue="incoming">
-      <TabsList className="rounded-full bg-green-400 h-auto">
+      <TabsList className="rounded-full bg-green-400 dark:bg-green-300 h-auto">
         <TabsTrigger
           value="incoming"
           className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-[182px] data-[state=active]:text-black px-4 py-3 box-content"

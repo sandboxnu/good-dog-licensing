@@ -20,7 +20,7 @@ export default function MatchInformation({
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">
+      <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Match Information
       </p>
       <div className="flex flex-row gap-6 w-full">

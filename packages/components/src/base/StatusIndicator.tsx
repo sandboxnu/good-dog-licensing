@@ -14,7 +14,7 @@ const getColorFromVariant = (
     case "warning":
       return "bg-yellow-100 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-100";
     case "gray":
-      return "bg-gray-400 text-gray-600";
+      return "bg-gray-300 text-gray-500";
     case "blue":
       return "bg-blue-50 text-blue-500 dark:bg-blue-300 dark:text-blue-50";
   }
@@ -37,7 +37,7 @@ export default function StatusIndicator({
         {variant === "success" ? (
           <Check />
         ) : variant === "error" ? (
-          <ErrorExclamation size={"small"} dark={false} />
+          <ErrorExclamation size="medium" />
         ) : variant === "warning" ? (
           <ClockFull />
         ) : variant === "blue" ? (

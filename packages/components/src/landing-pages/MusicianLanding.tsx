@@ -8,7 +8,7 @@ import { trpc } from "@good-dog/trpc/client";
 import Card from "../base/Card";
 import StatusIndicator from "../base/StatusIndicator";
 import EmptyMusicNote from "../svg/homepage/EmptyMusicNote";
-import MusicNote from "../svg/MusicNote";
+import MusicNoteIcon from "../svg/MusicNoteIcon";
 import People from "../svg/People";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
@@ -61,7 +61,7 @@ export default function MusicianLanding() {
                         text={formatAllCapsList(song.genres)}
                         icon={
                           <div className="flex-shrink-0">
-                            <MusicNote />
+                            <MusicNoteIcon />
                           </div>
                         }
                       />
