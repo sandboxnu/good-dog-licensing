@@ -5,6 +5,7 @@ import { env } from "@good-dog/env";
 
 import { MockEmailService } from "../mocks/MockEmailService";
 import { notifyInternalUsersNewMusicSubmittedTemplate } from "../../packages/email/src/templates/notifyInternalUsersNewMusicSubmitted";
+import { notifyInternalUsersNewProjectSubmittedTemplate } from "../../packages/email/src/templates/notifyInternalUsersNewProjectSubmitted";
 
 describe("internal email notifications", () => {
   const mockEmail = new MockEmailService();
@@ -73,7 +74,9 @@ describe("internal email notifications", () => {
       from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
       to: ["admin1@test.com", "mod1@test.com"],
       subject: "New Project Submission - Good Dog Licensing",
-      html: `<p>A new project submission has been made. Review it <a href="${getBaseUrl()}/dashboard/projects/?id=project123">here</a>.</p>`,
+      html: notifyInternalUsersNewProjectSubmittedTemplate({
+        link: `${getBaseUrl()}/dashboard/projects/?id=project123`,
+      }),
     };
 
     expect(mockEmail.send).toHaveBeenCalledWith(params);

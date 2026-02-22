@@ -8,6 +8,7 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
+import { pnrInviteTemplate } from "../../../packages/email/src/templates/pnrInvite";
 
 describe("moderator-onboarding", () => {
   const mockEmails = new MockEmailService();
@@ -115,7 +116,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -150,7 +153,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -198,7 +203,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -242,7 +249,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -300,7 +309,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
