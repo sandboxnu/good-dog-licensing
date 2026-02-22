@@ -5,7 +5,7 @@ import {
   DialogClose,
   DialogTitle,
 } from "@good-dog/ui/dialog";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { AssignProjectSearchBar } from "./AssignProjectSearchBar";
 import { StaffUserCard } from "./StaffUserCard";
@@ -28,22 +28,12 @@ export function AssignProjectModal({
 }: AssignProjectModalProps) {
   const [usersQuery] = trpc.adminAndModeratorUsers.useSuspenseQuery();
 
-  const [searchedUsers, setSearchedUsers] = useState<UserType[]>([]);
+  const [searchedUsers, setSearchedUsers] = useState<UserType[]>(
+    usersQuery.users,
+  );
   const [assignedPM, setAssignedPM] = useState<UserType | null>(
     initialAssignedPM,
   );
-
-  useEffect(() => {
-    if (open) {
-      setAssignedPM(initialAssignedPM);
-    }
-  }, [initialAssignedPM, open]);
-
-  useEffect(() => {
-    if (open) {
-      setSearchedUsers(usersQuery.users);
-    }
-  }, [open, usersQuery]);
 
   const handleDone = () => {
     if (assignedPM) {

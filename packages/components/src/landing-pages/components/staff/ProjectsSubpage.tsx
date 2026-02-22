@@ -122,6 +122,8 @@ function SubmissionTable({
   const [projectBeingAssigned, setProjectBeingAssigned] =
     useState<ProjectSubmissionType | null>(null);
 
+  const [user] = trpc.user.useSuspenseQuery();
+
   const utils = trpc.useUtils();
   const assignPmMutation = trpc.assignProjectManager.useMutation({
     onSuccess: async () => {
@@ -131,20 +133,22 @@ function SubmissionTable({
 
   return (
     <>
-      <AssignProjectModal
-        open={showPMModal}
-        onOpenChange={setShowPMModal}
-        onAction={(user) => {
-          if (projectBeingAssigned) {
-            assignPmMutation.mutate({
-              projectId: projectBeingAssigned.projectId,
-              projectManagerId: user.userId,
-            });
-          }
-          setShowPMModal(false);
-        }}
-        assignedPM={projectBeingAssigned?.projectManager ?? null}
-      />
+      {showPMModal && (
+        <AssignProjectModal
+          open={showPMModal}
+          onOpenChange={setShowPMModal}
+          onAction={(user) => {
+            if (projectBeingAssigned) {
+              assignPmMutation.mutate({
+                projectId: projectBeingAssigned.projectId,
+                projectManagerId: user.userId,
+              });
+            }
+            setShowPMModal(false);
+          }}
+          assignedPM={projectBeingAssigned?.projectManager ?? null}
+        />
+      )}
       <TableOuterFormatting>
         <div className="flex flex-col">
           <TableHeaderFormatting>
@@ -206,8 +210,14 @@ function SubmissionTable({
                       aria-label="Assign project"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setShowPMModal(true);
-                        setProjectBeingAssigned(project);
+                        if (user?.role === "ADMIN") {
+                          setShowPMModal(true);
+                          setProjectBeingAssigned(project);
+                        } else {
+                          alert(
+                            "You are not allowed to change the project manager for this project.",
+                          );
+                        }
                       }}
                     >
                       {project.projectManagerId ? (

@@ -9,6 +9,7 @@ import { useState } from "react";
 import { MusicSubmissionCard } from "./MusicSubmissionCard";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { MusicSearchBar } from "./MusicSearchBar";
+import { trpc } from "@good-dog/trpc/client";
 
 type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 type MatchesRequestType = GetProcedureOutput<"getSongRequestById">["matches"];
@@ -26,7 +27,10 @@ export function MusicSearchModal({
   onAction,
   matches,
 }: MusicSearchModalProps) {
-  const [searchedMusic, setSearchedMusic] = useState<MusicSubmissionType[]>([]);
+  const [allMusic] = trpc.allMusic.useSuspenseQuery();
+
+  const [searchedMusic, setSearchedMusic] =
+    useState<MusicSubmissionType[]>(allMusic);
   const [suggestedMusic, setSuggestedMusic] = useState<MusicSubmissionType[]>(
     [],
   );
