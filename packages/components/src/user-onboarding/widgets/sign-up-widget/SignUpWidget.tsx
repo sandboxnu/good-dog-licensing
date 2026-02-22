@@ -31,7 +31,7 @@ export default function SignUpWidget({
     resolver: zodResolver(zSignUpValues),
     defaultValues: {
       role: initialRole,
-      howHeardAboutUs: [],
+      howHeardAboutUs: undefined,
     },
   });
 
