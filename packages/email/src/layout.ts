@@ -12,27 +12,29 @@ export function emailLayout(options: { title: string; content: string }) {
 
                 <!-- Header -->
                 <tr>
-                    <td style="background-color:#07634C;padding:32px;">
-                        <img
-                            src="https://localhost:3000/email_header_logo.svg"
-                            width="40"
-                            alt="Good Dog"
-                            style="display:block;margin-bottom:16px;"
-                        />
-                        <div style="
-                            color:#ffffff;
-                            font-size:24px;
-                            font-weight:600;
-                            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-                        ">
-                            ${title}
-                        </div>
-                    </td>
+                  <td style="background-color:#07634C;padding:32px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="40" valign="middle" style="padding-right:4px;">
+                            <img 
+                                src="localhost:3000/images/email_header_logo.png"
+                                width="32"
+                                height="32"
+                                alt="Logo"
+                                style="display:block;border:0;outline:none;text-decoration:none;"
+                            />
+                        </td>
+                        <td style="color:#ffffff;font-size:24px;font-weight:600;font-family:'Afacad', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                          ${title}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
                 </tr>
 
                 <!-- Body -->
                 <tr>
-                  <td style="padding:32px;background-color:#ffffff;color:##2E2E2E;font-size:20px;line-height:1.6;">
+                  <td style="padding:32px;background-color:#ffffff;color:#2E2E2E;font-size:20px;line-height:1.6;">
                     ${content}
                   </td>
                 </tr>

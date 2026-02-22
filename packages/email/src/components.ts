@@ -7,7 +7,7 @@ export function buttonCard(options: {
 
   return `
     <table width="100%" cellpadding="0" cellspacing="0"
-      style="margin:24px 0;background-color:#ffffff;border-radius:12px;">
+      style="margin:24px 0;background-color:#FFFDFB;border-radius:12px;">
       <tr>
         <td style="
             padding:28px;
@@ -16,13 +16,13 @@ export function buttonCard(options: {
             text-align:center;
         ">
 
-          <p style="margin:0 0 20px;color:#374151;font-size:16px;">
+          <p style="margin:0 0 20px;color:#2E2E2E;font-size:16px;">
             ${text}
           </p>
 
           <table align="center" cellpadding="0" cellspacing="0">
             <tr>
-              <td align="center" bgcolor="#166534"
+              <td align="center" bgcolor="#07634C"
                   style="border-radius:8px;">
                 <a href="${buttonHref}"
                    style="
