@@ -56,6 +56,7 @@ export function MusicSearchModal({
               <div className="flex flex-col gap-2">
                 {searchedMusic.map((musicSubmission) => (
                   <MusicSubmissionCard
+                    key={musicSubmission.musicId}
                     musicSubmission={musicSubmission}
                     isMatched={matches.some((match) => {
                       return (

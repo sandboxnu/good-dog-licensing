@@ -7,7 +7,10 @@ export const getAdminAndModeratorUsers = rolePermissionsProcedureBuilder(
   "read",
 ).query(async ({ ctx }) => {
   const [users] = await Promise.all([
-    ctx.prisma.user.findMany({ omit: { hashedPassword: true } }),
+    ctx.prisma.user.findMany({
+      where: { role: { in: ["ADMIN", "MODERATOR"] }, active: true },
+      omit: { hashedPassword: true },
+    }),
   ]);
   return { users };
 });
