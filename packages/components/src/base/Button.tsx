@@ -1,4 +1,4 @@
-import { ChevronUp } from "lucide-react";
+import { Check, ChevronUp } from "lucide-react";
 
 import { Button as ButtonShad } from "@good-dog/ui/button";
 
@@ -10,7 +10,7 @@ interface ButtonProps {
   size: "small" | "medium" | "large";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
-  displayIcon?: "plus" | "arrow" | "pencil";
+  displayIcon?: "plus" | "arrow" | "pencil" | "check";
   shadow?: boolean;
   fullWidth?: boolean;
   type?: "submit" | "button";
@@ -84,6 +84,8 @@ export default function Button({
           <ChevronUp className="text-green-500 dark:text-mint-200" />
         ) : displayIcon === "pencil" ? (
           <PencilIcon />
+        ) : displayIcon === "check" ? (
+          <Check />
         ) : null}
         {label}
       </div>
