@@ -57,7 +57,7 @@ export function getRoleLabel(value: Role): string {
     case Role.ADMIN:
       return "Admin";
     case Role.MODERATOR:
-      return "Moderator";
+      return "P&R";
   }
 }
 

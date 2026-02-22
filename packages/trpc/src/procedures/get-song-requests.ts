@@ -95,7 +95,10 @@ export const getProjectSongRequestByIdProcedure =
       }
 
       if (
-        songRequest.projectSubmission.projectOwnerId !== ctx.session.user.userId
+        songRequest.projectSubmission.projectOwnerId !==
+          ctx.session.user.userId &&
+        ctx.session.user.role !== "ADMIN" &&
+        ctx.session.user.role !== "MODERATOR"
       ) {
         throw new TRPCError({
           code: "FORBIDDEN",

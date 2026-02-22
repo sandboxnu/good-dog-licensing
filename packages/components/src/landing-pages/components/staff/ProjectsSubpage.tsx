@@ -12,6 +12,8 @@ import { trpc } from "@good-dog/trpc/client";
 import ProjectDrawer from "./ProjectDrawer";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { useRouter, useSearchParams } from "next/navigation";
+import ProfileIcon from "../../../svg/ProfileIcon";
+import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
 
 type ProjectSubmissionType =
   GetProcedureOutput<"allProjects">["projects"][number];
@@ -116,73 +118,124 @@ function SubmissionTable({
   selectedProject: ProjectSubmissionType | null;
 }) {
   const router = useRouter();
-  return (
-    <TableOuterFormatting>
-      <div className="flex flex-col">
-        <TableHeaderFormatting>
-          <p className="dark:text-white">Project Name</p>
-          <p className="dark:text-white">Project Description</p>
-          <p className="dark:text-white">Status</p>
-          <p className="dark:text-white">Media Maker</p>
-          <p className="dark:text-white">Date submitted</p>
-          <p className="dark:text-white">Deadline</p>
-          <p className="dark:text-white">Assignee</p>
-        </TableHeaderFormatting>
+  const [showPMModal, setShowPMModal] = useState(false);
+  const [projectBeingAssigned, setProjectBeingAssigned] =
+    useState<ProjectSubmissionType | null>(null);
 
-        {data.map((project: ProjectSubmissionType, key) => {
-          return (
-            <div
-              className="cursor-pointer"
-              onClick={() =>
-                router.replace(`?projectId=${project.projectId}`, {
-                  scroll: false,
-                })
-              }
-            >
-              <TableRowFormatting key={key} isLast={key === data.length - 1}>
-                <p className="dark:text-white truncate">
-                  {project.projectTitle}
-                </p>
-                <p className="dark:text-white truncate">
-                  {project.description}
-                </p>
-                <div>
-                  <AdminStatusIndicator
-                    status={getStatusFromProject(project)}
-                  />
-                </div>
-                <p className="dark:text-white truncate">
-                  {project.projectOwner.firstName +
-                    " " +
-                    project.projectOwner.lastName}
-                </p>
-                <p className="dark:text-white truncate">
-                  {project.createdAt.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </p>
-                <p className="dark:text-white truncate">
-                  {project.deadline.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </p>
-                <div className="dark:text-white truncate">+</div>
-              </TableRowFormatting>
-            </div>
-          );
-        })}
-        {data.length == 0 && <TableEmptyMessage />}
-      </div>
-      <ProjectDrawer
-        projectSubmission={selectedProject}
-        open={!!selectedProject}
-        onClose={() => router.replace("/home", { scroll: false })}
+  const utils = trpc.useUtils();
+  const assignPmMutation = trpc.assignProjectManager.useMutation({
+    onSuccess: async () => {
+      await utils.allProjects.invalidate();
+    },
+  });
+
+  return (
+    <>
+      <AssignProjectModal
+        open={showPMModal}
+        onOpenChange={setShowPMModal}
+        onAction={(user) => {
+          if (projectBeingAssigned) {
+            assignPmMutation.mutate({
+              projectId: projectBeingAssigned.projectId,
+              projectManagerId: user.userId,
+            });
+          }
+          setShowPMModal(false);
+        }}
+        assignedPM={projectBeingAssigned?.projectManager ?? null}
       />
-    </TableOuterFormatting>
+      <TableOuterFormatting>
+        <div className="flex flex-col">
+          <TableHeaderFormatting>
+            <p className="dark:text-white">Project Name</p>
+            <p className="dark:text-white">Project Description</p>
+            <p className="dark:text-white">Status</p>
+            <p className="dark:text-white">Media Maker</p>
+            <p className="dark:text-white">Date submitted</p>
+            <p className="dark:text-white">Deadline</p>
+            <p className="dark:text-white">Assignee</p>
+          </TableHeaderFormatting>
+
+          {data.map((project: ProjectSubmissionType, key) => {
+            return (
+              <div
+                className="cursor-pointer"
+                onClick={() =>
+                  router.replace(`?projectId=${project.projectId}`, {
+                    scroll: false,
+                  })
+                }
+                key={key}
+              >
+                <TableRowFormatting key={key} isLast={key === data.length - 1}>
+                  <p className="dark:text-white truncate">
+                    {project.projectTitle}
+                  </p>
+                  <p className="dark:text-white truncate">
+                    {project.description}
+                  </p>
+                  <div>
+                    <AdminStatusIndicator
+                      status={getStatusFromProject(project)}
+                    />
+                  </div>
+                  <p className="dark:text-white truncate">
+                    {project.projectOwner.firstName +
+                      " " +
+                      project.projectOwner.lastName}
+                  </p>
+                  <p className="dark:text-white truncate">
+                    {project.createdAt.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <p className="dark:text-white truncate">
+                    {project.deadline.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <div className="flex items-center justify-center pr-[30px]">
+                    <button
+                      type="button"
+                      className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 dark:border-gray-300 dark:text-white hover:bg-dark-gray-100"
+                      aria-label="Assign project"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowPMModal(true);
+                        setProjectBeingAssigned(project);
+                      }}
+                    >
+                      {project.projectManagerId ? (
+                        <ProfileIcon
+                          color="light"
+                          size={32}
+                          name={
+                            project.projectManager?.firstName.charAt(0) ?? ""
+                          }
+                        />
+                      ) : (
+                        "+"
+                      )}
+                    </button>
+                  </div>
+                </TableRowFormatting>
+              </div>
+            );
+          })}
+          {data.length == 0 && <TableEmptyMessage />}
+        </div>
+        <ProjectDrawer
+          projectSubmission={selectedProject}
+          open={!!selectedProject}
+          onClose={() => router.replace("/home", { scroll: false })}
+        />
+      </TableOuterFormatting>
+    </>
   );
 }
 

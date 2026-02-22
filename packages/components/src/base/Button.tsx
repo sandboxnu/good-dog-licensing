@@ -15,6 +15,7 @@ interface ButtonProps {
   fullWidth?: boolean;
   type?: "submit" | "button";
   error?: boolean;
+  disabled?: boolean;
 }
 
 type sizeOptions =
@@ -38,6 +39,7 @@ export default function Button({
   shadow = false,
   fullWidth = false,
   error,
+  disabled = false,
 }: ButtonProps) {
   const updatedSize: sizeOptions =
     label && displayIcon
@@ -56,6 +58,7 @@ export default function Button({
 
   return (
     <ButtonShad
+      disabled={disabled}
       variant={variant}
       size={updatedSize}
       type={type}
