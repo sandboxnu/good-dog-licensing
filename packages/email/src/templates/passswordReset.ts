@@ -30,7 +30,7 @@ export function passwordResetTemplate(options: { resetLink: string }) {
   `;
 
   return emailLayout({
-    title: "Action needed: Password reset request",
+    title: "Action Needed: Password Reset Request",
     content,
   });
 }

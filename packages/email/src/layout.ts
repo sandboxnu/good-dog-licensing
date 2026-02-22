@@ -2,8 +2,8 @@ export function emailLayout(options: { title: string; content: string }) {
   const { title, content } = options;
 
   return `
-      <div style="margin:0;padding:0;background-color:#e5e7eb;">
-        <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#e5e7eb;padding:40px 0;">
+      <div style="margin:0;padding:0;background-color:#FFFBF6;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#FFFBF6;padding:32px 0;">
           <tr>
             <td align="center">
 
@@ -15,11 +15,11 @@ export function emailLayout(options: { title: string; content: string }) {
                   <td style="background-color:#07634C;padding:32px;">
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td width="40" valign="middle" style="padding-right:4px;">
+                        <td width="96" valign="middle" style="padding-right:4px;">
                             <img 
-                                src="localhost:3000/images/email_header_logo.png"
-                                width="32"
-                                height="32"
+                                src="https://good-dog-licensing.vercel.app/images/email_header_logo.png"
+                                width="96"
+                                height="96"
                                 alt="Logo"
                                 style="display:block;border:0;outline:none;text-decoration:none;"
                             />

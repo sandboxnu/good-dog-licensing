@@ -3,6 +3,10 @@ import { Resend } from "resend";
 import { prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
 import { passwordResetTemplate } from "./templates/passswordReset";
+import { emailVerificationTemplate } from "./templates/emailVerification";
+import { pnrInviteTemplate } from "./templates/pnrInvite";
+import { notifyInternalUsersNewMusicSubmittedTemplate } from "./templates/notifyInternalUsersNewMusicSubmitted";
+import { notifyInternalUsersNewProjectSubmittedTemplate } from "./templates/notifyInternalUsersNewProjectSubmitted";
 
 export interface EmailMessage {
   from: string;
@@ -89,6 +93,19 @@ export class EmailService {
     return data;
   }
 
+  async sendVerificationEmail(toEmail: string, code: string) {
+    const params: EmailMessage = {
+      from: this.sentFrom,
+      to: [toEmail],
+      subject: "Verify Your Email - Good Dog Licensing",
+      html: emailVerificationTemplate({
+        code: code,
+      }),
+    };
+
+    return this.send(params);
+  }
+
   async sendPasswordResetEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
     const link = `${baseURL}/reset-password/?reset_id=${cuid}`;
@@ -105,32 +122,29 @@ export class EmailService {
     return this.send(params);
   }
 
-  async sendPRInviteEmail(toEmail: string, cuid: string) {
+  async sendPRInviteEmail(toEmail: string, cuid: string, firstName: string) {
     const baseURL = this.getBaseUrl();
+    const link = `${baseURL}/pnr-invite/?id=${cuid}`;
 
     const params: EmailMessage = {
       from: this.sentFrom,
       to: [toEmail],
       subject: "Sign Up to be a P&R - Good Dog Licensing",
-      html: `<p>Follow <a href="${baseURL}/pnr-invite/?id=${cuid}">this link</a> to sign up as a PR.</p>`,
+      html: pnrInviteTemplate({
+        inviteLink: link,
+        firstName: firstName,
+      }),
     };
 
     return this.send(params);
   }
 
-  async sendVerificationEmail(toEmail: string, code: string) {
-    const params: EmailMessage = {
-      from: this.sentFrom,
-      to: [toEmail],
-      subject: "Verify Your Email - Good Dog Licensing",
-      html: `<p>Your Verification Code: <strong>${code}</strong></p>`,
-    };
-
-    return this.send(params);
-  }
-
-  async notifyInternalUsersNewMusicSubmitted(musicSubmissionId: string) {
+  async notifyInternalUsersNewMusicSubmitted(
+    musicSubmissionId: string,
+    firstName: string,
+  ) {
     const baseURL = this.getBaseUrl();
+    const link = `${baseURL}/dashboard/songs/?id=${musicSubmissionId}`;
 
     const toEmails = await this.getAllAdminAndPNREmails();
 
@@ -138,14 +152,21 @@ export class EmailService {
       from: this.sentFrom,
       to: toEmails,
       subject: "New Music Submission - Good Dog Licensing",
-      html: `<p>A new music submission has been made. Review it <a href="${baseURL}/dashboard/songs/?id=${musicSubmissionId}">here</a>.</p>`,
+      html: notifyInternalUsersNewMusicSubmittedTemplate({
+        link: link,
+        firstName: firstName,
+      }),
     };
 
     return this.send(params);
   }
 
-  async notifyInternalUsersNewProjectSubmitted(projectSubmissionId: string) {
+  async notifyInternalUsersNewProjectSubmitted(
+    projectSubmissionId: string,
+    firstName: string,
+  ) {
     const baseURL = this.getBaseUrl();
+    const link = `${baseURL}/dashboard/projects/?id=${projectSubmissionId}`;
 
     const toEmails = await this.getAllAdminAndPNREmails();
 
@@ -153,7 +174,10 @@ export class EmailService {
       from: this.sentFrom,
       to: toEmails,
       subject: "New Project Submission - Good Dog Licensing",
-      html: `<p>A new project submission has been made. Review it <a href="${baseURL}/dashboard/projects/?id=${projectSubmissionId}">here</a>.</p>`,
+      html: notifyInternalUsersNewProjectSubmittedTemplate({
+        link: link,
+        firstName: firstName,
+      }),
     };
 
     return this.send(params);
