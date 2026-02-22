@@ -117,7 +117,7 @@ describe("moderator-onboarding", () => {
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
         html: pnrInviteTemplate({
-          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link`,
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}`,
         }),
       };
 
@@ -154,7 +154,7 @@ describe("moderator-onboarding", () => {
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
         html: pnrInviteTemplate({
-          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link`,
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}`,
         }),
       };
 
@@ -204,7 +204,7 @@ describe("moderator-onboarding", () => {
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
         html: pnrInviteTemplate({
-          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link`,
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}`,
         }),
       };
 
@@ -250,7 +250,7 @@ describe("moderator-onboarding", () => {
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
         html: pnrInviteTemplate({
-          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link`,
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}`,
         }),
       };
 
@@ -310,7 +310,7 @@ describe("moderator-onboarding", () => {
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
         html: pnrInviteTemplate({
-          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link`,
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}`,
         }),
       };
 
