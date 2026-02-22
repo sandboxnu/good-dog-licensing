@@ -9,7 +9,7 @@ export function notifyInternalUsersNewProjectSubmittedTemplate(options: {
     <p>Hi,</p>
 
     <p>
-      A new music submission has been made. Review it <a href="${link}">here</a>.
+      A new project submission has been made. Review it <a href="${link}">here</a>.
     </p>
 
     <p style="margin-top:32px;">
