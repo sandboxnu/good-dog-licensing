@@ -6,15 +6,14 @@ import Link from "next/link";
 import { useFormContext } from "react-hook-form";
 
 import type { zSignUpValues } from "@good-dog/trpc/schema";
-
 import { HowHeardAboutUsLabel } from "@good-dog/db";
+
 import Button from "../../../base/Button";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import PasswordRequirements from "../components/PasswordRequirements";
 import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
 import Checkbox from "../../../base/Checkbox";
-import { getHowHeardAboutUsLabel } from "../../../../utils/enumLabelMapper";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -42,12 +41,15 @@ export default function FinalSignUpInfo({
     [role],
   );
 
-  const howHeardAboutUsOptions = Object.values(HowHeardAboutUsLabel).map(
-    (label) => ({
-      label: getHowHeardAboutUsLabel(label),
-      value: label,
-    }),
-  );
+  const howHeardAboutUsOptions: {
+    label: string;
+    value: HowHeardAboutUsLabel;
+  }[] = [
+    { label: "Friend/Colleague", value: "FRIEND" },
+    { label: "Green Line Records", value: "GREEN_LINE_RECORDS" },
+    { label: "Social Media", value: "SOCIAL_MEDIA" },
+    { label: "Other", value: "OTHER" },
+  ];
 
   return (
     <form onSubmit={onSubmit}>
@@ -102,9 +104,12 @@ export default function FinalSignUpInfo({
             <div>
               <p className="dark:text-white">
                 I agree to the{" "}
-                <span className="text-green-400 dark:text-mint-200 underline">
+                <Link
+                  href="/terms"
+                  className="text-green-400 dark:text-mint-200 underline"
+                >
                   Terms and Privacy
-                </span>
+                </Link>
               </p>
             </div>
           }
