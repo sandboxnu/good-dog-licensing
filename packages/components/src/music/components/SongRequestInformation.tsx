@@ -25,10 +25,10 @@ export default function SongRequestInformation({
         <p className="text-dark-gray-500 dark:text-gray-200">
           {songRequest
             ? songRequest.createdAt.toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })
             : "..."}
         </p>
       </div>
