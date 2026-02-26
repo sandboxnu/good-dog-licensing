@@ -199,10 +199,13 @@ export default function ProfileWidget() {
           </div>
         </ProfileSection>
         <ProfileSection header="Deactivate account" transparentHeader danger>
-          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[18px]">
-            <div className="flex flex-row justify-left items-center text-dark-gray-300">
-              <ErrorExclamation size="medium" /> This will deactivate your
-              account until you choose to reactivate it.
+          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[8px]">
+            <div className="flex flex-row justify-left items-center text-dark-gray-500 dark:text-gray-300">
+              <div className="text-red-400 dark:text-red-300">
+                <ErrorExclamation size="medium" />
+              </div>
+              This will deactivate your account until you choose to reactivate
+              it.
             </div>
             <div>
               <Button
