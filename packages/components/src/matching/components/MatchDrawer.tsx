@@ -152,7 +152,7 @@ export default function MatchDrawer({
             </div>
 
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row gap-1 items-center text-gray-400">
                 <Group />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Submitter
