@@ -41,14 +41,14 @@ export default function Modal({
           </button>
         </div>
         {danger && (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center text-red-400">
             <ErrorExclamation size="large" />
           </div>
         )}
         <div
           className={`${upperPadding ? "pt-[18px]" : ""} text-center text-dark-gray-500 dark:text-mint-300`}
         >
-          <h3 className="text-dark-gray-500 dark:text-mint-300">
+          <h3 className="text-dark-gray-500 dark:text-gray-200">
             {headerText}
           </h3>
         </div>

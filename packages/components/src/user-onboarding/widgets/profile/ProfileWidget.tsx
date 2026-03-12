@@ -200,7 +200,7 @@ export default function ProfileWidget() {
         </ProfileSection>
         <ProfileSection header="Deactivate account" transparentHeader danger>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-4">
-            <div className="flex flex-row justify-left items-center text-dark-gray-500 dark:text-gray-300">
+            <div className="flex flex-row justify-left items-center gap-1 text-dark-gray-500 dark:text-gray-300">
               <div className="text-red-400 dark:text-red-300">
                 <ErrorExclamation size="medium" />
               </div>
