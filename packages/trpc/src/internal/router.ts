@@ -18,9 +18,9 @@ import {
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
-  getAllProjectsWithSongRequestsAndMatchesProcedure,
   getProjectSubmissionByIdProcedure,
-} from "../procedures/get-project";
+  queryAllProjectsProcedure,
+} from "../procedures/project/get-project";
 import {
   getProjectSongRequestByIdProcedure,
   getProjectSongRequestsProcedure,
@@ -64,7 +64,7 @@ export const appRouter = createTRPCRouter({
   mediamakerProjects: mediamakerProjectsProcedure,
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
-  allProjects: getAllProjectsWithSongRequestsAndMatchesProcedure,
+  queryAllProjects: queryAllProjectsProcedure, // update this to be a query
   userProjects: getUserSongRequestsProcedure,
   updateMatchState: updateMatchStateProcedure,
   allMusic: getMusicSubmissionsProcedure,
@@ -83,7 +83,7 @@ export const appRouter = createTRPCRouter({
   getSongRequestById: getProjectSongRequestByIdProcedure,
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValuesProcedure,
   deleteMatch: deleteMatchProcedure,
-  songRequestSubmission: songRequestSubmissionProcedure,
+  songRequestSubmission: songRequestSubmissionProcedure, // make ticket to go through all these api calls and clean them up (maybe separate for admins and what not if different fields are needed?? Or just more general and more clear naming). Also need to find security vulns for example doing :true for a projectManager or user exposes hashedPassword. Need to make something like that never be able to happen
   getProjectSubmissionById: getProjectSubmissionByIdProcedure,
   getMusicSubmissionById: getMusicSubmissionByIdProcedure,
   changePassword: changePasswordProcedure,

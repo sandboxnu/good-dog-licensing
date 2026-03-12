@@ -31,6 +31,16 @@ enum MatchState {
   APPROVED_BY_MUSICIAN
 }
 
+enum Status {
+  ACTION_NEEDED
+  APPROVAL_NEEDED
+  SUGGESTIONS_NEEDED
+  IN_PROGRESS
+  REJECTED
+  COMPLETED
+  HIDDEN
+}
+
 model User {
   userId                      String              @id @default(uuid()) @map("id")
   email                       String              @unique
@@ -98,6 +108,8 @@ model ProjectSubmission {
   videoLink        String        @default("")
   additionalInfo   String        @default("")
   projectType      ProjectType
+  adminStatus      Status        @default(ACTION_NEEDED)
+  mediaMakerStatus Status        @default(IN_PROGRESS)
 }
 
 model SongRequest {
@@ -113,6 +125,8 @@ model SongRequest {
   comments          Comments[]
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
+  adminStatus       Status            @default(SUGGESTIONS_NEEDED)
+  mediaMakerStatus  Status            @default(IN_PROGRESS)
 }
 
 enum ProjectType {
@@ -177,16 +191,19 @@ model MusicContributor {
 }
 
 model Match {
-  matchId         String          @id @default(uuid())
-  songRequestId   String
-  songRequest     SongRequest     @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
-  musicId         String
-  musicSubmission MusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: Cascade)
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  matcherUserId   String
-  matcherUser     User            @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
-  matchState      MatchState
+  matchId           String          @id @default(uuid())
+  songRequestId     String
+  songRequest       SongRequest     @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
+  musicId           String
+  musicSubmission   MusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: Cascade)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  matcherUserId     String
+  matcherUser       User            @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
+  matchState        MatchState
+  adminStatus       Status
+  mediaMakerStatus  Status         
+  musicianStatus    Status
 
   @@unique([songRequestId, musicId])
   @@map("Matches")

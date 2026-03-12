@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import getStatusFromProject from "../../../../utils/getStatusFromProject";
 import Header from "../Header";
 import {
   TableEmptyMessage,
@@ -14,23 +13,25 @@ import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
+import { AdminProjectStatusDisplaysMapper } from "../../../../utils/status/statusDisplaysMapper";
+import type { AdminProjectStatusDisplay } from "../../../../utils/status/statusDisplays";
 
 type ProjectSubmissionType =
-  GetProcedureOutput<"allProjects">["projects"][number];
-
-export type ProjectStatus =
-  | "Not assigned"
-  | "In progress"
-  | "In review"
-  | "Matched";
+  GetProcedureOutput<"queryAllProjects">["projects"][number];
 
 export default function ProjectsSubpage() {
-  const [data] = trpc.allProjects.useSuspenseQuery();
-  const [activeStatuses, setActiveStatuses] = useState<ProjectStatus[]>([
-    "Not assigned",
-  ]);
+  const [activeStatuses, setActiveStatuses] = useState<
+    AdminProjectStatusDisplay[]
+  >(["Action needed"]);
+  const activeStatusesMapped = activeStatuses
+    .map((status) => AdminProjectStatusDisplaysMapper[status])
+    .flat();
 
-  const toggleActiveStatus = (status: ProjectStatus) => {
+  const [data] = trpc.queryAllProjects.useSuspenseQuery({
+    adminStatus: activeStatusesMapped,
+  });
+
+  const toggleActiveStatus = (status: AdminProjectStatusDisplay) => {
     if (activeStatuses.includes(status)) {
       setActiveStatuses(activeStatuses.filter((s) => s !== status));
     } else {

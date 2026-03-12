@@ -3,6 +3,7 @@ import { z } from "zod";
 import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
+import { updateStatuses } from "../../utils/status/update-status";
 
 export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
@@ -14,11 +15,22 @@ export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.prisma.match.deleteMany({
+    // delete the match
+    const deletedMatch = await ctx.prisma.match.delete({
       where: {
-        musicId: input.matchId,
+        matchId: input.matchId,
+      },
+      include: {
+        songRequest: true,
       },
     });
+
+    // update the statuses of project and SR
+    await updateStatuses(
+      deletedMatch.songRequest.projectId,
+      deletedMatch.songRequestId,
+      null,
+    );
 
     return {
       message: "Match successfully deleted.",
