@@ -13,30 +13,32 @@ import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
-import { AdminProjectStatusDisplaysMapper } from "../../../../utils/status/statusDisplaysMapper";
-import type { AdminProjectStatusDisplay } from "../../../../utils/status/statusDisplays";
+import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
+import {
+  ADMIN_PROJECT_STATUS_DISPLAY,
+  ADMIN_PROJECT_STATUS_DISPLAY_TO_STATUS,
+  ADMIN_PROJECT_STATUS_DISPLAY_TO_SUBTITLE,
+} from "../../../../utils/status/adminStatusHelpers";
 
-type ProjectSubmissionType =
-  GetProcedureOutput<"queryAllProjects">["projects"][number];
+type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
 export default function ProjectsSubpage() {
-  const [activeStatuses, setActiveStatuses] = useState<
-    AdminProjectStatusDisplay[]
-  >(["Action needed"]);
-  const activeStatusesMapped = activeStatuses
-    .map((status) => AdminProjectStatusDisplaysMapper[status])
-    .flat();
+  const [activeStatus, setActiveStatus] =
+    useState<ADMIN_PROJECT_STATUS_DISPLAY>(
+      ADMIN_PROJECT_STATUS_DISPLAY.ACTION_NEEDED,
+    );
+  const [createdDateQuery, setCreatedDateQuery] = useState<CREATED_DATE_QUERY>(
+    CREATED_DATE_QUERY.LAST_30_DAYS,
+  );
+  const [assignedToMe, setAssignedToMe] = useState(false);
 
   const [data] = trpc.queryAllProjects.useSuspenseQuery({
-    adminStatus: activeStatusesMapped,
+    createdDateQuery,
+    assignedToMe,
   });
 
-  const toggleActiveStatus = (status: AdminProjectStatusDisplay) => {
-    if (activeStatuses.includes(status)) {
-      setActiveStatuses(activeStatuses.filter((s) => s !== status));
-    } else {
-      setActiveStatuses([...activeStatuses, status]);
-    }
+  const toggleActiveStatus = (status: ADMIN_PROJECT_STATUS_DISPLAY) => {
+    setActiveStatus(status);
   };
 
   const searchParams = useSearchParams();
@@ -56,56 +58,31 @@ export default function ProjectsSubpage() {
       />
 
       <div className="flex flex-row gap-[24px]">
-        <SubmissionStatusTab
-          title={"Not assigned"}
-          subtitle={"Projects that aren't assigned"}
-          number={
-            data.projects.filter(
-              (project) => getStatusFromProject(project) === "Not assigned",
-            ).length
-          }
-          active={activeStatuses.includes("Not assigned")}
-          onClick={() => toggleActiveStatus("Not assigned")}
-        />
-        <SubmissionStatusTab
-          title={"In progress"}
-          subtitle={"Projects currently being worked on"}
-          number={
-            data.projects.filter(
-              (project) => getStatusFromProject(project) === "In progress",
-            ).length
-          }
-          active={activeStatuses.includes("In progress")}
-          onClick={() => toggleActiveStatus("In progress")}
-        />
-        <SubmissionStatusTab
-          title={"In review"}
-          subtitle={"Projects currently being reviewed"}
-          number={
-            data.projects.filter(
-              (project) => getStatusFromProject(project) === "In review",
-            ).length
-          }
-          active={activeStatuses.includes("In review")}
-          onClick={() => toggleActiveStatus("In review")}
-        />
-        <SubmissionStatusTab
-          title={"Matched"}
-          subtitle={"Matched projects"}
-          number={
-            data.projects.filter(
-              (project) => getStatusFromProject(project) === "Matched",
-            ).length
-          }
-          active={activeStatuses.includes("Matched")}
-          onClick={() => toggleActiveStatus("Matched")}
-        />
+        {Object.values(ADMIN_PROJECT_STATUS_DISPLAY).map((status) => (
+          <SubmissionStatusTab
+            key={status}
+            title={status}
+            subtitle={ADMIN_PROJECT_STATUS_DISPLAY_TO_SUBTITLE[status]}
+            number={
+              data.projects.filter((project) =>
+                ADMIN_PROJECT_STATUS_DISPLAY_TO_STATUS[status].includes(
+                  project.adminStatus,
+                ),
+              ).length
+            }
+            active={activeStatus === status}
+            onClick={() => toggleActiveStatus(status)}
+          />
+        ))}
       </div>
       <SubmissionTable
         data={data.projects.filter((project) =>
-          activeStatuses.includes(getStatusFromProject(project)),
+          ADMIN_PROJECT_STATUS_DISPLAY_TO_STATUS[activeStatus].includes(
+            project.adminStatus,
+          ),
         )}
         selectedProject={selectedProject}
+        activeStatus={activeStatus}
       />
     </div>
   );
@@ -114,21 +91,23 @@ export default function ProjectsSubpage() {
 function SubmissionTable({
   data,
   selectedProject,
+  activeStatus,
 }: {
-  data: ProjectSubmissionType[];
-  selectedProject: ProjectSubmissionType | null;
+  data: ProjectType[];
+  selectedProject: ProjectType | null;
+  activeStatus: ADMIN_PROJECT_STATUS_DISPLAY;
 }) {
   const router = useRouter();
   const [showPMModal, setShowPMModal] = useState(false);
   const [projectBeingAssigned, setProjectBeingAssigned] =
-    useState<ProjectSubmissionType | null>(null);
+    useState<ProjectType | null>(null);
 
   const [user] = trpc.user.useSuspenseQuery();
 
   const utils = trpc.useUtils();
   const assignPmMutation = trpc.assignProjectManager.useMutation({
     onSuccess: async () => {
-      await utils.allProjects.invalidate();
+      await utils.queryAllProjects.invalidate();
     },
   });
 
@@ -162,7 +141,7 @@ function SubmissionTable({
             <p className="dark:text-white">Assignee</p>
           </TableHeaderFormatting>
 
-          {data.map((project: ProjectSubmissionType, key) => {
+          {data.map((project: ProjectType, key) => {
             return (
               <div
                 className="cursor-pointer"
@@ -181,9 +160,7 @@ function SubmissionTable({
                     {project.description}
                   </p>
                   <div>
-                    <AdminStatusIndicator
-                      status={getStatusFromProject(project)}
-                    />
+                    <AdminStatusIndicator status={activeStatus} />
                   </div>
                   <p className="dark:text-white truncate">
                     {project.projectOwner.firstName +
@@ -221,13 +198,11 @@ function SubmissionTable({
                         }
                       }}
                     >
-                      {project.projectManagerId ? (
+                      {project.projectManager?.firstName ? (
                         <ProfileIcon
                           color="light"
                           size={32}
-                          name={
-                            project.projectManager?.firstName.charAt(0) ?? ""
-                          }
+                          name={project.projectManager.firstName.charAt(0)}
                         />
                       ) : (
                         "+"
@@ -240,11 +215,13 @@ function SubmissionTable({
           })}
           {data.length == 0 && <TableEmptyMessage />}
         </div>
-        <ProjectDrawer
-          projectSubmission={selectedProject}
-          open={!!selectedProject}
-          onClose={() => router.replace("/home", { scroll: false })}
-        />
+        {selectedProject && (
+          <ProjectDrawer
+            projectSubmissionId={selectedProject.projectId}
+            open={!!selectedProject}
+            onClose={() => router.replace("/home", { scroll: false })}
+          />
+        )}
       </TableOuterFormatting>
     </>
   );
@@ -296,15 +273,17 @@ function SubmissionStatusTab({
 /**
  * Indicates which status a project is in.  Used b/c users may select to look at multiple statuses at once.
  */
-function AdminStatusIndicator({ status }: { status: ProjectStatus }) {
-  const statusColors = {
+function AdminStatusIndicator({
+  status,
+}: {
+  status: ADMIN_PROJECT_STATUS_DISPLAY;
+}) {
+  const statusColors: Record<ADMIN_PROJECT_STATUS_DISPLAY, string> = {
     Matched:
       "bg-grass-green-50 dark:bg-grass-green-500 text:grass-green-500 dark:text-grass-green-50",
-    "In progress":
+    "In Progress":
       "bg-blue-50 dark:bg-blue-300 text-blue-500 dark:text-blue-50",
-    "In review":
-      "bg-yellow-100 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-100",
-    "Not assigned": "bg-gray-300 dark:bg-gray-400 text-gray-500",
+    "Action Needed": "bg-gray-300 dark:bg-gray-400 text-gray-500",
   };
 
   return (

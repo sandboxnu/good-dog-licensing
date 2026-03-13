@@ -45,6 +45,7 @@ export const queryAllProjectsProcedure = rolePermissionsProcedureBuilder(
         }),
       },
       select: {
+        projectId: true,
         projectTitle: true,
         description: true,
         adminStatus: true,
@@ -59,6 +60,11 @@ export const queryAllProjectsProcedure = rolePermissionsProcedureBuilder(
         projectManager: {
           select: {
             firstName: true,
+            lastName: true,
+            email: true,
+            role: true,
+            active: true,
+            userId: true,
           },
         },
       },
@@ -79,12 +85,32 @@ export const getProjectSubmissionByIdProcedure =
         where: {
           projectId: input.projectId,
         },
-        include: {
-          projectOwner: true,
-          projectManager: true,
+        select: {
+          projectId: true,
+          projectTitle: true,
+          description: true,
+          additionalInfo: true,
+          projectOwnerId: true,
+          deadline: true,
+          projectOwner: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
+          projectManager: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
           songRequests: {
-            include: {
-              matches: true,
+            select: {
+              songRequestId: true,
+              songRequestTitle: true,
+              description: true,
+              adminStatus: true,
+              mediaMakerStatus: true,
             },
           },
         },
@@ -97,11 +123,23 @@ export const getProjectSubmissionByIdProcedure =
         });
       }
 
-      if (projectSubmission.projectOwnerId !== ctx.session.user.userId) {
+      if (
+        projectSubmission.projectOwnerId !== ctx.session.user.userId &&
+        ctx.session.user.role !== "ADMIN" &&
+        ctx.session.user.role !== "MODERATOR"
+      ) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: `You do not have permission to view this song request.`,
         });
+      }
+
+      // filter out HIDDEN song requests for media makers
+      if (ctx.session.user.role === "MEDIA_MAKER") {
+        const filteredSongRequests = projectSubmission.songRequests.filter(
+          (songRequest) => songRequest.mediaMakerStatus !== "HIDDEN",
+        );
+        return { ...projectSubmission, songRequests: filteredSongRequests };
       }
 
       return projectSubmission;

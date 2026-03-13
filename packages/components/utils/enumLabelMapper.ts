@@ -4,6 +4,7 @@ import {
   MusicRole,
   ProjectType,
   Role,
+  Status,
 } from "@good-dog/db";
 
 export function getGenreLabel(value: Genre): string {
@@ -80,5 +81,24 @@ export function getProjectTypeLabel(value: ProjectType): string {
       return "Social Media Reel";
     case ProjectType.VIDEO_GAME:
       return "Video Game";
+  }
+}
+
+export function getStatusLabel(value: Status): string {
+  switch (value) {
+    case Status.ACTION_NEEDED:
+      return "Action Needed";
+    case Status.APPROVAL_NEEDED:
+      return "Approval Needed";
+    case Status.SUGGESTIONS_NEEDED:
+      return "Suggestions Needed";
+    case Status.IN_PROGRESS:
+      return "In Progress";
+    case Status.REJECTED:
+      return "Rejected";
+    case Status.COMPLETED:
+      return "Completed";
+    case Status.HIDDEN:
+      return "Hidden";
   }
 }

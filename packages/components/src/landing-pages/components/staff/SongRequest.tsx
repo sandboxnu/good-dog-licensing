@@ -6,14 +6,15 @@ import { useRouter } from "next/navigation";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import type { StatusIndicatorType } from "../../../base/StatusIndicator";
 import StatusIndicator from "../../../base/StatusIndicator";
+import { getStatusLabel } from "../../../../utils/enumLabelMapper";
 
-type SongRequestWithMatchesType =
-  GetProcedureOutput<"allProjects">["projects"][number]["songRequests"][number];
+type SongRequestType =
+  GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
 
 export default function SongRequest({
   songRequest,
 }: {
-  songRequest: SongRequestWithMatchesType;
+  songRequest: SongRequestType;
 }) {
   const router = useRouter();
 
@@ -23,32 +24,23 @@ export default function SongRequest({
 
   const status = (): StatusIndicatorType => {
     if (
-      songRequest.matches.some(
-        (match) => match.matchState === "WAITING_FOR_MANAGER_APPROVAL",
-      )
+      songRequest.adminStatus === "APPROVAL_NEEDED" ||
+      songRequest.adminStatus === "SUGGESTIONS_NEEDED"
     ) {
-      return { variant: "error", text: "Action needed" };
+      return {
+        variant: "error",
+        text: getStatusLabel(songRequest.adminStatus),
+      };
     }
 
-    if (
-      songRequest.matches.some(
-        (match) =>
-          match.matchState === "SENT_TO_MUSICIAN" ||
-          match.matchState === "SENT_TO_MEDIA_MAKER",
-      )
-    ) {
-      return { variant: "blue", text: "Pending approval" };
+    if (songRequest.adminStatus === "IN_PROGRESS") {
+      return { variant: "blue", text: getStatusLabel(songRequest.adminStatus) };
     }
 
-    if (
-      songRequest.matches.some(
-        (match) => match.matchState === "APPROVED_BY_MUSICIAN",
-      )
-    ) {
-      return { variant: "success", text: "Accepted" };
-    }
-
-    return { variant: "gray", text: "Rejected" };
+    return {
+      variant: "success",
+      text: getStatusLabel(songRequest.adminStatus),
+    };
   };
 
   return (
