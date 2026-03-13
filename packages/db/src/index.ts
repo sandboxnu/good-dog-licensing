@@ -29,5 +29,11 @@ export {
   MusicRole,
   Genre,
   ProjectType,
-  Status,
+  AdmModMatchStatus,
+  AdmModProjectStatus,
+  AdmModSongRequestStatus,
+  MediaMakerMatchStatus,
+  MediaMakerProjectStatus,
+  MediaMakerSongRequestStatus,
+  MusicianMatchStatus,
 } from "@prisma/client";

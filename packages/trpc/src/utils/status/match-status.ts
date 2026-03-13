@@ -1,8 +1,15 @@
-import type { MatchState, Role, Status } from "@good-dog/db";
+import type {
+  AdmModMatchStatus,
+  MatchState,
+  MediaMakerMatchStatus,
+  MusicianMatchStatus,
+} from "@good-dog/db";
 
 // Logic for match statuses
 
-function getAdminMatchStatus(matchState: MatchState): Status {
+export function getAdmModMatchStatus(
+  matchState: MatchState,
+): AdmModMatchStatus {
   switch (matchState) {
     case "WAITING_FOR_MANAGER_APPROVAL":
       return "APPROVAL_NEEDED";
@@ -21,7 +28,9 @@ function getAdminMatchStatus(matchState: MatchState): Status {
   }
 }
 
-function getMusicianMatchStatus(matchState: MatchState): Status {
+export function getMusicianMatchStatus(
+  matchState: MatchState,
+): MusicianMatchStatus {
   switch (matchState) {
     case "REJECTED_BY_MUSICIAN":
       return "REJECTED";
@@ -40,7 +49,9 @@ function getMusicianMatchStatus(matchState: MatchState): Status {
   }
 }
 
-function getMediaMakerMatchStatus(matchState: MatchState): Status {
+export function getMediaMakerMatchStatus(
+  matchState: MatchState,
+): MediaMakerMatchStatus {
   switch (matchState) {
     case "REJECTED_BY_MEDIA_MAKER":
     case "REJECTED_BY_MUSICIAN":
@@ -59,22 +70,4 @@ function getMediaMakerMatchStatus(matchState: MatchState): Status {
     case "WAITING_FOR_MANAGER_APPROVAL":
       return "HIDDEN";
   }
-}
-
-function getMatchStatusForRole(matchState: MatchState, role: Role): Status {
-  switch (role) {
-    case "ADMIN":
-    case "MODERATOR":
-      return getAdminMatchStatus(matchState);
-
-    case "MEDIA_MAKER":
-      return getMediaMakerMatchStatus(matchState);
-
-    case "MUSICIAN":
-      return getMusicianMatchStatus(matchState);
-  }
-}
-
-export function getMatchStatus(matchState: MatchState, role: Role): Status {
-  return getMatchStatusForRole(matchState, role);
 }

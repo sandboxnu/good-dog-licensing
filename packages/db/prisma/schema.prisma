@@ -31,14 +31,51 @@ enum MatchState {
   APPROVED_BY_MUSICIAN
 }
 
-enum Status {
+enum AdmModProjectStatus {
+  COMPLETED
   ACTION_NEEDED
+  IN_PROGRESS
+}
+
+enum AdmModSongRequestStatus {
+  COMPLETED
   APPROVAL_NEEDED
+  IN_PROGRESS
   SUGGESTIONS_NEEDED
+}
+
+enum AdmModMatchStatus {
+  APPROVAL_NEEDED
   IN_PROGRESS
   REJECTED
   COMPLETED
+}
+
+enum MediaMakerProjectStatus {
+  ACTION_NEEDED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum MediaMakerSongRequestStatus {
+  COMPLETED
+  APPROVAL_NEEDED
+  IN_PROGRESS
+}
+
+enum MediaMakerMatchStatus {
   HIDDEN
+  APPROVAL_NEEDED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum MusicianMatchStatus {
+  HIDDEN
+  APPROVAL_NEEDED
+  REJECTED
+  COMPLETED
 }
 
 model User {
@@ -94,39 +131,39 @@ model ModeratorInvite {
 }
 
 model ProjectSubmission {
-  projectId        String        @id @default(uuid())
+  projectId        String                     @id @default(uuid())
   projectOwnerId   String
-  projectOwner     User          @relation("ProjectOwner", fields: [projectOwnerId], references: [userId], onDelete: Cascade)
+  projectOwner     User                       @relation("ProjectOwner", fields: [projectOwnerId], references: [userId], onDelete: Cascade)
   projectManagerId String?
-  projectManager   User?         @relation("ProjectManager", fields: [projectManagerId], references: [userId], onDelete: Cascade)
+  projectManager   User?                      @relation("ProjectManager", fields: [projectManagerId], references: [userId], onDelete: Cascade)
   projectTitle     String
   description      String
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  createdAt        DateTime                   @default(now())
+  updatedAt        DateTime                   @updatedAt
   songRequests     SongRequest[]
   deadline         DateTime
-  videoLink        String        @default("")
-  additionalInfo   String        @default("")
+  videoLink        String                     @default("")
+  additionalInfo   String                     @default("")
   projectType      ProjectType
-  adminStatus      Status        @default(ACTION_NEEDED)
-  mediaMakerStatus Status        @default(IN_PROGRESS)
+  admModStatus     AdmModProjectStatus        @default(ACTION_NEEDED)
+  mediaMakerStatus MediaMakerProjectStatus    @default(IN_PROGRESS)
 }
 
 model SongRequest {
-  songRequestId     String            @id @default(uuid())
+  songRequestId     String                           @id @default(uuid())
   songRequestTitle  String
   description       String
   feelingsConveyed  String
   similarSongs      String
-  additionalInfo    String            @default("")
+  additionalInfo    String                           @default("")
   projectId         String
-  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+  projectSubmission ProjectSubmission                @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
   matches           Match[]
   comments          Comments[]
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-  adminStatus       Status            @default(SUGGESTIONS_NEEDED)
-  mediaMakerStatus  Status            @default(IN_PROGRESS)
+  createdAt         DateTime                         @default(now())
+  updatedAt         DateTime                         @updatedAt
+  admModStatus      AdmModSongRequestStatus          @default(SUGGESTIONS_NEEDED)
+  mediaMakerStatus  MediaMakerSongRequestStatus      @default(IN_PROGRESS)
 }
 
 enum ProjectType {
@@ -201,9 +238,9 @@ model Match {
   matcherUserId     String
   matcherUser       User            @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
   matchState        MatchState
-  adminStatus       Status
-  mediaMakerStatus  Status         
-  musicianStatus    Status
+  admModStatus      AdmModMatchStatus
+  mediaMakerStatus  MediaMakerMatchStatus         
+  musicianStatus    MusicianMatchStatus
 
   @@unique([songRequestId, musicId])
   @@map("Matches")

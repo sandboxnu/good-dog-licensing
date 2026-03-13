@@ -1,22 +1,16 @@
-import type { MatchState, Role, Status } from "@good-dog/db";
-import { getMatchStatus } from "./match-status";
+import type {
+  AdmModSongRequestStatus,
+  MatchState,
+  MediaMakerSongRequestStatus,
+} from "@good-dog/db";
+import { getAdmModMatchStatus, getMediaMakerMatchStatus } from "./match-status";
 
 // Logic for song request statuses
 
-const ALLOWED_STATUSES_BY_ROLE: Record<Role, Status[]> = {
-  ADMIN: ["COMPLETED", "APPROVAL_NEEDED", "IN_PROGRESS", "SUGGESTIONS_NEEDED"],
-  MODERATOR: [
-    "COMPLETED",
-    "APPROVAL_NEEDED",
-    "IN_PROGRESS",
-    "SUGGESTIONS_NEEDED",
-  ],
-  MEDIA_MAKER: ["IN_PROGRESS", "APPROVAL_NEEDED", "COMPLETED"],
-  MUSICIAN: [], // Musicians don't have song requests
-};
-
-function getAdminSongRequestStatus(matches: MatchState[]): Status {
-  const matchStatuses = matches.map((match) => getMatchStatus(match, "ADMIN"));
+export function getAdmModSongRequestStatus(
+  matches: MatchState[],
+): AdmModSongRequestStatus {
+  const matchStatuses = matches.map((match) => getAdmModMatchStatus(match));
 
   // If at least 1 COMPLETED --> COMPLETED
   if (matchStatuses.some((status) => status === "COMPLETED")) {
@@ -37,10 +31,10 @@ function getAdminSongRequestStatus(matches: MatchState[]): Status {
   return "SUGGESTIONS_NEEDED";
 }
 
-function getMediaMakerSongRequestStatus(matches: MatchState[]): Status {
-  const matchStatuses = matches.map((match) =>
-    getMatchStatus(match, "MEDIA_MAKER"),
-  );
+export function getMediaMakerSongRequestStatus(
+  matches: MatchState[],
+): MediaMakerSongRequestStatus {
+  const matchStatuses = matches.map((match) => getMediaMakerMatchStatus(match));
 
   // If at least 1 COMPLETED --> COMPLETED
   if (matchStatuses.some((status) => status === "COMPLETED")) {
@@ -54,38 +48,4 @@ function getMediaMakerSongRequestStatus(matches: MatchState[]): Status {
 
   // else --> IN_PROGRESS
   return "IN_PROGRESS";
-}
-
-function getSongRequestStatusForRole(
-  matches: MatchState[],
-  role: Role,
-): Status {
-  switch (role) {
-    case "ADMIN":
-    case "MODERATOR":
-      return getAdminSongRequestStatus(matches);
-
-    case "MEDIA_MAKER":
-      return getMediaMakerSongRequestStatus(matches);
-
-    case "MUSICIAN":
-      throw new Error("Musicians don't have song requests.");
-  }
-}
-
-export function getSongRequestStatus(
-  matches: MatchState[],
-  role: Role,
-): Status {
-  const status = getSongRequestStatusForRole(matches, role);
-
-  if (!ALLOWED_STATUSES_BY_ROLE[role].includes(status)) {
-    throw new Error(
-      `Invalid status ${status} for role ${role}. Allowed statuses: ${ALLOWED_STATUSES_BY_ROLE[
-        role
-      ].join(", ")}`,
-    );
-  }
-
-  return status;
 }

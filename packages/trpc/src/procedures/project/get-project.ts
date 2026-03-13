@@ -48,7 +48,7 @@ export const queryAllProjectsProcedure = rolePermissionsProcedureBuilder(
         projectId: true,
         projectTitle: true,
         description: true,
-        adminStatus: true,
+        admModStatus: true,
         projectOwner: {
           select: {
             firstName: true,
@@ -109,7 +109,7 @@ export const getProjectSubmissionByIdProcedure =
               songRequestId: true,
               songRequestTitle: true,
               description: true,
-              adminStatus: true,
+              admModStatus: true,
               mediaMakerStatus: true,
             },
           },
@@ -132,14 +132,6 @@ export const getProjectSubmissionByIdProcedure =
           code: "UNAUTHORIZED",
           message: `You do not have permission to view this song request.`,
         });
-      }
-
-      // filter out HIDDEN song requests for media makers
-      if (ctx.session.user.role === "MEDIA_MAKER") {
-        const filteredSongRequests = projectSubmission.songRequests.filter(
-          (songRequest) => songRequest.mediaMakerStatus !== "HIDDEN",
-        );
-        return { ...projectSubmission, songRequests: filteredSongRequests };
       }
 
       return projectSubmission;

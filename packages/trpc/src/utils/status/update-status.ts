@@ -1,7 +1,17 @@
 import { prisma } from "@good-dog/db";
-import { getProjectStatus } from "./project-status";
-import { getSongRequestStatus } from "./song-request-status";
-import { getMatchStatus } from "./match-status";
+import {
+  getAdmModProjectStatus,
+  getMediaMakerProjectStatus,
+} from "./project-status";
+import {
+  getAdmModSongRequestStatus,
+  getMediaMakerSongRequestStatus,
+} from "./song-request-status";
+import {
+  getAdmModMatchStatus,
+  getMediaMakerMatchStatus,
+  getMusicianMatchStatus,
+} from "./match-status";
 
 export async function updateStatuses(
   projectId: string,
@@ -43,20 +53,15 @@ export async function updateStatuses(
   }
 
   // Project statuses
-  const newProjectAdminStatus = getProjectStatus(
+  const newAdmModProjectStatus = getAdmModProjectStatus(matchStatesGroupedBySR);
+  const newMediaMakerProjectStatus = getMediaMakerProjectStatus(
     matchStatesGroupedBySR,
-    "ADMIN",
-  );
-  const newProjectMediaMakerStatus = getProjectStatus(
-    matchStatesGroupedBySR,
-    "MEDIA_MAKER",
   );
 
   // Song Request statuses
-  const newSRAdminStatus = getSongRequestStatus(matchStatesForGivenSR, "ADMIN");
-  const newSRMediaMakerStatus = getSongRequestStatus(
+  const newAdmModSRStatus = getAdmModSongRequestStatus(matchStatesForGivenSR);
+  const newMediaMakerSRStatus = getMediaMakerSongRequestStatus(
     matchStatesForGivenSR,
-    "MEDIA_MAKER",
   );
 
   // Update statuses in DB
@@ -66,8 +71,8 @@ export async function updateStatuses(
         projectId,
       },
       data: {
-        adminStatus: newProjectAdminStatus,
-        mediaMakerStatus: newProjectMediaMakerStatus,
+        admModStatus: newAdmModProjectStatus,
+        mediaMakerStatus: newMediaMakerProjectStatus,
       },
     }),
     prisma.songRequest.update({
@@ -75,22 +80,20 @@ export async function updateStatuses(
         songRequestId,
       },
       data: {
-        adminStatus: newSRAdminStatus,
-        mediaMakerStatus: newSRMediaMakerStatus,
+        admModStatus: newAdmModSRStatus,
+        mediaMakerStatus: newMediaMakerSRStatus,
       },
     }),
   ]);
 
   // Handle match (separate because it can be deleted)
   if (matchId && matchStateOfGivenMatch) {
-    const newMatchAdminStatus = getMatchStatus(matchStateOfGivenMatch, "ADMIN");
-    const newMatchMediaMakerStatus = getMatchStatus(
+    const newAdmModMatchStatus = getAdmModMatchStatus(matchStateOfGivenMatch);
+    const newMediaMakerMatchStatus = getMediaMakerMatchStatus(
       matchStateOfGivenMatch,
-      "MEDIA_MAKER",
     );
-    const newMatchMusicianStatus = getMatchStatus(
+    const newMusicianMatchStatus = getMusicianMatchStatus(
       matchStateOfGivenMatch,
-      "MUSICIAN",
     );
 
     await prisma.match.update({
@@ -98,9 +101,9 @@ export async function updateStatuses(
         matchId,
       },
       data: {
-        adminStatus: newMatchAdminStatus,
-        mediaMakerStatus: newMatchMediaMakerStatus,
-        musicianStatus: newMatchMusicianStatus,
+        admModStatus: newAdmModMatchStatus,
+        mediaMakerStatus: newMediaMakerMatchStatus,
+        musicianStatus: newMusicianMatchStatus,
       },
     });
   }
