@@ -25,7 +25,7 @@ export default async function Home() {
   if (user.role === Role.ADMIN) {
     void trpc.allProjects.prefetch();
     void trpc.allMusic.prefetch();
-    void trpc.adminAndModeratorUsers.prefetch();
+    void trpc.allUsers.prefetch();
   }
   if (user.role === Role.MODERATOR) {
     void trpc.allProjects.prefetch();
