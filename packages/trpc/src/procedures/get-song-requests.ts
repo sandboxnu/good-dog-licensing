@@ -43,6 +43,7 @@ export const getProjectSongRequestByIdProcedure =
       }),
     )
     .query(async ({ ctx, input }) => {
+      // Make sure matches for HIDDEN aren't shown for media makers (Same for musicians in another endpoint)
       const songRequest = await ctx.prisma.songRequest.findUnique({
         where: {
           songRequestId: input.songRequestId,
@@ -50,6 +51,7 @@ export const getProjectSongRequestByIdProcedure =
         include: {
           projectSubmission: {
             include: {
+              // TODO - update this to only select what we need
               projectManager: true,
               projectOwner: true,
             },
@@ -136,15 +138,15 @@ export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
     where: {
       projectOwnerId: ctx.session.user.userId,
     },
-    include: {
-      projectOwner: true,
-      songRequests: {
-        include: {
-          matches: true,
-        },
-      },
+    select: {
+      projectId: true,
+      projectTitle: true,
+      createdAt: true,
+      description: true,
+      mediaMakerStatus: true,
     },
   });
+
   return { projects };
 });
 

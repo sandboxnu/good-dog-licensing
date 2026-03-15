@@ -3,11 +3,15 @@
 import { trpc } from "@good-dog/trpc/client";
 import { ChevronLeft } from "lucide-react";
 import ProjectInformation from "./components/ProjectInformation";
-import SongRequests from "./components/SongRequests";
+import MediaMakerSongRequests from "./components/MediaMakerSongRequests";
 import { useRouter } from "next/navigation";
 import { MediaMakerSongRequestStatus } from "@good-dog/db";
 
-export default function ProjectDashboard({ projectId }: { projectId: string }) {
+export default function MediaMakerProjectDashboard({
+  projectId,
+}: {
+  projectId: string;
+}) {
   const [projectSubmission] = trpc.getProjectSubmissionById.useSuspenseQuery({
     projectId: projectId,
   });
@@ -29,7 +33,7 @@ export default function ProjectDashboard({ projectId }: { projectId: string }) {
       </div>
       {Object.values(MediaMakerSongRequestStatus).map((status) => {
         return (
-          <SongRequests
+          <MediaMakerSongRequests
             key={status}
             songRequests={projectSubmission.songRequests.filter(
               (songRequest) => songRequest.mediaMakerStatus === status,

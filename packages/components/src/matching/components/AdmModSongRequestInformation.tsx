@@ -12,41 +12,11 @@ import User from "./User";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 
-export default function SongRequestInformation({
+export default function AdmModSongRequestInformation({
   songRequest,
 }: {
   songRequest: SongRequestType;
 }) {
-  const getSongRequestStatus = (
-    matches: { matchState: string }[],
-  ): {
-    variant: "success" | "error" | "warning" | "gray" | "blue";
-    text: string;
-  } => {
-    if (matches.length === 0) {
-      return { variant: "gray", text: "No Match" };
-    }
-
-    if (matches.some((m) => m.matchState === "APPROVED_BY_MUSICIAN")) {
-      return { variant: "success", text: "Complete" };
-    }
-
-    if (
-      matches.some(
-        (m) =>
-          m.matchState === "SENT_TO_MEDIA_MAKER" ||
-          m.matchState === "SENT_TO_MUSICIAN",
-      )
-    ) {
-      return { variant: "blue", text: "Awaiting Response" };
-    }
-
-    if (matches.some((m) => m.matchState === "WAITING_FOR_MANAGER_APPROVAL")) {
-      return { variant: "warning", text: "Awaiting Manager Approval" };
-    }
-
-    return { variant: "error", text: "Needs Attention" };
-  };
   return (
     <div className="flex flex-col gap-4">
       {/* Song Request Title Header */}
@@ -105,10 +75,7 @@ export default function SongRequestInformation({
                   Status
                 </p>
               </div>
-              <StatusIndicator
-                variant={getSongRequestStatus(songRequest.matches).variant}
-                text={getSongRequestStatus(songRequest.matches).text}
-              />
+              <StatusIndicator status={songRequest.admModStatus} />
             </div>
           </div>
 

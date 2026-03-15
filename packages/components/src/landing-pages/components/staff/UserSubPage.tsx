@@ -7,8 +7,10 @@ import {
   TableRowFormatting,
 } from "./TableFormatting";
 import { Role } from "@good-dog/db";
-import type { User } from "@prisma/client";
-type DisplayUser = Omit<User, "hashedPassword">;
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
+type UserType = GetProcedureOutput<"adminAndModeratorUsers">["users"][number];
+
 /**
  * User sub-page of admin dashboard.
  */
@@ -27,7 +29,7 @@ export default function UserSubPage() {
   );
 }
 
-function UserTable({ data }: { data: DisplayUser[] }) {
+function UserTable({ data }: { data: UserType[] }) {
   return (
     <TableOuterFormatting>
       <div className="flex flex-col">
@@ -39,7 +41,7 @@ function UserTable({ data }: { data: DisplayUser[] }) {
           <p className="dark:text-white">Status</p>
         </TableHeaderFormatting>
 
-        {data.map((user: DisplayUser, key) => {
+        {data.map((user: UserType, key) => {
           return (
             <TableRowFormatting
               key={key}

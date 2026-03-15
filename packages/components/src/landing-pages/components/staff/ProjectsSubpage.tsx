@@ -15,7 +15,7 @@ import ProfileIcon from "../../../svg/ProfileIcon";
 import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
 import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
 import { AdmModProjectStatus } from "@good-dog/db";
-import { getAdmModProjectStatusLabel } from "../../../../utils/enumLabelMapper";
+import { getStatusLabel } from "../../../../utils/enumLabelMapper";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
@@ -63,7 +63,7 @@ export default function ProjectsSubpage() {
         {Object.values(AdmModProjectStatus).map((status) => (
           <SubmissionStatusTab
             key={status}
-            title={getAdmModProjectStatusLabel(status)}
+            title={getStatusLabel(status)}
             subtitle={AdmModProjectStatusToSubtitle[status]}
             number={
               data.projects.filter((project) => project.admModStatus === status)

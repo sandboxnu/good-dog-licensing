@@ -2,11 +2,11 @@
 
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-import SongRequestComponent from "./SongRequest";
+import SongRequestComponent from "./MediaMakerSongRequest";
 import Hourglass from "../../svg/Hourglass";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import type { MediaMakerSongRequestStatus } from "@good-dog/db";
-import { getMediaMakerSongRequestStatusLabel } from "../../../utils/enumLabelMapper";
+import { getStatusLabel } from "../../../utils/enumLabelMapper";
 
 type SongRequestType =
   GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
@@ -17,7 +17,7 @@ const descriptionMap: Record<MediaMakerSongRequestStatus, string> = {
   COMPLETED: "Requests in motion, stay tuned for updates",
 };
 
-export default function SongRequests({
+export default function MediaMakerSongRequests({
   songRequests,
   status,
 }: {
@@ -34,7 +34,7 @@ export default function SongRequests({
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-xl text-dark-gray-500 dark:text-mint-300">
-            {getMediaMakerSongRequestStatusLabel(status)}
+            {getStatusLabel(status)}
           </p>
           <p className="text-dark-gray-500 dark:text-mint-300">
             {descriptionMap[status]}

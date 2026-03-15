@@ -1,17 +1,11 @@
 import {
-  AdmModProjectStatus,
-  AdmModMatchStatus,
-  AdmModSongRequestStatus,
-  MediaMakerMatchStatus,
-  MusicianMatchStatus,
-  MediaMakerProjectStatus,
-  MediaMakerSongRequestStatus,
   Genre,
   MusicAffiliation,
   MusicRole,
   ProjectType,
   Role,
 } from "@good-dog/db";
+import type { Status } from "./status";
 
 export function getGenreLabel(value: Genre): string {
   switch (value) {
@@ -90,101 +84,23 @@ export function getProjectTypeLabel(value: ProjectType): string {
   }
 }
 
-export function getAdmModProjectStatusLabel(
-  value: AdmModProjectStatus,
-): string {
+export function getStatusLabel(value: Status): string {
   switch (value) {
-    case AdmModProjectStatus.ACTION_NEEDED:
+    case "ACTION_NEEDED":
       return "Action Needed";
-    case AdmModProjectStatus.IN_PROGRESS:
-      return "In Progress";
-    case AdmModProjectStatus.COMPLETED:
-      return "Completed";
-  }
-}
-
-export function getAdmModMatchStatusLabel(value: AdmModMatchStatus): string {
-  switch (value) {
-    case AdmModMatchStatus.APPROVAL_NEEDED:
+    case "APPROVAL_NEEDED":
       return "Approval Needed";
-    case AdmModMatchStatus.IN_PROGRESS:
+    case "IN_PROGRESS":
       return "In Progress";
-    case AdmModMatchStatus.REJECTED:
+    case "COMPLETED":
+      return "Completed";
+    case "REJECTED":
       return "Rejected";
-    case AdmModMatchStatus.COMPLETED:
-      return "Completed";
-  }
-}
-
-export function getAdmModSongRequestStatusLabel(
-  value: AdmModSongRequestStatus,
-): string {
-  switch (value) {
-    case AdmModSongRequestStatus.COMPLETED:
-      return "Completed";
-    case AdmModSongRequestStatus.APPROVAL_NEEDED:
-      return "Approval Needed";
-    case AdmModSongRequestStatus.IN_PROGRESS:
-      return "In Progress";
-    case AdmModSongRequestStatus.SUGGESTIONS_NEEDED:
+    case "SUGGESTIONS_NEEDED":
       return "Suggestions Needed";
-  }
-}
-
-export function getMediaMakerProjectStatusLabel(
-  value: MediaMakerProjectStatus,
-): string {
-  switch (value) {
-    case MediaMakerProjectStatus.ACTION_NEEDED:
-      return "Action Needed";
-    case MediaMakerProjectStatus.IN_PROGRESS:
-      return "In Progress";
-    case MediaMakerProjectStatus.COMPLETED:
-      return "Completed";
-  }
-}
-
-export function getMediaMakerSongRequestStatusLabel(
-  value: MediaMakerSongRequestStatus,
-): string {
-  switch (value) {
-    case MediaMakerSongRequestStatus.COMPLETED:
-      return "Completed";
-    case MediaMakerSongRequestStatus.APPROVAL_NEEDED:
-      return "Approval Needed";
-    case MediaMakerSongRequestStatus.IN_PROGRESS:
-      return "In Progress";
-  }
-}
-
-export function getMediaMakerMatchStatusLabel(
-  value: MediaMakerMatchStatus,
-): string {
-  switch (value) {
-    case MediaMakerMatchStatus.HIDDEN:
+    case "HIDDEN":
       return "Hidden";
-    case MediaMakerMatchStatus.APPROVAL_NEEDED:
-      return "Approval Needed";
-    case MediaMakerMatchStatus.IN_PROGRESS:
-      return "In Progress";
-    case MediaMakerMatchStatus.COMPLETED:
-      return "Completed";
-    case MediaMakerMatchStatus.REJECTED:
-      return "Rejected";
-  }
-}
-
-export function getMusicianMatchStatusLabel(
-  value: MusicianMatchStatus,
-): string {
-  switch (value) {
-    case MusicianMatchStatus.HIDDEN:
-      return "Hidden";
-    case MusicianMatchStatus.APPROVAL_NEEDED:
-      return "Approval Needed";
-    case MusicianMatchStatus.REJECTED:
-      return "Rejected";
-    case MusicianMatchStatus.COMPLETED:
-      return "Completed";
+    case "SONG_SUBMITTED":
+      return "Song Submitted";
   }
 }

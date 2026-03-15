@@ -71,6 +71,11 @@ enum MediaMakerMatchStatus {
   REJECTED
 }
 
+enum MusicianSongStatus {
+  ACTION_NEEDED
+  SONG_SUBMITTED
+}
+
 enum MusicianMatchStatus {
   HIDDEN
   APPROVAL_NEEDED
@@ -173,18 +178,19 @@ enum ProjectType {
 }
 
 model MusicSubmission {
-  musicId        String             @id @default(uuid())
-  songName       String
-  performerName  String
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
-  submitter      User               @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
-  submitterId    String
-  songLink       String
-  genres         Genre[]
-  additionalInfo String             @default("")
-  matches        Match[]
-  contributors   MusicContributor[]
+  musicId             String              @id @default(uuid())
+  songName            String
+  performerName       String
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  submitter           User                @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
+  submitterId         String
+  songLink            String
+  genres              Genre[]
+  additionalInfo      String              @default("")
+  matches             Match[]
+  contributors        MusicContributor[]
+  musicianSongStatus  MusicianSongStatus  @default(SONG_SUBMITTED)
 }
 
 enum Genre {

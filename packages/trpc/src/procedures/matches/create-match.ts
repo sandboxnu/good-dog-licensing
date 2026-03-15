@@ -1,7 +1,12 @@
 import { z } from "zod";
 
 import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
-import { MatchState, Status } from "@good-dog/db";
+import {
+  MatchState,
+  AdmModMatchStatus,
+  MediaMakerMatchStatus,
+  MusicianMatchStatus,
+} from "@good-dog/db";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { updateStatuses } from "../../utils/status/update-status";
@@ -24,9 +29,9 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
         musicId: input.musicId,
         matcherUserId: ctx.session.user.userId,
         matchState: MatchState.WAITING_FOR_MANAGER_APPROVAL,
-        adminStatus: Status.SUGGESTIONS_NEEDED,
-        mediaMakerStatus: Status.HIDDEN,
-        musicianStatus: Status.HIDDEN,
+        admModStatus: AdmModMatchStatus.APPROVAL_NEEDED,
+        mediaMakerStatus: MediaMakerMatchStatus.HIDDEN,
+        musicianStatus: MusicianMatchStatus.HIDDEN,
       },
       include: {
         songRequest: true,

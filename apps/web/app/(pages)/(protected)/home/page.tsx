@@ -7,6 +7,7 @@ import MusicianLanding from "@good-dog/components/landing-pages/MusicianLanding"
 import PageContainer from "@good-dog/components/PageContainer";
 import { Role } from "@good-dog/db";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
+import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
 
 export default async function Home() {
   const user = await trpc.user();
@@ -23,12 +24,18 @@ export default async function Home() {
     void trpc.mediamakerProjects.prefetch();
   }
   if (user.role === Role.ADMIN) {
-    void trpc.allProjects.prefetch();
+    void trpc.queryAllProjects.prefetch({
+      createdDateQuery: CREATED_DATE_QUERY.LAST_365_DAYS,
+      assignedToMe: false,
+    });
     void trpc.allMusic.prefetch();
     void trpc.adminAndModeratorUsers.prefetch();
   }
   if (user.role === Role.MODERATOR) {
-    void trpc.allProjects.prefetch();
+    void trpc.queryAllProjects.prefetch({
+      createdDateQuery: CREATED_DATE_QUERY.LAST_365_DAYS,
+      assignedToMe: false,
+    });
     void trpc.allMusic.prefetch();
   }
 
