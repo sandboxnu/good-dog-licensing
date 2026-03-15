@@ -22,6 +22,7 @@ export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
       },
       include: {
         songRequest: true,
+        musicSubmission: true,
       },
     });
 
@@ -30,6 +31,7 @@ export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
       deletedMatch.songRequest.projectId,
       deletedMatch.songRequestId,
       null,
+      deletedMatch.musicSubmission.musicId,
     );
 
     return {

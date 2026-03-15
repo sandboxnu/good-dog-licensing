@@ -110,6 +110,7 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
       data: { matchState: input.state },
       include: {
         songRequest: true,
+        musicSubmission: true,
       },
     });
 
@@ -118,6 +119,7 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
       updatedMatch.songRequest.projectId,
       updatedMatch.songRequestId,
       updatedMatch.matchId,
+      updatedMatch.musicSubmission.musicId,
     );
 
     return {

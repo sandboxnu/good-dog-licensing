@@ -12,12 +12,13 @@ import {
   getMediaMakerMatchStatus,
   getMusicianMatchStatus,
 } from "./match-status";
+import { getMusicianSongStatus } from "./music-status";
 
 export async function updateStatuses(
   projectId: string,
   songRequestId: string,
   matchId: string | null,
-  // musicId: string, // TODO IMPLEMENT THIS
+  musicId: string,
 ) {
   // Get the project
   const project = await prisma.projectSubmission.findUnique({
@@ -37,7 +38,25 @@ export async function updateStatuses(
     throw new Error(`Project with id ${projectId} not found.`);
   }
 
-  // Grab match states for project, SR, and match
+  // Get the song
+  const song = await prisma.musicSubmission.findUnique({
+    where: {
+      musicId,
+    },
+    select: {
+      matches: {
+        select: {
+          matchState: true,
+        },
+      },
+    },
+  });
+
+  if (!song) {
+    throw new Error(`Song with id ${musicId} not found.`);
+  }
+
+  // Grab match states for project, SR, match, and song
   const matchStatesGroupedBySR = project.songRequests.map((sr) =>
     sr.matches.map((match) => match.matchState),
   );
@@ -47,6 +66,7 @@ export async function updateStatuses(
   const matchStateOfGivenMatch = project.songRequests
     .find((sr) => sr.songRequestId === songRequestId)
     ?.matches.find((match) => match.matchId === matchId)?.matchState;
+  const matchStatesForGivenSong = song.matches.map((match) => match.matchState);
 
   if (!matchStatesForGivenSR) {
     // this should never be reached -- need to do it for type safety
@@ -64,6 +84,9 @@ export async function updateStatuses(
   const newMediaMakerSRStatus = getMediaMakerSongRequestStatus(
     matchStatesForGivenSR,
   );
+
+  // Song status
+  const newMusicianSongStatus = getMusicianSongStatus(matchStatesForGivenSong);
 
   // Update statuses in DB
   await prisma.$transaction([
@@ -83,6 +106,14 @@ export async function updateStatuses(
       data: {
         admModStatus: newAdmModSRStatus,
         mediaMakerStatus: newMediaMakerSRStatus,
+      },
+    }),
+    prisma.musicSubmission.update({
+      where: {
+        musicId,
+      },
+      data: {
+        musicianSongStatus: newMusicianSongStatus,
       },
     }),
   ]);

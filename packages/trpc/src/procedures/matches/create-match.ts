@@ -35,6 +35,7 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
       },
       include: {
         songRequest: true,
+        musicSubmission: true,
       },
     });
 
@@ -43,6 +44,7 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
       createdMatch.songRequest.projectId,
       createdMatch.songRequestId,
       createdMatch.matchId,
+      createdMatch.musicSubmission.musicId,
     );
 
     return {
