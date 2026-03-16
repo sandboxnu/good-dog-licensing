@@ -169,7 +169,7 @@ export default function ProfileWidget() {
           <header className="text-green-400 dark:text-mint-200 text-xl font-semibold">
             {user?.firstName + " " + user?.lastName}
           </header>
-          <div className="text-dark-gray-200">
+          <div className="text-dark-gray-200 dark:text-dark-gray-100">
             {userRoleFormatted} | Since {userCreatedAtFormatted}
           </div>
         </div>
