@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import Nav from "./Nav";
 
 interface PageContainerProps {
-  background: "solid" | "gradient";
+  background: "solid" | "gradient" | "spotted gradient";
   children: React.ReactNode;
 }
 
@@ -21,6 +21,8 @@ export default function PageContainer({
             background === "gradient",
           "!bg-main-bg-solid-light dark:!bg-main-bg-solid-dark":
             background === "solid",
+          "!bg-main-bg-spotted-gradient-light dark:!bg-main-spotted-gradient-dark":
+            background === "spotted gradient",
         })}
       >
         <div className="flex flex-col w-[1500px] px-[228px] pt-[32px]">
