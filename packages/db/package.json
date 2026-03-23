@@ -16,7 +16,8 @@
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "migrate:create": "prisma migrate dev --create-only",
-    "migrate:reset": "prisma migrate reset"
+    "migrate:reset": "prisma migrate reset",
+    "seed": "prisma db seed"
   },
   "dependencies": {
     "@prisma/client": "6.3.0"
@@ -29,5 +30,8 @@
     "prettier": "3.2.5",
     "prisma": "6.3.0",
     "typescript": "5.4.5"
+  },
+  "prisma": {
+    "seed": "bun prisma/seed.ts"
   }
 }
