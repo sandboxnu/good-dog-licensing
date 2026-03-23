@@ -15,5 +15,6 @@ jobs:
 
       - name: Reset and Seed Preview Database
         run: bun prisma migrate reset --force --schema ./packages/db/prisma/schema.prisma
+        working-directory: packages/db
         env:
           DATABASE_PRISMA_URL: ${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}
