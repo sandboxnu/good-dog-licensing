@@ -1,115 +1,331 @@
 import { PrismaClient } from "@prisma/client";
+import { Role } from "@good-dog/db";
+import {
+  allGenres,
+  firstNames,
+  lastNames,
+  realUsers,
+  adjectives,
+  links,
+  nouns,
+  projectDescriptions,
+  allProjectTypes,
+  additionalInfo,
+} from "./utils/seedData";
 
 const prisma = new PrismaClient();
 
-const realUsers = [
-  {
-    firstName: "Jordan",
-    lastName: "Praissman",
-    email: "praissman.j@northeastern.edu",
-  },
-  {
-    firstName: "Gavin",
-    lastName: "Normand",
-    email: "normand.g@northeastern.edu",
-  },
-  {
-    firstName: "Victoria",
-    lastName: "Whisnant",
-    email: "whisnant.v@northeastern.edu",
-  },
-  {
-    firstName: "Lauren",
-    lastName: "Brissette",
-    email: "brissette.l@northeastern.edu",
-  },
-  {
-    firstName: "Harini",
-    lastName: "Avula",
-    email: "avula.ha@northeastern.edu",
-  },
-  {
-    firstName: "Amoli",
-    lastName: "Patel",
-    email: "patel.amol@northeastern.edu",
-  },
-  {
-    firstName: "Wesley",
-    lastName: "Tran",
-    email: "tran.we@northeastern.edu",
-  },
-  {
-    firstName: "Mia",
-    lastName: "Avni",
-    email: "avni.m@northeastern.edu",
-  },
-  {
-    firstName: "Mayah",
-    lastName: "Hamaoui",
-    email: "hamaoui.m@northeastern.edu",
-  },
-  {
-    firstName: "David",
-    lastName: "Herlihy",
-    email: "d.herlihy@northeastern.edu",
-  },
-  {
-    firstName: "Liam",
-    lastName: "Waters",
-    email: "waters.li@northeastern.edu",
-  },
-];
+function randomFromArray<T>(items: readonly T[]): T {
+  if (items.length === 0) {
+    throw new Error("Cannot pick a random item from an empty array");
+  }
+
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function generateSongRequests(projectId: string, count: number) {
+  return Array.from({ length: count }, (_, index) => {
+    const adjective = randomFromArray(adjectives);
+    const noun = randomFromArray(nouns);
+    const title = `${adjective} ${noun}`;
+
+    return {
+      projectId,
+      songRequestTitle: title,
+      description: randomFromArray(projectDescriptions),
+      feelingsConveyed: randomFromArray(additionalInfo),
+      similarSongs:
+        "Here is a list of similar songs: Blank Space by Taylor Swift, Bad Guy by Billie Eilish, and Uptown Funk by Mark Ronson ft. Bruno Mars. I have a few more as well",
+      additionalInfo: randomFromArray(additionalInfo),
+    };
+  });
+}
+
+function generateProjects(userId: string, managerId: string, count: number) {
+  return Array.from({ length: count }, () => {
+    const adjective = randomFromArray(adjectives);
+    const noun = randomFromArray(nouns);
+    const projectTitle = `${adjective} ${noun}`;
+
+    return {
+      projectOwnerId: userId,
+      projectManagerId: managerId,
+      projectTitle,
+      description: randomFromArray(projectDescriptions),
+      createdAt: new Date(
+        Date.now() - Math.random() * 365 * 1.5 * 24 * 60 * 60 * 1000,
+      ),
+      deadline: new Date(
+        Date.now() - Math.random() * 365 * 1.5 * 24 * 60 * 60 * 1000,
+      ),
+      projectType: randomFromArray(allProjectTypes),
+      additionalInfo: randomFromArray(additionalInfo),
+      videoLink: randomFromArray(links),
+    };
+  });
+}
+
+function generateSongs(userId: string, userName: string, count: number) {
+  return Array.from({ length: count }, () => {
+    const adjective = randomFromArray(adjectives);
+    const noun = randomFromArray(nouns);
+    const songName = `${adjective} ${noun}`;
+
+    const primaryGenre = randomFromArray(allGenres);
+    const secondaryGenre = randomFromArray(allGenres);
+
+    return {
+      submitterId: userId,
+      performerName: userName,
+      createdAt: new Date(
+        Date.now() - Math.random() * 365 * 1.5 * 24 * 60 * 60 * 1000,
+      ),
+      songName,
+      songLink: randomFromArray(links),
+      genres: [primaryGenre, secondaryGenre],
+      additionalInfo: randomFromArray(additionalInfo),
+    };
+  });
+}
+
+function generateUsers(
+  emailPrefix: string,
+  role: Role,
+  count: number,
+  inactiveCount: number,
+) {
+  return Array.from({ length: count }, (_, index) => {
+    const sequence = index + 1;
+    const firstName = randomFromArray(firstNames);
+    const lastName = randomFromArray(lastNames);
+
+    return {
+      firstName,
+      lastName,
+      email: `${emailPrefix}${sequence}@example.com`,
+      userId: `${emailPrefix}${sequence}`,
+      role,
+      active: index < count - inactiveCount,
+    };
+  });
+}
 
 async function main() {
   // Plaintext: Password1!
   const hashedPassword =
     "$2a$10$ghWIDof5gMFi7D2Deea.C.HptdD0nvsYIqEFpWuQVvoyJ8HdhPtR2";
 
-  // Create real admins and moderators
-  const userUpserts = realUsers.flatMap((user) => {
-    const [localPart, domainPart] = user.email.split("@");
+  // Generate users
+  const generatedModerators = generateUsers("moderator", "MODERATOR", 100, 20);
+  const generatedMediamakers = generateUsers(
+    "mediamaker",
+    "MEDIA_MAKER",
+    100,
+    20,
+  );
+  const generatedMusicians = generateUsers("musician", "MUSICIAN", 100, 20);
 
-    return [
-      prisma.user.upsert({
-        where: { email: user.email },
-        update: {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          phoneNumber: "1231231234",
-          hashedPassword: hashedPassword,
-          role: "ADMIN",
+  const usersToUpsert = [
+    ...realUsers.map((user) => ({
+      ...user,
+      userId: `${user.email.split("@")[0]}`,
+      role: "ADMIN" as const,
+      active: true,
+    })),
+    ...generatedModerators,
+    ...generatedMediamakers,
+    ...generatedMusicians,
+  ];
+
+  const userUpserts = usersToUpsert.map((user) =>
+    prisma.user.upsert({
+      where: { email: user.email },
+      update: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userId: user.userId,
+        phoneNumber: "1231231234",
+        hashedPassword: hashedPassword,
+        role: user.role,
+        active: user.active,
+      },
+      create: {
+        email: user.email,
+        userId: user.userId,
+        phoneNumber: "1231231234",
+        hashedPassword: hashedPassword,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+        active: user.active,
+      },
+    }),
+  );
+
+  // Generate songs
+  const generatedSongs = [
+    ...generateSongs(
+      generatedMusicians[0].userId,
+      `${generatedMusicians[0].firstName} ${generatedMusicians[0].lastName}`,
+      30,
+    ),
+    ...generateSongs(
+      generatedMusicians[1].userId,
+      `${generatedMusicians[1].firstName} ${generatedMusicians[1].lastName}`,
+      40,
+    ),
+    ...generateSongs(
+      generatedMusicians[2].userId,
+      `${generatedMusicians[2].firstName} ${generatedMusicians[2].lastName}`,
+      10,
+    ),
+    ...generateSongs(
+      generatedMusicians[3].userId,
+      `${generatedMusicians[3].firstName} ${generatedMusicians[3].lastName}`,
+      10,
+    ),
+    ...generateSongs(
+      generatedMusicians[4].userId,
+      `${generatedMusicians[4].firstName} ${generatedMusicians[4].lastName}`,
+      10,
+    ),
+    ...generateSongs(
+      generatedMusicians[5].userId,
+      `${generatedMusicians[5].firstName} ${generatedMusicians[5].lastName}`,
+      10,
+    ),
+    ...generateSongs(
+      generatedMusicians[6].userId,
+      `${generatedMusicians[6].firstName} ${generatedMusicians[6].lastName}`,
+      10,
+    ),
+    ...generateSongs(
+      generatedMusicians[7].userId,
+      `${generatedMusicians[7].firstName} ${generatedMusicians[7].lastName}`,
+      10,
+    ),
+    ...generateSongs(
+      generatedMusicians[8].userId,
+      `${generatedMusicians[8].firstName} ${generatedMusicians[8].lastName}`,
+      10,
+    ),
+    ...generateSongs(
+      generatedMusicians[9].userId,
+      `${generatedMusicians[9].firstName} ${generatedMusicians[9].lastName}`,
+      10,
+    ),
+  ];
+
+  const songCreations = generatedSongs.map((song) =>
+    prisma.musicSubmission.create({
+      data: {
+        songName: song.songName,
+        performerName: song.performerName,
+        submitterId: song.submitterId,
+        songLink: song.songLink,
+        genres: song.genres,
+        additionalInfo: song.additionalInfo,
+        contributors: {
+          create: Array.from({ length: 3 }, () => ({
+            firstName: "Test",
+            lastName: "User",
+            roles: ["SONGWRITER"],
+          })),
         },
-        create: {
-          email: user.email,
-          phoneNumber: "1231231234",
-          hashedPassword: hashedPassword,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          role: "ADMIN",
-        },
-      }),
-      prisma.user.upsert({
-        where: { email: `${localPart}-pnr@example.com` },
-        update: {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          phoneNumber: "1231231234",
-          hashedPassword: hashedPassword,
-          role: "MODERATOR",
-        },
-        create: {
-          email: `${localPart}-pnr@example.com`,
-          phoneNumber: "1231231234",
-          hashedPassword: hashedPassword,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          role: "MODERATOR",
-        },
-      }),
-    ];
+      },
+    }),
+  );
+
+  // Generate projects
+  const generatedProjects = [
+    ...generateProjects(
+      generatedMediamakers[0].userId,
+      generatedModerators[0].userId,
+      30,
+    ),
+    ...generateProjects(
+      generatedMediamakers[1].userId,
+      generatedModerators[1].userId,
+      40,
+    ),
+    ...generateProjects(
+      generatedMediamakers[2].userId,
+      generatedModerators[2].userId,
+      10,
+    ),
+    ...generateProjects(
+      generatedMediamakers[3].userId,
+      generatedModerators[3].userId,
+      2,
+    ),
+    ...generateProjects(
+      generatedMediamakers[4].userId,
+      generatedModerators[1].userId,
+      2,
+    ),
+    ...generateProjects(
+      generatedMediamakers[5].userId,
+      generatedModerators[5].userId,
+      2,
+    ),
+    ...generateProjects(
+      generatedMediamakers[6].userId,
+      generatedModerators[6].userId,
+      1,
+    ),
+    ...generateProjects(
+      generatedMediamakers[7].userId,
+      generatedModerators[7].userId,
+      1,
+    ),
+    ...generateProjects(
+      generatedMediamakers[8].userId,
+      generatedModerators[8].userId,
+      1,
+    ),
+  ];
+
+  const projectCreations = generatedProjects.map((project) =>
+    prisma.projectSubmission.create({
+      data: {
+        projectTitle: project.projectTitle,
+        description: project.description,
+        projectOwnerId: project.projectOwnerId,
+        projectManagerId: project.projectManagerId,
+        createdAt: project.createdAt,
+        deadline: project.deadline,
+        projectType: project.projectType,
+        additionalInfo: project.additionalInfo,
+        videoLink: project.videoLink,
+      },
+    }),
+  );
+
+  await prisma.$transaction([...userUpserts, ...songCreations]);
+  const createdProjects = await prisma.$transaction(projectCreations);
+
+  // Generate song requests
+
+  const songRequestCreations = createdProjects.flatMap((project) => {
+    const requestCount = Math.floor(Math.random() * 21);
+    return generateSongRequests(project.projectId, requestCount).map(
+      (songRequest) =>
+        prisma.songRequest.create({
+          data: {
+            projectId: songRequest.projectId,
+            songRequestTitle: songRequest.songRequestTitle,
+            description: songRequest.description,
+            feelingsConveyed: songRequest.feelingsConveyed,
+            similarSongs: songRequest.similarSongs,
+            additionalInfo: songRequest.additionalInfo,
+          },
+        }),
+    );
   });
 
-  await prisma.$transaction(userUpserts);
+  if (songRequestCreations.length > 0) {
+    await prisma.$transaction(songRequestCreations);
+  }
 }
 
 main()
