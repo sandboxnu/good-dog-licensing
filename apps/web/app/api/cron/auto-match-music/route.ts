@@ -24,5 +24,5 @@ export async function GET(request: Request) {
     },
   });
 
-  return NextResponse.json({ success: true }); //updatedCount: result.count });
+  return NextResponse.json({ success: true, updatedCount: result.count });
 }
