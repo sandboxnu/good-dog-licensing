@@ -20,7 +20,11 @@ function randomFromArray<T>(items: readonly T[]): T {
     throw new Error("Cannot pick a random item from an empty array");
   }
 
-  return items[Math.floor(Math.random() * items.length)];
+  const item = items[Math.floor(Math.random() * items.length)];
+  if (item === undefined) {
+    throw new Error("Random selection resulted in undefined");
+  }
+  return item;
 }
 
 function generateSongRequests(projectId: string, count: number) {
@@ -165,7 +169,11 @@ async function main() {
   // Generate songs
   const songCounts = [30, 40, 10, 10, 10, 10, 10, 10, 10, 10];
   const generatedSongs = generatedMusicians.flatMap((m, i) =>
-    generateSongs(m.userId, `${m.firstName} ${m.lastName}`, songCounts[i]),
+    generateSongs(
+      m.userId,
+      `${m.firstName} ${m.lastName}`,
+      songCounts[i] ?? 10,
+    ),
   );
 
   const songCreations = generatedSongs.map((song) =>
@@ -189,53 +197,14 @@ async function main() {
   );
 
   // Generate projects
-  const generatedProjects = [
-    ...generateProjects(
-      generatedMediamakers[0].userId,
-      generatedModerators[0].userId,
-      30,
+  const projectCounts = [30, 40, 10, 10, 10, 102, 2, 2, 2, 1, 1, 1];
+  const generatedProjects = generatedMediamakers.flatMap((m, i) =>
+    generateProjects(
+      m.userId,
+      generatedModerators[i]?.userId ?? "moderator1",
+      projectCounts[i] ?? 10,
     ),
-    ...generateProjects(
-      generatedMediamakers[1].userId,
-      generatedModerators[1].userId,
-      40,
-    ),
-    ...generateProjects(
-      generatedMediamakers[2].userId,
-      generatedModerators[2].userId,
-      10,
-    ),
-    ...generateProjects(
-      generatedMediamakers[3].userId,
-      generatedModerators[3].userId,
-      2,
-    ),
-    ...generateProjects(
-      generatedMediamakers[4].userId,
-      generatedModerators[1].userId,
-      2,
-    ),
-    ...generateProjects(
-      generatedMediamakers[5].userId,
-      generatedModerators[5].userId,
-      2,
-    ),
-    ...generateProjects(
-      generatedMediamakers[6].userId,
-      generatedModerators[6].userId,
-      1,
-    ),
-    ...generateProjects(
-      generatedMediamakers[7].userId,
-      generatedModerators[7].userId,
-      1,
-    ),
-    ...generateProjects(
-      generatedMediamakers[8].userId,
-      generatedModerators[8].userId,
-      1,
-    ),
-  ];
+  );
 
   const projectCreations = generatedProjects.map((project) =>
     prisma.projectSubmission.create({
