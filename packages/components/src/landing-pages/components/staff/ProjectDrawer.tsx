@@ -125,12 +125,18 @@ export default function ProjectDrawer({
 
           <p className="text-xl dark:text-gray-200">Song requests</p>
           <div className="flex flex-col gap-4">
-            {projectSubmission.songRequests.map((songRequest) => (
-              <SongRequest
-                songRequest={songRequest}
-                key={songRequest.songRequestId}
-              />
-            ))}
+            {projectSubmission.songRequests
+              .sort((a, b) =>
+                a.songRequestTitle
+                  .toLocaleLowerCase()
+                  .localeCompare(b.songRequestTitle.toLocaleLowerCase()),
+              )
+              .map((songRequest) => (
+                <SongRequest
+                  songRequest={songRequest}
+                  key={songRequest.songRequestId}
+                />
+              ))}
           </div>
         </div>
       </SheetContent>

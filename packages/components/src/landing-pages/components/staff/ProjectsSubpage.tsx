@@ -35,6 +35,34 @@ const admModProjectStatusOrder: AdmModProjectStatus[] = [
   AdmModProjectStatus.IN_PROGRESS,
   AdmModProjectStatus.COMPLETED,
 ];
+
+const filterProjects = (
+  projects: ProjectType[],
+  searchQuery: string,
+  status: AdmModProjectStatus,
+  sort?: "title",
+) => {
+  const projectsSortedOrNot = sort
+    ? projects.sort((a, b) => {
+        return a.projectTitle
+          .toLocaleLowerCase()
+          .localeCompare(b.projectTitle.toLocaleLowerCase());
+      })
+    : projects;
+
+  return projectsSortedOrNot.filter(
+    (project) =>
+      project.admModStatus === status &&
+      (search(project.projectTitle, searchQuery) ||
+        search(project.projectOwner.firstName, searchQuery) ||
+        search(project.projectOwner.lastName, searchQuery) ||
+        search(
+          project.projectOwner.firstName + " " + project.projectOwner.lastName,
+          searchQuery,
+        )),
+  );
+};
+
 export default function ProjectsSubpage() {
   const [activeStatus, setActiveStatus] = useState<AdmModProjectStatus>(
     AdmModProjectStatus.ACTION_NEEDED,
@@ -58,21 +86,6 @@ export default function ProjectsSubpage() {
       (project) => project.projectId === projectIdFromUrl,
     ) ?? null;
 
-  const filteredProjects =
-    allProjectsQuery.data?.projects.filter(
-      (project) =>
-        project.admModStatus === activeStatus &&
-        (search(project.projectTitle, searchQuery) ||
-          search(project.projectOwner.firstName, searchQuery) ||
-          search(project.projectOwner.lastName, searchQuery) ||
-          search(
-            project.projectOwner.firstName +
-              " " +
-              project.projectOwner.lastName,
-            searchQuery,
-          )),
-    ) ?? [];
-
   return (
     <div className="flex flex-col gap-[32px]">
       <Header
@@ -89,9 +102,11 @@ export default function ProjectsSubpage() {
             title={getStatusLabel(status)}
             subtitle={AdmModProjectStatusToSubtitle[status]}
             number={
-              allProjectsQuery.data?.projects.filter(
-                (project) => project.admModStatus === status,
-              ).length ?? 0
+              filterProjects(
+                allProjectsQuery.data?.projects ?? [],
+                searchQuery,
+                status,
+              ).length
             }
             active={activeStatus === status}
             onClick={() => setActiveStatus(status)}
@@ -145,7 +160,12 @@ export default function ProjectsSubpage() {
           </div>
         </div>
         <SubmissionTable
-          data={filteredProjects}
+          data={filterProjects(
+            allProjectsQuery.data?.projects ?? [],
+            searchQuery,
+            activeStatus,
+            "title",
+          )}
           selectedProject={selectedProject}
           isFetching={allProjectsQuery.isFetching}
           isError={allProjectsQuery.isError}

@@ -85,8 +85,9 @@ The following scripts are available in the root [package.json](./package.json). 
 - `db:push`: Push database schema changes.
 - `db:generate`: Generate database client.
 - `db:migrate`: Run database migrations.
+- `db:reset:no-seed`: Clear the database.
+- `db:reset:seed`: Clears and seeds the database.
 - `db:studio`: Open the database Studio.
-- `db:seed`: Seeds the database.
 - `dev`: Start all the development apps.
 - `dev:web`: Start only the web app.
 - `format`: Check code formatting.

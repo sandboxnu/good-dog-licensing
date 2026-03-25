@@ -16,8 +16,8 @@
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "migrate:create": "prisma migrate dev --create-only",
-    "migrate:reset": "prisma migrate reset",
-    "seed": "prisma db seed"
+    "reset:no-seed": "prisma migrate reset --skip-seed",
+    "reset:seed": "prisma migrate reset"
   },
   "dependencies": {
     "@prisma/client": "6.3.0"
