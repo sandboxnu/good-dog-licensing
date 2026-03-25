@@ -1,4 +1,4 @@
-import { Genre, ProjectType } from "@good-dog/db";
+import type { Genre, ProjectType } from "@good-dog/db";
 
 export const realUsers = [
   {

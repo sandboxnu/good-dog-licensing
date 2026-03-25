@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Role } from "@good-dog/db";
+import type { Role } from "@good-dog/db";
 import {
   allGenres,
   firstNames,
@@ -24,7 +24,7 @@ function randomFromArray<T>(items: readonly T[]): T {
 }
 
 function generateSongRequests(projectId: string, count: number) {
-  return Array.from({ length: count }, (_, index) => {
+  return Array.from({ length: count }, () => {
     const adjective = randomFromArray(adjectives);
     const noun = randomFromArray(nouns);
     const title = `${adjective} ${noun}`;
@@ -163,58 +163,10 @@ async function main() {
   );
 
   // Generate songs
-  const generatedSongs = [
-    ...generateSongs(
-      generatedMusicians[0].userId,
-      `${generatedMusicians[0].firstName} ${generatedMusicians[0].lastName}`,
-      30,
-    ),
-    ...generateSongs(
-      generatedMusicians[1].userId,
-      `${generatedMusicians[1].firstName} ${generatedMusicians[1].lastName}`,
-      40,
-    ),
-    ...generateSongs(
-      generatedMusicians[2].userId,
-      `${generatedMusicians[2].firstName} ${generatedMusicians[2].lastName}`,
-      10,
-    ),
-    ...generateSongs(
-      generatedMusicians[3].userId,
-      `${generatedMusicians[3].firstName} ${generatedMusicians[3].lastName}`,
-      10,
-    ),
-    ...generateSongs(
-      generatedMusicians[4].userId,
-      `${generatedMusicians[4].firstName} ${generatedMusicians[4].lastName}`,
-      10,
-    ),
-    ...generateSongs(
-      generatedMusicians[5].userId,
-      `${generatedMusicians[5].firstName} ${generatedMusicians[5].lastName}`,
-      10,
-    ),
-    ...generateSongs(
-      generatedMusicians[6].userId,
-      `${generatedMusicians[6].firstName} ${generatedMusicians[6].lastName}`,
-      10,
-    ),
-    ...generateSongs(
-      generatedMusicians[7].userId,
-      `${generatedMusicians[7].firstName} ${generatedMusicians[7].lastName}`,
-      10,
-    ),
-    ...generateSongs(
-      generatedMusicians[8].userId,
-      `${generatedMusicians[8].firstName} ${generatedMusicians[8].lastName}`,
-      10,
-    ),
-    ...generateSongs(
-      generatedMusicians[9].userId,
-      `${generatedMusicians[9].firstName} ${generatedMusicians[9].lastName}`,
-      10,
-    ),
-  ];
+  const songCounts = [30, 40, 10, 10, 10, 10, 10, 10, 10, 10];
+  const generatedSongs = generatedMusicians.flatMap((m, i) =>
+    generateSongs(m.userId, `${m.firstName} ${m.lastName}`, songCounts[i]),
+  );
 
   const songCreations = generatedSongs.map((song) =>
     prisma.musicSubmission.create({

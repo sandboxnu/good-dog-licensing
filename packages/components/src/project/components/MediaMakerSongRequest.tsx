@@ -1,6 +1,5 @@
 "use client";
 
-import type { SongRequest } from ".prisma/client";
 import MusicNoteIcon from "../../svg/MusicNoteIcon";
 import StatusIndicator from "../../base/StatusIndicator";
 import { ChevronRight } from "lucide-react";
