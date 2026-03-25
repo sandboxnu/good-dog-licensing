@@ -1,7 +1,7 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { trpc } from "@good-dog/trpc/client";
 import { search } from "../../../../../utils/search";
-import NavLogo from "../../../../svg/NavLogo";
+import SearchBar from "../../../../base/SearchBar";
 
 type UserType = GetProcedureOutput<"adminAndModeratorUsers">["users"][number];
 
@@ -12,8 +12,7 @@ export function AssignProjectSearchBar({
 }) {
   const [usersQuery] = trpc.adminAndModeratorUsers.useSuspenseQuery();
 
-  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
+  const inputHandler = (query: string) => {
     setSearchedUsers(
       usersQuery.users
         .filter((user) => {
@@ -33,15 +32,5 @@ export function AssignProjectSearchBar({
     );
   };
 
-  return (
-    <div className="flex flex-row px-2 gap-1 items-center w-full border-[0.5px] rounded-lg focus-within:ring-2 focus-within:ring-green-400">
-      <NavLogo size={16} />
-      <input
-        className="flex-1 outline-none"
-        type="text"
-        onChange={inputHandler}
-        placeholder="Type to find a song, artist or genre"
-      />
-    </div>
-  );
+  return <SearchBar onChange={inputHandler} />;
 }

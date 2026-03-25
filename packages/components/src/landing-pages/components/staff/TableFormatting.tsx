@@ -5,11 +5,11 @@ import SearchingMan from "../../../svg/homepage/admin/SearchingMan";
 export function TableRowFormatting({
   isLast,
   children,
-  columnCount = 7,
+  columnCount,
 }: {
   isLast: boolean;
   children: React.ReactNode;
-  columnCount?: number;
+  columnCount: number;
 }) {
   return (
     <div
@@ -26,10 +26,10 @@ export function TableRowFormatting({
 
 export function TableHeaderFormatting({
   children,
-  columnCount = 7,
+  columnCount,
 }: {
   children: React.ReactNode;
-  columnCount?: number;
+  columnCount: number;
 }) {
   return (
     <div
