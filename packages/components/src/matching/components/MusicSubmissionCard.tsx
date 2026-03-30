@@ -44,9 +44,9 @@ export function MusicSubmissionCard({
           </div>
           {!open && (
             <div className="flex flex-row gap-1 items-center">
-              {musicSubmission.genres.slice(0, 3).map((genre) => (
+              {musicSubmission.genres.slice(0, 3).map((genre, index) => (
                 <p
-                  key={genre}
+                  key={`${musicSubmission.musicId}-${genre}-${index}`}
                   className="bg-gray-300 rounded-2xl p-1.5 max-w-[100px] truncate"
                   title={genre}
                 >
@@ -100,9 +100,9 @@ export function MusicSubmissionCard({
                 <p>Genre</p>
               </div>
               <div className="flex flex-row gap-1 items-center">
-                {musicSubmission.genres.slice(0, 3).map((genre) => (
+                {musicSubmission.genres.slice(0, 3).map((genre, index) => (
                   <p
-                    key={genre}
+                    key={`${musicSubmission.musicId}-${genre}-${index}`}
                     className="bg-gray-300 rounded-2xl p-1.5 max-w-[100px] truncate"
                     title={genre}
                   >

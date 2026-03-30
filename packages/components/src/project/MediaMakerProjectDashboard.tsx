@@ -7,6 +7,12 @@ import MediaMakerSongRequests from "./components/MediaMakerSongRequests";
 import { useRouter } from "next/navigation";
 import { MediaMakerSongRequestStatus } from "@good-dog/db";
 
+const mediaMakerProjectStatusOrder: MediaMakerSongRequestStatus[] = [
+  MediaMakerSongRequestStatus.APPROVAL_NEEDED,
+  MediaMakerSongRequestStatus.IN_PROGRESS,
+  MediaMakerSongRequestStatus.COMPLETED,
+];
+
 export default function MediaMakerProjectDashboard({
   projectId,
 }: {
@@ -31,7 +37,7 @@ export default function MediaMakerProjectDashboard({
         </div>
         <ProjectInformation project={projectSubmission} />
       </div>
-      {Object.values(MediaMakerSongRequestStatus).map((status) => {
+      {mediaMakerProjectStatusOrder.map((status) => {
         return (
           <MediaMakerSongRequests
             key={status}

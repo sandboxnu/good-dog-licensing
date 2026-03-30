@@ -32,5 +32,5 @@ export function AssignProjectSearchBar({
     );
   };
 
-  return <SearchBar onChange={inputHandler} />;
+  return <SearchBar onChange={inputHandler} placeholder="Search users" />;
 }

@@ -117,7 +117,10 @@ export default function ProjectsSubpage() {
       <TableOuterFormatting>
         <div className="flex flex-row items-center gap-[16px]">
           <div className="w-[300px]">
-            <SearchBar onChange={setSearchQuery} />
+            <SearchBar
+              onChange={setSearchQuery}
+              placeholder="Search projects or media makers"
+            />
           </div>
 
           <div className="ml-auto flex flex-row items-center gap-[16px]">
@@ -314,7 +317,7 @@ function SubmissionTable({
             );
           })
         )}
-        {data.length == 0 && !isFetching && <TableEmptyMessage />}
+        {data.length == 0 && !isFetching && !isError && <TableEmptyMessage />}
       </div>
       {selectedProject && (
         <ProjectDrawer

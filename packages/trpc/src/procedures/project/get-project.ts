@@ -130,7 +130,7 @@ export const getProjectSubmissionByIdProcedure =
       ) {
         throw new TRPCError({
           code: "UNAUTHORIZED",
-          message: `You do not have permission to view this song request.`,
+          message: `You do not have permission to view this project.`,
         });
       }
 

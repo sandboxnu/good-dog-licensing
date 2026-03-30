@@ -43,7 +43,6 @@ export const getProjectSongRequestByIdProcedure =
       }),
     )
     .query(async ({ ctx, input }) => {
-      // Make sure matches for HIDDEN aren't shown for media makers (Same for musicians in another endpoint)
       const songRequest = await ctx.prisma.songRequest.findUnique({
         where: {
           songRequestId: input.songRequestId,
@@ -51,7 +50,6 @@ export const getProjectSongRequestByIdProcedure =
         include: {
           projectSubmission: {
             include: {
-              // TODO - update this to only select what we need
               projectManager: true,
               projectOwner: true,
             },

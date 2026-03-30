@@ -30,5 +30,10 @@ export function MusicSearchBar({
     );
   };
 
-  return <SearchBar onChange={inputHandler} />;
+  return (
+    <SearchBar
+      onChange={inputHandler}
+      placeholder="Search songs, artists, or genres"
+    />
+  );
 }

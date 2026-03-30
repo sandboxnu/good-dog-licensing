@@ -64,7 +64,7 @@ export const appRouter = createTRPCRouter({
   mediamakerProjects: mediamakerProjectsProcedure,
   mediamakerSongRequests: mediamakerSongRequestsProcedure,
   mediamakerMatches: mediamakerMatchesProcedure,
-  queryAllProjects: queryAllProjectsProcedure, // update this to be a query
+  queryAllProjects: queryAllProjectsProcedure,
   userProjects: getUserSongRequestsProcedure,
   updateMatchState: updateMatchStateProcedure,
   allMusic: getMusicSubmissionsProcedure,
@@ -83,7 +83,7 @@ export const appRouter = createTRPCRouter({
   getSongRequestById: getProjectSongRequestByIdProcedure,
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValuesProcedure,
   deleteMatch: deleteMatchProcedure,
-  songRequestSubmission: songRequestSubmissionProcedure, // make ticket to go through all these api calls and clean them up (maybe separate for admins and what not if different fields are needed?? Or just more general and more clear naming). Also need to find security vulns for example doing :true for a projectManager or user exposes hashedPassword. Need to make something like that never be able to happen
+  songRequestSubmission: songRequestSubmissionProcedure,
   getProjectSubmissionById: getProjectSubmissionByIdProcedure,
   getMusicSubmissionById: getMusicSubmissionByIdProcedure,
   changePassword: changePasswordProcedure,

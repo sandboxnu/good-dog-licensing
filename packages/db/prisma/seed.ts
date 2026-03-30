@@ -168,13 +168,17 @@ async function main() {
 
   // Generate songs
   const songCounts = [30, 40, 10, 10, 10, 10, 10, 10, 10, 10];
-  const generatedSongs = generatedMusicians.flatMap((m, i) =>
-    generateSongs(
+  const generatedSongs = generatedMusicians.flatMap((m, i) => {
+    if (i >= songCounts.length) {
+      return [];
+    }
+
+    return generateSongs(
       m.userId,
       `${m.firstName} ${m.lastName}`,
       songCounts[i] ?? 10,
-    ),
-  );
+    );
+  });
 
   const songCreations = generatedSongs.map((song) =>
     prisma.musicSubmission.create({
@@ -198,13 +202,17 @@ async function main() {
 
   // Generate projects
   const projectCounts = [30, 40, 10, 10, 10, 102, 2, 2, 2, 1, 1, 1];
-  const generatedProjects = generatedMediamakers.flatMap((m, i) =>
-    generateProjects(
+  const generatedProjects = generatedMediamakers.flatMap((m, i) => {
+    if (i >= projectCounts.length) {
+      return [];
+    }
+
+    return generateProjects(
       m.userId,
       generatedModerators[i]?.userId ?? "moderator1",
       projectCounts[i] ?? 10,
-    ),
-  );
+    );
+  });
 
   const projectCreations = generatedProjects.map((project) =>
     prisma.projectSubmission.create({

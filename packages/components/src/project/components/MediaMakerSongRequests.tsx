@@ -14,7 +14,7 @@ type SongRequestType =
 const descriptionMap: Record<MediaMakerSongRequestStatus, string> = {
   APPROVAL_NEEDED: "Review and approve/deny the pending matches below",
   IN_PROGRESS: "Work awaiting musician and mediator input",
-  COMPLETED: "Requests in motion, stay tuned for updates",
+  COMPLETED: "Requests with complete matches",
 };
 
 export default function MediaMakerSongRequests({
@@ -24,7 +24,7 @@ export default function MediaMakerSongRequests({
   songRequests: SongRequestType[];
   status: MediaMakerSongRequestStatus;
 }) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(songRequests.length > 0);
 
   return (
     <div
