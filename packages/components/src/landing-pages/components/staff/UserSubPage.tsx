@@ -8,19 +8,21 @@ import {
 } from "./TableFormatting";
 import { Role } from "@good-dog/db";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { useState } from "react";
+import { Switch } from "../../../base/Switch";
 
-type UserType = GetProcedureOutput<"adminAndModeratorUsers">["users"][number];
+type UserType = GetProcedureOutput<"allUsers">["users"][number];
 
 /**
  * User sub-page of admin dashboard.
  */
 export default function UserSubPage() {
-  const [data] = trpc.adminAndModeratorUsers.useSuspenseQuery();
+  const [data] = trpc.allUsers.useSuspenseQuery();
   return (
     <div className="flex flex-col gap-[32px]">
       <Header
         title={"Users"}
-        subtitle={"Admins and PnR representatives"}
+        subtitle={"All users on the platform"}
         requestPath={""}
         buttonContent="Invite"
       />
@@ -60,10 +62,7 @@ function UserTable({ data }: { data: UserType[] }) {
                       ? "Musician"
                       : "Media Maker"}
               </p>
-              <p className="dark:text-white">
-                {user.firstName ? "Active" : "Disabled"}
-              </p>{" "}
-              {/* Placeholder for now, will need to update when we have user status */}
+              <ActivationSwitch userId={user.userId} active={user.active} />
             </TableRowFormatting>
           );
         })}
@@ -71,4 +70,35 @@ function UserTable({ data }: { data: UserType[] }) {
       </div>
     </TableOuterFormatting>
   );
+}
+
+function ActivationSwitch({
+  userId,
+  active,
+}: {
+  userId: string;
+  active: boolean;
+}) {
+  const [isActive, setIsActive] = useState<boolean>(active);
+
+  const handleStatusChange = (checked: boolean) => {
+    if (checked) {
+      activateUserMutation.mutate({ userId: userId });
+    } else {
+      deactivateUserMutation.mutate({ userId: userId });
+    }
+  };
+
+  const activateUserMutation = trpc.activateUser.useMutation({
+    onSuccess: () => {
+      setIsActive(true);
+    },
+  });
+
+  const deactivateUserMutation = trpc.deactivateUser.useMutation({
+    onSuccess: () => {
+      setIsActive(false);
+    },
+  });
+  return <Switch checked={isActive} onCheckedChange={handleStatusChange} />;
 }

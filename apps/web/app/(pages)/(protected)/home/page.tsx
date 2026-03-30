@@ -29,7 +29,7 @@ export default async function Home() {
       assignedToMe: false,
     });
     void trpc.allMusic.prefetch();
-    void trpc.adminAndModeratorUsers.prefetch();
+    void trpc.allUsers.prefetch();
   }
   if (user.role === Role.MODERATOR) {
     void trpc.queryAllProjects.prefetch({
