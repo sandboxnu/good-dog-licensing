@@ -4,7 +4,7 @@ import { env } from "@good-dog/env";
 
 const AUTO_APPROVE_DAYS = 7;
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   const authHeader = request.headers.get("authorization");
   if (authHeader !== `Bearer ${env.CRON_SECRET}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -16,7 +16,8 @@ export async function GET(request: Request) {
   const result = await prisma.match.updateMany({
     where: {
       matchState: MatchState.SENT_TO_MUSICIAN,
-      createdAt: {
+      sentToMusicianAt: {
+        not: null,
         lte: cutoffDate,
       },
     },

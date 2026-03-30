@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 
-import { GET } from "../../apps/web/app/api/cron/auto-match-music/route";
+import { POST } from "../../apps/web/app/api/cron/auto-match-music/route";
 import { Genre, MatchState, prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
 
@@ -95,12 +95,11 @@ describe("auto-approve-matches cron", () => {
 
     // Create matches using raw SQL since matches are default createdAt now.
     await prisma.$executeRaw`
-      INSERT INTO "Matches" ("matchId", "songRequestId", "musicId", "matcherUserId", "matchState", "createdAt", "updatedAt")
-      VALUES
-        ('cron-match-stale', 'cron-song-request-id', 'cron-music-stale', 'cron-admin-id', 'SENT_TO_MUSICIAN', ${daysAgo(10)}, ${new Date()}),
-        ('cron-match-fresh', 'cron-song-request-id', 'cron-music-fresh', 'cron-admin-id', 'SENT_TO_MUSICIAN', ${daysAgo(2)}, ${new Date()}),
-        ('cron-match-other-state', 'cron-song-request-id', 'cron-music-other-state', 'cron-admin-id', 'WAITING_FOR_MANAGER_APPROVAL', ${daysAgo(10)}, ${new Date()})
-    `;
+    INSERT INTO "Matches" ("matchId", "songRequestId", "musicId", "matcherUserId", "matchState", "createdAt", "updatedAt", "sentToMusicianAt") VALUES
+    ('cron-match-stale', 'cron-song-request-id', 'cron-music-stale', 'cron-admin-id', 'SENT_TO_MUSICIAN', ${daysAgo(10)}, ${new Date()}, ${daysAgo(10)}),
+    ('cron-match-fresh', 'cron-song-request-id', 'cron-music-fresh', 'cron-admin-id', 'SENT_TO_MUSICIAN', ${daysAgo(2)}, ${new Date()}, ${daysAgo(2)}),
+    ('cron-match-other-state', 'cron-song-request-id', 'cron-music-other-state', 'cron-admin-id', 'WAITING_FOR_MANAGER_APPROVAL', ${daysAgo(10)}, ${new Date()}, NULL)
+`;
   });
 
   afterAll(async () => {
@@ -158,7 +157,7 @@ describe("auto-approve-matches cron", () => {
       },
     );
 
-    const response = await GET(request);
+    const response = await POST(request);
     const body = (await response.json()) as {
       success: boolean;
       updatedCount: number;
@@ -186,7 +185,7 @@ describe("auto-approve-matches cron", () => {
       },
     );
 
-    const response = await GET(request);
+    const response = await POST(request);
     const body = (await response.json()) as {
       success: boolean;
       updatedCount: number;
@@ -214,7 +213,7 @@ describe("auto-approve-matches cron", () => {
       },
     );
 
-    const response = await GET(request);
+    const response = await POST(request);
     const body = (await response.json()) as {
       success: boolean;
       updatedCount: number;

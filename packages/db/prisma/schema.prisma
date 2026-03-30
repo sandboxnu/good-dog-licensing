@@ -177,16 +177,17 @@ model MusicContributor {
 }
 
 model Match {
-  matchId         String          @id @default(uuid())
-  songRequestId   String
-  songRequest     SongRequest     @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
-  musicId         String
-  musicSubmission MusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: Cascade)
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  matcherUserId   String
-  matcherUser     User            @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
-  matchState      MatchState
+  matchId          String          @id @default(uuid())
+  songRequestId    String
+  songRequest      SongRequest     @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
+  musicId          String
+  musicSubmission  MusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: Cascade)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  sentToMusicianAt DateTime?
+  matcherUserId    String
+  matcherUser      User            @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
+  matchState       MatchState
 
   @@unique([songRequestId, musicId])
   @@map("Matches")
