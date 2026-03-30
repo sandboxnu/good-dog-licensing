@@ -25,29 +25,37 @@ export function MusicSubmissionCard({
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-col gap-2 border-[0.5px] border-cream-500 rounded-2xl">
-      <div className="flex flex-row justify-between py-4 px-6">
+    <div className="flex flex-col gap-2 border-[0.5px] border-cream-500 dark:border-cream-700 rounded-2xl">
+      <div
+        className={`flex flex-row justify-between px-6 ${open ? "pt-4" : "py-4"}`}
+      >
         <div className="flex flex-row gap-4 items-center">
           <ChevronRight
-            className={`w-6 h-6 hover:cursor-pointer transition-all ${open && "rotate-90"}`}
+            className={`w-6 h-6 text-dark-gray-500 dark:text-gray-300 hover:cursor-pointer transition-all ${open && "rotate-90"}`}
             onClick={() => setOpen(!open)}
           />
           <div className="flex flex-col gap-1">
             <a
-              className="flex flex-row gap-1 text-green-500 underline"
+              className="flex flex-row gap-1 text-green-500 dark:text-mint-200 underline"
               href={musicSubmission.songLink}
             >
-              <p>{musicSubmission.songName}</p>
+              <p className="text-green-500 dark:text-mint-200">
+                {musicSubmission.songName}
+              </p>
               <LinkIcon className="w-4 h-4" />
             </a>
-            {!open && <p>{musicSubmission.performerName}</p>}
+            {!open && (
+              <p className="text-dark-gray-300 dark:text-dark-gray-200">
+                {musicSubmission.performerName}
+              </p>
+            )}
           </div>
           {!open && (
             <div className="flex flex-row gap-1 items-center">
               {musicSubmission.genres.slice(0, 3).map((genre) => (
                 <p
                   key={genre}
-                  className="bg-gray-300 rounded-2xl p-1.5 max-w-[100px] truncate"
+                  className="bg-gray-300 dark:bg-gray-500 text-gray-500 dark:text-gray-300 border-[0.5px] border-gray-400 dark:border-dark-gray-200 rounded-2xl p-1.5 max-w-[100px] truncate"
                   title={genre}
                 >
                   {genre
@@ -86,24 +94,30 @@ export function MusicSubmissionCard({
       </div>
       {open && (
         <div className="flex flex-col gap-5 px-6 pb-6">
-          <div className="flex flex-row items-center">
-            <div className="flex flex-col gap-2 w-1/2">
+          <div className="flex flex-row items-center ">
+            <div className="flex flex-col gap-2 w-1/2 ">
               <div className="flex flex-row gap-2">
                 <Group />
-                <p>Artist</p>
+                <p className="text-dark-gray-300 dark:text-dark-gray-200">
+                  Artist
+                </p>
               </div>
-              <p>{musicSubmission.performerName}</p>
+              <p className="text-dark-gray-300 dark:text-dark-gray-200">
+                {musicSubmission.performerName}
+              </p>
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex flex-row gap-2">
                 <GreyMusicNote />
-                <p>Genre</p>
+                <p className="text-dark-gray-300 dark:text-dark-gray-200">
+                  Genre
+                </p>
               </div>
               <div className="flex flex-row gap-1 items-center">
                 {musicSubmission.genres.slice(0, 3).map((genre) => (
                   <p
                     key={genre}
-                    className="bg-gray-300 rounded-2xl p-1.5 max-w-[100px] truncate"
+                    className="bg-gray-300 dark:bg-gray-500 text-gray-500 dark:text-gray-300 border-[0.5px] border-gray-400 dark:border-dark-gray-200 rounded-2xl p-1.5 max-w-[100px] truncate"
                     title={genre}
                   >
                     {genre
@@ -113,7 +127,7 @@ export function MusicSubmissionCard({
                   </p>
                 ))}
                 {musicSubmission.genres.length > 3 && (
-                  <p className="bg-gray-300 rounded-2xl p-1.5">
+                  <p className="bg-gray-300 rounded-2xl px-2">
                     +{musicSubmission.genres.length - 3} more
                   </p>
                 )}
@@ -124,9 +138,11 @@ export function MusicSubmissionCard({
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2">
               <Group />
-              <p>Contributors</p>
+              <p className="text-dark-gray-300 dark:text-dark-gray-200">
+                Contributors
+              </p>
             </div>
-            <p>
+            <p className="text-dark-gray-300 dark:text-dark-gray-200">
               {musicSubmission.contributors
                 .map(
                   (contributor) =>
@@ -140,9 +156,13 @@ export function MusicSubmissionCard({
             <div className="flex flex-col gap-2">
               <div className="flex flex-row gap-2">
                 <FileIcon />
-                <p>Additional information</p>
+                <p className="text-dark-gray-300 dark:text-dark-gray-200">
+                  Additional information
+                </p>
               </div>
-              <p>{musicSubmission.additionalInfo}</p>
+              <p className="text-dark-gray-300 dark:text-dark-gray-200">
+                {musicSubmission.additionalInfo}
+              </p>
             </div>
           )}
         </div>

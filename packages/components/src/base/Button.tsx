@@ -67,14 +67,14 @@ export default function Button({
         errorContained
           ? "!bg-red-400 dark:active:bg-red-600 hover:!bg-red-500"
           : ""
-      } ${errorOutlined ? "border-error active:bg-500 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
+      } ${errorOutlined ? "border-red-400 active:bg-500 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
     >
       <div
         className={`flex flex-row items-center justify-center gap-[8px] ${
           errorContained ? "text-white" : ""
         } ${
           errorOutlined
-            ? "text-error group-hover:text-red-600 group-active:text-white"
+            ? "text-red-400 dark:text-red-300 group-hover:text-red-600 group-active:text-white"
             : ""
         }`}
       >
