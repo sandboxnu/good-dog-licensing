@@ -194,7 +194,7 @@ export class EmailService {
     return this.send(params);
   }
 
-  // ── Artist Notifications ────────────────────────────────────────────────────
+  //Artist Notifications
 
   async sendArtistJoiningConfirmation(toEmail: string) {
     const params: EmailMessage = {
@@ -260,7 +260,7 @@ export class EmailService {
     return this.send(params);
   }
 
-  // ── Media Maker Notifications ───────────────────────────────────────────────
+  //Media Maker Notifications
   
   async sendMediaMakerJoiningConfirmation(toEmail: string) {
     const params: EmailMessage = {
@@ -378,8 +378,7 @@ export class EmailService {
     return this.send(params);
   }
 
-  // ── Staff Notifications ─────────────────────────────────────────────────────
-  
+  // Staff Notifications
   async sendAdminAndPNRBriefAvailable(
     mediaMakerName: string,
     songCount: number,
