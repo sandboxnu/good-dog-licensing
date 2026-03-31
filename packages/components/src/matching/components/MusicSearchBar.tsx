@@ -1,7 +1,7 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import NavLogo from "../../svg/NavLogo";
 import { trpc } from "@good-dog/trpc/client";
 import { search } from "../../../utils/search";
+import SearchBar from "../../base/SearchBar";
 
 type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 
@@ -12,8 +12,7 @@ export function MusicSearchBar({
 }) {
   const [music] = trpc.allMusic.useSuspenseQuery();
 
-  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
+  const inputHandler = (query: string) => {
     setSearchedMusic(
       music
         .filter((song) => {
@@ -32,14 +31,9 @@ export function MusicSearchBar({
   };
 
   return (
-    <div className="flex flex-row px-2 gap-1 items-center w-full border-[0.5px] bg-white dark:bg-dark-gray-500 border-dark-gray-100 dark:border-dark-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-green-400">
-      <NavLogo size={16} />
-      <input
-        className="flex-1 outline-none bg-white dark:bg-dark-gray-500 placeholder:text-dark-gray-100 dark:placeholder:text-dark-gray-200 text-dark-gray-500 dark:text-gray-300"
-        type="text"
-        onChange={inputHandler}
-        placeholder="Type to find a song, artist or genre"
-      />
-    </div>
+    <SearchBar
+      onChange={inputHandler}
+      placeholder="Search songs, artists, or genres"
+    />
   );
 }

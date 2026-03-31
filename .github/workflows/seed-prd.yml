@@ -1,10 +1,10 @@
-name: Seed Preview Database
+name: Seed Production Database
 
 on:
   workflow_dispatch:
 
 jobs:
-  seed-preview-database:
+  seed-production-database:
     runs-on: ubuntu-latest
 
     steps:
@@ -13,8 +13,8 @@ jobs:
 
       - uses: ./.github/actions/setup-bun
 
-      - name: Reset and Seed Preview Database
+      - name: Reset and Seed Production Database
         run: bun prisma migrate reset --force
         working-directory: packages/db
         env:
-          DATABASE_PRISMA_URL: ${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}
+          DATABASE_PRISMA_URL: ${{ secrets.DATABASE_PRISMA_URL }}

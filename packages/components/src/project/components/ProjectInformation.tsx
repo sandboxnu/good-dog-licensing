@@ -1,13 +1,15 @@
 "use client";
 
-import type { ProjectSubmission } from ".prisma/client";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import Button from "../../base/Button";
 import { useRouter } from "next/navigation";
+
+type ProjectType = GetProcedureOutput<"getProjectSubmissionById">;
 
 export default function ProjectInformation({
   project,
 }: {
-  project: ProjectSubmission;
+  project: ProjectType;
 }) {
   const router = useRouter();
 

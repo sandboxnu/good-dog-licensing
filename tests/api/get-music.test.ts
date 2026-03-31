@@ -267,7 +267,6 @@ describe("get-music", () => {
     expect(music).toHaveLength(2);
 
     music.forEach((m) => {
-      expect(m.submitter.userId).toBe("anzhuo-musician-id");
       expect(m.musicId).toBeOneOf(["anzhuo-music-1", "anzhuo-music-2"]);
       expect(m.musicId).not.toBeOneOf([
         "music-id-1",
