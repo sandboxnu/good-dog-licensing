@@ -2,6 +2,7 @@ import { Button } from "@good-dog/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogOverlay,
   DialogHeader,
   DialogTitle,
   DialogDescription,
@@ -35,7 +36,9 @@ export function ConfirmationModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md rounded-2xl p-8 bg-white dark:bg-dark-gray-600 border border-cream-500">
+      {" "}
+      <DialogOverlay className="bg-gray-400 opacity-25" />{" "}
+      <DialogContent className="max-w-md rounded-2xl pt-[36px] pb-[56px] px-[16px] bg-white dark:bg-dark-gray-600 border border-1 border-cream-500">
         <DialogHeader className="flex flex-col items-center space-y-2">
           <DialogTitle className="pt-[12px] text-[35px] font-medium text-center text-gray-500 dark:text-gray-200">
             {title}
@@ -65,7 +68,7 @@ export function ConfirmationModal({
           )}
         </DialogHeader>
 
-        <DialogFooter className="flex gap-4">
+        <DialogFooter className="flex gap-2">
           <DialogClose asChild>
             <Button variant="outlined" className="px-6 py-1">
               Cancel
