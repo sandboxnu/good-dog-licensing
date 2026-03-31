@@ -2,7 +2,6 @@
 
 import type { ReactNode } from "react";
 
-import { MatchState } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
 
 import Card from "../base/Card";
@@ -39,9 +38,6 @@ export default function MusicianLanding() {
       {data.music.length > 0 && (
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.music.map((song, key) => {
-            const actionNeeded = song.matches.some(
-              (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
-            );
             return (
               <Card
                 title={song.songName}
@@ -68,10 +64,7 @@ export default function MusicianLanding() {
                     </div>
 
                     <div className="w-full flex flex-row justify-between">
-                      <StatusIndicator
-                        variant={actionNeeded ? "error" : "success"}
-                        text={actionNeeded ? "Action needed" : "Song submitted"}
-                      />
+                      <StatusIndicator status={song.musicianSongStatus} />
                       <ChevronRight
                         onClick={() => router.push("/song/" + song.musicId)}
                         className="hover:cursor-pointer text-black dark:text-mint-100"

@@ -4,51 +4,20 @@ import type { SongRequest } from ".prisma/client";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import type { StatusIndicatorType } from "../../../base/StatusIndicator";
 import StatusIndicator from "../../../base/StatusIndicator";
 
-type SongRequestWithMatchesType =
-  GetProcedureOutput<"allProjects">["projects"][number]["songRequests"][number];
+type SongRequestType =
+  GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
 
 export default function SongRequest({
   songRequest,
 }: {
-  songRequest: SongRequestWithMatchesType;
+  songRequest: SongRequestType;
 }) {
   const router = useRouter();
 
   const handleClick = () => {
     router.push("/song-request/" + songRequest.songRequestId);
-  };
-
-  const status = (): StatusIndicatorType => {
-    if (
-      songRequest.matches.some(
-        (match) => match.matchState === "WAITING_FOR_MANAGER_APPROVAL",
-      )
-    ) {
-      return { variant: "error", text: "Action needed" };
-    }
-
-    if (
-      songRequest.matches.some(
-        (match) =>
-          match.matchState === "SENT_TO_MUSICIAN" ||
-          match.matchState === "SENT_TO_MEDIA_MAKER",
-      )
-    ) {
-      return { variant: "blue", text: "Pending approval" };
-    }
-
-    if (
-      songRequest.matches.some(
-        (match) => match.matchState === "APPROVED_BY_MUSICIAN",
-      )
-    ) {
-      return { variant: "success", text: "Accepted" };
-    }
-
-    return { variant: "gray", text: "Rejected" };
   };
 
   return (
@@ -62,7 +31,7 @@ export default function SongRequest({
             <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
               {songRequest.songRequestTitle}
             </p>
-            <StatusIndicator {...status()} />
+            <StatusIndicator status={songRequest.admModStatus} />
           </div>
           <p className="text-dark-gray-300 dark:text-gray-200">
             {songRequest.description}

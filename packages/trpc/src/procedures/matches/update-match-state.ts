@@ -4,6 +4,7 @@ import z from "zod";
 import { MatchState, Role } from "@good-dog/db";
 
 import { authenticatedAndActiveProcedureBuilder } from "../../middleware/authenticated-active";
+import { updateStatuses } from "../../utils/status/update-status";
 
 const allowedStartingStatesByRole: Record<Role, MatchState[]> = {
   [Role.MEDIA_MAKER]: [MatchState.SENT_TO_MEDIA_MAKER],
@@ -104,18 +105,31 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
     }
 
     // If we made it here, all checks passed, so update the match state
-    const result = await ctx.prisma.match.update({
+    const updatedMatch = await ctx.prisma.match.update({
       where: { matchId: input.matchId },
+
       data: {
         matchState: input.state,
         ...(input.state === MatchState.SENT_TO_MUSICIAN && {
           sentToMusicianAt: new Date(),
         }),
       },
+      include: {
+        songRequest: true,
+        musicSubmission: true,
+      },
     });
+
+    // update statuses of match, SR, and project
+    await updateStatuses(
+      updatedMatch.songRequest.projectId,
+      updatedMatch.songRequestId,
+      updatedMatch.matchId,
+      updatedMatch.musicSubmission.musicId,
+    );
 
     return {
       message: "Match state updated successfully",
-      match: result,
+      match: updatedMatch,
     };
   });

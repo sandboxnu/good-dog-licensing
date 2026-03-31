@@ -33,9 +33,13 @@ export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
     where: {
       submitterId: ctx.session.user.userId,
     },
-    include: {
-      submitter: true,
-      matches: true,
+    select: {
+      musicId: true,
+      songName: true,
+      createdAt: true,
+      performerName: true,
+      genres: true,
+      musicianSongStatus: true,
     },
   });
   return { music };

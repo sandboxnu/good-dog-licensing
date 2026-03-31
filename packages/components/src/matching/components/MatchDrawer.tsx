@@ -31,34 +31,6 @@ export default function MatchDrawer({
   open: boolean;
   onClose: () => void;
 }) {
-  const getMatchStatus = (
-    match?: { matchState: string } | null,
-  ): {
-    variant: "success" | "error" | "warning" | "gray" | "blue";
-    text: string;
-  } => {
-    if (!match) {
-      return { variant: "gray", text: "No Match" };
-    }
-
-    if (match.matchState === "APPROVED_BY_MUSICIAN") {
-      return { variant: "success", text: "Complete" };
-    }
-
-    if (
-      match.matchState === "SENT_TO_MEDIA_MAKER" ||
-      match.matchState === "SENT_TO_MUSICIAN"
-    ) {
-      return { variant: "blue", text: "Awaiting Response" };
-    }
-
-    if (match.matchState === "WAITING_FOR_MANAGER_APPROVAL") {
-      return { variant: "warning", text: "Awaiting Manager Approval" };
-    }
-
-    return { variant: "error", text: "Needs Attention" };
-  };
-
   return (
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
@@ -192,10 +164,7 @@ export default function MatchDrawer({
                 </p>
               </div>
               {match ? (
-                <StatusIndicator
-                  variant={getMatchStatus(match).variant}
-                  text={getMatchStatus(match).text}
-                />
+                <StatusIndicator status={match.admModStatus} />
               ) : (
                 <p className="text-sm text-dark-gray-400">{"..."}</p>
               )}

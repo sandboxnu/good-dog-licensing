@@ -9,7 +9,14 @@ export const getAdminAndModeratorUsers = rolePermissionsProcedureBuilder(
   const [users] = await Promise.all([
     ctx.prisma.user.findMany({
       where: { role: { in: ["ADMIN", "MODERATOR"] }, active: true },
-      omit: { hashedPassword: true },
+      select: {
+        firstName: true,
+        lastName: true,
+        email: true,
+        role: true,
+        active: true,
+        userId: true,
+      },
     }),
   ]);
   return { users };

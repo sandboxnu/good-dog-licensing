@@ -218,6 +218,9 @@ async function createData() {
       musicId: "musicSubmission",
       matcherUserId: "moderator",
       matchState: MatchState.SENT_TO_MEDIA_MAKER,
+      admModStatus: "IN_PROGRESS",
+      mediaMakerStatus: "APPROVAL_NEEDED",
+      musicianStatus: "HIDDEN",
     },
   });
 
@@ -229,6 +232,9 @@ async function createData() {
       musicId: "musicSubmission2",
       matcherUserId: "moderator",
       matchState: MatchState.SENT_TO_MUSICIAN,
+      admModStatus: "IN_PROGRESS",
+      mediaMakerStatus: "IN_PROGRESS",
+      musicianStatus: "APPROVAL_NEEDED",
     },
   });
 
@@ -240,6 +246,9 @@ async function createData() {
       musicId: "musicSubmission",
       matcherUserId: "moderator",
       matchState: MatchState.WAITING_FOR_MANAGER_APPROVAL,
+      admModStatus: "APPROVAL_NEEDED",
+      mediaMakerStatus: "HIDDEN",
+      musicianStatus: "HIDDEN",
     },
   });
 }

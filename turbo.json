@@ -64,7 +64,11 @@
       "cache": false,
       "interactive": true
     },
-    "migrate:reset": {
+    "reset:no-seed": {
+      "cache": false,
+      "interactive": true
+    },
+    "reset:seed": {
       "cache": false,
       "interactive": true
     },

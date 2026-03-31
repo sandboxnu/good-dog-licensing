@@ -1,20 +1,18 @@
 "use client";
 
-import type { SongRequest } from ".prisma/client";
 import MusicNoteIcon from "../../svg/MusicNoteIcon";
 import StatusIndicator from "../../base/StatusIndicator";
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { getSongRequestStatus } from "../../../utils/getStatusHelper";
 
-type SongRequestWithMatchesType =
+type SongRequestType =
   GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
 
-export default function SongRequest({
+export default function MediaMakerSongRequest({
   songRequest,
 }: {
-  songRequest: SongRequestWithMatchesType;
+  songRequest: SongRequestType;
 }) {
   const router = useRouter();
 
@@ -35,7 +33,7 @@ export default function SongRequest({
             <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
               {songRequest.songRequestTitle}
             </p>
-            <StatusIndicator {...getSongRequestStatus(songRequest)} />
+            <StatusIndicator status={songRequest.mediaMakerStatus} />
           </div>
           <p className="text-dark-gray-500 dark:text-gray-200">
             {songRequest.description}

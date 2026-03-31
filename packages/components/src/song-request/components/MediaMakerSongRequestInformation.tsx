@@ -1,10 +1,9 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import StatusIndicator from "../../base/StatusIndicator";
-import { getSongRequestStatus } from "../../../utils/getStatusHelper";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 
-export default function SongRequestInformation({
+export default function MediaMakerSongRequestInformation({
   songRequest,
 }: {
   songRequest: SongRequestType;
@@ -29,7 +28,7 @@ export default function SongRequestInformation({
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Status
               </p>
-              <StatusIndicator {...getSongRequestStatus(songRequest)} />
+              <StatusIndicator status={songRequest.mediaMakerStatus} />
             </div>
             <div className="flex flex-col gap-1">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
