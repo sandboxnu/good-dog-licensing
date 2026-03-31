@@ -339,6 +339,13 @@ describe("updateMatchState procedure", () => {
 
     expect(response.message).toEqual("Match state updated successfully");
     expect(response.match.matchState).toBe(MatchState.SENT_TO_MUSICIAN);
+    expect(response.match.sentToMusicianAt).not.toBeNull();
+    // non-null assertion (!) is safe as we check for non null is the above expect
+    const diff = Math.abs(
+      new Date().getTime() -
+        new Date(response.match.sentToMusicianAt!).getTime(),
+    );
+    expect(diff).toBeLessThan(5000);
 
     const match = await prisma.match.findUnique({
       where: { matchId: "match" },

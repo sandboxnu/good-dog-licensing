@@ -4,4 +4,5 @@ export const env = {
   GOOD_DOG_FROM_EMAIL: process.env.GOOD_DOG_FROM_EMAIL,
   VERCEL_ENV: process.env.VERCEL_ENV,
   VERCEL_URL: process.env.VERCEL_URL,
+  CRON_SECRET: process.env.CRON_SECRET,
 };
