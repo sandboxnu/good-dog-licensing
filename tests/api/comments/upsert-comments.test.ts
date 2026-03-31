@@ -131,6 +131,9 @@ async function createMoreData() {
       musicId: "musicSubmission",
       matcherUserId: "matcher",
       matchState: "SENT_TO_MEDIA_MAKER",
+      admModStatus: "IN_PROGRESS",
+      mediaMakerStatus: "IN_PROGRESS",
+      musicianStatus: "APPROVAL_NEEDED",
     },
   });
 

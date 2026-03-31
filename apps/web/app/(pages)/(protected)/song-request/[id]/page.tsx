@@ -1,6 +1,6 @@
 import PageContainer from "@good-dog/components/PageContainer";
-import MatchingDashboard from "@good-dog/components/matching/MatchingDashboard";
-import SongRequestDashboard from "@good-dog/components/song-request/SongRequestDashboard";
+import AdmModMatchingDashboard from "@good-dog/components/matching/AdmModMatchingDashboard";
+import MediaMakerSongRequestDashboard from "@good-dog/components/song-request/MediaMakerSongRequestDashboard";
 import { Role } from "@good-dog/db";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
@@ -21,10 +21,10 @@ export default async function SongRequestPage({ params }: PageProps) {
     <PageContainer background="solid">
       <HydrateClient>
         {user && user.role === Role.MEDIA_MAKER && (
-          <SongRequestDashboard songRequestId={songRequestId} />
+          <MediaMakerSongRequestDashboard songRequestId={songRequestId} />
         )}
         {user && (user.role === Role.ADMIN || user.role === Role.MODERATOR) && (
-          <MatchingDashboard songRequestId={songRequestId} />
+          <AdmModMatchingDashboard songRequestId={songRequestId} />
         )}
       </HydrateClient>
     </PageContainer>

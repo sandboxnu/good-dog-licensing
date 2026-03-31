@@ -69,7 +69,7 @@ export default function ProfileDetails() {
         onCancel={() => setEditingPersonalDetails(false)}
         onEdit={() => setEditingPersonalDetails(true)}
       >
-        <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
+        <div className="flex flex-col gap-y-6 rounded-2xl p-[24px] pt-6">
           {editingPersonalDetails ? (
             <>
               <div className="flex flex-row gap-16">

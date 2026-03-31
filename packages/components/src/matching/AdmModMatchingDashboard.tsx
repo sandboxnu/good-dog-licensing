@@ -3,10 +3,10 @@
 import { trpc } from "@good-dog/trpc/client";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import SongRequestInformation from "./components/SongRequestInformation";
+import AdmModSongRequestInformation from "./components/AdmModSongRequestInformation";
 import MatchingInformation from "./components/MatchingInformation";
 
-export default function MatchingDashboard({
+export default function AdmModMatchingDashboard({
   songRequestId,
 }: {
   songRequestId: string;
@@ -33,7 +33,7 @@ export default function MatchingDashboard({
         </p>
       </button>
       <div className="flex flex-row gap-10">
-        <SongRequestInformation songRequest={songRequest} />
+        <AdmModSongRequestInformation songRequest={songRequest} />
         <MatchingInformation songRequest={songRequest} />
       </div>
     </div>

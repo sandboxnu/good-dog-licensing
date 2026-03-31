@@ -38,7 +38,7 @@ export default function SetPasswordModal({
     <Modal
       open={isOpen}
       onClose={close}
-      headerText="Set new password"
+      headerText="Change password"
       width={500}
       height={404}
     >

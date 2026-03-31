@@ -7,18 +7,22 @@ import {
   TableRowFormatting,
 } from "./TableFormatting";
 import { Role } from "@good-dog/db";
-import type { User } from "@prisma/client";
-type DisplayUser = Omit<User, "hashedPassword">;
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { useState } from "react";
+import { Switch } from "../../../base/Switch";
+
+type UserType = GetProcedureOutput<"allUsers">["users"][number];
+
 /**
  * User sub-page of admin dashboard.
  */
 export default function UserSubPage() {
-  const [data] = trpc.adminAndModeratorUsers.useSuspenseQuery();
+  const [data] = trpc.allUsers.useSuspenseQuery();
   return (
     <div className="flex flex-col gap-[32px]">
       <Header
         title={"Users"}
-        subtitle={"Admins and PnR representatives"}
+        subtitle={"All users on the platform"}
         requestPath={""}
         buttonContent="Invite"
       />
@@ -27,7 +31,7 @@ export default function UserSubPage() {
   );
 }
 
-function UserTable({ data }: { data: DisplayUser[] }) {
+function UserTable({ data }: { data: UserType[] }) {
   return (
     <TableOuterFormatting>
       <div className="flex flex-col">
@@ -39,7 +43,7 @@ function UserTable({ data }: { data: DisplayUser[] }) {
           <p className="dark:text-white">Status</p>
         </TableHeaderFormatting>
 
-        {data.map((user: DisplayUser, key) => {
+        {data.map((user: UserType, key) => {
           return (
             <TableRowFormatting
               key={key}
@@ -58,10 +62,7 @@ function UserTable({ data }: { data: DisplayUser[] }) {
                       ? "Musician"
                       : "Media Maker"}
               </p>
-              <p className="dark:text-white">
-                {user.firstName ? "Active" : "Disabled"}
-              </p>{" "}
-              {/* Placeholder for now, will need to update when we have user status */}
+              <ActivationSwitch userId={user.userId} active={user.active} />
             </TableRowFormatting>
           );
         })}
@@ -69,4 +70,35 @@ function UserTable({ data }: { data: DisplayUser[] }) {
       </div>
     </TableOuterFormatting>
   );
+}
+
+function ActivationSwitch({
+  userId,
+  active,
+}: {
+  userId: string;
+  active: boolean;
+}) {
+  const [isActive, setIsActive] = useState<boolean>(active);
+
+  const handleStatusChange = (checked: boolean) => {
+    if (checked) {
+      activateUserMutation.mutate({ userId: userId });
+    } else {
+      deactivateUserMutation.mutate({ userId: userId });
+    }
+  };
+
+  const activateUserMutation = trpc.activateUser.useMutation({
+    onSuccess: () => {
+      setIsActive(true);
+    },
+  });
+
+  const deactivateUserMutation = trpc.deactivateUser.useMutation({
+    onSuccess: () => {
+      setIsActive(false);
+    },
+  });
+  return <Switch checked={isActive} onCheckedChange={handleStatusChange} />;
 }
