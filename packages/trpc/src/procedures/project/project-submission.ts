@@ -37,12 +37,26 @@ export const projectSubmissionProcedure = rolePermissionsProcedureBuilder(
       },
     });
 
+    // Send confirmation email to the media maker
+    await sendEmailHelper(
+      async () =>
+        await ctx.emailService.sendMediaMakerBriefSubmissionConfirmation(
+          ctx.session.user.email,
+        ),
+      "Email failed to send",
+    );
+
     // Send email to internal users that the project was created
-    const sendEmailCallback = async () =>
-      await ctx.emailService.notifyInternalUsersNewProjectSubmitted(
-        newProjectSubmission.projectId,
-      );
-    await sendEmailHelper(sendEmailCallback, "Email failed to send");
+    await sendEmailHelper(
+      async () =>
+        await ctx.emailService.sendAdminAndPNRBriefAvailable(
+          ctx.session.user.firstName,
+          newProjectSubmission.songRequests.length,
+          newProjectSubmission.projectTitle,
+          newProjectSubmission.projectId,
+        ),
+      "Email failed to send",
+    );
 
     return {
       message: "Project submission created successfully",
