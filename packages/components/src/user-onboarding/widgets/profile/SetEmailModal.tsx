@@ -36,14 +36,16 @@ export default function SetEmailModal({
     <Modal
       open={isOpen}
       onClose={close}
-      headerText="Set new email"
+      headerText="Change email address"
       width={500}
       height={283}
     >
       <div className="w-3/4 py-4">
         {errorMessage && (
-          <div className="flex flex-row items-center gap-[4px] pt-[12px]">
-            <ErrorExclamation size="medium" />
+          <div className="flex flex-row items-center gap-[4px] pt-[12px] text-red-400 dark:text-red-300">
+            <div>
+              <ErrorExclamation size="medium" />
+            </div>
             <p className="text-error">{errorMessage}</p>
           </div>
         )}
@@ -57,7 +59,6 @@ export default function SetEmailModal({
               ? "User with email already exists"
               : errors.email?.message
           }
-          required
         />
       </div>
       <div className="space-x-2">

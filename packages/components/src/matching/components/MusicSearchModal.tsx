@@ -48,7 +48,7 @@ export function MusicSearchModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="min-w-[800px] min-h-[432px] rounded-2xl p-6 bg-white flex flex-col"
+        className="min-w-[800px] min-h-[432px] rounded-2xl p-6 bg-white dark:bg-dark-gray-600 flex flex-col border border-cream-500 dark:border-cream-700"
         hideCloseButton
       >
         <DialogTitle>Search for songs</DialogTitle>

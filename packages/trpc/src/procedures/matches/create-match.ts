@@ -1,11 +1,17 @@
 import { z } from "zod";
 
 import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
-import { MatchState } from "@good-dog/db";
+import {
+  MatchState,
+  AdmModMatchStatus,
+  MediaMakerMatchStatus,
+  MusicianMatchStatus,
+} from "@good-dog/db";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { sendEmailHelper } from "../../utils";
 import { TRPCError } from "@trpc/server";
+import { updateStatuses } from "../../utils/status/update-status";
 
 export const createMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
@@ -18,14 +24,30 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    await ctx.prisma.match.create({
+    // Create match
+    const createdMatch = await ctx.prisma.match.create({
       data: {
         songRequestId: input.songRequestId,
         musicId: input.musicId,
         matcherUserId: ctx.session.user.userId,
         matchState: MatchState.WAITING_FOR_MANAGER_APPROVAL,
+        admModStatus: AdmModMatchStatus.APPROVAL_NEEDED,
+        mediaMakerStatus: MediaMakerMatchStatus.HIDDEN,
+        musicianStatus: MusicianMatchStatus.HIDDEN,
+      },
+      include: {
+        songRequest: true,
+        musicSubmission: true,
       },
     });
+
+    // Update statuses of match, SR, and project
+    await updateStatuses(
+      createdMatch.songRequest.projectId,
+      createdMatch.songRequestId,
+      createdMatch.matchId,
+      createdMatch.musicSubmission.musicId,
+    );
 
     const songRequest = await ctx.prisma.songRequest.findUnique({
       where: { songRequestId: input.songRequestId },
