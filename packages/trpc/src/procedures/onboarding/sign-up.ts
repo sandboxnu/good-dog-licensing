@@ -118,10 +118,10 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     await sendEmailHelper(async () => {
       switch (input.role) {
         case "MEDIA_MAKER":
-          await ctx.emailService.sendArtistJoiningConfirmation(input.email);
+          await ctx.emailService.sendMediaMakerJoiningConfirmation(input.email);
           break;
         case "MUSICIAN":
-          await ctx.emailService.sendMediaMakerJoiningConfirmation(input.email);
+          await ctx.emailService.sendArtistJoiningConfirmation(input.email);
           break;
       }
     }, "Email failed to send");
