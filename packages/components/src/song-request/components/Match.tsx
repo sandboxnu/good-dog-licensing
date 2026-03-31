@@ -4,7 +4,7 @@ import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
 import MusicNoteIcon from "../../svg/MusicNoteIcon";
-import { Popup } from "./Popup";
+import { ConfirmationModal } from "../../matching/ConfirmationModal";
 
 type MatchWithMusicSubmission =
   GetProcedureOutput<"getSongRequestById">["matches"][number];
@@ -91,17 +91,24 @@ export function Match({
             <X className="text-dark-gray-300 hover:text-required-star hover:bg-required-star/25 rounded-md" />
           </button>
           <div onClick={(e) => e.stopPropagation()}>
-            <Popup
+            <ConfirmationModal
+              title={"Confirm match"}
               open={openApprove}
               onOpenChange={setOpenApprove}
               onAction={handleApprove}
               type="approve"
+              text={
+                "This action cannot be undone. This song will be matched following your approval."
+              }
+              showCheckbox={true}
             />
-            <Popup
+            <ConfirmationModal
+              title={"Confirm selection"}
               open={openReject}
               onOpenChange={setOpenReject}
               onAction={handleReject}
               type="deny"
+              text="This action cannot be undone. This match will be trashed following your denial."
             />
           </div>
         </div>

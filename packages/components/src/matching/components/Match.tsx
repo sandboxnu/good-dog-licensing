@@ -3,7 +3,7 @@ import { Check, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
-import { ConfirmationModal } from "./ConfirmationModal";
+import { ConfirmationModal } from "../ConfirmationModal";
 
 type MatchWithMusicSubmission =
   GetProcedureOutput<"getSongRequestById">["matches"][number];
@@ -90,12 +90,20 @@ export function Match({
               onOpenChange={setOpenApprove}
               onAction={handleApprove}
               type="approve"
+              title={"Confirm match"}
+              text={
+                "This action cannot be undone. This song will be matched following your approval. "
+              }
             />
             <ConfirmationModal
               open={openReject}
               onOpenChange={setOpenReject}
               onAction={handleReject}
               type="deny"
+              title={"Confirm selection"}
+              text={
+                "This action cannot be undone. This match will be trashed following your denial. "
+              }
             />
           </div>
         </div>
