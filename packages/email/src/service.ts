@@ -261,7 +261,7 @@ export class EmailService {
   }
 
   //Media Maker Notifications
-  
+
   async sendMediaMakerJoiningConfirmation(toEmail: string) {
     const params: EmailMessage = {
       from: this.sentFrom,
@@ -301,7 +301,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendMediaMakerChatMessage(
     toEmail: string,
     projectName: string,
@@ -319,7 +319,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendMediaMakerSongSuggestionByPM(
     toEmail: string,
     songName: string,
@@ -343,7 +343,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendMediaMakerLicenseComplete(
     toEmail: string,
     songName: string,
@@ -403,7 +403,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendAdminProjectManagerAssigned(
     adminName: string,
     pmName: string,
@@ -428,7 +428,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendAdminAndPMChatMessage(
     projectName: string,
     songRequestId: string,
@@ -450,7 +450,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendAdminAndPMSongSuggestionSentToMM(
     senderName: string,
     songName: string,
@@ -481,7 +481,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendAdminAndPMSongSuggestionApprovedByMM(
     mediaMakerName: string,
     songName: string,
@@ -512,7 +512,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendAdminAndPMLicenseSigned(
     mediaMakerName: string,
     musicianName: string,
@@ -564,7 +564,7 @@ export class EmailService {
 
     return this.send(params);
   }
-  
+
   async sendPMSongSuggestionAddedToBrief(
     toEmail: string,
     prName: string,
