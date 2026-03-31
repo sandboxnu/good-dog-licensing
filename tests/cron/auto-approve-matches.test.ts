@@ -1,7 +1,14 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 
 import { POST } from "../../apps/web/app/api/cron/auto-match-music/route";
-import { Genre, MatchState, prisma } from "@good-dog/db";
+import {
+  AdmModMatchStatus,
+  Genre,
+  MatchState,
+  MediaMakerMatchStatus,
+  MusicianMatchStatus,
+  prisma,
+} from "@good-dog/db";
 import { env } from "@good-dog/env";
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 24 * 60 * 60 * 1000);
@@ -92,14 +99,46 @@ describe("auto-approve-matches cron", () => {
         },
       ],
     });
+    await prisma.match.createMany({
+      data: [
+        {
+          matchId: "cron-match-stale",
+          songRequestId: "cron-song-request-id",
+          musicId: "cron-music-stale",
+          matcherUserId: "cron-admin-id",
+          matchState: MatchState.SENT_TO_MUSICIAN,
+          sentToMusicianAt: new Date(),
+          admModStatus: AdmModMatchStatus.APPROVAL_NEEDED,
+          mediaMakerStatus: MediaMakerMatchStatus.HIDDEN,
+          musicianStatus: MusicianMatchStatus.HIDDEN,
+        },
+        {
+          matchId: "cron-match-fresh",
+          songRequestId: "cron-song-request-id",
+          musicId: "cron-music-fresh",
+          matcherUserId: "cron-admin-id",
+          matchState: MatchState.SENT_TO_MUSICIAN,
+          sentToMusicianAt: new Date(),
+          admModStatus: AdmModMatchStatus.APPROVAL_NEEDED,
+          mediaMakerStatus: MediaMakerMatchStatus.HIDDEN,
+          musicianStatus: MusicianMatchStatus.HIDDEN,
+        },
+        {
+          matchId: "cron-match-other-state",
+          songRequestId: "cron-song-request-id",
+          musicId: "cron-music-other-state",
+          matcherUserId: "cron-admin-id",
+          matchState: MatchState.WAITING_FOR_MANAGER_APPROVAL,
+          admModStatus: AdmModMatchStatus.APPROVAL_NEEDED,
+          mediaMakerStatus: MediaMakerMatchStatus.HIDDEN,
+          musicianStatus: MusicianMatchStatus.HIDDEN,
+        },
+      ],
+    });
 
-    // Create matches using raw SQL since matches are default createdAt now.
-    await prisma.$executeRaw`
-    INSERT INTO "Matches" ("matchId", "songRequestId", "musicId", "matcherUserId", "matchState", "createdAt", "updatedAt", "sentToMusicianAt") VALUES
-    ('cron-match-stale', 'cron-song-request-id', 'cron-music-stale', 'cron-admin-id', 'SENT_TO_MUSICIAN', ${daysAgo(10)}, ${new Date()}, ${daysAgo(10)}),
-    ('cron-match-fresh', 'cron-song-request-id', 'cron-music-fresh', 'cron-admin-id', 'SENT_TO_MUSICIAN', ${daysAgo(2)}, ${new Date()}, ${daysAgo(2)}),
-    ('cron-match-other-state', 'cron-song-request-id', 'cron-music-other-state', 'cron-admin-id', 'WAITING_FOR_MANAGER_APPROVAL', ${daysAgo(10)}, ${new Date()}, NULL)
-`;
+    // Update matches using raw SQL since matches don't have the correct sentToMusicianAt
+    await prisma.$executeRaw`UPDATE "Matches" SET "sentToMusicianAt" = ${daysAgo(10)} WHERE "matchId" = 'cron-match-stale'`;
+    await prisma.$executeRaw`UPDATE "Matches" SET "sentToMusicianAt" = ${daysAgo(2)} WHERE "matchId" = 'cron-match-fresh'`;
   });
 
   afterAll(async () => {
