@@ -9,7 +9,6 @@ import {
   DialogFooter,
   DialogClose,
 } from "@good-dog/ui/dialog";
-import Check from "../svg/Check";
 import Checkbox from "../base/Checkbox";
 import { useState } from "react";
 
