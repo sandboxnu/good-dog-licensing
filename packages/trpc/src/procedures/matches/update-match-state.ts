@@ -107,7 +107,6 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
     // If we made it here, all checks passed, so update the match state
     const updatedMatch = await ctx.prisma.match.update({
       where: { matchId: input.matchId },
-
       data: {
         matchState: input.state,
         ...(input.state === MatchState.SENT_TO_MUSICIAN && {
