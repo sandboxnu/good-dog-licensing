@@ -4,6 +4,12 @@ import { z } from "zod";
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
+import {
+  publicMatchSelect,
+  publicMusicSubmissionFullSelect,
+  publicMusicContributorSelect,
+  publicUserSummarySelect,
+} from "../dtos";
 
 // gets all the matches for this song request, along with their music, and ratings
 // TODO: test this procedure as mentioned in #152
@@ -23,22 +29,19 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
         projectId: input.projectId,
         songRequestId: input.songRequestId,
       },
-      include: {
+      select: {
         matches: {
-          include: {
+          select: {
+            ...publicMatchSelect,
             musicSubmission: {
-              include: {
-                submitter: {
-                  select: {
-                    firstName: true,
-                    lastName: true,
-                  },
-                },
+              select: {
+                ...publicMusicSubmissionFullSelect,
+                submitter: { select: publicUserSummarySelect },
+                contributors: { select: publicMusicContributorSelect },
               },
             },
           },
         },
-        projectSubmission: true,
       },
     });
 
@@ -49,9 +52,7 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
       });
     }
 
-    const matches = songRequest.matches;
-
     return {
-      matches: matches,
+      matches: songRequest.matches,
     };
   });

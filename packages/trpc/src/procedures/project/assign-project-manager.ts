@@ -3,6 +3,7 @@ import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import z from "zod";
 import { TRPCError } from "@trpc/server";
 import { sendEmailHelper } from "../../utils";
+import { publicUserSummarySelect } from "../../dtos";
 
 export const assignProjectManagerProcedure = rolePermissionsProcedureBuilder(
   adminPagePermissions,
@@ -17,6 +18,7 @@ export const assignProjectManagerProcedure = rolePermissionsProcedureBuilder(
   .mutation(async ({ ctx, input }) => {
     const projectManager = await ctx.prisma.user.findUnique({
       where: { userId: input.projectManagerId },
+      select: publicUserSummarySelect,
     });
 
     if (!projectManager) {
@@ -54,7 +56,12 @@ export const assignProjectManagerProcedure = rolePermissionsProcedureBuilder(
 
     const project = await ctx.prisma.projectSubmission.findUnique({
       where: { projectId: input.projectId },
-      include: { projectOwner: true, projectManager: true },
+      select: {
+        projectId: true,
+        projectTitle: true,
+        projectOwner: { select: publicUserSummarySelect },
+        projectManager: { select: publicUserSummarySelect },
+      },
     });
 
     if (!project) {

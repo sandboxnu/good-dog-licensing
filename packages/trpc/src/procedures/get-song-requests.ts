@@ -7,20 +7,26 @@ import {
 } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
+import {
+  publicCommentSelect,
+  publicMusicContributorSelect,
+  publicMusicSubmissionFullSelect,
+  publicMatchSelect,
+  publicProjectFullSelect,
+  publicProjectSummarySelect,
+  publicSongRequestFullSelect,
+  publicUserSummarySelect,
+} from "../dtos";
 
 export const getProjectSongRequestsProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
 ).query(async ({ ctx }) => {
   const projectsRaw = await ctx.prisma.projectSubmission.findMany({
-    include: {
-      songRequests: true,
-      projectOwner: {
-        select: {
-          firstName: true,
-          lastName: true,
-        },
-      },
+    select: {
+      ...publicProjectFullSelect,
+      songRequests: { select: publicSongRequestFullSelect },
+      projectOwner: { select: publicUserSummarySelect },
     },
   });
 
@@ -47,41 +53,31 @@ export const getProjectSongRequestByIdProcedure =
         where: {
           songRequestId: input.songRequestId,
         },
-        include: {
+        select: {
+          ...publicSongRequestFullSelect,
           projectSubmission: {
-            include: {
-              projectManager: true,
-              projectOwner: true,
+            select: {
+              ...publicProjectFullSelect,
+              projectManager: { select: publicUserSummarySelect },
+              projectOwner: { select: publicUserSummarySelect },
             },
           },
           matches: {
-            include: {
+            select: {
+              ...publicMatchSelect,
               musicSubmission: {
-                include: {
-                  contributors: {
-                    select: {
-                      firstName: true,
-                      lastName: true,
-                    },
-                  },
-                  submitter: {
-                    select: {
-                      firstName: true,
-                      lastName: true,
-                    },
-                  },
+                select: {
+                  ...publicMusicSubmissionFullSelect,
+                  contributors: { select: publicMusicContributorSelect },
+                  submitter: { select: publicUserSummarySelect },
                 },
               },
             },
           },
           comments: {
-            include: {
-              user: {
-                select: {
-                  firstName: true,
-                  lastName: true,
-                },
-              },
+            select: {
+              ...publicCommentSelect,
+              user: { select: publicUserSummarySelect },
             },
           },
         },
@@ -117,9 +113,10 @@ export const getUserSongRequestsProcedure = rolePermissionsProcedureBuilder(
     where: {
       projectOwnerId: ctx.session.user.userId,
     },
-    include: {
-      songRequests: true,
-      projectOwner: true,
+    select: {
+      ...publicProjectFullSelect,
+      songRequests: { select: publicSongRequestFullSelect },
+      projectOwner: { select: publicUserSummarySelect },
     },
   });
   return { projects };
@@ -136,13 +133,7 @@ export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
     where: {
       projectOwnerId: ctx.session.user.userId,
     },
-    select: {
-      projectId: true,
-      projectTitle: true,
-      createdAt: true,
-      description: true,
-      mediaMakerStatus: true,
-    },
+    select: publicProjectSummarySelect,
   });
 
   return { projects };
@@ -163,8 +154,9 @@ export const mediamakerSongRequestsProcedure = rolePermissionsProcedureBuilder(
       where: {
         projectId: input.projectId,
       },
-      include: {
-        songRequests: true,
+      select: {
+        projectOwnerId: true,
+        songRequests: { select: publicSongRequestFullSelect },
       },
     });
 
@@ -200,7 +192,8 @@ export const songRequestProcedure = rolePermissionsProcedureBuilder(
         songRequestId: input.songRequestId,
         projectId: input.projectId,
       },
-      include: {
+      select: {
+        ...publicSongRequestFullSelect,
         projectSubmission: {
           select: {
             projectOwnerId: true,

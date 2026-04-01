@@ -1,25 +1,32 @@
+import { TRPCError } from "@trpc/server";
+import z from "zod";
+
 import {
   musicianOnlyPermissions,
   projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
-import z from "zod";
-import { TRPCError } from "@trpc/server";
+import {
+  publicMusicContributorSelect,
+  publicMusicSubmissionFullSelect,
+  publicMusicSubmissionSummarySelect,
+  publicMatchSelect,
+  publicSongRequestFullSelect,
+  publicProjectFullSelect,
+  publicUserFullSelect,
+  publicUserSummarySelect,
+} from "../dtos";
 
 export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
 ).query(async ({ ctx }) => {
   const music = await ctx.prisma.musicSubmission.findMany({
-    include: {
-      submitter: {
-        select: {
-          firstName: true,
-          lastName: true,
-        },
-      },
-      contributors: true,
+    select: {
+      ...publicMusicSubmissionFullSelect,
+      submitter: { select: publicUserSummarySelect },
+      contributors: { select: publicMusicContributorSelect },
     },
   });
   return music;
@@ -33,14 +40,7 @@ export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
     where: {
       submitterId: ctx.session.user.userId,
     },
-    select: {
-      musicId: true,
-      songName: true,
-      createdAt: true,
-      performerName: true,
-      genres: true,
-      musicianSongStatus: true,
-    },
+    select: publicMusicSubmissionSummarySelect,
   });
   return { music };
 });
@@ -59,22 +59,26 @@ export const getMusicSubmissionByIdProcedure = rolePermissionsProcedureBuilder(
       where: {
         musicId: input.musicId,
       },
-      include: {
-        submitter: true,
+      select: {
+        ...publicMusicSubmissionFullSelect,
+        submitter: { select: publicUserFullSelect },
         matches: {
-          include: {
+          select: {
+            ...publicMatchSelect,
             songRequest: {
-              include: {
+              select: {
+                ...publicSongRequestFullSelect,
                 projectSubmission: {
-                  include: {
-                    projectOwner: true,
+                  select: {
+                    ...publicProjectFullSelect,
+                    projectOwner: { select: publicUserSummarySelect },
                   },
                 },
               },
             },
           },
         },
-        contributors: true,
+        contributors: { select: publicMusicContributorSelect },
       },
     });
 

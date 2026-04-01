@@ -1,24 +1,19 @@
 import { adminPagePermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
+import {
+  publicUserFullSelect,
+  publicUserSummarySelect,
+} from "../dtos";
 
 export const getAdminAndModeratorUsers = rolePermissionsProcedureBuilder(
   adminPagePermissions,
   "read",
 ).query(async ({ ctx }) => {
-  const [users] = await Promise.all([
-    ctx.prisma.user.findMany({
-      where: { role: { in: ["ADMIN", "MODERATOR"] }, active: true },
-      select: {
-        firstName: true,
-        lastName: true,
-        email: true,
-        role: true,
-        active: true,
-        userId: true,
-      },
-    }),
-  ]);
+  const users = await ctx.prisma.user.findMany({
+    where: { role: { in: ["ADMIN", "MODERATOR"] }, active: true },
+    select: publicUserSummarySelect,
+  });
   return { users };
 });
 
@@ -28,10 +23,8 @@ export const getAllUsers = rolePermissionsProcedureBuilder(
   adminPagePermissions,
   "read",
 ).query(async ({ ctx }) => {
-  const [users] = await Promise.all([
-    ctx.prisma.user.findMany({
-      omit: { hashedPassword: true },
-    }),
-  ]);
+  const users = await ctx.prisma.user.findMany({
+    select: publicUserFullSelect,
+  });
   return { users };
 });

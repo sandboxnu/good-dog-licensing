@@ -5,6 +5,7 @@ import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { sendEmailHelper } from "../../utils";
+import { publicUserSummarySelect } from "../../dtos";
 
 const CommentsSchema = z.object({
   commentText: z.string(),
@@ -46,11 +47,13 @@ export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
 
       const songRequest = await ctx.prisma.songRequest.findUnique({
         where: { songRequestId: input.songRequestId },
-        include: {
+        select: {
+          songRequestId: true,
           projectSubmission: {
-            include: {
-              projectOwner: true,
-              projectManager: true,
+            select: {
+              projectTitle: true,
+              projectOwner: { select: publicUserSummarySelect },
+              projectManager: { select: publicUserSummarySelect },
             },
           },
         },
