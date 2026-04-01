@@ -1,10 +1,9 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 
 import { env } from "@good-dog/env";
 
 import { notAuthenticatedProcedureBuilder } from "../../middleware/not-authenticated";
-import { zPasswordValidation } from "../../schema";
+import { zModeratorSignUpValues } from "../../schema";
 
 // Expiration date for Moderator Invite is one week
 const getModeratorInviteExpirationDate = () =>
@@ -14,20 +13,7 @@ const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
 
 export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
-  .input(
-    z.object({
-      moderatorInviteId: z.string(),
-      firstName: z.string(),
-      lastName: z.string(),
-      phoneNumber: z
-        .string()
-        .regex(
-          /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
-          "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
-        ),
-      password: zPasswordValidation,
-    }),
-  )
+  .input(zModeratorSignUpValues)
   .mutation(async ({ ctx, input }) => {
     // Get the moderator invite
     const moderatorInvite = await ctx.prisma.moderatorInvite.findUnique({

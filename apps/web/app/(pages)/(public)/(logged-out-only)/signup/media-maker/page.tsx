@@ -4,7 +4,7 @@ import UserOnboarding from "@good-dog/components/user-onboarding/UserOnboarding"
 export default function Page() {
   return (
     <PageContainer background="gradient">
-      <UserOnboarding type="signUp" initialRole="MEDIA_MAKER" />
+      <UserOnboarding type="SIGN_UP" initialRole="MEDIA_MAKER" />
     </PageContainer>
   );
 }

@@ -1,20 +1,19 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import StatusIndicator from "../../base/StatusIndicator";
-import { getSongRequestStatus } from "../../../utils/getStatusHelper";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 
-export default function SongRequestInformation({
+export default function MediaMakerSongRequestInformation({
   songRequest,
 }: {
   songRequest: SongRequestType;
 }) {
   return (
     <div className="flex flex-col gap-3 w-full">
-      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">
+      <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Song Request Information
       </p>
-      <div className="flex flex-row gap-6 bg-cream-100 dark:bg-green-500 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
+      <div className="flex flex-row gap-6 bg-cream-100 dark:bg-green-600 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
         <div className="flex flex-row flex-grow gap-6">
           <div className="flex flex-col gap-4 justify-start flex-grow">
             <div className="flex flex-col gap-1">
@@ -29,7 +28,7 @@ export default function SongRequestInformation({
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Status
               </p>
-              <StatusIndicator {...getSongRequestStatus(songRequest)} />
+              <StatusIndicator status={songRequest.mediaMakerStatus} />
             </div>
             <div className="flex flex-col gap-1">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">

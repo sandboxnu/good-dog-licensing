@@ -1,12 +1,12 @@
 "use client";
 
 import { trpc } from "@good-dog/trpc/client";
-import SongRequestInformation from "./components/SongRequestInformation";
+import MediaMakerSongRequestInformation from "./components/MediaMakerSongRequestInformation";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import MatchInformation from "./components/MatchInformation";
 
-export default function SongRequestDashboard({
+export default function MediaMakerSongRequestDashboard({
   songRequestId,
 }: {
   songRequestId: string;
@@ -24,9 +24,11 @@ export default function SongRequestDashboard({
         onClick={() => router.push(`/project/${songRequest.projectId}`)}
       >
         <ChevronLeft className="text-green-500 dark:text-mint-200" />
-        <p className="text-green-500 underline text-body2">Song requests</p>
+        <p className="text-green-500 dark:text-mint-200 underline text-body2">
+          Song requests
+        </p>
       </button>
-      <SongRequestInformation songRequest={songRequest} />
+      <MediaMakerSongRequestInformation songRequest={songRequest} />
       <MatchInformation matches={songRequest.matches} />
     </div>
   );

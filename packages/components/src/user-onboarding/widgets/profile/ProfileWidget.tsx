@@ -169,7 +169,7 @@ export default function ProfileWidget() {
           <header className="text-green-400 dark:text-mint-200 text-xl font-semibold">
             {user?.firstName + " " + user?.lastName}
           </header>
-          <div className="text-dark-gray-200">
+          <div className="text-dark-gray-200 dark:text-dark-gray-100">
             {userRoleFormatted} | Since {userCreatedAtFormatted}
           </div>
         </div>
@@ -177,7 +177,7 @@ export default function ProfileWidget() {
       <div className="flex flex-col gap-y-[16px]">
         <ProfileDetails />
         <ProfileSection header="Security">
-          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[16px]">
+          <div className="flex flex-col gap-y-6 rounded-2xl p-6">
             <div className="flex flex-row justify-between items-center">
               <InfoField header="Email" content={user ? user.email : ""} />
               <Button
@@ -199,16 +199,19 @@ export default function ProfileWidget() {
           </div>
         </ProfileSection>
         <ProfileSection header="Deactivate account" transparentHeader danger>
-          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-[18px]">
-            <div className="flex flex-row justify-left items-center text-dark-gray-300">
-              <ErrorExclamation size="medium" /> This will deactivate your
-              account until you choose to reactivate it.
+          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-4">
+            <div className="flex flex-row justify-left items-center gap-1 text-dark-gray-500 dark:text-gray-300">
+              <div className="text-red-400 dark:text-red-300">
+                <ErrorExclamation size="medium" />
+              </div>
+              This will deactivate your account until you choose to reactivate
+              it.
             </div>
             <div>
               <Button
                 label="Deactivate account"
                 size="small"
-                variant="outlined"
+                variant="contained"
                 onClick={() => setDisplayDeactivateAccountModal(true)}
                 error={true}
               />

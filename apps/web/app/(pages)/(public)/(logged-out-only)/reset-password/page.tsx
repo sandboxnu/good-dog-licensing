@@ -4,7 +4,7 @@ import UserOnboarding from "@good-dog/components/user-onboarding/UserOnboarding"
 export default function Page() {
   return (
     <PageContainer background="gradient">
-      <UserOnboarding type="resetPassword" initialRole={undefined} />
+      <UserOnboarding type="RESET_PASSWORD" initialRole={undefined} />
     </PageContainer>
   );
 }

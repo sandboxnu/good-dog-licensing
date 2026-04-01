@@ -2,38 +2,29 @@
 
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-import SongRequestComponent from "./SongRequest";
+import SongRequestComponent from "./MediaMakerSongRequest";
 import Hourglass from "../../svg/Hourglass";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import type { MediaMakerSongRequestStatus } from "@good-dog/db";
+import { getStatusLabel } from "../../../utils/enumLabelMapper";
 
-type SongRequestWithMatchesType =
+type SongRequestType =
   GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
 
-export default function SongRequests({
+const descriptionMap: Record<MediaMakerSongRequestStatus, string> = {
+  APPROVAL_NEEDED: "Review and approve/deny the pending matches below",
+  IN_PROGRESS: "Work awaiting musician and mediator input",
+  COMPLETED: "Requests with complete matches",
+};
+
+export default function MediaMakerSongRequests({
   songRequests,
   status,
 }: {
-  songRequests: SongRequestWithMatchesType[];
-  status: "TO_DO" | "IN_REVIEW" | "ACCEPTED" | "NO_MATCHES";
+  songRequests: SongRequestType[];
+  status: MediaMakerSongRequestStatus;
 }) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const header = () => {
-    if (status === "TO_DO") return "To do";
-    if (status === "IN_REVIEW") return "In review";
-    if (status === "ACCEPTED") return "Accepted";
-    else return "No Matches";
-  };
-
-  const description = () => {
-    if (status === "TO_DO")
-      return "Review and approve/deny the pending matches below";
-    if (status === "IN_REVIEW")
-      return "Work awaiting musician and mediator input";
-    if (status === "ACCEPTED")
-      return "Requests in motion, stay tuned for updates";
-    else return "No active matches for these requests";
-  };
+  const [dropdownOpen, setDropdownOpen] = useState(songRequests.length > 0);
 
   return (
     <div
@@ -43,10 +34,10 @@ export default function SongRequests({
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-xl text-dark-gray-500 dark:text-mint-300">
-            {header()}
+            {getStatusLabel(status)}
           </p>
           <p className="text-dark-gray-500 dark:text-mint-300">
-            {description()}
+            {descriptionMap[status]}
           </p>
         </div>
         <ChevronDown

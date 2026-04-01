@@ -174,6 +174,10 @@ describe("deleteMatch procedure", () => {
         musicId: "musicSubmission",
         matchState: MatchState.SENT_TO_MEDIA_MAKER,
         matcherUserId: "moderator",
+        admModStatus: "IN_PROGRESS",
+        mediaMakerStatus: "APPROVAL_NEEDED",
+        musicianStatus: "HIDDEN",
+        matchId: "match",
       },
     });
   });

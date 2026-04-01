@@ -19,9 +19,10 @@ export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
           lastName: true,
         },
       },
+      contributors: true,
     },
   });
-  return { music };
+  return music;
 });
 
 export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
@@ -32,9 +33,13 @@ export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
     where: {
       submitterId: ctx.session.user.userId,
     },
-    include: {
-      submitter: true,
-      matches: true,
+    select: {
+      musicId: true,
+      songName: true,
+      createdAt: true,
+      performerName: true,
+      genres: true,
+      musicianSongStatus: true,
     },
   });
   return { music };
@@ -69,6 +74,7 @@ export const getMusicSubmissionByIdProcedure = rolePermissionsProcedureBuilder(
             },
           },
         },
+        contributors: true,
       },
     });
 

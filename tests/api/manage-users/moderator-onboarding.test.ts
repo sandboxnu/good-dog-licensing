@@ -8,6 +8,7 @@ import { $createTrpcCaller } from "@good-dog/trpc/server";
 import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
+import { pnrInviteTemplate } from "../../../packages/email/src/templates/pnrInvite";
 
 describe("moderator-onboarding", () => {
   const mockEmails = new MockEmailService();
@@ -115,7 +116,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -150,7 +153,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -198,7 +203,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${moderatorInvite?.moderatorInviteId}`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -214,6 +221,7 @@ describe("moderator-onboarding", () => {
           lastName: "GoodDog",
           phoneNumber: "123-456-7890",
           password: "Mypassword1!",
+          confirmPassword: "Mypassword1!",
         }),
       ).rejects.toThrow("FORBIDDEN");
     });
@@ -230,6 +238,7 @@ describe("moderator-onboarding", () => {
         lastName: "GoodDog",
         phoneNumber: "123-456-7890",
         password: "Mypassword1!",
+        confirmPassword: "Mypassword1!",
       });
 
       const newModeratorInvite = await prisma.moderatorInvite.findUnique({
@@ -242,7 +251,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -281,6 +292,7 @@ describe("moderator-onboarding", () => {
           lastName: "GoodDog",
           phoneNumber: "123-456-7890",
           password: "Mypassword1!",
+          confirmPassword: "Mypassword1!",
         }),
       ).rejects.toThrow(
         "Moderator Invite Email to testing@gmail.com failed to resend.",
@@ -300,7 +312,9 @@ describe("moderator-onboarding", () => {
         from: `Good Dog Licensing <${env.GOOD_DOG_FROM_EMAIL ?? ""}>`,
         to: ["testing@gmail.com"],
         subject: "Sign Up to be a P&R - Good Dog Licensing",
-        html: `<p>Follow <a href="${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}">this link</a> to sign up as a PR.</p>`,
+        html: pnrInviteTemplate({
+          inviteLink: `${getBaseUrl()}/pnr-invite/?id=${newModeratorInvite?.moderatorInviteId}`,
+        }),
       };
 
       expect(mockEmails.send).toHaveBeenCalledWith(params);
@@ -318,6 +332,7 @@ describe("moderator-onboarding", () => {
         lastName: "GoodDog",
         phoneNumber: "123-456-7890",
         password: "Mypassword1!",
+        confirmPassword: "Mypassword1!",
       });
 
       const moderatorUser = await prisma.user.findUnique({

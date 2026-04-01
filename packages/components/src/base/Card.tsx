@@ -13,7 +13,7 @@ export default function Card({
 }) {
   return (
     <div
-      className={`relative flex flex-col h-[200px] w-[320px] overflow-hidden rounded-3xl border-[0.5px] border-cream-400 bg-cream-100 dark:bg-green-500 p-[24px] ${size === "small" ? "w-[320px]" : "w-[992px]"}`}
+      className={`relative flex flex-col h-[200px] w-[320px] overflow-hidden rounded-3xl border-[0.5px] border-cream-500 bg-cream-100 dark:bg-green-600 p-[24px] ${size === "small" ? "w-[320px]" : "w-[992px]"}`}
     >
       <div className="flex flex-col gap-[8px]">
         <p className="text-body1 font-semibold leading-[0.96] text-dark-gray-500 dark:text-mint-300 truncate">

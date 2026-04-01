@@ -6,6 +6,7 @@ import {
   Role,
   HowHeardAboutUsLabel,
 } from "@good-dog/db";
+import type { Status } from "./status";
 
 export function getGenreLabel(value: Genre): string {
   switch (value) {
@@ -58,7 +59,7 @@ export function getRoleLabel(value: Role): string {
     case Role.ADMIN:
       return "Admin";
     case Role.MODERATOR:
-      return "Moderator";
+      return "P&R";
   }
 }
 
@@ -84,15 +85,23 @@ export function getProjectTypeLabel(value: ProjectType): string {
   }
 }
 
-export function getHowHeardAboutUsLabel(value: HowHeardAboutUsLabel): string {
+export function getStatusLabel(value: Status): string {
   switch (value) {
-    case HowHeardAboutUsLabel.FRIEND:
-      return "Friend/Colleague";
-    case HowHeardAboutUsLabel.GREEN_LINE_RECORDS:
-      return "Green Line Records";
-    case HowHeardAboutUsLabel.SOCIAL_MEDIA:
-      return "Social Media";
-    case HowHeardAboutUsLabel.OTHER:
-      return "Other";
+    case "ACTION_NEEDED":
+      return "Action Needed";
+    case "APPROVAL_NEEDED":
+      return "Approval Needed";
+    case "IN_PROGRESS":
+      return "In Progress";
+    case "COMPLETED":
+      return "Completed";
+    case "REJECTED":
+      return "Rejected";
+    case "SUGGESTIONS_NEEDED":
+      return "Suggestions Needed";
+    case "HIDDEN":
+      return "Hidden";
+    case "SONG_SUBMITTED":
+      return "Song Submitted";
   }
 }

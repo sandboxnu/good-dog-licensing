@@ -1,0 +1,20 @@
+name: Seed Preview Database
+
+on:
+  workflow_dispatch:
+
+jobs:
+  seed-preview-database:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-bun
+
+      - name: Reset and Seed Preview Database
+        run: bun prisma migrate reset --force
+        working-directory: packages/db
+        env:
+          DATABASE_PRISMA_URL: ${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}
