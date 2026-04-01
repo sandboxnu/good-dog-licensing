@@ -115,21 +115,6 @@ export class EmailService {
     );
   }
 
-  private async getAllPNREmails(): Promise<string[]> {
-    return (
-      await prisma.user.findMany({
-        where: {
-          role: {
-            equals: "MODERATOR",
-          },
-        },
-        select: {
-          email: true,
-        },
-      })
-    ).map((user) => user.email);
-  }
-
   async send(params: EmailMessage) {
     if (!this.apiKey) {
       throw new TypeError("Failed to send email: No api key provided.");
