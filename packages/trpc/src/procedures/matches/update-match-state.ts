@@ -144,7 +144,7 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
           );
 
           await ctx.emailService.sendAdminAndPMSongSuggestionSentToMM(
-            ctx.session.user.firstName + ctx.session.user.lastName,
+            ctx.session.user.firstName + " " + ctx.session.user.lastName,
             match.musicSubmission.songName,
             match.musicSubmission.performerName,
             match.songRequest.projectSubmission.projectTitle,

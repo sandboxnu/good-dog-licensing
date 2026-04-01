@@ -78,7 +78,7 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
         async () =>
           await ctx.emailService.sendPMSongSuggestionAddedToBrief(
             projectManager.email,
-            ctx.session.user.firstName + ctx.session.user.lastName,
+            ctx.session.user.firstName + " " + ctx.session.user.lastName,
             music.songName,
             music.performerName,
             songRequest.projectSubmission.projectTitle,

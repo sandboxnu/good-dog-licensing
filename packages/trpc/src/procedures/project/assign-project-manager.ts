@@ -78,7 +78,7 @@ export const assignProjectManagerProcedure = rolePermissionsProcedureBuilder(
       async () =>
         await ctx.emailService.sendAdminProjectManagerAssigned(
           ctx.session.user.firstName,
-          projectManager.firstName + projectManager.lastName,
+          projectManager.firstName + " " + projectManager.lastName,
           project.projectTitle,
           project.projectId,
         ),

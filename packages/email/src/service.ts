@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 import { prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
-import { passwordResetTemplate } from "./templates/passswordReset";
+import { passwordResetTemplate } from "./templates/passwordReset";
 import { emailVerificationTemplate } from "./templates/emailVerification";
 import { pnrInviteTemplate } from "./templates/pnrInvite";
 import {
@@ -371,7 +371,7 @@ export class EmailService {
     projectId: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/dashboard/projects/?id=${projectId}`;
+    const link = `${baseURL}/home?projectId=${projectId}`;
     const toEmails = await this.getAllAdminAndPNREmails();
 
     const params: EmailMessage = {
@@ -396,7 +396,7 @@ export class EmailService {
     projectId: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/dashboard/projects/?id=${projectId}`;
+    const link = `${baseURL}/home?projectId=${projectId}`;
     const toEmails = await this.getAllAdminEmails();
 
     const params: EmailMessage = {
@@ -445,7 +445,7 @@ export class EmailService {
     pmEmail?: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/dashboard/projects/?id=${projectId}`;
+    const link = `${baseURL}/home?projectId=${projectId}`;
     const toEmails = [
       ...(await this.getAllAdminAndPNREmails()).filter((e) => e !== pmEmail),
       ...(pmEmail ? [pmEmail] : []),
@@ -476,7 +476,7 @@ export class EmailService {
     pmEmail?: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/dashboard/projects/?id=${projectId}`;
+    const link = `${baseURL}/home?projectId=${projectId}`;
     const toEmails = [
       ...(await this.getAllAdminEmails()).filter((e) => e !== pmEmail),
       ...(pmEmail ? [pmEmail] : []),
@@ -559,7 +559,7 @@ export class EmailService {
     projectId: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/dashboard/projects/?id=${projectId}`;
+    const link = `${baseURL}/home?projectId=${projectId}`;
 
     const params: EmailMessage = {
       from: this.sentFrom,
