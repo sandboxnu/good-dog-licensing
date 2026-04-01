@@ -1,21 +1,21 @@
 import type { Genre, ProjectType } from "@good-dog/db";
 
 export const realUsers = [
-  {
-    firstName: "Jordan",
-    lastName: "Praissman",
-    email: "praissman.j@northeastern.edu",
-  },
-  {
-    firstName: "Gavin",
-    lastName: "Normand",
-    email: "normand.g@northeastern.edu",
-  },
-  {
-    firstName: "Victoria",
-    lastName: "Whisnant",
-    email: "whisnant.v@northeastern.edu",
-  },
+  // {
+  //   firstName: "Jordan",
+  //   lastName: "Praissman",
+  //   email: "praissman.j@northeastern.edu",
+  // },
+  // {
+  //   firstName: "Gavin",
+  //   lastName: "Normand",
+  //   email: "normand.g@northeastern.edu",
+  // },
+  // {
+  //   firstName: "Victoria",
+  //   lastName: "Whisnant",
+  //   email: "whisnant.v@northeastern.edu",
+  // },
   // {
   //   firstName: "Lauren",
   //   lastName: "Brissette",
