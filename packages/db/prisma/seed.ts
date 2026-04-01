@@ -236,7 +236,7 @@ async function main() {
   // Generate song requests
 
   const songRequestCreations = createdProjects.flatMap((project) => {
-    const requestCount = Math.floor(Math.random() * 21);
+    const requestCount = Math.floor(Math.random() * 4);
     return generateSongRequests(project.projectId, requestCount).map(
       (songRequest) =>
         prisma.songRequest.create({
