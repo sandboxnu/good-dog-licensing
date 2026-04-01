@@ -6,11 +6,11 @@ export function artistJoiningConfirmationTemplate() {
     <p>Hi,</p>
 
     <p>
-      Hello and welcome to Good Dog! Thank you for submitting your music to be in our diverse and growing catalog of independent musicians.
+      Hello and welcome to Good Dog! Thank you for joining our platform to add yourself to our diverse and growing catalog of independent musicians.
     </p>
 
     <p>
-      Your music will now be pitched to applicable briefs by our Good Dog representatives. You will be notified when a Media Maker wants to use your music.
+      Any music you choose to submit will be automatically pitched to applicable briefs by our Good Dog representatives. You will be notified when a Media Maker wants to use your music.
     </p>
 
     <p>Thank you for joining Good Dog!</p>
