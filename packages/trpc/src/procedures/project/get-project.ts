@@ -1,12 +1,19 @@
+import { TRPCError } from "@trpc/server";
+import z from "zod";
+
 import {
   mediaMakerOnlyPermissions,
   projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
-import z from "zod";
-import { TRPCError } from "@trpc/server";
 import { CREATED_DATE_QUERY, zQueryProjectsRequest } from "../../schema/query";
+import {
+  publicProjectFullSelect,
+  publicProjectSummarySelect,
+  publicSongRequestSummarySelect,
+  publicUserSummarySelect,
+} from "../../dtos";
 
 const getCreatedDate = (query: CREATED_DATE_QUERY) => {
   switch (query) {
@@ -45,28 +52,9 @@ export const queryAllProjectsProcedure = rolePermissionsProcedureBuilder(
         }),
       },
       select: {
-        projectId: true,
-        projectTitle: true,
-        description: true,
-        admModStatus: true,
-        projectOwner: {
-          select: {
-            firstName: true,
-            lastName: true,
-          },
-        },
-        createdAt: true,
-        deadline: true,
-        projectManager: {
-          select: {
-            firstName: true,
-            lastName: true,
-            email: true,
-            role: true,
-            active: true,
-            userId: true,
-          },
-        },
+        ...publicProjectSummarySelect,
+        projectOwner: { select: publicUserSummarySelect },
+        projectManager: { select: publicUserSummarySelect },
       },
     });
 
@@ -86,33 +74,10 @@ export const getProjectSubmissionByIdProcedure =
           projectId: input.projectId,
         },
         select: {
-          projectId: true,
-          projectTitle: true,
-          description: true,
-          additionalInfo: true,
-          projectOwnerId: true,
-          deadline: true,
-          projectOwner: {
-            select: {
-              firstName: true,
-              lastName: true,
-            },
-          },
-          projectManager: {
-            select: {
-              firstName: true,
-              lastName: true,
-            },
-          },
-          songRequests: {
-            select: {
-              songRequestId: true,
-              songRequestTitle: true,
-              description: true,
-              admModStatus: true,
-              mediaMakerStatus: true,
-            },
-          },
+          ...publicProjectFullSelect,
+          projectOwner: { select: publicUserSummarySelect },
+          projectManager: { select: publicUserSummarySelect },
+          songRequests: { select: publicSongRequestSummarySelect },
         },
       });
 

@@ -4,6 +4,7 @@ import { adminPagePermissions } from "@good-dog/auth/permissions";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { TRPCError } from "@trpc/server";
 import { Role } from "@good-dog/db";
+import { privateUserSelect } from "../../dtos";
 
 export const promoteToAdminProcedure = rolePermissionsProcedureBuilder(
   adminPagePermissions,
@@ -19,6 +20,7 @@ export const promoteToAdminProcedure = rolePermissionsProcedureBuilder(
       where: {
         userId: input.userId,
       },
+      select: privateUserSelect,
     });
 
     if (!user) {

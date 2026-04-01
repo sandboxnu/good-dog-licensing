@@ -2,6 +2,8 @@ import React from "react";
 
 import type { prisma } from "@good-dog/db";
 
+import { publicUserFullSelect } from "../dtos";
+
 /**
  * This function is important because we request the session from the database
  * in a few places in our codebase. This function is memoized so that we don't
@@ -22,18 +24,7 @@ export const getSessionMemoized = React.cache(
           expiresAt: true,
           sessionId: true,
           user: {
-            select: {
-              userId: true,
-              firstName: true,
-              lastName: true,
-              email: true,
-              phoneNumber: true,
-              role: true,
-              affiliation: true,
-              ipi: true,
-              createdAt: true,
-              active: true,
-            },
+            select: publicUserFullSelect,
           },
         },
       });

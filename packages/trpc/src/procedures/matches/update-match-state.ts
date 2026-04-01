@@ -6,6 +6,12 @@ import { MatchState, Role } from "@good-dog/db";
 import { authenticatedAndActiveProcedureBuilder } from "../../middleware/authenticated-active";
 import { sendEmailHelper } from "../../utils";
 import { updateStatuses } from "../../utils/status/update-status";
+import {
+  publicMatchSelect,
+  publicMusicSubmissionFullSelect,
+  publicSongRequestFullSelect,
+  publicUserSummarySelect,
+} from "../../dtos";
 
 const allowedStartingStatesByRole: Record<Role, MatchState[]> = {
   [Role.MEDIA_MAKER]: [MatchState.SENT_TO_MEDIA_MAKER],
@@ -38,18 +44,29 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
   .mutation(async ({ ctx, input }) => {
     const match = await ctx.prisma.match.findUnique({
       where: { matchId: input.matchId },
-      include: {
+      select: {
+        matchId: true,
+        matchState: true,
+        songRequestId: true,
         musicSubmission: {
-          include: {
-            submitter: true,
+          select: {
+            musicId: true,
+            songName: true,
+            performerName: true,
+            submitterId: true,
+            submitter: { select: publicUserSummarySelect },
           },
         },
         songRequest: {
-          include: {
+          select: {
+            songRequestId: true,
             projectSubmission: {
-              include: {
-                projectOwner: true,
-                projectManager: true,
+              select: {
+                projectOwnerId: true,
+                projectManagerId: true,
+                projectTitle: true,
+                projectOwner: { select: publicUserSummarySelect },
+                projectManager: { select: publicUserSummarySelect },
               },
             },
           },
@@ -118,9 +135,10 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
     const updatedMatch = await ctx.prisma.match.update({
       where: { matchId: input.matchId },
       data: { matchState: input.state },
-      include: {
-        songRequest: true,
-        musicSubmission: true,
+      select: {
+        ...publicMatchSelect,
+        songRequest: { select: publicSongRequestFullSelect },
+        musicSubmission: { select: publicMusicSubmissionFullSelect },
       },
     });
 

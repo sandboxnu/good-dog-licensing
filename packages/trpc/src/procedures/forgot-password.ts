@@ -87,8 +87,14 @@ export const confirmPasswordResetProcedure = baseProcedureBuilder
       where: {
         passwordResetId: input.passwordResetId,
       },
-      include: {
-        user: true,
+      select: {
+        passwordResetId: true,
+        expiresAt: true,
+        user: {
+          select: {
+            email: true,
+          },
+        },
       },
     });
 
