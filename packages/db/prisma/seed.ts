@@ -120,7 +120,7 @@ async function main() {
     "$2a$10$ghWIDof5gMFi7D2Deea.C.HptdD0nvsYIqEFpWuQVvoyJ8HdhPtR2";
 
   // Generate users
-  const generatedModerators = generateUsers("moderator", "MODERATOR", 100, 20);
+  const generatedModerators = generateUsers("moderator", "MODERATOR", 10, 2);
   const generatedMediamakers = generateUsers(
     "mediamaker",
     "MEDIA_MAKER",
@@ -236,7 +236,7 @@ async function main() {
   // Generate song requests
 
   const songRequestCreations = createdProjects.flatMap((project) => {
-    const requestCount = Math.floor(Math.random() * 21);
+    const requestCount = Math.floor(Math.random() * 4);
     return generateSongRequests(project.projectId, requestCount).map(
       (songRequest) =>
         prisma.songRequest.create({
