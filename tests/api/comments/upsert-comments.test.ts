@@ -11,6 +11,7 @@ import { passwordService } from "@good-dog/auth/password";
 import { Genre, prisma, ProjectType } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
+import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCache } from "../../mocks/MockNextCache";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
@@ -195,6 +196,7 @@ async function deleteData() {
 describe("upsertCommentsProcedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
+  const mockEmails = new MockEmailService();
 
   beforeAll(async () => {
     await cache.apply();
@@ -207,6 +209,7 @@ describe("upsertCommentsProcedure", () => {
 
   const $api = $createTrpcCaller({
     cookiesService: createMockCookieService(cookies),
+    emailService: mockEmails,
     prisma: prisma,
   });
 
@@ -214,6 +217,7 @@ describe("upsertCommentsProcedure", () => {
     await deleteData();
     cookies.clear();
     cache.clear();
+    mockEmails.clear();
   });
 
   it("should allow admins to create comments on matches", async () => {
