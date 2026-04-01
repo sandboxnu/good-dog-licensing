@@ -129,7 +129,7 @@ describe("email service notification methods", () => {
         html: artistLicenseCompleteTemplate({
           songName: "My Song",
           projectName: "My Project",
-          link: `${BASE_URL}/song/song123/license`,
+          link: `${BASE_URL}/song/song123/contract`,
         }),
       });
     });
@@ -232,7 +232,7 @@ describe("email service notification methods", () => {
         html: mediaMakerLicenseCompleteTemplate({
           songName: "My Song",
           projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123/license`,
+          link: `${BASE_URL}/song-request/sr123/contract`,
         }),
       });
     });
@@ -270,7 +270,7 @@ describe("email service notification methods", () => {
           mediaMakerName: "Media Maker",
           songCount: 3,
           projectName: "My Project",
-          link: `${BASE_URL}/dashboard/projects/?id=proj123`,
+          link: `${BASE_URL}/home?projectId=proj123`,
         }),
       });
     });
@@ -291,7 +291,7 @@ describe("email service notification methods", () => {
           adminName: "Admin Name",
           pmName: "PM Name",
           projectName: "My Project",
-          link: `${BASE_URL}/dashboard/projects/?id=proj123`,
+          link: `${BASE_URL}/home?projectId=proj123`,
         }),
       });
     });
@@ -316,7 +316,7 @@ describe("email service notification methods", () => {
         "My Song",
         "Artist",
         "My Project",
-        "proj123",
+        "sr123",
       );
 
       expect(mockEmail.send).toHaveBeenCalledWith({
@@ -328,7 +328,7 @@ describe("email service notification methods", () => {
           songName: "My Song",
           artistName: "Artist",
           projectName: "My Project",
-          link: `${BASE_URL}/dashboard/projects/?id=proj123`,
+          link: `${BASE_URL}/song-request/sr123`,
         }),
       });
     });
@@ -339,7 +339,7 @@ describe("email service notification methods", () => {
         "My Song",
         "Artist",
         "My Project",
-        "proj123",
+        "sr123",
       );
 
       expect(mockEmail.send).toHaveBeenCalledWith({
@@ -351,7 +351,7 @@ describe("email service notification methods", () => {
           songName: "My Song",
           artistName: "Artist",
           projectName: "My Project",
-          link: `${BASE_URL}/dashboard/projects/?id=proj123`,
+          link: `${BASE_URL}/song-request/sr123`,
         }),
       });
     });
@@ -372,7 +372,7 @@ describe("email service notification methods", () => {
           mediaMakerName: "Media Maker",
           musicianName: "Musician",
           projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123/license`,
+          link: `${BASE_URL}/song-request/sr123/contract`,
         }),
       });
     });
@@ -401,7 +401,7 @@ describe("email service notification methods", () => {
         "My Song",
         "Artist",
         "My Project",
-        "proj123",
+        "sr123",
       );
 
       expect(mockEmail.send).toHaveBeenCalledWith({
@@ -413,7 +413,7 @@ describe("email service notification methods", () => {
           songName: "My Song",
           artistName: "Artist",
           projectName: "My Project",
-          link: `${BASE_URL}/dashboard/projects/?id=proj123`,
+          link: `${BASE_URL}/song-request/sr123`,
         }),
       });
     });
