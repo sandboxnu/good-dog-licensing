@@ -121,8 +121,8 @@ export function adminSongSuggestionSentToMMTemplate(options: {
     </p>
 
     ${buttonCard({
-      text: "Click below to review the suggestion.",
-      buttonText: "Review Suggestion",
+      text: "Click below to view the song request.",
+      buttonText: "View Song Request",
       buttonHref: link,
     })}
 
@@ -157,8 +157,8 @@ export function adminAndPMSongSuggestionApprovedByMMTemplate(options: {
     </p>
 
     ${buttonCard({
-      text: "Click below to view the next steps.",
-      buttonText: "View Next Steps",
+      text: "Click below to view the song request.",
+      buttonText: "View Song Request",
       buttonHref: link,
     })}
 
@@ -192,8 +192,8 @@ export function adminAndPMLicenseSignedTemplate(options: {
     </p>
 
     ${buttonCard({
-      text: "Click below to review the final agreement.",
-      buttonText: "Review Agreement",
+      text: "Click below to view the final contract.",
+      buttonText: "View Contract",
       buttonHref: link,
     })}
 
@@ -256,7 +256,7 @@ export function pmSongSuggestionAddedToBriefTemplate(options: {
 
     ${buttonCard({
       text: "Click below to review the suggestion.",
-      buttonText: "Review Suggestion",
+      buttonText: "View Song Request",
       buttonHref: link,
     })}
 

@@ -233,7 +233,7 @@ export class EmailService {
     songId: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/song/${songId}/license`;
+    const link = `${baseURL}/song/${songId}/contract`;
 
     const params: EmailMessage = {
       from: this.sentFrom,
@@ -336,7 +336,7 @@ export class EmailService {
     songRequestId: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/song-request/${songRequestId}/license`;
+    const link = `${baseURL}/song-request/${songRequestId}/contract`;
 
     const params: EmailMessage = {
       from: this.sentFrom,
@@ -441,11 +441,11 @@ export class EmailService {
     songName: string,
     artistName: string,
     projectName: string,
-    projectId: string,
+    songRequestId: string,
     pmEmail?: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/home?projectId=${projectId}`;
+    const link = `${baseURL}/song-request/${songRequestId}`;
     const toEmails = [
       ...(await this.getAllAdminAndPNREmails()).filter((e) => e !== pmEmail),
       ...(pmEmail ? [pmEmail] : []),
@@ -472,11 +472,11 @@ export class EmailService {
     songName: string,
     artistName: string,
     projectName: string,
-    projectId: string,
+    songRequestId: string,
     pmEmail?: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/home?projectId=${projectId}`;
+    const link = `${baseURL}/song-request/${songRequestId}`;
     const toEmails = [
       ...(await this.getAllAdminEmails()).filter((e) => e !== pmEmail),
       ...(pmEmail ? [pmEmail] : []),
@@ -506,7 +506,7 @@ export class EmailService {
     pmEmail?: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/song-request/${songRequestId}/license`;
+    const link = `${baseURL}/song-request/${songRequestId}/contract`;
     const toEmails = [
       ...(await this.getAllAdminEmails()).filter((e) => e !== pmEmail),
       ...(pmEmail ? [pmEmail] : []),
@@ -556,10 +556,10 @@ export class EmailService {
     songName: string,
     artistName: string,
     projectName: string,
-    projectId: string,
+    songRequestId: string,
   ) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/home?projectId=${projectId}`;
+    const link = `${baseURL}/song-request/${songRequestId}`;
 
     const params: EmailMessage = {
       from: this.sentFrom,

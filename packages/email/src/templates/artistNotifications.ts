@@ -69,7 +69,7 @@ export function artistSongRequestedForBriefTemplate(options: {
 
     ${buttonCard({
       text: 'Click below to learn more about the project so you can say "YES" to Licensing!',
-      buttonText: "View Project",
+      buttonText: "View Project Information",
       buttonHref: link,
     })}
 
@@ -103,8 +103,8 @@ export function artistLicenseCompleteTemplate(options: {
     <p>Thank you for working with Good Dog Licensing!</p>
 
     ${buttonCard({
-      text: "Click below to finalize the project.",
-      buttonText: "Finalize Project",
+      text: "Click below to view the contract.",
+      buttonText: "View contract",
       buttonHref: link,
     })}
 

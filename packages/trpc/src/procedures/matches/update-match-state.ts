@@ -148,7 +148,7 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
             match.musicSubmission.songName,
             match.musicSubmission.performerName,
             match.songRequest.projectSubmission.projectTitle,
-            match.songRequest.projectSubmission.projectId,
+            match.songRequest.songRequestId,
             match.songRequest.projectSubmission.projectManager?.email,
           );
           break;
@@ -165,7 +165,7 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
             match.musicSubmission.songName,
             match.musicSubmission.performerName,
             match.songRequest.projectSubmission.projectTitle,
-            match.songRequest.projectSubmission.projectId,
+            match.songRequest.songRequestId,
             match.songRequest.projectSubmission.projectManager?.email,
           );
           break;

@@ -132,7 +132,7 @@ export function mediaMakerSongSuggestionByPMTemplate(options: {
 
     ${buttonCard({
       text: "Click below to review the song and sign the licensing agreement.",
-      buttonText: "Review Song",
+      buttonText: "Review Song Information",
       buttonHref: link,
     })}
 
@@ -166,8 +166,8 @@ export function mediaMakerLicenseCompleteTemplate(options: {
     <p>Thank you for working with Good Dog Licensing!</p>
 
     ${buttonCard({
-      text: "Click below to finalize the project.",
-      buttonText: "Finalize Project",
+      text: "Click below to view the contract.",
+      buttonText: "View contract",
       buttonHref: link,
     })}
 

@@ -82,7 +82,7 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
             music.songName,
             music.performerName,
             songRequest.projectSubmission.projectTitle,
-            songRequest.projectSubmission.projectId,
+            songRequest.songRequestId,
           ),
         "Email failed to send",
       );
