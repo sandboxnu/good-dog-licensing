@@ -4,6 +4,7 @@ import z from "zod";
 import { MatchState, Role } from "@good-dog/db";
 
 import { authenticatedAndActiveProcedureBuilder } from "../../middleware/authenticated-active";
+import { sendEmailHelper } from "../../utils";
 import { updateStatuses } from "../../utils/status/update-status";
 
 const allowedStartingStatesByRole: Record<Role, MatchState[]> = {
@@ -38,10 +39,19 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
     const match = await ctx.prisma.match.findUnique({
       where: { matchId: input.matchId },
       include: {
-        musicSubmission: true,
+        musicSubmission: {
+          include: {
+            submitter: true,
+          },
+        },
         songRequest: {
           include: {
-            projectSubmission: true,
+            projectSubmission: {
+              include: {
+                projectOwner: true,
+                projectManager: true,
+              },
+            },
           },
         },
       },
@@ -121,6 +131,69 @@ export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
       updatedMatch.matchId,
       updatedMatch.musicSubmission.musicId,
     );
+
+    // Here send notification emails as appropriate
+    await sendEmailHelper(async () => {
+      switch (input.state) {
+        case "SENT_TO_MEDIA_MAKER":
+          await ctx.emailService.sendMediaMakerSongSuggestionByPM(
+            match.songRequest.projectSubmission.projectOwner.email,
+            match.musicSubmission.songName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequest.songRequestId,
+          );
+
+          await ctx.emailService.sendAdminAndPMSongSuggestionSentToMM(
+            ctx.session.user.firstName + " " + ctx.session.user.lastName,
+            match.musicSubmission.songName,
+            match.musicSubmission.performerName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequest.songRequestId,
+            match.songRequest.projectSubmission.projectManager?.email,
+          );
+          break;
+        case "SENT_TO_MUSICIAN":
+          await ctx.emailService.sendArtistSongRequestedForBrief(
+            match.musicSubmission.submitter.email,
+            match.musicSubmission.songName,
+            match.musicSubmission.musicId,
+            match.songRequest.projectSubmission.projectTitle,
+          );
+
+          await ctx.emailService.sendAdminAndPMSongSuggestionApprovedByMM(
+            match.songRequest.projectSubmission.projectOwner.firstName,
+            match.musicSubmission.songName,
+            match.musicSubmission.performerName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequest.songRequestId,
+            match.songRequest.projectSubmission.projectManager?.email,
+          );
+          break;
+        case "APPROVED_BY_MUSICIAN":
+          await ctx.emailService.sendMediaMakerLicenseComplete(
+            match.songRequest.projectSubmission.projectOwner.email,
+            match.musicSubmission.songName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequest.songRequestId,
+          );
+
+          await ctx.emailService.sendArtistLicenseComplete(
+            match.musicSubmission.submitter.email,
+            match.musicSubmission.songName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.musicSubmission.musicId,
+          );
+
+          await ctx.emailService.sendAdminAndPMLicenseSigned(
+            match.songRequest.projectSubmission.projectOwner.firstName,
+            match.musicSubmission.submitter.firstName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequestId,
+            match.songRequest.projectSubmission.projectManager?.email,
+          );
+          break;
+      }
+    }, "Email failed to send");
 
     return {
       message: "Match state updated successfully",

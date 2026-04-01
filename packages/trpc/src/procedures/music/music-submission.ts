@@ -2,6 +2,7 @@ import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zMusicSubmissionValues } from "../../schema";
+import { sendEmailHelper } from "../../utils";
 
 export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,
@@ -49,6 +50,14 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
         },
       }),
     ]);
+
+    await sendEmailHelper(
+      async () =>
+        await ctx.emailService.sendArtistMusicSubmissionConfirmation(
+          ctx.session.user.email,
+        ),
+      "Email failed to send",
+    );
 
     //Proceed with music submission
     return {
