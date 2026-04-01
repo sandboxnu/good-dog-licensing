@@ -10,6 +10,9 @@ import { Role } from "@good-dog/db";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { useState } from "react";
 import { Switch } from "../../../base/Switch";
+import { Button } from "@good-dog/ui/button";
+import UserAdd from "../../../svg/UserAdd";
+import InviteModal from "./InviteModal";
 
 type UserType = GetProcedureOutput<"allUsers">["users"][number];
 
@@ -18,14 +21,26 @@ type UserType = GetProcedureOutput<"allUsers">["users"][number];
  */
 export default function UserSubPage() {
   const [data] = trpc.allUsers.useSuspenseQuery();
+  const [inviteModalOpen, setInviteModalOpen] = useState<boolean>(false);
+
   return (
     <div className="flex flex-col gap-[32px]">
-      <Header
-        title={"Users"}
-        subtitle={"All users on the platform"}
-        requestPath={""}
-        buttonContent="Invite"
-      />
+      <div className="flex flex-row items-center">
+        <Header title={"Users"} subtitle={"All users on the platform"} />
+        <InviteModal
+          users={data.users}
+          inviteModalOpen={inviteModalOpen}
+          setInviteModalOpen={setInviteModalOpen}
+        >
+          <Button variant={"contained"} size={"medium-text"}>
+            <div className="flex flex-row items-center justify-center gap-2">
+              <UserAdd />
+              Invite
+            </div>
+          </Button>
+        </InviteModal>
+      </div>
+
       <UserTable data={data.users} />
     </div>
   );
