@@ -1,6 +1,6 @@
+import type { MatchState } from "@good-dog/db";
 import {
   Genre,
-  MatchState,
   MusicAffiliation,
   MusicRole,
   ProjectType,

@@ -1,13 +1,9 @@
-import Check from "../svg/status-icons/Check";
-import ClockFull from "../svg/status-icons/ClockFull";
-import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
-import Hourglass from "../svg/status-icons/Hourglass";
 import type { Status } from "../../utils/status";
 import {
   getMatchStateLabel,
   getStatusLabel,
 } from "../../utils/enumLabelMapper";
-import { MatchState } from "@good-dog/db";
+import type { MatchState } from "@good-dog/db";
 
 type Variant = "success" | "error" | "warning" | "gray" | "blue";
 
@@ -72,17 +68,6 @@ export default function StatusIndicator({
         className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center gap-[4px] pb-[4px] pl-[8px] pr-[8px] pt-[4px] rounded-sm ${getColorFromVariant(variant)}`}
       >
         <div className="flex flex-row items-center gap-[4px]">
-          {variant === "success" ? (
-            <Check />
-          ) : variant === "error" ? (
-            <ErrorExclamation size="medium" />
-          ) : variant === "warning" ? (
-            <ClockFull />
-          ) : variant === "blue" ? (
-            <Hourglass />
-          ) : (
-            <></>
-          )}
           <p className={`body3 ${getColorFromVariant(variant)} !border-none`}>
             {getMatchStateLabel(matchState)}
           </p>

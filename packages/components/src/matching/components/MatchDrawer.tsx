@@ -8,16 +8,12 @@ import {
 } from "@good-dog/ui/sheet";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import MusicNote from "../../svg/GreyMusicNote";
-import {
-  formatAllCapsList,
-  formatAllCapsWord,
-} from "../../../utils/allCapsListFormatter";
+import { formatAllCapsWord } from "../../../utils/allCapsListFormatter";
 import Calendar from "../../svg/Calendar";
 import { Link } from "lucide-react";
 import User from "./User";
 import FileIcon from "../../svg/FileIcon";
 import Check from "../../svg/Check";
-import StatusIndicator from "../../base/StatusIndicator";
 import Group from "../../svg/Group";
 import Deadline from "../../svg/Deadline";
 import Camera from "../../svg/Camera";
@@ -106,7 +102,10 @@ export default function MatchDrawer({
                   </p>
                 </div>
                 {match ? (
-                  <StatusIndicatorDetails admModStatus={match.admModStatus} matchState={match.matchState}/>
+                  <StatusIndicatorDetails
+                    admModStatus={match.admModStatus}
+                    matchState={match.matchState}
+                  />
                 ) : (
                   <p className="text-base text-dark-gray-400 dark:text-cream-400">
                     {"..."}
