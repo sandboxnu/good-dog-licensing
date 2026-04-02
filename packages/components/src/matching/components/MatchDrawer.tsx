@@ -21,6 +21,7 @@ import StatusIndicator from "../../base/StatusIndicator";
 import Group from "../../svg/Group";
 import Deadline from "../../svg/Deadline";
 import Camera from "../../svg/Camera";
+import StatusIndicatorDetails from "../../base/StatusIndicatorDetails";
 
 type MatchType = GetProcedureOutput<"getSongRequestById">["matches"][number];
 
@@ -52,18 +53,6 @@ export default function MatchDrawer({
             <p className="text-[40px] text-dark-gray-500 dark:text-gray-300 font-semibold leading-[1.28]">
               {match ? match.musicSubmission.songName : "..."}
             </p>
-            {/* <div className="flex flex-row items-center gap-1 "> */}
-            {/*   <p className="text-xs text-cream-600 dark:text-gray-200"> */}
-            {/*     Artist/Band */}
-            {/*   </p> */}
-            {/*   {match ? ( */}
-            {/*     <User name={match.musicSubmission.performerName} /> */}
-            {/*   ) : ( */}
-            {/*     <p className="text-cream-600 italic dark:text-gray-200"> */}
-            {/*       {"..."} */}
-            {/*     </p> */}
-            {/*   )} */}
-            {/* </div> */}
           </SheetTitle>
         </SheetHeader>
 
@@ -84,14 +73,11 @@ export default function MatchDrawer({
                 </div>
                 <p className="text-base text-dark-gray-400 dark:text-cream-400">
                   {match
-                    ? match.musicSubmission.createdAt.toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        },
-                      )
+                    ? match.updatedAt.toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })
                     : "..."}
                 </p>
               </div>
@@ -103,9 +89,8 @@ export default function MatchDrawer({
                   </p>
                 </div>
                 <p className="text-base text-dark-gray-400 dark:text-cream-400">
-                  {/* TODO: make a matchDate field for match */}
                   {match
-                    ? match.updatedAt.toLocaleDateString("en-GB", {
+                    ? match.createdAt.toLocaleDateString("en-GB", {
                         day: "numeric",
                         month: "short",
                         year: "numeric",
@@ -121,7 +106,7 @@ export default function MatchDrawer({
                   </p>
                 </div>
                 {match ? (
-                  <StatusIndicator status={match.admModStatus} />
+                  <StatusIndicatorDetails admModStatus={match.admModStatus} matchState={match.matchState}/>
                 ) : (
                   <p className="text-base text-dark-gray-400 dark:text-cream-400">
                     {"..."}

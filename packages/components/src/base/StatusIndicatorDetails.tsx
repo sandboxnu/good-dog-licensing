@@ -3,7 +3,11 @@ import ClockFull from "../svg/status-icons/ClockFull";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import Hourglass from "../svg/status-icons/Hourglass";
 import type { Status } from "../../utils/status";
-import { getStatusLabel } from "../../utils/enumLabelMapper";
+import {
+  getMatchStateLabel,
+  getStatusLabel,
+} from "../../utils/enumLabelMapper";
+import { MatchState } from "@good-dog/db";
 
 type Variant = "success" | "error" | "warning" | "gray" | "blue";
 
@@ -28,7 +32,7 @@ const getVariant = (status: Status): Variant => {
   }
 };
 
-// DUPLICATE CODE IN StatusIndicatorDetails
+// DUPLICATE CODE IN StatusIndicator
 const getColorFromVariant = (variant: Variant) => {
   switch (variant) {
     case "success":
@@ -45,33 +49,44 @@ const getColorFromVariant = (variant: Variant) => {
 };
 
 export default function StatusIndicator({
-  status,
-  rounded = false,
+  admModStatus,
+  matchState: matchState,
 }: {
-  status: Status;
-  rounded?: boolean;
+  admModStatus: Status;
+  matchState: MatchState;
 }) {
-  const variant = getVariant(status);
+  const variant = getVariant(admModStatus);
+  const showDetails =
+    admModStatus === "IN_PROGRESS" || admModStatus == "REJECTED";
 
   return (
-    <div
-      className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center gap-[4px] pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)} ${rounded ? "rounded-2xl" : "rounded"}`}
-    >
-      <div className="flex flex-row items-center gap-[4px]">
-        {variant === "success" ? (
-          <Check />
-        ) : variant === "error" ? (
-          <ErrorExclamation size="medium" />
-        ) : variant === "warning" ? (
-          <ClockFull />
-        ) : variant === "blue" ? (
-          <Hourglass />
-        ) : (
-          <></>
-        )}
-        <p className={`body3 ${getColorFromVariant(variant)} !border-none`}>
-          {getStatusLabel(status)}
+    <div className="flex flex-row items-center gap-2">
+      {showDetails && (
+        <p
+          className={`text-base ${getColorFromVariant(variant)} !bg-transparent !border-none`}
+        >
+          {getStatusLabel(admModStatus)}
         </p>
+      )}
+      <div
+        className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center gap-[4px] pb-[4px] pl-[8px] pr-[8px] pt-[4px] rounded-sm ${getColorFromVariant(variant)}`}
+      >
+        <div className="flex flex-row items-center gap-[4px]">
+          {variant === "success" ? (
+            <Check />
+          ) : variant === "error" ? (
+            <ErrorExclamation size="medium" />
+          ) : variant === "warning" ? (
+            <ClockFull />
+          ) : variant === "blue" ? (
+            <Hourglass />
+          ) : (
+            <></>
+          )}
+          <p className={`body3 ${getColorFromVariant(variant)} !border-none`}>
+            {getMatchStateLabel(matchState)}
+          </p>
+        </div>
       </div>
     </div>
   );
