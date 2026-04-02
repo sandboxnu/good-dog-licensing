@@ -20,6 +20,7 @@ const mockEmails = new MockEmailService();
 
 const $api = $createTrpcCaller({
   cookiesService: createMockCookieService(mockCookies),
+  emailService: mockEmails,
   prisma: prisma,
 });
 

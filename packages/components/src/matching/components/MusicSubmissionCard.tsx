@@ -36,6 +36,7 @@ export function MusicSubmissionCard({
           />
           <div className="flex flex-col gap-1">
             <a
+              target="_blank"
               className="flex flex-row gap-1 text-green-500 dark:text-mint-200 underline"
               href={musicSubmission.songLink}
             >

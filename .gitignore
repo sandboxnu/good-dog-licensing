@@ -34,3 +34,6 @@ volumes/*
 # Misc
 .DS_Store
 *.pem
+
+# Claude
+.claude/
