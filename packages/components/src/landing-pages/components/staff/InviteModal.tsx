@@ -8,7 +8,6 @@ import {
   DialogHeader,
   DialogOverlay,
   DialogTitle,
-  DialogTrigger,
 } from "@good-dog/ui/dialog";
 import { Button } from "@good-dog/ui/button";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
@@ -21,12 +20,10 @@ export default function InviteModal({
   users,
   inviteModalOpen,
   setInviteModalOpen,
-  children,
 }: {
   users: UserType[];
   inviteModalOpen: boolean;
   setInviteModalOpen: (open: boolean) => void;
-  children?: React.ReactNode;
 }) {
   const [emails, setEmails] = useState<string[]>([]);
   const [currentEmail, setCurrentEmail] = useState<string>("");
