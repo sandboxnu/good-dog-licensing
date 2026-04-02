@@ -92,13 +92,13 @@ export function Match({
           </button>
           <div onClick={(e) => e.stopPropagation()}>
             <ConfirmationModal
-              title={"Confirm match"}
+              title={"Send to Musician?"}
               open={openApprove}
               onOpenChange={setOpenApprove}
               onAction={handleApprove}
               type="approve"
               text={
-                "This action cannot be undone. This song will be matched following your approval."
+                "This action cannot be undone. This song will be sent to the Musician for approval."
               }
               showCheckbox={true}
             />

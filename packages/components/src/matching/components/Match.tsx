@@ -90,9 +90,9 @@ export function Match({
               onOpenChange={setOpenApprove}
               onAction={handleApprove}
               type="approve"
-              title={"Confirm match"}
+              title={"Send to Media Maker?"}
               text={
-                "This action cannot be undone. This song will be matched following your approval. "
+                "This action cannot be undone. This song will be sent to the Media Maker for approval."
               }
             />
             <ConfirmationModal
@@ -100,9 +100,9 @@ export function Match({
               onOpenChange={setOpenReject}
               onAction={handleReject}
               type="deny"
-              title={"Confirm selection"}
+              title={"Want to deny this song?"}
               text={
-                "This action cannot be undone. This match will be trashed following your denial. "
+                "This action cannot be undone. If you want to re-add the song, someone will have to suggest it again."
               }
             />
           </div>
