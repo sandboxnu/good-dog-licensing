@@ -6,14 +6,14 @@ import Link from "next/link";
 import { useFormContext } from "react-hook-form";
 
 import type { zSignUpValues } from "@good-dog/trpc/schema";
-import { HowHeardAboutUsLabel } from "@good-dog/db";
+import type { HowHeardAboutUsLabel } from "@good-dog/db";
 
 import Button from "../../../base/Button";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import PasswordRequirements from "../components/PasswordRequirements";
 import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
-import Checkbox from "../../../base/Checkbox";
+import RHFCheckbox from "../../../rhf-base/RHFCheckbox";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;
@@ -99,7 +99,8 @@ export default function FinalSignUpInfo({
           required
           placeholder="Select"
         />
-        <Checkbox
+        <RHFCheckbox<SignUpFormFields>
+          rhfName="termsOfService"
           label={
             <div>
               <p className="dark:text-white">
