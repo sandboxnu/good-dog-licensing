@@ -88,12 +88,7 @@ export default function ProjectsSubpage() {
 
   return (
     <div className="flex flex-col gap-[32px]">
-      <Header
-        title={"Submissions"}
-        subtitle={"Pending project submissions"}
-        requestPath={""}
-        buttonContent="Invite"
-      />
+      <Header title={"Submissions"} subtitle={"Pending project submissions"} />
 
       <div className="flex flex-row gap-[24px]">
         {admModProjectStatusOrder.map((status) => (
