@@ -55,7 +55,7 @@ export default function InviteModal({
   };
 
   const addEmail = () => {
-    const trimmedEmail = currentEmail.trim();
+    const trimmedEmail = currentEmail.trim().toLowerCase();
     if (!trimmedEmail) return;
 
     if (!validateEmail(trimmedEmail)) {
