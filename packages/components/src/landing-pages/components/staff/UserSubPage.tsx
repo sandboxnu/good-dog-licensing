@@ -27,19 +27,22 @@ export default function UserSubPage() {
     <div className="flex flex-col gap-[32px]">
       <div className="flex flex-row items-center">
         <Header title={"Users"} subtitle={"All users on the platform"} />
-        <InviteModal
-          users={data.users}
-          inviteModalOpen={inviteModalOpen}
-          setInviteModalOpen={setInviteModalOpen}
+        <Button
+          variant={"contained"}
+          size={"medium-text"}
+          onClick={() => setInviteModalOpen(true)}
         >
-          <Button variant={"contained"} size={"medium-text"}>
-            <div className="flex flex-row items-center justify-center gap-2">
-              <UserAdd />
-              Invite
-            </div>
-          </Button>
-        </InviteModal>
+          <div className="flex flex-row items-center justify-center gap-2">
+            <UserAdd />
+            Invite
+          </div>
+        </Button>
       </div>
+      <InviteModal
+        users={data.users}
+        inviteModalOpen={inviteModalOpen}
+        setInviteModalOpen={setInviteModalOpen}
+      />
 
       <UserTable data={data.users} />
     </div>

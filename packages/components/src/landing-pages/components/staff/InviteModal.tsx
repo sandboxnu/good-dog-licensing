@@ -12,6 +12,8 @@ import {
 } from "@good-dog/ui/dialog";
 import { Button } from "@good-dog/ui/button";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { X } from "lucide-react";
+import { getRoleLabel } from "../../../../utils/enumLabelMapper";
 
 type UserType = GetProcedureOutput<"allUsers">["users"][number];
 
@@ -28,8 +30,9 @@ export default function InviteModal({
 }) {
   const [emails, setEmails] = useState<string[]>([]);
   const [currentEmail, setCurrentEmail] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 3;
   const totalPages = Math.ceil(users.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -38,9 +41,16 @@ export default function InviteModal({
   const sendModeratorInviteEmailMutation =
     trpc.sendModeratorInviteEmail.useMutation({
       onSuccess: () => {
-        setInviteModalOpen(false);
+        closeModal();
       },
     });
+
+  const closeModal = () => {
+    setEmails([]);
+    setCurrentEmail("");
+    setError("");
+    setInviteModalOpen(false);
+  };
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,14 +58,28 @@ export default function InviteModal({
   };
 
   const addEmail = () => {
-    if (
-      currentEmail.trim() &&
-      !emails.includes(currentEmail.trim()) &&
-      validateEmail(currentEmail.trim())
-    ) {
-      setEmails([...emails, currentEmail.trim()]);
-      setCurrentEmail("");
+    const trimmedEmail = currentEmail.trim();
+    if (!trimmedEmail) return;
+
+    if (!validateEmail(trimmedEmail)) {
+      setError("Please enter a valid email address");
+      return;
     }
+
+    if (emails.includes(trimmedEmail)) {
+      setError("This email has already been added");
+      return;
+    }
+
+    // Check if email is already in users list
+    if (users.some((user) => user.email === trimmedEmail)) {
+      setError("This user already has access");
+      return;
+    }
+
+    setEmails([...emails, trimmedEmail]);
+    setCurrentEmail("");
+    setError("");
   };
 
   const removeEmail = (emailToRemove: string) => {
@@ -73,46 +97,63 @@ export default function InviteModal({
     emails.forEach((email) => {
       sendModeratorInviteEmailMutation.mutate({ moderatorEmail: email });
     });
-    setInviteModalOpen(false);
+    closeModal();
   };
 
   return (
-    <Dialog open={inviteModalOpen} onOpenChange={setInviteModalOpen}>
+    <Dialog open={inviteModalOpen} onOpenChange={closeModal}>
       {" "}
-      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogOverlay className="bg-gray-400 opacity-25" />{" "}
       <DialogContent className="max-w-md rounded-2xl p-[24px] bg-white dark:bg-dark-gray-600 border border-1 border-cream-500">
         <DialogHeader className="flex flex-col text-left space-y-2 gap-[16px]">
           <DialogTitle className="pt-[24px] text-[35px] font-medium text-gray-500 dark:text-gray-200">
-            Invite new users
+            Invite new PnR
           </DialogTitle>
-          <div className="relative border border-gray-300 dark:border-gray-600 rounded-md p-2 min-h-[40px] flex flex-wrap items-center gap-1 bg-white dark:bg-gray-800 focus-within:ring-2 focus-within:ring-blue-500">
+          <div className="relative border-[0.5px] border-dark-gray-100 dark:border-dark-gray-300 focus-within:border-green-300 focus-within:dark:border-grass-green-100 rounded-md p-2 min-h-[40px] flex flex-wrap items-center gap-1 bg-white dark:bg-gray-800">
             {emails.map((email) => (
               <div
                 key={email}
-                className="inline-flex items-center bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-sm"
+                className="inline-flex items-center bg-cream-100 dark:bg-green-600 text-dark-gray-500 dark:text-mint-100 px-2 py-1 rounded text-sm border-[0.5px] border-cream-400 dark:border-dark-gray-400 justify-between align-items gap-1"
               >
                 <span>{email}</span>
                 <button
                   onClick={() => removeEmail(email)}
-                  className="ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
+                  className="h-[16px] w-[16px]"
                 >
-                  ×
+                  <X
+                    size={"sm"}
+                    className="text-green-400 dark:text-mint-300"
+                  />
                 </button>
               </div>
             ))}
             <input
               type="email"
               value={currentEmail}
-              onChange={(e) => setCurrentEmail(e.target.value)}
+              onChange={(e) => {
+                setCurrentEmail(e.target.value);
+                if (error) setError(""); // Clear error when user starts typing
+              }}
               onKeyDown={handleKeyDown}
-              placeholder={emails.length === 0 ? "Add email addresses..." : ""}
-              className="flex-1 outline-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+              placeholder={emails.length === 0 ? "example@email.com" : ""}
+              className="flex-1 outline-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-dark-gray-100 dark:placeholder-dark-gray-200"
             />
           </div>
-          <p className="font-medium">People with access</p>
+          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+          <p className="font-medium text-dark-gray-500 dark:text-mint-300">
+            People with access
+          </p>
           {paginatedUsers.map((user) => (
-            <StaffUserCardInfo key={user.userId} user={user} />
+            <div className="flex flex-row justify-between align-items">
+              <StaffUserCardInfo
+                key={user.userId}
+                user={user}
+                showRole={false}
+              />
+              <span className="text-sm text-dark-gray-100 dark:text-dark-gray-300">
+                {getRoleLabel(user.role)}
+              </span>
+            </div>
           ))}
           <div className="flex justify-between items-center mt-4">
             <Button

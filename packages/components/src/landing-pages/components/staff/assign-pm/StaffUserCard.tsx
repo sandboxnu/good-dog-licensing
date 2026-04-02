@@ -61,16 +61,18 @@ export function StaffUserCardInfo({
       <ProfileIcon size={40} color="light" name={user.firstName.charAt(0)} />
       <div className="flex flex-col">
         <div className="flex items-baseline gap-2">
-          <span className="font-semibold text-gray-900">
+          <span className="font-semibold text-dark-gray-500 dark:text-gray-300">
             {user.firstName} {user.lastName}
           </span>
           {showRole && (
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-dark-gray-100 dark:text-dark-gray-300">
               {getRoleLabel(user.role)}
             </span>
           )}
         </div>
-        <span className="text-sm text-gray-500">{user.email}</span>
+        <span className="text-sm text-dark-gray-200 dark:text-dark-gray-100">
+          {user.email}
+        </span>
       </div>
     </div>
   );
