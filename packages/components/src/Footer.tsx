@@ -31,7 +31,11 @@ export default function Footer() {
         <div className="flex h-full flex-col justify-between">
           <div className="mb-auto mt-[10px] text-xl font-bold">
             Made by students at{" "}
-            <a href="https://www.sandboxnu.com/" className="underline">
+            <a
+              target="_blank"
+              href="https://www.sandboxnu.com/"
+              className="underline"
+            >
               Sandbox
             </a>
           </div>
