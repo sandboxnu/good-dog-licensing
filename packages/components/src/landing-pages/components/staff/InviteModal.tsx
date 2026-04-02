@@ -101,12 +101,12 @@ export default function InviteModal({
     <Dialog open={inviteModalOpen} onOpenChange={closeModal}>
       {" "}
       <DialogOverlay className="bg-gray-400 opacity-25" />{" "}
-      <DialogContent className="max-w-md rounded-2xl p-[24px] bg-white dark:bg-dark-gray-600 border border-1 border-cream-500">
+      <DialogContent className="max-w-md rounded-2xl p-[24px] bg-white dark:bg-dark-gray-600 border border-1 border-cream-500 dark:border-grass-green-100">
         <DialogHeader className="flex flex-col text-left space-y-2 gap-[16px]">
           <DialogTitle className="pt-[24px] text-[35px] font-medium text-gray-500 dark:text-gray-200">
             Invite new PnR
           </DialogTitle>
-          <div className="relative border-[0.5px] border-dark-gray-100 dark:border-dark-gray-300 focus-within:border-green-300 focus-within:dark:border-grass-green-100 rounded-md p-2 min-h-[40px] flex flex-wrap items-center gap-1 bg-white dark:bg-gray-800">
+          <div className="relative border-[0.5px] border-dark-gray-100 dark:border-dark-gray-300 focus-within:border-green-300 focus-within:dark:border-grass-green-100 rounded-md p-2 min-h-[40px] flex flex-wrap items-center gap-1 bg-white dark:bg-dark-gray-500">
             {emails.map((email) => (
               <div
                 key={email}
@@ -133,7 +133,7 @@ export default function InviteModal({
               }}
               onKeyDown={handleKeyDown}
               placeholder={emails.length === 0 ? "example@email.com" : ""}
-              className="flex-1 outline-none bg-transparent text-gray-900 dark:text-gray-100 placeholder-dark-gray-100 dark:placeholder-dark-gray-200"
+              className="flex-1 border-none outline-none bg-transparent dark:bg-dark-gray-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
@@ -141,7 +141,10 @@ export default function InviteModal({
             People with access
           </p>
           {paginatedUsers.map((user) => (
-            <div className="flex flex-row justify-between align-items">
+            <div
+              className="flex flex-row justify-between align-items"
+              key={user.userId}
+            >
               <StaffUserCardInfo
                 key={user.userId}
                 user={user}
@@ -161,7 +164,7 @@ export default function InviteModal({
             >
               Previous
             </Button>
-            <span className="text-sm">
+            <span className="text-sm dark:text-dark-gray-100">
               Page {currentPage} of {totalPages}
             </span>
             <Button
