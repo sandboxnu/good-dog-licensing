@@ -36,8 +36,37 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
         musicianStatus: MusicianMatchStatus.HIDDEN,
       },
       include: {
-        songRequest: true,
-        musicSubmission: true,
+        songRequest: {
+          include: {
+            projectSubmission: {
+              include: {
+                projectOwner: true,
+              },
+            },
+          },
+        },
+        musicSubmission: {
+          include: {
+            submitter: true,
+          },
+        },
+      },
+    });
+
+    await ctx.prisma.contract.create({
+      data: {
+        matchId: createdMatch.matchId,
+        date: createdMatch.createdAt,
+        licensorFullName:
+          createdMatch.musicSubmission.submitter.firstName +
+          " " +
+          createdMatch.musicSubmission.submitter.lastName,
+        licensorEntity: createdMatch.musicSubmission.performerName,
+        licenseeFullName:
+          createdMatch.songRequest.projectSubmission.projectOwner.firstName +
+          " " +
+          createdMatch.songRequest.projectSubmission.projectOwner.lastName,
+        licenseeEntity: createdMatch.songRequest.projectSubmission.projectTitle,
       },
     });
 
