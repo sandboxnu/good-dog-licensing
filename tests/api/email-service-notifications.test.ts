@@ -80,7 +80,7 @@ describe("email service notification methods", () => {
         to: ["artist@test.com"],
         subject: "Welcome to Good Dog Licensing!",
         html: artistJoiningConfirmationTemplate(),
-      });
+      }, false);
     });
 
     test("sendArtistMusicSubmissionConfirmation calls send with correct params", async () => {
@@ -91,7 +91,7 @@ describe("email service notification methods", () => {
         to: ["artist@test.com"],
         subject: "Music Submitted — Thank You! - Good Dog Licensing",
         html: artistMusicSubmissionConfirmationTemplate(),
-      });
+      }, false);
     });
 
     test("sendArtistSongRequestedForBrief calls send with correct params", async () => {
@@ -111,7 +111,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song/song123`,
         }),
-      });
+      }, false);
     });
 
     test("sendArtistLicenseComplete calls send with correct params", async () => {
@@ -131,7 +131,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song/song123/contract`,
         }),
-      });
+      }, false);
     });
   });
 
@@ -146,7 +146,7 @@ describe("email service notification methods", () => {
         to: ["mm@test.com"],
         subject: "Welcome to Good Dog Licensing!",
         html: mediaMakerJoiningConfirmationTemplate(),
-      });
+      }, false);
     });
 
     test("sendMediaMakerBriefSubmissionConfirmation calls send with correct params", async () => {
@@ -157,7 +157,7 @@ describe("email service notification methods", () => {
         to: ["mm@test.com"],
         subject: "Brief Submitted — Thank You! - Good Dog Licensing",
         html: mediaMakerBriefSubmissionConfirmationTemplate(),
-      });
+      }, false);
     });
 
     test("sendMediaMakerProjectManagerAssigned calls send with correct params", async () => {
@@ -175,7 +175,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           projectManagerName: "John PM",
         }),
-      });
+      }, false);
     });
 
     test("sendMediaMakerChatMessage calls send with correct params", async () => {
@@ -193,7 +193,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song-request/sr123`,
         }),
-      });
+      }, false);
     });
 
     test("sendMediaMakerSongSuggestionByPM calls send with correct params", async () => {
@@ -214,7 +214,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song-request/sr123`,
         }),
-      });
+      }, false);
     });
 
     test("sendMediaMakerLicenseComplete calls send with correct params", async () => {
@@ -234,7 +234,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song-request/sr123/contract`,
         }),
-      });
+      }, false);
     });
 
     test("sendMediaMakerMaterialRequest calls send with correct params", async () => {
@@ -247,7 +247,7 @@ describe("email service notification methods", () => {
         html: mediaMakerMaterialRequestTemplate({
           link: `${BASE_URL}/project/proj123/materials`,
         }),
-      });
+      }, false);
     });
   });
 
@@ -272,7 +272,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/home?projectId=proj123`,
         }),
-      });
+      }, false);
     });
 
     test("sendAdminProjectManagerAssigned calls send with correct recipients and content", async () => {
@@ -293,7 +293,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/home?projectId=proj123`,
         }),
-      });
+      }, false);
     });
 
     test("sendAdminAndPMChatMessage calls send with correct recipients and content", async () => {
@@ -307,7 +307,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song-request/sr123`,
         }),
-      });
+      }, false);
     });
 
     test("sendAdminAndPMSongSuggestionSentToMM calls send with correct recipients and content", async () => {
@@ -330,7 +330,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song-request/sr123`,
         }),
-      });
+      }, false);
     });
 
     test("sendAdminAndPMSongSuggestionApprovedByMM calls send with correct recipients and content", async () => {
@@ -353,7 +353,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song-request/sr123`,
         }),
-      });
+      }, false);
     });
 
     test("sendAdminAndPMLicenseSigned calls send with correct recipients and content", async () => {
@@ -374,7 +374,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song-request/sr123/contract`,
         }),
-      });
+      }, false);
     });
 
     test("sendAdminAndPMMaterialsDelivered calls send with correct recipients and content", async () => {
@@ -391,7 +391,7 @@ describe("email service notification methods", () => {
           mediaMakerName: "Media Maker",
           projectName: "My Project",
         }),
-      });
+      }, false);
     });
 
     test("sendPMSongSuggestionAddedToBrief calls send with correct params", async () => {
@@ -415,7 +415,7 @@ describe("email service notification methods", () => {
           projectName: "My Project",
           link: `${BASE_URL}/song-request/sr123`,
         }),
-      });
+      }, false);
     });
   });
 });
