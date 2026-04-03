@@ -75,23 +75,29 @@ describe("email service notification methods", () => {
     test("sendArtistJoiningConfirmation calls send with correct params", async () => {
       await mockEmail.sendArtistJoiningConfirmation("artist@test.com");
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["artist@test.com"],
-        subject: "Welcome to Good Dog Licensing!",
-        html: artistJoiningConfirmationTemplate(),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["artist@test.com"],
+          subject: "Welcome to Good Dog Licensing!",
+          html: artistJoiningConfirmationTemplate(),
+        },
+        false,
+      );
     });
 
     test("sendArtistMusicSubmissionConfirmation calls send with correct params", async () => {
       await mockEmail.sendArtistMusicSubmissionConfirmation("artist@test.com");
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["artist@test.com"],
-        subject: "Music Submitted — Thank You! - Good Dog Licensing",
-        html: artistMusicSubmissionConfirmationTemplate(),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["artist@test.com"],
+          subject: "Music Submitted — Thank You! - Good Dog Licensing",
+          html: artistMusicSubmissionConfirmationTemplate(),
+        },
+        false,
+      );
     });
 
     test("sendArtistSongRequestedForBrief calls send with correct params", async () => {
@@ -102,16 +108,19 @@ describe("email service notification methods", () => {
         "My Project",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["artist@test.com"],
-        subject: "Your Song Has Been Requested - Good Dog Licensing",
-        html: artistSongRequestedForBriefTemplate({
-          songName: "My Song",
-          projectName: "My Project",
-          link: `${BASE_URL}/song/song123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["artist@test.com"],
+          subject: "Your Song Has Been Requested - Good Dog Licensing",
+          html: artistSongRequestedForBriefTemplate({
+            songName: "My Song",
+            projectName: "My Project",
+            link: `${BASE_URL}/song/song123`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendArtistLicenseComplete calls send with correct params", async () => {
@@ -122,16 +131,19 @@ describe("email service notification methods", () => {
         "song123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["artist@test.com"],
-        subject: "License Complete — Good Dog Licensing",
-        html: artistLicenseCompleteTemplate({
-          songName: "My Song",
-          projectName: "My Project",
-          link: `${BASE_URL}/song/song123/contract`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["artist@test.com"],
+          subject: "License Complete — Good Dog Licensing",
+          html: artistLicenseCompleteTemplate({
+            songName: "My Song",
+            projectName: "My Project",
+            link: `${BASE_URL}/song/song123/contract`,
+          }),
+        },
+        false,
+      );
     });
   });
 
@@ -141,23 +153,29 @@ describe("email service notification methods", () => {
     test("sendMediaMakerJoiningConfirmation calls send with correct params", async () => {
       await mockEmail.sendMediaMakerJoiningConfirmation("mm@test.com");
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["mm@test.com"],
-        subject: "Welcome to Good Dog Licensing!",
-        html: mediaMakerJoiningConfirmationTemplate(),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["mm@test.com"],
+          subject: "Welcome to Good Dog Licensing!",
+          html: mediaMakerJoiningConfirmationTemplate(),
+        },
+        false,
+      );
     });
 
     test("sendMediaMakerBriefSubmissionConfirmation calls send with correct params", async () => {
       await mockEmail.sendMediaMakerBriefSubmissionConfirmation("mm@test.com");
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["mm@test.com"],
-        subject: "Brief Submitted — Thank You! - Good Dog Licensing",
-        html: mediaMakerBriefSubmissionConfirmationTemplate(),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["mm@test.com"],
+          subject: "Brief Submitted — Thank You! - Good Dog Licensing",
+          html: mediaMakerBriefSubmissionConfirmationTemplate(),
+        },
+        false,
+      );
     });
 
     test("sendMediaMakerProjectManagerAssigned calls send with correct params", async () => {
@@ -167,15 +185,19 @@ describe("email service notification methods", () => {
         "John PM",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["mm@test.com"],
-        subject: "Your Project Manager Has Been Assigned - Good Dog Licensing",
-        html: mediaMakerProjectManagerAssignedTemplate({
-          projectName: "My Project",
-          projectManagerName: "John PM",
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["mm@test.com"],
+          subject:
+            "Your Project Manager Has Been Assigned - Good Dog Licensing",
+          html: mediaMakerProjectManagerAssignedTemplate({
+            projectName: "My Project",
+            projectManagerName: "John PM",
+          }),
+        },
+        false,
+      );
     });
 
     test("sendMediaMakerChatMessage calls send with correct params", async () => {
@@ -185,15 +207,18 @@ describe("email service notification methods", () => {
         "sr123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["mm@test.com"],
-        subject: "New Chat Message — My Project - Good Dog Licensing",
-        html: mediaMakerChatMessageTemplate({
-          projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["mm@test.com"],
+          subject: "New Chat Message — My Project - Good Dog Licensing",
+          html: mediaMakerChatMessageTemplate({
+            projectName: "My Project",
+            link: `${BASE_URL}/song-request/sr123`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendMediaMakerSongSuggestionByPM calls send with correct params", async () => {
@@ -204,17 +229,20 @@ describe("email service notification methods", () => {
         "sr123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["mm@test.com"],
-        subject:
-          "New Song Suggestion from Your Project Manager - Good Dog Licensing",
-        html: mediaMakerSongSuggestionByPMTemplate({
-          songName: "My Song",
-          projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["mm@test.com"],
+          subject:
+            "New Song Suggestion from Your Project Manager - Good Dog Licensing",
+          html: mediaMakerSongSuggestionByPMTemplate({
+            songName: "My Song",
+            projectName: "My Project",
+            link: `${BASE_URL}/song-request/sr123`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendMediaMakerLicenseComplete calls send with correct params", async () => {
@@ -225,29 +253,35 @@ describe("email service notification methods", () => {
         "sr123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["mm@test.com"],
-        subject: "License Complete — Congratulations! - Good Dog Licensing",
-        html: mediaMakerLicenseCompleteTemplate({
-          songName: "My Song",
-          projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123/contract`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["mm@test.com"],
+          subject: "License Complete — Congratulations! - Good Dog Licensing",
+          html: mediaMakerLicenseCompleteTemplate({
+            songName: "My Song",
+            projectName: "My Project",
+            link: `${BASE_URL}/song-request/sr123/contract`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendMediaMakerMaterialRequest calls send with correct params", async () => {
       await mockEmail.sendMediaMakerMaterialRequest("mm@test.com", "proj123");
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["mm@test.com"],
-        subject: "Materials Needed for Your Project - Good Dog Licensing",
-        html: mediaMakerMaterialRequestTemplate({
-          link: `${BASE_URL}/project/proj123/materials`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["mm@test.com"],
+          subject: "Materials Needed for Your Project - Good Dog Licensing",
+          html: mediaMakerMaterialRequestTemplate({
+            link: `${BASE_URL}/project/proj123/materials`,
+          }),
+        },
+        false,
+      );
     });
   });
 
@@ -262,17 +296,20 @@ describe("email service notification methods", () => {
         "proj123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["admin1@test.com", "mod1@test.com"],
-        subject: "New Brief Available - Good Dog Licensing",
-        html: adminAndPNRBriefAvailableTemplate({
-          mediaMakerName: "Media Maker",
-          songCount: 3,
-          projectName: "My Project",
-          link: `${BASE_URL}/home?projectId=proj123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["admin1@test.com", "mod1@test.com"],
+          subject: "New Brief Available - Good Dog Licensing",
+          html: adminAndPNRBriefAvailableTemplate({
+            mediaMakerName: "Media Maker",
+            songCount: 3,
+            projectName: "My Project",
+            link: `${BASE_URL}/home?projectId=proj123`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendAdminProjectManagerAssigned calls send with correct recipients and content", async () => {
@@ -283,31 +320,37 @@ describe("email service notification methods", () => {
         "proj123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["admin1@test.com"],
-        subject: "Project Manager Assigned to Brief - Good Dog Licensing",
-        html: adminProjectManagerAssignedTemplate({
-          adminName: "Admin Name",
-          pmName: "PM Name",
-          projectName: "My Project",
-          link: `${BASE_URL}/home?projectId=proj123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["admin1@test.com"],
+          subject: "Project Manager Assigned to Brief - Good Dog Licensing",
+          html: adminProjectManagerAssignedTemplate({
+            adminName: "Admin Name",
+            pmName: "PM Name",
+            projectName: "My Project",
+            link: `${BASE_URL}/home?projectId=proj123`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendAdminAndPMChatMessage calls send with correct recipients and content", async () => {
       await mockEmail.sendAdminAndPMChatMessage("My Project", "sr123");
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["admin1@test.com", "mod1@test.com"],
-        subject: "New Chat Message — My Project - Good Dog Licensing",
-        html: adminAndPMChatMessageTemplate({
-          projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["admin1@test.com", "mod1@test.com"],
+          subject: "New Chat Message — My Project - Good Dog Licensing",
+          html: adminAndPMChatMessageTemplate({
+            projectName: "My Project",
+            link: `${BASE_URL}/song-request/sr123`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendAdminAndPMSongSuggestionSentToMM calls send with correct recipients and content", async () => {
@@ -319,18 +362,21 @@ describe("email service notification methods", () => {
         "sr123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["admin1@test.com", "mod1@test.com"],
-        subject: "Song Suggestion Sent to Media Maker - Good Dog Licensing",
-        html: adminSongSuggestionSentToMMTemplate({
-          senderName: "Sender",
-          songName: "My Song",
-          artistName: "Artist",
-          projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["admin1@test.com", "mod1@test.com"],
+          subject: "Song Suggestion Sent to Media Maker - Good Dog Licensing",
+          html: adminSongSuggestionSentToMMTemplate({
+            senderName: "Sender",
+            songName: "My Song",
+            artistName: "Artist",
+            projectName: "My Project",
+            link: `${BASE_URL}/song-request/sr123`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendAdminAndPMSongSuggestionApprovedByMM calls send with correct recipients and content", async () => {
@@ -342,18 +388,22 @@ describe("email service notification methods", () => {
         "sr123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["admin1@test.com"],
-        subject: "Song Suggestion Approved by Media Maker - Good Dog Licensing",
-        html: adminAndPMSongSuggestionApprovedByMMTemplate({
-          mediaMakerName: "Media Maker",
-          songName: "My Song",
-          artistName: "Artist",
-          projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["admin1@test.com"],
+          subject:
+            "Song Suggestion Approved by Media Maker - Good Dog Licensing",
+          html: adminAndPMSongSuggestionApprovedByMMTemplate({
+            mediaMakerName: "Media Maker",
+            songName: "My Song",
+            artistName: "Artist",
+            projectName: "My Project",
+            link: `${BASE_URL}/song-request/sr123`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendAdminAndPMLicenseSigned calls send with correct recipients and content", async () => {
@@ -364,17 +414,20 @@ describe("email service notification methods", () => {
         "sr123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["admin1@test.com"],
-        subject: "License Signed — Brief Complete - Good Dog Licensing",
-        html: adminAndPMLicenseSignedTemplate({
-          mediaMakerName: "Media Maker",
-          musicianName: "Musician",
-          projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123/contract`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["admin1@test.com"],
+          subject: "License Signed — Brief Complete - Good Dog Licensing",
+          html: adminAndPMLicenseSignedTemplate({
+            mediaMakerName: "Media Maker",
+            musicianName: "Musician",
+            projectName: "My Project",
+            link: `${BASE_URL}/song-request/sr123/contract`,
+          }),
+        },
+        false,
+      );
     });
 
     test("sendAdminAndPMMaterialsDelivered calls send with correct recipients and content", async () => {
@@ -383,15 +436,18 @@ describe("email service notification methods", () => {
         "My Project",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["admin1@test.com"],
-        subject: "Materials Delivered - Good Dog Licensing",
-        html: adminAndPMMaterialsDeliveredTemplate({
-          mediaMakerName: "Media Maker",
-          projectName: "My Project",
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["admin1@test.com"],
+          subject: "Materials Delivered - Good Dog Licensing",
+          html: adminAndPMMaterialsDeliveredTemplate({
+            mediaMakerName: "Media Maker",
+            projectName: "My Project",
+          }),
+        },
+        false,
+      );
     });
 
     test("sendPMSongSuggestionAddedToBrief calls send with correct params", async () => {
@@ -404,18 +460,21 @@ describe("email service notification methods", () => {
         "sr123",
       );
 
-      expect(mockEmail.send).toHaveBeenCalledWith({
-        from: FROM,
-        to: ["pm@test.com"],
-        subject: "New Song Suggestion Added to Brief - Good Dog Licensing",
-        html: pmSongSuggestionAddedToBriefTemplate({
-          prName: "PR Name",
-          songName: "My Song",
-          artistName: "Artist",
-          projectName: "My Project",
-          link: `${BASE_URL}/song-request/sr123`,
-        }),
-      }, false);
+      expect(mockEmail.send).toHaveBeenCalledWith(
+        {
+          from: FROM,
+          to: ["pm@test.com"],
+          subject: "New Song Suggestion Added to Brief - Good Dog Licensing",
+          html: pmSongSuggestionAddedToBriefTemplate({
+            prName: "PR Name",
+            songName: "My Song",
+            artistName: "Artist",
+            projectName: "My Project",
+            link: `${BASE_URL}/song-request/sr123`,
+          }),
+        },
+        false,
+      );
     });
   });
 });
