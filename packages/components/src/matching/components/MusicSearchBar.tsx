@@ -7,8 +7,10 @@ type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 
 export function MusicSearchBar({
   setSearchedMusic,
+  placeholder = "",
 }: {
   setSearchedMusic: (searchedMusic: MusicSubmissionType[]) => void;
+  placeholder?: string;
 }) {
   const [music] = trpc.allMusic.useSuspenseQuery();
 
@@ -33,7 +35,7 @@ export function MusicSearchBar({
   return (
     <SearchBar
       onChange={inputHandler}
-      placeholder="Search songs, artists, or genres"
+      placeholder={placeholder || "Search songs, artists, or genres"}
     />
   );
 }
