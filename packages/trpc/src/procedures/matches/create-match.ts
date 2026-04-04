@@ -1,9 +1,17 @@
 import { z } from "zod";
 
 import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
-import { MatchState } from "@good-dog/db";
+import {
+  MatchState,
+  AdmModMatchStatus,
+  MediaMakerMatchStatus,
+  MusicianMatchStatus,
+} from "@good-dog/db";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
+import { sendEmailHelper } from "../../utils";
+import { TRPCError } from "@trpc/server";
+import { updateStatuses } from "../../utils/status/update-status";
 
 export const createMatchProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
@@ -16,31 +24,69 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    const project = await ctx.prisma.projectSubmission.findFirst({
-      where: {
-        songRequests: {
-          some: {
-            songRequestId: input.songRequestId,
-          },
-        },
-      },
-    });
-
-    // if user is the project manager, set to SENT_TO_MEDIA_MAKER, else WAITING_FOR_MANAGER_APPROVAL
-    const matchStateToUse =
-      project?.projectManagerId &&
-      project.projectManagerId === ctx.session.user.userId
-        ? MatchState.SENT_TO_MEDIA_MAKER
-        : MatchState.WAITING_FOR_MANAGER_APPROVAL;
-
-    await ctx.prisma.match.create({
+    // Create match
+    const createdMatch = await ctx.prisma.match.create({
       data: {
         songRequestId: input.songRequestId,
         musicId: input.musicId,
         matcherUserId: ctx.session.user.userId,
-        matchState: matchStateToUse,
+        matchState: MatchState.WAITING_FOR_MANAGER_APPROVAL,
+        admModStatus: AdmModMatchStatus.APPROVAL_NEEDED,
+        mediaMakerStatus: MediaMakerMatchStatus.HIDDEN,
+        musicianStatus: MusicianMatchStatus.HIDDEN,
+      },
+      include: {
+        songRequest: true,
+        musicSubmission: true,
       },
     });
+
+    // Update statuses of match, SR, and project
+    await updateStatuses(
+      createdMatch.songRequest.projectId,
+      createdMatch.songRequestId,
+      createdMatch.matchId,
+      createdMatch.musicSubmission.musicId,
+    );
+
+    const songRequest = await ctx.prisma.songRequest.findUnique({
+      where: { songRequestId: input.songRequestId },
+      include: { projectSubmission: { include: { projectManager: true } } },
+    });
+
+    if (!songRequest) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Song Request not found.",
+      });
+    }
+
+    const music = await ctx.prisma.musicSubmission.findUnique({
+      where: { musicId: input.musicId },
+    });
+
+    if (!music) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Music not found.",
+      });
+    }
+
+    const projectManager = songRequest.projectSubmission.projectManager;
+    if (projectManager) {
+      await sendEmailHelper(
+        async () =>
+          await ctx.emailService.sendPMSongSuggestionAddedToBrief(
+            projectManager.email,
+            ctx.session.user.firstName + " " + ctx.session.user.lastName,
+            music.songName,
+            music.performerName,
+            songRequest.projectSubmission.projectTitle,
+            songRequest.songRequestId,
+          ),
+        "Email failed to send",
+      );
+    }
 
     return {
       message: "Match successfully created.",

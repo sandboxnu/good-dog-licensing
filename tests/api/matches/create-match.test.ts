@@ -11,6 +11,7 @@ import { passwordService } from "@good-dog/auth/password";
 import { Genre, MatchState, prisma, ProjectType } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
+import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCache } from "../../mocks/MockNextCache";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
@@ -172,6 +173,7 @@ async function deleteData() {
 describe("match procedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
+  const mockEmails = new MockEmailService();
 
   beforeAll(async () => {
     await cache.apply();
@@ -183,6 +185,7 @@ describe("match procedure", () => {
 
   const $api = $createTrpcCaller({
     cookiesService: createMockCookieService(cookies),
+    emailService: mockEmails,
     prisma: prisma,
   });
 
@@ -190,6 +193,7 @@ describe("match procedure", () => {
     await deleteData();
     cookies.clear();
     cache.clear();
+    mockEmails.clear();
   });
 
   it("should allow a moderator to create a NEW match (as projectManager)", async () => {
@@ -211,7 +215,7 @@ describe("match procedure", () => {
     });
 
     expect(match).toBeDefined();
-    expect(match?.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
+    expect(match?.matchState).toBe(MatchState.WAITING_FOR_MANAGER_APPROVAL);
     expect(match?.songRequestId).toBe("songRequestOneSubmission");
     expect(match?.musicId).toBe("musicSubmission");
     expect(match?.matcherUserId).toBe("matcher");

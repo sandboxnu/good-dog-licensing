@@ -150,15 +150,14 @@ describe("auth", () => {
     expect(res.message).toEqual("Successfully logged out");
   });
 
-  test("auth/deleteAccount", async () => {
+  test("auth/deactivateSelf", async () => {
     const session = await createSession();
     mockCookies.set("sessionId", session.sessionId);
 
-    const deleteAccountResponse = await $api.deleteAccount();
+    const deactiveSelfResponse = await $api.deactivateSelf();
 
-    expect(deleteAccountResponse.message).toEqual(
-      "Successfully deleted account",
+    expect(deactiveSelfResponse.message).toEqual(
+      "Successfully deactivated account",
     );
-    expect(mockCookies.delete).toBeCalledWith("sessionId");
   });
 });

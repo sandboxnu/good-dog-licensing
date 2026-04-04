@@ -14,10 +14,12 @@ interface RHFTextInputProps<TFieldValues extends FieldValues> {
   helperText?: string;
   errorText?: string;
   icon?: ReactNode;
+  clearIcon?: boolean;
 }
 
 export default function RHFTextInput<TFieldValues extends FieldValues>({
   rhfName,
+  clearIcon = false,
   ...textInputProps
 }: RHFTextInputProps<TFieldValues>) {
   const { control } = useFormContext<TFieldValues>();
@@ -31,6 +33,7 @@ export default function RHFTextInput<TFieldValues extends FieldValues>({
           {...textInputProps}
           value={field.value || ""}
           onChange={field.onChange}
+          onClear={clearIcon ? () => field.onChange("") : undefined}
         />
       )}
     />

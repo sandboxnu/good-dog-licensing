@@ -1,8 +1,9 @@
 import { TRPCError } from "@trpc/server";
 
-import { authenticatedProcedureBuilder } from "../middleware/authenticated";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 import { zSignInValues } from "../schema";
+import { authenticatedOnlyProcedureBuilder } from "../middleware/authenticated-only";
+import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
 const getNewSessionExpirationDate = (rememberMe: boolean) =>
   rememberMe
@@ -56,7 +57,7 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
     };
   });
 
-export const signOutProcedure = authenticatedProcedureBuilder.mutation(
+export const signOutProcedure = authenticatedOnlyProcedureBuilder.mutation(
   async ({ ctx }) => {
     await ctx.prisma.session.delete({
       where: {
@@ -72,18 +73,18 @@ export const signOutProcedure = authenticatedProcedureBuilder.mutation(
   },
 );
 
-export const deleteAccountProcedure = authenticatedProcedureBuilder.mutation(
-  async ({ ctx }) => {
-    await ctx.prisma.user.delete({
+export const deactivateSelfProcedure =
+  authenticatedAndActiveProcedureBuilder.mutation(async ({ ctx }) => {
+    await ctx.prisma.user.update({
       where: {
         userId: ctx.session.user.userId,
       },
+      data: {
+        active: false,
+      },
     });
 
-    ctx.cookiesService.deleteSessionCookie();
-
     return {
-      message: "Successfully deleted account",
+      message: "Successfully deactivated account",
     };
-  },
-);
+  });

@@ -14,6 +14,23 @@ export const zPasswordValues = z.object({
   password: zPasswordValidation,
 });
 
+export const zModeratorSignUpValues = z
+  .object({
+    moderatorInviteId: z.string(),
+    firstName: zRequiredString,
+    lastName: zRequiredString,
+    phoneNumber: zRequiredString.regex(
+      /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
+      "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
+    ),
+    password: zPasswordValidation,
+    confirmPassword: zRequiredString,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
 export const zSignUpValues = z
   .object({
     email: zRequiredEmail,
@@ -52,8 +69,3 @@ export const zResetPasswordValues = z
     message: "Passwords don't match",
     path: ["confirmPassword"], // This targets the confirmPassword field specifically
   });
-
-export const zSearchTermValues = z.object({
-  searchTerm: z.string(),
-  filter: z.string(),
-});

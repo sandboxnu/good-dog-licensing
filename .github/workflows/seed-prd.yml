@@ -1,0 +1,20 @@
+name: Seed Production Database
+
+on:
+  workflow_dispatch:
+
+jobs:
+  seed-production-database:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-bun
+
+      - name: Reset and Seed Production Database
+        run: bun prisma migrate reset --force
+        working-directory: packages/db
+        env:
+          DATABASE_PRISMA_URL: ${{ secrets.DATABASE_PRISMA_URL }}

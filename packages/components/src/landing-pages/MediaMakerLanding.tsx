@@ -1,8 +1,6 @@
 "use client";
 
-import { MatchState } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
-
 import Card from "../base/Card";
 import StatusIndicator from "../base/StatusIndicator";
 import EmptyFolder from "../svg/homepage/EmptyFolder";
@@ -34,43 +32,6 @@ export default function MediaMakerLanding() {
       {data.projects.length > 0 && (
         <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
           {data.projects.map((project, key) => {
-            // SENT_TO_MEDIA_MAKER matches are sent to media maker for approval
-            const actionRequired = project.songRequests.some((songReq) =>
-              songReq.matches.some(
-                (match) => match.matchState === MatchState.SENT_TO_MEDIA_MAKER,
-              ),
-            );
-            // Something approved by media maker but not by musician
-            const pendingApproval = project.songRequests.some((songReq) =>
-              songReq.matches.some(
-                (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
-              ),
-            );
-
-            // Complete when all requests in approved by musician state
-            const completed = project.songRequests.every((scene) =>
-              scene.matches.every(
-                (match) => match.matchState === MatchState.APPROVED_BY_MUSICIAN,
-              ),
-            );
-
-            const matchSize = project.songRequests.reduce((prev, song) => {
-              return prev + song.matches.length;
-            }, 0);
-
-            const indicator: {
-              variant: "error" | "success" | "warning" | "gray";
-              text: string;
-            } = actionRequired
-              ? { variant: "error", text: "Action required" }
-              : pendingApproval
-                ? { variant: "warning", text: "Pending approval" }
-                : matchSize === 0
-                  ? { variant: "gray", text: "Project submitted" }
-                  : completed
-                    ? { variant: "success", text: "Completed" }
-                    : { variant: "warning", text: "In progress" };
-
             return (
               <Card
                 size="small"
@@ -89,10 +50,7 @@ export default function MediaMakerLanding() {
                       {project.description}
                     </p>
                     <div className="w-full flex flex-row justify-between">
-                      <StatusIndicator
-                        variant={indicator.variant}
-                        text={indicator.text}
-                      />
+                      <StatusIndicator status={project.mediaMakerStatus} />
                       <ChevronRight
                         onClick={() =>
                           router.push(`/project/${project.projectId}`)

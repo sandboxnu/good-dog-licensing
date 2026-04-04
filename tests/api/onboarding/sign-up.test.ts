@@ -137,7 +137,7 @@ describe("sign-up", () => {
     expect(user?.phoneNumber).toBe("1234567890");
     expect(user?.hashedPassword).not.toBe("Password");
 
-    expect(mockEmails.send).not.toBeCalled();
+    expect(mockEmails.send).toBeCalled();
     expect(mockEmails.generateSixDigitCode).not.toBeCalled();
   });
 });

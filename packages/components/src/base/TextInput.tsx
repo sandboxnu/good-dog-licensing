@@ -17,6 +17,7 @@ interface TextInputProps {
   helperText?: string;
   errorText?: string;
   icon?: ReactNode;
+  onClear?: () => void;
 }
 
 export default function TextInput({
@@ -30,6 +31,7 @@ export default function TextInput({
   helperText,
   errorText,
   icon,
+  onClear,
 }: TextInputProps) {
   return (
     <div className="flex w-full flex-col gap-[4px] ">
@@ -46,10 +48,10 @@ export default function TextInput({
       </div>
       <Input
         className={clsx(
-          "h-[32px] w-full rounded-[8px] border-dark-gray-200 dark:border-dark-gray-300 pl-[8px] text-body3 text-dark-gray-500 dark:text-gray-200 dark:bg-dark-gray-500",
+          "h-[32px] w-full rounded-[8px] border-dark-gray-100 dark:border-dark-gray-300 pl-[8px] text-body3 text-dark-gray-500 dark:text-gray-200 dark:bg-dark-gray-500",
           "placeholder:text-dark-gray-100",
           "hover:border-gray-600",
-          "focus:border-bg-green-300 focus:shadow-active focus:outline-none",
+          "focus:border-green-300 dark:focus:border-grass-green-100 focus:outline-none",
           {
             "!border-red-400 !shadow-red-400 !dark:border-red-400 !dark:shadow-red-400":
               errorText,
@@ -61,12 +63,13 @@ export default function TextInput({
         onChange={(e) => onChange(e.target.value)}
         type={type}
         icon={icon}
+        onClear={onClear}
       />
       {helperText && !errorText && (
         <Label className="text-caption text-dark-gray-600">{helperText}</Label>
       )}
       {errorText && (
-        <div className="flex flex-row items-center gap-[2px]">
+        <div className="flex flex-row items-center gap-[2px] text-red-300 dark:text-red-400">
           <ErrorExclamation size="small" />
           <Label className="text-caption text-red-400 dark:text-red-300">
             {errorText}

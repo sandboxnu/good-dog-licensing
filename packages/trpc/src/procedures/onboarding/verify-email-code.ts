@@ -1,9 +1,9 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { notAuthenticatedProcedureBuilder } from "../../middleware/not-authenticated";
+import { baseProcedureBuilder } from "../../internal/init";
 
-export const verifyEmailCodeProcedure = notAuthenticatedProcedureBuilder
+export const verifyEmailCodeProcedure = baseProcedureBuilder
   .input(z.object({ email: z.email(), emailCode: z.string() }))
   .mutation(async ({ ctx, input }) => {
     const emailVerificationCode =

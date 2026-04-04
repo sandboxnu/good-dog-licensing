@@ -11,6 +11,7 @@ import { passwordService } from "@good-dog/auth/password";
 import { Genre, MatchState, prisma, ProjectType } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
+import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCache } from "../../mocks/MockNextCache";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
@@ -218,6 +219,9 @@ async function createData() {
       musicId: "musicSubmission",
       matcherUserId: "moderator",
       matchState: MatchState.SENT_TO_MEDIA_MAKER,
+      admModStatus: "IN_PROGRESS",
+      mediaMakerStatus: "APPROVAL_NEEDED",
+      musicianStatus: "HIDDEN",
     },
   });
 
@@ -229,6 +233,9 @@ async function createData() {
       musicId: "musicSubmission2",
       matcherUserId: "moderator",
       matchState: MatchState.SENT_TO_MUSICIAN,
+      admModStatus: "IN_PROGRESS",
+      mediaMakerStatus: "IN_PROGRESS",
+      musicianStatus: "APPROVAL_NEEDED",
     },
   });
 
@@ -240,6 +247,9 @@ async function createData() {
       musicId: "musicSubmission",
       matcherUserId: "moderator",
       matchState: MatchState.WAITING_FOR_MANAGER_APPROVAL,
+      admModStatus: "APPROVAL_NEEDED",
+      mediaMakerStatus: "HIDDEN",
+      musicianStatus: "HIDDEN",
     },
   });
 }
@@ -298,6 +308,7 @@ async function deleteData() {
 describe("updateMatchState procedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
+  const mockEmails = new MockEmailService();
 
   beforeAll(async () => {
     await cache.apply();
@@ -309,6 +320,7 @@ describe("updateMatchState procedure", () => {
 
   const $api = $createTrpcCaller({
     cookiesService: createMockCookieService(cookies),
+    emailService: mockEmails,
     prisma: prisma,
   });
 
@@ -316,6 +328,7 @@ describe("updateMatchState procedure", () => {
     await deleteData();
     cookies.clear();
     cache.clear();
+    mockEmails.clear();
   });
 
   // SUCCESS CASES - MEDIA MAKER

@@ -1,4 +1,4 @@
-import { ChevronUp } from "lucide-react";
+import { Check, ChevronUp } from "lucide-react";
 
 import { Button as ButtonShad } from "@good-dog/ui/button";
 
@@ -10,12 +10,12 @@ interface ButtonProps {
   size: "small" | "medium" | "large";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
-  displayIcon?: "plus" | "arrow" | "pencil";
+  displayIcon?: "plus" | "arrow" | "pencil" | "check";
   shadow?: boolean;
   fullWidth?: boolean;
   type?: "submit" | "button";
   error?: boolean;
-  className?: string;
+  disabled?: boolean;
 }
 
 type sizeOptions =
@@ -39,7 +39,7 @@ export default function Button({
   shadow = false,
   fullWidth = false,
   error,
-  className = "",
+  disabled = false,
 }: ButtonProps) {
   const updatedSize: sizeOptions =
     label && displayIcon
@@ -52,28 +52,40 @@ export default function Button({
   const shadowClassName = shadow
     ? "shadow-button dark:shadow-grass-green-200"
     : "";
-  const divClassName = `flex flex-row items-center justify-center gap-[8px] ${
-    error ? "text-error " : "" // adds text/border color if error
-  }`.trim();
+
+  const errorContained = error && variant === "contained";
+  const errorOutlined = error && variant !== "contained";
 
   return (
     <ButtonShad
+      disabled={disabled}
       variant={variant}
       size={updatedSize}
       type={type}
       onClick={onClick}
-      className={`${widthClassName} ${shadowClassName} ${error ? "border-error" : ""}`}
+      className={`${widthClassName} ${shadowClassName} group ${
+        errorContained
+          ? "!bg-red-400 dark:active:bg-red-600 hover:!bg-red-500"
+          : ""
+      } ${errorOutlined ? "border-red-400 active:bg-500 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
     >
-      <div className={divClassName}>
+      <div
+        className={`flex flex-row items-center justify-center gap-[8px] ${
+          errorContained ? "text-white" : ""
+        } ${
+          errorOutlined
+            ? "text-red-400 dark:text-red-300 group-hover:text-red-600 group-active:text-white"
+            : ""
+        }`}
+      >
         {displayIcon === "plus" ? (
-          <AddIcon
-            color={variant === "contained" ? "light" : "dark"}
-            size={size}
-          />
+          <AddIcon size={size} />
         ) : displayIcon === "arrow" ? (
-          <ChevronUp className="text-green-500 dark:text-mint-200" />
+          <ChevronUp />
         ) : displayIcon === "pencil" ? (
           <PencilIcon />
+        ) : displayIcon === "check" ? (
+          <Check />
         ) : null}
         {label}
       </div>
