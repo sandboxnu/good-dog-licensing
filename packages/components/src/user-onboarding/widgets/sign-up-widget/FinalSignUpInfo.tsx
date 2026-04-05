@@ -108,6 +108,7 @@ export default function FinalSignUpInfo({
                 <Link
                   href="/terms"
                   className="text-green-400 dark:text-mint-200 underline"
+                  target="_blank"
                 >
                   Terms and Privacy
                 </Link>
