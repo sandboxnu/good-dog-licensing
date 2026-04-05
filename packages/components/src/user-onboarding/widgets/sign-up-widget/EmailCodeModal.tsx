@@ -27,13 +27,18 @@ export default function EmailCodeModal({
 }: EmailCodeModalProps) {
   const [emailCode, setEmailCode] = useState<string>("");
 
+  const handleClose = () => {
+    setEmailCode("");
+    close();
+  };
+
   return (
     <Modal
       open={isOpen}
-      onClose={close}
+      onClose={handleClose}
       headerText="Verify your email address"
       width={500}
-      height={285}
+      height={300}
     >
       <p className="pt-[4px] text-body2 text-dark-gray-500 dark:text-gray-200">
         We sent a link to <strong>{email}</strong>
@@ -67,7 +72,7 @@ export default function EmailCodeModal({
           </InputOTPGroup>
         </InputOTP>
       </div>
-      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px]">
+      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px] pb-[56px]">
         <p className="text-body2 text-dark-gray-500 dark:text-gray-200">
           Didn't get an email?
         </p>
@@ -91,7 +96,7 @@ function OPTSlot({ index, error }: { index: number; error: boolean }) {
     <InputOTPSlot
       index={index}
       className={clsx(
-        "h-[64px] w-[48px] rounded-[4px] border border-solid border-dark-gray-200 !text-h1 dark:text-gray-100",
+        "h-[64px] w-[48px] rounded-[4px] border border-solid border-green-400 dark:text-mint-200 dark:border-mint-200 !text-h1",
         {
           "shadow-red-400 border-red-400 dark:shadow-red-300 dark:border-red-300":
             error,

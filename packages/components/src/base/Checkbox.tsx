@@ -4,7 +4,7 @@ import { Label } from "@good-dog/ui/label";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 
 interface CheckboxProps {
-  label: string;
+  label: string | React.ReactNode;
   id: string;
   required?: boolean;
   errorText?: string;
