@@ -45,14 +45,14 @@ export default function MultiselectDropdownFilter({
         <ButtonShad
           variant="outlined"
           size="small-text-with-icon"
-          className={`border border-cream-400 dark:border-cream-600 bg-cream-100 dark:bg-cream-300 group 
+          className={`border border-cream-400 dark:border-cream-600 bg-cream-100 dark:bg-green-700 group 
             ${isOpen ? "!border-green-300 !dark:border-grass-green-100" : ""}
-            hover:bg-mint-200 dark:hover:bg-mint-200 active:bg-cream-100 dark:active:bg-cream-300`}
+            hover:bg-mint-200 dark:hover:bg-green-500 active:bg-mint-300 dark:active:bg-green-600`}
           onClick={() => setIsOpen((prev) => !prev)}
         >
           <div className="flex flex-row items-center justify-center gap-2">
-            <p className="text-green-500">{label}</p>
-            <ChevronDown className="h-4 w-4 transition-transform text-green-500" />
+            <p className="text-green-500 dark:text-mint-100">{label}</p>
+            <ChevronDown className="h-4 w-4 transition-transform text-green-500 dark:text-mint-100" />
           </div>
         </ButtonShad>
       </PopoverTrigger>
