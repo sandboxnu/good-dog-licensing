@@ -1,0 +1,2 @@
+-- CreateEnum
+CREATE TYPE "HowHeardAboutUsLabel" AS ENUM ('FRIEND', 'GREEN_LINE_RECORDS', 'SOCIAL_MEDIA', 'OTHER');
