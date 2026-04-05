@@ -9,9 +9,9 @@ const buttonVariants = cva("rounded-lg", {
   variants: {
     variant: {
       contained:
-        "border-[0.5px] border-gray-500 bg-green-400 dark:bg-green-300 text-mint-200 hover:bg-green-500 active:bg-green-600 dark:hover:bg-green-400 dark:active:bg-green-500",
+        "border-[0.5px] border-dark-gray-500 dark:border-dark-gray-300 bg-green-400 dark:bg-green-300 text-mint-300 hover:bg-green-500 active:bg-green-600 dark:hover:bg-green-400 dark:active:bg-green-500",
       outlined:
-        "border-[0.5px] border-gray-500 bg-cream-100 dark:bg-cream-300 text-green-500 hover:bg-mint-200 active:bg-mint-300",
+        "border-[0.5px] border-dark-gray-500 dark:border-dark-gray-300 bg-cream-100 dark:bg-green-700 text-green-500 dark:text-green-100 hover:bg-mint-200 dark:hover:bg-green-500 active:bg-mint-300 dark:active:bg-green-600",
       text: "bg-transparent text-bg-green-500 dark:text-mint-200 dark:hover:text-green-500 dark:hover:bg-mint-200 hover:bg-mint-200 active:bg-mint-300 dark:active:bg-mint-400",
     },
     size: {
@@ -33,7 +33,7 @@ const buttonVariants = cva("rounded-lg", {
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 

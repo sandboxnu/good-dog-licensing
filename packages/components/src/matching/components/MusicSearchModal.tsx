@@ -162,9 +162,9 @@ export function MusicSearchModal({
                         musicSubmission.musicId
                       );
                     })}
-                    isSuggested={filteredMusic.includes(musicSubmission)}
+                    isSuggested={suggestedMusic.includes(musicSubmission)}
                     onSuggest={() =>
-                      setSuggestedMusic([...filteredMusic, musicSubmission])
+                      setSuggestedMusic([...suggestedMusic, musicSubmission])
                     }
                     onUnSuggest={() =>
                       setSuggestedMusic((prev) =>

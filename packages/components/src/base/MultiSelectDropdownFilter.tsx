@@ -1,4 +1,4 @@
-import { CheckIcon, ChevronDown } from "lucide-react";
+import { CheckIcon, ChevronDown, X } from "lucide-react";
 
 import { Button as ButtonShad } from "@good-dog/ui/button";
 import { cn } from "@good-dog/ui";
@@ -47,7 +47,7 @@ export default function MultiselectDropdownFilter({
     : options;
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
+    <Popover open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <PopoverTrigger asChild>
         <ButtonShad
           variant="outlined"
@@ -70,16 +70,32 @@ export default function MultiselectDropdownFilter({
       >
         <Command shouldFilter={false}>
           {searchBar && (
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search..."
-              className="w-full mb-2 px-2 py-1 text-sm rounded border border-cream-400 dark:border-cream-600 bg-white dark:bg-dark-gray-600 outline-none focus:border-green-300"
-            />
+            <div className="flex items-center gap-2 w-full mb-2 px-2 py-1 border border-[0.5px] border-dark-gray-100 dark:border-dark-gray-300 rounded-lg bg-white dark:bg-dark-gray-500 focus-within:ring-2 focus-within:ring-green-400">
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search..."
+                className="flex-1 outline-none bg-transparent placeholder:text-dark-gray-100 dark:placeholder:text-dark-gray-300 text-dark-gray-500 dark:text-gray-300 text-sm"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery("")}
+                  className="text-dark-gray-300 hover:text-dark-gray-500"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
           )}
-          <CommandList className="max-h-[380px] overflow-y-auto">
-            <CommandEmpty>No results found.</CommandEmpty>
+          <CommandList
+            className="max-h-[380px] overflow-y-auto"
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+          >
+            <CommandEmpty className="text-base text-dark-gray-500 dark:text-gray-300 items-center justify-center">
+              No results found.
+            </CommandEmpty>
             <CommandGroup>
               <div
                 className="grid gap-1"
