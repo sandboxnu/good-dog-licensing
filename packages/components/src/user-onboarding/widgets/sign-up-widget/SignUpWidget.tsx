@@ -31,6 +31,7 @@ export default function SignUpWidget({
     resolver: zodResolver(zSignUpValues),
     defaultValues: {
       role: initialRole,
+      howHeardAboutUs: undefined,
     },
   });
 
@@ -102,7 +103,10 @@ export default function SignUpWidget({
     <UserOnboardingWidgetContainer>
       <EmailCodeModal
         isOpen={displayEmailCodeModal}
-        close={() => setDisplayEmailCodeModal(false)}
+        close={() => {
+          setDisplayEmailCodeModal(false);
+          setEmailCodeError(false);
+        }}
         email={formMethods.watch("email")}
         verifyCode={verifyEmailCode}
         resendEmail={handleVerifyEmail}

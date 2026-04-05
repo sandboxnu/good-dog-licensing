@@ -35,7 +35,9 @@ export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
       // Delete any existing password reset requests for the user
       ctx.prisma.passwordResetReq.deleteMany({
         where: {
-          user: user,
+          user: {
+            email: user.email,
+          },
         },
       }),
       // Create new password reset request with updated expired at time
