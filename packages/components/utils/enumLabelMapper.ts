@@ -5,8 +5,22 @@ import {
   MusicRole,
   ProjectType,
   Role,
+  HowHeardAboutUsLabel,
 } from "@good-dog/db";
 import type { Status } from "./status";
+
+export function getHowHeardAboutUsLabel(value: HowHeardAboutUsLabel): string {
+  switch (value) {
+    case "FRIEND":
+      return "Friend/Colleague";
+    case "GREEN_LINE_RECORDS":
+      return "Green Line Records";
+    case "SOCIAL_MEDIA":
+      return "Social Media";
+    case "OTHER":
+      return "Other";
+  }
+}
 
 export function getGenreLabel(value: Genre): string {
   switch (value) {
