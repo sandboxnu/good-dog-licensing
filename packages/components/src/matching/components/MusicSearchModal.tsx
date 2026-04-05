@@ -177,7 +177,9 @@ export function MusicSearchModal({
                 ))}
               </div>
             ) : (
-              <p className="text-center p-32">Search for a song above!</p>
+              <p className="text-center text-p-32 text-base text-gray-500 dark:text-gray-200">
+                Search for a song above!
+              </p>
             )}
           </div>
         </div>
