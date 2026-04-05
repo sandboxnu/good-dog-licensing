@@ -90,19 +90,23 @@ export function MusicSearchModal({
             placeholder="Type to find a song or artist"
           />
           {/* Filters */}
-          <div className="flex flex-col mb-2 gap-2">
+          <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2">
               <MultiselectDropdownFilter
                 label="Artists"
                 value={selectedArtists}
                 onChange={setSelectedArtists}
                 options={artistOptions}
+                columns={1}
+                searchBar
               />
               <MultiselectDropdownFilter
                 label="Genre"
                 value={selectedGenres}
                 onChange={setSelectedGenres}
                 options={genreOptions}
+                columns={1}
+                searchBar
               />
             </div>
             <div className="flex flex-row flex-wrap gap-2">

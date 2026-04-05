@@ -20,6 +20,7 @@ interface MultiselectDropdownFilterProps {
     value: string;
   }[];
   onChange: (newValue: string[]) => void;
+  searchBar?: boolean;
   columns?: number;
 }
 
@@ -28,9 +29,11 @@ export default function MultiselectDropdownFilter({
   value,
   options,
   onChange,
+  searchBar = false,
   columns = 2,
 }: MultiselectDropdownFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   const toggleOption = (option: string) => {
     const next = value.includes(option)
@@ -38,6 +41,10 @@ export default function MultiselectDropdownFilter({
       : [...value, option];
     onChange(next);
   };
+
+  const filteredOptions = searchBar
+    ? options.filter((o) => o.label.toLowerCase().includes(query.toLowerCase()))
+    : options;
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -57,12 +64,21 @@ export default function MultiselectDropdownFilter({
         </ButtonShad>
       </PopoverTrigger>
       <PopoverContent
-        className="w-auto max-w-[400px] max-h-[300px] overflow-y-auto border border-green-300 dark:border-grass-green-100 bg-gray-100 dark:bg-dark-gray-500 p-2"
+        className="w-auto border border-green-300 dark:border-grass-green-100 bg-gray-100 dark:bg-dark-gray-500 p-2"
         align="start"
         onEscapeKeyDown={() => setIsOpen(false)}
       >
-        <Command>
-          <CommandList className="max-h-none">
+        <Command shouldFilter={false}>
+          {searchBar && (
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search..."
+              className="w-full mb-2 px-2 py-1 text-sm rounded border border-cream-400 dark:border-cream-600 bg-white dark:bg-dark-gray-600 outline-none focus:border-green-300"
+            />
+          )}
+          <CommandList className="max-h-[380px] overflow-y-auto">
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               <div
@@ -71,7 +87,7 @@ export default function MultiselectDropdownFilter({
                   gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
                 }}
               >
-                {options.map((option) => {
+                {filteredOptions.map((option) => {
                   const isSelected = value.includes(option.value);
                   return (
                     <CommandItem
