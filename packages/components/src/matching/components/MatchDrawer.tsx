@@ -18,6 +18,7 @@ import Group from "../../svg/Group";
 import Deadline from "../../svg/Deadline";
 import Camera from "../../svg/Camera";
 import StatusIndicatorDetails from "../../base/StatusIndicatorDetails";
+import StatusIndicator from "../../base/StatusIndicator";
 
 type MatchType = GetProcedureOutput<"getSongRequestById">["matches"][number];
 
@@ -102,9 +103,9 @@ export default function MatchDrawer({
                   </p>
                 </div>
                 {match ? (
-                  <StatusIndicatorDetails
-                    admModStatus={match.admModStatus}
-                    matchState={match.matchState}
+                  <StatusIndicator
+                    status={match.admModStatus}
+                    details={match.matchState}
                   />
                 ) : (
                   <p className="text-base text-dark-gray-400 dark:text-cream-400">

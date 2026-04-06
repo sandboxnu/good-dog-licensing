@@ -4,6 +4,7 @@ import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import Hourglass from "../svg/status-icons/Hourglass";
 import type { Status } from "../../utils/status";
 import { getStatusLabel } from "../../utils/enumLabelMapper";
+import { MatchState } from "@good-dog/db";
 
 type Variant = "success" | "error" | "warning" | "gray" | "blue";
 
@@ -28,51 +29,63 @@ const getVariant = (status: Status): Variant => {
   }
 };
 
-// DUPLICATE CODE IN StatusIndicatorDetails
-const getColorFromVariant = (variant: Variant) => {
+const getColorFromVariant = (variant: Variant, borders?: boolean) => {
+  const b = borders ? "border border-[0.5px]" : "";
   switch (variant) {
     case "success":
-      return "bg-grass-green-50 dark:bg-grass-green-600 text-grass-green-500 dark:text-grass-green-100 border-[0.5px] border-grass-green-500 dark:border-grass-green-100";
+      return `bg-grass-green-50 dark:bg-grass-green-400 text-grass-green-500 dark:text-grass-green-50 ${b && `${b} border-grass-green-500 dark:border-grass-green-100}`}`;
     case "error":
-      return "bg-red-50 dark:bg-red-600 text-red-400 dark:text-red-100 border-[0.5px] border-red-600 dark:border-red-400";
+      return `bg-red-50 dark:bg-red-400 text-red-400 dark:text-red-50 ${b && `${b} border-red-600 dark:border-red-400`}`;
     case "warning":
-      return "bg-yellow-100 dark:bg-yellow-600 text-yellow-500 dark:text-yellow-200 border-[0.5px] border-yellow-500 dark:border-yellow-200";
+      return `bg-yellow-100 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-100 ${b && `${b} border-yellow-500 dark:border-yellow-200`}}`;
     case "gray":
-      return "bg-gray-300 dark:bg-gray-500 text-gray-500 dark:text-gray-300 border-[0.5px] border-gray-400 dark:border-dark-gray-200";
+      return `bg-gray-300 text-gray-500 ${b && `${b} border-gray-400 dark:border-dark-gray-200`}`;
     case "blue":
-      return "bg-blue-50 text-blue-500 dark:bg-blue-600 dark:text-blue-100 border-[0.5px] border-blue-500 dark:border-blue-100";
+      return `bg-blue-50 text-blue-500 dark:bg-blue-300 dark:text-blue-50 ${b && `${b} border-blue-500 dark:border-blue-100`}`;
   }
 };
 
 export default function StatusIndicator({
   status,
-  rounded = false,
+  details,
 }: {
   status: Status;
-  rounded?: boolean;
+  details?: MatchState;
 }) {
   const variant = getVariant(status);
 
+  const toSentenceCase = (str: string): string => {
+    const lower = str.replace(/_/g, " ").toLowerCase();
+    return lower.charAt(0).toUpperCase() + lower.slice(1);
+  };
+
   return (
-    <div
-      className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center gap-[4px] pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)} ${rounded ? "rounded-2xl" : "rounded"}`}
-    >
-      <div className="flex flex-row items-center gap-[4px]">
-        {variant === "success" ? (
-          <Check />
-        ) : variant === "error" ? (
-          <ErrorExclamation size="medium" />
-        ) : variant === "warning" ? (
-          <ClockFull />
-        ) : variant === "blue" ? (
-          <Hourglass />
-        ) : (
-          <></>
-        )}
-        <p className={`body3 ${getColorFromVariant(variant)} !border-none`}>
-          {getStatusLabel(status)}
-        </p>
+    <div className="flex flex-row items-center gap-2">
+      <div
+        className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center rounded gap-[4px] pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)}`}
+      >
+        <div className="flex flex-row items-center gap-[4px]">
+          {variant === "success" ? (
+            <Check />
+          ) : variant === "error" ? (
+            <ErrorExclamation size="medium" />
+          ) : variant === "warning" ? (
+            <ClockFull />
+          ) : variant === "blue" ? (
+            <Hourglass />
+          ) : (
+            <></>
+          )}
+          <p className={`body3 ${getColorFromVariant(variant)}`}>
+            {getStatusLabel(status)}
+          </p>
+        </div>
       </div>
+      {details && (
+        <div className={`px-2 ${getColorFromVariant(variant, true)}`}>
+          {toSentenceCase(details)}
+        </div>
+      )}
     </div>
   );
 }
