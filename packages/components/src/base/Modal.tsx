@@ -29,7 +29,7 @@ export default function Modal({
   return (
     <div className={`absolute inset-0 z-50 flex items-center justify-center`}>
       <div
-        className={`rounded-[16px] border border-dark-gray-500 bg-gray-100 dark:bg-dark-gray-600 shadow-modal`}
+        className={`rounded-[16px] border border-dark-gray-500 bg-gray-100 shadow-modal dark:bg-dark-gray-600`}
         style={{
           width: `${width}px`,
           height: `${height}px`,

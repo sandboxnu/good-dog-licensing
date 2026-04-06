@@ -1,13 +1,15 @@
+import type z from "zod";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
+
+import { trpc } from "@good-dog/trpc/client";
+import { zModeratorSignUpValues } from "@good-dog/trpc/schema";
+
 import PnrSignUpImage from "../../../svg/onboarding/PnrSignUpImage";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
-import { zModeratorSignUpValues } from "@good-dog/trpc/schema";
-import type z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import PnrSignUpForm from "./PnrSignUpForm";
-import { trpc } from "@good-dog/trpc/client";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 type PnrSignUpFormFields = z.input<typeof zModeratorSignUpValues>;
 

@@ -1,4 +1,5 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
 import StatusIndicator from "../../base/StatusIndicator";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
@@ -9,13 +10,13 @@ export default function MediaMakerSongRequestInformation({
   songRequest: SongRequestType;
 }) {
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className="flex w-full flex-col gap-3">
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Song Request Information
       </p>
-      <div className="flex flex-row gap-6 bg-cream-100 dark:bg-green-600 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
-        <div className="flex flex-row flex-grow gap-6">
-          <div className="flex flex-col gap-4 justify-start flex-grow">
+      <div className="flex w-full flex-row justify-start gap-6 rounded-2xl border-[0.5px] border-light-gray bg-cream-100 p-6 shadow-md dark:bg-green-600">
+        <div className="flex flex-grow flex-row gap-6">
+          <div className="flex flex-grow flex-col justify-start gap-4">
             <div className="flex flex-col gap-1">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Song Request
@@ -45,7 +46,7 @@ export default function MediaMakerSongRequestInformation({
           </div>
         </div>
         <div className="w-[1px] bg-light-gray" />
-        <div className="flex flex-col gap-4 justify-start flex-grow">
+        <div className="flex flex-grow flex-col justify-start gap-4">
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">
               Summary
@@ -74,7 +75,7 @@ export default function MediaMakerSongRequestInformation({
         {songRequest.additionalInfo.length > 0 && (
           <>
             <div className="w-[1px] bg-light-gray" />
-            <div className="flex flex-col gap-1 flex-grow">
+            <div className="flex flex-grow flex-col gap-1">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Additional Information
               </p>

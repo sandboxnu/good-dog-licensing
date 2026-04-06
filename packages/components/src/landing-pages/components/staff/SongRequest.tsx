@@ -1,9 +1,11 @@
 "use client";
 
-import type { SongRequest } from ".prisma/client";
-import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
+
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
+import type { SongRequest } from ".prisma/client";
 import StatusIndicator from "../../../base/StatusIndicator";
 
 type SongRequestType =
@@ -22,10 +24,10 @@ export default function SongRequest({
 
   return (
     <div
-      className="border-[0.5px] bg-cream-100 dark:bg-green-500 border-cream-500 rounded-2xl p-4 flex flex-row justify-between hover:cursor-pointer items-center"
+      className="flex flex-row items-center justify-between rounded-2xl border-[0.5px] border-cream-500 bg-cream-100 p-4 hover:cursor-pointer dark:bg-green-500"
       onClick={handleClick}
     >
-      <div className="flex flex-row gap-4 items-center">
+      <div className="flex flex-row items-center gap-4">
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-4">
             <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">

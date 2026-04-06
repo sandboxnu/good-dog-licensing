@@ -1,11 +1,13 @@
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import Button from "../../base/Button";
-import { MatchStatusTabs } from "./MatchStatusTabs";
-import { Matches } from "./Matches";
 import { useState } from "react";
-import { MusicSearchModal } from "./MusicSearchModal";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { trpc } from "@good-dog/trpc/client";
+
+import Button from "../../base/Button";
 import MatchDrawer from "./MatchDrawer";
+import { Matches } from "./Matches";
+import { MatchStatusTabs } from "./MatchStatusTabs";
+import { MusicSearchModal } from "./MusicSearchModal";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
@@ -46,7 +48,7 @@ export default function MatchingInformation({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row items-center justify-between">
           <p className="text-xl dark:text-gray-200">Song suggestions</p>
           <Button
             label={"Search for songs"}

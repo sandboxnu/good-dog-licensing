@@ -12,7 +12,7 @@ export default function SongRequestSubmissionHeader({
   projectId,
 }: SongRequestSubmissionHeaderProps) {
   return (
-    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 p-10 text-black bg-gray-100 dark:bg-dark-gray-600">
+    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
       <p className="text-5xl font-medium text-dark-gray-500 dark:text-mint-300">
         Song request submission form
       </p>
@@ -37,7 +37,7 @@ export default function SongRequestSubmissionHeader({
             Your response has been recorded!
           </p>
           <a
-            className="font-semibold text-secondary hover:underline text-green-500 dark:text-mint-200"
+            className="font-semibold text-green-500 text-secondary hover:underline dark:text-mint-200"
             href={`/project/${projectId}/`}
           >
             Return to your project page

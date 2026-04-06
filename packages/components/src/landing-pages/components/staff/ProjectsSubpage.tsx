@@ -1,26 +1,29 @@
 "use client";
+
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { AdmModProjectStatus } from "@good-dog/db";
+import { trpc } from "@good-dog/trpc/client";
+import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
+
+import { getStatusLabel } from "../../../../utils/enumLabelMapper";
+import { search } from "../../../../utils/search";
+import Checkbox from "../../../base/Checkbox";
+import MultiselectDropdown from "../../../base/MultiselectDropdown";
+import SearchBar from "../../../base/SearchBar";
+import { Spinner } from "../../../loading/Spinner";
+import ProfileIcon from "../../../svg/ProfileIcon";
 import Header from "../Header";
+import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
+import ProjectDrawer from "./ProjectDrawer";
 import {
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import { trpc } from "@good-dog/trpc/client";
-import ProjectDrawer from "./ProjectDrawer";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { useRouter, useSearchParams } from "next/navigation";
-import ProfileIcon from "../../../svg/ProfileIcon";
-import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
-import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
-import { AdmModProjectStatus } from "@good-dog/db";
-import { getStatusLabel } from "../../../../utils/enumLabelMapper";
-import SearchBar from "../../../base/SearchBar";
-import { search } from "../../../../utils/search";
-import { Spinner } from "../../../loading/Spinner";
-import Checkbox from "../../../base/Checkbox";
-import MultiselectDropdown from "../../../base/MultiselectDropdown";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
@@ -119,7 +122,7 @@ export default function ProjectsSubpage() {
           </div>
 
           <div className="ml-auto flex flex-row items-center gap-[16px]">
-            <div className="min-w-[220px] w-[220px]">
+            <div className="w-[220px] min-w-[220px]">
               <MultiselectDropdown
                 value={[createdDateQuery]}
                 options={[
@@ -254,25 +257,25 @@ function SubmissionTable({
                   isLast={key === data.length - 1}
                   columnCount={6}
                 >
-                  <p className="dark:text-white truncate">
+                  <p className="truncate dark:text-white">
                     {project.projectTitle}
                   </p>
-                  <p className="dark:text-white truncate">
+                  <p className="truncate dark:text-white">
                     {project.description}
                   </p>
-                  <p className="dark:text-white truncate">
+                  <p className="truncate dark:text-white">
                     {project.projectOwner.firstName +
                       " " +
                       project.projectOwner.lastName}
                   </p>
-                  <p className="dark:text-white truncate">
+                  <p className="truncate dark:text-white">
                     {project.createdAt.toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
                     })}
                   </p>
-                  <p className="dark:text-white truncate">
+                  <p className="truncate dark:text-white">
                     {project.deadline.toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
@@ -282,7 +285,7 @@ function SubmissionTable({
                   <div className="flex items-center justify-center pr-[30px]">
                     <button
                       type="button"
-                      className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 dark:border-gray-300 dark:text-white hover:bg-dark-gray-100"
+                      className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 hover:bg-dark-gray-100 dark:border-gray-300 dark:text-white"
                       aria-label="Assign project"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -342,10 +345,10 @@ function SubmissionStatusTab({
 }) {
   return (
     <div
-      className={`flex flex-1 flex-col p-[16px] gap-[8px] shadow-[0_2px_6px_0_#ECE6DF] rounded-[16px] cursor-pointer ${active ? "bg-green-400" : "bg-gray-100"}`}
+      className={`flex flex-1 cursor-pointer flex-col gap-[8px] rounded-[16px] p-[16px] shadow-[0_2px_6px_0_#ECE6DF] ${active ? "bg-green-400" : "bg-gray-100"}`}
       onClick={onClick}
     >
-      <div className="flex flex-row gap-[8px] items-center">
+      <div className="flex flex-row items-center gap-[8px]">
         <p
           className={`text-body1 font-medium leading-[128%] ${active ? "text-gray-100" : "text-dark-gray-500"}`}
         >
@@ -353,7 +356,7 @@ function SubmissionStatusTab({
         </p>
         {!isFetching ? (
           <div
-            className={`rounded-[4px] flex items-center justify-center h-[16px] w-[23px] ${active ? "bg-grass-green-50" : "bg-gray-500"}`}
+            className={`flex h-[16px] w-[23px] items-center justify-center rounded-[4px] ${active ? "bg-grass-green-50" : "bg-gray-500"}`}
           >
             <p
               className={`${active ? "text-dark-gray-500" : "text-gray-100"} text-[14px] font-medium leading-none`}

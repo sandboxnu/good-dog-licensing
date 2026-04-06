@@ -119,7 +119,7 @@ export default function InitialSignUpInfo({
         </p>
         <Link
           href="/login"
-          className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
+          className="font-medium text-green-500 text-secondary underline dark:text-mint-200"
         >
           Log in
         </Link>

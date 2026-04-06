@@ -22,12 +22,12 @@ export default function Home() {
       <div className="flex w-full flex-col items-center justify-center gap-[50px]">
         <div className="flex flex-col justify-center gap-[37px] text-center">
           <div className="pt-[32px]">
-            <h1 className="font-righteous text-[75px] font-normal not-italic leading-[80px] text-body-primary text-dark-gray-500 dark:text-mint-300">
+            <h1 className="text-body-primary font-righteous text-[75px] font-normal not-italic leading-[80px] text-dark-gray-500 dark:text-mint-300">
               Connecting musicians and media makers
             </h1>
           </div>
           <div className="flex flex-col gap-[64px]">
-            <div className="flex flex-col gap-[24px] text-body-primary">
+            <div className="text-body-primary flex flex-col gap-[24px]">
               <p className="text-body1 leading-normal text-dark-gray-500 dark:text-gray-200">
                 Northeastern University's free, student-run music{" "}
                 {
@@ -182,7 +182,7 @@ function WhatMakesGoodDogGood() {
 
 function Reason({ reason }: { reason: string }) {
   return (
-    <div className="flex h-[78px] w-[375px] flex-row items-center gap-[10px] rounded-[8px] border border-cream-400 bg-cream-100 dark:bg-green-500 p-[16px]">
+    <div className="flex h-[78px] w-[375px] flex-row items-center gap-[10px] rounded-[8px] border border-cream-400 bg-cream-100 p-[16px] dark:bg-green-500">
       <div>
         <Check />
       </div>
@@ -241,7 +241,7 @@ export function DescriptionSection({
       >
         <div className="flex w-[70%] flex-col gap-[10px]">
           <h2 className="text-dark-gray-500 dark:text-mint-300">{title}</h2>
-          <p className="text-body1 leading-normal text-secondary text-dark-gray-500 dark:text-gray-200">
+          <p className="text-body1 leading-normal text-dark-gray-500 text-secondary dark:text-gray-200">
             {text}
           </p>
         </div>
@@ -268,13 +268,13 @@ export function VerticalDescriptionSection({
     <div className="flex flex-col items-center justify-center gap-[24px] text-justify">
       {image}
       <h2 className="text-green-400 dark:text-mint-200">{title}</h2>
-      <p className="text-body1 leading-normal text-secondary text-green-500 dark:text-mint-200">
+      <p className="text-body1 leading-normal text-green-500 text-secondary dark:text-mint-200">
         {text}
       </p>
       <button
         type="button"
         onClick={link}
-        className="text-body1 text-dark-green-500 dark:text-mint-200"
+        className="text-dark-green-500 text-body1 dark:text-mint-200"
       >
         {linkText}
       </button>

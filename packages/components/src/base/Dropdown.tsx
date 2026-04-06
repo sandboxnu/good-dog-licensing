@@ -1,12 +1,13 @@
-import { Label } from "@good-dog/ui/label";
+import { useState } from "react";
+import { CheckIcon, ChevronDown, ChevronUp } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@good-dog/ui/dropdown-menu";
-import { CheckIcon, ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { Label } from "@good-dog/ui/label";
 
 interface DropdownProps {
   label: string;
@@ -64,9 +65,9 @@ export default function Dropdown({
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
           asChild
-          className="h-[32px] w-full rounded-[8px] border border-dark-gray-200 dark:border-dark-gray-300 px-2 text-body3 text-dark-gray-500 dark:text-gray-200 dark:bg-dark-gray-500 placeholder:text-dark-gray-100 hover:border-gray-600 focus:border-green-300 focus:shadow-active focus:outline-none"
+          className="h-[32px] w-full rounded-[8px] border border-dark-gray-200 px-2 text-body3 text-dark-gray-500 placeholder:text-dark-gray-100 hover:border-gray-600 focus:border-green-300 focus:shadow-active focus:outline-none dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200"
         >
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <span>{currentLabel}</span>
             {arrow &&
               (isOpen ? (
@@ -77,7 +78,7 @@ export default function Dropdown({
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-[var(--radix-dropdown-menu-trigger-width)] border border-dark-gray-200 dark:border-dark-gray-300 rounded-lg text-body3 text-dark-gray-500 dark:text-gray-200 bg-white dark:bg-dark-gray-500 py-2 space-y-1"
+          className="w-[var(--radix-dropdown-menu-trigger-width)] space-y-1 rounded-lg border border-dark-gray-200 bg-white py-2 text-body3 text-dark-gray-500 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200"
           align="start"
           sideOffset={4}
         >
@@ -87,7 +88,7 @@ export default function Dropdown({
               <DropdownMenuItem
                 key={option.value}
                 onSelect={() => onChange(option.value)}
-                className={`flex items-center justify-between text-[16px] rounded-lg text-body3 focus:bg-mint-300 dark:focus:bg-mint-500 ${
+                className={`flex items-center justify-between rounded-lg text-[16px] text-body3 focus:bg-mint-300 dark:focus:bg-mint-500 ${
                   isSelected ? "bg-mint-300 dark:bg-mint-500" : ""
                 }`}
               >

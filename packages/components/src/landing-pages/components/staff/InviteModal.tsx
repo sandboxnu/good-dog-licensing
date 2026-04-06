@@ -1,6 +1,9 @@
-import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
-import { StaffUserCardInfo } from "./assign-pm/StaffUserCard";
+import { X } from "lucide-react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { trpc } from "@good-dog/trpc/client";
+import { Button } from "@good-dog/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +12,9 @@ import {
   DialogOverlay,
   DialogTitle,
 } from "@good-dog/ui/dialog";
-import { Button } from "@good-dog/ui/button";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { X } from "lucide-react";
+
 import { getRoleLabel } from "../../../../utils/enumLabelMapper";
+import { StaffUserCardInfo } from "./assign-pm/StaffUserCard";
 
 type UserType = GetProcedureOutput<"allUsers">["users"][number];
 
@@ -101,16 +103,16 @@ export default function InviteModal({
     <Dialog open={inviteModalOpen} onOpenChange={closeModal}>
       {" "}
       <DialogOverlay className="bg-gray-400 opacity-25" />{" "}
-      <DialogContent className="max-w-md rounded-2xl p-[24px] bg-white dark:bg-dark-gray-600 border border-1 border-cream-500 dark:border-grass-green-100">
-        <DialogHeader className="flex flex-col text-left space-y-2 gap-[16px]">
+      <DialogContent className="border-1 max-w-md rounded-2xl border border-cream-500 bg-white p-[24px] dark:border-grass-green-100 dark:bg-dark-gray-600">
+        <DialogHeader className="flex flex-col gap-[16px] space-y-2 text-left">
           <DialogTitle className="pt-[24px] text-[35px] font-medium text-gray-500 dark:text-gray-200">
             Invite new PnR
           </DialogTitle>
-          <div className="relative border-[0.5px] border-dark-gray-100 dark:border-dark-gray-300 focus-within:border-green-300 focus-within:dark:border-grass-green-100 rounded-md p-2 min-h-[40px] flex flex-wrap items-center gap-1 bg-white dark:bg-dark-gray-500">
+          <div className="relative flex min-h-[40px] flex-wrap items-center gap-1 rounded-md border-[0.5px] border-dark-gray-100 bg-white p-2 focus-within:border-green-300 dark:border-dark-gray-300 dark:bg-dark-gray-500 focus-within:dark:border-grass-green-100">
             {emails.map((email) => (
               <div
                 key={email}
-                className="inline-flex items-center bg-cream-100 dark:bg-green-600 text-dark-gray-500 dark:text-mint-100 px-2 py-1 rounded text-sm border-[0.5px] border-cream-400 dark:border-dark-gray-400 justify-between align-items gap-1"
+                className="align-items inline-flex items-center justify-between gap-1 rounded border-[0.5px] border-cream-400 bg-cream-100 px-2 py-1 text-sm text-dark-gray-500 dark:border-dark-gray-400 dark:bg-green-600 dark:text-mint-100"
               >
                 <span>{email}</span>
                 <button
@@ -133,16 +135,16 @@ export default function InviteModal({
               }}
               onKeyDown={handleKeyDown}
               placeholder={emails.length === 0 ? "example@email.com" : ""}
-              className="flex-1 border-none outline-none bg-transparent dark:bg-dark-gray-500 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+              className="text-gray-900 flex-1 border-none bg-transparent placeholder-gray-500 outline-none dark:bg-dark-gray-500 dark:text-gray-100 dark:placeholder-gray-400"
             />
           </div>
-          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+          {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
           <p className="font-medium text-dark-gray-500 dark:text-mint-300">
             People with access
           </p>
           {paginatedUsers.map((user) => (
             <div
-              className="flex flex-row justify-between align-items"
+              className="align-items flex flex-row justify-between"
               key={user.userId}
             >
               <StaffUserCardInfo
@@ -155,7 +157,7 @@ export default function InviteModal({
               </span>
             </div>
           ))}
-          <div className="flex justify-between items-center mt-4">
+          <div className="mt-4 flex items-center justify-between">
             <Button
               variant="text"
               className="px-2 py-1"
@@ -180,10 +182,10 @@ export default function InviteModal({
           </div>
         </DialogHeader>
 
-        <DialogFooter className="flex w-full gap-2 items-end">
+        <DialogFooter className="flex w-full items-end gap-2">
           <Button
             variant="contained"
-            className="px-4 py-1 ml-auto"
+            className="ml-auto px-4 py-1"
             onClick={onInvite}
           >
             Send invite

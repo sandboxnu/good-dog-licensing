@@ -5,9 +5,8 @@ import clsx from "clsx";
 import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
 
-import EyeOpen from "../svg/EyeOpen";
 import EyeClosed from "../svg/EyeClosed";
-
+import EyeOpen from "../svg/EyeOpen";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 
 interface TextInputProps {
@@ -41,8 +40,8 @@ export default function TextInput({
   const inputType = type === "password" && !showPassword ? "password" : "text";
 
   return (
-    <div className="flex w-full flex-col gap-[4px] ">
-      <div className="flex flex-row gap-[2px] ">
+    <div className="flex w-full flex-col gap-[4px]">
+      <div className="flex flex-row gap-[2px]">
         <Label
           htmlFor={id}
           className="text-body3 font-normal text-dark-gray-600 dark:text-gray-100"
@@ -56,12 +55,12 @@ export default function TextInput({
       <div className="relative w-full">
         <Input
           className={clsx(
-            "h-[32px] w-full rounded-[8px] border-dark-gray-200 dark:border-dark-gray-300 pl-[8px] text-body3 text-dark-gray-500 dark:text-gray-200 dark:bg-dark-gray-500",
+            "h-[32px] w-full rounded-[8px] border-dark-gray-200 pl-[8px] text-body3 text-dark-gray-500 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200",
             "placeholder:text-dark-gray-100",
             "hover:border-gray-600",
             "focus:border-bg-green-300 focus:shadow-active focus:outline-none",
             {
-              "!border-red-400 !shadow-red-400 !dark:border-red-400 !dark:shadow-red-400":
+              "!dark:border-red-400 !dark:shadow-red-400 !border-red-400 !shadow-red-400":
                 errorText,
             },
           )}
