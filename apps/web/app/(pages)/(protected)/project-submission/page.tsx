@@ -3,7 +3,7 @@ import ProjectSubmissionWidget from "@good-dog/components/submit/project/Project
 
 export default function SubmissionForm() {
   return (
-    <PageContainer background="solid" widthType="full">
+    <PageContainer background="solid" widthType="large">
       <ProjectSubmissionWidget />
     </PageContainer>
   );

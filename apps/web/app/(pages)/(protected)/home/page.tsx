@@ -40,7 +40,7 @@ export default async function Home() {
   }
 
   return (
-    <PageContainer background="solid" widthType="full">
+    <PageContainer background="solid" widthType="large">
       <HydrateClient>
         {user.role === Role.MUSICIAN && <MusicianLanding />}
         {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}

@@ -3,7 +3,7 @@ import ProfileWidget from "@good-dog/components/user-onboarding/widgets/profile/
 
 export default function Page() {
   return (
-    <PageContainer background="solid" widthType="full">
+    <PageContainer background="solid" widthType="large">
       <ProfileWidget />
     </PageContainer>
   );

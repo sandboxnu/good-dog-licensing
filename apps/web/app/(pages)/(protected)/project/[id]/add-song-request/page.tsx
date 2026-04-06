@@ -10,7 +10,7 @@ interface PageProps {
 export default function Page({ params }: PageProps) {
   const projectId = params.id;
   return (
-    <PageContainer background="solid" widthType="full">
+    <PageContainer background="solid" widthType="large">
       <SongRequestSubmissionWidget projectId={projectId} />
     </PageContainer>
   );

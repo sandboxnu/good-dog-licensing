@@ -5,7 +5,7 @@ import PageContainer from "@good-dog/components/PageContainer";
 
 export default async function Home() {
   return (
-    <PageContainer background="solid" widthType="capped">
+    <PageContainer background="solid" widthType="small">
       <GeneralLanding />
     </PageContainer>
   );

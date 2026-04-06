@@ -5,12 +5,12 @@ import Footer from "./Footer";
 import Nav from "./Nav";
 import DeviceTooSmallModal from "./DeviceTooSmallModal";
 
-const DISPLAY_ON_DESKTOP_CLASS = `max-[799px]:hidden`;
-const DISPLAY_ON_MOBILE_CLASS = `min-[800px]:hidden`;
+const DISPLAY_ON_DESKTOP_CLASS = "max-[799px]:hidden";
+const DISPLAY_ON_MOBILE_CLASS = "min-[800px]:hidden";
 
 const CONTENT_MAX_WIDTH_CLASSES = {
-  capped: `max-w-[1050px] mx-auto`,
-  full: "max-w-none",
+  small: "max-w-[1050px]",
+  large: "max-w-[1650px]",
 };
 
 const BACKGROUND_CLASSES = {
@@ -65,7 +65,7 @@ export default function PageContainer({
         >
           <div
             className={clsx(
-              "flex flex-col w-full px-[40px] pt-[32px]",
+              "flex flex-col w-full px-[40px] pt-[32px] mx-auto",
               CONTENT_MAX_WIDTH_CLASSES[widthType],
             )}
           >
