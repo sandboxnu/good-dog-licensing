@@ -34,7 +34,7 @@ export function Matches({
       </p>
       {filteredMatches.length === 0 && (
         <div className="flex flex-col items-center gap-2 mt-16 w-full">
-          <div className="max-w-[400px]">
+          <div className="w-3/4 lg:w-1/2">
             <Hourglass size="large" className="w-full h-auto" />
           </div>
           <p className="text-dark-gray-500 dark:text-gray-200">

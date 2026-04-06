@@ -17,10 +17,10 @@ export function MatchStatusTabs({
 }) {
   return (
     <Tabs defaultValue="incoming">
-      <TabsList className="rounded-full bg-green-400 dark:bg-green-300 h-auto">
+      <TabsList className="flex flex-row rounded-full bg-green-400 dark:bg-green-300 h-auto">
         <TabsTrigger
           value="incoming"
-          className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-[182px] data-[state=active]:text-black px-4 py-3 box-content"
+          className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-full lg:flex-1 data-[state=active]:text-black px-4 py-3 box-content"
         >
           Incoming matches
           {numActionRequired > 0 && (
@@ -30,21 +30,21 @@ export function MatchStatusTabs({
 
         <TabsTrigger
           value="pendingApproval"
-          className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-[182px] data-[state=active]:text-black px-4 py-3 box-content"
+          className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-full lg:flex-1 data-[state=active]:text-black px-4 py-3 box-content"
         >
           Pending approval
         </TabsTrigger>
 
         <TabsTrigger
           value="matched"
-          className="rounded-full text-white data-[state=active]:bg-white w-[182px] data-[state=active]:text-black px-4 py-3 box-content"
+          className="rounded-full text-white data-[state=active]:bg-white w-full lg:flex-1 data-[state=active]:text-black px-4 py-3 box-content"
         >
           Matched
         </TabsTrigger>
 
         <TabsTrigger
           value="rejected"
-          className="rounded-full text-white data-[state=active]:bg-white w-[182px] data-[state=active]:text-black px-4 py-3 box-content"
+          className="rounded-full text-white data-[state=active]:bg-white w-full lg:flex-1 data-[state=active]:text-black px-4 py-3 box-content"
         >
           Rejected
         </TabsTrigger>

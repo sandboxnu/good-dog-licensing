@@ -20,12 +20,13 @@ export default function MatchInformation({
         Match Information
       </p>
       <div className="flex flex-row gap-6 w-full">
-        <div className="w-[512px] box-content">
+        <div className="w-1/3 shrink-0">
           <MusicInformation
             musicSubmission={selectedMatch?.musicSubmission}
             submitter={selectedMatch?.musicSubmission.submitter}
           />
         </div>
+        <div className="w-2/3 min-w-0">
         <MatchStatusTabs
           numActionRequired={
             matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER").length
@@ -63,6 +64,7 @@ export default function MatchInformation({
             />
           }
         />
+        </div>
       </div>
     </div>
   );

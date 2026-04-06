@@ -23,13 +23,13 @@ export default function ProjectInformation({
           This is where you view and manage your song requests
         </p>
       </div>
-      <div className="flex flex-row justify-between items-end">
+      <div className="flex flex-row justify-between items-end gap-[100px]">
         <div className="flex flex-col gap-2">
           <p className="font-medium text-dark-gray-500 dark:text-gray-200">
-            Project Title: {project.projectTitle}
+            <strong>Project Title: </strong> {project.projectTitle}
           </p>
           <p className="text-dark-gray-500 dark:text-gray-200">
-            Project deadline:{" "}
+            <strong>Project deadline: </strong>
             {project.deadline.toLocaleDateString("en-US", {
               month: "long",
               day: "numeric",
@@ -37,11 +37,13 @@ export default function ProjectInformation({
             })}
           </p>
           <p className="text-dark-gray-500 dark:text-gray-200">
-            Project description: {project.description}
+            <strong>Project description: </strong>
+            {project.description}
           </p>
           {project.additionalInfo.length > 0 && (
             <p className="text-dark-gray-500 dark:text-gray-200">
-              Additional information: {project.additionalInfo}
+              <strong>Additional information: </strong>
+              {project.additionalInfo}
             </p>
           )}
         </div>

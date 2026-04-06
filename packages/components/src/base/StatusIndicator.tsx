@@ -48,7 +48,7 @@ export default function StatusIndicator({ status }: { status: Status }) {
 
   return (
     <div
-      className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center gap-[4px] rounded pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)}`}
+      className={`flex-shrink-0 align-center flex min-h-[24px] w-fit items-center justify-center gap-[4px] rounded pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)}`}
     >
       <div className="flex flex-row items-center gap-[4px]">
         {variant === "success" ? (

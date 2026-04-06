@@ -13,39 +13,34 @@ export default function MediaMakerSongRequestInformation({
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Song Request Information
       </p>
-      <div className="flex flex-row gap-6 bg-cream-100 dark:bg-green-600 justify-start rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
-        <div className="flex flex-row flex-grow gap-6">
-          <div className="flex flex-col gap-4 justify-start flex-grow">
-            <div className="flex flex-col gap-1">
-              <p className="text-dark-gray-200 dark:text-dark-gray-100">
-                Song Request
-              </p>
-              <p className="text-dark-gray-500 dark:text-gray-200">
-                {songRequest.songRequestTitle}
-              </p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-dark-gray-200 dark:text-dark-gray-100">
-                Status
-              </p>
-              <StatusIndicator status={songRequest.mediaMakerStatus} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-dark-gray-200 dark:text-dark-gray-100">
-                Request Added
-              </p>
-              <p className="text-dark-gray-500 dark:text-gray-200">
-                {songRequest.createdAt.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-            </div>
+      <div className="grid grid-cols-[1fr_2fr] lg:grid-cols-[1fr_3fr] bg-cream-100 dark:bg-green-600 rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
+        <div className="flex flex-col gap-4 justify-start min-w-0 pr-6">
+          <div className="flex flex-col gap-1">
+            <p className="text-dark-gray-200 dark:text-dark-gray-100">
+              Song Request
+            </p>
+            <p className="text-dark-gray-500 dark:text-gray-200">
+              {songRequest.songRequestTitle}
+            </p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-dark-gray-200 dark:text-dark-gray-100">Status</p>
+            <StatusIndicator status={songRequest.mediaMakerStatus} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-dark-gray-200 dark:text-dark-gray-100">
+              Request Added
+            </p>
+            <p className="text-dark-gray-500 dark:text-gray-200">
+              {songRequest.createdAt.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
           </div>
         </div>
-        <div className="w-[1px] bg-light-gray" />
-        <div className="flex flex-col gap-4 justify-start flex-grow">
+        <div className="flex flex-col gap-4 justify-start min-w-0 pl-6 border-l border-light-gray">
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">
               Summary
@@ -70,20 +65,17 @@ export default function MediaMakerSongRequestInformation({
               {songRequest.similarSongs}
             </p>
           </div>
-        </div>
-        {songRequest.additionalInfo.length > 0 && (
-          <>
-            <div className="w-[1px] bg-light-gray" />
-            <div className="flex flex-col gap-1 flex-grow">
+          {songRequest.additionalInfo.length > 0 && (
+            <div className="flex flex-col gap-1">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Additional Information
               </p>
-              <p className="text-dark-gray-500 dark:text-gray-200">
+              <p className="text-dark-gray-500 dark:text-gray-200 break-words">
                 {songRequest.additionalInfo}
               </p>
             </div>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
