@@ -150,7 +150,7 @@ export default function ProjectsSubpage() {
               />
             </div>
             <Checkbox
-              label={<div>"Assigned to me"</div>}
+              label="Assigned to me"
               id="assignedToMe"
               checked={assignedToMe}
               onCheckedChange={(checked) => setAssignedToMe(checked)}

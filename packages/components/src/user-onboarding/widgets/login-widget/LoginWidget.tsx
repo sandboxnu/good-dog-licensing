@@ -93,7 +93,7 @@ export default function LoginWidget() {
               <div className="flex flex-row justify-between pt-[24px]">
                 <RHFCheckbox<LoginFormFields>
                   rhfName={"rememberMe"}
-                  label={<div>Remember me</div>}
+                  label="Remember me"
                   id="rememberMe"
                   errorText={formMethods.formState.errors.rememberMe?.message}
                 />
