@@ -129,8 +129,10 @@ export default function LoginWidget() {
           </form>
         </FormProvider>
       </div>
-      <div className="flex h-full w-1/2 items-center justify-center">
-        <TeamworkLogin />
+      <div className="flex w-1/2 pl-[20px]">
+        <div className="flex flex-col justify-center w-full">
+          <TeamworkLogin />
+        </div>
       </div>
     </UserOnboardingWidgetContainer>
   );
