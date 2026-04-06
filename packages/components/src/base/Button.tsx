@@ -1,4 +1,4 @@
-import { Check, ChevronUp } from "lucide-react";
+import { Check, ChevronUp, X } from "lucide-react";
 
 import { Button as ButtonShad } from "@good-dog/ui/button";
 
@@ -7,10 +7,10 @@ import PencilIcon from "../svg/PencilIcon";
 
 interface ButtonProps {
   label?: string;
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | "flex";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
-  displayIcon?: "plus" | "arrow" | "pencil" | "check";
+  displayIcon?: "plus" | "arrow" | "pencil" | "check" | "close";
   shadow?: boolean;
   fullWidth?: boolean;
   type?: "submit" | "button";
@@ -22,12 +22,15 @@ type sizeOptions =
   | "small-text"
   | "medium-text"
   | "large-text"
+  | "flex-text"
   | "medium-text-with-icon"
   | "small-text-with-icon"
   | "large-text-with-icon"
+  | "flex-text-with-icon"
   | "small-icon"
   | "medium-icon"
-  | "large-icon";
+  | "large-icon"
+  | "flex-icon";
 
 export default function Button({
   label,
@@ -86,6 +89,8 @@ export default function Button({
           <PencilIcon />
         ) : displayIcon === "check" ? (
           <Check />
+        ) : displayIcon === "close" ? (
+          <X className="h-4 w-4" />
         ) : null}
         {label}
       </div>

@@ -3,7 +3,7 @@ import MusicNoteIcon from "../../svg/MusicNoteIcon";
 import { Check, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
-import { Popup } from "./Popup";
+import { ConfirmationModal } from "../../matching/ConfirmationModal";
 
 type MatchWithSongRequest =
   GetProcedureOutput<"getMusicSubmissionById">["matches"][number];
@@ -89,17 +89,26 @@ export function Match({
             <X className="text-dark-gray-300 hover:text-required-star hover:bg-required-star/25 rounded-md" />
           </button>
           <div onClick={(e) => e.stopPropagation()}>
-            <Popup
+            <ConfirmationModal
               open={openApprove}
               onOpenChange={setOpenApprove}
               onAction={handleApprove}
               type="approve"
+              title={"Confirm match"}
+              text={
+                "This action cannot be undone. This song will be matched following your approval."
+              }
+              showCheckbox={true}
             />
-            <Popup
+            <ConfirmationModal
               open={openReject}
               onOpenChange={setOpenReject}
               onAction={handleReject}
               type="deny"
+              title={"Confirm selection"}
+              text={
+                "This action cannot be undone. This song will be matched following your approval."
+              }
             />
           </div>
         </div>
