@@ -10,7 +10,7 @@ export default function ModeratorLanding() {
     SidebarTab.SUBMISSIONS,
   );
   return (
-    <div className="flex flex-row gap-[24px] w-full">
+    <div className="flex flex-col gap-[24px] w-full lg:flex-row">
       <SideBar
         activeTab={activeTab}
         setActiveTab={(newTab: SidebarTab) => {

@@ -24,8 +24,8 @@ export default function SideBar({
   isAdminView: boolean;
 }) {
   return (
-    <div className="flex bg-gray-100 dark:bg-dark-gray-600 flex-1 max-w-[207px] h-[776px] pt-[32px] pl-[16px] pr-[16px] shadow-[0_2px_6px_0_#ECE6DF] rounded-[24px] h-[40px]">
-      <div className="flex flex-col gap-[4px]">
+    <div className="flex flex-row items-center px-[16px] py-[12px] w-full bg-gray-100 dark:bg-dark-gray-600 shadow-[0_2px_6px_0_#ECE6DF] rounded-[24px] lg:flex-col lg:items-start lg:flex-1 lg:max-w-[207px] lg:h-screen-full lg:pt-[32px] lg:pb-[32px] lg:w-auto">
+      <div className="flex flex-row gap-[8px] lg:flex-col lg:gap-[4px]">
         <SideBarEntry
           active={activeTab === SidebarTab.SUBMISSIONS}
           text={"Submissions"}
@@ -69,7 +69,7 @@ function SideBarEntry({
 }) {
   return (
     <div
-      className={`${active ? "bg-green-400 text-white" : "bg-white dark:bg-dark-gray-600 text-dark-gray-500 dark:text-gray-200"} items-center pl-[8px] pt-[8px] pb-[8px] pr-[32px] w-[175px] rounded-[8px] hover:cursor-pointer`}
+      className={`${active ? "bg-green-400 text-white" : "bg-white dark:bg-dark-gray-600 text-dark-gray-500 dark:text-gray-200"} items-center pl-[8px] pt-[8px] pb-[8px] pr-[8px] rounded-[8px] hover:cursor-pointer lg:pr-[32px] lg:w-[175px]`}
       onClick={onClick}
     >
       <div className="flex flex-row gap-[8px]">
