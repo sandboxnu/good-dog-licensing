@@ -2,34 +2,35 @@ import { Resend } from "resend";
 
 import { prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
-import { passwordResetTemplate } from "./templates/passwordReset";
-import { emailVerificationTemplate } from "./templates/emailVerification";
-import { pnrInviteTemplate } from "./templates/pnrInvite";
+
 import {
   artistJoiningConfirmationTemplate,
+  artistLicenseCompleteTemplate,
   artistMusicSubmissionConfirmationTemplate,
   artistSongRequestedForBriefTemplate,
-  artistLicenseCompleteTemplate,
 } from "./templates/artistNotifications";
+import { emailVerificationTemplate } from "./templates/emailVerification";
 import {
-  adminAndPNRBriefAvailableTemplate,
-  adminProjectManagerAssignedTemplate,
-  adminAndPMChatMessageTemplate,
-  adminSongSuggestionSentToMMTemplate,
-  adminAndPMSongSuggestionApprovedByMMTemplate,
-  adminAndPMMaterialsDeliveredTemplate,
-  pmSongSuggestionAddedToBriefTemplate,
-  adminAndPMLicenseSignedTemplate,
-} from "./templates/staffNotifications";
-import {
-  mediaMakerJoiningConfirmationTemplate,
   mediaMakerBriefSubmissionConfirmationTemplate,
-  mediaMakerProjectManagerAssignedTemplate,
   mediaMakerChatMessageTemplate,
-  mediaMakerSongSuggestionByPMTemplate,
+  mediaMakerJoiningConfirmationTemplate,
   mediaMakerLicenseCompleteTemplate,
   mediaMakerMaterialRequestTemplate,
+  mediaMakerProjectManagerAssignedTemplate,
+  mediaMakerSongSuggestionByPMTemplate,
 } from "./templates/mediaMakerNotifications";
+import { passwordResetTemplate } from "./templates/passwordReset";
+import { pnrInviteTemplate } from "./templates/pnrInvite";
+import {
+  adminAndPMChatMessageTemplate,
+  adminAndPMLicenseSignedTemplate,
+  adminAndPMMaterialsDeliveredTemplate,
+  adminAndPMSongSuggestionApprovedByMMTemplate,
+  adminAndPNRBriefAvailableTemplate,
+  adminProjectManagerAssignedTemplate,
+  adminSongSuggestionSentToMMTemplate,
+  pmSongSuggestionAddedToBriefTemplate,
+} from "./templates/staffNotifications";
 
 export interface EmailMessage {
   from: string;

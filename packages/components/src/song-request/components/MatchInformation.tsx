@@ -1,8 +1,10 @@
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { MatchStatusTabs } from "./MatchStatusTabs";
-import { Matches } from "./Matches";
-import MusicInformation from "./MusicInformation";
 import { useState } from "react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
+import { Matches } from "./Matches";
+import { MatchStatusTabs } from "./MatchStatusTabs";
+import MusicInformation from "./MusicInformation";
 
 type SongRequestMatchesType =
   GetProcedureOutput<"getSongRequestById">["matches"];
@@ -19,8 +21,8 @@ export default function MatchInformation({
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Match Information
       </p>
-      <div className="flex flex-row gap-6 w-full">
-        <div className="w-[512px] box-content">
+      <div className="flex w-full flex-row gap-6">
+        <div className="box-content w-[512px]">
           <MusicInformation
             musicSubmission={selectedMatch?.musicSubmission}
             submitter={selectedMatch?.musicSubmission.submitter}

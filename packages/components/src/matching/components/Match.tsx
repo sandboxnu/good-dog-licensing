@@ -1,7 +1,9 @@
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { Check, X } from "lucide-react";
-import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
+import { Check, X } from "lucide-react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { trpc } from "@good-dog/trpc/client";
+
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
 import { ConfirmationModal } from "../ConfirmationModal";
 
@@ -62,16 +64,16 @@ export function Match({
 
   return (
     <div
-      className={`flex flex-row justify-between items-center cursor-pointer box-content px-6 py-4 rounded-2xl border-[1px] shadow-md border-light-gray hover:border-gray ${state === "SUGGESTED" ? `bg-cream-100 dark:bg-green-300` : `bg-gray-200 dark:bg-green-500`}`}
+      className={`box-content flex cursor-pointer flex-row items-center justify-between rounded-2xl border-[1px] border-light-gray px-6 py-4 shadow-md hover:border-gray ${state === "SUGGESTED" ? `bg-cream-100 dark:bg-green-300` : `bg-gray-200 dark:bg-green-500`}`}
       onClick={() => onMatchClick(match)}
     >
-      <div className="flex flex-row flex-shrink-0 items-center gap-4">
-        <div className="flex flex-col gap-2 w-[584px]">
-          <p className="text-xl text-body-primary font-semibold truncate dark:text-gray-200">
+      <div className="flex flex-shrink-0 flex-row items-center gap-4">
+        <div className="flex w-[584px] flex-col gap-2">
+          <p className="text-body-primary truncate text-xl font-semibold dark:text-gray-200">
             {match.musicSubmission.songName} by{" "}
             {match.musicSubmission.performerName}
           </p>
-          <p className="text-body-gray truncate dark:text-gray-200">
+          <p className="truncate text-body-gray dark:text-gray-200">
             {"Genres: " + formatAllCapsList(match.musicSubmission.genres)}
           </p>
         </div>
@@ -79,10 +81,10 @@ export function Match({
       {state === "SUGGESTED" && canApprove && (
         <div className="flex flex-row gap-4">
           <button type="button" onClick={handleCheck}>
-            <Check className="hover:text-green-300 hover:bg-green-100 rounded-md dark:text-gray-200" />
+            <Check className="rounded-md hover:bg-green-100 hover:text-green-300 dark:text-gray-200" />
           </button>
           <button type="button" onClick={handleX}>
-            <X className="hover:text-required-star hover:bg-required-star/25 rounded-md dark:text-gray-200" />
+            <X className="rounded-md hover:bg-required-star/25 hover:text-required-star dark:text-gray-200" />
           </button>
           <div onClick={(e) => e.stopPropagation()}>
             <ConfirmationModal

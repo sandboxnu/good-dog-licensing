@@ -1,13 +1,14 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import Information from "../../svg/Information";
-import Camera from "../../svg/Camera";
-import Check from "../../svg/Check";
+
 import StatusIndicator from "../../base/StatusIndicator";
 import Calendar from "../../svg/Calendar";
+import Camera from "../../svg/Camera";
+import Check from "../../svg/Check";
 import Deadline from "../../svg/Deadline";
-import GreyMusicNote from "../../svg/GreyMusicNote";
-import MagnifyingGlass from "../../svg/MagnifyingGlass";
 import FileIcon from "../../svg/FileIcon";
+import GreyMusicNote from "../../svg/GreyMusicNote";
+import Information from "../../svg/Information";
+import MagnifyingGlass from "../../svg/MagnifyingGlass";
 import User from "./User";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
@@ -37,7 +38,7 @@ export default function AdmModSongRequestInformation({
               }
             />
           ) : (
-            <p className="text-cream-600 italic dark:text-gray-200">
+            <p className="italic text-cream-600 dark:text-gray-200">
               No Assignment Yet
             </p>
           )}
@@ -45,16 +46,16 @@ export default function AdmModSongRequestInformation({
       </div>
 
       {/* Details Pane */}
-      <div className="flex flex-col py-4 gap-4 rounded-lg border-[0.5px] bg-gray-100 dark:bg-dark-gray-600 dark:border-cream-500">
-        <div className="flex flex-row justify-start gap-2 mb-2 px-4 pb-2 items-center border-b-[1px] border-cream-400 dark:border-cream-500">
+      <div className="flex flex-col gap-4 rounded-lg border-[0.5px] bg-gray-100 py-4 dark:border-cream-500 dark:bg-dark-gray-600">
+        <div className="mb-2 flex flex-row items-center justify-start gap-2 border-b-[1px] border-cream-400 px-4 pb-2 dark:border-cream-500">
           <Information />
           <p className="dark:text-gray-200">Details</p>
         </div>
 
-        <div className="flex flex-col gap-6 justify-center px-4">
+        <div className="flex flex-col justify-center gap-6 px-4">
           <div className="flex flex-row gap-6">
-            <div className="flex flex-col gap-2 w-[188px]">
-              <div className="flex flex-row gap-1 items-center">
+            <div className="flex w-[188px] flex-col gap-2">
+              <div className="flex flex-row items-center gap-1">
                 <Camera />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Media Maker
@@ -68,8 +69,8 @@ export default function AdmModSongRequestInformation({
                 }
               />
             </div>
-            <div className="flex flex-col gap-2 w-[188px]">
-              <div className="flex flex-row gap-1 items-center">
+            <div className="flex w-[188px] flex-col gap-2">
+              <div className="flex flex-row items-center gap-1">
                 <Check />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Status
@@ -79,9 +80,9 @@ export default function AdmModSongRequestInformation({
             </div>
           </div>
 
-          <div className="flex flex-row gap-6 justify-between">
-            <div className="flex flex-col gap-2 w-[188px]">
-              <div className="flex flex-row gap-1 items-center">
+          <div className="flex flex-row justify-between gap-6">
+            <div className="flex w-[188px] flex-col gap-2">
+              <div className="flex flex-row items-center gap-1">
                 <Deadline />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Deadline
@@ -98,8 +99,8 @@ export default function AdmModSongRequestInformation({
                 )}
               </p>
             </div>
-            <div className="flex flex-col gap-2 w-[188px]">
-              <div className="flex flex-row gap-1 items-center">
+            <div className="flex w-[188px] flex-col gap-2">
+              <div className="flex flex-row items-center gap-1">
                 <Calendar />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Date submitted
@@ -115,9 +116,9 @@ export default function AdmModSongRequestInformation({
             </div>
           </div>
 
-          <div className="flex flex-row gap-6 justify-between">
-            <div className="flex flex-col gap-2 w-[188px]">
-              <div className="flex flex-row gap-1 items-center">
+          <div className="flex flex-row justify-between gap-6">
+            <div className="flex w-[188px] flex-col gap-2">
+              <div className="flex flex-row items-center gap-1">
                 <GreyMusicNote />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Feelings conveyed
@@ -127,8 +128,8 @@ export default function AdmModSongRequestInformation({
                 {songRequest.feelingsConveyed}
               </p>
             </div>
-            <div className="flex flex-col gap-2 w-[188px]">
-              <div className="flex flex-row gap-1 items-center">
+            <div className="flex w-[188px] flex-col gap-2">
+              <div className="flex flex-row items-center gap-1">
                 <MagnifyingGlass />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Example songs, artists, tracks
@@ -143,8 +144,8 @@ export default function AdmModSongRequestInformation({
       </div>
 
       {/* Description Pane */}
-      <div className="flex flex-col py-4 gap-4 rounded-lg border-[0.5px] bg-gray-100 dark:bg-dark-gray-600 dark:border-cream-500">
-        <div className="flex flex-row justify-start gap-2 px-4 pb-2 items-center border-b-[1px] border-cream-400 dark:border-cream-500">
+      <div className="flex flex-col gap-4 rounded-lg border-[0.5px] bg-gray-100 py-4 dark:border-cream-500 dark:bg-dark-gray-600">
+        <div className="flex flex-row items-center justify-start gap-2 border-b-[1px] border-cream-400 px-4 pb-2 dark:border-cream-500">
           <FileIcon />
           <p className="dark:text-gray-200">Description</p>
         </div>
@@ -154,8 +155,8 @@ export default function AdmModSongRequestInformation({
       </div>
 
       {/* Additional Information Pane */}
-      <div className="flex flex-col py-4 gap-4 rounded-lg border-[0.5px] bg-gray-100 dark:bg-dark-gray-600 dark:border-cream-500">
-        <div className="flex flex-row justify-start gap-2 px-4 pb-2 items-center border-b-[1px] border-cream-400 dark:border-cream-500">
+      <div className="flex flex-col gap-4 rounded-lg border-[0.5px] bg-gray-100 py-4 dark:border-cream-500 dark:bg-dark-gray-600">
+        <div className="flex flex-row items-center justify-start gap-2 border-b-[1px] border-cream-400 px-4 pb-2 dark:border-cream-500">
           <FileIcon />
           <p className="dark:text-gray-200">Additional Information</p>
         </div>

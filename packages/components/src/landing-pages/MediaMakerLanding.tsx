@@ -1,13 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
+
 import { trpc } from "@good-dog/trpc/client";
+
 import Card from "../base/Card";
 import StatusIndicator from "../base/StatusIndicator";
 import EmptyFolder from "../svg/homepage/EmptyFolder";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
-import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export default function MediaMakerLanding() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
@@ -45,17 +47,17 @@ export default function MediaMakerLanding() {
                   })
                 }
                 children={
-                  <div className="flex flex-col gap-[24px] h-full justify-between pt-[16px]">
+                  <div className="flex h-full flex-col justify-between gap-[24px] pt-[16px]">
                     <p className="body3 line-clamp-[2] break-words text-base font-normal leading-tight text-dark-gray-200 dark:text-dark-gray-100">
                       {project.description}
                     </p>
-                    <div className="w-full flex flex-row justify-between">
+                    <div className="flex w-full flex-row justify-between">
                       <StatusIndicator status={project.mediaMakerStatus} />
                       <ChevronRight
                         onClick={() =>
                           router.push(`/project/${project.projectId}`)
                         }
-                        className="hover:cursor-pointer text-black dark:text-mint-100"
+                        className="text-black hover:cursor-pointer dark:text-mint-100"
                         fill="none"
                       />
                     </div>

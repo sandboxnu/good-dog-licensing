@@ -1,11 +1,13 @@
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import Link from "next/link";
 import type z from "zod";
-import type { zModeratorSignUpValues } from "@good-dog/trpc/schema";
-import PasswordRequirements from "../components/PasswordRequirements";
-import Button from "../../../base/Button";
+import Link from "next/link";
 import { useFormContext } from "react-hook-form";
+
+import type { zModeratorSignUpValues } from "@good-dog/trpc/schema";
+
+import Button from "../../../base/Button";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
+import PasswordRequirements from "../components/PasswordRequirements";
 
 type PnrSignUpFormFields = z.input<typeof zModeratorSignUpValues>;
 
@@ -99,7 +101,7 @@ export default function PnrSignUpForm({
         </span>
         <Link
           href="/login"
-          className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
+          className="font-medium text-green-500 text-secondary underline dark:text-mint-200"
         >
           Log in
         </Link>

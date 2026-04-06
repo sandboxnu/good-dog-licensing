@@ -1,16 +1,18 @@
+import { useState } from "react";
+
 import { Button } from "@good-dog/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
-  DialogOverlay,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogClose,
+  DialogHeader,
+  DialogOverlay,
+  DialogTitle,
 } from "@good-dog/ui/dialog";
+
 import Checkbox from "../base/Checkbox";
-import { useState } from "react";
 
 interface ConfirmDenyDialogProps {
   open: boolean;
@@ -37,12 +39,12 @@ export function ConfirmationModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       {" "}
       <DialogOverlay className="bg-gray-400 opacity-25" />{" "}
-      <DialogContent className="max-w-md rounded-2xl pt-[36px] pb-[56px] px-[16px] bg-white dark:bg-dark-gray-600 border border-1 border-cream-500">
+      <DialogContent className="border-1 max-w-md rounded-2xl border border-cream-500 bg-white px-[16px] pb-[56px] pt-[36px] dark:bg-dark-gray-600">
         <DialogHeader className="flex flex-col items-center space-y-2">
-          <DialogTitle className="pt-[12px] text-[35px] font-medium text-center text-gray-500 dark:text-gray-200">
+          <DialogTitle className="pt-[12px] text-center text-[35px] font-medium text-gray-500 dark:text-gray-200">
             {title}
           </DialogTitle>
-          <DialogDescription className="text-center text-dark-gray-500 dark:text-gray-300 text-[16px] leading-[120%]">
+          <DialogDescription className="text-center text-[16px] leading-[120%] text-dark-gray-500 dark:text-gray-300">
             {text}
           </DialogDescription>
           {showCheckbox && (
@@ -55,7 +57,7 @@ export function ConfirmationModal({
                     I agree to{" "}
                     <a
                       href="/docs/placeholder.pdf"
-                      className="text-green-500 dark:text-mint-200 underline"
+                      className="text-green-500 underline dark:text-mint-200"
                     >
                       Terms and Conditions
                     </a>

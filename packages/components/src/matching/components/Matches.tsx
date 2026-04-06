@@ -1,5 +1,6 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { MatchState } from "@good-dog/db";
+
 import Hourglass from "../../svg/Hourglass";
 import { Match } from "./Match";
 
@@ -42,7 +43,7 @@ export function Matches({
         Review and approve/deny the songs matched below
       </p>
       {filteredMatches.length === 0 && (
-        <div className="flex flex-col items-center gap-2 mt-16 min-w-[778px]">
+        <div className="mt-16 flex min-w-[778px] flex-col items-center gap-2">
           <Hourglass size="large" />
           <p className="text-dark-gray-500 dark:text-gray-200">
             No requests active at this time

@@ -1,12 +1,12 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { trpc } from "@good-dog/trpc/client";
 
-import ProfileDropdown from "./base/ProfileDropdown";
 import DarkModeSwitch from "./base/DarkModeSwitch";
+import ProfileDropdown from "./base/ProfileDropdown";
 import NavLogo from "./svg/NavLogo";
 
 export default function Nav() {
@@ -20,7 +20,7 @@ export default function Nav() {
       <div className="flex items-center justify-between bg-transparent">
         <Link href={homeLink} className="flex items-center gap-3">
           <NavLogo />
-          <p className="font-righteous text-green-400 dark:text-mint-300 text-2xl">
+          <p className="font-righteous text-2xl text-green-400 dark:text-mint-300">
             GOOD DOG LICENSING
           </p>
         </Link>

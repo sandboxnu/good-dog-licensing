@@ -1,6 +1,6 @@
 export default function MusicNoteIcon() {
   return (
-    <div className="flex-shrink-0 rounded-lg bg-green-400 dark:bg-green-300 text-mint-100 dark:text-mint-300 w-8 h-8 flex items-center justify-center">
+    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-400 text-mint-100 dark:bg-green-300 dark:text-mint-300">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"

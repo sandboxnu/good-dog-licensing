@@ -1,11 +1,12 @@
 import {
   Genre,
+  HowHeardAboutUsLabel,
   MusicAffiliation,
   MusicRole,
   ProjectType,
   Role,
-  HowHeardAboutUsLabel,
 } from "@good-dog/db";
+
 import type { Status } from "./status";
 
 export function getHowHeardAboutUsLabel(value: HowHeardAboutUsLabel): string {

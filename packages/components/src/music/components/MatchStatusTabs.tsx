@@ -1,5 +1,7 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
 import type { ReactNode } from "react";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
+
 import { NotificationBadge } from "../../base/NotificationBadge";
 
 export function MatchStatusTabs({
@@ -15,10 +17,10 @@ export function MatchStatusTabs({
 }) {
   return (
     <Tabs defaultValue="incoming">
-      <TabsList className="rounded-full bg-green-400 dark:bg-green-300 h-auto">
+      <TabsList className="h-auto rounded-full bg-green-400 dark:bg-green-300">
         <TabsTrigger
           value="incoming"
-          className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-[224px] data-[state=active]:text-black px-4 py-3 box-content"
+          className="box-content flex w-[224px] flex-row gap-1 rounded-full px-4 py-3 text-white data-[state=active]:bg-white data-[state=active]:text-black"
         >
           Incoming matches
           {numActionRequired > 0 && (
@@ -28,14 +30,14 @@ export function MatchStatusTabs({
 
         <TabsTrigger
           value="matched"
-          className="rounded-full text-white data-[state=active]:bg-white w-[224px] data-[state=active]:text-black px-4 py-3 box-content"
+          className="box-content w-[224px] rounded-full px-4 py-3 text-white data-[state=active]:bg-white data-[state=active]:text-black"
         >
           Matched
         </TabsTrigger>
 
         <TabsTrigger
           value="rejected"
-          className="rounded-full text-white data-[state=active]:bg-white w-[224px] data-[state=active]:text-black px-4 py-3 box-content"
+          className="box-content w-[224px] rounded-full px-4 py-3 text-white data-[state=active]:bg-white data-[state=active]:text-black"
         >
           Rejected
         </TabsTrigger>

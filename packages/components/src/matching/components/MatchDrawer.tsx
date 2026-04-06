@@ -1,24 +1,26 @@
 "use client";
 
+import { Link } from "lucide-react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@good-dog/ui/sheet";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import MusicNote from "../../svg/GreyMusicNote";
+
 import {
   formatAllCapsList,
   formatAllCapsWord,
 } from "../../../utils/allCapsListFormatter";
-import Calendar from "../../svg/Calendar";
-import { Link } from "lucide-react";
-import User from "./User";
-import FileIcon from "../../svg/FileIcon";
-import Check from "../../svg/Check";
 import StatusIndicator from "../../base/StatusIndicator";
+import Calendar from "../../svg/Calendar";
+import Check from "../../svg/Check";
+import FileIcon from "../../svg/FileIcon";
+import MusicNote from "../../svg/GreyMusicNote";
 import Group from "../../svg/Group";
+import User from "./User";
 
 type MatchType = GetProcedureOutput<"getSongRequestById">["matches"][number];
 
@@ -35,22 +37,22 @@ export default function MatchDrawer({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="w-[30vw] px-9 py-12 flex flex-col bg-white dark:bg-main-bg-solid-dark rounded-l-2xl"
+        className="flex w-[30vw] flex-col rounded-l-2xl bg-white px-9 py-12 dark:bg-main-bg-solid-dark"
       >
         {/* Header */}
         <SheetHeader>
-          <SheetTitle className="flex flex-row justify-between items-center">
+          <SheetTitle className="flex flex-row items-center justify-between">
             <p className="text-4xl dark:text-mint-300">
               {match ? match.musicSubmission.songName : "..."}
             </p>
-            <div className="flex flex-row items-center gap-1 ">
+            <div className="flex flex-row items-center gap-1">
               <p className="text-xs text-cream-600 dark:text-gray-200">
                 Artist/Band
               </p>
               {match ? (
                 <User name={match.musicSubmission.performerName} />
               ) : (
-                <p className="text-cream-600 italic dark:text-gray-200">
+                <p className="italic text-cream-600 dark:text-gray-200">
                   {"..."}
                 </p>
               )}
@@ -59,12 +61,12 @@ export default function MatchDrawer({
         </SheetHeader>
 
         {/* Scrollable Body */}
-        <div className="flex-1 overflow-y-auto space-y-6">
+        <div className="flex-1 space-y-6 overflow-y-auto">
           {/* Description */}
 
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <MusicNote />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Genres
@@ -78,7 +80,7 @@ export default function MatchDrawer({
             </div>
 
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <Calendar />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Date submitted
@@ -99,8 +101,8 @@ export default function MatchDrawer({
             </div>
 
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
-                <Link className="w-4 h-4 text-gray-400" />
+              <div className="flex flex-row items-center gap-1">
+                <Link className="h-4 w-4 text-gray-400" />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Song link
                 </p>
@@ -124,7 +126,7 @@ export default function MatchDrawer({
             </div>
 
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center text-gray-400">
+              <div className="flex flex-row items-center gap-1 text-gray-400">
                 <Group />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Submitter
@@ -141,7 +143,7 @@ export default function MatchDrawer({
 
             {match && match.musicSubmission.additionalInfo.length > 0 && (
               <div className="flex flex-col gap-1">
-                <div className="flex flex-row gap-1 items-center">
+                <div className="flex flex-row items-center gap-1">
                   <FileIcon />
                   <p className="text-sm text-cream-600 dark:text-gray-200">
                     Additional information
@@ -157,7 +159,7 @@ export default function MatchDrawer({
           <p className="text-xl dark:text-gray-200">Match info</p>
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <Check />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Status
@@ -171,7 +173,7 @@ export default function MatchDrawer({
             </div>
 
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <Check />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Step
@@ -188,7 +190,7 @@ export default function MatchDrawer({
             </div>
 
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <Calendar />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Date matched
@@ -206,7 +208,7 @@ export default function MatchDrawer({
             </div>
 
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <Calendar />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Date last updated
