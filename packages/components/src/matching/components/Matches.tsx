@@ -42,8 +42,10 @@ export function Matches({
         Review and approve/deny the songs matched below
       </p>
       {filteredMatches.length === 0 && (
-        <div className="flex flex-col items-center gap-2 mt-16 min-w-[778px]">
-          <Hourglass size="large" />
+        <div className="flex flex-col items-center gap-2 mt-16 w-full">
+          <div className="w-1/2 lg:w-full lg:max-w-[496px]">
+            <Hourglass size="large" className="w-full h-auto" />
+          </div>
           <p className="text-dark-gray-500 dark:text-gray-200">
             No requests active at this time
           </p>

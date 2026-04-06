@@ -65,8 +65,8 @@ export function Match({
       className={`flex flex-row justify-between items-center cursor-pointer box-content px-6 py-4 rounded-2xl border-[1px] shadow-md border-light-gray hover:border-gray ${state === "SUGGESTED" ? `bg-cream-100 dark:bg-green-300` : `bg-gray-200 dark:bg-green-500`}`}
       onClick={() => onMatchClick(match)}
     >
-      <div className="flex flex-row flex-shrink-0 items-center gap-4">
-        <div className="flex flex-col gap-2 w-[584px]">
+      <div className="flex flex-row items-center gap-4 min-w-0 flex-1">
+        <div className="flex flex-col gap-2 min-w-0 flex-1">
           <p className="text-xl text-body-primary font-semibold truncate dark:text-gray-200">
             {match.musicSubmission.songName} by{" "}
             {match.musicSubmission.performerName}

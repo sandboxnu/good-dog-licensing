@@ -35,7 +35,7 @@ export default function MatchDrawer({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="w-[30vw] px-9 py-12 flex flex-col bg-white dark:bg-main-bg-solid-dark rounded-l-2xl"
+        className="w-[600px] px-9 py-12 flex flex-col bg-white dark:bg-main-bg-solid-dark rounded-l-2xl"
       >
         {/* Header */}
         <SheetHeader>
@@ -105,7 +105,7 @@ export default function MatchDrawer({
                   Song link
                 </p>
               </div>
-              <p className="text-sm text-dark-gray-400 dark:text-gray-200">
+              <div className="text-sm text-dark-gray-400 dark:text-gray-200">
                 {match ? (
                   <a
                     href={match.musicSubmission.songLink}
@@ -120,7 +120,7 @@ export default function MatchDrawer({
                     {"..."}
                   </p>
                 )}
-              </p>
+              </div>
             </div>
 
             <div className="flex flex-row gap-6">

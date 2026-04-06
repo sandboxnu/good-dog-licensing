@@ -33,8 +33,12 @@ export default function AdmModMatchingDashboard({
         </p>
       </button>
       <div className="flex flex-row gap-10">
-        <AdmModSongRequestInformation songRequest={songRequest} />
-        <MatchingInformation songRequest={songRequest} />
+        <div className="w-2/5 shrink-0">
+          <AdmModSongRequestInformation songRequest={songRequest} />
+        </div>
+        <div className="w-3/5 min-w-0">
+          <MatchingInformation songRequest={songRequest} />
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,10 @@
-export default function Hourglass({ size }: { size: "small" | "large" }) {
+export default function Hourglass({
+  size,
+  className,
+}: {
+  size: "small" | "large";
+  className?: string;
+}) {
   return size === "small" ? (
     <svg
       width="152"
@@ -6,6 +12,7 @@ export default function Hourglass({ size }: { size: "small" | "large" }) {
       viewBox="0 0 152 116"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <path
         d="M42.467 32.751C42.467 32.751 28.6935 36.4059 32.6288 55.2903C36.564 74.1747 24.4336 73.4319 14.1035 71.7889L13.4492 76.6293C13.4492 76.6293 40.5042 84.9918 44.105 61.2178C47.7058 37.4438 42.467 32.751 42.467 32.751Z"
@@ -173,6 +180,7 @@ export default function Hourglass({ size }: { size: "small" | "large" }) {
       viewBox="0 0 496 376"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <path
         d="M138.575 106.982C138.575 106.982 93.6302 118.921 106.472 180.608C119.313 242.294 79.7294 239.868 46.0206 234.501L43.8857 250.312C43.8857 250.312 132.171 277.629 143.92 199.97C155.67 122.312 138.575 106.982 138.575 106.982Z"
