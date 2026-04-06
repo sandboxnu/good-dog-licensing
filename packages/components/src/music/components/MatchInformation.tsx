@@ -24,7 +24,7 @@ export default function MatchInformation({
         Match Information
       </p>
       <div className="flex flex-row gap-6 w-full">
-        <div className="flex flex-col gap-3 w-[512px] box-content">
+        <div className="flex flex-col gap-3 w-2/5 shrink-0">
           <ProjectInformation
             projectSubmission={selectedMatch?.songRequest.projectSubmission}
             projectOwner={
@@ -33,6 +33,7 @@ export default function MatchInformation({
           />
           <SongRequestInformation songRequest={selectedMatch?.songRequest} />
         </div>
+        <div className="w-3/5 min-w-0">
         <MatchStatusTabs
           numActionRequired={
             matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
@@ -62,6 +63,7 @@ export default function MatchInformation({
             />
           }
         />
+        </div>
       </div>
     </div>
   );

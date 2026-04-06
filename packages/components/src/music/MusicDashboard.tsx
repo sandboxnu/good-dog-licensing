@@ -9,7 +9,7 @@ export default function MusicDashboard({ musicId }: { musicId: string }) {
   const router = useRouter();
 
   return (
-    <div className="w-[1256px] flex flex-col gap-6">
+    <div className="flex flex-col gap-6 max-w-full">
       <button
         className="flex flex-row gap-[4px] items-center max-w-[130px]"
         onClick={() => router.push(`/`)}
