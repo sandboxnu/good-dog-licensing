@@ -1,10 +1,12 @@
 "use client";
 
-import { trpc } from "@good-dog/trpc/client";
-import MediaMakerSongRequestInformation from "./components/MediaMakerSongRequestInformation";
-import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
+
+import { trpc } from "@good-dog/trpc/client";
+
 import MatchInformation from "./components/MatchInformation";
+import MediaMakerSongRequestInformation from "./components/MediaMakerSongRequestInformation";
 
 export default function MediaMakerSongRequestDashboard({
   songRequestId,
@@ -20,11 +22,11 @@ export default function MediaMakerSongRequestDashboard({
   return (
     <div className="flex flex-col gap-6 max-w-full">
       <button
-        className="flex flex-row gap-[4px] items-center max-w-[130px]"
+        className="flex max-w-[130px] flex-row items-center gap-[4px]"
         onClick={() => router.push(`/project/${songRequest.projectId}`)}
       >
         <ChevronLeft className="text-green-500 dark:text-mint-200" />
-        <p className="text-green-500 dark:text-mint-200 underline text-body2">
+        <p className="text-body2 text-green-500 underline dark:text-mint-200">
           Song requests
         </p>
       </button>

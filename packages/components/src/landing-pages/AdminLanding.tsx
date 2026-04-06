@@ -1,8 +1,10 @@
 "use client";
+
+import { useState } from "react";
+
+import ProjectsSubpage from "./components/staff/ProjectsSubpage";
 import SideBar, { SidebarTab } from "./components/staff/SideBar";
 import SongsSubpage from "./components/staff/SongsSubpage";
-import { useState } from "react";
-import ProjectsSubpage from "./components/staff/ProjectsSubpage";
 import UserSubPage from "./components/staff/UserSubPage";
 
 export default function AdminLanding() {

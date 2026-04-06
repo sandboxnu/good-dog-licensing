@@ -1,9 +1,11 @@
-import { trpc } from "@good-dog/trpc/client";
-import ProjectInformation from "./ProjectInformation";
 import { useState } from "react";
-import SongRequestInformation from "./SongRequestInformation";
-import { MatchStatusTabs } from "./MatchStatusTabs";
+
+import { trpc } from "@good-dog/trpc/client";
+
 import { Matches } from "./Matches";
+import { MatchStatusTabs } from "./MatchStatusTabs";
+import ProjectInformation from "./ProjectInformation";
+import SongRequestInformation from "./SongRequestInformation";
 
 export default function MatchInformation({
   musicSubmissionId,
@@ -34,35 +36,35 @@ export default function MatchInformation({
           <SongRequestInformation songRequest={selectedMatch?.songRequest} />
         </div>
         <div className="w-3/5 min-w-0">
-        <MatchStatusTabs
-          numActionRequired={
-            matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
-          }
-          incomingContent={
-            <Matches
-              state={"INCOMING"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          matchedContent={
-            <Matches
-              state={"MATCHED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          rejectedContent={
-            <Matches
-              state={"REJECTED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-        />
+          <MatchStatusTabs
+            numActionRequired={
+              matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
+            }
+            incomingContent={
+              <Matches
+                state={"INCOMING"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            matchedContent={
+              <Matches
+                state={"MATCHED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            rejectedContent={
+              <Matches
+                state={"REJECTED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+          />
         </div>
       </div>
     </div>

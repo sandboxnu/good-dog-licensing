@@ -72,7 +72,7 @@ export default function EmailCodeModal({
           </InputOTPGroup>
         </InputOTP>
       </div>
-      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px] pb-[56px]">
+      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pb-[56px] pt-[16px]">
         <p className="text-body2 text-dark-gray-500 dark:text-gray-200">
           Didn't get an email?
         </p>
@@ -96,9 +96,9 @@ function OPTSlot({ index, error }: { index: number; error: boolean }) {
     <InputOTPSlot
       index={index}
       className={clsx(
-        "h-[64px] w-[48px] rounded-[4px] border border-solid border-green-400 dark:text-mint-200 dark:border-mint-200 !text-h1",
+        "h-[64px] w-[48px] rounded-[4px] border border-solid border-green-400 !text-h1 dark:border-mint-200 dark:text-mint-200",
         {
-          "shadow-red-400 border-red-400 dark:shadow-red-300 dark:border-red-300":
+          "border-red-400 shadow-red-400 dark:border-red-300 dark:shadow-red-300":
             error,
         },
       )}

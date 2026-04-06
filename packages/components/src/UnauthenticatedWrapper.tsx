@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export function UnauthenticatedWrapper() {
   const pathname = usePathname();
@@ -13,7 +13,7 @@ export function UnauthenticatedWrapper() {
   }, [pathname]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex min-h-screen items-center justify-center">
       <p>Redirecting to login...</p>
     </div>
   );

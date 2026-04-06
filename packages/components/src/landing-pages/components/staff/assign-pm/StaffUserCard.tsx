@@ -1,8 +1,10 @@
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { useState } from "react";
-import ProfileIcon from "../../../../svg/ProfileIcon";
-import Button from "../../../../base/Button";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
 import { getRoleLabel } from "../../../../../utils/enumLabelMapper";
+import Button from "../../../../base/Button";
+import ProfileIcon from "../../../../svg/ProfileIcon";
 
 type UserType = GetProcedureOutput<"adminAndModeratorUsers">["users"][number];
 

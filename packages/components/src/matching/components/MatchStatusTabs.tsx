@@ -1,5 +1,7 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
 import type { ReactNode } from "react";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@good-dog/ui/tabs";
+
 import { NotificationBadge } from "../../base/NotificationBadge";
 
 export function MatchStatusTabs({

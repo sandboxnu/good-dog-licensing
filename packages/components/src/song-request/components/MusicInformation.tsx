@@ -1,6 +1,7 @@
+import { Link } from "lucide-react";
+
 import type { MusicSubmission } from ".prisma/client";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
-import { Link } from "lucide-react";
 
 export default function MusicInformation({
   musicSubmission,
@@ -52,13 +53,13 @@ export default function MusicInformation({
         <p className="text-dark-gray-200 dark:text-dark-gray-100">Link</p>
 
         {musicSubmission ? (
-          <div className="flex flex-row gap-1 text-secondary font-extrabold items-center">
+          <div className="flex flex-row items-center gap-1 font-extrabold text-secondary">
             <Link size={16} className="text-green-500 dark:text-mint-200" />
             <a
               href={musicSubmission.songLink}
               target="_blank"
               rel="noreferrer"
-              className="underline underline-offset-4 text-green-500 dark:text-mint-200"
+              className="text-green-500 underline underline-offset-4 dark:text-mint-200"
             >
               View Song
             </a>

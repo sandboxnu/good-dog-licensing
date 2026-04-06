@@ -1,9 +1,9 @@
+import type { Status } from "../../utils/status";
+import { getStatusLabel } from "../../utils/enumLabelMapper";
 import Check from "../svg/status-icons/Check";
 import ClockFull from "../svg/status-icons/ClockFull";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import Hourglass from "../svg/status-icons/Hourglass";
-import type { Status } from "../../utils/status";
-import { getStatusLabel } from "../../utils/enumLabelMapper";
 
 type Variant = "success" | "error" | "warning" | "gray" | "blue";
 

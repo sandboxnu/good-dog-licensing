@@ -1,17 +1,18 @@
 "use client";
 
+import { trpc } from "@good-dog/trpc/client";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@good-dog/ui/sheet";
+
 import User from "../../../matching/components/User";
 import Camera from "../../../svg/Camera";
 import Deadline from "../../../svg/Deadline";
 import FileIcon from "../../../svg/FileIcon";
 import SongRequest from "./SongRequest";
-import { trpc } from "@good-dog/trpc/client";
 
 export default function ProjectDrawer({
   projectSubmissionId,
@@ -34,7 +35,7 @@ export default function ProjectDrawer({
       >
         {/* Header */}
         <SheetHeader>
-          <SheetTitle className="flex flex-row justify-between items-center">
+          <SheetTitle className="flex flex-row items-center justify-between">
             <p className="text-4xl dark:text-mint-300">
               {projectSubmission.projectTitle}
             </p>
@@ -51,7 +52,7 @@ export default function ProjectDrawer({
                   }
                 />
               ) : (
-                <p className="text-cream-600 dark:text-gray-200 italic">
+                <p className="italic text-cream-600 dark:text-gray-200">
                   No Assignment Yet
                 </p>
               )}
@@ -60,12 +61,12 @@ export default function ProjectDrawer({
         </SheetHeader>
 
         {/* Scrollable Body */}
-        <div className="flex-1 overflow-y-auto space-y-6">
+        <div className="flex-1 space-y-6 overflow-y-auto">
           {/* Description */}
 
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <Camera />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Media Maker
@@ -81,7 +82,7 @@ export default function ProjectDrawer({
             </div>
 
             <div className="flex flex-row gap-6">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <Deadline />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Deadline
@@ -97,7 +98,7 @@ export default function ProjectDrawer({
             </div>
 
             <div className="flex flex-col gap-1">
-              <div className="flex flex-row gap-1 items-center">
+              <div className="flex flex-row items-center gap-1">
                 <FileIcon />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Project information
@@ -110,7 +111,7 @@ export default function ProjectDrawer({
 
             {projectSubmission.additionalInfo.length > 0 && (
               <div className="flex flex-col gap-1">
-                <div className="flex flex-row gap-1 items-center">
+                <div className="flex flex-row items-center gap-1">
                   <FileIcon />
                   <p className="text-sm text-cream-600 dark:text-gray-200">
                     Additional information

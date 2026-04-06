@@ -1,5 +1,8 @@
 "use client";
+
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import Header from "../Header";
 import {
   TableEmptyMessage,
@@ -7,10 +10,8 @@ import {
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import { trpc } from "@good-dog/trpc/client";
 import ProjectDrawer from "./ProjectDrawer";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { useRouter, useSearchParams } from "next/navigation";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
 import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
@@ -20,6 +21,7 @@ import SearchBar from "../../../base/SearchBar";
 import { search } from "../../../../utils/search";
 import Checkbox from "../../../base/Checkbox";
 import MultiselectDropdown from "../../../base/MultiselectDropdown";
+import { trpc } from "@good-dog/trpc/client";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
@@ -113,7 +115,7 @@ export default function ProjectsSubpage() {
           </div>
 
           <div className="ml-auto flex flex-row items-center gap-[16px]">
-            <div className="min-w-[220px] w-[220px]">
+            <div className="w-[220px] min-w-[220px]">
               <MultiselectDropdown
                 value={[createdDateQuery]}
                 options={[
@@ -316,10 +318,10 @@ function SubmissionStatusTab({
 }) {
   return (
     <div
-      className={`flex flex-1 flex-col p-[16px] gap-[8px] shadow-[0_2px_6px_0_#ECE6DF] rounded-[16px] cursor-pointer ${active ? "bg-green-400" : "bg-gray-100"}`}
+      className={`flex flex-1 cursor-pointer flex-col gap-[8px] rounded-[16px] p-[16px] shadow-[0_2px_6px_0_#ECE6DF] ${active ? "bg-green-400" : "bg-gray-100"}`}
       onClick={onClick}
     >
-      <div className="flex flex-row gap-[8px] items-center">
+      <div className="flex flex-row items-center gap-[8px]">
         <p
           className={`text-body1 font-medium leading-[128%] ${active ? "text-gray-100" : "text-dark-gray-500"}`}
         >

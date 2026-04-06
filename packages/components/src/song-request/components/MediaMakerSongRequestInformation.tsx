@@ -1,4 +1,5 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
 import StatusIndicator from "../../base/StatusIndicator";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
@@ -9,7 +10,7 @@ export default function MediaMakerSongRequestInformation({
   songRequest: SongRequestType;
 }) {
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className="flex w-full flex-col gap-3">
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Song Request Information
       </p>

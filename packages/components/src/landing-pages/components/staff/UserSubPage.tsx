@@ -1,18 +1,20 @@
+import { useState } from "react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { Role } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
+import { Button } from "@good-dog/ui/button";
+
+import { Switch } from "../../../base/Switch";
+import UserAdd from "../../../svg/UserAdd";
 import Header from "../Header";
+import InviteModal from "./InviteModal";
 import {
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import { Role } from "@good-dog/db";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { useState } from "react";
-import { Switch } from "../../../base/Switch";
-import { Button } from "@good-dog/ui/button";
-import UserAdd from "../../../svg/UserAdd";
-import InviteModal from "./InviteModal";
 
 type UserType = GetProcedureOutput<"allUsers">["users"][number];
 
@@ -68,9 +70,9 @@ function UserTable({ data }: { data: UserType[] }) {
               isLast={key === data.length - 1}
               columnCount={5}
             >
-              <p className="dark:text-white truncate">{user.firstName}</p>
-              <p className="dark:text-white truncate">{user.lastName}</p>
-              <p className="dark:text-white truncate">{user.email}</p>
+              <p className="truncate dark:text-white">{user.firstName}</p>
+              <p className="truncate dark:text-white">{user.lastName}</p>
+              <p className="truncate dark:text-white">{user.email}</p>
               <p className="dark:text-white">
                 {user.role === Role.ADMIN
                   ? "Admin"

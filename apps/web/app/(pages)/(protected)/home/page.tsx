@@ -6,8 +6,8 @@ import ModeratorLanding from "@good-dog/components/landing-pages/ModeratorLandin
 import MusicianLanding from "@good-dog/components/landing-pages/MusicianLanding";
 import PageContainer from "@good-dog/components/PageContainer";
 import { Role } from "@good-dog/db";
-import { HydrateClient, trpc } from "@good-dog/trpc/server";
 import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
+import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
 export default async function Home() {
   const user = await trpc.user();

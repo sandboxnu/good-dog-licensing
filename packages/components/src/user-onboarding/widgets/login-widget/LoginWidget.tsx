@@ -11,8 +11,8 @@ import { trpc } from "@good-dog/trpc/client";
 import { zSignInValues } from "@good-dog/trpc/schema";
 
 import Button from "../../../base/Button";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import RHFCheckbox from "../../../rhf-base/RHFCheckbox";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import TeamworkLogin from "../../../svg/onboarding/TeamworkLogin";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
@@ -99,7 +99,7 @@ export default function LoginWidget() {
                 />
                 <Link
                   href="/forgot-password"
-                  className="whitespace-nowrap text-body3 font-medium text-secondary underline text-green-500 dark:text-mint-200"
+                  className="whitespace-nowrap text-body3 font-medium text-green-500 text-secondary underline dark:text-mint-200"
                 >
                   Forgot password?
                 </Link>
@@ -121,7 +121,7 @@ export default function LoginWidget() {
               </span>
               <Link
                 href="/signup"
-                className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
+                className="font-medium text-green-500 text-secondary underline dark:text-mint-200"
               >
                 Sign up
               </Link>

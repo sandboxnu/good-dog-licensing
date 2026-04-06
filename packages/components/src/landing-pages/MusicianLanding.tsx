@@ -1,9 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
 
+import { formatAllCapsList } from "../../utils/allCapsListFormatter";
 import Card from "../base/Card";
 import StatusIndicator from "../base/StatusIndicator";
 import EmptyMusicNote from "../svg/homepage/EmptyMusicNote";
@@ -11,9 +14,6 @@ import MusicNoteIcon from "../svg/MusicNoteIcon";
 import People from "../svg/People";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
-import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { formatAllCapsList } from "../../utils/allCapsListFormatter";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
@@ -50,7 +50,7 @@ export default function MusicianLanding() {
                   })
                 }
                 children={
-                  <div className="flex flex-col gap-[24px] pt-[16px] h-full justify-between">
+                  <div className="flex h-full flex-col justify-between gap-[24px] pt-[16px]">
                     <div className="flex flex-col gap-[8px]">
                       <Line text={song.performerName} icon={<People />} />
                       <Line
@@ -63,11 +63,11 @@ export default function MusicianLanding() {
                       />
                     </div>
 
-                    <div className="w-full flex flex-row justify-between">
+                    <div className="flex w-full flex-row justify-between">
                       <StatusIndicator status={song.musicianSongStatus} />
                       <ChevronRight
                         onClick={() => router.push("/song/" + song.musicId)}
-                        className="hover:cursor-pointer text-black dark:text-mint-100"
+                        className="text-black hover:cursor-pointer dark:text-mint-100"
                       />
                     </div>
                   </div>

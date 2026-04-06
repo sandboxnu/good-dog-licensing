@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import SideBar, { SidebarTab } from "./components/staff/SideBar";
+
 import ProjectsSubpage from "./components/staff/ProjectsSubpage";
+import SideBar, { SidebarTab } from "./components/staff/SideBar";
 import SongsSubpage from "./components/staff/SongsSubpage";
 
 export default function ModeratorLanding() {

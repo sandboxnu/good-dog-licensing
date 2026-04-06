@@ -1,23 +1,25 @@
 "use client";
 
-import { trpc } from "@good-dog/trpc/client";
-import { useRouter } from "next/navigation";
-import Button from "../../../base/Button";
-import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
-import ProfileIcon from "../../../svg/ProfileIcon";
-import { useState } from "react";
-import SetEmailModal from "./SetEmailModal";
-import { FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
-import { zSetEmailValues, zSetPasswordValues } from "@good-dog/trpc/schema";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+
+import { trpc } from "@good-dog/trpc/client";
+import { zSetEmailValues, zSetPasswordValues } from "@good-dog/trpc/schema";
+
+import { getRoleLabel } from "../../../../utils/enumLabelMapper";
+import Button from "../../../base/Button";
+import ProfileIcon from "../../../svg/ProfileIcon";
+import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import EmailCodeModal from "../sign-up-widget/EmailCodeModal";
-import SetPasswordModal from "./SetPasswordModal";
+import DeactivateAccountModal from "./DeactivateAccountModal";
 import InfoField from "./InfoField";
 import ProfileDetails from "./ProfileDetails";
 import ProfileSection from "./ProfileSection";
-import { getRoleLabel } from "../../../../utils/enumLabelMapper";
-import DeactivateAccountModal from "./DeactivateAccountModal";
+import SetEmailModal from "./SetEmailModal";
+import SetPasswordModal from "./SetPasswordModal";
 
 type ChangeEmailValuesFields = z.input<typeof zSetEmailValues>;
 type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
@@ -120,7 +122,7 @@ export default function ProfileWidget() {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-[752px]">
+    <div className="flex w-[752px] flex-col gap-6">
       <FormProvider {...emailFormMethods}>
         <SetEmailModal
           isOpen={displaySetEmailModal}
@@ -166,7 +168,7 @@ export default function ProfileWidget() {
       <div className="flex flex-row items-center gap-4">
         <ProfileIcon color="light" size={56} />
         <div className="flex flex-col">
-          <header className="text-green-400 dark:text-mint-200 text-xl font-semibold">
+          <header className="text-xl font-semibold text-green-400 dark:text-mint-200">
             {user?.firstName + " " + user?.lastName}
           </header>
           <div className="text-dark-gray-200 dark:text-dark-gray-100">
@@ -178,7 +180,7 @@ export default function ProfileWidget() {
         <ProfileDetails />
         <ProfileSection header="Security">
           <div className="flex flex-col gap-y-6 rounded-2xl p-6">
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row items-center justify-between">
               <InfoField header="Email" content={user ? user.email : ""} />
               <Button
                 label="Change email"
@@ -187,7 +189,7 @@ export default function ProfileWidget() {
                 onClick={() => setDisplaySetEmailModal(true)}
               />
             </div>
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row items-center justify-between">
               <InfoField header="Password" content="**********" />
               <Button
                 label="Change password"
@@ -200,7 +202,7 @@ export default function ProfileWidget() {
         </ProfileSection>
         <ProfileSection header="Deactivate account" transparentHeader danger>
           <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-4">
-            <div className="flex flex-row justify-left items-center gap-1 text-dark-gray-500 dark:text-gray-300">
+            <div className="justify-left flex flex-row items-center gap-1 text-dark-gray-500 dark:text-gray-300">
               <div className="text-red-400 dark:text-red-300">
                 <ErrorExclamation size="medium" />
               </div>

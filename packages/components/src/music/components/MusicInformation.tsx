@@ -1,5 +1,7 @@
-import { trpc } from "@good-dog/trpc/client";
 import { Link } from "lucide-react";
+
+import { trpc } from "@good-dog/trpc/client";
+
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
 
 export default function MusicInformation({
@@ -12,7 +14,7 @@ export default function MusicInformation({
   });
 
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className="flex w-full flex-col gap-3">
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Music Information
       </p>
@@ -73,7 +75,7 @@ export default function MusicInformation({
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Additional Information
               </p>
-              <p className="text-dark-gray-500 dark:text-gray-200 break-words">
+              <p className="break-words text-dark-gray-500 dark:text-gray-200">
                 {musicSubmission.additionalInfo}
               </p>
             </div>

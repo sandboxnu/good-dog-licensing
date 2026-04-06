@@ -1,8 +1,10 @@
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { MatchStatusTabs } from "./MatchStatusTabs";
-import { Matches } from "./Matches";
-import MusicInformation from "./MusicInformation";
 import { useState } from "react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
+import { Matches } from "./Matches";
+import { MatchStatusTabs } from "./MatchStatusTabs";
+import MusicInformation from "./MusicInformation";
 
 type SongRequestMatchesType =
   GetProcedureOutput<"getSongRequestById">["matches"];
@@ -27,43 +29,44 @@ export default function MatchInformation({
           />
         </div>
         <div className="w-2/3 min-w-0">
-        <MatchStatusTabs
-          numActionRequired={
-            matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER").length
-          }
-          incomingContent={
-            <Matches
-              state={"INCOMING"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          pendingApprovalContent={
-            <Matches
-              state={"PENDING_APPROVAL"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          matchedContent={
-            <Matches
-              state={"MATCHED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          rejectedContent={
-            <Matches
-              state={"REJECTED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-        />
+          <MatchStatusTabs
+            numActionRequired={
+              matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER")
+                .length
+            }
+            incomingContent={
+              <Matches
+                state={"INCOMING"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            pendingApprovalContent={
+              <Matches
+                state={"PENDING_APPROVAL"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            matchedContent={
+              <Matches
+                state={"MATCHED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            rejectedContent={
+              <Matches
+                state={"REJECTED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+          />
         </div>
       </div>
     </div>

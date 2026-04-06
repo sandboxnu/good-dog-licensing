@@ -7,9 +7,10 @@ import {
   HydrateClient,
   trpc,
 } from "@good-dog/trpc/server";
-import { UnauthenticatedWrapper } from "./UnauthenticatedWrapper";
+
 import Deactivated from "./Deactivated";
 import PageContainer from "./PageContainer";
+import { UnauthenticatedWrapper } from "./UnauthenticatedWrapper";
 
 const getTrpcLikeQueryKey = <I extends object>(path: string[], input?: I) => [
   path.flatMap((part) => part.split(".")),

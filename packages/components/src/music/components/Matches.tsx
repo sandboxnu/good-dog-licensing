@@ -1,7 +1,8 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { Match } from "./Match";
 import { MatchState } from "@good-dog/db";
+
 import Hourglass from "../../svg/Hourglass";
+import { Match } from "./Match";
 
 type MatchesWithSongRequests =
   GetProcedureOutput<"getMusicSubmissionById">["matches"][number];

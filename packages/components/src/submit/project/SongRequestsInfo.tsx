@@ -7,8 +7,8 @@ import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
 
 import Button from "../../base/Button";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
-import Trash from "../../svg/TrashIcon";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
+import Trash from "../../svg/TrashIcon";
 
 interface SongRequestsInfoProps {
   onSubmit: () => void;
@@ -43,7 +43,7 @@ export default function SongRequestsInfo({
         return (
           <div
             key={compoundKey}
-            className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 dark:bg-dark-gray-600 p-10 text-black"
+            className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 p-10 text-black dark:bg-dark-gray-600"
           >
             <div className="flex flex-row items-center justify-between">
               <p className="text-xl font-semibold text-green-500 dark:text-mint-200">
