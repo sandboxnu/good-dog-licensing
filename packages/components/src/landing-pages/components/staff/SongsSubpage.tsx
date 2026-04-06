@@ -19,12 +19,7 @@ export default function SongsSubpage() {
   const [data] = trpc.allMusic.useSuspenseQuery();
   return (
     <div className="flex flex-col gap-[32px]">
-      <Header
-        title={"Songs"}
-        subtitle={"Song submissions"}
-        requestPath={""}
-        buttonContent="Invite"
-      />
+      <Header title={"Songs"} subtitle={"Song submissions"} />
       <SongTable data={data} />
     </div>
   );

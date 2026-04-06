@@ -10,6 +10,7 @@ export {
   MusicRole,
   Genre,
   ProjectType,
+  HowHeardAboutUsLabel,
   AdmModMatchStatus,
   AdmModProjectStatus,
   AdmModSongRequestStatus,

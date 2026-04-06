@@ -21,6 +21,13 @@ enum Role {
   MODERATOR
 }
 
+enum HowHeardAboutUsLabel {
+  FRIEND
+  GREEN_LINE_RECORDS
+  SOCIAL_MEDIA
+  OTHER
+}
+
 enum MatchState {
   WAITING_FOR_MANAGER_APPROVAL
   REJECTED_BY_MANAGER
@@ -84,25 +91,26 @@ enum MusicianMatchStatus {
 }
 
 model User {
-  userId                      String              @id @default(uuid()) @map("id")
-  email                       String              @unique
+  userId                      String                 @id @default(uuid()) @map("id")
+  email                       String                 @unique
   phoneNumber                 String
-  hashedPassword              String              @map("password")
+  hashedPassword              String                 @map("password")
   firstName                   String
   lastName                    String
   role                        Role
-  active                      Boolean             @default(true)
+  active                      Boolean                @default(true)
   affiliation                 MusicAffiliation?
   ipi                         String?
   passwordResetReq            PasswordResetReq?
   sessions                    Session[]
-  createdAt                   DateTime            @default(now())
-  updatedAt                   DateTime            @updatedAt
-  projectSubmissionsAsOwner   ProjectSubmission[] @relation("ProjectOwner")
-  projectSubmissionsAsManager ProjectSubmission[] @relation("ProjectManager")
+  createdAt                   DateTime               @default(now())
+  updatedAt                   DateTime               @updatedAt
+  projectSubmissionsAsOwner   ProjectSubmission[]    @relation("ProjectOwner")
+  projectSubmissionsAsManager ProjectSubmission[]    @relation("ProjectManager")
   musicSubmissions            MusicSubmission[]
-  matches                     Match[]             @relation("Matcher")
+  matches                     Match[]                @relation("Matcher")
   comments                    Comments[]
+  howHeardAboutUs             HowHeardAboutUsLabel[]
 }
 
 model Session {

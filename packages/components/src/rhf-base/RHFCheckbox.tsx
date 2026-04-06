@@ -5,7 +5,7 @@ import Checkbox from "../base/Checkbox";
 
 interface RHFCheckboxProps<TFieldValues extends FieldValues> {
   rhfName: Path<TFieldValues>;
-  label: JSX.Element;
+  label: string | React.ReactNode;
   id: string;
   required?: boolean;
   errorText?: string;
