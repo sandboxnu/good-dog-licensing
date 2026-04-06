@@ -5,7 +5,7 @@ import FaqLanding from "@good-dog/components/landing-pages/FaqLanding";
 
 export default function FaqPage() {
   return (
-    <PageContainer background={"gradient"}>
+    <PageContainer background={"gradient"} widthType="capped">
       <FaqLanding />
     </PageContainer>
   );

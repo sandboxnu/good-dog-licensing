@@ -14,7 +14,7 @@ export default async function Page({ params }: PageProps) {
   void trpc.getProjectSubmissionById.prefetch({ projectId });
 
   return (
-    <PageContainer background="solid">
+    <PageContainer background="solid" widthType="full">
       <MediaMakerProjectDashboard projectId={projectId} />
     </PageContainer>
   );

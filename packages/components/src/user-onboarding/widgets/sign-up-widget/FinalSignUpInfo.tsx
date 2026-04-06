@@ -54,7 +54,7 @@ export default function FinalSignUpInfo({
   return (
     <form onSubmit={onSubmit}>
       <h3 className="text-green-500 dark:text-mint-200">{headerLabel}</h3>
-      <p className="pt-[8px] text-dark-gray-500 dark:text-gray-200">
+      <p className="pt-[8px] text-error dark:text-red-300">
         * Indicates a required question.
       </p>
       {errorMessage && (

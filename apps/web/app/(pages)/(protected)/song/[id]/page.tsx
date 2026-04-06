@@ -14,7 +14,7 @@ export default async function Page({ params }: PageProps) {
   await trpc.getMusicSubmissionById.prefetch({ musicId });
 
   return (
-    <PageContainer background="solid">
+    <PageContainer background="solid" widthType="full">
       <MusicDashboard musicId={musicId} />
     </PageContainer>
   );

@@ -3,6 +3,7 @@ export default function VideoTutorial() {
     <svg
       width="540"
       height="346"
+      className="h-auto w-full max-w-full"
       viewBox="0 0 540 346"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

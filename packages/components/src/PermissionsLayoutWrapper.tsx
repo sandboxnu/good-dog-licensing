@@ -42,7 +42,7 @@ export const layoutWithPermissions = <
 
     if (!user.active) {
       return (
-        <PageContainer background="solid">
+        <PageContainer background="solid" widthType="capped">
           <Deactivated />
         </PageContainer>
       );

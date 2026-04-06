@@ -1,12 +1,10 @@
 "use client";
 
-import { DictionaryWord } from "../base/DictionaryWord";
 import DownArrow from "../svg/DownArrow";
 import Button from "../base/Button";
 import Footnote from "../base/Footnote";
 import { useRouter } from "next/navigation";
 
-import GrowOnScroll from "@good-dog/components/motion/GrowOnScroll";
 import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
 import WomanInComputer from "@good-dog/components/svg/homepage/WomanInComputer";
 
@@ -75,7 +73,6 @@ export default function FaqLanding() {
                   variant="contained"
                   shadow
                   fullWidth
-                  className="shadow-dark-gray-500 dark:shadow-mint-200"
                 />
               </div>
             </div>
@@ -117,7 +114,6 @@ export default function FaqLanding() {
                   variant="outlined"
                   onClick={() => router.push("/signup")}
                   shadow
-                  className="!w-auto px-[24px] shadow-dark-gray-500 dark:shadow-mint-200"
                 />
               </div>
             </div>
@@ -146,7 +142,6 @@ export default function FaqLanding() {
                   variant="outlined"
                   onClick={() => router.push("/signup")}
                   shadow
-                  className="!w-auto px-[24px] shadow-dark-gray-500 dark:shadow-mint-200"
                 />
               </div>
             </div>
@@ -161,7 +156,7 @@ export default function FaqLanding() {
                 </span>
               </h3>
               <p className="mt-[8px] text-[20px] font-normal not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300">
-                We are not in it for the money. REALLY. 
+                We are not in it for the money. REALLY.
               </p>
             </div>
             <div className="mt-[36px] flex flex-row gap-[32px]">

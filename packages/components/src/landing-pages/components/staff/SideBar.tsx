@@ -24,7 +24,7 @@ export default function SideBar({
   isAdminView: boolean;
 }) {
   return (
-    <div className="flex bg-gray-100 dark:bg-dark-gray-600 flex-1 w-[207px] h-[776px] pt-[32px] pl-[16px] pr-[16px] shadow-[0_2px_6px_0_#ECE6DF] rounded-[24px] h-[40px]">
+    <div className="flex bg-gray-100 dark:bg-dark-gray-600 flex-1 max-w-[207px] h-[776px] pt-[32px] pl-[16px] pr-[16px] shadow-[0_2px_6px_0_#ECE6DF] rounded-[24px] h-[40px]">
       <div className="flex flex-col gap-[4px]">
         <SideBarEntry
           active={activeTab === SidebarTab.SUBMISSIONS}
@@ -69,7 +69,7 @@ function SideBarEntry({
 }) {
   return (
     <div
-      className={`${active ? "bg-green-400 text-white" : "bg-white dark:bg-dark-gray-600 text-dark-gray-500 dark:text-gray-200"} items-center pl-[8px] pt-[8px] pb-[8px] pr-[32px] w-[175px] rounded-[8px]`}
+      className={`${active ? "bg-green-400 text-white" : "bg-white dark:bg-dark-gray-600 text-dark-gray-500 dark:text-gray-200"} items-center pl-[8px] pt-[8px] pb-[8px] pr-[32px] w-[175px] rounded-[8px] hover:cursor-pointer`}
       onClick={onClick}
     >
       <div className="flex flex-row gap-[8px]">

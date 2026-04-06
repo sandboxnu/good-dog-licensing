@@ -80,6 +80,7 @@ export default {
         "green-500": "var(--green-500)",
         "green-600": "var(--green-600)",
         "green-700": "var(--green-700)",
+        overlay: "var(--overlay)",
         "body-gray": "#5C5C5C",
         secondary: "#054233",
         error: "#B13433",

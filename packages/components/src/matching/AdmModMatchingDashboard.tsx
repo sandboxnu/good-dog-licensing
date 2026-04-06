@@ -18,9 +18,9 @@ export default function AdmModMatchingDashboard({
   });
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 max-w-full">
       <button
-        className="flex flex-row gap-[4px] items-center max-w-[130px]"
+        className="flex flex-row gap-[4px] items-center"
         onClick={() =>
           router.push(
             `/home?projectId=${songRequest.projectSubmission.projectId}`,
