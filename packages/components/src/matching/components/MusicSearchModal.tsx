@@ -109,42 +109,46 @@ export function MusicSearchModal({
                 searchBar
               />
             </div>
-            <div className="flex flex-row flex-wrap gap-2">
-              {selectedArtists.map((artist) => (
-                <Button
-                  key={artist}
-                  variant="outlined"
-                  size="flex-text-with-icon"
-                  className="border border-[0.5px] border-green-400 dark:border-mint-300 bg-mint-300 dark:bg-green-400 hover:bg-mint-300 dark:hover:bg-green-400"
-                  onClick={() =>
-                    setSelectedArtists(
-                      selectedArtists.filter((a) => a !== artist),
-                    )
-                  }
-                >
-                  <div className="flex items-center gap-1 text-green-400 dark:text-mint-300">
-                    <X className="h-4 w-4" />
-                    {artist}
-                  </div>
-                </Button>
-              ))}
-              {selectedGenres.map((genre) => (
-                <Button
-                  key={genre}
-                  variant="outlined"
-                  size="flex-text-with-icon"
-                  className="border border-[0.5px] border-green-400 dark:border-mint-300 bg-mint-300 dark:bg-green-400 hover:bg-mint-300 dark:hover:bg-green-400"
-                  onClick={() =>
-                    setSelectedGenres(selectedGenres.filter((g) => g !== genre))
-                  }
-                >
-                  <div className="flex items-center gap-1 text-green-400 dark:text-mint-300">
-                    <X className="h-4 w-4" />
-                    {getGenreLabel(genre as Genre)}
-                  </div>
-                </Button>
-              ))}
-            </div>
+            {selectedArtists.length + selectedGenres.length > 0 && (
+              <div className="flex flex-row flex-wrap gap-2">
+                {selectedArtists.map((artist) => (
+                  <Button
+                    key={artist}
+                    variant="outlined"
+                    size="flex-text-with-icon"
+                    className="border border-[0.5px] border-green-400 dark:border-mint-300 bg-mint-300 dark:bg-green-400 hover:bg-mint-300 dark:hover:bg-green-400"
+                    onClick={() =>
+                      setSelectedArtists(
+                        selectedArtists.filter((a) => a !== artist),
+                      )
+                    }
+                  >
+                    <div className="flex items-center gap-1 text-green-400 dark:text-mint-300">
+                      <X className="h-4 w-4" />
+                      {artist}
+                    </div>
+                  </Button>
+                ))}
+                {selectedGenres.map((genre) => (
+                  <Button
+                    key={genre}
+                    variant="outlined"
+                    size="flex-text-with-icon"
+                    className="border border-[0.5px] border-green-400 dark:border-mint-300 bg-mint-300 dark:bg-green-400 hover:bg-mint-300 dark:hover:bg-green-400"
+                    onClick={() =>
+                      setSelectedGenres(
+                        selectedGenres.filter((g) => g !== genre),
+                      )
+                    }
+                  >
+                    <div className="flex items-center gap-1 text-green-400 dark:text-mint-300">
+                      <X className="h-4 w-4" />
+                      {getGenreLabel(genre as Genre)}
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="flex-1 overflow-y-auto max-h-80">
             <p className="mb-4 text-base text-gray-500 dark:text-gray-200">
