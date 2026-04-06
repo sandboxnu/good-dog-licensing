@@ -17,10 +17,10 @@ export function MatchStatusTabs({
 }) {
   return (
     <Tabs defaultValue="incoming">
-      <TabsList className="flex flex-row rounded-full bg-green-400 dark:bg-green-300 h-auto">
+      <TabsList className="flex h-auto flex-row rounded-full bg-green-400 dark:bg-green-300">
         <TabsTrigger
           value="incoming"
-          className="flex flex-row gap-1 rounded-full text-white data-[state=active]:bg-white w-full lg:flex-1 data-[state=active]:text-black px-4 py-3 box-content"
+          className="box-content flex w-full flex-row gap-1 rounded-full px-4 py-3 text-white data-[state=active]:bg-white data-[state=active]:text-black lg:flex-1"
         >
           Incoming matches
           {numActionRequired > 0 && (
@@ -30,14 +30,14 @@ export function MatchStatusTabs({
 
         <TabsTrigger
           value="matched"
-          className="rounded-full text-white data-[state=active]:bg-white w-full lg:flex-1 data-[state=active]:text-black px-4 py-3 box-content"
+          className="box-content w-full rounded-full px-4 py-3 text-white data-[state=active]:bg-white data-[state=active]:text-black lg:flex-1"
         >
           Matched
         </TabsTrigger>
 
         <TabsTrigger
           value="rejected"
-          className="rounded-full text-white data-[state=active]:bg-white w-full lg:flex-1 data-[state=active]:text-black px-4 py-3 box-content"
+          className="box-content w-full rounded-full px-4 py-3 text-white data-[state=active]:bg-white data-[state=active]:text-black lg:flex-1"
         >
           Rejected
         </TabsTrigger>

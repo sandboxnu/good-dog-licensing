@@ -21,7 +21,7 @@ export default function MatchInformation({
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Match Information
       </p>
-      <div className="flex flex-row gap-6 w-full">
+      <div className="flex w-full flex-row gap-6">
         <div className="w-1/3 shrink-0">
           <MusicInformation
             musicSubmission={selectedMatch?.musicSubmission}

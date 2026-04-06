@@ -1,17 +1,17 @@
 "use client";
 
-import DownArrow from "../svg/DownArrow";
-import Button from "../base/Button";
-import Footnote from "../base/Footnote";
 import { useRouter } from "next/navigation";
 
 import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
 import WomanInComputer from "@good-dog/components/svg/homepage/WomanInComputer";
 
+import Button from "../base/Button";
+import Footnote from "../base/Footnote";
+import DownArrow from "../svg/DownArrow";
+import GreenOval from "../svg/GreenOval";
 import Check from "../svg/homepage/Check";
 import LandingLogo from "../svg/homepage/LandingLogo";
 import ThinkingPerson from "../svg/homepage/ThinkingPerson";
-import GreenOval from "../svg/GreenOval";
 import Accordion from "./components/Accordion";
 
 // new background "spotted gradient"
@@ -26,29 +26,29 @@ import Accordion from "./components/Accordion";
 export default function FaqLanding() {
   const router = useRouter();
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center pb-[100px] ">
+    <div className="flex min-h-screen flex-col items-center justify-center pb-[100px]">
       <div className="flex w-full flex-col items-center">
         <div className="flex flex-col justify-center text-center">
-          <h1 className="pt-[64px] font-righteous text-[72px] font-normal leading-[80px] text-body-primary text-dark-gray-500 dark:text-mint-300">
+          <h1 className="text-body-primary pt-[64px] font-righteous text-[72px] font-normal leading-[80px] text-dark-gray-500 dark:text-mint-300">
             Connecting musicians and media makers
           </h1>
-          <p className="mt-[16px] text-[35px] font-medium leading-[104%] text-center text-dark-gray-500 dark:text-gray-300">
+          <p className="mt-[16px] text-center text-[35px] font-medium leading-[104%] text-dark-gray-500 dark:text-gray-300">
             Northeastern University's free, student-run music synchronization
             service.
           </p>
-          <h2 className="mt-[40px] text-[48px] font-medium leading-[96%] text-center text-green-400 dark:text-mint-200">
+          <h2 className="mt-[40px] text-center text-[48px] font-medium leading-[96%] text-green-400 dark:text-mint-200">
             Say "Yes" to Licensing!
           </h2>
           <div className="mt-[16] flex items-center justify-center">
             <DownArrow />
           </div>
 
-          <div className="w-full rounded-[24px] px-[48px] py-[24px] flex flex-row mt-[80px] gap-[40px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
-            <div className="flex flex-col text-left items-center justify-center">
+          <div className="mt-[80px] flex w-full flex-row gap-[40px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[48px] py-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+            <div className="flex flex-col items-center justify-center text-left">
               <h3 className="text-[48px] font-normal dark:text-mint-300">
                 Good Dog Licensing
               </h3>
-              <p className="mt-[8px] text-[18px] font-medium leading-[128%] w-[392px] dark:text-gray-300">
+              <p className="mt-[8px] w-[392px] text-[18px] font-medium leading-[128%] dark:text-gray-300">
                 Good Dog Licensing connects creatives by providing a legal
                 framework for media producers to source high quality music from
                 independent artists
@@ -95,14 +95,14 @@ export default function FaqLanding() {
           </div>
 
           <div className="mt-[36px] flex gap-[56px]">
-            <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] px-[24px] py-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
+            <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
               <div className="flex items-center justify-center">
                 <WomanInComputer />
               </div>
-              <h3 className="mt-[8px] text-[40px] font-medium not-italic leading-[104%] text-center text-green-400 dark:text-mint-200">
+              <h3 className="mt-[8px] text-center text-[40px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200">
                 Sign up as a Media Maker
               </h3>
-              <p className="mt-[16px] w-[360px] text-[20px] font-normal not-italic leading-[128%] text-center text-green-500 dark:text-mint-200">
+              <p className="mt-[16px] w-[360px] text-center text-[20px] font-normal not-italic leading-[128%] text-green-500 dark:text-mint-200">
                 Submit a description of your project and the type of music
                 you're looking for. Good Dog takes care of everything and at no
                 cost to you.
@@ -118,14 +118,14 @@ export default function FaqLanding() {
               </div>
             </div>
 
-            <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] px-[24px] py-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
+            <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
               <div className="flex items-center justify-center">
                 <ManWithSax />
               </div>
-              <h3 className="mt-[8px] text-[40px] font-medium not-italic leading-[104%] text-center text-green-400 dark:text-mint-200">
+              <h3 className="mt-[8px] text-center text-[40px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200">
                 Sign up as a Musician
               </h3>
-              <p className="mt-[16px] w-[360px] self-center text-[20px] font-normal not-italic leading-[128%] text-center text-green-500 dark:text-mint-200">
+              <p className="mt-[16px] w-[360px] self-center text-center text-[20px] font-normal not-italic leading-[128%] text-green-500 dark:text-mint-200">
                 Submit your music{" "}
                 <Footnote
                   number={3}
@@ -163,12 +163,12 @@ export default function FaqLanding() {
               <div className="flex items-center">
                 <ThinkingPerson />
               </div>
-              <div className="grid grid-cols-2 auto-rows-fr gap-[8px]">
-                <div className="flex items-center gap-[10px] rounded-[24px] p-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
+              <div className="grid auto-rows-fr grid-cols-2 gap-[8px]">
+                <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-[18px] font-medium not-italic leading-[128%] text-left text-dark-gray-500 dark:text-mint-200">
+                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
                     Artists retain 100% of their copyrights
                     <Footnote
                       number={4}
@@ -177,20 +177,20 @@ export default function FaqLanding() {
                     .
                   </p>
                 </div>
-                <div className="flex items-center gap-[10px] rounded-[24px] p-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
+                <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-[18px] font-medium not-italic leading-[128%] text-left text-dark-gray-500 dark:text-mint-200">
+                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
                     No up-front fee and no commission and our service is
                     non-exclusive.
                   </p>
                 </div>
-                <div className="flex items-center gap-[10px] rounded-[24px] p-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
+                <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-[18px] font-medium not-italic leading-[128%] text-left text-dark-gray-500 dark:text-mint-200">
+                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
                     Artists can say no to any synch
                     <Footnote
                       number={5}
@@ -199,29 +199,29 @@ export default function FaqLanding() {
                     placement but you should say "Yes!"
                   </p>
                 </div>
-                <div className="flex items-center gap-[10px] rounded-[24px] p-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
+                <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-[18px] font-medium not-italic leading-[128%] text-left text-dark-gray-500 dark:text-mint-200">
+                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
                     We take the hassle out of finding picture-perfect music for
                     projects.
                   </p>
                 </div>
-                <div className="flex items-center gap-[10px] rounded-[24px] p-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
+                <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-[18px] font-medium not-italic leading-[128%] text-left text-dark-gray-500 dark:text-mint-200">
+                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
                     Artists can earn public performance royalties through ASCAP
                     or BMI.
                   </p>
                 </div>
-                <div className="flex items-center gap-[10px] rounded-[24px] p-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#171717]">
+                <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-[18px] font-medium not-italic leading-[128%] text-left text-dark-gray-500 dark:text-mint-200">
+                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
                     Artists receive full attribution for all uses of their
                     music.
                   </p>
@@ -230,20 +230,20 @@ export default function FaqLanding() {
             </div>
           </div>
 
-          <div className="mt-[72px] relative h-[949px] w-full overflow-hidden">
-            <GreenOval className="absolute top-0 left-1/2 -translate-x-1/2 w-[1978px]" />
+          <div className="relative mt-[72px] h-[949px] w-full overflow-hidden">
+            <GreenOval className="absolute left-1/2 top-0 w-[1978px] -translate-x-1/2" />
 
             <div className="relative pt-[120px]">
-              <h2 className="text-[48px] font-medium not-italic leading-[96%] text-left text-mint-200">
+              <h2 className="text-left text-[48px] font-medium not-italic leading-[96%] text-mint-200">
                 Our contributors
               </h2>
-              <p className="text-[20px] font-normal not-italic leading-normal text-left text-gray-100">
+              <p className="text-left text-[20px] font-normal not-italic leading-normal text-gray-100">
                 Discover the people driving our platform, uniting strategy,
                 creativity, and music.
               </p>
 
               <div className="mt-[36px] flex flex-row gap-[56px]">
-                <div className="flex flex-1 flex-col items-center gap-[10px] self-stretch rounded-[24px] p-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#2E2E2E]">
+                <div className="flex flex-1 flex-col items-center gap-[10px] self-stretch rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#2E2E2E]">
                   <div className="h-[250px] w-[250px] overflow-hidden rounded-[136px] shadow-[0_2px_6px_0_#BFBCB8]">
                     <img
                       src="/images/profHeadshot.png"
@@ -251,10 +251,10 @@ export default function FaqLanding() {
                       className="h-[250px] w-[250px] shadow-[0_2px_6px_0_#BFBCB8]"
                     />
                   </div>
-                  <div className="mt-[8px] text-[40px] font-medium not-italic leading-[104%] text-center text-green-400 dark:text-mint-200">
+                  <div className="mt-[8px] text-center text-[40px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200">
                     Founder
                   </div>
-                  <div className="mt-[16px] text-[18px] text-left font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300">
+                  <div className="mt-[16px] text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300">
                     Professor Herlihy is a professor in both the College of
                     Arts, Media, and Design at Northeastern, and at the Law
                     School, runs his own entertainment law practice, and
@@ -269,18 +269,18 @@ export default function FaqLanding() {
                     , and Music Licensing.
                   </div>
                 </div>
-                <div className="flex flex-1 flex-col items-center gap-[10px] self-stretch rounded-[24px] p-[24px] border border-[#ECE6DF] dark:border-[#403F3E] bg-cream-100 dark:bg-green-600 shadow-[0_2px_6px_0_#ECE6DF] dark:shadow-[0_2px_6px_0_#2E2E2E]">
-                  <div className="h-[250px] w-[250px] flex flex-col items-center justify-center overflow-hidden rounded-[136px] shadow-[0_2px_6px_0_#BFBCB8] dark:bg-mint-300">
+                <div className="flex flex-1 flex-col items-center gap-[10px] self-stretch rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#2E2E2E]">
+                  <div className="flex h-[250px] w-[250px] flex-col items-center justify-center overflow-hidden rounded-[136px] shadow-[0_2px_6px_0_#BFBCB8] dark:bg-mint-300">
                     <img
                       src="/images/greenLineRecords.png"
                       alt="Green Line Records"
                       className="h-[178.6px] w-[224px]"
                     />
                   </div>
-                  <div className="mt-[8px] text-[40px] font-medium not-italic leading-[104%] text-center text-green-400 dark:text-mint-200">
+                  <div className="mt-[8px] text-center text-[40px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200">
                     Green Line Records
                   </div>
-                  <div className="mt-[16px] text-[18px] font-medium not-italic leading-[128%] text-left text-dark-gray-500 dark:text-gray-300">
+                  <div className="mt-[16px] text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300">
                     Green Line Records is Northeastern University’s student-run
                     record label. Green Line Records aims to showcase Boston’s
                     music scene by offering their artists a full range of
@@ -295,7 +295,7 @@ export default function FaqLanding() {
             </div>
           </div>
 
-          <h3 className="mt-[72px] text-[48px] font-medium text-left not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300">
+          <h3 className="mt-[72px] text-left text-[48px] font-medium not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300">
             Frequently asked questions
           </h3>
           <div className="mt-[36px] flex flex-col gap-[8px]">

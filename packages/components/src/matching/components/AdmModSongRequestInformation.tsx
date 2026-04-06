@@ -21,7 +21,7 @@ export default function AdmModSongRequestInformation({
   return (
     <div className="flex flex-col gap-4">
       {/* Song Request Title Header */}
-      <div className="flex flex-col lg:flex-row justify-between gap-[10px]">
+      <div className="flex flex-col justify-between gap-[10px] lg:flex-row">
         <p className="text-xl dark:text-gray-200">
           {songRequest.songRequestTitle}
         </p>
@@ -52,9 +52,9 @@ export default function AdmModSongRequestInformation({
           <p className="dark:text-gray-200">Details</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4">
+        <div className="grid grid-cols-1 gap-6 px-4 lg:grid-cols-2">
           <div className="flex flex-col gap-2">
-            <div className="flex flex-row gap-1 items-center">
+            <div className="flex flex-row items-center gap-1">
               <Camera />
               <p className="text-sm text-cream-600 dark:text-gray-200">
                 Media Maker
@@ -69,7 +69,7 @@ export default function AdmModSongRequestInformation({
             />
           </div>
           <div className="flex flex-col gap-2">
-            <div className="flex flex-row gap-1 items-center">
+            <div className="flex flex-row items-center gap-1">
               <Check />
               <p className="text-sm text-cream-600 dark:text-gray-200">
                 Status
@@ -79,7 +79,7 @@ export default function AdmModSongRequestInformation({
           </div>
 
           <div className="flex flex-col gap-2">
-            <div className="flex flex-row gap-1 items-center">
+            <div className="flex flex-row items-center gap-1">
               <Deadline />
               <p className="text-sm text-cream-600 dark:text-gray-200">
                 Deadline
@@ -97,7 +97,7 @@ export default function AdmModSongRequestInformation({
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="flex flex-row gap-1 items-center">
+            <div className="flex flex-row items-center gap-1">
               <Calendar />
               <p className="text-sm text-cream-600 dark:text-gray-200">
                 Date submitted
@@ -113,7 +113,7 @@ export default function AdmModSongRequestInformation({
           </div>
 
           <div className="flex flex-col gap-2">
-            <div className="flex flex-row gap-1 items-center">
+            <div className="flex flex-row items-center gap-1">
               <GreyMusicNote />
               <p className="text-sm text-cream-600 dark:text-gray-200">
                 Feelings conveyed
@@ -124,7 +124,7 @@ export default function AdmModSongRequestInformation({
             </p>
           </div>
           <div className="flex flex-col gap-2">
-            <div className="flex flex-row gap-1 items-center">
+            <div className="flex flex-row items-center gap-1">
               <MagnifyingGlass />
               <p className="text-sm text-cream-600 dark:text-gray-200">
                 Example songs, artists, tracks

@@ -18,8 +18,8 @@ export default function MusicInformation({
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Music Information
       </p>
-      <div className="grid grid-cols-2 bg-cream-100 dark:bg-dark-gray-600 rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
-        <div className="flex flex-col gap-4 justify-start min-w-0 pr-6">
+      <div className="grid w-full grid-cols-2 rounded-2xl border-[0.5px] border-light-gray bg-cream-100 p-6 shadow-md dark:bg-dark-gray-600">
+        <div className="flex min-w-0 flex-col justify-start gap-4 pr-6">
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">Song</p>
             <p className="text-dark-gray-500 dark:text-gray-200">
@@ -43,7 +43,7 @@ export default function MusicInformation({
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-4 justify-start min-w-0 px-6 border-l border-light-gray">
+        <div className="flex min-w-0 flex-col justify-start gap-4 border-l border-light-gray px-6">
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">
               Date Submitted
@@ -58,13 +58,13 @@ export default function MusicInformation({
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">Link</p>
-            <div className="flex flex-row gap-1 text-secondary font-extrabold items-center">
+            <div className="flex flex-row items-center gap-1 font-extrabold text-secondary">
               <Link size={16} className="text-green-500 dark:text-mint-200" />
               <a
                 href={musicSubmission.songLink}
                 target="_blank"
                 rel="noreferrer"
-                className="underline underline-offset-4 text-green-500 dark:text-mint-200"
+                className="text-green-500 underline underline-offset-4 dark:text-mint-200"
               >
                 View Song
               </a>

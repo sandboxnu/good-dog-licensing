@@ -25,7 +25,7 @@ export default function ProjectInformation({
           This is where you view and manage your song requests
         </p>
       </div>
-      <div className="flex flex-row justify-between items-end gap-[100px]">
+      <div className="flex flex-row items-end justify-between gap-[100px]">
         <div className="flex flex-col gap-2">
           <p className="font-medium text-dark-gray-500 dark:text-gray-200">
             <strong>Project Title: </strong> {project.projectTitle}

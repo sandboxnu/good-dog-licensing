@@ -143,7 +143,7 @@ export default function SignUpWidget({
         </FormProvider>
       </div>
       <div className="flex w-1/2 pl-[20px]">
-        <div className="flex flex-col justify-center w-full">
+        <div className="flex w-full flex-col justify-center">
           {role === "MUSICIAN" && <MusicianOnRecord />}
           {role === "MEDIA_MAKER" && <Camera />}
           {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}

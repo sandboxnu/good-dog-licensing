@@ -1,9 +1,9 @@
 import React from "react";
 import clsx from "clsx";
 
+import DeviceTooSmallModal from "./DeviceTooSmallModal";
 import Footer from "./Footer";
 import Nav from "./Nav";
-import DeviceTooSmallModal from "./DeviceTooSmallModal";
 
 const DISPLAY_ON_DESKTOP_CLASS = "max-[799px]:hidden";
 const DISPLAY_ON_MOBILE_CLASS = "min-[800px]:hidden";
@@ -59,13 +59,13 @@ export default function PageContainer({
       <div className={clsx("flex w-full flex-col", DISPLAY_ON_DESKTOP_CLASS)}>
         <div
           className={clsx(
-            "w-full min-h-screen",
+            "min-h-screen w-full",
             BACKGROUND_CLASSES[background],
           )}
         >
           <div
             className={clsx(
-              "flex flex-col w-full px-[40px] pt-[32px] mx-auto",
+              "mx-auto flex w-full flex-col px-[40px] pt-[32px]",
               CONTENT_MAX_WIDTH_CLASSES[widthType],
             )}
           >

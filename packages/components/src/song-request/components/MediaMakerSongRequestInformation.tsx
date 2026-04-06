@@ -14,8 +14,8 @@ export default function MediaMakerSongRequestInformation({
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Song Request Information
       </p>
-      <div className="grid grid-cols-[1fr_2fr] lg:grid-cols-[1fr_3fr] bg-cream-100 dark:bg-green-600 rounded-2xl p-6 border-[0.5px] border-light-gray shadow-md w-full">
-        <div className="flex flex-col gap-4 justify-start min-w-0 pr-6">
+      <div className="grid w-full grid-cols-[1fr_2fr] rounded-2xl border-[0.5px] border-light-gray bg-cream-100 p-6 shadow-md dark:bg-green-600 lg:grid-cols-[1fr_3fr]">
+        <div className="flex min-w-0 flex-col justify-start gap-4 pr-6">
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">
               Song Request
@@ -41,7 +41,7 @@ export default function MediaMakerSongRequestInformation({
             </p>
           </div>
         </div>
-        <div className="flex flex-col gap-4 justify-start min-w-0 pl-6 border-l border-light-gray">
+        <div className="flex min-w-0 flex-col justify-start gap-4 border-l border-light-gray pl-6">
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">
               Summary
@@ -71,7 +71,7 @@ export default function MediaMakerSongRequestInformation({
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Additional Information
               </p>
-              <p className="text-dark-gray-500 dark:text-gray-200 break-words">
+              <p className="break-words text-dark-gray-500 dark:text-gray-200">
                 {songRequest.additionalInfo}
               </p>
             </div>

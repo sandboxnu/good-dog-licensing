@@ -1,7 +1,7 @@
 import React from "react";
 
-import PageContainer from "@good-dog/components/PageContainer";
 import FaqLanding from "@good-dog/components/landing-pages/FaqLanding";
+import PageContainer from "@good-dog/components/PageContainer";
 
 export default function FaqPage() {
   return (

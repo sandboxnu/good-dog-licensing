@@ -25,8 +25,8 @@ export default function MatchInformation({
       <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Match Information
       </p>
-      <div className="flex flex-row gap-6 w-full">
-        <div className="flex flex-col gap-3 w-2/5 shrink-0">
+      <div className="flex w-full flex-row gap-6">
+        <div className="flex w-2/5 shrink-0 flex-col gap-3">
           <ProjectInformation
             projectSubmission={selectedMatch?.songRequest.projectSubmission}
             projectOwner={

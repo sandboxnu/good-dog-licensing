@@ -130,7 +130,7 @@ export default function LoginWidget() {
         </FormProvider>
       </div>
       <div className="flex w-1/2 pl-[20px]">
-        <div className="flex flex-col justify-center w-full">
+        <div className="flex w-full flex-col justify-center">
           <TeamworkLogin />
         </div>
       </div>

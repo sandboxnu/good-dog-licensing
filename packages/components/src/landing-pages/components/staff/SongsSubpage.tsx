@@ -67,7 +67,7 @@ function SongTable({ data }: { data: MusicSubmission[] }) {
               <a
                 href={user.songLink}
                 target="_blank"
-                className="dark:text-white truncate"
+                className="truncate dark:text-white"
               >
                 <u>{user.songLink}</u>
               </a>

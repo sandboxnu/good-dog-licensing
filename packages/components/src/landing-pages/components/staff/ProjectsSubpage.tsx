@@ -3,25 +3,26 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { AdmModProjectStatus } from "@good-dog/db";
+import { trpc } from "@good-dog/trpc/client";
+import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
+
+import { getStatusLabel } from "../../../../utils/enumLabelMapper";
+import { search } from "../../../../utils/search";
+import Checkbox from "../../../base/Checkbox";
+import MultiselectDropdown from "../../../base/MultiselectDropdown";
+import SearchBar from "../../../base/SearchBar";
+import ProfileIcon from "../../../svg/ProfileIcon";
 import Header from "../Header";
+import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
+import ProjectDrawer from "./ProjectDrawer";
 import {
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import ProjectDrawer from "./ProjectDrawer";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import ProfileIcon from "../../../svg/ProfileIcon";
-import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
-import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
-import { AdmModProjectStatus } from "@good-dog/db";
-import { getStatusLabel } from "../../../../utils/enumLabelMapper";
-import SearchBar from "../../../base/SearchBar";
-import { search } from "../../../../utils/search";
-import Checkbox from "../../../base/Checkbox";
-import MultiselectDropdown from "../../../base/MultiselectDropdown";
-import { trpc } from "@good-dog/trpc/client";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
@@ -233,25 +234,25 @@ function SubmissionTable({
                 isLast={key === data.length - 1}
                 columnCount={6}
               >
-                <p className="dark:text-white truncate">
+                <p className="truncate dark:text-white">
                   {project.projectTitle}
                 </p>
-                <p className="dark:text-white truncate">
+                <p className="truncate dark:text-white">
                   {project.description}
                 </p>
-                <p className="dark:text-white truncate">
+                <p className="truncate dark:text-white">
                   {project.projectOwner.firstName +
                     " " +
                     project.projectOwner.lastName}
                 </p>
-                <p className="dark:text-white truncate">
+                <p className="truncate dark:text-white">
                   {project.createdAt.toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
                   })}
                 </p>
-                <p className="dark:text-white truncate">
+                <p className="truncate dark:text-white">
                   {project.deadline.toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
@@ -261,7 +262,7 @@ function SubmissionTable({
                 <div className="flex items-center justify-center pr-[30px]">
                   <button
                     type="button"
-                    className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 dark:border-gray-300 dark:text-white hover:bg-dark-gray-100"
+                    className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 hover:bg-dark-gray-100 dark:border-gray-300 dark:text-white"
                     aria-label="Assign project"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -328,7 +329,7 @@ function SubmissionStatusTab({
           {title}
         </p>
         <div
-          className={`rounded-[4px] flex items-center justify-center h-[16px] w-[23px] ${active ? "bg-grass-green-50" : "bg-gray-500"}`}
+          className={`flex h-[16px] w-[23px] items-center justify-center rounded-[4px] ${active ? "bg-grass-green-50" : "bg-gray-500"}`}
         >
           <p
             className={`${active ? "text-dark-gray-500" : "text-gray-100"} text-[14px] font-medium leading-none`}
