@@ -18,7 +18,7 @@ export default async function SongRequestPage({ params }: PageProps) {
   void trpc.allMusic.prefetch();
 
   return (
-    <PageContainer background="solid">
+    <PageContainer background="solid" widthType="large">
       <HydrateClient>
         {user && user.role === Role.MEDIA_MAKER && (
           <MediaMakerSongRequestDashboard songRequestId={songRequestId} />

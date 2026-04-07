@@ -12,19 +12,21 @@ export default function AdminLanding() {
     SidebarTab.SUBMISSIONS,
   );
   return (
-    <div className="flex w-[1360px] flex-row gap-[24px]">
+    <div className="flex w-full flex-col gap-[24px] lg:flex-row">
       <SideBar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         isAdminView={true}
       />
-      {activeTab === SidebarTab.SUBMISSIONS ? (
-        <ProjectsSubpage />
-      ) : activeTab === SidebarTab.SONGS ? (
-        <SongsSubpage />
-      ) : (
-        <UserSubPage />
-      )}
+      <div className="w-full">
+        {activeTab === SidebarTab.SUBMISSIONS ? (
+          <ProjectsSubpage />
+        ) : activeTab === SidebarTab.SONGS ? (
+          <SongsSubpage />
+        ) : (
+          <UserSubPage />
+        )}
+      </div>
     </div>
   );
 }

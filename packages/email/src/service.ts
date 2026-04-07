@@ -382,6 +382,13 @@ export class EmailService {
     const link = `${baseURL}/home?projectId=${projectId}`;
     const toEmails = await this.getAllAdminAndPNREmails();
 
+    if (toEmails.length == 0) {
+      console.log(
+        "There are no internal users to notify of new music submission.",
+      );
+      return;
+    }
+
     const params: EmailMessage = {
       from: this.sentFrom,
       to: toEmails,
@@ -406,6 +413,13 @@ export class EmailService {
     const baseURL = this.getBaseUrl();
     const link = `${baseURL}/home?projectId=${projectId}`;
     const toEmails = await this.getAllAdminEmails();
+
+    if (toEmails.length == 0) {
+      console.log(
+        "There are no internal users to notify of new project submission.",
+      );
+      return;
+    }
 
     const params: EmailMessage = {
       from: this.sentFrom,

@@ -69,12 +69,12 @@ export function Match({
 
   return (
     <div
-      className={`box-content flex w-[984px] cursor-pointer flex-row items-center justify-between rounded-2xl border-[1px] bg-cream-100 px-6 py-4 shadow-md dark:bg-green-500 ${selected ? `border-green-300 hover:border-green-400 dark:border-grass-green-100 dark:hover:border-grass-green-200` : `border-cream-500 hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
+      className={`flex w-full cursor-pointer flex-row items-center justify-between rounded-2xl border-[1px] px-6 py-4 shadow-md ${selected ? `border-green-300 hover:border-green-400 dark:border-grass-green-100 dark:hover:border-grass-green-200` : `border-cream-500 hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
       onClick={handleClick}
     >
-      <div className="flex flex-shrink-0 flex-row items-center gap-4">
+      <div className="flex min-w-0 flex-1 flex-row items-center gap-4">
         <MusicNoteIcon />
-        <div className="flex w-[584px] flex-col gap-2">
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
           <p className="truncate text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
             {match.musicSubmission.songName} by{" "}
             {match.musicSubmission.performerName}

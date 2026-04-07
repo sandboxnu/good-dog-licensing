@@ -26,7 +26,7 @@ type ChangePasswordValuesFields = z.input<typeof zSetPasswordValues>;
 
 export default function ProfileWidget() {
   const router = useRouter();
-  const { data: user } = trpc.user.useQuery();
+  const [user] = trpc.user.useSuspenseQuery();
 
   const emailFormMethods = useForm<ChangeEmailValuesFields>({
     resolver: zodResolver(zSetEmailValues),

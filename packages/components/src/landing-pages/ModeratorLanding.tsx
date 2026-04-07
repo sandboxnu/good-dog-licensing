@@ -11,7 +11,7 @@ export default function ModeratorLanding() {
     SidebarTab.SUBMISSIONS,
   );
   return (
-    <div className="flex w-[1360px] flex-row gap-[24px]">
+    <div className="flex w-full flex-col gap-[24px] lg:flex-row">
       <SideBar
         activeTab={activeTab}
         setActiveTab={(newTab: SidebarTab) => {
@@ -23,11 +23,13 @@ export default function ModeratorLanding() {
         }}
         isAdminView={false}
       />
-      {activeTab === SidebarTab.SUBMISSIONS ? (
-        <ProjectsSubpage />
-      ) : (
-        <SongsSubpage />
-      )}
+      <div className="w-full">
+        {activeTab === SidebarTab.SUBMISSIONS ? (
+          <ProjectsSubpage />
+        ) : (
+          <SongsSubpage />
+        )}
+      </div>
     </div>
   );
 }

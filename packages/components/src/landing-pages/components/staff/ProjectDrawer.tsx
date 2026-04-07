@@ -31,7 +31,7 @@ export default function ProjectDrawer({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="flex w-[50vw] flex-col rounded-l-2xl bg-white px-9 py-12 dark:bg-main-bg-solid-dark"
+        className="flex w-[50vw] min-w-[600px] flex-col rounded-l-2xl bg-white px-9 py-12 dark:bg-main-bg-solid-dark"
       >
         {/* Header */}
         <SheetHeader>

@@ -17,7 +17,7 @@ type ProfileValuesFields = z.input<typeof zProfileValues>;
 
 export default function ProfileDetails() {
   const utils = trpc.useUtils();
-  const { data: user } = trpc.user.useQuery();
+  const [user] = trpc.user.useSuspenseQuery();
 
   const profileFormMethods = useForm<ProfileValuesFields>({
     resolver: zodResolver(zProfileValues),

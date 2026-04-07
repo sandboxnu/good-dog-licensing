@@ -53,12 +53,12 @@ export default function ContributorsInfo({
     name: "contributors",
   });
 
-  const { data: previousContributors } =
-    trpc.getMusicSubmissionPrefillVals.useQuery();
+  const [previousContributors] =
+    trpc.getMusicSubmissionPrefillVals.useSuspenseQuery();
 
   const getOtherContributorPrefillInfo = useCallback(
     (firstName: string, lastName: string) => {
-      return previousContributors?.contributors.find(
+      return previousContributors.contributors.find(
         (contributor) =>
           contributor.firstName === firstName &&
           contributor.lastName === lastName,
@@ -111,15 +111,15 @@ export default function ContributorsInfo({
     if (!shouldShowFields) {
       setValue(
         `submitterAffiliation`,
-        previousContributors?.userAffiliation ?? undefined,
+        previousContributors.userAffiliation ?? undefined,
       );
-      setValue(`submitterIpi`, previousContributors?.userIpi ?? undefined);
+      setValue(`submitterIpi`, previousContributors.userIpi ?? undefined);
     }
   }, [
     watchedSubmitterRoles,
     setValue,
-    previousContributors?.userAffiliation,
-    previousContributors?.userIpi,
+    previousContributors.userAffiliation,
+    previousContributors.userIpi,
   ]);
 
   useEffect(() => {

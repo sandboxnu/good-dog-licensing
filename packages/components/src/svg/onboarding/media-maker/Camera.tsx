@@ -3,6 +3,7 @@ export default function Camera() {
     <svg
       width="448"
       height="410"
+      className="h-auto w-full max-w-full"
       viewBox="0 0 448 410"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

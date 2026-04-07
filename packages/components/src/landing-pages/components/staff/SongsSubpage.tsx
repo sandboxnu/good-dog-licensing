@@ -64,7 +64,11 @@ function SongTable({ data }: { data: MusicSubmission[] }) {
                   year: "numeric",
                 })}
               </p>
-              <a href={user.songLink} className="truncate dark:text-white">
+              <a
+                href={user.songLink}
+                target="_blank"
+                className="truncate dark:text-white"
+              >
                 <u>{user.songLink}</u>
               </a>
             </TableRowFormatting>

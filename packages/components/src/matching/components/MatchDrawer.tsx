@@ -42,7 +42,7 @@ export default function MatchDrawer({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="w-[65vw] px-9 py-12 flex flex-col bg-white dark:bg-dark-gray-600 rounded-l-2xl border border-cream-400 dark:border-dark-gray-400"
+        className="w-[600px] px-9 py-12 flex flex-col bg-white dark:bg-dark-gray-600 rounded-l-2xl border border-cream-400 dark:border-dark-gray-400"
       >
         {/* Header */}
         <SheetHeader>
@@ -208,7 +208,7 @@ export default function MatchDrawer({
                       Genre(s)
                     </p>
                   </div>
-                  <p className="text-sm text-dark-gray-400 dark:text-gray-200">
+                  <div className="text-sm text-dark-gray-400 dark:text-gray-200">
                     {match ? (
                       <div className="col-span-2 flex flex-row flex-wrap gap-1">
                         {match.musicSubmission.genres.map((genre) => (
@@ -225,7 +225,7 @@ export default function MatchDrawer({
                         ...
                       </p>
                     )}
-                  </p>
+                  </div>
                 </div>
                 {match && match.musicSubmission.additionalInfo.length > 0 && (
                   <div className="flex flex-col gap-1">

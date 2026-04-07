@@ -13,7 +13,6 @@ import { search } from "../../../../utils/search";
 import Checkbox from "../../../base/Checkbox";
 import MultiselectDropdown from "../../../base/MultiselectDropdown";
 import SearchBar from "../../../base/SearchBar";
-import { Spinner } from "../../../loading/Spinner";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import Header from "../Header";
 import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
@@ -76,7 +75,7 @@ export default function ProjectsSubpage() {
   );
   const [assignedToMe, setAssignedToMe] = useState<boolean>(false);
 
-  const allProjectsQuery = trpc.queryAllProjects.useQuery({
+  const [allProjects] = trpc.queryAllProjects.useSuspenseQuery({
     createdDateQuery,
     assignedToMe,
   });
@@ -85,7 +84,7 @@ export default function ProjectsSubpage() {
   const projectIdFromUrl = searchParams.get("projectId");
 
   const selectedProject =
-    allProjectsQuery.data?.projects.find(
+    allProjects.projects.find(
       (project) => project.projectId === projectIdFromUrl,
     ) ?? null;
 
@@ -100,15 +99,10 @@ export default function ProjectsSubpage() {
             title={getStatusLabel(status)}
             subtitle={AdmModProjectStatusToSubtitle[status]}
             number={
-              filterProjects(
-                allProjectsQuery.data?.projects ?? [],
-                searchQuery,
-                status,
-              ).length
+              filterProjects(allProjects.projects, searchQuery, status).length
             }
             active={activeStatus === status}
             onClick={() => setActiveStatus(status)}
-            isFetching={allProjectsQuery.isFetching}
           />
         ))}
       </div>
@@ -162,14 +156,12 @@ export default function ProjectsSubpage() {
         </div>
         <SubmissionTable
           data={filterProjects(
-            allProjectsQuery.data?.projects ?? [],
+            allProjects.projects,
             searchQuery,
             activeStatus,
             "title",
           )}
           selectedProject={selectedProject}
-          isFetching={allProjectsQuery.isFetching}
-          isError={allProjectsQuery.isError}
         />
       </TableOuterFormatting>
     </div>
@@ -179,13 +171,9 @@ export default function ProjectsSubpage() {
 function SubmissionTable({
   data,
   selectedProject,
-  isFetching,
-  isError,
 }: {
   data: ProjectType[];
   selectedProject: ProjectType | null;
-  isFetching: boolean;
-  isError: boolean;
 }) {
   const router = useRouter();
   const [showPMModal, setShowPMModal] = useState(false);
@@ -230,92 +218,80 @@ function SubmissionTable({
           <p className="dark:text-white">Assignee</p>
         </TableHeaderFormatting>
 
-        {isFetching ? (
-          <div className="flex w-full justify-center py-[24px]">
-            <Spinner />
-          </div>
-        ) : isError ? (
-          <div className="flex w-full justify-center py-[24px]">
-            <p className="text-body1 text-dark-gray-500 dark:text-white">
-              Something went wrong while loading projects.
-            </p>
-          </div>
-        ) : (
-          data.map((project: ProjectType, key) => {
-            return (
-              <div
-                className="cursor-pointer"
-                onClick={() =>
-                  router.replace(`?projectId=${project.projectId}`, {
-                    scroll: false,
-                  })
-                }
+        {data.map((project: ProjectType, key) => {
+          return (
+            <div
+              className="cursor-pointer"
+              onClick={() =>
+                router.replace(`?projectId=${project.projectId}`, {
+                  scroll: false,
+                })
+              }
+              key={key}
+            >
+              <TableRowFormatting
                 key={key}
+                isLast={key === data.length - 1}
+                columnCount={6}
               >
-                <TableRowFormatting
-                  key={key}
-                  isLast={key === data.length - 1}
-                  columnCount={6}
-                >
-                  <p className="truncate dark:text-white">
-                    {project.projectTitle}
-                  </p>
-                  <p className="truncate dark:text-white">
-                    {project.description}
-                  </p>
-                  <p className="truncate dark:text-white">
-                    {project.projectOwner.firstName +
-                      " " +
-                      project.projectOwner.lastName}
-                  </p>
-                  <p className="truncate dark:text-white">
-                    {project.createdAt.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </p>
-                  <p className="truncate dark:text-white">
-                    {project.deadline.toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </p>
-                  <div className="flex items-center justify-center pr-[30px]">
-                    <button
-                      type="button"
-                      className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 hover:bg-dark-gray-100 dark:border-gray-300 dark:text-white"
-                      aria-label="Assign project"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (user?.role === "ADMIN") {
-                          setShowPMModal(true);
-                          setProjectBeingAssigned(project);
-                        } else {
-                          alert(
-                            "You are not allowed to change the project manager for this project.",
-                          );
-                        }
-                      }}
-                    >
-                      {project.projectManager?.firstName ? (
-                        <ProfileIcon
-                          color="light"
-                          size={32}
-                          name={project.projectManager.firstName.charAt(0)}
-                        />
-                      ) : (
-                        "+"
-                      )}
-                    </button>
-                  </div>
-                </TableRowFormatting>
-              </div>
-            );
-          })
-        )}
-        {data.length == 0 && !isFetching && !isError && <TableEmptyMessage />}
+                <p className="truncate dark:text-white">
+                  {project.projectTitle}
+                </p>
+                <p className="truncate dark:text-white">
+                  {project.description}
+                </p>
+                <p className="truncate dark:text-white">
+                  {project.projectOwner.firstName +
+                    " " +
+                    project.projectOwner.lastName}
+                </p>
+                <p className="truncate dark:text-white">
+                  {project.createdAt.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </p>
+                <p className="truncate dark:text-white">
+                  {project.deadline.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </p>
+                <div className="flex items-center justify-center pr-[30px]">
+                  <button
+                    type="button"
+                    className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 hover:bg-dark-gray-100 dark:border-gray-300 dark:text-white"
+                    aria-label="Assign project"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (user?.role === "ADMIN") {
+                        setShowPMModal(true);
+                        setProjectBeingAssigned(project);
+                      } else {
+                        alert(
+                          "You are not allowed to change the project manager for this project.",
+                        );
+                      }
+                    }}
+                  >
+                    {project.projectManager?.firstName ? (
+                      <ProfileIcon
+                        color="light"
+                        size={32}
+                        name={project.projectManager.firstName.charAt(0)}
+                      />
+                    ) : (
+                      "+"
+                    )}
+                  </button>
+                </div>
+              </TableRowFormatting>
+            </div>
+          );
+        })}
+        {data.length == 0 && <TableEmptyMessage />}
       </div>
       {selectedProject && (
         <ProjectDrawer
@@ -334,14 +310,12 @@ function SubmissionStatusTab({
   number,
   active,
   onClick,
-  isFetching,
 }: {
   title: string;
   subtitle: string;
   number: number;
   active: boolean;
   onClick: () => void;
-  isFetching: boolean;
 }) {
   return (
     <div
@@ -354,19 +328,15 @@ function SubmissionStatusTab({
         >
           {title}
         </p>
-        {!isFetching ? (
-          <div
-            className={`flex h-[16px] w-[23px] items-center justify-center rounded-[4px] ${active ? "bg-grass-green-50" : "bg-gray-500"}`}
+        <div
+          className={`flex h-[16px] w-[23px] items-center justify-center rounded-[4px] ${active ? "bg-grass-green-50" : "bg-gray-500"}`}
+        >
+          <p
+            className={`${active ? "text-dark-gray-500" : "text-gray-100"} text-[14px] font-medium leading-none`}
           >
-            <p
-              className={`${active ? "text-dark-gray-500" : "text-gray-100"} text-[14px] font-medium leading-none`}
-            >
-              {number}
-            </p>
-          </div>
-        ) : (
-          <Spinner />
-        )}
+            {number}
+          </p>
+        </div>
       </div>
       <p
         className={`text-caption leading-[96%] ${active ? "text-gray-100" : "text-dark-gray-500"}`}

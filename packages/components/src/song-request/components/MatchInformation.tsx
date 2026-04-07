@@ -22,49 +22,52 @@ export default function MatchInformation({
         Match Information
       </p>
       <div className="flex w-full flex-row gap-6">
-        <div className="box-content w-[512px]">
+        <div className="w-1/3 shrink-0">
           <MusicInformation
             musicSubmission={selectedMatch?.musicSubmission}
             submitter={selectedMatch?.musicSubmission.submitter}
           />
         </div>
-        <MatchStatusTabs
-          numActionRequired={
-            matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER").length
-          }
-          incomingContent={
-            <Matches
-              state={"INCOMING"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          pendingApprovalContent={
-            <Matches
-              state={"PENDING_APPROVAL"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          matchedContent={
-            <Matches
-              state={"MATCHED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          rejectedContent={
-            <Matches
-              state={"REJECTED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-        />
+        <div className="w-2/3 min-w-0">
+          <MatchStatusTabs
+            numActionRequired={
+              matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER")
+                .length
+            }
+            incomingContent={
+              <Matches
+                state={"INCOMING"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            pendingApprovalContent={
+              <Matches
+                state={"PENDING_APPROVAL"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            matchedContent={
+              <Matches
+                state={"MATCHED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            rejectedContent={
+              <Matches
+                state={"REJECTED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+          />
+        </div>
       </div>
     </div>
   );
