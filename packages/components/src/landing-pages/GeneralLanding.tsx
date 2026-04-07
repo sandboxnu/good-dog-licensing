@@ -4,49 +4,48 @@ import { useRouter } from "next/navigation";
 
 import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
 import WomanInComputer from "@good-dog/components/svg/homepage/WomanInComputer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@good-dog/ui/accordion";
 
 import Button from "../base/Button";
-import Footnote from "../base/Footnote";
 import DownArrow from "../svg/DownArrow";
 import GreenOval from "../svg/GreenOval";
 import Check from "../svg/homepage/Check";
 import LandingLogo from "../svg/homepage/LandingLogo";
 import ThinkingPerson from "../svg/homepage/ThinkingPerson";
-import Accordion from "./components/Accordion";
-
-// new background "spotted gradient"
-// dark mode background is the wrong color
-// new header with dark mode toggle
-// fix logo size in first card
-// oval padding is wrong
-// dark mode fixes: button colors and border
+import { useEffect, useState } from "react";
 
 export default function GeneralLanding() {
   const router = useRouter();
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center pb-[100px]">
+    <div className="flex min-h-screen flex-col items-center justify-center overflow-x-hidden pb-[100px]">
       <div className="flex w-full flex-col items-center">
         <div className="flex w-full flex-col justify-center text-center">
-          <h1 className="text-body-primary pt-[64px] font-righteous text-[72px] font-normal leading-[80px] text-dark-gray-500 dark:text-mint-300">
+          <h1 className="text-body-primary pt-[64px] font-righteous text-[40px] font-normal leading-tight text-dark-gray-500 dark:text-mint-300 md:text-[72px] md:leading-[80px]">
             Connecting musicians and media makers
           </h1>
-          <p className="mt-[16px] text-center text-[35px] font-medium leading-[104%] text-dark-gray-500 dark:text-gray-300">
+          <p className="mt-[16px] text-center text-[20px] font-medium leading-[104%] text-dark-gray-500 dark:text-gray-300 md:text-[35px]">
             Northeastern University's free, student-run music synchronization
             service.
           </p>
-          <h2 className="mt-[40px] text-center text-[48px] font-medium leading-[96%] text-green-400 dark:text-mint-200">
+          <h2 className="mt-[40px] text-center text-[28px] font-medium leading-[96%] text-green-400 dark:text-mint-200 md:text-[48px]">
             Say "Yes" to Licensing!
           </h2>
           <div className="mt-[16] flex items-center justify-center">
             <DownArrow />
           </div>
 
-          <div className="mt-[80px] flex w-full flex-col gap-[40px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[48px] py-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717] md:flex-row">
-            <div className="flex flex-col items-center justify-center text-left md:items-start">
-              <h3 className="text-[48px] font-normal dark:text-mint-300">
+          <div className="mt-[80px] flex w-full flex-col-reverse gap-[40px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717] md:flex-row md:px-[48px]">
+            <div className="flex min-w-0 flex-col items-center justify-center text-left md:items-start">
+              <h3 className="text-[28px] font-normal dark:text-mint-300 md:text-[48px]">
                 Good Dog Licensing
               </h3>
-              <p className="mt-[8px] w-full text-[18px] font-medium leading-[128%] dark:text-gray-300">
+              <p className="mt-[8px] w-full break-words text-[16px] font-medium leading-[128%] dark:text-gray-300 md:text-[18px]">
                 Good Dog Licensing connects creatives by providing a legal
                 framework for media producers to source high quality music from
                 independent artists
@@ -80,13 +79,13 @@ export default function GeneralLanding() {
           </div>
 
           <div className="text-left">
-            <h3 className="mt-[72px] text-[48px] font-medium leading-[96%] dark:text-mint-300">
+            <h3 className="mt-[72px] text-[28px] font-medium leading-[96%] dark:text-mint-300 md:text-[48px]">
               Our mission and vision.{" "}
               <span className="text-green-400 dark:text-mint-200">
                 Connecting Creatives.
               </span>
             </h3>
-            <h3 className="mt-[8px] text-[20px] font-normal leading-[128%] text-green-500 dark:text-mint-200">
+            <h3 className="mt-[8px] text-[16px] font-normal leading-[128%] text-green-500 dark:text-mint-200 md:text-[20px]">
               Discover how our platform connects creators, simplifies licensing,
               and ensures fair collaboration for everyone involved.
             </h3>
@@ -97,10 +96,10 @@ export default function GeneralLanding() {
               <div className="flex items-center justify-center">
                 <WomanInComputer />
               </div>
-              <h3 className="mt-[8px] text-center text-[40px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200">
+              <h3 className="mt-[8px] text-center text-[28px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
                 Sign up as a Media Maker
               </h3>
-              <p className="mt-[16px] w-full text-center text-[20px] font-normal not-italic leading-[128%] text-green-500 dark:text-mint-200">
+              <p className="mt-[16px] w-full break-words text-center text-[16px] font-normal not-italic leading-[128%] text-green-500 dark:text-mint-200 md:text-[20px]">
                 Submit a description of your project and the type of music
                 you're looking for. Good Dog takes care of everything and at no
                 cost to you.
@@ -120,10 +119,10 @@ export default function GeneralLanding() {
               <div className="flex items-center justify-center">
                 <ManWithSax />
               </div>
-              <h3 className="mt-[8px] text-center text-[40px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200">
+              <h3 className="mt-[8px] text-center text-[28px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
                 Sign up as a Musician
               </h3>
-              <p className="mt-[16px] w-full self-center text-center text-[20px] font-normal not-italic leading-[128%] text-green-500 dark:text-mint-200">
+              <p className="mt-[16px] w-full break-words text-center text-[16px] font-normal not-italic leading-[128%] text-green-500 dark:text-mint-200 md:text-[20px]">
                 Submit your music{" "}
                 <Footnote
                   number={3}
@@ -147,13 +146,13 @@ export default function GeneralLanding() {
 
           <div className="mt-[72px] flex flex-col">
             <div className="text-left">
-              <h3 className="text-[48px] font-medium not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300">
+              <h3 className="text-[28px] font-medium not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300 md:text-[48px]">
                 What makes Good Dog{" "}
                 <span className="text-green-400 dark:text-mint-200">
                   "Good"?
                 </span>
               </h3>
-              <p className="mt-[8px] text-[20px] font-normal not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300">
+              <p className="mt-[8px] text-[16px] font-normal not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300 md:text-[20px]">
                 We are not in it for the money. REALLY.
               </p>
             </div>
@@ -166,7 +165,7 @@ export default function GeneralLanding() {
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
+                  <p className="min-w-0 flex-1 break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200 md:text-[18px]">
                     Artists retain 100% of their copyrights
                     <Footnote
                       number={4}
@@ -179,7 +178,7 @@ export default function GeneralLanding() {
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
+                  <p className="min-w-0 flex-1 break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200 md:text-[18px]">
                     No up-front fee and no commission and our service is
                     non-exclusive.
                   </p>
@@ -188,7 +187,7 @@ export default function GeneralLanding() {
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
+                  <p className="min-w-0 flex-1 break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200 md:text-[18px]">
                     Artists can say no to any synch
                     <Footnote
                       number={5}
@@ -201,7 +200,7 @@ export default function GeneralLanding() {
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
+                  <p className="min-w-0 flex-1 break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200 md:text-[18px]">
                     We take the hassle out of finding picture-perfect music for
                     projects.
                   </p>
@@ -210,7 +209,7 @@ export default function GeneralLanding() {
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
+                  <p className="min-w-0 flex-1 break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200 md:text-[18px]">
                     Artists can earn public performance royalties through ASCAP
                     or BMI.
                   </p>
@@ -219,7 +218,7 @@ export default function GeneralLanding() {
                   <div className="h-[24px] w-[24px] flex-shrink-0">
                     <Check />
                   </div>
-                  <p className="flex-1 shrink-0 text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200">
+                  <p className="min-w-0 flex-1 break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200 md:text-[18px]">
                     Artists receive full attribution for all uses of their
                     music.
                   </p>
@@ -229,13 +228,13 @@ export default function GeneralLanding() {
           </div>
 
           <div className="relative mt-[72px] w-full overflow-hidden">
-            <GreenOval className="absolute left-1/2 top-0 w-[1978px] -translate-x-1/2" />
+            <GreenOval className="absolute left-1/2 top-0 -translate-x-1/2" />
 
-            <div className="relative pt-[120px] pb-[120px]">
-              <h2 className="text-left text-[48px] font-medium not-italic leading-[96%] text-mint-200">
+            <div className="relative pb-[120px] pt-[120px]">
+              <h2 className="text-left text-[28px] font-medium not-italic leading-[96%] text-mint-200 md:text-[48px]">
                 Our contributors
               </h2>
-              <p className="text-left text-[20px] font-normal not-italic leading-normal text-gray-100">
+              <p className="text-left text-[16px] font-normal not-italic leading-normal text-gray-100 md:text-[20px]">
                 Discover the people driving our platform, uniting strategy,
                 creativity, and music.
               </p>
@@ -249,10 +248,10 @@ export default function GeneralLanding() {
                       className="h-[250px] w-[250px] shadow-[0_2px_6px_0_#BFBCB8]"
                     />
                   </div>
-                  <div className="mt-[8px] text-center text-[40px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200">
+                  <div className="mt-[8px] text-center text-[28px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
                     Founder
                   </div>
-                  <div className="mt-[16px] text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300">
+                  <div className="mt-[16px] break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300 md:text-[18px]">
                     Professor Herlihy is a professor in both the College of
                     Arts, Media, and Design at Northeastern, and at the Law
                     School, runs his own entertainment law practice, and
@@ -275,10 +274,10 @@ export default function GeneralLanding() {
                       className="h-[178.6px] w-[224px]"
                     />
                   </div>
-                  <div className="mt-[8px] text-center text-[40px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200">
+                  <div className="mt-[8px] text-center text-[28px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
                     Green Line Records
                   </div>
-                  <div className="mt-[16px] text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300">
+                  <div className="mt-[16px] break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300 md:text-[18px]">
                     Green Line Records is Northeastern University's student-run
                     record label. Green Line Records aims to showcase Boston's
                     music scene by offering their artists a full range of
@@ -292,34 +291,121 @@ export default function GeneralLanding() {
               </div>
             </div>
           </div>
-
-          <h3 className="mt-[72px] text-left text-[48px] font-medium not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300">
-            Frequently asked questions
-          </h3>
-          <div className="mt-[36px] flex w-full flex-col gap-[8px]">
-            <Accordion
-              id="faq-1"
-              title="What are PROs and why should I register?"
-              body="They are Performance Rights Organizations such as BMI and ASCAP. In this case, it's a great way to keep track of where the media that uses your song is being performed. When Media Makers submit cue sheets, they'll do it through a PRO and then if they get paid, you'll make royalties automatically."
-            />
-            <Accordion
-              id="faq-2"
-              title="What if the media Good Dog wants to sync my song in isn't my vibe?"
-              body="It's still a great way to reach a wider audience and get traction. But at the end of the day, if you don't want your music in a specific project, you get the last call!"
-            />
-            <Accordion
-              id="faq-3"
-              title="How long before I need my project done should I reach out to Good Dog?"
-              body="It's never too early! Reach out to us as early in the process as possible. When you're developing a story, let's have a conversation about the kind of music you need so we can get started. We'd love to hear about your project and ideas ASAP!"
-            />
-            <Accordion
-              id="faq-4"
-              title="I normally just use an MP3 converter to get whatever music I need from Youtube. Why should I stop?"
-              body="That won't fly if you're submitting your work to festivals or if you get offered a theatrical license. License your music properly so that your work has legs, and learn about writing music briefs/collaborating with music supervisors while you're at it."
-            />
-          </div>
+          <FaqSection />
         </div>
       </div>
     </div>
+  );
+}
+
+function FaqSection() {
+  return (
+    <>
+      <h3 className="mt-[72px] text-left text-[28px] font-medium not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300 md:text-[48px]">
+        Frequently asked questions
+      </h3>
+      <Accordion multiple={false} className="mt-[36px] gap-[8px]">
+        <AccordionItem
+          value="faq-1"
+          className="rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
+        >
+          <AccordionTrigger className="py-[24px] text-[20px] font-semibold text-green-400 dark:text-mint-200">
+            What are PROs and why should I register?
+          </AccordionTrigger>
+          <AccordionContent className="pb-[24px] text-left text-[18px] font-medium text-dark-gray-500 dark:text-gray-300">
+            They are Performance Rights Organizations such as BMI and ASCAP. In
+            this case, it&apos;s a great way to keep track of where the media
+            that uses your song is being performed. When Media Makers submit cue
+            sheets, they&apos;ll do it through a PRO and then if they get paid,
+            you&apos;ll make royalties automatically.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem
+          value="faq-2"
+          className="rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
+        >
+          <AccordionTrigger className="py-[24px] text-[20px] font-semibold text-green-400 dark:text-mint-200">
+            What if the media Good Dog wants to sync my song in isn&apos;t my
+            vibe?
+          </AccordionTrigger>
+          <AccordionContent className="pb-[24px] text-left text-[18px] font-medium text-dark-gray-500 dark:text-gray-300">
+            It&apos;s still a great way to reach a wider audience and get
+            traction. But at the end of the day, if you don&apos;t want your
+            music in a specific project, you get the last call!
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem
+          value="faq-3"
+          className="rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
+        >
+          <AccordionTrigger className="py-[24px] text-[20px] font-semibold text-green-400 dark:text-mint-200">
+            How long before I need my project done should I reach out to Good
+            Dog?
+          </AccordionTrigger>
+          <AccordionContent className="pb-[24px] text-left text-[18px] font-medium text-dark-gray-500 dark:text-gray-300">
+            It&apos;s never too early! Reach out to us as early in the process
+            as possible. When you&apos;re developing a story, let&apos;s have a
+            conversation about the kind of music you need so we can get started.
+            We&apos;d love to hear about your project and ideas ASAP!
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem
+          value="faq-4"
+          className="rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
+        >
+          <AccordionTrigger className="py-[24px] text-[20px] font-semibold text-green-400 dark:text-mint-200">
+            I normally just use an MP3 converter to get whatever music I need
+            from Youtube. Why should I stop?
+          </AccordionTrigger>
+          <AccordionContent className="pb-[24px] text-left text-[18px] font-medium text-dark-gray-500 dark:text-gray-300">
+            That won&apos;t fly if you&apos;re submitting your work to festivals
+            or if you get offered a theatrical license. License your music
+            properly so that your work has legs, and learn about writing music
+            briefs/collaborating with music supervisors while you&apos;re at it.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </>
+  );
+}
+
+function Footnote({ number, tooltip }: { number: number; tooltip: string }) {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: CustomEvent) => {
+      if (e.detail !== number) setOpen(false);
+    };
+    window.addEventListener("close-footnotes", handler as EventListener);
+    return () =>
+      window.removeEventListener("close-footnotes", handler as EventListener);
+  }, [number]);
+
+  const handleClick = () => {
+    const next = !open;
+    setOpen(next);
+    if (next) {
+      window.dispatchEvent(
+        new CustomEvent("close-footnotes", { detail: number }),
+      );
+    }
+  };
+
+  return (
+    <span className="relative">
+      <sup
+        className="font-afacad cursor-pointer font-medium not-italic leading-[128%] text-green-400 hover:underline dark:text-mint-200"
+        onClick={handleClick}
+      >
+        [{number}]
+      </sup>
+      {open && (
+        <span className="absolute bottom-full left-1/2 z-10 mb-1 flex w-[400px] -translate-x-1/2 flex-col items-start justify-center rounded-[8px] border border-cream-500 bg-gray-100 p-[16px] dark:border-[#403F3E] dark:bg-dark-gray-600 dark:shadow-[0_2px_6px_0_#171717]">
+          <span className="text-[14px] font-normal leading-[96%] text-gray-500 dark:text-gray-300">
+            {tooltip}
+          </span>
+        </span>
+      )}
+    </span>
   );
 }

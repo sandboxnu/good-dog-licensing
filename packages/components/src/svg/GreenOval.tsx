@@ -6,9 +6,10 @@ export default function GreenOval({ className }: ContributorsBackgroundProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="1440"
+      width="100%"
       height="949"
       viewBox="0 0 1440 949"
+      preserveAspectRatio="none"
       className={className}
     >
       <path
