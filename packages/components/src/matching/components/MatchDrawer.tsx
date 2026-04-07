@@ -1,5 +1,8 @@
 "use client";
 
+import { Link } from "lucide-react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import {
   Sheet,
   SheetContent,
@@ -7,17 +10,15 @@ import {
   SheetTitle,
 } from "@good-dog/ui/sheet";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import MusicNote from "../../svg/GreyMusicNote";
-import { formatAllCapsWord } from "../../../utils/allCapsListFormatter";
+import {
+  formatAllCapsList,
+  formatAllCapsWord,
+} from "../../../utils/allCapsListFormatter";
 import Calendar from "../../svg/Calendar";
-import { Link } from "lucide-react";
-import User from "./User";
-import FileIcon from "../../svg/FileIcon";
 import Check from "../../svg/Check";
 import Group from "../../svg/Group";
 import Deadline from "../../svg/Deadline";
 import Camera from "../../svg/Camera";
-import StatusIndicatorDetails from "../../base/StatusIndicatorDetails";
 import StatusIndicator from "../../base/StatusIndicator";
 
 type MatchType = GetProcedureOutput<"getSongRequestById">["matches"][number];

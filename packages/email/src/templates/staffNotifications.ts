@@ -1,5 +1,5 @@
-import { emailLayout } from "../layout";
 import { buttonCard } from "../components";
+import { emailLayout } from "../layout";
 
 export function adminAndPNRBriefAvailableTemplate(options: {
   mediaMakerName: string;

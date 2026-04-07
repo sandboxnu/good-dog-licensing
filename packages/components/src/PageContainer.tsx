@@ -23,7 +23,7 @@ export default function PageContainer({
             background === "solid",
         })}
       >
-        <div className="flex flex-col w-[1500px] px-[228px] pt-[32px]">
+        <div className="flex w-[1500px] flex-col px-[228px] pt-[32px]">
           <Nav />
           <div className="flex w-full items-center justify-center pb-[50px] pt-[32px]">
             {children}

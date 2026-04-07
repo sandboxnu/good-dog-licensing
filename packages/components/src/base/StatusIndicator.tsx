@@ -1,9 +1,9 @@
+import type { Status } from "../../utils/status";
+import { getStatusLabel } from "../../utils/enumLabelMapper";
 import Check from "../svg/status-icons/Check";
 import ClockFull from "../svg/status-icons/ClockFull";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import Hourglass from "../svg/status-icons/Hourglass";
-import type { Status } from "../../utils/status";
-import { getStatusLabel } from "../../utils/enumLabelMapper";
 import { MatchState } from "@good-dog/db";
 
 type Variant = "success" | "error" | "warning" | "gray" | "blue";
@@ -60,7 +60,7 @@ export default function StatusIndicator({
   };
 
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className="flex flex-row items-center gap-1">
       <div
         className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center rounded gap-[4px] pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)}`}
       >

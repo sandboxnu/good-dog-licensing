@@ -1,5 +1,5 @@
-import PageContainer from "@good-dog/components/PageContainer";
 import MusicDashboard from "@good-dog/components/music/MusicDashboard";
+import PageContainer from "@good-dog/components/PageContainer";
 import { trpc } from "@good-dog/trpc/server";
 
 interface PageProps {

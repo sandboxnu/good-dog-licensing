@@ -1,6 +1,8 @@
 "use client";
 
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { trpc } from "@good-dog/trpc/client";
+
 import Header from "../Header";
 import {
   TableEmptyMessage,
@@ -8,7 +10,6 @@ import {
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
 
 type MusicSubmission = GetProcedureOutput<"allMusic">[number];
 
@@ -44,14 +45,14 @@ function SongTable({ data }: { data: MusicSubmission[] }) {
               isLast={key === data.length - 1}
               columnCount={6}
             >
-              <p className="dark:text-white truncate">{user.songName}</p>
-              <p className="dark:text-white truncate">{user.performerName}</p>
-              <div className="dark:text-white flex gap-1 overflow-hidden">
+              <p className="truncate dark:text-white">{user.songName}</p>
+              <p className="truncate dark:text-white">{user.performerName}</p>
+              <div className="flex gap-1 overflow-hidden dark:text-white">
                 {user.genres.slice(0, 1).map((genre, index) => (
                   <GenreCard genre={genre} key={index} />
                 ))}
                 {user.genres.length > 1 && (
-                  <div className="flex h-6 px-2 py-1 justify-center items-center gap-1 bg-gray-300 dark:bg-gray-400 text-gray-500 rounded w-fit">
+                  <div className="flex h-6 w-fit items-center justify-center gap-1 rounded bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
                     +{user.genres.length - 2}
                   </div>
                 )}
@@ -63,7 +64,7 @@ function SongTable({ data }: { data: MusicSubmission[] }) {
                   year: "numeric",
                 })}
               </p>
-              <a href={user.songLink} className="dark:text-white truncate">
+              <a href={user.songLink} className="truncate dark:text-white">
                 <u>{user.songLink}</u>
               </a>
             </TableRowFormatting>
@@ -77,7 +78,7 @@ function SongTable({ data }: { data: MusicSubmission[] }) {
 
 function GenreCard({ genre }: { genre: string }) {
   return (
-    <div className="flex h-6 px-2 py-1 justify-center items-center gap-1 bg-gray-300 dark:bg-gray-400 text-gray-500 rounded w-fit">
+    <div className="flex h-6 w-fit items-center justify-center gap-1 rounded bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
       {genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase()}
     </div>
   );

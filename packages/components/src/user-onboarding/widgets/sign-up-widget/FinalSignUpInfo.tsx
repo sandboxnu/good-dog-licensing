@@ -5,10 +5,13 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { useFormContext } from "react-hook-form";
 
+import type { HowHeardAboutUsLabel } from "@good-dog/db";
 import type { zSignUpValues } from "@good-dog/trpc/schema";
 import type { HowHeardAboutUsLabel } from "@good-dog/db";
 
 import Button from "../../../base/Button";
+import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
+import RHFCheckbox from "../../../rhf-base/RHFCheckbox";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import PasswordRequirements from "../components/PasswordRequirements";
@@ -107,7 +110,7 @@ export default function FinalSignUpInfo({
                 I agree to the{" "}
                 <Link
                   href="/terms"
-                  className="text-green-400 dark:text-mint-200 underline"
+                  className="text-green-400 underline dark:text-mint-200"
                   target="_blank"
                 >
                   Terms and Privacy
@@ -136,7 +139,7 @@ export default function FinalSignUpInfo({
         </span>
         <Link
           href="/login"
-          className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
+          className="font-medium text-green-500 text-secondary underline dark:text-mint-200"
         >
           Log in
         </Link>
