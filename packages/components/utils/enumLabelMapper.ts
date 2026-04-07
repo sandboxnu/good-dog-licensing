@@ -1,6 +1,6 @@
+import type { MatchState, HowHeardAboutUsLabel } from "@good-dog/db";
 import {
   Genre,
-  HowHeardAboutUsLabel,
   MusicAffiliation,
   MusicRole,
   ProjectType,
@@ -117,5 +117,24 @@ export function getStatusLabel(value: Status): string {
       return "Hidden";
     case "SONG_SUBMITTED":
       return "Song Submitted";
+  }
+}
+
+export function getMatchStateLabel(value: MatchState): string {
+  switch (value) {
+    case "WAITING_FOR_MANAGER_APPROVAL":
+      return "Waiting for Manager Approval";
+    case "REJECTED_BY_MANAGER":
+      return "Rejected by Manager";
+    case "SENT_TO_MEDIA_MAKER":
+      return "Waiting for Media Maker";
+    case "SENT_TO_MUSICIAN":
+      return "Waiting for Musician";
+    case "REJECTED_BY_MEDIA_MAKER":
+      return "Rejected by Media Maker";
+    case "REJECTED_BY_MUSICIAN":
+      return "Rejected by Musician";
+    case "APPROVED_BY_MUSICIAN":
+      return "Approved by Musician";
   }
 }
