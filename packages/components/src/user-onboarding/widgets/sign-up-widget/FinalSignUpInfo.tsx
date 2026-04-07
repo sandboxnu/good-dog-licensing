@@ -7,7 +7,6 @@ import { useFormContext } from "react-hook-form";
 
 import type { HowHeardAboutUsLabel } from "@good-dog/db";
 import type { zSignUpValues } from "@good-dog/trpc/schema";
-import type { HowHeardAboutUsLabel } from "@good-dog/db";
 
 import Button from "../../../base/Button";
 import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
@@ -15,8 +14,6 @@ import RHFCheckbox from "../../../rhf-base/RHFCheckbox";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import PasswordRequirements from "../components/PasswordRequirements";
-import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
-import RHFCheckbox from "../../../rhf-base/RHFCheckbox";
 
 interface FinalSignUpInfoProps {
   role: "MUSICIAN" | "MEDIA_MAKER" | undefined;

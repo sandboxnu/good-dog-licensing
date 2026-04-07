@@ -9,17 +9,16 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@good-dog/ui/sheet";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import {
-  formatAllCapsList,
-  formatAllCapsWord,
-} from "../../../utils/allCapsListFormatter";
+import { formatAllCapsWord } from "../../../utils/allCapsListFormatter";
 import Calendar from "../../svg/Calendar";
 import Check from "../../svg/Check";
 import Group from "../../svg/Group";
 import Deadline from "../../svg/Deadline";
 import Camera from "../../svg/Camera";
 import StatusIndicator from "../../base/StatusIndicator";
+import User from "./User";
+import MusicNote from "../../svg/GreyMusicNote";
+import FileIcon from "../../svg/FileIcon";
 
 type MatchType = GetProcedureOutput<"getSongRequestById">["matches"][number];
 

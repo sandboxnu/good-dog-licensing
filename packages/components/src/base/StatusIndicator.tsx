@@ -4,7 +4,7 @@ import Check from "../svg/status-icons/Check";
 import ClockFull from "../svg/status-icons/ClockFull";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 import Hourglass from "../svg/status-icons/Hourglass";
-import { MatchState } from "@good-dog/db";
+import type { MatchState } from "@good-dog/db";
 
 type Variant = "success" | "error" | "warning" | "gray" | "blue";
 
@@ -60,7 +60,7 @@ export default function StatusIndicator({
   };
 
   return (
-    <div className="flex flex-row items-center gap-1">
+    <div className="flex flex-row items-center gap-2">
       <div
         className={`flex-shrink-0 align-center flex h-[24px] w-fit items-center justify-center rounded gap-[4px] pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)}`}
       >
@@ -82,7 +82,7 @@ export default function StatusIndicator({
         </div>
       </div>
       {details && (
-        <div className={`px-2 ${getColorFromVariant(variant, true)}`}>
+        <div className={`px-2 rounded ${getColorFromVariant(variant, true)}`}>
           {toSentenceCase(details)}
         </div>
       )}
