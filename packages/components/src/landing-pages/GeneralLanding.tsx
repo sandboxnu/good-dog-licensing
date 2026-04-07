@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import ManWithSax from "@good-dog/components/svg/homepage/ManWithSax";
@@ -17,7 +18,6 @@ import GreenOval from "../svg/GreenOval";
 import Check from "../svg/homepage/Check";
 import LandingLogo from "../svg/homepage/LandingLogo";
 import ThinkingPerson from "../svg/homepage/ThinkingPerson";
-import { useEffect, useState } from "react";
 
 export default function GeneralLanding() {
   const router = useRouter();

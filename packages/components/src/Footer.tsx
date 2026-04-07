@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { FaYoutube } from "react-icons/fa";
 import { FaFacebook, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 
 import Button from "./base/Button";
 import NavLogo from "./svg/NavLogo";
-import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -53,7 +53,7 @@ export default function Footer() {
       </div>
 
       {/* Desktop layout (md and above) */}
-      <div className="hidden h-full items-center justify-between px-8 py-6 md:flex gap-[10px]">
+      <div className="hidden h-full items-center justify-between gap-[10px] px-8 py-6 md:flex">
         <div className="flex flex-row items-center justify-between">
           <Link className="h-full" href={"/"}>
             <NavLogo size={112} />
