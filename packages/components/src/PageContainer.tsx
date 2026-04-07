@@ -16,12 +16,11 @@ const CONTENT_MAX_WIDTH_CLASSES = {
 const BACKGROUND_CLASSES = {
   gradient: "!bg-main-bg-gradient-light dark:!bg-main-bg-gradient-dark",
   solid: "!bg-main-bg-solid-light dark:!bg-main-bg-solid-dark",
-  spottedGradient:
-    "!bg-main-bg-spotted-gradient-light dark:!bg-main-spotted-gradient-dark",
 };
 
 function MobileBlocker() {
   return (
+    // Only display mobile blocker if screen is small enough
     <div
       className={clsx(
         DISPLAY_ON_MOBILE_CLASS,
@@ -54,9 +53,16 @@ export default function PageContainer({
 }: PageContainerProps) {
   return (
     <>
+      {/* Show mobile blocker when mobile isn't allowed and screen is too small*/}
       {!allowMobile && <MobileBlocker />}
 
-      <div className={clsx("flex w-full flex-col", DISPLAY_ON_DESKTOP_CLASS)}>
+      {/* Don't show main content if not allowing mobile and screen size is too small */}
+      <div
+        className={clsx(
+          "flex w-full flex-col",
+          !allowMobile && DISPLAY_ON_DESKTOP_CLASS,
+        )}
+      >
         <div
           className={clsx(
             "min-h-screen w-full",
@@ -69,7 +75,10 @@ export default function PageContainer({
               CONTENT_MAX_WIDTH_CLASSES[widthType],
             )}
           >
-            <Nav />
+            {/* Only show nav bar when on desktop */}
+            <div className={clsx(DISPLAY_ON_DESKTOP_CLASS)}>
+              <Nav />
+            </div>
 
             <div
               className={clsx(
