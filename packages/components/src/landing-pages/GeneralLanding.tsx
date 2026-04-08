@@ -234,7 +234,7 @@ export default function GeneralLanding() {
               <h2 className="text-left text-[28px] font-medium not-italic leading-[96%] text-mint-200 md:text-[48px]">
                 Our contributors
               </h2>
-              <p className="text-left text-[16px] font-normal not-italic leading-normal text-gray-100 md:text-[20px]">
+              <p className="text-left  text-[16px] font-normal not-italic leading-normal text-gray-100 md:text-[20px]">
                 Discover the people driving our platform, uniting strategy,
                 creativity, and music.
               </p>
