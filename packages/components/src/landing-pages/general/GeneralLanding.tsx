@@ -9,7 +9,7 @@ import { CONTENT_MAX_WIDTH_CLASSES } from "../../PageContainer";
 
 export default function GeneralLanding() {
   return (
-    <div className="flex flex-col items-center justify-center pb-[100px] text-center">
+    <div className="w-full flex flex-col items-center justify-center pb-[100px] text-center">
       <div className={clsx(CONTENT_MAX_WIDTH_CLASSES.small)}>
         <TitleSection />
         <OverviewAndLogoSection />

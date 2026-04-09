@@ -5,9 +5,7 @@ import { CONTENT_MAX_WIDTH_CLASSES } from "../../../PageContainer";
 
 export default function ContributorsSection() {
   return (
-    <div className="relative mt-[72px] w-full overflow-hidden">
-      <GreenOval />
-
+    <GreenOval className="flex items-center justify-center">
       <div className={clsx(CONTENT_MAX_WIDTH_CLASSES.small)}>
         <div className="relative pb-[120px] pt-[120px]">
           <h2 className="text-left text-[28px] font-medium not-italic leading-[96%] text-mint-200 md:text-[48px]">
@@ -69,6 +67,6 @@ export default function ContributorsSection() {
           </div>
         </div>
       </div>
-    </div>
+    </GreenOval>
   );
 }
