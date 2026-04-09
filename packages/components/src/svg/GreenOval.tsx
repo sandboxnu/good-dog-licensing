@@ -1,16 +1,12 @@
-interface ContributorsBackgroundProps {
-  className?: string;
-}
-
-export default function GreenOval({ className }: ContributorsBackgroundProps) {
+export default function GreenOval() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="100%"
-      height="949"
       viewBox="0 0 1440 949"
-      preserveAspectRatio="none"
-      className={className}
+      fill="none"
+      preserveAspectRatio="xMidYMid slice"
+      className="absolute inset-0 h-full w-full"
+      aria-hidden="true"
     >
       <path
         d="M1710 332.5C1710 516.135 1267.43 665 721.5 665C175.567 665 -267 516.135 -267 332.5C-267 148.865 175.567 -1.56364e-05 721.5 -1.56364e-05C1267.43 -1.56364e-05 1710 148.865 1710 332.5Z"
