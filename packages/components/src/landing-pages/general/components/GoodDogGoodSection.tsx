@@ -19,7 +19,7 @@ export default function GoodDogGoodSection() {
           <ThinkingPerson />
         </div>
         <div className="grid auto-rows-fr grid-cols-1 gap-[8px] sm:grid-cols-2">
-          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
             <div className="h-[24px] w-[24px] flex-shrink-0">
               <Check />
             </div>
@@ -32,7 +32,7 @@ export default function GoodDogGoodSection() {
               .
             </p>
           </div>
-          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
             <div className="h-[24px] w-[24px] flex-shrink-0">
               <Check />
             </div>
@@ -41,7 +41,7 @@ export default function GoodDogGoodSection() {
               non-exclusive.
             </p>
           </div>
-          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
             <div className="h-[24px] w-[24px] flex-shrink-0">
               <Check />
             </div>
@@ -54,7 +54,7 @@ export default function GoodDogGoodSection() {
               placement but you should say "Yes!"
             </p>
           </div>
-          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
             <div className="h-[24px] w-[24px] flex-shrink-0">
               <Check />
             </div>
@@ -63,7 +63,7 @@ export default function GoodDogGoodSection() {
               projects.
             </p>
           </div>
-          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
             <div className="h-[24px] w-[24px] flex-shrink-0">
               <Check />
             </div>
@@ -72,7 +72,7 @@ export default function GoodDogGoodSection() {
               BMI.
             </p>
           </div>
-          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+          <div className="flex items-center gap-[10px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
             <div className="h-[24px] w-[24px] flex-shrink-0">
               <Check />
             </div>

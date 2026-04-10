@@ -94,6 +94,8 @@ export default {
         button: "4px 4px 0 0 var(--button-drop-shadow, #000)",
         div: "16px 12px 0px 0px var(--carddrop-shadow, #098465)",
         modal: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
+        "card-light": "0 2px 6px 0 #ECE6DF",
+        "card-dark": "0 2px 6px 0 #171717",
       },
       backgroundImage: {
         "main-bg-gradient-light":

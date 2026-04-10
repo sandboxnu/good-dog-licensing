@@ -5,8 +5,8 @@ import DeviceTooSmallModal from "./DeviceTooSmallModal";
 import Footer from "./Footer";
 import Nav from "./Nav";
 
-const DISPLAY_ON_DESKTOP_CLASS = "max-[799px]:hidden";
-const DISPLAY_ON_MOBILE_CLASS = "min-[800px]:hidden";
+const DISPLAY_ON_DESKTOP_CLASS = "max-md:hidden";
+const DISPLAY_ON_MOBILE_CLASS = "md:hidden";
 
 export const CONTENT_MAX_WIDTH_CLASSES = {
   small: "max-w-[1050px] px-[40px]",

@@ -18,7 +18,7 @@ export default function ContributorsSection() {
           </p>
 
           <div className="mt-[36px] flex flex-col gap-[56px] md:flex-row">
-            <div className="flex flex-1 flex-col items-center gap-[10px] self-stretch rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#2E2E2E]">
+            <div className="flex flex-1 flex-col items-center gap-[10px] self-stretch rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#2E2E2E]">
               <div className="h-[250px] w-[250px] overflow-hidden rounded-[136px] shadow-[0_2px_6px_0_#BFBCB8]">
                 <img
                   src="/images/profHeadshot.png"
@@ -44,7 +44,7 @@ export default function ContributorsSection() {
                 , and Music Licensing.
               </div>
             </div>
-            <div className="flex flex-1 flex-col items-center gap-[10px] self-stretch rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#2E2E2E]">
+            <div className="flex flex-1 flex-col items-center gap-[10px] self-stretch rounded-[24px] border border-[#ECE6DF] bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#2E2E2E]">
               <div className="flex h-[250px] w-[250px] flex-col items-center justify-center overflow-hidden rounded-[136px] shadow-[0_2px_6px_0_#BFBCB8] dark:bg-mint-300">
                 <img
                   src="/images/greenLineRecords.png"

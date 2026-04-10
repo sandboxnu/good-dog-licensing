@@ -9,7 +9,7 @@ import OverviewAndLogoSection from "./components/OverviewAndLogoSection";
 import TitleSection from "./components/TitleSection";
 
 const SPACING_CLASS = "gap-[72px]";
-const TOP_SPACING_CLASS = "pt-[72px]";
+const TOP_SPACING_CLASS = "pt-[20px] md:pt-[72px]";
 
 export default function GeneralLanding() {
   return (
@@ -20,7 +20,7 @@ export default function GeneralLanding() {
         TOP_SPACING_CLASS,
       )}
     >
-      <div className={clsx(CONTENT_MAX_WIDTH_CLASSES.small)}>
+      <div className={clsx("w-full", CONTENT_MAX_WIDTH_CLASSES.small)}>
         <div className={clsx("flex flex-col", SPACING_CLASS)}>
           <TitleSection />
           <OverviewAndLogoSection />
@@ -31,7 +31,7 @@ export default function GeneralLanding() {
 
       <ContributorsSection />
 
-      <div className={clsx(CONTENT_MAX_WIDTH_CLASSES.small)}>
+      <div className={clsx("w-full", CONTENT_MAX_WIDTH_CLASSES.small)}>
         <FaqSection />
       </div>
     </div>

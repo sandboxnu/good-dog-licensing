@@ -10,9 +10,9 @@ export default function OverviewAndLogoSection() {
   const router = useRouter();
 
   return (
-    <div className="mt-[80px] flex w-full flex-col-reverse gap-[40px] rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717] md:flex-row md:px-[48px]">
-      <div className="flex min-w-0 flex-col items-center justify-center text-left md:items-start">
-        <h3 className="text-[28px] font-normal dark:text-mint-300 md:text-[48px]">
+    <div className="flex w-full flex-col-reverse items-center gap-[20px] rounded-[24px] border border-cream-400 bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark md:flex-row md:gap-[40px] md:px-[32px] lg:px-[48px]">
+      <div className="flex w-full min-w-0 flex-col items-center justify-center text-left lg:w-1/2 lg:items-start">
+        <h3 className="w-full text-[28px] font-normal dark:text-mint-300 md:text-[32px] lg:text-[48px]">
           Good Dog Licensing
         </h3>
         <p className="mt-[8px] w-full break-words text-[16px] font-medium leading-[128%] dark:text-gray-300 md:text-[18px]">
@@ -43,7 +43,7 @@ export default function OverviewAndLogoSection() {
           />
         </div>
       </div>
-      <div className="flex w-full flex-shrink-0 items-center justify-center md:h-[464px] md:w-[464px]">
+      <div className="flex w-1/2 flex-shrink-0 items-center justify-center">
         <LandingLogo />
       </div>
     </div>

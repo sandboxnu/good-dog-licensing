@@ -26,7 +26,7 @@ export default function MediaMakerAndMusicianSection() {
       </div>
 
       <div className="mt-[36px] flex flex-col gap-[56px] md:flex-row">
-        <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+        <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
           <div className="flex items-center justify-center">
             <WomanInComputer />
           </div>
@@ -49,7 +49,7 @@ export default function MediaMakerAndMusicianSection() {
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-[0_2px_6px_0_#ECE6DF] dark:border-[#403F3E] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
+        <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
           <div className="flex items-center justify-center">
             <ManWithSax />
           </div>
