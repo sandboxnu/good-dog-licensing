@@ -7,14 +7,25 @@ import FaqSection from "./components/FaqSection";
 import clsx from "clsx";
 import { CONTENT_MAX_WIDTH_CLASSES } from "../../PageContainer";
 
+const SPACING_CLASS = "gap-[72px]";
+const TOP_SPACING_CLASS = "pt-[72px]";
+
 export default function GeneralLanding() {
   return (
-    <div className="w-full flex flex-col items-center justify-center pb-[100px] text-center">
+    <div
+      className={clsx(
+        "w-full flex flex-col items-center justify-center pb-[100px] text-center",
+        SPACING_CLASS,
+        TOP_SPACING_CLASS,
+      )}
+    >
       <div className={clsx(CONTENT_MAX_WIDTH_CLASSES.small)}>
-        <TitleSection />
-        <OverviewAndLogoSection />
-        <MediaMakerAndMusicianSection />
-        <GoodDogGoodSection />
+        <div className={clsx("flex flex-col", SPACING_CLASS)}>
+          <TitleSection />
+          <OverviewAndLogoSection />
+          <MediaMakerAndMusicianSection />
+          <GoodDogGoodSection />
+        </div>
       </div>
 
       <ContributorsSection />

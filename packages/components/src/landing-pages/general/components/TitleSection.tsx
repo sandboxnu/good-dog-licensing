@@ -2,8 +2,8 @@ import DownArrow from "../../../svg/DownArrow";
 
 export default function TitleSection() {
   return (
-    <>
-      <h1 className="text-body-primary pt-[64px] font-righteous text-[40px] font-normal leading-tight text-dark-gray-500 dark:text-mint-300 md:text-[72px] md:leading-[80px]">
+    <div>
+      <h1 className="font-righteous text-[40px] font-normal leading-tight text-dark-gray-500 dark:text-mint-300 md:text-[72px] md:leading-[80px]">
         Connecting musicians and media makers
       </h1>
       <p className="mt-[16px] text-center text-[20px] font-medium leading-[104%] text-dark-gray-500 dark:text-gray-300 md:text-[35px]">
@@ -16,6 +16,6 @@ export default function TitleSection() {
       <div className="mt-[16] flex items-center justify-center">
         <DownArrow />
       </div>
-    </>
+    </div>
   );
 }
