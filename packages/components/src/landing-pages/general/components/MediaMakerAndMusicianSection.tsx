@@ -11,21 +11,21 @@ export default function MediaMakerAndMusicianSection() {
   const router = useRouter();
 
   return (
-    <>
+    <div className="w-full flex items-center flex-col">
       <div className="text-left">
-        <h3 className="mt-[72px] text-[28px] font-medium leading-[96%] dark:text-mint-300 md:text-[48px]">
+        <h3 className="text-[35px] font-medium leading-[96%] dark:text-mint-300 md:text-[48px]">
           Our mission and vision.{" "}
           <span className="text-green-400 dark:text-mint-200">
             Connecting Creatives.
           </span>
         </h3>
-        <h3 className="mt-[8px] text-[16px] font-normal leading-[128%] text-green-500 dark:text-mint-200 md:text-[20px]">
+        <h3 className="mt-[8px] text-[18px] font-normal leading-[128%] text-green-500 dark:text-mint-200 md:text-[20px]">
           Discover how our platform connects creators, simplifies licensing, and
           ensures fair collaboration for everyone involved.
         </h3>
       </div>
 
-      <div className="mt-[36px] flex flex-col gap-[56px] md:flex-row">
+      <div className="max-w-[450px] md:max-w-none mt-[36px] flex flex-col gap-[25px] md:gap-[56px] md:flex-row">
         <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
           <div className="flex items-center justify-center">
             <WomanInComputer />
@@ -38,12 +38,12 @@ export default function MediaMakerAndMusicianSection() {
             looking for. Good Dog takes care of everything and at no cost to
             you.
           </p>
-          <div className="mt-[16px]">
+          <div className="mt-[16px] md:mt-auto md:pt-[16px]">
             <Button
               label="Sign up now"
               size="large"
               variant="outlined"
-              onClick={() => router.push("/signup")}
+              onClick={() => router.push("/signup/media-maker")}
               shadow
             />
           </div>
@@ -66,17 +66,17 @@ export default function MediaMakerAndMusicianSection() {
             You'll be notified when media makers want to place your music in
             their projects!
           </p>
-          <div className="mt-[16px]">
+          <div className="mt-[16px] md:mt-auto md:pt-[16px]">
             <Button
               label="Sign up now"
               size="large"
               variant="outlined"
-              onClick={() => router.push("/signup")}
+              onClick={() => router.push("/signup/musician")}
               shadow
             />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
