@@ -1,7 +1,8 @@
 import clsx from "clsx";
+
+import { CONTENT_MAX_WIDTH_CLASSES } from "../../../PageContainer";
 import GreenOval from "../../../svg/GreenOval";
 import Footnote from "./Footnote";
-import { CONTENT_MAX_WIDTH_CLASSES } from "../../../PageContainer";
 
 export default function ContributorsSection() {
   return (

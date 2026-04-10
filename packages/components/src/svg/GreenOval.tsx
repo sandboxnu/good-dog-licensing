@@ -27,7 +27,7 @@ export default function GreenOval({
         viewBox="0 0 1440 949"
         fill="none"
         preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-0 -z-0 block h-full w-full hidden lg:block"
+        className="pointer-events-none absolute inset-0 -z-0 block hidden h-full w-full lg:block"
         aria-hidden="true"
       >
         <path

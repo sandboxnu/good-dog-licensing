@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+
 import Button from "../../../base/Button";
-import WomanInComputer from "../../../svg/homepage/WomanInComputer";
 import ManWithSax from "../../../svg/homepage/ManWithSax";
+import WomanInComputer from "../../../svg/homepage/WomanInComputer";
 import Footnote from "./Footnote";
 
 export default function MediaMakerAndMusicianSection() {

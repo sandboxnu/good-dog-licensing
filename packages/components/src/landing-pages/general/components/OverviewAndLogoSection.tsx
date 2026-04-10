@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+
 import Button from "../../../base/Button";
 import LandingLogo from "../../../svg/homepage/LandingLogo";
 import Footnote from "./Footnote";
