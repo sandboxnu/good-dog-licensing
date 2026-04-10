@@ -7,14 +7,14 @@ import {
 
 export default function FaqSection() {
   return (
-    <>
-      <h3 className="mt-[72px] text-left text-[28px] font-medium not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300 md:text-[48px]">
+    <div>
+      <h3 className="text-left text-[28px] font-medium not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300 md:text-[48px]">
         Frequently asked questions
       </h3>
       <Accordion multiple={false} className="mt-[36px] gap-[8px]">
         <AccordionItem
           value="faq-1"
-          className="rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] shadow-card-light dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
+          className="rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] shadow-card-light dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
         >
           <AccordionTrigger className="py-[24px] text-[20px] font-semibold text-green-400 dark:text-mint-200">
             What are PROs and why should I register?
@@ -29,7 +29,7 @@ export default function FaqSection() {
         </AccordionItem>
         <AccordionItem
           value="faq-2"
-          className="rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] shadow-card-light dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
+          className="rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] shadow-card-light dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
         >
           <AccordionTrigger className="py-[24px] text-[20px] font-semibold text-green-400 dark:text-mint-200">
             What if the media Good Dog wants to sync my song in isn&apos;t my
@@ -43,7 +43,7 @@ export default function FaqSection() {
         </AccordionItem>
         <AccordionItem
           value="faq-3"
-          className="rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] shadow-card-light dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
+          className="rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] shadow-card-light dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
         >
           <AccordionTrigger className="py-[24px] text-[20px] font-semibold text-green-400 dark:text-mint-200">
             How long before I need my project done should I reach out to Good
@@ -58,7 +58,7 @@ export default function FaqSection() {
         </AccordionItem>
         <AccordionItem
           value="faq-4"
-          className="rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] shadow-card-light dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
+          className="rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] shadow-card-light dark:border-[#454545] dark:bg-green-600 dark:shadow-[0_2px_6px_0_#454545]"
         >
           <AccordionTrigger className="py-[24px] text-[20px] font-semibold text-green-400 dark:text-mint-200">
             I normally just use an MP3 converter to get whatever music I need
@@ -72,6 +72,6 @@ export default function FaqSection() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-    </>
+    </div>
   );
 }

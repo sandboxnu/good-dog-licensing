@@ -10,8 +10,8 @@ export default function OverviewAndLogoSection() {
   const router = useRouter();
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="max-w-[450px] md:max-w-none flex w-full flex-col-reverse items-center gap-[20px] rounded-[24px] border border-cream-400 bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark md:flex-row md:gap-[40px] md:px-[32px] lg:px-[48px]">
+    <div className="flex w-full justify-center">
+      <div className="flex w-full max-w-[450px] flex-col-reverse items-center gap-[20px] rounded-[24px] border border-cream-400 bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark md:max-w-none md:flex-row md:gap-[40px] md:px-[32px] lg:px-[48px]">
         <div className="flex w-full min-w-0 flex-col items-center justify-center text-left lg:w-1/2 lg:items-start">
           <h3 className="w-full text-[28px] font-normal dark:text-mint-300 md:text-[32px] lg:text-[48px]">
             Good Dog Licensing

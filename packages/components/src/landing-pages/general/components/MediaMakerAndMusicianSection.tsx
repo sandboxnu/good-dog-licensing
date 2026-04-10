@@ -11,7 +11,7 @@ export default function MediaMakerAndMusicianSection() {
   const router = useRouter();
 
   return (
-    <div className="w-full flex items-center flex-col">
+    <div className="flex w-full flex-col items-center">
       <div className="text-left">
         <h3 className="text-[35px] font-medium leading-[96%] dark:text-mint-300 md:text-[48px]">
           Our mission and vision.{" "}
@@ -25,9 +25,9 @@ export default function MediaMakerAndMusicianSection() {
         </h3>
       </div>
 
-      <div className="max-w-[450px] md:max-w-none mt-[36px] flex flex-col gap-[25px] md:gap-[56px] md:flex-row">
-        <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
-          <div className="flex items-center justify-center">
+      <div className="mt-[36px] flex max-w-[450px] flex-col gap-[25px] md:max-w-none md:flex-row md:gap-[56px]">
+        <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] py-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark">
+          <div className="flex h-[200px] items-center justify-center">
             <WomanInComputer />
           </div>
           <h3 className="mt-[8px] text-center text-[28px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
@@ -49,8 +49,8 @@ export default function MediaMakerAndMusicianSection() {
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-[#ECE6DF] bg-cream-100 px-[24px] py-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-[0_2px_6px_0_#171717]">
-          <div className="flex items-center justify-center">
+        <div className="flex flex-1 flex-col items-center self-stretch overflow-hidden rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] py-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark">
+          <div className="flex h-[200px] items-center justify-center">
             <ManWithSax />
           </div>
           <h3 className="mt-[8px] text-center text-[28px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
