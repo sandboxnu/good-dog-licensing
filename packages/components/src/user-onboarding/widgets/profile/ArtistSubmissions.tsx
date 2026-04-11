@@ -106,7 +106,7 @@ function ProjectSubmissionContent({
 }: {
   project: UserByIdOutput["projectSubmissionsAsOwner"][number];
 }) {
-  const songRequestCount = project.songRequests?.length ?? 0;
+  const songRequestCount = project.songRequests.length;
   const activeSongRequests = songRequestCount;
   return (
     <>
@@ -131,9 +131,10 @@ function ProjectSubmissionContent({
               </p>
             </div>
             <p className="text-base text-dark-gray-300 dark:text-cream-400">
-              {project.deadline
-                ? `${new Date(project.deadline).toLocaleDateString("en-US", { month: "long" })} ${ordinal(new Date(project.deadline).getDate())}`
-                : "--"}
+              {new Date(project.deadline).toLocaleDateString("en-US", {
+                month: "long",
+              })}{" "}
+              ${ordinal(new Date(project.deadline).getDate())}
             </p>
           </div>
         </div>

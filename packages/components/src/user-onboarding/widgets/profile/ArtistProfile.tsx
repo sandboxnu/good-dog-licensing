@@ -10,13 +10,11 @@ export default function AristProfile({ userId }: { userId: string }) {
   console.log(userId);
   const [user] = trpc.userById.useSuspenseQuery({ userId });
 
-  const userRoleFormatted = user ? getRoleLabel(user.role) : "Unknown";
-  const userCreatedAtFormatted = user
-    ? user.createdAt.toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      })
-    : "";
+  const userRoleFormatted = getRoleLabel(user.role);
+  const userCreatedAtFormatted = user.createdAt.toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+  });
 
   return (
     <div className="flex w-[752px] flex-col gap-6">
@@ -24,7 +22,7 @@ export default function AristProfile({ userId }: { userId: string }) {
         <ProfileIcon color="light" size={56} name={user.firstName} />
         <div className="flex flex-col">
           <header className="text-xl font-semibold text-green-400 dark:text-mint-200">
-            {user?.firstName + " " + user?.lastName}
+            {user.firstName + " " + user.lastName}
           </header>
           <div className="text-dark-gray-200 dark:text-dark-gray-100">
             {userRoleFormatted} | Since {userCreatedAtFormatted}

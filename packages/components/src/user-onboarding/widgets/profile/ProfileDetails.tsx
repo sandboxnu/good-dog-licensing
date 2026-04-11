@@ -93,7 +93,7 @@ export default function ProfileDetails({
               <div className="flex-1">
                 <InfoField
                   header="Affiliation"
-                  content={user?.affiliation ?? "NONE"}
+                  content={user.affiliation ?? "NONE"}
                 />
               </div>
             ) : (
