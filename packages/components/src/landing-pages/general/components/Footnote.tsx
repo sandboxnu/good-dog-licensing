@@ -9,8 +9,8 @@ export default function Footnote({ number, tooltip }: FootnoteProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <sup className="font-afacad cursor-pointer font-medium not-italic leading-[128%] text-green-400 hover:underline dark:text-mint-200">
-          [{number}]
+        <sup className="font-afacad cursor-pointer font-medium not-italic leading-[128%] text-green-400 dark:text-mint-200">
+          [<span className="underline underline-offset-[4px]">{number}</span>]
         </sup>
       </PopoverTrigger>
       <PopoverContent

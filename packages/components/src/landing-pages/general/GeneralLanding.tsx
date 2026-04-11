@@ -1,6 +1,3 @@
-// TODO:
-// Dark mode fixes
-
 import clsx from "clsx";
 
 import { CONTENT_MAX_WIDTH_CLASSES } from "../../PageContainer";
