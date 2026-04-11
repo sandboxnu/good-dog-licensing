@@ -1,7 +1,5 @@
 // TODO:
-// Fix footnote stuff
 // Dark mode fixes
-// Navbar fixes + dark mode toggle
 // About page
 
 import clsx from "clsx";
