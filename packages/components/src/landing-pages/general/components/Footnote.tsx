@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@good-dog/ui/popover";
 
 interface FootnoteProps {
   number: number;
@@ -8,42 +6,24 @@ interface FootnoteProps {
 }
 
 export default function Footnote({ number, tooltip }: FootnoteProps) {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const handler = (e: CustomEvent) => {
-      if (e.detail !== number) setOpen(false);
-    };
-    window.addEventListener("close-footnotes", handler as EventListener);
-    return () =>
-      window.removeEventListener("close-footnotes", handler as EventListener);
-  }, [number]);
-
-  const handleClick = () => {
-    const next = !open;
-    setOpen(next);
-    if (next) {
-      window.dispatchEvent(
-        new CustomEvent("close-footnotes", { detail: number }),
-      );
-    }
-  };
-
   return (
-    <span className="relative">
-      <sup
-        className="font-afacad cursor-pointer font-medium not-italic leading-[128%] text-green-400 hover:underline dark:text-mint-200"
-        onClick={handleClick}
+    <Popover>
+      <PopoverTrigger asChild>
+        <sup className="font-afacad cursor-pointer font-medium not-italic leading-[128%] text-green-400 hover:underline dark:text-mint-200">
+          [{number}]
+        </sup>
+      </PopoverTrigger>
+      <PopoverContent
+        align="center"
+        collisionPadding={16}
+        side="top"
+        sideOffset={8}
+        className="w-[min(400px,calc(100vw-2rem))] rounded-[8px] border-cream-500 bg-gray-100 p-[16px] text-[14px] leading-[1.05] dark:border-cream-600 dark:bg-dark-gray-600 dark:shadow-card-dark md:text-[16px]"
       >
-        [{number}]
-      </sup>
-      {open && (
-        <span className="absolute bottom-full left-1/2 z-10 mb-1 flex w-[400px] -translate-x-1/2 flex-col items-start justify-center rounded-[8px] border border-cream-500 bg-gray-100 p-[16px] dark:border-cream-600 dark:bg-dark-gray-600 dark:shadow-card-dark">
-          <span className="text-[14px] font-normal leading-[96%] text-gray-500 dark:text-gray-300">
-            {tooltip}
-          </span>
+        <span className="block font-normal leading-[1.05] text-gray-500 dark:text-gray-300">
+          {tooltip}
         </span>
-      )}
-    </span>
+      </PopoverContent>
+    </Popover>
   );
 }
