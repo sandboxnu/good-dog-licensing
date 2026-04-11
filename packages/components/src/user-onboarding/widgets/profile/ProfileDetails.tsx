@@ -15,9 +15,24 @@ import ProfileSection from "./ProfileSection";
 
 type ProfileValuesFields = z.input<typeof zProfileValues>;
 
-export default function ProfileDetails() {
+interface UserDetails {
+  firstName: string;
+  lastName: string;
+  email: string;
+  affiliation: MusicAffiliation | null;
+  ipi: string | null;
+  role: string;
+}
+
+export default function ProfileDetails({
+  nonEditableUser,
+}: {
+  nonEditableUser?: UserDetails;
+}) {
   const utils = trpc.useUtils();
-  const [user] = trpc.user.useSuspenseQuery();
+  const editable = nonEditableUser ? false : true;
+  const [queriedUser] = nonEditableUser ? [null] : trpc.user.useSuspenseQuery();
+  const user = nonEditableUser ?? queriedUser;
 
   const profileFormMethods = useForm<ProfileValuesFields>({
     resolver: zodResolver(zProfileValues),
@@ -60,6 +75,38 @@ export default function ProfileDetails() {
         : getMusicAffiliationLabel(affiliation),
     value: affiliation,
   }));
+
+  if (!editable) {
+    return (
+      <ProfileSection header="Personal Details">
+        <div className="flex flex-col gap-y-6 rounded-2xl p-[24px] pt-6">
+          <div className="flex flex-row gap-16">
+            <div className="flex-1">
+              <InfoField header="First name" content={user?.firstName ?? ""} />
+            </div>
+            <div className="flex-1">
+              <InfoField header="Last name" content={user?.lastName ?? ""} />
+            </div>
+          </div>
+          <div className="flex flex-row gap-16">
+            {user?.role === "MUSICIAN" ? (
+              <div className="flex-1">
+                <InfoField
+                  header="Affiliation"
+                  content={user?.affiliation ?? "NONE"}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+            <div className="flex-1">
+              <InfoField header="Email" content={user?.email ?? "NONE"} />
+            </div>
+          </div>
+        </div>
+      </ProfileSection>
+    );
+  }
 
   return (
     <FormProvider {...profileFormMethods}>

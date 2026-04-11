@@ -43,6 +43,7 @@ export const getUserByIdProcedure = authenticatedAndActiveProcedureBuilder
         email: true,
         role: true,
         affiliation: true,
+        ipi: true,
         createdAt: true,
 
         musicSubmissions: {
