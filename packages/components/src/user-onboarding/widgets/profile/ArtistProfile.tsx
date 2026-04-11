@@ -7,7 +7,6 @@ import { getRoleLabel } from "../../../../utils/enumLabelMapper";
 import ArtistSubmissions from "./ArtistSubmissions";
 
 export default function AristProfile({ userId }: { userId: string }) {
-  console.log(userId);
   const [user] = trpc.userById.useSuspenseQuery({ userId });
 
   const userRoleFormatted = getRoleLabel(user.role);
