@@ -101,11 +101,11 @@ export default {
         "main-bg-gradient-light":
           "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
         "main-bg-gradient-dark":
-          "linear-gradient(180deg, #022119 55.17%, #021913 81.66%)",
+          "linear-gradient(180deg, #01100C 55.17%, #021611 81.66%)",
       },
       backgroundColor: {
         "main-bg-solid-light": "#FFFBF6",
-        "main-bg-solid-dark": "#022119",
+        "main-bg-solid-dark": "#01100C",
       },
     },
   },
