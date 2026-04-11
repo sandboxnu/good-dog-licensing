@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import DarkModeOnToggle from "../svg/nav/DarkModeOnToggle";
-import DarkModeOffToggle from "../svg/nav/DarmModeOffToggle";
+import DarkModeOffToggle from "../svg/nav/DarkModeOffToggle";
 
 export default function DarkModeSwitch() {
   const [isDark, setIsDark] = useState(
