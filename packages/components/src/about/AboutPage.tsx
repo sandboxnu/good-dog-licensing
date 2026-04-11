@@ -1,14 +1,15 @@
 import clsx from "clsx";
-import { CONTENT_MAX_WIDTH_CLASSES } from "../PageContainer";
-import OverviewAndLogoSection from "../landing-pages/general/components/OverviewAndLogoSection";
-import MediaMakerAndMusicianSection from "../landing-pages/general/components/MediaMakerAndMusicianSection";
-import GoodDogGoodSection from "../landing-pages/general/components/GoodDogGoodSection";
+
 import ContributorsSection from "../landing-pages/general/components/ContributorsSection";
 import FaqSection from "../landing-pages/general/components/FaqSection";
+import GoodDogGoodSection from "../landing-pages/general/components/GoodDogGoodSection";
+import MediaMakerAndMusicianSection from "../landing-pages/general/components/MediaMakerAndMusicianSection";
+import OverviewAndLogoSection from "../landing-pages/general/components/OverviewAndLogoSection";
 import {
   SPACING_CLASS,
   TOP_SPACING_CLASS,
 } from "../landing-pages/general/GeneralLanding";
+import { CONTENT_MAX_WIDTH_CLASSES } from "../PageContainer";
 
 export default function About() {
   return (

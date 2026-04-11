@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 
+import type { LandingComponentProps } from "./types";
 import Button from "../../../base/Button";
 import ManWithSax from "../../../svg/homepage/ManWithSax";
 import WomanInComputer from "../../../svg/homepage/WomanInComputer";
 import Footnote from "./Footnote";
-import type { LandingComponentProps } from "./types";
 
 export default function MediaMakerAndMusicianSection({
   type,

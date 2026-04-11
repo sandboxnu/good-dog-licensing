@@ -25,7 +25,7 @@ export default function Nav() {
           </p>
         </Link>
 
-        <nav className="flex items-center gap-[32px] lg:gap-[50px] text-lg text-green-500 dark:text-mint-200">
+        <nav className="flex items-center gap-[32px] text-lg text-green-500 dark:text-mint-200 lg:gap-[50px]">
           <Link
             href={homeLink}
             className={`underline-offset-[6px] hover:underline ${pathname === homeLink ? "underline" : ""}`}

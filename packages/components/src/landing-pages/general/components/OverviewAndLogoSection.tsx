@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 
+import type { LandingComponentProps } from "./types";
 import Button from "../../../base/Button";
 import LandingLogo from "../../../svg/homepage/LandingLogo";
 import Footnote from "./Footnote";
-import type { LandingComponentProps } from "./types";
 
 export default function OverviewAndLogoSection({
   type,
@@ -19,12 +19,12 @@ export default function OverviewAndLogoSection({
         className={`flex w-full max-w-[450px] flex-col-reverse items-center gap-[20px] rounded-[24px] md:max-w-none md:flex-row md:gap-[40px] ${
           isAbout
             ? ""
-            : "p-[24px] md:px-[32px] lg:px-[48px] shadow-card-light dark:shadow-card-dark border border-cream-400 bg-cream-100 dark:border-cream-600 dark:bg-green-600"
+            : "border border-cream-400 bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark md:px-[32px] lg:px-[48px]"
         }`}
       >
         <div
           className={`flex min-w-0 flex-col items-center justify-center text-left lg:items-start ${
-            isAbout ? "w-2/3" : "lg:w-1/2 w-full"
+            isAbout ? "w-2/3" : "w-full lg:w-1/2"
           }`}
         >
           <h3 className="w-full text-[35px] font-normal dark:text-mint-300 md:text-[48px]">

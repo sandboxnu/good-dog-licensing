@@ -1,7 +1,7 @@
 export default function LandingLogo() {
   return (
     <svg
-      className="h-auto w-full max-w-[200px] md:max-w-none text-green-400 dark:text-mint-300"
+      className="h-auto w-full max-w-[200px] text-green-400 dark:text-mint-300 md:max-w-none"
       viewBox="0 0 464 464"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
