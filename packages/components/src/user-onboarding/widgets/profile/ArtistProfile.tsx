@@ -4,6 +4,7 @@ import { trpc } from "@good-dog/trpc/client";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import ProfileDetails from "./ProfileDetails";
 import { getRoleLabel } from "../../../../utils/enumLabelMapper";
+import ArtistSubmissions from "./ArtistSubmissions";
 
 export default function AristProfile({ userId }: { userId: string }) {
   console.log(userId);
@@ -32,7 +33,7 @@ export default function AristProfile({ userId }: { userId: string }) {
       </div>
       <div className="flex flex-col gap-y-[16px]">
         <ProfileDetails nonEditableUser={user} />
-        {/* <ArtistSubmissions user={user} /> */}
+        <ArtistSubmissions user={user} />
       </div>
     </div>
   );
