@@ -22,7 +22,7 @@ function TruncatedText({
     <p className="text-base text-dark-gray-300 dark:text-cream-400">
       {expanded ? text : text.slice(0, limit) + "..."}
       <button
-        className="ml-1 text-green-500 dark:text-mint-200"
+        className="ml-1 text-green-300 dark:text-mint-200"
         onClick={() => setExpanded(!expanded)}
       >
         {expanded ? "See less" : "See more"}
@@ -43,7 +43,7 @@ export default function SubmissionCard({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex flex-col rounded-2xl border-[0.5px] border-cream-500 dark:border-cream-700">
+    <div className="flex flex-col rounded-2xl border-[0.5px] border-cream-400 dark:border-cream-600">
       <div
         className={`flex cursor-pointer flex-row items-center gap-4 px-6 ${open ? "pt-4" : "py-4"}`}
         onClick={() => setOpen(!open)}
@@ -51,7 +51,7 @@ export default function SubmissionCard({
         <ChevronRight
           className={`h-5 w-5 text-dark-gray-500 transition-all dark:text-gray-300 ${open && "rotate-90"}`}
         />
-        <p className="text-base font-semibold text-dark-gray-500 dark:text-gray-300">
+        <p className="text-base font-semibold text-green-400 dark:text-mint-200">
           {title}
         </p>
         {!open && tags && tags.length > 0 && (
