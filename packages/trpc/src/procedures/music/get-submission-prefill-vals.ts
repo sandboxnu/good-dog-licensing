@@ -6,6 +6,7 @@ import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 interface ContributorPrefillType {
   firstName: string;
   lastName: string;
+  email: string | null;
   affiliation: MusicAffiliation | null;
   ipi: string | null;
   publisher: string | null;
@@ -38,6 +39,7 @@ export const getMusicSubmissionPrefillValuesProcedure =
               contributorMap[contributor.firstName && contributor.lastName] = {
                 firstName: contributor.firstName,
                 lastName: contributor.lastName,
+                email: contributor.email,
                 affiliation: contributor.affiliation,
                 ipi: contributor.ipi,
                 publisher: contributor.publisher,

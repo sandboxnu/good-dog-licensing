@@ -3,6 +3,7 @@ import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zMusicSubmissionValues } from "../../schema";
 import { sendEmailHelper } from "../../utils";
+import { email } from "zod";
 
 export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,
@@ -18,6 +19,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
       affiliation: input.submitterAffiliation,
       ipi: input.submitterIpi,
       isSubmitter: true,
+      email: ctx.session.user.email,
     };
 
     const [_, musicSubmission] = await ctx.prisma.$transaction([

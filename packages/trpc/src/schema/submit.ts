@@ -25,6 +25,7 @@ const zMusicContributor = z
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
     roles: z.array(z.enum(MusicRole)).min(1, "At least one role is required"),
+    email: z.string().optional(),
     affiliation: z.enum(MusicAffiliation).optional(),
     ipi: z.string().optional(),
     publisher: z.string().optional(),

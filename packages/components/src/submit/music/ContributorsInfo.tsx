@@ -97,6 +97,7 @@ export default function ContributorsInfo({
         {
           firstName: "",
           lastName: "",
+          email: undefined,
           roles: [],
           affiliation: undefined,
           ipi: undefined,
@@ -172,6 +173,7 @@ export default function ContributorsInfo({
   ) => {
     const prefill = getOtherContributorPrefillInfo(firstName, lastName);
 
+    setValue(`contributors.${index}.email`, prefill?.email ?? undefined);
     setValue(
       `contributors.${index}.affiliation`,
       prefill?.affiliation ?? undefined,
@@ -316,6 +318,15 @@ export default function ContributorsInfo({
                 required={true}
               />
 
+              <RHFTextInput<MusicSubmissionFormFields>
+                rhfName={`contributors.${index}.email`}
+                label="Contributor email"
+                placeholder="Enter email"
+                id={`email-${index}`}
+                errorText={errors.contributors?.[index]?.email?.message}
+                required={false}
+              />
+
               <RHFMultiselectDropdown<MusicSubmissionFormFields>
                 rhfName={`contributors.${index}.roles`}
                 label={"What was their role in the song?"}
@@ -428,6 +439,7 @@ export default function ContributorsInfo({
               append({
                 firstName: "",
                 lastName: "",
+                email: undefined,
                 roles: [],
                 affiliation: undefined,
                 ipi: undefined,

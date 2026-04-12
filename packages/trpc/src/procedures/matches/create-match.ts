@@ -87,9 +87,7 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
               contributorFullName: c.firstName + " " + c.lastName,
               contributorRole: role,
               contributorAffiliation: c.affiliation ?? null,
-              contributorEmail: c.isSubmitter
-                ? createdMatch.musicSubmission.submitter.email
-                : "",
+              contributorEmail: c.email ?? "",
               contributorPublisher: c.publisher ?? "",
               contributorPublisherIpi: c.publisherIpi ?? "",
             })),
