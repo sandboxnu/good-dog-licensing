@@ -1,13 +1,15 @@
+import type z from "zod";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
+
 import { MusicAffiliation } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
 import { zProfileValues } from "@good-dog/trpc/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
-import type z from "zod";
+
 import { getMusicAffiliationLabel } from "../../../../utils/enumLabelMapper";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import RHFDropdown from "../../../rhf-base/RHFDropdown";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import InfoField from "./InfoField";
 import ProfileSection from "./ProfileSection";
 
@@ -15,7 +17,7 @@ type ProfileValuesFields = z.input<typeof zProfileValues>;
 
 export default function ProfileDetails() {
   const utils = trpc.useUtils();
-  const { data: user } = trpc.user.useQuery();
+  const [user] = trpc.user.useSuspenseQuery();
 
   const profileFormMethods = useForm<ProfileValuesFields>({
     resolver: zodResolver(zProfileValues),

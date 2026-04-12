@@ -1,5 +1,6 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { trpc } from "@good-dog/trpc/client";
+
 import { search } from "../../../../../utils/search";
 import SearchBar from "../../../../base/SearchBar";
 

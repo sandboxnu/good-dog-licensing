@@ -1,8 +1,10 @@
 "use client";
 
-import { trpc } from "@good-dog/trpc/client";
-import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
+
+import { trpc } from "@good-dog/trpc/client";
+
 import AdmModSongRequestInformation from "./components/AdmModSongRequestInformation";
 import MatchingInformation from "./components/MatchingInformation";
 
@@ -18,9 +20,9 @@ export default function AdmModMatchingDashboard({
   });
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex max-w-full flex-col gap-6">
       <button
-        className="flex flex-row gap-[4px] items-center max-w-[130px]"
+        className="flex flex-row items-center gap-[4px]"
         onClick={() =>
           router.push(
             `/home?projectId=${songRequest.projectSubmission.projectId}`,
@@ -28,13 +30,17 @@ export default function AdmModMatchingDashboard({
         }
       >
         <ChevronLeft className="text-green-500 dark:text-mint-200" />
-        <p className="text-green-500 underline text-body2 dark:text-gray-200">
+        <p className="text-body2 text-green-500 underline dark:text-gray-200">
           {songRequest.projectSubmission.projectTitle}
         </p>
       </button>
       <div className="flex flex-row gap-10">
-        <AdmModSongRequestInformation songRequest={songRequest} />
-        <MatchingInformation songRequest={songRequest} />
+        <div className="w-2/5 shrink-0">
+          <AdmModSongRequestInformation songRequest={songRequest} />
+        </div>
+        <div className="w-3/5 min-w-0">
+          <MatchingInformation songRequest={songRequest} />
+        </div>
       </div>
     </div>
   );

@@ -80,6 +80,7 @@ export default {
         "green-500": "var(--green-500)",
         "green-600": "var(--green-600)",
         "green-700": "var(--green-700)",
+        overlay: "var(--overlay)",
         "body-gray": "#5C5C5C",
         secondary: "#054233",
         error: "#B13433",
@@ -93,16 +94,18 @@ export default {
         button: "4px 4px 0 0 var(--button-drop-shadow, #000)",
         div: "16px 12px 0px 0px var(--carddrop-shadow, #098465)",
         modal: "0 4px 4px 0 rgba(0, 0, 0, 0.25)",
+        "card-light": "0 2px 6px 0 #ECE6DF",
+        "card-dark": "0 2px 6px 0 #171717",
       },
       backgroundImage: {
         "main-bg-gradient-light":
           "linear-gradient(180deg, #FFFBF6 29.69%, #E9F8EC 55.49%, #D3F4E2 96.78%)",
         "main-bg-gradient-dark":
-          "linear-gradient(180deg, #022119 55.17%, #021913 81.66%)",
+          "linear-gradient(180deg, #01100C 55.17%, #021611 81.66%)",
       },
       backgroundColor: {
         "main-bg-solid-light": "#FFFBF6",
-        "main-bg-solid-dark": "#022119",
+        "main-bg-solid-dark": "#01100C",
       },
     },
   },

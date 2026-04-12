@@ -5,7 +5,7 @@ import MusicSubmissionWidget from "@good-dog/components/submit/music/MusicSubmis
 
 export default function MusicSubmissionPage() {
   return (
-    <PageContainer background={"solid"}>
+    <PageContainer background={"solid"} widthType="large">
       <MusicSubmissionWidget />
     </PageContainer>
   );

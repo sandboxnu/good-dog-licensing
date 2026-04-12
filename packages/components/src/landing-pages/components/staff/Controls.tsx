@@ -1,8 +1,13 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+
+import type { Dispatch, SetStateAction } from "react";
 import type z from "zod";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
+import { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FilterIcon } from "lucide-react";
+import { FormProvider, useForm } from "react-hook-form";
+
+import { zDashboardControls } from "../../../../../trpc/src/schema/base";
 import {
   Select,
   SelectContent,
@@ -10,10 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../base/Select";
-import { FilterIcon } from "lucide-react";
-import { useEffect } from "react";
-import type { Dispatch, SetStateAction } from "react";
-import { zDashboardControls } from "../../../../../trpc/src/schema/base";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 
 const filterOptions = [
   { label: "No filter", value: null },
@@ -59,7 +61,7 @@ export function Controls({
         <SelectTrigger className="w-[296px] justify-between">
           <SelectValue
             placeholder={
-              <div className="flex items-center text-gray-400 gap-[4px]">
+              <div className="flex items-center gap-[4px] text-gray-400">
                 <FilterIcon />
                 Filter
               </div>
@@ -69,7 +71,7 @@ export function Controls({
         <SelectContent
           align="end"
           side="bottom"
-          className="w-[296px] gap-2 py-4 px-2 bg-white flex flex-col gap-2"
+          className="flex w-[296px] flex-col gap-2 bg-white px-2 py-4"
         >
           {filterOptions.map((option) => (
             <SelectItem key={option.value} value={option.value}>

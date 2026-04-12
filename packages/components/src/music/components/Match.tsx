@@ -3,7 +3,8 @@ import MusicNoteIcon from "../../svg/MusicNoteIcon";
 import { Check, FileText, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
-import { Popup } from "./Popup";
+
+import { ConfirmationModal } from "../../matching/ConfirmationModal";
 
 type MatchWithSongRequest =
   GetProcedureOutput<"getMusicSubmissionById">["matches"][number];
@@ -68,16 +69,16 @@ export function Match({
 
   return (
     <div
-      className={`flex flex-row justify-between items-center bg-cream-100 dark:bg-green-500 cursor-pointer w-[984px] box-content px-6 py-4 rounded-2xl border-[1px] shadow-md ${selected ? `border-green-300 hover:border-green-400 dark:border-grass-green-100 dark:hover:border-grass-green-200` : `border-cream-500 hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
+      className={`flex w-full cursor-pointer flex-row items-center justify-between rounded-2xl border-[1px] px-6 py-4 shadow-md ${selected ? `border-green-300 hover:border-green-400 dark:border-grass-green-100 dark:hover:border-grass-green-200` : `border-cream-500 hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
       onClick={handleClick}
     >
-      <div className="flex flex-row flex-shrink-0 items-center gap-4">
+      <div className="flex min-w-0 flex-1 flex-row items-center gap-4">
         <MusicNoteIcon />
-        <div className="flex flex-col gap-2 w-[584px]">
-          <p className="text-xl text-dark-gray-500 dark:text-mint-300 font-semibold truncate">
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          <p className="truncate text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
             {match.songRequest.songRequestTitle}
           </p>
-          <p className="text-dark-gray-200 dark:text-dark-gray-200 truncate">
+          <p className="truncate text-dark-gray-200 dark:text-dark-gray-200">
             {match.songRequest.description}
           </p>
         </div>
@@ -99,17 +100,26 @@ export function Match({
               <X className="text-dark-gray-300 hover:text-required-star hover:bg-required-star/25 rounded-md" />
             </button>
             <div onClick={(e) => e.stopPropagation()}>
-              <Popup
+              <ConfirmationModal
                 open={openApprove}
                 onOpenChange={setOpenApprove}
                 onAction={handleApprove}
                 type="approve"
+                title={"Confirm match"}
+                text={
+                  "This action cannot be undone. This song will be matched following your approval."
+                }
+                showCheckbox={true}
               />
-              <Popup
+              <ConfirmationModal
                 open={openReject}
                 onOpenChange={setOpenReject}
                 onAction={handleReject}
                 type="deny"
+                title={"Confirm selection"}
+                text={
+                  "This action cannot be undone. This song will be matched following your approval."
+                }
               />
             </div>
           </>

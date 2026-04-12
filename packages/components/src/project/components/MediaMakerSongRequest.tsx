@@ -1,10 +1,12 @@
 "use client";
 
-import MusicNoteIcon from "../../svg/MusicNoteIcon";
-import StatusIndicator from "../../base/StatusIndicator";
-import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
+
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
+import StatusIndicator from "../../base/StatusIndicator";
+import MusicNoteIcon from "../../svg/MusicNoteIcon";
 
 type SongRequestType =
   GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
@@ -23,10 +25,10 @@ export default function MediaMakerSongRequest({
 
   return (
     <div
-      className="border-[1px] bg-cream-100 dark:bg-green-500 border-cream-500 rounded-2xl p-6 flex flex-row justify-between hover:cursor-pointer items-center"
+      className="flex flex-row items-center justify-between rounded-2xl border-[1px] border-cream-500 bg-cream-100 p-6 hover:cursor-pointer dark:bg-green-500"
       onClick={handleClick}
     >
-      <div className="flex flex-row gap-4 items-center">
+      <div className="flex flex-row items-center gap-4">
         <MusicNoteIcon />
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-4">

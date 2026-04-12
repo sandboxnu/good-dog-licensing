@@ -1,51 +1,51 @@
 import type { Genre, ProjectType } from "@good-dog/db";
 
 export const realUsers = [
-  // {
-  //   firstName: "Jordan",
-  //   lastName: "Praissman",
-  //   email: "praissman.j@northeastern.edu",
-  // },
-  // {
-  //   firstName: "Gavin",
-  //   lastName: "Normand",
-  //   email: "normand.g@northeastern.edu",
-  // },
-  // {
-  //   firstName: "Victoria",
-  //   lastName: "Whisnant",
-  //   email: "whisnant.v@northeastern.edu",
-  // },
-  // {
-  //   firstName: "Lauren",
-  //   lastName: "Brissette",
-  //   email: "brissette.l@northeastern.edu",
-  // },
-  // {
-  //   firstName: "Harini",
-  //   lastName: "Avula",
-  //   email: "avula.ha@northeastern.edu",
-  // },
-  // {
-  //   firstName: "Amoli",
-  //   lastName: "Patel",
-  //   email: "patel.amol@northeastern.edu",
-  // },
-  // {
-  //   firstName: "Wesley",
-  //   lastName: "Tran",
-  //   email: "tran.we@northeastern.edu",
-  // },
-  // {
-  //   firstName: "Mia",
-  //   lastName: "Avni",
-  //   email: "avni.m@northeastern.edu",
-  // },
-  // {
-  //   firstName: "Mayah",
-  //   lastName: "Hamaoui",
-  //   email: "hamaoui.m@northeastern.edu",
-  // },
+  {
+    firstName: "Jordan",
+    lastName: "Praissman",
+    email: "praissman.j@northeastern.edu",
+  },
+  {
+    firstName: "Gavin",
+    lastName: "Normand",
+    email: "normand.g@northeastern.edu",
+  },
+  {
+    firstName: "Victoria",
+    lastName: "Whisnant",
+    email: "whisnant.v@northeastern.edu",
+  },
+  {
+    firstName: "Lauren",
+    lastName: "Brissette",
+    email: "brissette.l@northeastern.edu",
+  },
+  {
+    firstName: "Harini",
+    lastName: "Avula",
+    email: "avula.ha@northeastern.edu",
+  },
+  {
+    firstName: "Amoli",
+    lastName: "Patel",
+    email: "patel.amol@northeastern.edu",
+  },
+  {
+    firstName: "Wesley",
+    lastName: "Tran",
+    email: "tran.we@northeastern.edu",
+  },
+  {
+    firstName: "Mia",
+    lastName: "Avni",
+    email: "avni.m@northeastern.edu",
+  },
+  {
+    firstName: "Mayah",
+    lastName: "Hamaoui",
+    email: "hamaoui.m@northeastern.edu",
+  },
   {
     firstName: "David",
     lastName: "Herlihy",

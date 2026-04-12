@@ -1,16 +1,18 @@
 import { PrismaClient } from "@prisma/client";
+
 import type { Role } from "@good-dog/db";
+
 import {
+  additionalInfo,
+  adjectives,
   allGenres,
+  allProjectTypes,
   firstNames,
   lastNames,
-  realUsers,
-  adjectives,
   links,
   nouns,
   projectDescriptions,
-  allProjectTypes,
-  additionalInfo,
+  realUsers,
 } from "./utils/seedData";
 
 const prisma = new PrismaClient();
@@ -236,7 +238,7 @@ async function main() {
   // Generate song requests
 
   const songRequestCreations = createdProjects.flatMap((project) => {
-    const requestCount = Math.floor(Math.random() * 4);
+    const requestCount = Math.floor(Math.random() * 5);
     return generateSongRequests(project.projectId, requestCount).map(
       (songRequest) =>
         prisma.songRequest.create({

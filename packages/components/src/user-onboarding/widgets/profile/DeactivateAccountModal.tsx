@@ -1,8 +1,7 @@
 "use client";
 
-import Modal from "../../../base/Modal";
-
 import Button from "../../../base/Button";
+import Modal from "../../../base/Modal";
 
 interface DeactivateAccountModalProps {
   isOpen: boolean;
@@ -25,12 +24,12 @@ export default function DeactivateAccountModal({
       height={308}
       danger={true}
     >
-      <div className="flex flex-col w-3/4 gap-4 pt-4">
+      <div className="flex w-3/4 flex-col gap-4 pt-4">
         <div className="flex flex-col gap-[8px] text-dark-gray-500 dark:text-gray-300">
           Your entire account will be deactivated until you choose to reactivate
           it.
         </div>
-        <div className="flex flex-row gap-2 justify-center">
+        <div className="flex flex-row justify-center gap-2">
           <Button
             label="Deactivate Account"
             size="small"

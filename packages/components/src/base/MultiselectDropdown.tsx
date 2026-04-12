@@ -60,9 +60,9 @@ export default function MultiselectDropdown({
       )}
       <MultiSelect
         className={clsx(
-          "min-h-[32px] w-full rounded-[8px] border-dark-gray-200 dark:border-dark-gray-300 text-body3 text-dark-gray-500 dark:text-gray-200 dark:bg-dark-gray-500 hover:border-gray-600 focus:shadow-active",
+          "min-h-[32px] w-full rounded-[8px] border-dark-gray-200 bg-white text-body3 text-dark-gray-500 hover:border-gray-600 focus:shadow-active dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200",
           {
-            "!border-red-400 !shadow-red-400 !dark:border-red-300 !dark:shadow-red-300":
+            "!dark:border-red-300 !dark:shadow-red-300 !border-red-400 !shadow-red-400":
               errorText,
           },
         )}

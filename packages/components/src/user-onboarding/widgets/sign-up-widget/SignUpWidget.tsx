@@ -112,7 +112,7 @@ export default function SignUpWidget({
         resendEmail={handleVerifyEmail}
         codeIsWrong={emailCodeError}
       />
-      <div className="flex h-full w-1/2 flex-col justify-center">
+      <div className="flex w-1/2 flex-col justify-center">
         <FormProvider {...formMethods}>
           {step === 1 && (
             <InitialSignUpInfo
@@ -142,11 +142,13 @@ export default function SignUpWidget({
           )}
         </FormProvider>
       </div>
-      <div className="flex h-full w-1/2 items-center justify-center">
-        {role === "MUSICIAN" && <MusicianOnRecord />}
-        {role === "MEDIA_MAKER" && <Camera />}
-        {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-        {!role && <SignupIdea />}
+      <div className="flex w-1/2 pl-[20px]">
+        <div className="flex w-full flex-col justify-center">
+          {role === "MUSICIAN" && <MusicianOnRecord />}
+          {role === "MEDIA_MAKER" && <Camera />}
+          {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
+          {!role && <SignupIdea />}
+        </div>
       </div>
     </UserOnboardingWidgetContainer>
   );

@@ -1,4 +1,4 @@
-import type { User, ProjectSubmission } from ".prisma/client";
+import type { ProjectSubmission, User } from ".prisma/client";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
 
 export default function ProjectInformation({
@@ -9,7 +9,7 @@ export default function ProjectInformation({
   projectOwner: User | undefined;
 }) {
   return (
-    <div className="flex flex-col gap-4 p-6 rounded-2xl bg-cream-100 dark:bg-dark-gray-600 border-[0.5px] border-light-gray shadow-md">
+    <div className="flex flex-col gap-4 rounded-2xl border-[0.5px] border-light-gray bg-cream-100 p-6 shadow-md dark:bg-dark-gray-600">
       <p className="text-xl text-dark-gray-200 dark:text-dark-gray-100">
         Project Information
       </p>

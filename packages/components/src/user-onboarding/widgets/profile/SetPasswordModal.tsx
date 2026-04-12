@@ -1,14 +1,15 @@
 "use client";
 
 import type z from "zod";
-import Modal from "../../../base/Modal";
+import { useFormContext } from "react-hook-form";
 
 import type { zSetPasswordValues } from "@good-dog/trpc/schema";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import { useFormContext } from "react-hook-form";
+
 import Button from "../../../base/Button";
-import PasswordRequirements from "../components/PasswordRequirements";
+import Modal from "../../../base/Modal";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
+import PasswordRequirements from "../components/PasswordRequirements";
 
 interface SetPasswordModalProps {
   isOpen: boolean;
@@ -42,7 +43,7 @@ export default function SetPasswordModal({
       width={500}
       height={404}
     >
-      <div className="flex flex-col w-3/4 gap-4 pt-4">
+      <div className="flex w-3/4 flex-col gap-4 pt-4">
         <div className="flex flex-col gap-[8px]">
           {errorMessage && (
             <div className="flex flex-row items-center gap-[4px] pt-[12px]">

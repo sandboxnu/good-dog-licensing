@@ -1,5 +1,5 @@
-import PageContainer from "@good-dog/components/PageContainer";
 import AdmModMatchingDashboard from "@good-dog/components/matching/AdmModMatchingDashboard";
+import PageContainer from "@good-dog/components/PageContainer";
 import MediaMakerSongRequestDashboard from "@good-dog/components/song-request/MediaMakerSongRequestDashboard";
 import { Role } from "@good-dog/db";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
@@ -18,7 +18,7 @@ export default async function SongRequestPage({ params }: PageProps) {
   void trpc.allMusic.prefetch();
 
   return (
-    <PageContainer background="solid">
+    <PageContainer background="solid" widthType="large">
       <HydrateClient>
         {user && user.role === Role.MEDIA_MAKER && (
           <MediaMakerSongRequestDashboard songRequestId={songRequestId} />
