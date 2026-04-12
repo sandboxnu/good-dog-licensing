@@ -8,6 +8,8 @@ interface ContributorPrefillType {
   lastName: string;
   affiliation: MusicAffiliation | null;
   ipi: string | null;
+  publisher: string | null;
+  publisherIpi: string | null;
 }
 
 export const getMusicSubmissionPrefillValuesProcedure =
@@ -38,6 +40,8 @@ export const getMusicSubmissionPrefillValuesProcedure =
                 lastName: contributor.lastName,
                 affiliation: contributor.affiliation,
                 ipi: contributor.ipi,
+                publisher: contributor.publisher,
+                publisherIpi: contributor.publisherIpi,
               };
             }
 
@@ -51,6 +55,8 @@ export const getMusicSubmissionPrefillValuesProcedure =
         contributors: uniqueContributors,
         userAffiliation: ctx.session.user.affiliation,
         userIpi: ctx.session.user.ipi,
+        userPublisher: ctx.session.user.publisher,
+        userPublisherIpi: ctx.session.user.publisherIpi,
       };
     },
   );
