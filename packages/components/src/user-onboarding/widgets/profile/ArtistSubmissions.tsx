@@ -213,6 +213,23 @@ export default function ArtistSubmissions({ user }: { user: UserByIdOutput }) {
     ...user.projectSubmissionsAsManager,
   ];
 
+  if (user.role === "ADMIN" || user.role === "MODERATOR") {
+    return (
+      <ProfileSection header="Project submissions assigned too">
+        <div className="flex flex-col gap-4 p-6">
+          {allProjects.map((project) => (
+            <SubmissionCard
+              key={project.projectId}
+              title={project.projectTitle}
+            >
+              <ProjectSubmissionContent project={project} />
+            </SubmissionCard>
+          ))}
+        </div>
+      </ProfileSection>
+    );
+  }
+
   return (
     <ProfileSection header="Project submissions">
       <div className="flex flex-col gap-4 p-6">
