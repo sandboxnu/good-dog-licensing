@@ -86,7 +86,7 @@ describe("projectSubmission", () => {
           projectTitle: "title",
           description: "description-1",
           deadline: new Date(Date.now() + 600_000),
-          projectType: ProjectType.MOTION_PICTURE,
+          projectType: ProjectType.OTHER,
         },
       }),
     ]);
