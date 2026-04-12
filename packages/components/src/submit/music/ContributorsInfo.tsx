@@ -360,6 +360,26 @@ export default function ContributorsInfo({
                           watchedContributors[index]?.affiliation === "BMI"
                         }
                       />
+                      <RHFTextInput<MusicSubmissionFormFields>
+                        rhfName={`contributors.${index}.publisher`}
+                        label="Who is their publisher?"
+                        placeholder="Enter their publisher"
+                        id={`publisher-${index}`}
+                        errorText={
+                          errors.contributors?.[index]?.publisher?.message
+                        }
+                        required={false}
+                      />
+                      <RHFTextInput<MusicSubmissionFormFields>
+                        rhfName={`contributors.${index}.publisherIpi`}
+                        label="What is their publisher's IPI?"
+                        placeholder="Enter the publisher IPI"
+                        id={`publisherIpi-${index}`}
+                        errorText={
+                          errors.contributors?.[index]?.publisherIpi?.message
+                        }
+                        required={!!watchedContributors[index]?.publisher}
+                      />
                     </div>
                     <Button
                       size={"medium"}
@@ -411,6 +431,8 @@ export default function ContributorsInfo({
                 roles: [],
                 affiliation: undefined,
                 ipi: undefined,
+                publisher: undefined,
+                publisherIpi: undefined,
               })
             }
           />
