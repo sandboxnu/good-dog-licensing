@@ -79,7 +79,7 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
         productionDescription:
           createdMatch.songRequest.projectSubmission.description,
         songRequestDescription: createdMatch.songRequest.description,
-        locationOfUse: "TODO",
+        locationOfUse: createdMatch.songRequest.projectSubmission.projectType,
         songTitle: createdMatch.musicSubmission.songName,
         contractMusicContributors: {
           create: createdMatch.musicSubmission.contributors.flatMap((c) =>
@@ -90,6 +90,8 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
               contributorEmail: c.isSubmitter
                 ? createdMatch.musicSubmission.submitter.email
                 : "",
+              contributorPublisher: c.publisher ?? "",
+              contributorPublisherIpi: c.publisherIpi ?? "",
             })),
           ),
         },
