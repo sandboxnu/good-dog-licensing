@@ -1,54 +1,42 @@
-import { TRPCError } from "@trpc/server";
 import z from "zod";
 
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
-const CommentsSchema = z.object({
-  commentText: z.string(),
-  userId: z.string(),
-});
-
 export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
-  "modify",
+  "submit",
 )
   .input(
     z.object({
-      comment: CommentsSchema,
+      commentText: z.string().min(1),
       songRequestId: z.string(),
       commentId: z.string().optional(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    if (ctx.session.user.userId === input.comment.userId) {
-      if (input.commentId) {
-        await ctx.prisma.comments.update({
-          where: {
-            commentId: input.commentId,
-            userId: input.comment.userId,
-          },
-          data: {
-            commentText: input.comment.commentText,
-          },
-        });
-      } else {
-        await ctx.prisma.comments.create({
-          data: {
-            commentText: input.comment.commentText,
-            songRequestId: input.songRequestId,
-            userId: input.comment.userId,
-          },
-        });
-      }
-      return {
-        message: "Comments successfully updated.",
-      };
+    const userId = ctx.session.user.userId;
+
+    if (input.commentId) {
+      await ctx.prisma.comments.update({
+        where: {
+          commentId: input.commentId,
+          userId,
+        },
+        data: {
+          commentText: input.commentText,
+        },
+      });
     } else {
-      throw new TRPCError({
-        message: "You are not authorized to update this comment.",
-        code: "FORBIDDEN",
+      await ctx.prisma.comments.create({
+        data: {
+          commentText: input.commentText,
+          songRequestId: input.songRequestId,
+          userId,
+        },
       });
     }
+
+    return { message: "Comments successfully updated." };
   });
