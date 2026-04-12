@@ -1,13 +1,14 @@
-import { useState } from "react";
-
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { trpc } from "@good-dog/trpc/client";
-
 import Button from "../../base/Button";
-import MatchDrawer from "./MatchDrawer";
-import { Matches } from "./Matches";
 import { MatchStatusTabs } from "./MatchStatusTabs";
+import { Matches } from "./Matches";
+import { useState } from "react";
 import { MusicSearchModal } from "./MusicSearchModal";
+import { trpc } from "@good-dog/trpc/client";
+import MatchDrawer from "./MatchDrawer";
+import { MessageSquare } from "lucide-react";
+import { Button as ButtonShad } from "@good-dog/ui/button";
+import CommentsSheet from "../../song-request/components/CommentsSheet";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
@@ -30,6 +31,7 @@ export default function MatchingInformation({
   });
 
   const [openSearch, setOpenSearch] = useState(false);
+  const [commentsOpen, setCommentsOpen] = useState(false);
   const handleDoneSearch = (music: MusicSubmissionType[]) => {
     music.forEach((musicSubmission) => {
       createMatch.mutate({
@@ -48,14 +50,25 @@ export default function MatchingInformation({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <div className="flex flex-row items-center justify-between">
+        <div className="flex flex-row justify-between items-center">
           <p className="text-xl dark:text-gray-200">Song suggestions</p>
-          <Button
-            label={"Search for songs"}
-            size={"small"}
-            variant={"contained"}
-            onClick={() => setOpenSearch(true)}
-          />
+          <div className="flex flex-row items-center gap-2">
+            <Button
+              label={"Search for songs"}
+              size={"small"}
+              variant={"contained"}
+              onClick={() => setOpenSearch(true)}
+            />
+            <ButtonShad
+              variant="outlined"
+              size="small-text-with-icon"
+              onClick={() => setCommentsOpen(true)}
+              className="flex flex-row items-center gap-1 !w-auto px-3 !bg-cream-100 !text-green-500 !border-dark-gray-500 hover:!bg-cream-100 active:!bg-cream-100 dark:!bg-green-700 dark:!text-green-100 dark:!border-dark-gray-300 dark:hover:!bg-green-700 dark:active:!bg-green-700"
+            >
+              <MessageSquare className="h-3.5 w-3.5" />
+              Comment
+            </ButtonShad>
+          </div>
           <MusicSearchModal
             open={openSearch}
             onOpenChange={setOpenSearch}
@@ -110,6 +123,12 @@ export default function MatchingInformation({
         match={selectedMatch}
         open={!!selectedMatch}
         onClose={() => setSelectedMatch(null)}
+      />
+      <CommentsSheet
+        open={commentsOpen}
+        onClose={() => setCommentsOpen(false)}
+        songRequestId={songRequest.songRequestId}
+        comments={songRequest.comments}
       />
     </div>
   );

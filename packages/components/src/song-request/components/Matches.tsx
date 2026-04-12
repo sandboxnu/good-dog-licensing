@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { MatchState } from "@good-dog/db";
 
@@ -12,11 +13,13 @@ export function Matches({
   matches,
   selectedMatchId,
   setSelectedMatchId,
+  commentButton,
 }: {
   state: "INCOMING" | "PENDING_APPROVAL" | "MATCHED" | "REJECTED";
   matches: MatchesWithMusicSubmission[];
   selectedMatchId: string | null;
   setSelectedMatchId: (matchId: string | null) => void;
+  commentButton?: ReactNode;
 }) {
   const filteredMatches = matches.filter((match) => {
     if (state === "INCOMING") {
@@ -35,9 +38,12 @@ export function Matches({
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="w-full text-dark-gray-500 dark:text-mint-200">
-        Review and approve/deny the songs matched below
-      </p>
+      <div className="flex flex-row justify-between items-center w-full">
+        <p className="text-dark-gray-500 dark:text-mint-200">
+          Review and approve/deny the songs matched below
+        </p>
+        {commentButton}
+      </div>
       {filteredMatches.length === 0 && (
         <div className="mt-16 flex w-full flex-col items-center gap-2">
           <div className="w-3/4 lg:w-1/2">
