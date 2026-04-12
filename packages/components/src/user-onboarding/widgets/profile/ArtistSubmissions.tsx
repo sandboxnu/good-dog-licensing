@@ -215,7 +215,7 @@ export default function ArtistSubmissions({ user }: { user: UserByIdOutput }) {
 
   if (user.role === "ADMIN" || user.role === "MODERATOR") {
     return (
-      <ProfileSection header="Project submissions assigned too">
+      <ProfileSection header="Project submissions assigned to">
         <div className="flex flex-col gap-4 p-6">
           {allProjects.map((project) => (
             <SubmissionCard
