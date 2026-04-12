@@ -36,7 +36,7 @@ export default function InitialSignUpInfo({
   } = useFormContext<SignUpFormFields>();
 
   const headerLabel = useMemo(
-    () => (role ? `Sign up as a ${formatRole(role)}` : "Create Account"),
+    () => (role ? `Sign up as a ${formatRole(role)}` : "Create account"),
     [role],
   );
 
@@ -49,8 +49,8 @@ export default function InitialSignUpInfo({
       }}
     >
       <h3 className="text-green-400 dark:text-mint-200">{headerLabel}</h3>
-      <p className="pt-[8px] text-dark-gray-200 dark:text-gray-200">
-        All fields below are required
+      <p className="pt-[8px] text-error dark:text-red-300">
+        * Indicates a required question.
       </p>
       {errorMessage && (
         <div className="flex flex-row items-center gap-[4px] pt-[12px]">

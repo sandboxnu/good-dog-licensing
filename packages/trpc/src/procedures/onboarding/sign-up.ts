@@ -87,6 +87,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
           email: input.email,
           phoneNumber: input.phoneNumber,
           hashedPassword: hashedPassword,
+          howHeardAboutUs: input.howHeardAboutUs,
           sessions: {
             create: {
               expiresAt: getNewSessionExpirationDate(),
