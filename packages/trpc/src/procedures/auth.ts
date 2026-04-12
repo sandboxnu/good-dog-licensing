@@ -39,6 +39,13 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
       throw error();
     }
 
+    if (!user.active) {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Account is deactivated",
+      });
+    }
+
     const session = await ctx.prisma.session.create({
       data: {
         user: {

@@ -47,7 +47,9 @@ export default function LoginWidget() {
     },
     onError: (err) => {
       // this message is hard coded from sign in procedure
-      if (err.data?.code === "UNAUTHORIZED") {
+      if (err.data?.code === "FORBIDDEN") {
+        router.push("/account-inactive");
+      } else if (err.data?.code === "UNAUTHORIZED") {
         setErrorMessage("The email or password entered is incorrect");
       } else {
         setErrorMessage("Something went wrong. Please try again later");
