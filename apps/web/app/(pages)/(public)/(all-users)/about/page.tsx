@@ -1,17 +1,15 @@
-import React from "react";
-
-import GeneralLanding from "@good-dog/components/landing-pages/general/GeneralLanding";
+import AboutPage from "@good-dog/components/about/AboutPage";
 import PageContainer from "@good-dog/components/PageContainer";
 
-export default async function Home() {
+export default function About() {
   return (
     <PageContainer
       background="gradient"
       widthType="full"
-      allowMobile={true}
+      allowMobile={false}
       smallHeader={true}
     >
-      <GeneralLanding />
+      <AboutPage />
     </PageContainer>
   );
 }
