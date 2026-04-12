@@ -56,9 +56,9 @@ export default function SubmissionCard({
         </p>
         {!open && tags && tags.length > 0 && (
           <div className="flex flex-row gap-1">
-            {tags.map((tag) => (
+            {tags.map((tag, index) => (
               <span
-                key={tag}
+                key={`${tag}-${index}`}
                 className="rounded-full border-[0.5px] border-gray-400 bg-gray-300 px-2 py-0.5 text-sm text-gray-500 dark:border-dark-gray-200 dark:bg-gray-500 dark:text-gray-300"
               >
                 {tag}

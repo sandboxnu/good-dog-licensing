@@ -60,9 +60,9 @@ function MusicSubmissionContent({
             <p className="text-sm text-cream-600 dark:text-gray-200">Genre</p>
           </div>
           <div className="flex flex-row flex-wrap gap-1">
-            {song.genres.map((genre) => (
+            {song.genres.map((genre, index) => (
               <span
-                key={genre}
+                key={`${genre}-${index}`}
                 className="rounded-full border-[0.5px] border-gray-400 bg-gray-300 px-2 py-0.5 text-sm text-gray-500 dark:border-dark-gray-200 dark:bg-gray-500 dark:text-gray-300"
               >
                 {formatAllCapsWord(genre)}
