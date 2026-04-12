@@ -22,6 +22,7 @@ interface ConfirmDenyDialogProps {
   type: "approve" | "deny";
   text: string;
   showCheckbox?: boolean;
+  link?: string;
 }
 
 export function ConfirmationModal({
@@ -32,6 +33,7 @@ export function ConfirmationModal({
   type,
   text,
   showCheckbox = false,
+  link,
 }: ConfirmDenyDialogProps) {
   const [checked, setChecked] = useState<boolean>(false);
 
@@ -56,7 +58,8 @@ export function ConfirmationModal({
                   <p className="font-[16px] text-dark-gray-500 dark:text-gray-300">
                     I agree to{" "}
                     <a
-                      href="/docs/placeholder.pdf"
+                      href={link}
+                      target="_blank"
                       className="text-green-500 underline dark:text-mint-200"
                     >
                       Terms and Conditions

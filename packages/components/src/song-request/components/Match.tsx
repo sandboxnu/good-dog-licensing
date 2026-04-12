@@ -40,6 +40,13 @@ export function Match({
       });
     },
   });
+  const signContractLicensee = trpc.signContractLicensee.useMutation({
+    onSuccess: () => {
+      void utils.getSongRequestById.invalidate({
+        songRequestId: match.songRequestId,
+      });
+    },
+  });
 
   const [openApprove, setOpenApprove] = useState(false);
   const [openReject, setOpenReject] = useState(false);
@@ -54,11 +61,21 @@ export function Match({
     setOpenReject(true);
   };
 
+  const handleContract: React.MouseEventHandler<SVGSVGElement> = (e) => {
+    e.stopPropagation();
+    if (contract) {
+      window.open("/contract/" + contract.contractId, "_blank");
+    }
+  };
+
   const handleApprove = () => {
-    updateMatchState.mutate({
-      matchId: match.matchId,
-      state: "SENT_TO_MUSICIAN",
-    });
+    if (contract) {
+      signContractLicensee.mutate({ contractId: contract.contractId });
+      updateMatchState.mutate({
+        matchId: match.matchId,
+        state: "SENT_TO_MUSICIAN",
+      });
+    }
   };
 
   const handleReject = () => {
@@ -87,13 +104,9 @@ export function Match({
       </div>
       <div className="flex flex-row gap-4">
         {contract && (
-          <FileText
-            onClick={() =>
-              window.location.replace("/contract/" + contract.contractId)
-            }
-          />
+          <FileText className="dark:text-gray-200" onClick={handleContract} />
         )}
-        {state === "INCOMING" && (
+        {state === "INCOMING" && contract && (
           <>
             <button type="button" onClick={handleCheck}>
               <Check className="text-dark-gray-300 hover:text-mint-300/25 hover:bg-mint-300 dark:hover:bg-mint-200 rounded-full hover:border hover:border-green-400 dark:hover:border-mint-300" />
@@ -112,6 +125,7 @@ export function Match({
                   "This action cannot be undone. This song will be sent to the Musician for approval."
                 }
                 showCheckbox={true}
+                link={"/contract/" + contract.contractId}
               />
               <ConfirmationModal
                 title={"Confirm selection"}
