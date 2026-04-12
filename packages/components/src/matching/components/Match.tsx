@@ -55,7 +55,7 @@ export function Match({
       window.open("/contract/" + contract.contractId, "_blank");
     }
   };
-  
+
   const handleApprove = () => {
     updateMatchState.mutate({
       matchId: match.matchId,

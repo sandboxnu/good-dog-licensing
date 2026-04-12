@@ -104,10 +104,7 @@ export function Match({
       </div>
       <div className="flex flex-row gap-4">
         {contract && (
-          <FileText
-            className="dark:text-gray-200"
-            onClick={handleContract}
-          />
+          <FileText className="dark:text-gray-200" onClick={handleContract} />
         )}
         {state === "INCOMING" && contract && (
           <>
