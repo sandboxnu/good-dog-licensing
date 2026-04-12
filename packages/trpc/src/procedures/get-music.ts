@@ -72,6 +72,7 @@ export const getMusicSubmissionByIdProcedure = rolePermissionsProcedureBuilder(
                 },
               },
             },
+            contract: true,
           },
         },
         contributors: true,

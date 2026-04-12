@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { Check, X } from "lucide-react";
-
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { Check, FileText, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
+import { useState } from "react";
 
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
 import { ConfirmationModal } from "../ConfirmationModal";
@@ -22,6 +21,8 @@ export function Match({
   onMatchClick: (match: MatchWithMusicSubmission) => void;
 }) {
   const [user] = trpc.user.useSuspenseQuery();
+
+  const contract = match.contract;
 
   const canApprove =
     user?.userId === projectManagerId || user?.role === "ADMIN";
@@ -78,38 +79,47 @@ export function Match({
           </p>
         </div>
       </div>
-      {state === "SUGGESTED" && canApprove && (
-        <div className="flex flex-row gap-4">
-          <button type="button" onClick={handleCheck}>
-            <Check className="rounded-md hover:bg-green-100 hover:text-green-300 dark:text-gray-200" />
-          </button>
-          <button type="button" onClick={handleX}>
-            <X className="rounded-md hover:bg-required-star/25 hover:text-required-star dark:text-gray-200" />
-          </button>
-          <div onClick={(e) => e.stopPropagation()}>
-            <ConfirmationModal
-              open={openApprove}
-              onOpenChange={setOpenApprove}
-              onAction={handleApprove}
-              type="approve"
-              title={"Send to Media Maker?"}
-              text={
-                "This action cannot be undone. This song will be sent to the Media Maker for approval."
-              }
-            />
-            <ConfirmationModal
-              open={openReject}
-              onOpenChange={setOpenReject}
-              onAction={handleReject}
-              type="deny"
-              title={"Want to deny this song?"}
-              text={
-                "This action cannot be undone. If you want to re-add the song, someone will have to suggest it again."
-              }
-            />
-          </div>
-        </div>
-      )}
+      <div className="flex flex-row gap-4">
+        {contract && (
+          <FileText
+            onClick={() =>
+              window.location.replace("/contract/" + contract.contractId)
+            }
+          />
+        )}
+        {state === "SUGGESTED" && canApprove && (
+          <>
+            <button type="button" onClick={handleCheck}>
+              <Check className="hover:text-green-300 hover:bg-green-100 rounded-md dark:text-gray-200" />
+            </button>
+            <button type="button" onClick={handleX}>
+              <X className="hover:text-required-star hover:bg-required-star/25 rounded-md dark:text-gray-200" />
+            </button>
+            <div onClick={(e) => e.stopPropagation()}>
+              <ConfirmationModal
+                open={openApprove}
+                onOpenChange={setOpenApprove}
+                onAction={handleApprove}
+                type="approve"
+                title={"Send to Media Maker?"}
+                text={
+                  "This action cannot be undone. This song will be sent to the Media Maker for approval."
+                }
+              />
+              <ConfirmationModal
+                open={openReject}
+                onOpenChange={setOpenReject}
+                onAction={handleReject}
+                type="deny"
+                title={"Want to deny this song?"}
+                text={
+                  "This action cannot be undone. If you want to re-add the song, someone will have to suggest it again."
+                }
+              />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
