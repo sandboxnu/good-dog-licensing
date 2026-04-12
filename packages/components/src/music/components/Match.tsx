@@ -44,6 +44,13 @@ export function Match({
     setOpenReject(true);
   };
 
+  const handleContract: React.MouseEventHandler<SVGSVGElement> = (e) => {
+    e.stopPropagation();
+    if (contract) {
+      window.open("/contract/" + contract.contractId, "_blank");
+    }
+  };
+
   const utils = trpc.useUtils();
   const updateMatchState = trpc.updateMatchState.useMutation({
     onSuccess: () => {
@@ -95,9 +102,8 @@ export function Match({
       <div className="flex flex-row gap-4">
         {contract && (
           <FileText
-            onClick={() =>
-              window.open("/contract/" + contract.contractId, "_blank")
-            }
+            className="dark:text-gray-200"
+            onClick={handleContract}
           />
         )}
         {state === "INCOMING" && contract && (

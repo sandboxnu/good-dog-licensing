@@ -49,6 +49,13 @@ export function Match({
     setOpenReject(true);
   };
 
+  const handleContract: React.MouseEventHandler<SVGSVGElement> = (e) => {
+    e.stopPropagation();
+    if (contract) {
+      window.open("/contract/" + contract.contractId, "_blank");
+    }
+  };
+  
   const handleApprove = () => {
     updateMatchState.mutate({
       matchId: match.matchId,
@@ -81,11 +88,7 @@ export function Match({
       </div>
       <div className="flex flex-row gap-4">
         {contract && (
-          <FileText
-            onClick={() =>
-              window.open("/contract/" + contract.contractId, "_blank")
-            }
-          />
+          <FileText className="dark:text-gray-200" onClick={handleContract} />
         )}
         {state === "SUGGESTED" && canApprove && (
           <>
