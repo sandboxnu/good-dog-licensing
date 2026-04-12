@@ -294,6 +294,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
       </p>
 
       {/* Signature blocks */}
+      {/* TODO: Replace italic name rendering with actual handwritten signature images */}
       <div className="flex gap-16 mb-2">
         <div className="flex-1">
           <p className="font-bold mb-6">Licensor (on behalf of All Owners)</p>
