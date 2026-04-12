@@ -2,10 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-} from "@good-dog/ui/sheet";
+import { Sheet, SheetContent } from "@good-dog/ui/sheet";
 import { trpc } from "@good-dog/trpc/client";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 
@@ -123,8 +120,12 @@ function CommentItem({ comment }: { comment: Comment }) {
         <CommentAvatar name={name} />
         <div className="flex flex-col gap-1 min-w-0">
           <div className="flex flex-row items-center gap-1 flex-wrap">
-            <span className="text-sm font-medium dark:text-gray-200">{name}</span>
-            <span className="text-xs text-cream-600 dark:text-gray-400 mx-1">·</span>
+            <span className="text-sm font-medium dark:text-gray-200">
+              {name}
+            </span>
+            <span className="text-xs text-cream-600 dark:text-gray-400 mx-1">
+              ·
+            </span>
             <span className="text-xs text-cream-600 dark:text-gray-400">
               {formatRelativeTime(comment.createdAt)}
             </span>
@@ -207,7 +208,9 @@ export default function CommentsSheet({
           <div className="flex flex-row justify-between items-center">
             <p className="text-lg font-medium dark:text-gray-200">Comments</p>
           </div>
-          <p className="text-sm text-cream-600 dark:text-cream-500">{subtitle}</p>
+          <p className="text-sm text-cream-600 dark:text-cream-500">
+            {subtitle}
+          </p>
           <hr className="border-cream-400 dark:border-dark-gray-400 mt-2" />
         </div>
 

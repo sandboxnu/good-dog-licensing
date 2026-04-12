@@ -160,18 +160,16 @@ export default function CommentsSheet({
     },
   });
 
-  // Auto-resize textarea up to ~3 lines, then scroll
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = "auto";
     const lineHeight = 20;
-    const maxHeight = lineHeight * 3 + 24; // 3 lines + padding
+    const maxHeight = lineHeight * 3 + 24;
     el.style.height = Math.min(el.scrollHeight, maxHeight) + "px";
     el.style.overflowY = el.scrollHeight > maxHeight ? "auto" : "hidden";
   }, [text]);
 
-  // Scroll to bottom when comments change
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
