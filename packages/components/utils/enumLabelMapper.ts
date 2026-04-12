@@ -75,12 +75,16 @@ export function getMusicAffiliationLabel(value: MusicAffiliation): string {
 
 export function getProjectTypeLabel(value: ProjectType): string {
   switch (value) {
-    case ProjectType.MOTION_PICTURE:
-      return "Motion Picture/Audio Visual Work";
-    case ProjectType.SOCIAL_MEDIA_REEL:
-      return "Social Media Reel";
-    case ProjectType.VIDEO_GAME:
-      return "Video Game";
+    case ProjectType.SOCIAL_MEDIA:
+      return "Social Media (Youtube, Instagram, Tik Tok, Vimeo, etc.)";
+    case ProjectType.PERSONAL_WEBSITE:
+      return "Personal Website";
+    case ProjectType.FILM_FESTIVAL:
+      return "Film Festival(s)";
+    case ProjectType.ACADEMIC_PROJECT:
+      return "Academic Project (in-class performance)";
+    case ProjectType.OTHER:
+      return "Other";
   }
 }
 

@@ -78,9 +78,7 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
           createdMatch.songRequest.projectSubmission.projectTitle,
         productionDescription:
           createdMatch.songRequest.projectSubmission.description,
-        scopeOfUse: "TODO",
         songRequestDescription: createdMatch.songRequest.description,
-        durationOfUse: "TODO",
         locationOfUse: "TODO",
         songTitle: createdMatch.musicSubmission.songName,
         contractMusicContributors: {
