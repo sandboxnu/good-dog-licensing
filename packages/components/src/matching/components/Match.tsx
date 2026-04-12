@@ -1,5 +1,5 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { Check, X } from "lucide-react";
+import { Check, FileText, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
@@ -20,6 +20,8 @@ export function Match({
   onMatchClick: (match: MatchWithMusicSubmission) => void;
 }) {
   const [user] = trpc.user.useSuspenseQuery();
+
+  const contract = match.contract;
 
   const canApprove =
     user?.userId === projectManagerId || user?.role === "ADMIN";
@@ -76,30 +78,39 @@ export function Match({
           </p>
         </div>
       </div>
-      {state === "SUGGESTED" && canApprove && (
-        <div className="flex flex-row gap-4">
-          <button type="button" onClick={handleCheck}>
-            <Check className="hover:text-green-300 hover:bg-green-100 rounded-md dark:text-gray-200" />
-          </button>
-          <button type="button" onClick={handleX}>
-            <X className="hover:text-required-star hover:bg-required-star/25 rounded-md dark:text-gray-200" />
-          </button>
-          <div onClick={(e) => e.stopPropagation()}>
-            <ConfirmationModal
-              open={openApprove}
-              onOpenChange={setOpenApprove}
-              onAction={handleApprove}
-              type="approve"
-            />
-            <ConfirmationModal
-              open={openReject}
-              onOpenChange={setOpenReject}
-              onAction={handleReject}
-              type="deny"
-            />
-          </div>
-        </div>
-      )}
+      <div className="flex flex-row gap-4">
+        {contract && (
+          <FileText
+            onClick={() =>
+              window.location.replace("/contract/" + contract.contractId)
+            }
+          />
+        )}
+        {state === "SUGGESTED" && canApprove && (
+          <>
+            <button type="button" onClick={handleCheck}>
+              <Check className="hover:text-green-300 hover:bg-green-100 rounded-md dark:text-gray-200" />
+            </button>
+            <button type="button" onClick={handleX}>
+              <X className="hover:text-required-star hover:bg-required-star/25 rounded-md dark:text-gray-200" />
+            </button>
+            <div onClick={(e) => e.stopPropagation()}>
+              <ConfirmationModal
+                open={openApprove}
+                onOpenChange={setOpenApprove}
+                onAction={handleApprove}
+                type="approve"
+              />
+              <ConfirmationModal
+                open={openReject}
+                onOpenChange={setOpenReject}
+                onAction={handleReject}
+                type="deny"
+              />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
