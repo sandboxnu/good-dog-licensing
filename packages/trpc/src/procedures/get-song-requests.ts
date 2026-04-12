@@ -72,6 +72,7 @@ export const getProjectSongRequestByIdProcedure =
                   },
                 },
               },
+              contract: true,
             },
           },
           comments: {
