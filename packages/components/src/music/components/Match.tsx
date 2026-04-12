@@ -51,12 +51,21 @@ export function Match({
     },
   });
 
+  const signContractLicensor = trpc.signContractLicensor.useMutation({
+    onSuccess: () => {
+      void utils.getMusicSubmissionById.invalidate({ musicId: match.musicId });
+    },
+  });
+
   const handleApprove = () => {
-    updateMatchState.mutate({
-      matchId: match.matchId,
-      state: "APPROVED_BY_MUSICIAN",
-    });
-    setOpenApprove(false);
+    if (contract) {
+      signContractLicensor.mutate({ contractId: contract.contractId });
+      updateMatchState.mutate({
+        matchId: match.matchId,
+        state: "APPROVED_BY_MUSICIAN",
+      });
+      setOpenApprove(false);
+    }
   };
 
   const handleReject = () => {
@@ -87,11 +96,11 @@ export function Match({
         {contract && (
           <FileText
             onClick={() =>
-              window.location.replace("/contract/" + contract.contractId)
+              window.open("/contract/" + contract.contractId, "_blank")
             }
           />
         )}
-        {state === "INCOMING" && (
+        {state === "INCOMING" && contract && (
           <>
             <button type="button" onClick={handleCheck}>
               <Check className="text-dark-gray-300 hover:text-mint-300/25 hover:bg-mint-300 dark:hover:bg-mint-200 rounded-full hover:border hover:border-green-400 dark:hover:border-mint-300" />
@@ -110,6 +119,7 @@ export function Match({
                   "This action cannot be undone. This song will be matched following your approval."
                 }
                 showCheckbox={true}
+                link={"/contract/" + contract.contractId}
               />
               <ConfirmationModal
                 open={openReject}

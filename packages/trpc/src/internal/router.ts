@@ -33,6 +33,10 @@ import {
   songRequestProcedure,
 } from "../procedures/get-song-requests";
 import { getContractByIdProcedure } from "../procedures/contracts/get-contract";
+import {
+  signContractLicensorProcedure,
+  signContractLicenseeProcedure,
+} from "../procedures/contracts/sign-contract";
 import { createMatchProcedure } from "../procedures/matches/create-match";
 import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
@@ -96,6 +100,8 @@ export const appRouter = createTRPCRouter({
   changeProfileValues: changeProfileValuesProcedure,
   assignProjectManager: assignProjectManagerProcedure,
   getContractById: getContractByIdProcedure,
+  signContractLicensor: signContractLicensorProcedure,
+  signContractLicensee: signContractLicenseeProcedure,
 });
 
 export type AppRouter = typeof appRouter;

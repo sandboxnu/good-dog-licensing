@@ -83,7 +83,7 @@ export function Match({
         {contract && (
           <FileText
             onClick={() =>
-              window.location.replace("/contract/" + contract.contractId)
+              window.open("/contract/" + contract.contractId, "_blank")
             }
           />
         )}
