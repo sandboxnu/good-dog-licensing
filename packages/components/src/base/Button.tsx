@@ -52,9 +52,7 @@ export default function Button({
         : `${size}-icon`;
 
   const widthClassName = fullWidth ? "!w-full" : "";
-  const shadowClassName = shadow
-    ? "shadow-button dark:shadow-grass-green-200"
-    : "";
+  const shadowClassName = shadow ? "shadow-button dark:shadow-mint-300" : "";
 
   const errorContained = error && variant === "contained";
   const errorOutlined = error && variant !== "contained";

@@ -25,7 +25,7 @@ export default function SideBar({
   isAdminView: boolean;
 }) {
   return (
-    <div className="lg:h-screen-full flex w-full flex-row items-center rounded-[24px] bg-gray-100 px-[16px] py-[12px] shadow-[0_2px_6px_0_#ECE6DF] dark:bg-dark-gray-600 lg:w-auto lg:max-w-[207px] lg:flex-1 lg:flex-col lg:items-start lg:pb-[32px] lg:pt-[32px]">
+    <div className="lg:h-screen-full flex w-full flex-row items-center rounded-[24px] bg-gray-100 px-[16px] py-[12px] shadow-card-light dark:bg-dark-gray-600 lg:w-auto lg:max-w-[207px] lg:flex-1 lg:flex-col lg:items-start lg:pb-[32px] lg:pt-[32px]">
       <div className="flex flex-row gap-[8px] lg:flex-col lg:gap-[4px]">
         <SideBarEntry
           active={activeTab === SidebarTab.SUBMISSIONS}

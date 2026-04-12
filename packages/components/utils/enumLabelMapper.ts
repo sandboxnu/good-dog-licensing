@@ -1,4 +1,4 @@
-import type { MatchState, HowHeardAboutUsLabel } from "@good-dog/db";
+import type { HowHeardAboutUsLabel, MatchState } from "@good-dog/db";
 import {
   Genre,
   MusicAffiliation,

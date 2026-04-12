@@ -319,7 +319,7 @@ function SubmissionStatusTab({
 }) {
   return (
     <div
-      className={`flex flex-1 cursor-pointer flex-col gap-[8px] rounded-[16px] p-[16px] shadow-[0_2px_6px_0_#ECE6DF] ${active ? "bg-green-400" : "bg-gray-100"}`}
+      className={`flex flex-1 cursor-pointer flex-col gap-[8px] rounded-[16px] p-[16px] shadow-card-light ${active ? "bg-green-400" : "bg-gray-100"}`}
       onClick={onClick}
     >
       <div className="flex flex-row items-center gap-[8px]">
