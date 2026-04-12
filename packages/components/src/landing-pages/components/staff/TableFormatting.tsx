@@ -50,7 +50,7 @@ export function TableOuterFormatting({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 pb-[48px] pl-[24px] pr-[24px] pt-[32px] shadow-[0_2px_6px_0_#ECE6DF] dark:bg-dark-gray-600">
+    <div className="flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 pb-[48px] pl-[24px] pr-[24px] pt-[32px] shadow-card-light dark:bg-dark-gray-600">
       {children}
     </div>
   );
