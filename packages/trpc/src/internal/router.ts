@@ -47,7 +47,7 @@ import { assignProjectManagerProcedure } from "../procedures/project/assign-proj
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { songRequestSubmissionProcedure } from "../procedures/project/song-request-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/manage-users/send-moderator-invite";
-import { getUserProcedure } from "../procedures/user";
+import { getUserByIdProcedure, getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { promoteToAdminProcedure } from "../procedures/manage-users/promote-to-admin";
 import { deactivateUserProcedure } from "../procedures/manage-users/deactivate-user";
@@ -61,6 +61,7 @@ export const appRouter = createTRPCRouter({
   signUp: signUpProcedure,
   deactivateSelf: deactivateSelfProcedure,
   user: getUserProcedure,
+  userById: getUserByIdProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminAndModeratorUsers: getAdminAndModeratorUsers,
