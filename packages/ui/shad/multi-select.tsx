@@ -116,7 +116,7 @@ export const MultiSelect = React.forwardRef<
             {...props}
             onClick={handleTogglePopover}
             className={cn(
-              "flex min-h-8 w-full cursor-default items-center justify-between rounded-md border bg-white p-1",
+              "flex min-h-8 w-full cursor-default items-center justify-between rounded-md border p-1",
               className,
               `${isPopoverOpen ? "border-bg-green-300 hover:border-bg-green-300" : ""}`,
               `${selectedValues.length == 0 ? "max-h-6" : ""}`,
@@ -151,7 +151,7 @@ export const MultiSelect = React.forwardRef<
                 </div>
                 <div className="ml-2 flex-shrink-0">
                   <ChevronDown
-                    className={`h-4 w-4 cursor-pointer transition-all text-green-500 dark:text-mint-200 ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
+                    className={`h-4 w-4 cursor-pointer text-green-500 transition-all dark:text-mint-200 ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
                   />
                 </div>
               </div>
@@ -162,7 +162,7 @@ export const MultiSelect = React.forwardRef<
                 </span>
                 <div className="ml-2 flex-shrink-0">
                   <ChevronDown
-                    className={`h-4 w-4 cursor-pointer transition-all text-green-500 dark:text-mint-200 ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
+                    className={`h-4 w-4 cursor-pointer text-green-500 transition-all dark:text-mint-200 ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
                   />
                 </div>
               </div>
@@ -170,7 +170,7 @@ export const MultiSelect = React.forwardRef<
           </button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto min-w-[var(--radix-popover-trigger-width)] border-[1px] border-green-300 bg-white p-0"
+          className="w-auto min-w-[var(--radix-popover-trigger-width)] border-[1px] border-green-300 bg-white p-0 dark:bg-dark-gray-500"
           align="start"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >
@@ -184,7 +184,7 @@ export const MultiSelect = React.forwardRef<
                     <CommandItem
                       key={option.value}
                       onSelect={() => toggleOption(option.value)}
-                      className="cursor-pointer rounded-lg hover:bg-mint-200"
+                      className="cursor-pointer rounded-lg text-gray-700 hover:bg-mint-200 dark:text-white dark:hover:bg-mint-400"
                     >
                       <div
                         className={cn(

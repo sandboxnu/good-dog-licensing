@@ -54,7 +54,7 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
         onNext();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 dark:bg-dark-gray-600 p-10 text-black">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
         <p className="text-xl font-semibold text-green-500 dark:text-mint-200">
           Song information
         </p>

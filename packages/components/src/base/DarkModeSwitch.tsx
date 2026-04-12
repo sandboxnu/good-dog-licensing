@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sun, Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 
 export default function DarkModeSwitch() {
   const [isDark, setIsDark] = useState(
@@ -21,7 +21,7 @@ export default function DarkModeSwitch() {
   return (
     <button
       onClick={toggleDarkMode}
-      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+      className="rounded-full bg-gray-200 p-2 transition-colors hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
       aria-label="Toggle Dark Mode"
     >
       {isDark ? (

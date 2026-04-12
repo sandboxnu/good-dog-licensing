@@ -3,6 +3,7 @@ import z from "zod";
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
+import { sendEmailHelper } from "../../utils";
 
 export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,

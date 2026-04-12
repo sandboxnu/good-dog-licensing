@@ -1,9 +1,11 @@
-import { trpc } from "@good-dog/trpc/client";
-import ProjectInformation from "./ProjectInformation";
 import { useState } from "react";
-import SongRequestInformation from "./SongRequestInformation";
-import { MatchStatusTabs } from "./MatchStatusTabs";
+
+import { trpc } from "@good-dog/trpc/client";
+
 import { Matches } from "./Matches";
+import { MatchStatusTabs } from "./MatchStatusTabs";
+import ProjectInformation from "./ProjectInformation";
+import SongRequestInformation from "./SongRequestInformation";
 
 export default function MatchInformation({
   musicSubmissionId,
@@ -20,11 +22,11 @@ export default function MatchInformation({
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">
+      <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Match Information
       </p>
-      <div className="flex flex-row gap-6 w-full">
-        <div className="flex flex-col gap-3 w-[512px] box-content">
+      <div className="flex w-full flex-row gap-6">
+        <div className="flex w-2/5 shrink-0 flex-col gap-3">
           <ProjectInformation
             projectSubmission={selectedMatch?.songRequest.projectSubmission}
             projectOwner={
@@ -33,35 +35,37 @@ export default function MatchInformation({
           />
           <SongRequestInformation songRequest={selectedMatch?.songRequest} />
         </div>
-        <MatchStatusTabs
-          numActionRequired={
-            matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
-          }
-          incomingContent={
-            <Matches
-              state={"INCOMING"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          matchedContent={
-            <Matches
-              state={"MATCHED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          rejectedContent={
-            <Matches
-              state={"REJECTED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-        />
+        <div className="w-3/5 min-w-0">
+          <MatchStatusTabs
+            numActionRequired={
+              matches.filter((m) => m.matchState === "SENT_TO_MUSICIAN").length
+            }
+            incomingContent={
+              <Matches
+                state={"INCOMING"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            matchedContent={
+              <Matches
+                state={"MATCHED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+            rejectedContent={
+              <Matches
+                state={"REJECTED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            }
+          />
+        </div>
       </div>
     </div>
   );

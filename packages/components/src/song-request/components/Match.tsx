@@ -1,10 +1,12 @@
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { Check, X } from "lucide-react";
-import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
+import { Check, X } from "lucide-react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { trpc } from "@good-dog/trpc/client";
+
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
-import MusicNote from "./MusicNote";
-import { Popup } from "./Popup";
+import { ConfirmationModal } from "../../matching/ConfirmationModal";
+import MusicNoteIcon from "../../svg/MusicNoteIcon";
 
 type MatchWithMusicSubmission =
   GetProcedureOutput<"getSongRequestById">["matches"][number];
@@ -67,17 +69,17 @@ export function Match({
 
   return (
     <div
-      className={`flex flex-row justify-between items-center cursor-pointer w-[984px] box-content px-6 py-4 rounded-2xl border-[1px] shadow-md ${selected ? `border-light-green hover:border-good-dog-main` : `border-light-gray hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
+      className={`flex w-full cursor-pointer flex-row items-center justify-between rounded-2xl border-[1px] px-6 py-4 shadow-md ${selected ? `border-green-300 hover:border-green-400 dark:border-grass-green-100 dark:hover:border-grass-green-200` : `border-cream-500 hover:border-gray`} ${state === "INCOMING" ? `bg-cream-100` : `bg-gray-200`}`}
       onClick={handleClick}
     >
-      <div className="flex flex-row flex-shrink-0 items-center gap-4">
-        <MusicNote />
-        <div className="flex flex-col gap-2 w-[584px]">
-          <p className="text-xl text-body-primary font-semibold truncate">
+      <div className="flex min-w-0 flex-1 flex-row items-center gap-4">
+        <MusicNoteIcon />
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+          <p className="truncate text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
             {match.musicSubmission.songName} by{" "}
             {match.musicSubmission.performerName}
           </p>
-          <p className="text-body-gray truncate">
+          <p className="truncate text-dark-gray-200 dark:text-dark-gray-200">
             {"Genres: " + formatAllCapsList(match.musicSubmission.genres)}
           </p>
         </div>
@@ -85,23 +87,30 @@ export function Match({
       {state === "INCOMING" && (
         <div className="flex flex-row gap-4">
           <button type="button" onClick={handleCheck}>
-            <Check className="hover:text-light-green hover:bg-light-green/25 rounded-md" />
+            <Check className="hover:text-mint-300/25 rounded-full text-dark-gray-300 hover:border hover:border-green-400 hover:bg-mint-300 dark:hover:border-mint-300 dark:hover:bg-mint-200" />
           </button>
           <button type="button" onClick={handleX}>
-            <X className="hover:text-required-star hover:bg-required-star/25 rounded-md" />
+            <X className="rounded-md text-dark-gray-300 hover:bg-required-star/25 hover:text-required-star" />
           </button>
           <div onClick={(e) => e.stopPropagation()}>
-            <Popup
+            <ConfirmationModal
+              title={"Send to Musician?"}
               open={openApprove}
               onOpenChange={setOpenApprove}
               onAction={handleApprove}
               type="approve"
+              text={
+                "This action cannot be undone. This song will be sent to the Musician for approval."
+              }
+              showCheckbox={true}
             />
-            <Popup
+            <ConfirmationModal
+              title={"Confirm selection"}
               open={openReject}
               onOpenChange={setOpenReject}
               onAction={handleReject}
               type="deny"
+              text="This action cannot be undone. This match will be trashed following your denial."
             />
           </div>
         </div>

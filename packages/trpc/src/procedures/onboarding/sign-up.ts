@@ -87,6 +87,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
           email: input.email,
           phoneNumber: input.phoneNumber,
           hashedPassword: hashedPassword,
+          howHeardAboutUs: input.howHeardAboutUs,
           sessions: {
             create: {
               expiresAt: getNewSessionExpirationDate(),
@@ -114,6 +115,17 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
     }
 
     ctx.cookiesService.setSessionCookie(session.sessionId, session.expiresAt);
+
+    await sendEmailHelper(async () => {
+      switch (input.role) {
+        case "MEDIA_MAKER":
+          await ctx.emailService.sendMediaMakerJoiningConfirmation(input.email);
+          break;
+        case "MUSICIAN":
+          await ctx.emailService.sendArtistJoiningConfirmation(input.email);
+          break;
+      }
+    }, "Email failed to send");
 
     return {
       message: `Successfully signed up and logged in as ${input.email}.`,

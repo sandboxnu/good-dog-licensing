@@ -1,8 +1,9 @@
 "use client";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import { MatchStatusTabs } from "./MatchStatusTabs";
+
 import { Matches } from "./Matches";
+import { MatchStatusTabs } from "./MatchStatusTabs";
 import MusicInformation from "./MusicInformation";
 import { useState } from "react";
 import { MessageSquare } from "lucide-react";
@@ -40,11 +41,11 @@ export default function MatchInformation({
 
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-4xl text-dark-gray-300 dark:text-mint-300">
+      <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
         Match Information
       </p>
-      <div className="flex flex-row gap-6 w-full">
-        <div className="w-[512px] box-content">
+      <div className="flex w-full flex-row gap-6">
+        <div className="w-1/3 shrink-0">
           <MusicInformation
             musicSubmission={selectedMatch?.musicSubmission}
             submitter={selectedMatch?.musicSubmission.submitter}

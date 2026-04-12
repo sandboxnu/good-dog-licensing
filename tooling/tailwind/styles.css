@@ -41,10 +41,9 @@
     --gray-100: #ffffff;
     --gray-200: #f3f3f3;
     --gray-300: #dcdddf;
-    --gray-400: #dcdddf;
-    --gray-500: #808080;
-    --gray-600: #404040;
-    --gray-700: #000000;
+    --gray-400: #808080;
+    --gray-500: #404040;
+    --gray-600: #000000;
     --dark-gray-100: #adadad;
     --dark-gray-200: #858585;
     --dark-gray-300: #5c5c5c;
@@ -72,6 +71,7 @@
     --green-500: #054233;
     --green-600: #022119;
     --green-700: #021913;
+    --overlay: #454545;
 
     --yellow-500-yellow-100: var(--yellow-500);
     --grass-green-500-grass-green-50: var(--grass-green-500):

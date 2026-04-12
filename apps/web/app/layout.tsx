@@ -4,8 +4,6 @@ import "@good-dog/tailwind/styles";
 
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
-import { ClientWrapper } from "./ClientWrapper";
-
 export const dynamic = "force-dynamic";
 
 export const metadata = {
@@ -33,9 +31,7 @@ export default function RootLayout({
       </head>
       <body>
         <TRPCProvider>
-          <HydrateClient>
-            <ClientWrapper>{children}</ClientWrapper>
-          </HydrateClient>
+          <HydrateClient>{children}</HydrateClient>
         </TRPCProvider>
       </body>
     </html>

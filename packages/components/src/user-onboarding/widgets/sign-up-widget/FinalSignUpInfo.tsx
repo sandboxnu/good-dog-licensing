@@ -5,9 +5,12 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { useFormContext } from "react-hook-form";
 
+import type { HowHeardAboutUsLabel } from "@good-dog/db";
 import type { zSignUpValues } from "@good-dog/trpc/schema";
 
 import Button from "../../../base/Button";
+import RHFMultiselectDropdown from "../../../rhf-base/RFHMultiselectDropdown";
+import RHFCheckbox from "../../../rhf-base/RHFCheckbox";
 import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import PasswordRequirements from "../components/PasswordRequirements";
@@ -38,11 +41,21 @@ export default function FinalSignUpInfo({
     [role],
   );
 
+  const howHeardAboutUsOptions: {
+    label: string;
+    value: HowHeardAboutUsLabel;
+  }[] = [
+    { label: "Friend/Colleague", value: "FRIEND" },
+    { label: "Green Line Records", value: "GREEN_LINE_RECORDS" },
+    { label: "Social Media", value: "SOCIAL_MEDIA" },
+    { label: "Other", value: "OTHER" },
+  ];
+
   return (
-    <form className="pr-[40px]" onSubmit={onSubmit}>
+    <form onSubmit={onSubmit}>
       <h3 className="text-green-500 dark:text-mint-200">{headerLabel}</h3>
-      <p className="pt-[8px] text-dark-gray-500 dark:text-gray-200">
-        All fields below are required
+      <p className="pt-[8px] text-error dark:text-red-300">
+        * Indicates a required question.
       </p>
       {errorMessage && (
         <div className="flex flex-row items-center gap-[4px] pt-[12px]">
@@ -64,7 +77,7 @@ export default function FinalSignUpInfo({
         </div>
         <RHFTextInput<SignUpFormFields>
           rhfName="confirmPassword"
-          label="Confirm Password"
+          label="Confirm password"
           placeholder="Confirm your password"
           id="confirmPassword"
           errorText={errors.confirmPassword?.message}
@@ -72,10 +85,39 @@ export default function FinalSignUpInfo({
         />
         <RHFTextInput<SignUpFormFields>
           rhfName="phoneNumber"
-          label="Phone Number"
+          label="Phone number"
           placeholder="123-456-7890"
           id="phoneNumber"
           errorText={errors.phoneNumber?.message}
+        />
+        <RHFMultiselectDropdown<SignUpFormFields>
+          rhfName="howHeardAboutUs"
+          label="How did you hear about Good Dog?"
+          id="howHeardAboutUs"
+          options={howHeardAboutUsOptions}
+          errorText={errors.howHeardAboutUs?.message}
+          required
+          placeholder="Select"
+        />
+        <RHFCheckbox<SignUpFormFields>
+          rhfName="termsOfService"
+          label={
+            <div>
+              <p className="dark:text-white">
+                I agree to the{" "}
+                <Link
+                  href="/terms"
+                  className="text-green-400 underline dark:text-mint-200"
+                  target="_blank"
+                >
+                  Terms and Privacy
+                </Link>
+              </p>
+            </div>
+          }
+          id="termsOfService"
+          required
+          errorText={errors.termsOfService?.message}
         />
       </div>
       <div className="pt-[32px]">
@@ -94,7 +136,7 @@ export default function FinalSignUpInfo({
         </span>
         <Link
           href="/login"
-          className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
+          className="font-medium text-green-500 text-secondary underline dark:text-mint-200"
         >
           Log in
         </Link>

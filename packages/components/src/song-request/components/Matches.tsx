@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { MatchState } from "@good-dog/db";
+
 import Hourglass from "../../svg/Hourglass";
 import { Match } from "./Match";
 
@@ -44,8 +45,10 @@ export function Matches({
         {commentButton}
       </div>
       {filteredMatches.length === 0 && (
-        <div className="flex flex-col items-center gap-2 mt-16 min-w-[778px]">
-          <Hourglass size="large" />
+        <div className="mt-16 flex w-full flex-col items-center gap-2">
+          <div className="w-3/4 lg:w-1/2">
+            <Hourglass size="large" className="h-auto w-full" />
+          </div>
           <p className="text-dark-gray-500 dark:text-gray-200">
             No requests active at this time
           </p>

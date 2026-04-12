@@ -48,7 +48,12 @@ export const getProjectSongRequestByIdProcedure =
           songRequestId: input.songRequestId,
         },
         include: {
-          projectSubmission: true,
+          projectSubmission: {
+            include: {
+              projectManager: true,
+              projectOwner: true,
+            },
+          },
           matches: {
             include: {
               musicSubmission: {
@@ -90,7 +95,10 @@ export const getProjectSongRequestByIdProcedure =
       }
 
       if (
-        songRequest.projectSubmission.projectOwnerId !== ctx.session.user.userId
+        songRequest.projectSubmission.projectOwnerId !==
+          ctx.session.user.userId &&
+        ctx.session.user.role !== "ADMIN" &&
+        ctx.session.user.role !== "MODERATOR"
       ) {
         throw new TRPCError({
           code: "FORBIDDEN",
@@ -128,14 +136,15 @@ export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
     where: {
       projectOwnerId: ctx.session.user.userId,
     },
-    include: {
-      songRequests: {
-        include: {
-          matches: true,
-        },
-      },
+    select: {
+      projectId: true,
+      projectTitle: true,
+      createdAt: true,
+      description: true,
+      mediaMakerStatus: true,
     },
   });
+
   return { projects };
 });
 

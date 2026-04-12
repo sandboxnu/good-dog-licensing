@@ -1,6 +1,6 @@
 import { z } from "zod";
-
 import { zRequiredEmail, zRequiredString } from "./base";
+import { HowHeardAboutUsLabel } from "@good-dog/db";
 
 export const zPasswordValidation = zRequiredString
   .min(8, "Password must be at least 8 characters")
@@ -13,6 +13,23 @@ export const zPasswordValidation = zRequiredString
 export const zPasswordValues = z.object({
   password: zPasswordValidation,
 });
+
+export const zModeratorSignUpValues = z
+  .object({
+    moderatorInviteId: z.string(),
+    firstName: zRequiredString,
+    lastName: zRequiredString,
+    phoneNumber: zRequiredString.regex(
+      /[-.\s]?(\(?\d{3}\)?)[-.\s]?\d{3}[-.\s]?\d{4}$/,
+      "Phone number must be a valid US format such as 1234567890, 123-456-7890, or (123) 456-7890.",
+    ),
+    password: zPasswordValidation,
+    confirmPassword: zRequiredString,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export const zSignUpValues = z
   .object({
@@ -27,6 +44,10 @@ export const zSignUpValues = z
     lastName: zRequiredString,
     role: z.enum(["MUSICIAN", "MEDIA_MAKER"], { error: "This is required" }),
     emailCode: zRequiredString,
+    howHeardAboutUs: z
+      .array(z.enum(HowHeardAboutUsLabel))
+      .min(1, "At least one option is required"),
+    termsOfService: z.literal(true),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -36,6 +57,7 @@ export const zSignUpValues = z
 export const zSignInValues = z.object({
   email: zRequiredEmail,
   password: zRequiredString,
+  rememberMe: z.boolean().default(false),
 });
 
 export const zForgotPasswordValues = z.object({
@@ -51,8 +73,3 @@ export const zResetPasswordValues = z
     message: "Passwords don't match",
     path: ["confirmPassword"], // This targets the confirmPassword field specifically
   });
-
-export const zSearchTermValues = z.object({
-  searchTerm: z.string(),
-  filter: z.string(),
-});

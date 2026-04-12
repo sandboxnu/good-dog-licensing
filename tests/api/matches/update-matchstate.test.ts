@@ -11,6 +11,7 @@ import { passwordService } from "@good-dog/auth/password";
 import { Genre, MatchState, prisma, ProjectType } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
+import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCache } from "../../mocks/MockNextCache";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
@@ -48,6 +49,25 @@ async function createData() {
       sessions: {
         create: {
           sessionId: "moderator-session-id",
+          expiresAt: new Date(Date.now() + 5_000_000_000),
+        },
+      },
+    },
+  });
+
+  // Create moderator 2
+  await prisma.user.create({
+    data: {
+      userId: "moderator2",
+      firstName: "Jane",
+      lastName: "Doe",
+      role: "MODERATOR",
+      phoneNumber: "1234556789",
+      email: "moderator2@gmail.com",
+      hashedPassword: await passwordService.hashPassword("password123"),
+      sessions: {
+        create: {
+          sessionId: "moderator2-session-id",
           expiresAt: new Date(Date.now() + 5_000_000_000),
         },
       },
@@ -199,6 +219,9 @@ async function createData() {
       musicId: "musicSubmission",
       matcherUserId: "moderator",
       matchState: MatchState.SENT_TO_MEDIA_MAKER,
+      admModStatus: "IN_PROGRESS",
+      mediaMakerStatus: "APPROVAL_NEEDED",
+      musicianStatus: "HIDDEN",
     },
   });
 
@@ -210,6 +233,9 @@ async function createData() {
       musicId: "musicSubmission2",
       matcherUserId: "moderator",
       matchState: MatchState.SENT_TO_MUSICIAN,
+      admModStatus: "IN_PROGRESS",
+      mediaMakerStatus: "IN_PROGRESS",
+      musicianStatus: "APPROVAL_NEEDED",
     },
   });
 
@@ -221,6 +247,9 @@ async function createData() {
       musicId: "musicSubmission",
       matcherUserId: "moderator",
       matchState: MatchState.WAITING_FOR_MANAGER_APPROVAL,
+      admModStatus: "APPROVAL_NEEDED",
+      mediaMakerStatus: "HIDDEN",
+      musicianStatus: "HIDDEN",
     },
   });
 }
@@ -265,6 +294,7 @@ async function deleteData() {
         in: [
           "admin",
           "moderator",
+          "moderator2",
           "musician",
           "otherMusician",
           "projectOwner",
@@ -278,6 +308,7 @@ async function deleteData() {
 describe("updateMatchState procedure", () => {
   const cookies = new MockNextCookies();
   const cache = new MockNextCache();
+  const mockEmails = new MockEmailService();
 
   beforeAll(async () => {
     await cache.apply();
@@ -289,6 +320,7 @@ describe("updateMatchState procedure", () => {
 
   const $api = $createTrpcCaller({
     cookiesService: createMockCookieService(cookies),
+    emailService: mockEmails,
     prisma: prisma,
   });
 
@@ -296,6 +328,7 @@ describe("updateMatchState procedure", () => {
     await deleteData();
     cookies.clear();
     cache.clear();
+    mockEmails.clear();
   });
 
   // SUCCESS CASES - MEDIA MAKER
@@ -378,6 +411,24 @@ describe("updateMatchState procedure", () => {
 
   it("should allow admin/moderator to update match from WAITING to SENT_TO_MEDIA_MAKER", async () => {
     cookies.set("sessionId", "moderator-session-id");
+
+    const response = await $api.updateMatchState({
+      matchId: "match-waiting",
+      state: MatchState.SENT_TO_MEDIA_MAKER,
+    });
+
+    expect(response.message).toEqual("Match state updated successfully");
+    expect(response.match.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
+
+    const match = await prisma.match.findUnique({
+      where: { matchId: "match-waiting" },
+    });
+
+    expect(match?.matchState).toBe(MatchState.SENT_TO_MEDIA_MAKER);
+  });
+
+  it("should allow ADMIN to update match from WAITING to SENT_TO_MEDIA_MAKER even when they aren't PM", async () => {
+    cookies.set("sessionId", "admin-session-id");
 
     const response = await $api.updateMatchState({
       matchId: "match-waiting",
@@ -508,8 +559,8 @@ describe("updateMatchState procedure", () => {
   });
 
   // FAILURE CASES - WRONG PROJECT MANAGER
-  it("should not allow admin/moderator to update match for a project they don't manage", () => {
-    cookies.set("sessionId", "admin-session-id");
+  it("should not allow moderator to update match for a project they don't manage", () => {
+    cookies.set("sessionId", "moderator2-session-id");
 
     expect(
       $api.updateMatchState({
@@ -517,7 +568,7 @@ describe("updateMatchState procedure", () => {
         state: MatchState.SENT_TO_MEDIA_MAKER,
       }),
     ).rejects.toThrow(
-      "Admins and moderators can only update the state of matches that are managed by them",
+      "Moderators can only update the state of matches that are managed by them",
     );
   });
 

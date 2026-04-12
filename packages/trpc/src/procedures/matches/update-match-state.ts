@@ -1,9 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import z from "zod";
 
-import { MatchState, prisma, Role } from "@good-dog/db";
+import { MatchState, Role } from "@good-dog/db";
 
-import { authenticatedProcedureBuilder } from "../../middleware/authenticated";
+import { authenticatedAndActiveProcedureBuilder } from "../../middleware/authenticated-active";
+import { sendEmailHelper } from "../../utils";
+import { updateStatuses } from "../../utils/status/update-status";
 
 const allowedStartingStatesByRole: Record<Role, MatchState[]> = {
   [Role.MEDIA_MAKER]: [MatchState.SENT_TO_MEDIA_MAKER],
@@ -31,16 +33,25 @@ const allowedEndingStatesByRole: Record<Role, MatchState[]> = {
   ],
 };
 
-export const updateMatchStateProcedure = authenticatedProcedureBuilder
+export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
   .input(z.object({ matchId: z.string(), state: z.enum(MatchState) }))
   .mutation(async ({ ctx, input }) => {
-    const match = await prisma.match.findUnique({
+    const match = await ctx.prisma.match.findUnique({
       where: { matchId: input.matchId },
       include: {
-        musicSubmission: true,
+        musicSubmission: {
+          include: {
+            submitter: true,
+          },
+        },
         songRequest: {
           include: {
-            projectSubmission: true,
+            projectSubmission: {
+              include: {
+                projectOwner: true,
+                projectManager: true,
+              },
+            },
           },
         },
       },
@@ -91,26 +102,101 @@ export const updateMatchStateProcedure = authenticatedProcedureBuilder
       });
     }
 
-    // If admin or moderator, then they must be the project manager
+    // If moderator, then they must be the project manager (admins can bypass)
     if (
-      (role === Role.ADMIN || role === Role.MODERATOR) &&
+      role === Role.MODERATOR &&
       match.songRequest.projectSubmission.projectManagerId !==
         ctx.session.user.userId
     ) {
       throw new TRPCError({
         code: "FORBIDDEN",
-        message: `Admins and moderators can only update the state of matches that are managed by them`,
+        message: `Moderators can only update the state of matches that are managed by them`,
       });
     }
 
     // If we made it here, all checks passed, so update the match state
-    const result = await prisma.match.update({
+    const updatedMatch = await ctx.prisma.match.update({
       where: { matchId: input.matchId },
       data: { matchState: input.state },
+      include: {
+        songRequest: true,
+        musicSubmission: true,
+      },
     });
+
+    // update statuses of match, SR, and project
+    await updateStatuses(
+      updatedMatch.songRequest.projectId,
+      updatedMatch.songRequestId,
+      updatedMatch.matchId,
+      updatedMatch.musicSubmission.musicId,
+    );
+
+    // Here send notification emails as appropriate
+    await sendEmailHelper(async () => {
+      switch (input.state) {
+        case "SENT_TO_MEDIA_MAKER":
+          await ctx.emailService.sendMediaMakerSongSuggestionByPM(
+            match.songRequest.projectSubmission.projectOwner.email,
+            match.musicSubmission.songName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequest.songRequestId,
+          );
+
+          await ctx.emailService.sendAdminAndPMSongSuggestionSentToMM(
+            ctx.session.user.firstName + " " + ctx.session.user.lastName,
+            match.musicSubmission.songName,
+            match.musicSubmission.performerName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequest.songRequestId,
+            match.songRequest.projectSubmission.projectManager?.email,
+          );
+          break;
+        case "SENT_TO_MUSICIAN":
+          await ctx.emailService.sendArtistSongRequestedForBrief(
+            match.musicSubmission.submitter.email,
+            match.musicSubmission.songName,
+            match.musicSubmission.musicId,
+            match.songRequest.projectSubmission.projectTitle,
+          );
+
+          await ctx.emailService.sendAdminAndPMSongSuggestionApprovedByMM(
+            match.songRequest.projectSubmission.projectOwner.firstName,
+            match.musicSubmission.songName,
+            match.musicSubmission.performerName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequest.songRequestId,
+            match.songRequest.projectSubmission.projectManager?.email,
+          );
+          break;
+        case "APPROVED_BY_MUSICIAN":
+          await ctx.emailService.sendMediaMakerLicenseComplete(
+            match.songRequest.projectSubmission.projectOwner.email,
+            match.musicSubmission.songName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequest.songRequestId,
+          );
+
+          await ctx.emailService.sendArtistLicenseComplete(
+            match.musicSubmission.submitter.email,
+            match.musicSubmission.songName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.musicSubmission.musicId,
+          );
+
+          await ctx.emailService.sendAdminAndPMLicenseSigned(
+            match.songRequest.projectSubmission.projectOwner.firstName,
+            match.musicSubmission.submitter.firstName,
+            match.songRequest.projectSubmission.projectTitle,
+            match.songRequestId,
+            match.songRequest.projectSubmission.projectManager?.email,
+          );
+          break;
+      }
+    }, "Email failed to send");
 
     return {
       message: "Match state updated successfully",
-      match: result,
+      match: updatedMatch,
     };
   });

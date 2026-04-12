@@ -21,6 +21,13 @@ enum Role {
   MODERATOR
 }
 
+enum HowHeardAboutUsLabel {
+  FRIEND
+  GREEN_LINE_RECORDS
+  SOCIAL_MEDIA
+  OTHER
+}
+
 enum MatchState {
   WAITING_FOR_MANAGER_APPROVAL
   REJECTED_BY_MANAGER
@@ -31,25 +38,79 @@ enum MatchState {
   APPROVED_BY_MUSICIAN
 }
 
+enum AdmModProjectStatus {
+  COMPLETED
+  ACTION_NEEDED
+  IN_PROGRESS
+}
+
+enum AdmModSongRequestStatus {
+  COMPLETED
+  APPROVAL_NEEDED
+  IN_PROGRESS
+  SUGGESTIONS_NEEDED
+}
+
+enum AdmModMatchStatus {
+  APPROVAL_NEEDED
+  IN_PROGRESS
+  REJECTED
+  COMPLETED
+}
+
+enum MediaMakerProjectStatus {
+  ACTION_NEEDED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum MediaMakerSongRequestStatus {
+  COMPLETED
+  APPROVAL_NEEDED
+  IN_PROGRESS
+}
+
+enum MediaMakerMatchStatus {
+  HIDDEN
+  APPROVAL_NEEDED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum MusicianSongStatus {
+  ACTION_NEEDED
+  SONG_SUBMITTED
+}
+
+enum MusicianMatchStatus {
+  HIDDEN
+  APPROVAL_NEEDED
+  REJECTED
+  COMPLETED
+}
+
 model User {
-  userId                      String              @id @default(uuid()) @map("id")
-  email                       String              @unique
+  userId                      String                 @id @default(uuid()) @map("id")
+  email                       String                 @unique
   phoneNumber                 String
-  hashedPassword              String              @map("password")
+  hashedPassword              String                 @map("password")
   firstName                   String
   lastName                    String
   role                        Role
+  active                      Boolean                @default(true)
   affiliation                 MusicAffiliation?
   ipi                         String?
   passwordResetReq            PasswordResetReq?
   sessions                    Session[]
-  createdAt                   DateTime            @default(now())
-  updatedAt                   DateTime            @updatedAt
-  projectSubmissionsAsOwner   ProjectSubmission[] @relation("ProjectOwner")
-  projectSubmissionsAsManager ProjectSubmission[] @relation("ProjectManager")
+  createdAt                   DateTime               @default(now())
+  updatedAt                   DateTime               @updatedAt
+  projectSubmissionsAsOwner   ProjectSubmission[]    @relation("ProjectOwner")
+  projectSubmissionsAsManager ProjectSubmission[]    @relation("ProjectManager")
   musicSubmissions            MusicSubmission[]
-  matches                     Match[]             @relation("Matcher")
+  matches                     Match[]                @relation("Matcher")
   comments                    Comments[]
+  howHeardAboutUs             HowHeardAboutUsLabel[]
 }
 
 model Session {
@@ -83,35 +144,39 @@ model ModeratorInvite {
 }
 
 model ProjectSubmission {
-  projectId        String        @id @default(uuid())
+  projectId        String                  @id @default(uuid())
   projectOwnerId   String
-  projectOwner     User          @relation("ProjectOwner", fields: [projectOwnerId], references: [userId], onDelete: Cascade)
+  projectOwner     User                    @relation("ProjectOwner", fields: [projectOwnerId], references: [userId], onDelete: Cascade)
   projectManagerId String?
-  projectManager   User?         @relation("ProjectManager", fields: [projectManagerId], references: [userId], onDelete: Cascade)
+  projectManager   User?                   @relation("ProjectManager", fields: [projectManagerId], references: [userId], onDelete: Cascade)
   projectTitle     String
   description      String
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
   songRequests     SongRequest[]
   deadline         DateTime
-  videoLink        String        @default("")
-  additionalInfo   String        @default("")
+  videoLink        String                  @default("")
+  additionalInfo   String                  @default("")
   projectType      ProjectType
+  admModStatus     AdmModProjectStatus     @default(ACTION_NEEDED)
+  mediaMakerStatus MediaMakerProjectStatus @default(IN_PROGRESS)
 }
 
 model SongRequest {
-  songRequestId     String            @id @default(uuid())
+  songRequestId     String                      @id @default(uuid())
   songRequestTitle  String
   description       String
   feelingsConveyed  String
   similarSongs      String
-  additionalInfo    String            @default("")
+  additionalInfo    String                      @default("")
   projectId         String
-  projectSubmission ProjectSubmission @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+  projectSubmission ProjectSubmission           @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
   matches           Match[]
   comments          Comments[]
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  createdAt         DateTime                    @default(now())
+  updatedAt         DateTime                    @updatedAt
+  admModStatus      AdmModSongRequestStatus     @default(SUGGESTIONS_NEEDED)
+  mediaMakerStatus  MediaMakerSongRequestStatus @default(IN_PROGRESS)
 }
 
 enum ProjectType {
@@ -121,18 +186,19 @@ enum ProjectType {
 }
 
 model MusicSubmission {
-  musicId        String             @id @default(uuid())
-  songName       String
-  performerName  String
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
-  submitter      User               @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
-  submitterId    String
-  songLink       String
-  genres         Genre[]
-  additionalInfo String             @default("")
-  matches        Match[]
-  contributors   MusicContributor[]
+  musicId            String             @id @default(uuid())
+  songName           String
+  performerName      String
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  submitter          User               @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
+  submitterId        String
+  songLink           String
+  genres             Genre[]
+  additionalInfo     String             @default("")
+  matches            Match[]
+  contributors       MusicContributor[]
+  musicianSongStatus MusicianSongStatus @default(SONG_SUBMITTED)
 }
 
 enum Genre {
@@ -176,16 +242,19 @@ model MusicContributor {
 }
 
 model Match {
-  matchId         String          @id @default(uuid())
-  songRequestId   String
-  songRequest     SongRequest     @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
-  musicId         String
-  musicSubmission MusicSubmission @relation(fields: [musicId], references: [musicId], onDelete: Cascade)
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  matcherUserId   String
-  matcherUser     User            @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
-  matchState      MatchState
+  matchId          String                @id @default(uuid())
+  songRequestId    String
+  songRequest      SongRequest           @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
+  musicId          String
+  musicSubmission  MusicSubmission       @relation(fields: [musicId], references: [musicId], onDelete: Cascade)
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  matcherUserId    String
+  matcherUser      User                  @relation("Matcher", fields: [matcherUserId], references: [userId], onDelete: NoAction)
+  matchState       MatchState
+  admModStatus     AdmModMatchStatus
+  mediaMakerStatus MediaMakerMatchStatus
+  musicianStatus   MusicianMatchStatus
 
   @@unique([songRequestId, musicId])
   @@map("Matches")

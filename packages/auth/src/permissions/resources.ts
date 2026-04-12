@@ -35,3 +35,9 @@ export const musicianOnlyPermissions =
     modify: [],
     submit: [Role.MUSICIAN],
   });
+
+export const allUsersPermissions = projectAndRepertoirePagePermissions.extend({
+  read: [Role.MUSICIAN, Role.MEDIA_MAKER],
+  modify: [],
+  submit: [Role.MUSICIAN, Role.MEDIA_MAKER],
+});

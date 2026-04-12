@@ -31,7 +31,7 @@ export default function SongRequestInfo({
         onSubmit();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-gray-100 dark:bg-dark-gray-600 p-10 text-black">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
         <div className="flex flex-row items-center justify-between">
           <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
             New song request

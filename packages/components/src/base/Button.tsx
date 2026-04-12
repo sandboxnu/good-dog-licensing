@@ -1,4 +1,4 @@
-import { ChevronUp } from "lucide-react";
+import { Check, ChevronUp, X } from "lucide-react";
 
 import { Button as ButtonShad } from "@good-dog/ui/button";
 
@@ -7,26 +7,30 @@ import PencilIcon from "../svg/PencilIcon";
 
 interface ButtonProps {
   label?: string;
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | "flex";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
-  displayIcon?: "plus" | "arrow" | "pencil";
+  displayIcon?: "plus" | "arrow" | "pencil" | "check" | "close";
   shadow?: boolean;
   fullWidth?: boolean;
   type?: "submit" | "button";
   error?: boolean;
+  disabled?: boolean;
 }
 
 type sizeOptions =
   | "small-text"
   | "medium-text"
   | "large-text"
+  | "flex-text"
   | "medium-text-with-icon"
   | "small-text-with-icon"
   | "large-text-with-icon"
+  | "flex-text-with-icon"
   | "small-icon"
   | "medium-icon"
-  | "large-icon";
+  | "large-icon"
+  | "flex-icon";
 
 export default function Button({
   label,
@@ -38,6 +42,7 @@ export default function Button({
   shadow = false,
   fullWidth = false,
   error,
+  disabled = false,
 }: ButtonProps) {
   const updatedSize: sizeOptions =
     label && displayIcon
@@ -50,28 +55,42 @@ export default function Button({
   const shadowClassName = shadow
     ? "shadow-button dark:shadow-grass-green-200"
     : "";
-  const divClassName = `flex flex-row items-center justify-center gap-[8px] ${
-    error ? "text-error " : "" // adds text/border color if error
-  }`.trim();
+
+  const errorContained = error && variant === "contained";
+  const errorOutlined = error && variant !== "contained";
 
   return (
     <ButtonShad
+      disabled={disabled}
       variant={variant}
       size={updatedSize}
       type={type}
       onClick={onClick}
-      className={`${widthClassName} ${shadowClassName} ${error ? "border-error" : ""}`}
+      className={`${widthClassName} ${shadowClassName} group ${
+        errorContained
+          ? "!bg-red-400 hover:!bg-red-500 dark:active:bg-red-600"
+          : ""
+      } ${errorOutlined ? "active:bg-500 border-red-400 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
     >
-      <div className={divClassName}>
+      <div
+        className={`flex flex-row items-center justify-center gap-[8px] ${
+          errorContained ? "text-white" : ""
+        } ${
+          errorOutlined
+            ? "text-red-400 group-hover:text-red-600 group-active:text-white dark:text-red-300"
+            : ""
+        }`}
+      >
         {displayIcon === "plus" ? (
-          <AddIcon
-            color={variant === "contained" ? "light" : "dark"}
-            size={size}
-          />
+          <AddIcon size={size} />
         ) : displayIcon === "arrow" ? (
-          <ChevronUp className="text-green-500 dark:text-mint-200" />
+          <ChevronUp />
         ) : displayIcon === "pencil" ? (
           <PencilIcon />
+        ) : displayIcon === "check" ? (
+          <Check />
+        ) : displayIcon === "close" ? (
+          <X className="h-4 w-4" />
         ) : null}
         {label}
       </div>

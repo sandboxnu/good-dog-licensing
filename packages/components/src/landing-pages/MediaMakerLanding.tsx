@@ -1,6 +1,8 @@
 "use client";
 
-import { MatchState } from "@good-dog/db";
+import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
+
 import { trpc } from "@good-dog/trpc/client";
 
 import Card from "../base/Card";
@@ -8,8 +10,6 @@ import StatusIndicator from "../base/StatusIndicator";
 import EmptyFolder from "../svg/homepage/EmptyFolder";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
-import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export default function MediaMakerLanding() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
@@ -32,45 +32,8 @@ export default function MediaMakerLanding() {
         />
       )}
       {data.projects.length > 0 && (
-        <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
+        <div className="mx-auto flex w-full max-w-[992px] flex-wrap justify-center gap-4 pb-[36px]">
           {data.projects.map((project, key) => {
-            // SENT_TO_MEDIA_MAKER matches are sent to media maker for approval
-            const actionRequired = project.songRequests.some((songReq) =>
-              songReq.matches.some(
-                (match) => match.matchState === MatchState.SENT_TO_MEDIA_MAKER,
-              ),
-            );
-            // Something approved by media maker but not by musician
-            const pendingApproval = project.songRequests.some((songReq) =>
-              songReq.matches.some(
-                (match) => match.matchState === MatchState.SENT_TO_MUSICIAN,
-              ),
-            );
-
-            // Complete when all requests in approved by musician state
-            const completed = project.songRequests.every((scene) =>
-              scene.matches.every(
-                (match) => match.matchState === MatchState.APPROVED_BY_MUSICIAN,
-              ),
-            );
-
-            const matchSize = project.songRequests.reduce((prev, song) => {
-              return prev + song.matches.length;
-            }, 0);
-
-            const indicator: {
-              variant: "error" | "success" | "warning" | "gray";
-              text: string;
-            } = actionRequired
-              ? { variant: "error", text: "Action required" }
-              : pendingApproval
-                ? { variant: "warning", text: "Pending approval" }
-                : matchSize === 0
-                  ? { variant: "gray", text: "Project submitted" }
-                  : completed
-                    ? { variant: "success", text: "Completed" }
-                    : { variant: "warning", text: "In progress" };
-
             return (
               <Card
                 size="small"
@@ -84,20 +47,17 @@ export default function MediaMakerLanding() {
                   })
                 }
                 children={
-                  <div className="flex flex-col gap-[24px] h-full justify-between pt-[16px]">
+                  <div className="flex h-full flex-col justify-between gap-[24px] pt-[16px]">
                     <p className="body3 line-clamp-[2] break-words text-base font-normal leading-tight text-dark-gray-200 dark:text-dark-gray-100">
                       {project.description}
                     </p>
-                    <div className="w-full flex flex-row justify-between">
-                      <StatusIndicator
-                        variant={indicator.variant}
-                        text={indicator.text}
-                      />
+                    <div className="flex w-full flex-row justify-between">
+                      <StatusIndicator status={project.mediaMakerStatus} />
                       <ChevronRight
                         onClick={() =>
                           router.push(`/project/${project.projectId}`)
                         }
-                        className="hover:cursor-pointer text-black dark:text-mint-100"
+                        className="text-black hover:cursor-pointer dark:text-mint-100"
                         fill="none"
                       />
                     </div>
