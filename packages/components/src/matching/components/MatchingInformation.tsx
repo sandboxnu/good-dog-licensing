@@ -106,11 +106,13 @@ export default function MatchingInformation({
           />
         }
       />
-      <MatchDrawer
-        match={selectedMatch}
-        open={!!selectedMatch}
-        onClose={() => setSelectedMatch(null)}
-      />
+      {selectedMatch && (
+        <MatchDrawer
+          match={selectedMatch}
+          open={true}
+          onClose={() => setSelectedMatch(null)}
+        />
+      )}
     </div>
   );
 }
