@@ -37,6 +37,7 @@ export default function AdmModSongRequestInformation({
                 songRequest.projectSubmission.projectManager.lastName
               }
               id={songRequest.projectSubmission.projectManager.userId}
+              role={"MODERATOR"}
             />
           ) : (
             <p className="italic text-cream-600 dark:text-gray-200">
@@ -68,6 +69,7 @@ export default function AdmModSongRequestInformation({
                 songRequest.projectSubmission.projectOwner.lastName
               }
               id={songRequest.projectSubmission.projectOwner.userId}
+              role={"MEDIA_MAKER"}
             />
           </div>
           <div className="flex flex-col gap-2">

@@ -129,6 +129,7 @@ export default function MatchDrawer({
                       match.musicSubmission.submitter.lastName
                     }
                     id={match.musicSubmission.submitterId}
+                    role={"MUSICIAN"}
                   />
                 </div>
                 <div className="contents">
