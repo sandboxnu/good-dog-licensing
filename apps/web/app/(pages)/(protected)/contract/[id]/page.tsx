@@ -1,6 +1,5 @@
 import { forbidden } from "next/navigation";
 
-import PageContainer from "@good-dog/components/PageContainer";
 import ContractView from "@good-dog/components/contract/ContractView";
 import { HydrateClient, trpc } from "@good-dog/trpc/server";
 
@@ -19,8 +18,8 @@ export default async function ContractPage({ params }: PageProps) {
   void trpc.getContractById.prefetch({ contractId });
 
   return (
-      <HydrateClient>
-        <ContractView contractId={contractId} />
-      </HydrateClient>
+    <HydrateClient>
+      <ContractView contractId={contractId} />
+    </HydrateClient>
   );
 }

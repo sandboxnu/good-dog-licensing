@@ -235,7 +235,7 @@ model MusicContributor {
   MusicSubmission   MusicSubmission   @relation(fields: [musicSubmissionId], references: [musicId], onDelete: Cascade)
   musicSubmissionId String
   isSubmitter       Boolean           @default(false)
-  email String?
+  email             String?
   publisher         String?
   publisherIpi      String?
 }

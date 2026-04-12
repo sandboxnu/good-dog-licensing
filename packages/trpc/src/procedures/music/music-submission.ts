@@ -3,7 +3,6 @@ import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zMusicSubmissionValues } from "../../schema";
 import { sendEmailHelper } from "../../utils";
-import { email } from "zod";
 
 export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,

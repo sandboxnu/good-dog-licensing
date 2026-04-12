@@ -30,13 +30,7 @@ const COMPOSITION_ROLES: MusicRole[] = [
   MusicRole.LYRICIST,
 ];
 
-function CheckItem({
-  checked,
-  label,
-}: {
-  checked: boolean;
-  label: string;
-}) {
+function CheckItem({ checked, label }: { checked: boolean; label: string }) {
   return (
     <div className="flex items-center gap-2">
       <div className="w-4 h-4 border border-black flex items-center justify-center flex-shrink-0">
@@ -81,15 +75,11 @@ export default function ContractView({ contractId }: { contractId: string }) {
         <span className="font-semibold">{formattedDate}</span> (&ldquo;Effective
         Date&rdquo;) is between{" "}
         <span className="font-semibold">{contract.licensorFullName}</span>{" "}
-        {contract.licensorEntity && (
-          <>({contract.licensorEntity})</>
-        )}{" "}
-        (the <SectionLabel>&ldquo;Licensor&rdquo;</SectionLabel>), and{" "}
+        {contract.licensorEntity && <>({contract.licensorEntity})</>} (the{" "}
+        <SectionLabel>&ldquo;Licensor&rdquo;</SectionLabel>), and{" "}
         <span className="font-semibold">{contract.licenseeFullName}</span>{" "}
-        {contract.licenseeEntity && (
-          <>({contract.licenseeEntity})</>
-        )}{" "}
-        (the <SectionLabel>&ldquo;Licensee&rdquo;</SectionLabel>).
+        {contract.licenseeEntity && <>({contract.licenseeEntity})</>} (the{" "}
+        <SectionLabel>&ldquo;Licensee&rdquo;</SectionLabel>).
       </p>
 
       <p className="mb-4 text-justify">
@@ -101,13 +91,13 @@ export default function ContractView({ contractId }: { contractId: string }) {
       </p>
 
       <p className="mb-6 text-justify">
-        <SectionLabel>Licensor</SectionLabel> is the copyright owner(s) who
-        owns and/or controls all rights in and to the musical composition and
-        sound recording as set forth in{" "}
-        <span className="underline">Schedule B</span> attached hereto and made a
-        part hereof (the <SectionLabel>&ldquo;Song&rdquo;</SectionLabel>) and
-        who desires to grant all necessary rights to Licensee for Licensee&rsquo;s
-        use of the Song in the Production, as set forth in{" "}
+        <SectionLabel>Licensor</SectionLabel> is the copyright owner(s) who owns
+        and/or controls all rights in and to the musical composition and sound
+        recording as set forth in <span className="underline">Schedule B</span>{" "}
+        attached hereto and made a part hereof (the{" "}
+        <SectionLabel>&ldquo;Song&rdquo;</SectionLabel>) and who desires to
+        grant all necessary rights to Licensee for Licensee&rsquo;s use of the
+        Song in the Production, as set forth in{" "}
         <span className="underline">Schedule A</span> and{" "}
         <span className="underline">Schedule B</span>.
       </p>
@@ -129,10 +119,10 @@ export default function ContractView({ contractId }: { contractId: string }) {
           <p className="text-justify">
             b. <SectionLabel>&ldquo;All Owners&rdquo;</SectionLabel> means all
             persons and/or entities who own and/or control any rights in and to
-            the Song, including without limitation, recording artists, composers,
-            songwriters, publishers, and/or producers, as may be set forth on{" "}
-            <span className="underline">Schedule B</span>. The Licensor is the
-            signatory to this License on behalf of All Owners.
+            the Song, including without limitation, recording artists,
+            composers, songwriters, publishers, and/or producers, as may be set
+            forth on <span className="underline">Schedule B</span>. The Licensor
+            is the signatory to this License on behalf of All Owners.
           </p>
           <p className="text-justify">
             c. <SectionLabel>&ldquo;Production&rdquo;</SectionLabel> means the
@@ -143,8 +133,8 @@ export default function ContractView({ contractId }: { contractId: string }) {
             d. <SectionLabel>&ldquo;Scope of Use&rdquo;</SectionLabel> means the
             details of the Song&rsquo;s use in the Production, set forth in{" "}
             <span className="underline">Schedule A</span>, with which the
-            Licensee shall substantially conform to in Licensee&rsquo;s actual use
-            of the Song.
+            Licensee shall substantially conform to in Licensee&rsquo;s actual
+            use of the Song.
           </p>
           <p className="text-justify">
             e. The <SectionLabel>&ldquo;Term&rdquo;</SectionLabel> of this
@@ -158,14 +148,14 @@ export default function ContractView({ contractId }: { contractId: string }) {
       {/* Section 2 */}
       <div className="mb-4">
         <p className="text-justify">
-          <span className="font-bold">2. Termination.</span>{" "}
-          Notwithstanding anything to the contrary contained herein, if Licensee
-          fails to comply with the conditions and limitations of this License,
-          then this License will terminate automatically. To reinstate this
-          License, Licensee must either (i) cure the failure to comply within 30
-          days of the termination of this License, or (ii) receive express
-          written reinstatement by the Licensor. Sections 1, 4, 5, and 6
-          survive termination of this License.
+          <span className="font-bold">2. Termination.</span> Notwithstanding
+          anything to the contrary contained herein, if Licensee fails to comply
+          with the conditions and limitations of this License, then this License
+          will terminate automatically. To reinstate this License, Licensee must
+          either (i) cure the failure to comply within 30 days of the
+          termination of this License, or (ii) receive express written
+          reinstatement by the Licensor. Sections 1, 4, 5, and 6 survive
+          termination of this License.
         </p>
       </div>
 
@@ -188,7 +178,8 @@ export default function ContractView({ contractId }: { contractId: string }) {
                 <span className="underline">Schedule A</span>;
               </p>
               <p className="text-justify">
-                ii. <span className="underline">Direct Performance License</span>:
+                ii.{" "}
+                <span className="underline">Direct Performance License</span>:
                 an irrevocable, non-exclusive, personal, non-sublicensable
                 license to exhibit and publicly perform the Production embodying
                 the Song throughout the world (the{" "}
@@ -196,9 +187,8 @@ export default function ContractView({ contractId }: { contractId: string }) {
                 medium or forum whether now known or hereafter devised;
               </p>
               <p className="text-justify">
-                iii.{" "}
-                <span className="underline">Performance Sublicense</span>: an
-                irrevocable, non-exclusive license to permit any third party
+                iii. <span className="underline">Performance Sublicense</span>:
+                an irrevocable, non-exclusive license to permit any third party
                 (&ldquo;Exhibitor&rdquo;) the right to exhibit and publicly
                 perform the Production embodying the Song throughout the world
                 (the <SectionLabel>&ldquo;Territory&rdquo;</SectionLabel>) in
@@ -207,7 +197,8 @@ export default function ContractView({ contractId }: { contractId: string }) {
                 license from the person, firm, corporation or other entity which
                 has the legal right and authority to issue licenses to publicly
                 perform the Song in each country of the Territory in which the
-                Song shall be performed hereunder, or from the Licensor directly.
+                Song shall be performed hereunder, or from the Licensor
+                directly.
               </p>
             </div>
           </div>
@@ -245,8 +236,8 @@ export default function ContractView({ contractId }: { contractId: string }) {
         <div className="pl-6 space-y-2">
           <p className="text-justify">
             a. Licensor has the full legal right, power and authority to grant
-            this License on behalf of All Owners. Licensor has provided
-            complete and accurate information about All Owners in{" "}
+            this License on behalf of All Owners. Licensor has provided complete
+            and accurate information about All Owners in{" "}
             <span className="underline">Schedule B</span>.
           </p>
           <p className="text-justify">
@@ -267,8 +258,8 @@ export default function ContractView({ contractId }: { contractId: string }) {
           Licensor of any warranty, representation, agreement, undertaking or
           covenant contained in this License including, without limitation, any
           claim by any third party in connection with the foregoing, provided
-          such claim has been settled with Licensor&rsquo;s prior written consent
-          (not to be unreasonably withheld) or reduced to judgment.
+          such claim has been settled with Licensor&rsquo;s prior written
+          consent (not to be unreasonably withheld) or reduced to judgment.
         </p>
       </div>
 
@@ -303,7 +294,9 @@ export default function ContractView({ contractId }: { contractId: string }) {
             {contract.licensorSigned ? (
               <span className="italic">{contract.licensorFullName}</span>
             ) : (
-              <span className="border-b border-black inline-block w-56">&nbsp;</span>
+              <span className="border-b border-black inline-block w-56">
+                &nbsp;
+              </span>
             )}
           </p>
           {contract.licensorSigned && (
@@ -317,7 +310,9 @@ export default function ContractView({ contractId }: { contractId: string }) {
             {contract.licenseeSigned ? (
               <span className="italic">{contract.licenseeFullName}</span>
             ) : (
-              <span className="border-b border-black inline-block w-56">&nbsp;</span>
+              <span className="border-b border-black inline-block w-56">
+                &nbsp;
+              </span>
             )}
           </p>
           {contract.licenseeSigned && (
