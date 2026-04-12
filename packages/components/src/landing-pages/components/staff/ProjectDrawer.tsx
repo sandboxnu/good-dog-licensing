@@ -50,7 +50,7 @@ export default function ProjectDrawer({
                     " " +
                     projectSubmission.projectManager.lastName
                   }
-                  id={projectSubmission.projectOwnerId}
+                  id={projectSubmission.projectManager.userId}
                 />
               ) : (
                 <p className="italic text-cream-600 dark:text-gray-200">

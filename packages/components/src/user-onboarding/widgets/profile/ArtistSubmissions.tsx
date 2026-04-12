@@ -134,7 +134,7 @@ function ProjectSubmissionContent({
               {new Date(project.deadline).toLocaleDateString("en-US", {
                 month: "long",
               })}{" "}
-              ${ordinal(new Date(project.deadline).getDate())}
+              {ordinal(new Date(project.deadline).getDate())}
             </p>
           </div>
         </div>

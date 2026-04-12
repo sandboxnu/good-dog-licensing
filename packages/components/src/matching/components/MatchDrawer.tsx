@@ -34,7 +34,7 @@ export default function MatchDrawer({
   open,
   onClose,
 }: {
-  match: MatchType | null;
+  match: MatchType;
   open: boolean;
   onClose: () => void;
 }) {
@@ -48,7 +48,7 @@ export default function MatchDrawer({
         <SheetHeader>
           <SheetTitle className="flex flex-row justify-between items-center">
             <p className="text-[40px] text-dark-gray-500 dark:text-gray-300 font-semibold leading-[1.28]">
-              {match ? match.musicSubmission.songName : "..."}
+              {match.musicSubmission.songName}
             </p>
           </SheetTitle>
         </SheetHeader>
@@ -69,13 +69,11 @@ export default function MatchDrawer({
                   </p>
                 </div>
                 <p className="text-base text-dark-gray-400 dark:text-cream-400">
-                  {match
-                    ? match.updatedAt.toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })
-                    : "..."}
+                  {match.updatedAt.toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </p>
               </div>
               <div className="contents">
@@ -86,13 +84,11 @@ export default function MatchDrawer({
                   </p>
                 </div>
                 <p className="text-base text-dark-gray-400 dark:text-cream-400">
-                  {match
-                    ? match.createdAt.toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })
-                    : "--"}
+                  {match.createdAt.toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </p>
               </div>
               <div className="contents">
@@ -102,16 +98,10 @@ export default function MatchDrawer({
                     Status
                   </p>
                 </div>
-                {match ? (
-                  <StatusIndicator
-                    status={match.admModStatus}
-                    details={match.matchState}
-                  />
-                ) : (
-                  <p className="text-base text-dark-gray-400 dark:text-cream-400">
-                    {"..."}
-                  </p>
-                )}
+                <StatusIndicator
+                  status={match.admModStatus}
+                  details={match.matchState}
+                />
               </div>
             </div>
           </div>
@@ -133,11 +123,11 @@ export default function MatchDrawer({
                   </div>
                   <User
                     name={
-                      match?.musicSubmission.submitter.firstName +
+                      match.musicSubmission.submitter.firstName +
                       " " +
-                      match?.musicSubmission.submitter.lastName
+                      match.musicSubmission.submitter.lastName
                     }
-                    id={match?.musicSubmission.submitterId ?? ""}
+                    id={match.musicSubmission.submitterId}
                   />
                 </div>
                 <div className="contents">
@@ -148,17 +138,15 @@ export default function MatchDrawer({
                     </p>
                   </div>
                   <p className="text-base text-dark-gray-400 dark:text-cream-400">
-                    {match
-                      ? [
-                          match.musicSubmission.submitter,
-                          ...match.musicSubmission.contributors,
-                        ]
-                          .map(
-                            (contributor) =>
-                              `${contributor.firstName} ${contributor.lastName}`,
-                          )
-                          .join(", ")
-                      : "--"}
+                    {[
+                      match.musicSubmission.submitter,
+                      ...match.musicSubmission.contributors,
+                    ]
+                      .map(
+                        (contributor) =>
+                          `${contributor.firstName} ${contributor.lastName}`,
+                      )
+                      .join(", ")}
                   </p>
                 </div>
                 <div className="contents">
@@ -170,9 +158,11 @@ export default function MatchDrawer({
                   </div>
 
                   <p className="text-base text-dark-gray-400 dark:text-cream-400">
-                    {match
-                      ? `${match.musicSubmission.createdAt.toLocaleDateString("en-US", { month: "long" })} ${ordinal(match.musicSubmission.createdAt.getDate())}`
-                      : "--"}
+                    {match.musicSubmission.createdAt.toLocaleDateString(
+                      "en-US",
+                      { month: "long" },
+                    )}{" "}
+                    {ordinal(match.musicSubmission.createdAt.getDate())}
                   </p>
                 </div>
                 <div className="contents">
@@ -183,20 +173,14 @@ export default function MatchDrawer({
                     </p>
                   </div>
                   <p className="text-base text-green-500 dark:text-mint-200">
-                    {match ? (
-                      <a
-                        href={match.musicSubmission.songLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline underline-offset-4"
-                      >
-                        {match.musicSubmission.songLink}
-                      </a>
-                    ) : (
-                      <p className="text-sm text-dark-gray-400 dark:text-gray-200">
-                        {"..."}
-                      </p>
-                    )}
+                    <a
+                      href={match.musicSubmission.songLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline underline-offset-4"
+                    >
+                      {match.musicSubmission.songLink}
+                    </a>
                   </p>
                 </div>
               </div>
@@ -210,25 +194,19 @@ export default function MatchDrawer({
                     </p>
                   </div>
                   <div className="text-sm text-dark-gray-400 dark:text-gray-200">
-                    {match ? (
-                      <div className="col-span-2 flex flex-row flex-wrap gap-1">
-                        {match.musicSubmission.genres.map((genre) => (
-                          <span
-                            key={genre}
-                            className="rounded-full border border-gray-400 dark:border-dark-gray-200 px-2 py-0.5 text-base text-gray-500 dark:text-gray-300 bg-gray-300 dark:bg-gray-500"
-                          >
-                            {formatAllCapsWord(genre)}
-                          </span>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-dark-gray-400 dark:text-gray-200">
-                        ...
-                      </p>
-                    )}
+                    <div className="col-span-2 flex flex-row flex-wrap gap-1">
+                      {match.musicSubmission.genres.map((genre) => (
+                        <span
+                          key={genre}
+                          className="rounded-full border border-gray-400 dark:border-dark-gray-200 px-2 py-0.5 text-base text-gray-500 dark:text-gray-300 bg-gray-300 dark:bg-gray-500"
+                        >
+                          {formatAllCapsWord(genre)}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                {match && match.musicSubmission.additionalInfo.length > 0 && (
+                {match.musicSubmission.additionalInfo.length > 0 && (
                   <div className="flex flex-col gap-1">
                     <div className="flex flex-row gap-1 items-center">
                       <FileIcon />
