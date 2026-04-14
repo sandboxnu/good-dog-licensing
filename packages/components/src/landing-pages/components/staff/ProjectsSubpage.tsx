@@ -23,6 +23,7 @@ import {
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
+import TableColumnHeader from "./TableColumnHeader";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
@@ -38,17 +39,46 @@ const admModProjectStatusOrder: AdmModProjectStatus[] = [
   AdmModProjectStatus.COMPLETED,
 ];
 
+type SortColumn =
+  | "projectName"
+  | "projectDescription"
+  | "mediaMaker"
+  | "dateSubmitted"
+  | "deadline"
+  | "assignee";
+
 const filterProjects = (
   projects: ProjectType[],
   searchQuery: string,
   status: AdmModProjectStatus,
-  sort?: "title",
+  sort?: SortColumn,
 ) => {
   const projectsSortedOrNot = sort
     ? projects.sort((a, b) => {
-        return a.projectTitle
-          .toLocaleLowerCase()
-          .localeCompare(b.projectTitle.toLocaleLowerCase());
+        switch (sort) {
+          case "projectName":
+            return a.projectTitle
+              .toLocaleLowerCase()
+              .localeCompare(b.projectTitle.toLocaleLowerCase());
+          case "projectDescription":
+            return a.description
+              .toLocaleLowerCase()
+              .localeCompare(b.description.toLocaleLowerCase());
+          case "mediaMaker":
+            return a.projectOwner.firstName
+              .toLocaleLowerCase()
+              .localeCompare(b.projectOwner.firstName.toLocaleLowerCase());
+          case "dateSubmitted":
+            return a.createdAt.getTime() - b.createdAt.getTime();
+          case "deadline":
+            return a.deadline.getTime() - b.deadline.getTime();
+          case "assignee":
+            return (a.projectManager?.firstName ?? "")
+              .toLocaleLowerCase()
+              .localeCompare(
+                (b.projectManager?.firstName ?? "").toLocaleLowerCase(),
+              );
+        }
       })
     : projects;
 
@@ -74,6 +104,8 @@ export default function ProjectsSubpage() {
     CREATED_DATE_QUERY.LAST_365_DAYS,
   );
   const [assignedToMe, setAssignedToMe] = useState<boolean>(false);
+
+  const [sortColumn, setSortColumn] = useState<SortColumn>("dateSubmitted");
 
   const [allProjects] = trpc.queryAllProjects.useSuspenseQuery({
     createdDateQuery,
@@ -159,9 +191,11 @@ export default function ProjectsSubpage() {
             allProjects.projects,
             searchQuery,
             activeStatus,
-            "title",
+            sortColumn,
           )}
           selectedProject={selectedProject}
+          sortColumn={sortColumn}
+          setSortColumn={setSortColumn}
         />
       </TableOuterFormatting>
     </div>
@@ -171,9 +205,13 @@ export default function ProjectsSubpage() {
 function SubmissionTable({
   data,
   selectedProject,
+  sortColumn,
+  setSortColumn,
 }: {
   data: ProjectType[];
   selectedProject: ProjectType | null;
+  sortColumn: SortColumn;
+  setSortColumn: (newSort: SortColumn) => void;
 }) {
   const router = useRouter();
   const [showPMModal, setShowPMModal] = useState(false);
@@ -210,12 +248,42 @@ function SubmissionTable({
 
       <div className="flex flex-col">
         <TableHeaderFormatting columnCount={6}>
-          <p className="dark:text-white">Project Name</p>
-          <p className="dark:text-white">Project Description</p>
-          <p className="dark:text-white">Media Maker</p>
-          <p className="dark:text-white">Date submitted</p>
-          <p className="dark:text-white">Deadline</p>
-          <p className="dark:text-white">Assignee</p>
+          <TableColumnHeader
+            columnName="Project Name"
+            currentSort={sortColumn}
+            sortColumn="projectName"
+            setSortColumn={setSortColumn}
+          />
+          <TableColumnHeader
+            columnName="Project Description"
+            currentSort={sortColumn}
+            sortColumn="projectDescription"
+            setSortColumn={setSortColumn}
+          />
+          <TableColumnHeader
+            columnName="Media Maker"
+            currentSort={sortColumn}
+            sortColumn="mediaMaker"
+            setSortColumn={setSortColumn}
+          />
+          <TableColumnHeader
+            columnName="Date submitted"
+            currentSort={sortColumn}
+            sortColumn="dateSubmitted"
+            setSortColumn={setSortColumn}
+          />
+          <TableColumnHeader
+            columnName="Deadline"
+            currentSort={sortColumn}
+            sortColumn="deadline"
+            setSortColumn={setSortColumn}
+          />
+          <TableColumnHeader
+            columnName="Assignee"
+            currentSort={sortColumn}
+            sortColumn="assignee"
+            setSortColumn={setSortColumn}
+          />
         </TableHeaderFormatting>
 
         {data.map((project: ProjectType, key) => {
@@ -259,7 +327,7 @@ function SubmissionTable({
                     year: "numeric",
                   })}
                 </p>
-                <div className="flex items-center justify-center pr-[30px]">
+                <div className="flex pl-[15px]">
                   <button
                     type="button"
                     className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 hover:bg-dark-gray-100 dark:border-gray-300 dark:text-white"
