@@ -5,10 +5,12 @@ import { ArrowUp } from "lucide-react";
 import { Sheet, SheetContent } from "@good-dog/ui/sheet";
 import { trpc } from "@good-dog/trpc/client";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import ProfileIcon from "../../svg/ProfileIcon";
 
 type Comment = GetProcedureOutput<"getSongRequestById">["comments"][number];
 
 // Detect URLs in text and render them as clickable links
+// FIX: Shares code with matching/commentsSheet
 function CommentText({ text }: { text: string }) {
   const URL_REGEX = /https?:\/\/[^\s]+/g;
   const parts: { text: string; isLink: boolean }[] = [];
@@ -47,49 +49,6 @@ function CommentText({ text }: { text: string }) {
   );
 }
 
-function CommentAvatar({ name }: { name: string }) {
-  const letter = name.charAt(0).toUpperCase();
-  return (
-    <div className="flex-shrink-0">
-      <svg
-        width={32}
-        height={32}
-        viewBox="0 0 40 40"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="20" cy="20" r="20" fill="url(#comment-avatar-grad)" />
-        <text
-          x="50%"
-          y="50%"
-          dominantBaseline="central"
-          textAnchor="middle"
-          fill="#FFF"
-          fontSize="25"
-          fontFamily="Righteous"
-          fontWeight="400"
-        >
-          {letter}
-        </text>
-        <defs>
-          <linearGradient
-            id="comment-avatar-grad"
-            x1="20"
-            y1="-8.33333"
-            x2="20"
-            y2="40"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#C1E0D8" />
-            <stop offset="0.400448" stopColor="#84C1B2" />
-            <stop offset="1" stopColor="#098465" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-  );
-}
-
 function formatRelativeTime(date: Date): string {
   const now = new Date();
   const diffMs = now.getTime() - new Date(date).getTime();
@@ -117,7 +76,7 @@ function CommentItem({ comment }: { comment: Comment }) {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-row gap-3 items-start">
-        <CommentAvatar name={name} />
+        <ProfileIcon color="light" size={32} name={name} />
         <div className="flex flex-col gap-1 min-w-0">
           <div className="flex flex-row items-center gap-1 flex-wrap">
             <span className="text-sm font-medium dark:text-gray-200">
@@ -236,7 +195,7 @@ export default function CommentsSheet({
 
         {/* Input area */}
         <div className="px-6 pb-6 pt-2">
-          <div className="relative rounded-lg border border-cream-400 dark:border-dark-gray-400 bg-white dark:bg-dark-gray-500 px-3 pt-3 pb-8">
+          <div className="relative rounded-lg border border-cream-400 dark:border-dark-gray-400 bg-white dark:bg-dark-gray-500">
             <textarea
               ref={textareaRef}
               value={text}
@@ -244,7 +203,7 @@ export default function CommentsSheet({
               onKeyDown={handleKeyDown}
               placeholder="Add a comment"
               rows={1}
-              className="w-full resize-none bg-transparent text-sm dark:text-gray-200 placeholder:text-cream-600 dark:placeholder:text-dark-gray-200 focus:outline-none leading-5"
+              className="block w-full resize-none bg-white dark:bg-dark-gray-500 text-sm dark:text-gray-200 placeholder:text-cream-600 dark:placeholder:text-dark-gray-200 focus:outline-none leading-5 px-3 pt-3 pb-8"
             />
             <button
               onClick={handleSubmit}
