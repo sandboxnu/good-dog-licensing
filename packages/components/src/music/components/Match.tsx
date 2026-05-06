@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { Check, X } from "lucide-react";
-
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import MusicNoteIcon from "../../svg/MusicNoteIcon";
+import { Check, FileText, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
+import { useState } from "react";
 
 import { ConfirmationModal } from "../../matching/ConfirmationModal";
-import MusicNoteIcon from "../../svg/MusicNoteIcon";
 
 type MatchWithSongRequest =
   GetProcedureOutput<"getMusicSubmissionById">["matches"][number];
@@ -22,6 +21,8 @@ export function Match({
   setSelectedMatchId: (matchId: string | null) => void;
 }) {
   const selected = match.matchId === selectedMatchId;
+  const contract = match.contract;
+
   const handleClick = () => {
     if (selected) {
       setSelectedMatchId(null);
@@ -43,6 +44,13 @@ export function Match({
     setOpenReject(true);
   };
 
+  const handleContract: React.MouseEventHandler<SVGSVGElement> = (e) => {
+    e.stopPropagation();
+    if (contract) {
+      window.open("/contract/" + contract.contractId, "_blank");
+    }
+  };
+
   const utils = trpc.useUtils();
   const updateMatchState = trpc.updateMatchState.useMutation({
     onSuccess: () => {
@@ -50,12 +58,21 @@ export function Match({
     },
   });
 
+  const signContractLicensor = trpc.signContractLicensor.useMutation({
+    onSuccess: () => {
+      void utils.getMusicSubmissionById.invalidate({ musicId: match.musicId });
+    },
+  });
+
   const handleApprove = () => {
-    updateMatchState.mutate({
-      matchId: match.matchId,
-      state: "APPROVED_BY_MUSICIAN",
-    });
-    setOpenApprove(false);
+    if (contract) {
+      signContractLicensor.mutate({ contractId: contract.contractId });
+      updateMatchState.mutate({
+        matchId: match.matchId,
+        state: "APPROVED_BY_MUSICIAN",
+      });
+      setOpenApprove(false);
+    }
   };
 
   const handleReject = () => {
@@ -82,39 +99,45 @@ export function Match({
           </p>
         </div>
       </div>
-      {state === "INCOMING" && (
-        <div className="flex flex-row gap-4">
-          <button type="button" onClick={handleCheck}>
-            <Check className="hover:text-mint-300/25 rounded-full text-dark-gray-300 hover:border hover:border-green-400 hover:bg-mint-300 dark:hover:border-mint-300 dark:hover:bg-mint-200" />
-          </button>
-          <button type="button" onClick={handleX}>
-            <X className="rounded-md text-dark-gray-300 hover:bg-required-star/25 hover:text-required-star" />
-          </button>
-          <div onClick={(e) => e.stopPropagation()}>
-            <ConfirmationModal
-              open={openApprove}
-              onOpenChange={setOpenApprove}
-              onAction={handleApprove}
-              type="approve"
-              title={"Confirm match"}
-              text={
-                "This action cannot be undone. This song will be matched following your approval."
-              }
-              showCheckbox={true}
-            />
-            <ConfirmationModal
-              open={openReject}
-              onOpenChange={setOpenReject}
-              onAction={handleReject}
-              type="deny"
-              title={"Confirm selection"}
-              text={
-                "This action cannot be undone. This song will be matched following your approval."
-              }
-            />
-          </div>
-        </div>
-      )}
+      <div className="flex flex-row gap-4">
+        {contract && (
+          <FileText className="dark:text-gray-200" onClick={handleContract} />
+        )}
+        {state === "INCOMING" && contract && (
+          <>
+            <button type="button" onClick={handleCheck}>
+              <Check className="text-dark-gray-300 hover:text-mint-300/25 hover:bg-mint-300 dark:hover:bg-mint-200 rounded-full hover:border hover:border-green-400 dark:hover:border-mint-300" />
+            </button>
+            <button type="button" onClick={handleX}>
+              <X className="text-dark-gray-300 hover:text-required-star hover:bg-required-star/25 rounded-md" />
+            </button>
+            <div onClick={(e) => e.stopPropagation()}>
+              <ConfirmationModal
+                open={openApprove}
+                onOpenChange={setOpenApprove}
+                onAction={handleApprove}
+                type="approve"
+                title={"Confirm match"}
+                text={
+                  "This action cannot be undone. This song will be matched following your approval."
+                }
+                showCheckbox={true}
+                link={"/contract/" + contract.contractId}
+              />
+              <ConfirmationModal
+                open={openReject}
+                onOpenChange={setOpenReject}
+                onAction={handleReject}
+                type="deny"
+                title={"Confirm selection"}
+                text={
+                  "This action cannot be undone. This song will be matched following your approval."
+                }
+              />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

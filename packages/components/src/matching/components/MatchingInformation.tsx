@@ -119,17 +119,20 @@ export default function MatchingInformation({
           />
         }
       />
-      <MatchDrawer
-        match={selectedMatch}
-        open={!!selectedMatch}
-        onClose={() => setSelectedMatch(null)}
-      />
+      {selectedMatch && (
+        <MatchDrawer
+          match={selectedMatch}
+          open={true}
+          onClose={() => setSelectedMatch(null)}
+        />
+      )}
       <CommentsSheet
         open={commentsOpen}
         onClose={() => setCommentsOpen(false)}
         songRequestId={songRequest.songRequestId}
         comments={songRequest.comments}
       />
+
     </div>
   );
 }

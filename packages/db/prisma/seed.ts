@@ -1,16 +1,18 @@
 import { PrismaClient } from "@prisma/client";
+
 import type { Role } from "@good-dog/db";
+
 import {
+  additionalInfo,
+  adjectives,
   allGenres,
+  allProjectTypes,
   firstNames,
   lastNames,
-  realUsers,
-  adjectives,
   links,
   nouns,
   projectDescriptions,
-  allProjectTypes,
-  additionalInfo,
+  realUsers,
 } from "./utils/seedData";
 
 const prisma = new PrismaClient();

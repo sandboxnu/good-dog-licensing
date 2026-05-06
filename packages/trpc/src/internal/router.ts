@@ -32,6 +32,11 @@ import {
   mediamakerSongRequestsProcedure,
   songRequestProcedure,
 } from "../procedures/get-song-requests";
+import { getContractByIdProcedure } from "../procedures/contracts/get-contract";
+import {
+  signContractLicensorProcedure,
+  signContractLicenseeProcedure,
+} from "../procedures/contracts/sign-contract";
 import { createMatchProcedure } from "../procedures/matches/create-match";
 import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
@@ -46,7 +51,7 @@ import { assignProjectManagerProcedure } from "../procedures/project/assign-proj
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { songRequestSubmissionProcedure } from "../procedures/project/song-request-submission";
 import { sendModeratorInviteEmailProcedure } from "../procedures/manage-users/send-moderator-invite";
-import { getUserProcedure } from "../procedures/user";
+import { getUserByIdProcedure, getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
 import { promoteToAdminProcedure } from "../procedures/manage-users/promote-to-admin";
 import { deactivateUserProcedure } from "../procedures/manage-users/deactivate-user";
@@ -60,6 +65,7 @@ export const appRouter = createTRPCRouter({
   signUp: signUpProcedure,
   deactivateSelf: deactivateSelfProcedure,
   user: getUserProcedure,
+  userById: getUserByIdProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminAndModeratorUsers: getAdminAndModeratorUsers,
@@ -93,6 +99,9 @@ export const appRouter = createTRPCRouter({
   changePassword: changePasswordProcedure,
   changeProfileValues: changeProfileValuesProcedure,
   assignProjectManager: assignProjectManagerProcedure,
+  getContractById: getContractByIdProcedure,
+  signContractLicensor: signContractLicensorProcedure,
+  signContractLicensee: signContractLicenseeProcedure,
 });
 
 export type AppRouter = typeof appRouter;

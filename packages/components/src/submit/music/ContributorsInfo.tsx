@@ -77,6 +77,11 @@ export default function ContributorsInfo({
     name: "submitterAffiliation",
   });
 
+  const watchedSubmitterPublisher = useWatch({
+    control,
+    name: "submitterPublisher",
+  });
+
   const watchedContributors = useWatch({
     control,
     name: "contributors",
@@ -92,9 +97,12 @@ export default function ContributorsInfo({
         {
           firstName: "",
           lastName: "",
+          email: undefined,
           roles: [],
           affiliation: undefined,
           ipi: undefined,
+          publisher: undefined,
+          publisherIpi: undefined,
         },
       ]);
     } else {
@@ -114,12 +122,22 @@ export default function ContributorsInfo({
         previousContributors.userAffiliation ?? undefined,
       );
       setValue(`submitterIpi`, previousContributors.userIpi ?? undefined);
+      setValue(
+        `submitterPublisher`,
+        previousContributors.userPublisher ?? undefined,
+      );
+      setValue(
+        `submitterPublisherIpi`,
+        previousContributors.userPublisherIpi ?? undefined,
+      );
     }
   }, [
     watchedSubmitterRoles,
     setValue,
     previousContributors.userAffiliation,
     previousContributors.userIpi,
+    previousContributors.userPublisher,
+    previousContributors.userPublisherIpi,
   ]);
 
   useEffect(() => {
@@ -129,9 +147,17 @@ export default function ContributorsInfo({
         Array.isArray(roles) &&
         (roles.includes("SONGWRITER") || roles.includes("LYRICIST"));
 
-      if (!shouldShowFields && (contributor.affiliation || contributor.ipi)) {
+      if (
+        !shouldShowFields &&
+        (contributor.affiliation ||
+          contributor.ipi ||
+          contributor.publisher ||
+          contributor.publisherIpi)
+      ) {
         setValue(`contributors.${index}.affiliation`, undefined);
         setValue(`contributors.${index}.ipi`, undefined);
+        setValue(`contributors.${index}.publisher`, undefined);
+        setValue(`contributors.${index}.publisherIpi`, undefined);
       }
     });
   }, [watchedContributors, setValue, getOtherContributorPrefillInfo]);
@@ -147,11 +173,20 @@ export default function ContributorsInfo({
   ) => {
     const prefill = getOtherContributorPrefillInfo(firstName, lastName);
 
+    setValue(`contributors.${index}.email`, prefill?.email ?? undefined);
     setValue(
       `contributors.${index}.affiliation`,
       prefill?.affiliation ?? undefined,
     );
     setValue(`contributors.${index}.ipi`, prefill?.ipi ?? undefined);
+    setValue(
+      `contributors.${index}.publisher`,
+      prefill?.publisher ?? undefined,
+    );
+    setValue(
+      `contributors.${index}.publisherIpi`,
+      prefill?.publisherIpi ?? undefined,
+    );
   };
 
   return (
@@ -205,6 +240,22 @@ export default function ContributorsInfo({
                 watchedSubmitterAffiliation === "ASCAP" ||
                 watchedSubmitterAffiliation === "BMI"
               }
+            />
+            <RHFTextInput<MusicSubmissionFormFields>
+              rhfName={`submitterPublisher`}
+              label="Who is your publisher?"
+              placeholder="Enter your publisher"
+              id={`submitterPublisher`}
+              errorText={errors.submitterPublisher?.message}
+              required={false}
+            />
+            <RHFTextInput<MusicSubmissionFormFields>
+              rhfName={`submitterPublisherIpi`}
+              label="What is your publisher's IPI?"
+              placeholder="Enter the publisher IPI"
+              id={`submitterPublisherIpi`}
+              errorText={errors.submitterPublisherIpi?.message}
+              required={!!watchedSubmitterPublisher}
             />
           </>
         )}
@@ -267,6 +318,15 @@ export default function ContributorsInfo({
                 required={true}
               />
 
+              <RHFTextInput<MusicSubmissionFormFields>
+                rhfName={`contributors.${index}.email`}
+                label="Contributor email"
+                placeholder="Enter email"
+                id={`email-${index}`}
+                errorText={errors.contributors?.[index]?.email?.message}
+                required={false}
+              />
+
               <RHFMultiselectDropdown<MusicSubmissionFormFields>
                 rhfName={`contributors.${index}.roles`}
                 label={"What was their role in the song?"}
@@ -310,6 +370,26 @@ export default function ContributorsInfo({
                           watchedContributors[index]?.affiliation === "ASCAP" ||
                           watchedContributors[index]?.affiliation === "BMI"
                         }
+                      />
+                      <RHFTextInput<MusicSubmissionFormFields>
+                        rhfName={`contributors.${index}.publisher`}
+                        label="Who is their publisher?"
+                        placeholder="Enter their publisher"
+                        id={`publisher-${index}`}
+                        errorText={
+                          errors.contributors?.[index]?.publisher?.message
+                        }
+                        required={false}
+                      />
+                      <RHFTextInput<MusicSubmissionFormFields>
+                        rhfName={`contributors.${index}.publisherIpi`}
+                        label="What is their publisher's IPI?"
+                        placeholder="Enter the publisher IPI"
+                        id={`publisherIpi-${index}`}
+                        errorText={
+                          errors.contributors?.[index]?.publisherIpi?.message
+                        }
+                        required={!!watchedContributors[index]?.publisher}
                       />
                     </div>
                     <Button
@@ -359,9 +439,12 @@ export default function ContributorsInfo({
               append({
                 firstName: "",
                 lastName: "",
+                email: undefined,
                 roles: [],
                 affiliation: undefined,
                 ipi: undefined,
+                publisher: undefined,
+                publisherIpi: undefined,
               })
             }
           />

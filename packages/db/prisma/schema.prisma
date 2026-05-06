@@ -101,6 +101,8 @@ model User {
   active                      Boolean                @default(true)
   affiliation                 MusicAffiliation?
   ipi                         String?
+  publisher                   String?
+  publisherIpi                String?
   passwordResetReq            PasswordResetReq?
   sessions                    Session[]
   createdAt                   DateTime               @default(now())
@@ -180,9 +182,11 @@ model SongRequest {
 }
 
 enum ProjectType {
-  MOTION_PICTURE
-  SOCIAL_MEDIA_REEL
-  VIDEO_GAME
+  SOCIAL_MEDIA
+  PERSONAL_WEBSITE
+  FILM_FESTIVAL
+  ACADEMIC_PROJECT
+  OTHER
 }
 
 model MusicSubmission {
@@ -239,6 +243,9 @@ model MusicContributor {
   MusicSubmission   MusicSubmission   @relation(fields: [musicSubmissionId], references: [musicId], onDelete: Cascade)
   musicSubmissionId String
   isSubmitter       Boolean           @default(false)
+  email             String?
+  publisher         String?
+  publisherIpi      String?
 }
 
 model Match {
@@ -255,6 +262,7 @@ model Match {
   admModStatus     AdmModMatchStatus
   mediaMakerStatus MediaMakerMatchStatus
   musicianStatus   MusicianMatchStatus
+  contract         Contract?
 
   @@unique([songRequestId, musicId])
   @@map("Matches")
@@ -269,4 +277,43 @@ model Comments {
   user          User         @relation(fields: [userId], references: [userId], onDelete: NoAction)
   songRequestId String?
   songRequest   SongRequest? @relation(fields: [songRequestId], references: [songRequestId], onDelete: Cascade)
+}
+
+model Contract {
+  contractId                String                     @id @default(uuid())
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  match                     Match                      @relation(fields: [matchId], references: [matchId], onDelete: Cascade)
+  matchId                   String                     @unique
+  date                      DateTime
+  licensorFullName          String
+  licensorPhone             String
+  licensorEmail             String
+  licensorEntity            String
+  licensorSigned            Boolean                    @default(false)
+  licenseeFullName          String
+  licenseePhone             String
+  licenseeEmail             String
+  licenseeEntity            String
+  licenseeSigned            Boolean                    @default(false)
+  productionTitle           String
+  productionDescription     String
+  songRequestDescription    String
+  locationOfUse             String
+  songTitle                 String
+  contractMusicContributors ContractMusicContributor[]
+}
+
+model ContractMusicContributor {
+  contractMusicContributorId String            @id @default(uuid())
+  createdAt                  DateTime          @default(now())
+  updatedAt                  DateTime          @updatedAt
+  contract                   Contract          @relation(fields: [contractId], references: [contractId], onDelete: Cascade)
+  contractId                 String
+  contributorFullName        String
+  contributorRole            MusicRole
+  contributorAffiliation     MusicAffiliation?
+  contributorEmail           String
+  contributorPublisher       String
+  contributorPublisherIpi    String
 }

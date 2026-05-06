@@ -106,7 +106,7 @@ describe("projectSubmission", () => {
       deadline: new Date(),
       videoLink: "https://test.com/video",
       additionalInfo: "General additional info",
-      projectType: ProjectType.MOTION_PICTURE,
+      projectType: ProjectType.OTHER,
     };
 
     const response = await $api.projectSubmission(input);
@@ -181,7 +181,7 @@ describe("projectSubmission", () => {
       deadline: new Date(),
       videoLink: "https://test.com/video",
       additionalInfo: "General additional info",
-      projectType: ProjectType.SOCIAL_MEDIA_REEL,
+      projectType: ProjectType.SOCIAL_MEDIA,
     };
 
     expect($api.projectSubmission(input)).rejects.toThrow(

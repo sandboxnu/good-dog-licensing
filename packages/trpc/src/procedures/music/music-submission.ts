@@ -18,6 +18,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
       affiliation: input.submitterAffiliation,
       ipi: input.submitterIpi,
       isSubmitter: true,
+      email: ctx.session.user.email,
     };
 
     const [_, musicSubmission] = await ctx.prisma.$transaction([

@@ -3,7 +3,6 @@ import { CheckIcon, ChevronDown, X } from "lucide-react";
 
 import { cn } from "@good-dog/ui";
 import { Button as ButtonShad } from "@good-dog/ui/button";
-
 import {
   Command,
   CommandEmpty,
@@ -58,12 +57,12 @@ export default function MultiselectDropdownFilter({
         >
           <div className="flex flex-row items-center justify-center gap-2">
             <p className="text-green-500 dark:text-mint-100">{label}</p>
-            <ChevronDown className="h-4 w-4 transition-transform text-green-500 dark:text-mint-100" />
+            <ChevronDown className="h-4 w-4 text-green-500 transition-transform dark:text-mint-100" />
           </div>
         </ButtonShad>
       </PopoverTrigger>
       <PopoverContent
-        className="w-auto border border-green-300 dark:border-grass-green-100 bg-gray-100 dark:bg-dark-gray-500 p-2"
+        className="w-auto border border-green-300 bg-gray-100 p-2 dark:border-grass-green-100 dark:bg-dark-gray-500"
         align="start"
         onEscapeKeyDown={() => setIsOpen(false)}
       >

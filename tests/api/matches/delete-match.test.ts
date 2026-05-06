@@ -94,7 +94,7 @@ async function createData() {
       projectTitle: "title",
       description: "a project hoping to showcase the effects of climate change",
       deadline: new Date(Date.now() + 2_000_000_000),
-      projectType: ProjectType.MOTION_PICTURE,
+      projectType: ProjectType.OTHER,
     },
   });
 

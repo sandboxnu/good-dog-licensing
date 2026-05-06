@@ -36,8 +36,63 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
         musicianStatus: MusicianMatchStatus.HIDDEN,
       },
       include: {
-        songRequest: true,
-        musicSubmission: true,
+        songRequest: {
+          include: {
+            projectSubmission: {
+              include: {
+                projectOwner: true,
+              },
+            },
+          },
+        },
+        musicSubmission: {
+          include: {
+            submitter: true,
+            contributors: true,
+          },
+        },
+      },
+    });
+
+    await ctx.prisma.contract.create({
+      data: {
+        matchId: createdMatch.matchId,
+        date: createdMatch.createdAt,
+        licensorFullName:
+          createdMatch.musicSubmission.submitter.firstName +
+          " " +
+          createdMatch.musicSubmission.submitter.lastName,
+        licensorPhone: createdMatch.musicSubmission.submitter.phoneNumber,
+        licensorEmail: createdMatch.musicSubmission.submitter.email,
+        licensorEntity: createdMatch.musicSubmission.performerName,
+        licenseeFullName:
+          createdMatch.songRequest.projectSubmission.projectOwner.firstName +
+          " " +
+          createdMatch.songRequest.projectSubmission.projectOwner.lastName,
+        licenseePhone:
+          createdMatch.songRequest.projectSubmission.projectOwner.phoneNumber,
+        licenseeEmail:
+          createdMatch.songRequest.projectSubmission.projectOwner.email,
+        licenseeEntity: createdMatch.songRequest.projectSubmission.projectTitle,
+        productionTitle:
+          createdMatch.songRequest.projectSubmission.projectTitle,
+        productionDescription:
+          createdMatch.songRequest.projectSubmission.description,
+        songRequestDescription: createdMatch.songRequest.description,
+        locationOfUse: createdMatch.songRequest.projectSubmission.projectType,
+        songTitle: createdMatch.musicSubmission.songName,
+        contractMusicContributors: {
+          create: createdMatch.musicSubmission.contributors.flatMap((c) =>
+            c.roles.map((role) => ({
+              contributorFullName: c.firstName + " " + c.lastName,
+              contributorRole: role,
+              contributorAffiliation: c.affiliation ?? null,
+              contributorEmail: c.email ?? "",
+              contributorPublisher: c.publisher ?? "",
+              contributorPublisherIpi: c.publisherIpi ?? "",
+            })),
+          ),
+        },
       },
     });
 

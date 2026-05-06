@@ -5,12 +5,13 @@ import DeviceTooSmallModal from "./DeviceTooSmallModal";
 import Footer from "./Footer";
 import Nav from "./Nav";
 
-const DISPLAY_ON_DESKTOP_CLASS = "max-[799px]:hidden";
-const DISPLAY_ON_MOBILE_CLASS = "min-[800px]:hidden";
+const DISPLAY_ON_DESKTOP_CLASS = "max-md:hidden";
+const DISPLAY_ON_MOBILE_CLASS = "md:hidden";
 
-const CONTENT_MAX_WIDTH_CLASSES = {
-  small: "max-w-[1050px]",
-  large: "max-w-[1650px]",
+export const CONTENT_MAX_WIDTH_CLASSES = {
+  small: "max-w-[1050px] px-[40px]",
+  large: "max-w-[1650px] px-[40px]",
+  full: "w-full",
 };
 
 const BACKGROUND_CLASSES = {
@@ -42,6 +43,7 @@ interface PageContainerProps {
   background: keyof typeof BACKGROUND_CLASSES;
   widthType: keyof typeof CONTENT_MAX_WIDTH_CLASSES;
   allowMobile?: boolean;
+  smallHeader?: boolean;
   children: React.ReactNode;
 }
 
@@ -49,6 +51,7 @@ export default function PageContainer({
   background,
   widthType,
   allowMobile = false,
+  smallHeader = false,
   children,
 }: PageContainerProps) {
   return (
@@ -71,13 +74,20 @@ export default function PageContainer({
         >
           <div
             className={clsx(
-              "mx-auto flex w-full flex-col px-[40px] pt-[32px]",
+              "mx-auto flex flex-col pt-[32px]",
               CONTENT_MAX_WIDTH_CLASSES[widthType],
             )}
           >
             {/* Only show nav bar when on desktop */}
             <div className={clsx(DISPLAY_ON_DESKTOP_CLASS)}>
-              <Nav />
+              <div
+                className={clsx(
+                  "mx-auto",
+                  smallHeader && CONTENT_MAX_WIDTH_CLASSES.small,
+                )}
+              >
+                <Nav />
+              </div>
             </div>
 
             <div

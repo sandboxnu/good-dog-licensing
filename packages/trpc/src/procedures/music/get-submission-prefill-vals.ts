@@ -6,8 +6,11 @@ import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 interface ContributorPrefillType {
   firstName: string;
   lastName: string;
+  email: string | null;
   affiliation: MusicAffiliation | null;
   ipi: string | null;
+  publisher: string | null;
+  publisherIpi: string | null;
 }
 
 export const getMusicSubmissionPrefillValuesProcedure =
@@ -36,8 +39,11 @@ export const getMusicSubmissionPrefillValuesProcedure =
               contributorMap[contributor.firstName && contributor.lastName] = {
                 firstName: contributor.firstName,
                 lastName: contributor.lastName,
+                email: contributor.email,
                 affiliation: contributor.affiliation,
                 ipi: contributor.ipi,
+                publisher: contributor.publisher,
+                publisherIpi: contributor.publisherIpi,
               };
             }
 
@@ -51,6 +57,8 @@ export const getMusicSubmissionPrefillValuesProcedure =
         contributors: uniqueContributors,
         userAffiliation: ctx.session.user.affiliation,
         userIpi: ctx.session.user.ipi,
+        userPublisher: ctx.session.user.publisher,
+        userPublisherIpi: ctx.session.user.publisherIpi,
       };
     },
   );

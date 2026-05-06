@@ -183,7 +183,7 @@ async function createData() {
       projectTitle: "Test Project",
       description: "A test project",
       deadline: new Date(Date.now() + 2_000_000_000),
-      projectType: ProjectType.MOTION_PICTURE,
+      projectType: ProjectType.OTHER,
     },
   });
 

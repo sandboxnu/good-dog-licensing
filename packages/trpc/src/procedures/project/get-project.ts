@@ -102,6 +102,7 @@ export const getProjectSubmissionByIdProcedure =
             select: {
               firstName: true,
               lastName: true,
+              userId: true,
             },
           },
           songRequests: {

@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { trpc } from "@good-dog/trpc/client";
 
 interface ProfileIconProps {
@@ -8,6 +9,7 @@ interface ProfileIconProps {
 
 export default function ProfileIcon({ color, size, name }: ProfileIconProps) {
   const circleSize = size ? size : 48;
+  const gradientId = useId();
   const userQuery = trpc.user.useSuspenseQuery();
   const user = userQuery[0];
   const letter = name
@@ -23,7 +25,7 @@ export default function ProfileIcon({ color, size, name }: ProfileIconProps) {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <circle cx="20" cy="20" r="20" fill="url(#paint0_linear_2833_1960)" />
+        <circle cx="20" cy="20" r="20" fill={`url(#${gradientId})`} />
         <text
           x="50%"
           y="50%"
@@ -39,7 +41,7 @@ export default function ProfileIcon({ color, size, name }: ProfileIconProps) {
         </text>
         <defs>
           <linearGradient
-            id="paint0_linear_2833_1960"
+            id={gradientId}
             x1="20"
             y1="-8.33333"
             x2="20"

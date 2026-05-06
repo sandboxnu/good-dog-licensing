@@ -1,0 +1,38 @@
+import clsx from "clsx";
+
+import ContributorsSection from "../landing-pages/general/components/ContributorsSection";
+import FaqSection from "../landing-pages/general/components/FaqSection";
+import GoodDogGoodSection from "../landing-pages/general/components/GoodDogGoodSection";
+import MediaMakerAndMusicianSection from "../landing-pages/general/components/MediaMakerAndMusicianSection";
+import OverviewAndLogoSection from "../landing-pages/general/components/OverviewAndLogoSection";
+import {
+  SPACING_CLASS,
+  TOP_SPACING_CLASS,
+} from "../landing-pages/general/GeneralLanding";
+import { CONTENT_MAX_WIDTH_CLASSES } from "../PageContainer";
+
+export default function About() {
+  return (
+    <div
+      className={clsx(
+        "flex w-full flex-col items-center justify-center pb-[100px] text-center",
+        SPACING_CLASS,
+        TOP_SPACING_CLASS,
+      )}
+    >
+      <div className={clsx("w-full", CONTENT_MAX_WIDTH_CLASSES.small)}>
+        <div className={clsx("flex flex-col", SPACING_CLASS)}>
+          <OverviewAndLogoSection type="about" />
+          <MediaMakerAndMusicianSection type="about" />
+          <GoodDogGoodSection />
+        </div>
+      </div>
+
+      <ContributorsSection />
+
+      <div className={clsx("w-full", CONTENT_MAX_WIDTH_CLASSES.small)}>
+        <FaqSection />
+      </div>
+    </div>
+  );
+}

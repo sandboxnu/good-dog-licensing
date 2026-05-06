@@ -185,9 +185,11 @@ export const allGenres: Genre[] = [
 ];
 
 export const allProjectTypes: ProjectType[] = [
-  "MOTION_PICTURE",
-  "SOCIAL_MEDIA_REEL",
-  "VIDEO_GAME",
+  "SOCIAL_MEDIA",
+  "PERSONAL_WEBSITE",
+  "FILM_FESTIVAL",
+  "ACADEMIC_PROJECT",
+  "OTHER",
 ];
 
 export const projectDescriptions: string[] = [

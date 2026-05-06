@@ -85,7 +85,7 @@ describe("get-projects", () => {
           projectTitle: "title",
           description: "description-1",
           deadline: new Date(Date.now() + 600_000),
-          projectType: ProjectType.MOTION_PICTURE,
+          projectType: ProjectType.OTHER,
         },
       }),
       prisma.projectSubmission.create({
@@ -105,7 +105,7 @@ describe("get-projects", () => {
           projectTitle: "title",
           description: "description-2",
           deadline: new Date(Date.now() + 600_000),
-          projectType: ProjectType.MOTION_PICTURE,
+          projectType: ProjectType.OTHER,
         },
       }),
       prisma.projectSubmission.create({
@@ -125,7 +125,7 @@ describe("get-projects", () => {
           projectTitle: "Another Project Title",
           description: "description-3",
           deadline: new Date(Date.now() + 600_000),
-          projectType: ProjectType.MOTION_PICTURE,
+          projectType: ProjectType.OTHER,
         },
       }),
       prisma.user.create({
@@ -152,7 +152,7 @@ describe("get-projects", () => {
           projectOwnerId: "anzhuo-mediamaker-id",
           description: "Project 1",
           deadline: new Date(Date.now() + 600_000),
-          projectType: ProjectType.MOTION_PICTURE,
+          projectType: ProjectType.OTHER,
         },
       }),
       prisma.projectSubmission.create({
@@ -162,7 +162,7 @@ describe("get-projects", () => {
           projectOwnerId: "anzhuo-mediamaker-id",
           description: "Project 2",
           deadline: new Date(Date.now() + 600_000),
-          projectType: ProjectType.MOTION_PICTURE,
+          projectType: ProjectType.OTHER,
         },
       }),
       prisma.user.create({
