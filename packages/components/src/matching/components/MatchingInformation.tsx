@@ -126,13 +126,14 @@ export default function MatchingInformation({
           onClose={() => setSelectedMatch(null)}
         />
       )}
-      <CommentsSheet
-        open={commentsOpen}
-        onClose={() => setCommentsOpen(false)}
-        songRequestId={songRequest.songRequestId}
-        comments={songRequest.comments}
-      />
-
+      {commentsOpen && (
+        <CommentsSheet
+          open={true}
+          onClose={() => setCommentsOpen(false)}
+          songRequestId={songRequest.songRequestId}
+          comments={songRequest.comments}
+        />
+      )}
     </div>
   );
 }

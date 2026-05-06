@@ -90,13 +90,15 @@ export default function MatchInformation({
           }
         />
       </div>
-      <CommentsSheet
-        open={commentsOpen}
-        onClose={() => setCommentsOpen(false)}
-        songRequestId={songRequestId}
-        comments={comments}
-        subtitle="You can communicate with your project manager by commenting."
-      />
+      {commentsOpen && (
+        <CommentsSheet
+          open={true}
+          onClose={() => setCommentsOpen(false)}
+          songRequestId={songRequestId}
+          comments={comments}
+          subtitle="You can communicate with your project manager by commenting."
+        />
+      )}
     </div>
   );
 }
