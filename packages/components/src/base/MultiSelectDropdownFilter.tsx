@@ -68,7 +68,7 @@ export default function MultiselectDropdownFilter({
       >
         <Command shouldFilter={false}>
           {searchBar && (
-            <div className="mb-2 flex w-full items-center gap-2 rounded-lg border border-[0.5px] border-dark-gray-100 bg-white px-2 py-1 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-400 dark:border-dark-gray-300 dark:bg-dark-gray-500">
+            <div className="mb-2 flex w-full items-center gap-2 rounded-lg border-[0.5px] border-dark-gray-100 bg-white px-2 py-1 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-400 dark:border-dark-gray-300 dark:bg-dark-gray-500">
               <input
                 type="text"
                 value={query}

@@ -1,7 +1,7 @@
 import React from "react";
 
-import CloseX from "../svg/CloseX";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
+import { X } from "lucide-react";
 
 interface ModalProps {
   open: boolean;
@@ -37,7 +37,7 @@ export default function Modal({
       >
         <div className="flex justify-end px-[21px] pt-[24px]">
           <button onClick={onClose}>
-            <CloseX />
+            <X className="text-dark-gray-500 dark:text-gray-200" />
           </button>
         </div>
         {danger && (

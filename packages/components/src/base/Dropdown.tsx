@@ -88,7 +88,7 @@ export default function Dropdown({
               <DropdownMenuItem
                 key={option.value}
                 onSelect={() => onChange(option.value)}
-                className={`flex items-center justify-between rounded-lg text-[16px] text-body3 focus:bg-mint-300 dark:focus:bg-mint-500 ${
+                className={`flex items-center justify-between rounded-lg text-[16px] focus:bg-mint-300 dark:focus:bg-mint-500 ${
                   isSelected ? "bg-mint-300 dark:bg-mint-500" : ""
                 }`}
               >

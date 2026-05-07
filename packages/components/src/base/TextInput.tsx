@@ -5,9 +5,8 @@ import clsx from "clsx";
 import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
 
-import EyeClosed from "../svg/EyeClosed";
-import EyeOpen from "../svg/EyeOpen";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
+import { Eye, EyeOff } from "lucide-react";
 
 interface TextInputProps {
   label: string;
@@ -78,14 +77,9 @@ export default function TextInput({
             onClick={() => setShowPassword((value) => !value)}
           >
             {showPassword ? (
-              <div className="text-green-500 dark:text-mint-200">
-                <EyeOpen />{" "}
-              </div>
+              <Eye className="text-green-500 dark:text-mint-200 h-5 w-5" />
             ) : (
-              <div className="text-green-500 dark:text-mint-200">
-                {" "}
-                <EyeClosed />
-              </div>
+              <EyeOff className="text-green-500 dark:text-mint-200 h-5 w-5" />
             )}
           </span>
         )}
