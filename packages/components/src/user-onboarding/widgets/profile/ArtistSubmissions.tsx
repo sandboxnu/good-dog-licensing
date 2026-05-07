@@ -1,6 +1,16 @@
 "use client";
 
-import { CalendarCheck, CircleCheck, File, Hourglass, Info, LinkIcon, Music, UsersRound, Video } from "lucide-react";
+import {
+  CalendarCheck,
+  CircleCheck,
+  File,
+  Hourglass,
+  Info,
+  LinkIcon,
+  Music,
+  UsersRound,
+  Video,
+} from "lucide-react";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 
@@ -49,7 +59,9 @@ function MusicSubmissionContent({
         <div className="flex flex-1 flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
             <Music className="text-gray-400 h-4 w-4" />
-            <p className="text-sm text-cream-600 dark:text-gray-200">Genre(s)</p>
+            <p className="text-sm text-cream-600 dark:text-gray-200">
+              Genre(s)
+            </p>
           </div>
           <div className="flex flex-row flex-wrap gap-1">
             {song.genres.map((genre, index) => (
@@ -66,7 +78,7 @@ function MusicSubmissionContent({
 
       <div className="flex flex-col gap-2">
         <div className="flex flex-row items-center gap-2">
-          <UsersRound className="text-gray-400 h-4 w-4"/>
+          <UsersRound className="text-gray-400 h-4 w-4" />
           <p className="text-sm text-dark-gray-300 dark:text-cream-400">
             Songwriters
           </p>

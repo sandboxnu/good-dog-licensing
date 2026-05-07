@@ -97,7 +97,7 @@ export function MusicSubmissionCard({
           <div className="flex flex-row items-center">
             <div className="flex w-1/2 flex-col gap-2">
               <div className="flex flex-row gap-2">
-                <UsersRound className="text-gray-400 h-4 w-4"/>
+                <UsersRound className="text-gray-400 h-4 w-4" />
                 <p className="text-dark-gray-300 dark:text-dark-gray-200">
                   Artist
                 </p>
@@ -137,7 +137,7 @@ export function MusicSubmissionCard({
 
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2">
-              <UsersRound className="text-gray-400 h-4 w-4"/>
+              <UsersRound className="text-gray-400 h-4 w-4" />
               <p className="text-dark-gray-300 dark:text-dark-gray-200">
                 Contributors
               </p>

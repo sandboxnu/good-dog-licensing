@@ -2,7 +2,16 @@ import type { GetProcedureOutput } from "@good-dog/trpc/types";
 
 import StatusIndicator from "../../base/StatusIndicator";
 import User from "./User";
-import { Calendar, CalendarCheck, Camera, CircleCheck, File, Info, Music, Search } from "lucide-react";
+import {
+  Calendar,
+  CalendarCheck,
+  Camera,
+  CircleCheck,
+  File,
+  Info,
+  Music,
+  Search,
+} from "lucide-react";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 

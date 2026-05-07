@@ -1,6 +1,15 @@
 "use client";
 
-import { Calendar, CalendarCheck, Camera, CircleCheck, File, Link, Music, UsersRound } from "lucide-react";
+import {
+  Calendar,
+  CalendarCheck,
+  Camera,
+  CircleCheck,
+  File,
+  Link,
+  Music,
+  UsersRound,
+} from "lucide-react";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import {
@@ -127,7 +136,7 @@ export default function MatchDrawer({
                 </div>
                 <div className="contents">
                   <div className="flex flex-row items-center gap-1">
-                    <UsersRound className="text-gray-400 h-4 w-4"/>
+                    <UsersRound className="text-gray-400 h-4 w-4" />
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Songwriters
                     </p>
