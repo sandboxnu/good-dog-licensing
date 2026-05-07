@@ -1,9 +1,8 @@
-import { Check, ChevronUp, X } from "lucide-react";
+import { Check, ChevronUp, Pencil, X } from "lucide-react";
 
 import { Button as ButtonShad } from "@good-dog/ui/button";
 
 import AddIcon from "../svg/AddIcon";
-import PencilIcon from "../svg/PencilIcon";
 
 interface ButtonProps {
   label?: string;
@@ -84,7 +83,7 @@ export default function Button({
         ) : displayIcon === "arrow" ? (
           <ChevronUp />
         ) : displayIcon === "pencil" ? (
-          <PencilIcon />
+          <Pencil className="h-4 w-4" />
         ) : displayIcon === "check" ? (
           <Check />
         ) : displayIcon === "close" ? (

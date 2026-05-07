@@ -17,7 +17,7 @@ import RadioGroup from "../../base/RadioGroup";
 import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
 import RHFRadioGroup from "../../rhf-base/RHFRadioGroup";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
-import Trash from "../../svg/TrashIcon";
+import { Trash } from "lucide-react";
 
 interface ContributorsInfoProps {
   onSubmit: () => void;
@@ -295,7 +295,7 @@ export default function ContributorsInfo({
                 </p>
                 {fields.length > 1 && (
                   <button type="button" onClick={() => remove(index)}>
-                    <Trash />
+                    <Trash className="text-error" />
                   </button>
                 )}
               </div>

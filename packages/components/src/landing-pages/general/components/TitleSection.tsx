@@ -1,4 +1,4 @@
-import DownArrow from "../../../svg/DownArrow";
+import { MoveDown } from "lucide-react";
 
 export default function TitleSection() {
   return (
@@ -14,7 +14,7 @@ export default function TitleSection() {
         Say "Yes" to Licensing!
       </h2>
       <div className="mt-[16px] flex items-center justify-center">
-        <DownArrow />
+        <MoveDown className="text-green-400 dark:text-mint-300 h-20 w-20" />
       </div>
     </div>
   );

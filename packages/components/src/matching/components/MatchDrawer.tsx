@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "lucide-react";
+import { Calendar, CalendarCheck, Camera, CircleCheck, File, Link, Music, UsersRound } from "lucide-react";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import {
@@ -12,13 +12,6 @@ import {
 
 import { formatAllCapsWord } from "../../../utils/allCapsListFormatter";
 import StatusIndicator from "../../base/StatusIndicator";
-import Calendar from "../../svg/Calendar";
-import Camera from "../../svg/Camera";
-import Check from "../../svg/Check";
-import Deadline from "../../svg/Deadline";
-import FileIcon from "../../svg/FileIcon";
-import MusicNote from "../../svg/GreyMusicNote";
-import Group from "../../svg/Group";
 import User from "./User";
 
 type MatchType = GetProcedureOutput<"getSongRequestById">["matches"][number];
@@ -64,7 +57,7 @@ export default function MatchDrawer({
             <div className="grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6">
               <div className="contents">
                 <div className="flex flex-row items-center gap-1">
-                  <Calendar />
+                  <Calendar className="w-4 h-4 text-gray-400" />
                   <p className="text-sm text-cream-600 dark:text-gray-200">
                     Date updated
                   </p>
@@ -79,7 +72,7 @@ export default function MatchDrawer({
               </div>
               <div className="contents">
                 <div className="flex flex-row items-center gap-1">
-                  <Deadline />
+                  <CalendarCheck className="w-4 h-4 text-gray-400" />
                   <p className="text-sm text-cream-600 dark:text-gray-200">
                     Date matched
                   </p>
@@ -94,7 +87,7 @@ export default function MatchDrawer({
               </div>
               <div className="contents">
                 <div className="flex flex-row items-center gap-1">
-                  <Check />
+                  <CircleCheck className="w-4 h-4 text-gray-400" />
                   <p className="text-base text-cream-600 dark:text-gray-200">
                     Status
                   </p>
@@ -117,7 +110,7 @@ export default function MatchDrawer({
               <div className="inline-grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6">
                 <div className="contents">
                   <div className="flex flex-row items-center gap-1">
-                    <Camera />
+                    <Camera className="w-4 h-4 text-gray-400" />
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Musician
                     </p>
@@ -134,7 +127,7 @@ export default function MatchDrawer({
                 </div>
                 <div className="contents">
                   <div className="flex flex-row items-center gap-1">
-                    <Group />
+                    <UsersRound className="text-gray-400 h-4 w-4"/>
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Songwriters
                     </p>
@@ -153,7 +146,7 @@ export default function MatchDrawer({
                 </div>
                 <div className="contents">
                   <div className="flex flex-row items-center gap-1">
-                    <Deadline />
+                    <CalendarCheck className="w-4 h-4 text-gray-400" />
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Date Submitted
                     </p>
@@ -190,7 +183,7 @@ export default function MatchDrawer({
               <div className="mt-6 space-y-6">
                 <div className="col-span-2 flex flex-col">
                   <div className="flex flex-row items-center gap-1">
-                    <MusicNote />
+                    <Music className="text-gray-400 h-4 w-4" />
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Genre(s)
                     </p>
@@ -211,7 +204,7 @@ export default function MatchDrawer({
                 {match.musicSubmission.additionalInfo.length > 0 && (
                   <div className="flex flex-col gap-1">
                     <div className="flex flex-row items-center gap-1">
-                      <FileIcon />
+                      <File className="w-4 h-4 text-gray-400" />
                       <p className="text-sm text-gray-500 dark:text-gray-200">
                         Additional information
                       </p>
