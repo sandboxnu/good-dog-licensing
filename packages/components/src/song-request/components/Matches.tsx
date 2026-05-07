@@ -35,9 +35,11 @@ export function Matches({
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="w-full text-dark-gray-500 dark:text-mint-200">
-        Review and approve/deny the songs matched below
-      </p>
+      {filteredMatches.length > 0 && state === "INCOMING" && (
+        <p className="w-full text-dark-gray-500 dark:text-mint-200">
+          Review and approve/deny the songs matched below
+        </p>
+      )}
       {filteredMatches.length === 0 && (
         <div className="mt-16 flex w-full flex-col items-center gap-2">
           <div className="w-3/4 lg:w-1/2">
