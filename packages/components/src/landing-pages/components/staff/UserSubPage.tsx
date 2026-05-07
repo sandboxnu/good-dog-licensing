@@ -35,7 +35,7 @@ export default function UserSubPage() {
           onClick={() => setInviteModalOpen(true)}
         >
           <div className="flex flex-row items-center justify-center gap-2">
-            <UserPlus className="text-mint-100 dark:text-mint-300 w-5" />
+            <UserPlus className="text-mint-100 dark:text-mint-300 w-5 h-5" />
             Invite
           </div>
         </Button>

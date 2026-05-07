@@ -124,7 +124,7 @@ export default function AdmModSongRequestInformation({
             <div className="flex flex-row items-center gap-1">
               <Search className="text-gray-400 h-4 w-4" />
               <p className="text-sm text-cream-600 dark:text-gray-200">
-                Example songs, artists, etc
+                Example songs, artists, etc.
               </p>
             </div>
             <p className="text-sm text-dark-gray-300 dark:text-gray-200">
