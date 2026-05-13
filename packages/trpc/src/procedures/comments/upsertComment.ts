@@ -6,86 +6,92 @@ import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { sendEmailHelper } from "../../utils";
 
-const CommentsSchema = z.object({
-  commentText: z.string(),
-  userId: z.string(),
-});
-
 export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
-  "modify",
+  "submit",
 )
   .input(
     z.object({
-      comment: CommentsSchema,
+      commentText: z.string().min(1),
       songRequestId: z.string(),
       commentId: z.string().optional(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    if (ctx.session.user.userId === input.comment.userId) {
-      if (input.commentId) {
-        await ctx.prisma.comments.update({
-          where: {
-            commentId: input.commentId,
-            userId: input.comment.userId,
+    const userId = ctx.session.user.userId;
+
+    // Get song request and throw error if not found
+    const songRequest = await ctx.prisma.songRequest.findUnique({
+      where: { songRequestId: input.songRequestId },
+      include: {
+        projectSubmission: {
+          include: {
+            projectOwner: true,
+            projectManager: true,
           },
+        },
+      },
+    });
+
+    if (!songRequest) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Song Request not found.",
+      });
+    }
+
+    // If commentId is provided, update the comment. Otherwise, create a new comment.
+    // If updating comment, ensure it belongs to the user.
+    // If creating comment, ensure the user is ADMIN, MODERATOR, or owner of the project.
+
+    if (input.commentId) {
+      await ctx.prisma.comments.update({
+        where: {
+          commentId: input.commentId,
+          userId,
+        },
+        data: {
+          commentText: input.commentText,
+        },
+      });
+    } else {
+      if (
+        ctx.session.user.role === "ADMIN" ||
+        ctx.session.user.role === "MODERATOR" ||
+        songRequest.projectSubmission.projectOwnerId === userId
+      ) {
+        await ctx.prisma.comments.create({
           data: {
-            commentText: input.comment.commentText,
+            commentText: input.commentText,
+            songRequestId: input.songRequestId,
+            userId,
           },
         });
       } else {
-        await ctx.prisma.comments.create({
-          data: {
-            commentText: input.comment.commentText,
-            songRequestId: input.songRequestId,
-            userId: input.comment.userId,
-          },
-        });
-      }
-
-      const songRequest = await ctx.prisma.songRequest.findUnique({
-        where: { songRequestId: input.songRequestId },
-        include: {
-          projectSubmission: {
-            include: {
-              projectOwner: true,
-              projectManager: true,
-            },
-          },
-        },
-      });
-
-      if (!songRequest) {
         throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Song Request not found.",
+          code: "FORBIDDEN",
+          message: "You are not allowed to add comments to this song request.",
         });
       }
-
-      await sendEmailHelper(
-        async () =>
-          ctx.session.user.role == "MEDIA_MAKER"
-            ? await ctx.emailService.sendAdminAndPMChatMessage(
-                songRequest.projectSubmission.projectTitle,
-                songRequest.songRequestId,
-                songRequest.projectSubmission.projectManager?.email,
-              )
-            : await ctx.emailService.sendMediaMakerChatMessage(
-                songRequest.projectSubmission.projectOwner.email,
-                songRequest.projectSubmission.projectTitle,
-                songRequest.songRequestId,
-              ),
-        "Email failed to send",
-      );
-
-      return {
-        message: "Comments successfully updated.",
-      };
-    } else {
-      throw new TRPCError({
-        message: "You are not authorized to update this comment.",
-        code: "FORBIDDEN",
-      });
     }
+
+    await sendEmailHelper(
+      async () =>
+        ctx.session.user.role == "MEDIA_MAKER"
+          ? await ctx.emailService.sendAdminAndPMChatMessage(
+              songRequest.projectSubmission.projectTitle,
+              songRequest.songRequestId,
+              songRequest.projectSubmission.projectManager?.email,
+            )
+          : await ctx.emailService.sendMediaMakerChatMessage(
+              songRequest.projectSubmission.projectOwner.email,
+              songRequest.projectSubmission.projectTitle,
+              songRequest.songRequestId,
+            ),
+      "Email failed to send",
+    );
+
+    return {
+      message: "Comments successfully updated.",
+    };
   });
