@@ -2,6 +2,7 @@
 
 import { trpc } from "@good-dog/trpc/client";
 import { MusicAffiliation, MusicRole } from "@good-dog/db";
+import Button from "../base/Button";
 
 const LOCATION_LABELS: Record<string, string> = {
   SOCIAL_MEDIA: "Social Media (Youtube, Instagram, Tik Tok, Vimeo, etc.)",
@@ -61,8 +62,22 @@ export default function ContractView({ contractId }: { contractId: string }) {
     (c) => COMPOSITION_ROLES.includes(c.contributorRole),
   );
 
+  const handlePrint = () => window.print();
+
   return (
-    <div className="bg-white text-black w-full max-w-[850px] px-16 py-14 text-sm leading-relaxed shadow-lg font-serif">
+    <div className="flex flex-col items-center w-full my-4">
+      
+      <div className="print:hidden">
+        <Button
+          size={"medium"}
+          variant={"contained"}
+          label="Save/Print"
+          displayIcon="print"
+          onClick={handlePrint}
+        />
+      </div>
+
+      <div className="bg-white text-black w-full max-w-[850px] px-16 py-14 text-sm leading-relaxed font-serif">
       {/* Title */}
       <h1 className="text-center font-bold text-base uppercase mb-6 tracking-wide">
         Synchronization and Master Use License Agreement
@@ -516,6 +531,17 @@ export default function ContractView({ contractId }: { contractId: string }) {
             )}
           </div>
         )}
+      </div>
+      </div>
+
+      <div className="print:hidden">
+        <Button
+          size={"medium"}
+          variant={"contained"}
+          label="Save/Print"
+          displayIcon="print"
+          onClick={handlePrint}
+        />
       </div>
     </div>
   );
