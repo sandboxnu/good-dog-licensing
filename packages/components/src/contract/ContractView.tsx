@@ -305,39 +305,36 @@ export default function ContractView({ contractId }: { contractId: string }) {
         </p>
 
         {/* Signature blocks */}
-        {/* TODO: Replace italic name rendering with actual handwritten signature images */}
         <div className="flex gap-16 mb-2">
           <div className="flex-1">
             <p className="font-bold mb-6">Licensor (on behalf of All Owners)</p>
             <p className="mb-1">
               <span className="font-bold">By:</span>{" "}
-              {contract.licensorSigned ? (
-                <span className="italic">{contract.licensorFullName}</span>
-              ) : (
-                <span className="border-b border-black inline-block w-56">
-                  &nbsp;
-                </span>
-              )}
+              <span className="border-b border-black inline-block w-56 align-bottom leading-none">
+                {contract.licensorSigned ? (
+                  <span className="font-signature text-lg">
+                    {contract.licensorFullName}
+                  </span>
+                ) : (
+                  <>&nbsp;</>
+                )}
+              </span>
             </p>
-            {contract.licensorSigned && (
-              <p className="text-xs text-gray-600 mt-1">Signed</p>
-            )}
           </div>
           <div className="flex-1">
             <p className="font-bold mb-6">Licensee</p>
             <p className="mb-1">
               <span className="font-bold">By:</span>{" "}
-              {contract.licenseeSigned ? (
-                <span className="italic">{contract.licenseeFullName}</span>
-              ) : (
-                <span className="border-b border-black inline-block w-56">
-                  &nbsp;
-                </span>
-              )}
+              <span className="border-b border-black inline-block w-56 align-bottom leading-none">
+                {contract.licenseeSigned ? (
+                  <span className="font-signature text-lg">
+                    {contract.licenseeFullName}
+                  </span>
+                ) : (
+                  <>&nbsp;</>
+                )}
+              </span>
             </p>
-            {contract.licenseeSigned && (
-              <p className="text-xs text-gray-600 mt-1">Signed</p>
-            )}
           </div>
         </div>
 
