@@ -40,7 +40,7 @@ export function Matches({
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <div className="flex flex-row items-center justify-between gap-4">
+      <div className="flex flex-row items-center justify-between gap-4 px-[20px]">
         <p className="text-dark-gray-500 dark:text-mint-200">{subtitle}</p>
         {commentButton}
       </div>
