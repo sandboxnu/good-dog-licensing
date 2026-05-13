@@ -42,11 +42,13 @@ export default function MusicInformation({
           Date Submitted
         </p>
         <p className="text-dark-gray-500 dark:text-gray-200">
-          {musicSubmission?.createdAt.toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}
+          {musicSubmission
+            ? musicSubmission.createdAt.toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })
+            : "..."}
         </p>
       </div>
       <div className="flex flex-col gap-1">
