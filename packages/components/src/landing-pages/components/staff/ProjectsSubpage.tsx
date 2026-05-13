@@ -285,10 +285,10 @@ function SubmissionTable({
                   scroll: false,
                 })
               }
-              key={key}
+              key={project.projectId}
             >
               <TableRowFormatting
-                key={key}
+                key={project.projectId}
                 isLast={key === data.length - 1}
                 columnCount={6}
               >

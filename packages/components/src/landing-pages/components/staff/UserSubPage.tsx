@@ -130,7 +130,7 @@ function UserTable({
         {data.map((user: UserType, key) => {
           return (
             <TableRowFormatting
-              key={key}
+              key={user.userId}
               isLast={key === data.length - 1}
               columnCount={5}
             >

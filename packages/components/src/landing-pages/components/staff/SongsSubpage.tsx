@@ -88,38 +88,38 @@ function SongTable({
           <p className="dark:text-white">Song Link</p>
         </TableHeaderFormatting>
 
-        {data.map((user: MusicSubmission, key) => {
+        {data.map((song: MusicSubmission, key) => {
           return (
             <TableRowFormatting
-              key={key}
+              key={song.musicId}
               isLast={key === data.length - 1}
               columnCount={6}
             >
-              <p className="truncate dark:text-white">{user.songName}</p>
-              <p className="truncate dark:text-white">{user.performerName}</p>
+              <p className="truncate dark:text-white">{song.songName}</p>
+              <p className="truncate dark:text-white">{song.performerName}</p>
               <div className="flex gap-1 overflow-hidden dark:text-white">
-                {user.genres.slice(0, 1).map((genre, index) => (
+                {song.genres.slice(0, 1).map((genre, index) => (
                   <GenreCard genre={genre} key={index} />
                 ))}
-                {user.genres.length > 1 && (
+                {song.genres.length > 1 && (
                   <div className="flex h-6 w-fit items-center justify-center gap-1 rounded bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
-                    +{user.genres.length - 2}
+                    +{song.genres.length - 2}
                   </div>
                 )}
               </div>
               <p className="dark:text-white">
-                {user.createdAt.toLocaleDateString("en-US", {
+                {song.createdAt.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
                 })}
               </p>
               <a
-                href={user.songLink}
+                href={song.songLink}
                 target="_blank"
                 className="truncate dark:text-white"
               >
-                <u>{user.songLink}</u>
+                <u>{song.songLink}</u>
               </a>
             </TableRowFormatting>
           );
