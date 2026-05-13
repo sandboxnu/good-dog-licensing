@@ -11,7 +11,7 @@ import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
 import { getStatusLabel } from "../../../../utils/enumLabelMapper";
 import { search } from "../../../../utils/search";
 import Checkbox from "../../../base/Checkbox";
-import MultiselectDropdown from "../../../base/MultiselectDropdown";
+import Dropdown from "../../../base/Dropdown";
 import SearchBar from "../../../base/SearchBar";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import Header from "../Header";
@@ -142,15 +142,17 @@ export default function ProjectsSubpage() {
             />
           </div>
 
-          <div className="ml-auto flex flex-row items-center gap-[16px]">
-            <div className="w-[220px] min-w-[220px]">
-              <MultiselectDropdown
-                value={[createdDateQuery]}
+          <div className="ml-auto flex flex-row items-center gap-[30px]">
+            <Checkbox
+              label="Assigned to me"
+              id="assignedToMe"
+              checked={assignedToMe}
+              onCheckedChange={(checked) => setAssignedToMe(checked)}
+            />
+            <div className="min-w-[150px]">
+              <Dropdown
+                value={createdDateQuery}
                 options={[
-                  {
-                    value: CREATED_DATE_QUERY.LAST_365_DAYS,
-                    label: "Last 365 Days",
-                  },
                   {
                     value: CREATED_DATE_QUERY.LAST_30_DAYS,
                     label: "Last 30 Days",
@@ -159,26 +161,21 @@ export default function ProjectsSubpage() {
                     value: CREATED_DATE_QUERY.LAST_90_DAYS,
                     label: "Last 90 Days",
                   },
+                  {
+                    value: CREATED_DATE_QUERY.LAST_365_DAYS,
+                    label: "Last 365 Days",
+                  },
+
                   { value: CREATED_DATE_QUERY.ALL_TIME, label: "All Time" },
                 ]}
-                placeholder="Filter"
+                placeholder="Created Date"
                 id="createdDateQuery"
-                maxCount={1}
-                onChange={(newValue) => {
-                  const latestValue = newValue[newValue.length - 1];
-
-                  if (latestValue) {
-                    setCreatedDateQuery(latestValue as CREATED_DATE_QUERY);
-                  }
-                }}
+                arrow
+                onChange={(newValue) =>
+                  setCreatedDateQuery(newValue as CREATED_DATE_QUERY)
+                }
               />
             </div>
-            <Checkbox
-              label="Assigned to me"
-              id="assignedToMe"
-              checked={assignedToMe}
-              onCheckedChange={(checked) => setAssignedToMe(checked)}
-            />
           </div>
         </div>
         <SubmissionTable
