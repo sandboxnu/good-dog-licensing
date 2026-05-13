@@ -8,7 +8,7 @@ import MusicInformation from "./MusicInformation";
 import { useState } from "react";
 import { MessageSquare } from "lucide-react";
 import { Button as ButtonShad } from "@good-dog/ui/button";
-import CommentsSheet from "./CommentsSheet";
+import CommentsSheet from "../../shared/comments/CommentsSheet";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 type SongRequestMatchesType = SongRequestType["matches"];
@@ -51,44 +51,54 @@ export default function MatchInformation({
             submitter={selectedMatch?.musicSubmission.submitter}
           />
         </div>
-        <MatchStatusTabs
-          numActionRequired={
-            matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER").length
-          }
-          incomingContent={
-            <Matches
-              state={"INCOMING"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-              commentButton={commentButton}
-            />
-          }
-          pendingApprovalContent={
-            <Matches
-              state={"PENDING_APPROVAL"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          matchedContent={
-            <Matches
-              state={"MATCHED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-          rejectedContent={
-            <Matches
-              state={"REJECTED"}
-              matches={matches}
-              selectedMatchId={selectedMatchId}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          }
-        />
+        <div className="flex-1 min-w-0">
+          <MatchStatusTabs
+            numActionRequired={
+              matches.filter((m) => m.matchState === "SENT_TO_MEDIA_MAKER")
+                .length
+            }
+            incomingContent={
+              <Matches
+                state={"INCOMING"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+                commentButton={commentButton}
+                subtitle="Review and approve/deny the songs matched below"
+              />
+            }
+            pendingApprovalContent={
+              <Matches
+                state={"PENDING_APPROVAL"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+                commentButton={commentButton}
+                subtitle="Waiting for musician approval"
+              />
+            }
+            matchedContent={
+              <Matches
+                state={"MATCHED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+                commentButton={commentButton}
+                subtitle="Approved songs you can use for this song request"
+              />
+            }
+            rejectedContent={
+              <Matches
+                state={"REJECTED"}
+                matches={matches}
+                selectedMatchId={selectedMatchId}
+                setSelectedMatchId={setSelectedMatchId}
+                commentButton={commentButton}
+                subtitle="Songs rejected by you or the musician"
+              />
+            }
+          />
+        </div>
       </div>
       {commentsOpen && (
         <CommentsSheet

@@ -8,7 +8,7 @@ import { trpc } from "@good-dog/trpc/client";
 import MatchDrawer from "./MatchDrawer";
 import { MessageSquare } from "lucide-react";
 import { Button as ButtonShad } from "@good-dog/ui/button";
-import CommentsSheet from "../../song-request/components/CommentsSheet";
+import CommentsSheet from "../../shared/comments/CommentsSheet";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
 type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
@@ -132,6 +132,7 @@ export default function MatchingInformation({
           onClose={() => setCommentsOpen(false)}
           songRequestId={songRequest.songRequestId}
           comments={songRequest.comments}
+          subtitle="You can communicate to media makers by commenting."
         />
       )}
     </div>

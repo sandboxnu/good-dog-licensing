@@ -14,12 +14,14 @@ export function Matches({
   selectedMatchId,
   setSelectedMatchId,
   commentButton,
+  subtitle,
 }: {
   state: "INCOMING" | "PENDING_APPROVAL" | "MATCHED" | "REJECTED";
   matches: MatchesWithMusicSubmission[];
   selectedMatchId: string | null;
   setSelectedMatchId: (matchId: string | null) => void;
-  commentButton?: ReactNode;
+  commentButton: ReactNode;
+  subtitle: string;
 }) {
   const filteredMatches = matches.filter((match) => {
     if (state === "INCOMING") {
@@ -37,15 +39,11 @@ export function Matches({
   });
 
   return (
-    <div className="flex flex-col gap-4">
-      {filteredMatches.length > 0 && state === "INCOMING" && (
-        <>
-          <p className="w-full text-dark-gray-500 dark:text-mint-200">
-            Review and approve/deny the songs matched below
-          </p>
-          {commentButton}
-        </>
-      )}
+    <div className="flex w-full flex-col gap-4">
+      <div className="flex flex-row items-center justify-between gap-4">
+        <p className="text-dark-gray-500 dark:text-mint-200">{subtitle}</p>
+        {commentButton}
+      </div>
       {filteredMatches.length === 0 && (
         <div className="mt-16 flex w-full flex-col items-center gap-2">
           <>
@@ -55,7 +53,6 @@ export function Matches({
             <p className="text-dark-gray-500 dark:text-gray-200">
               No requests active at this time
             </p>
-            {commentButton}
           </>
         </div>
       )}

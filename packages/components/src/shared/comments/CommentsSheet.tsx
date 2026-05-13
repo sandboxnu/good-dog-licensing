@@ -1,11 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { X, ArrowUp } from "lucide-react";
-import { Sheet, SheetContent, SheetClose } from "@good-dog/ui/sheet";
+import { ArrowUp } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetDescription,
+} from "@good-dog/ui/sheet";
 import { trpc } from "@good-dog/trpc/client";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import CommentItem from "../../shared/comments/CommentItem";
-import { GetProcedureOutput } from "@good-dog/trpc/types";
 
 type Comment = GetProcedureOutput<"getSongRequestById">["comments"][number];
 
@@ -14,7 +19,7 @@ interface CommentsSheetProps {
   onClose: () => void;
   songRequestId: string;
   comments: Comment[];
-  subtitle?: string;
+  subtitle: string;
 }
 
 export default function CommentsSheet({
@@ -22,7 +27,7 @@ export default function CommentsSheet({
   onClose,
   songRequestId,
   comments,
-  subtitle = "You can communicate to media makers by commenting.",
+  subtitle,
 }: CommentsSheetProps) {
   const [text, setText] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -36,16 +41,18 @@ export default function CommentsSheet({
     },
   });
 
+  // Auto-resize textarea up to ~3 lines, then scroll
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = "auto";
     const lineHeight = 20;
-    const maxHeight = lineHeight * 3 + 24;
+    const maxHeight = lineHeight * 3 + 24; // 3 lines + padding
     el.style.height = Math.min(el.scrollHeight, maxHeight) + "px";
     el.style.overflowY = el.scrollHeight > maxHeight ? "auto" : "hidden";
   }, [text]);
 
+  // Scroll to bottom when comments change
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -74,17 +81,16 @@ export default function CommentsSheet({
         className="w-[400px] p-0 flex flex-col bg-white dark:bg-dark-gray-600 border-l border-cream-300 dark:border-dark-gray-600"
       >
         {/* Header */}
-        <div className="flex flex-col gap-1 px-6 pt-6 pb-4 border-b border-cream-300 dark:border-dark-gray-600">
+        <div className="flex flex-col gap-1 px-6 pt-6 pb-4">
           <div className="flex flex-row justify-between items-center">
-            <p className="text-lg font-medium dark:text-gray-200">Comments</p>
-            <SheetClose className="rounded-sm opacity-70 hover:opacity-100 transition-opacity">
-              <X className="h-4 w-4 dark:text-gray-200" />
-              <span className="sr-only">Close</span>
-            </SheetClose>
+            <SheetTitle className="text-lg font-medium dark:text-gray-200">
+              Comments
+            </SheetTitle>
           </div>
-          <p className="text-sm text-cream-600 dark:text-gray-400">
+          <SheetDescription className="text-sm text-cream-600 dark:text-cream-500">
             {subtitle}
-          </p>
+          </SheetDescription>
+          <hr className="border-cream-400 dark:border-dark-gray-400 mt-2" />
         </div>
 
         {/* Scrollable comment list */}
@@ -92,13 +98,19 @@ export default function CommentsSheet({
           ref={scrollRef}
           className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-5"
         >
-          {comments.length === 0 ? (
+          {comments.length === 0 && (
             <p className="text-sm text-cream-600 dark:text-gray-400 italic">
               No comments yet.
             </p>
-          ) : (
-            comments.map((c) => <CommentItem key={c.commentId} comment={c} />)
           )}
+          {comments.map((c, i) => (
+            <div key={c.commentId} className="flex flex-col gap-5">
+              {i > 0 && comments[i - 1]?.userId !== c.userId && (
+                <hr className="border-cream-400 dark:border-dark-gray-400" />
+              )}
+              <CommentItem key={c.commentId} comment={c} />
+            </div>
+          ))}
         </div>
 
         {/* Input area */}
