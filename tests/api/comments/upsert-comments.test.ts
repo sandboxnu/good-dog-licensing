@@ -225,11 +225,8 @@ describe("upsertCommentsProcedure", () => {
 
     const response = await $api.comment({
       songRequestId: "songRequestOneSubmission",
-      comment: {
-        commentText:
-          "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
-        userId: "sanjana",
-      },
+      commentText:
+        "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
     });
 
     expect(response.message).toEqual("Comments successfully updated.");
@@ -252,10 +249,7 @@ describe("upsertCommentsProcedure", () => {
 
     const response = await $api.comment({
       songRequestId: "songRequestOneSubmission",
-      comment: {
-        commentText: "hello",
-        userId: "matcher",
-      },
+      commentText: "hello",
     });
 
     expect(response.message).toEqual("Comments successfully updated.");
@@ -277,12 +271,9 @@ describe("upsertCommentsProcedure", () => {
     expect(
       $api.comment({
         songRequestId: "songRequestOneSubmission",
-        comment: {
-          commentText: "hello",
-          userId: "musician",
-        },
+        commentText: "hello",
       }),
-    ).rejects.toThrow("permission to modify");
+    ).rejects.toThrow("permission to submit");
   });
 
   it("should allow users who made a comment to update it", async () => {
@@ -290,11 +281,8 @@ describe("upsertCommentsProcedure", () => {
 
     const response = await $api.comment({
       songRequestId: "songRequestOneSubmission",
-      comment: {
-        commentText:
-          "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
-        userId: "sanjana",
-      },
+      commentText:
+        "why would you pair an upbeat song on such a heavy topic? it doesn't make sense.",
     });
 
     expect(response.message).toEqual("Comments successfully updated.");
@@ -314,10 +302,7 @@ describe("upsertCommentsProcedure", () => {
     const updatedResponse = await $api.comment({
       commentId: createdComment?.commentId,
       songRequestId: "songRequestOneSubmission",
-      comment: {
-        commentText: "hi hi",
-        userId: "sanjana",
-      },
+      commentText: "hi hi",
     });
 
     expect(updatedResponse.message).toEqual("Comments successfully updated.");
@@ -339,10 +324,7 @@ describe("upsertCommentsProcedure", () => {
     expect(
       $api.comment({
         commentId: "testComment",
-        comment: {
-          userId: "sanjana",
-          commentText: "hi hi",
-        },
+        commentText: "hi hi",
         songRequestId: "songRequestOneSubmission",
       }),
     ).rejects.toThrow();
