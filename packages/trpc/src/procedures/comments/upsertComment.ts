@@ -20,26 +20,7 @@ export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.userId;
 
-    if (input.commentId) {
-      await ctx.prisma.comments.update({
-        where: {
-          commentId: input.commentId,
-          userId,
-        },
-        data: {
-          commentText: input.commentText,
-        },
-      });
-    } else {
-      await ctx.prisma.comments.create({
-        data: {
-          commentText: input.commentText,
-          songRequestId: input.songRequestId,
-          userId,
-        },
-      });
-    }
-
+    // Get song request and throw error if not found
     const songRequest = await ctx.prisma.songRequest.findUnique({
       where: { songRequestId: input.songRequestId },
       include: {
@@ -57,6 +38,41 @@ export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
         code: "NOT_FOUND",
         message: "Song Request not found.",
       });
+    }
+
+    // If commentId is provided, update the comment. Otherwise, create a new comment.
+    // If updating comment, ensure it belongs to the user.
+    // If creating comment, ensure the user is ADMIN, MODERATOR, or owner of the project.
+
+    if (input.commentId) {
+      await ctx.prisma.comments.update({
+        where: {
+          commentId: input.commentId,
+          userId,
+        },
+        data: {
+          commentText: input.commentText,
+        },
+      });
+    } else {
+      if (
+        ctx.session.user.role === "ADMIN" ||
+        ctx.session.user.role === "MODERATOR" ||
+        songRequest.projectSubmission.projectOwnerId === userId
+      ) {
+        await ctx.prisma.comments.create({
+          data: {
+            commentText: input.commentText,
+            songRequestId: input.songRequestId,
+            userId,
+          },
+        });
+      } else {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are not allowed to add comments to this song request.",
+        });
+      }
     }
 
     await sendEmailHelper(

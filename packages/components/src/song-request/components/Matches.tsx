@@ -39,18 +39,24 @@ export function Matches({
   return (
     <div className="flex flex-col gap-4">
       {filteredMatches.length > 0 && state === "INCOMING" && (
-        <p className="w-full text-dark-gray-500 dark:text-mint-200">
-          Review and approve/deny the songs matched below
-        </p>
+        <>
+          <p className="w-full text-dark-gray-500 dark:text-mint-200">
+            Review and approve/deny the songs matched below
+          </p>
+          {commentButton}
+        </>
       )}
       {filteredMatches.length === 0 && (
         <div className="mt-16 flex w-full flex-col items-center gap-2">
-          <div className="w-3/4 lg:w-1/2">
-            <Hourglass size="large" className="h-auto w-full" />
-          </div>
-          <p className="text-dark-gray-500 dark:text-gray-200">
-            No requests active at this time
-          </p>
+          <>
+            <div className="w-3/4 lg:w-1/2">
+              <Hourglass size="large" className="h-auto w-full" />
+            </div>
+            <p className="text-dark-gray-500 dark:text-gray-200">
+              No requests active at this time
+            </p>
+            {commentButton}
+          </>
         </div>
       )}
       {filteredMatches.map((match) => (

@@ -4,97 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { X, ArrowUp } from "lucide-react";
 import { Sheet, SheetContent, SheetClose } from "@good-dog/ui/sheet";
 import { trpc } from "@good-dog/trpc/client";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import ProfileIcon from "../../svg/ProfileIcon";
+import CommentItem from "../../shared/comments/CommentItem";
+import { GetProcedureOutput } from "@good-dog/trpc/types";
 
 type Comment = GetProcedureOutput<"getSongRequestById">["comments"][number];
-
-// Detect URLs in text and render them as clickable links
-// FIX: Shares code with song-request/commentsSheet
-function CommentText({ text }: { text: string }) {
-  const URL_REGEX = /https?:\/\/[^\s]+/g;
-  const parts: { text: string; isLink: boolean }[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-
-  while ((match = URL_REGEX.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push({ text: text.slice(lastIndex, match.index), isLink: false });
-    }
-    parts.push({ text: match[0], isLink: true });
-    lastIndex = match.index + match[0].length;
-  }
-  if (lastIndex < text.length) {
-    parts.push({ text: text.slice(lastIndex), isLink: false });
-  }
-
-  return (
-    <p className="text-sm text-dark-gray-400 dark:text-gray-200 break-words">
-      {parts.map((part, i) =>
-        part.isLink ? (
-          <a
-            key={i}
-            href={part.text}
-            target="_blank"
-            rel="noreferrer"
-            className="underline underline-offset-2 text-green-500 dark:text-mint-300"
-          >
-            {part.text}
-          </a>
-        ) : (
-          <span key={i}>{part.text}</span>
-        ),
-      )}
-    </p>
-  );
-}
-
-function formatRelativeTime(date: Date): string {
-  const now = new Date();
-  const diffMs = now.getTime() - new Date(date).getTime();
-  const diffSecs = Math.floor(diffMs / 1000);
-  const diffMins = Math.floor(diffSecs / 60);
-  const diffHours = Math.floor(diffMins / 60);
-  const diffDays = Math.floor(diffHours / 24);
-  const diffWeeks = Math.floor(diffDays / 7);
-
-  if (diffDays === 0) return "Today";
-  if (diffDays === 1) return "Yesterday";
-  if (diffDays < 7) return `${diffDays} days ago`;
-  if (diffWeeks === 1) return "1 week ago";
-  if (diffWeeks < 4) return `${diffWeeks} weeks ago`;
-
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-function CommentItem({ comment }: { comment: Comment }) {
-  const name = `${comment.user.firstName} ${comment.user.lastName}`;
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-row gap-3 items-start">
-        <ProfileIcon color="light" size={32} name={name} />
-        <div className="flex flex-col gap-1 min-w-0">
-          <div className="flex flex-row items-center gap-1 flex-wrap">
-            <span className="text-sm font-medium dark:text-gray-200">
-              {name}
-            </span>
-            <span className="text-xs text-cream-600 dark:text-gray-400 mx-1">
-              ·
-            </span>
-            <span className="text-xs text-cream-600 dark:text-gray-400">
-              {formatRelativeTime(comment.createdAt)}
-            </span>
-          </div>
-          <CommentText text={comment.commentText} />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 interface CommentsSheetProps {
   open: boolean;
