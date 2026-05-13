@@ -51,7 +51,7 @@ export default function Dropdown({
 
   return (
     <div className="flex w-full flex-col gap-[4px]">
-      {label !== undefined && (
+      {label && (
         <div className="flex flex-row gap-[2px]">
           <Label
             htmlFor={id}
