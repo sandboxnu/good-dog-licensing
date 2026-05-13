@@ -11,7 +11,7 @@ import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
 import { getStatusLabel } from "../../../../utils/enumLabelMapper";
 import { search } from "../../../../utils/search";
 import Checkbox from "../../../base/Checkbox";
-import MultiselectDropdown from "../../../base/MultiselectDropdown";
+import Dropdown from "../../../base/Dropdown";
 import SearchBar from "../../../base/SearchBar";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import Header from "../Header";
@@ -23,6 +23,7 @@ import {
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
+import SortableTableColumnHeader from "./SortableTableColumnHeader";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
@@ -38,17 +39,41 @@ const admModProjectStatusOrder: AdmModProjectStatus[] = [
   AdmModProjectStatus.COMPLETED,
 ];
 
+type SortColumn =
+  | "projectName"
+  | "mediaMaker"
+  | "dateSubmitted"
+  | "deadline"
+  | "assignee";
+
 const filterProjects = (
   projects: ProjectType[],
   searchQuery: string,
   status: AdmModProjectStatus,
-  sort?: "title",
+  sort?: SortColumn,
 ) => {
   const projectsSortedOrNot = sort
     ? projects.sort((a, b) => {
-        return a.projectTitle
-          .toLocaleLowerCase()
-          .localeCompare(b.projectTitle.toLocaleLowerCase());
+        switch (sort) {
+          case "projectName":
+            return a.projectTitle
+              .toLocaleLowerCase()
+              .localeCompare(b.projectTitle.toLocaleLowerCase());
+          case "mediaMaker":
+            return a.projectOwner.firstName
+              .toLocaleLowerCase()
+              .localeCompare(b.projectOwner.firstName.toLocaleLowerCase());
+          case "dateSubmitted":
+            return a.createdAt.getTime() - b.createdAt.getTime();
+          case "deadline":
+            return a.deadline.getTime() - b.deadline.getTime();
+          case "assignee":
+            return (a.projectManager?.firstName ?? "")
+              .toLocaleLowerCase()
+              .localeCompare(
+                (b.projectManager?.firstName ?? "").toLocaleLowerCase(),
+              );
+        }
       })
     : projects;
 
@@ -74,6 +99,8 @@ export default function ProjectsSubpage() {
     CREATED_DATE_QUERY.LAST_365_DAYS,
   );
   const [assignedToMe, setAssignedToMe] = useState<boolean>(false);
+
+  const [sortColumn, setSortColumn] = useState<SortColumn>("dateSubmitted");
 
   const [allProjects] = trpc.queryAllProjects.useSuspenseQuery({
     createdDateQuery,
@@ -115,15 +142,17 @@ export default function ProjectsSubpage() {
             />
           </div>
 
-          <div className="ml-auto flex flex-row items-center gap-[16px]">
-            <div className="w-[220px] min-w-[220px]">
-              <MultiselectDropdown
-                value={[createdDateQuery]}
+          <div className="ml-auto flex flex-row items-center gap-[30px]">
+            <Checkbox
+              label="Assigned to me"
+              id="assignedToMe"
+              checked={assignedToMe}
+              onCheckedChange={(checked) => setAssignedToMe(checked)}
+            />
+            <div className="min-w-[150px]">
+              <Dropdown
+                value={createdDateQuery}
                 options={[
-                  {
-                    value: CREATED_DATE_QUERY.LAST_365_DAYS,
-                    label: "Last 365 Days",
-                  },
                   {
                     value: CREATED_DATE_QUERY.LAST_30_DAYS,
                     label: "Last 30 Days",
@@ -132,26 +161,21 @@ export default function ProjectsSubpage() {
                     value: CREATED_DATE_QUERY.LAST_90_DAYS,
                     label: "Last 90 Days",
                   },
+                  {
+                    value: CREATED_DATE_QUERY.LAST_365_DAYS,
+                    label: "Last 365 Days",
+                  },
+
                   { value: CREATED_DATE_QUERY.ALL_TIME, label: "All Time" },
                 ]}
-                placeholder="Filter"
+                placeholder="Created Date"
                 id="createdDateQuery"
-                maxCount={1}
-                onChange={(newValue) => {
-                  const latestValue = newValue[newValue.length - 1];
-
-                  if (latestValue) {
-                    setCreatedDateQuery(latestValue as CREATED_DATE_QUERY);
-                  }
-                }}
+                arrow
+                onChange={(newValue) =>
+                  setCreatedDateQuery(newValue as CREATED_DATE_QUERY)
+                }
               />
             </div>
-            <Checkbox
-              label="Assigned to me"
-              id="assignedToMe"
-              checked={assignedToMe}
-              onCheckedChange={(checked) => setAssignedToMe(checked)}
-            />
           </div>
         </div>
         <SubmissionTable
@@ -159,9 +183,11 @@ export default function ProjectsSubpage() {
             allProjects.projects,
             searchQuery,
             activeStatus,
-            "title",
+            sortColumn,
           )}
           selectedProject={selectedProject}
+          sortColumn={sortColumn}
+          setSortColumn={setSortColumn}
         />
       </TableOuterFormatting>
     </div>
@@ -171,9 +197,13 @@ export default function ProjectsSubpage() {
 function SubmissionTable({
   data,
   selectedProject,
+  sortColumn,
+  setSortColumn,
 }: {
   data: ProjectType[];
   selectedProject: ProjectType | null;
+  sortColumn: SortColumn;
+  setSortColumn: (newSort: SortColumn) => void;
 }) {
   const router = useRouter();
   const [showPMModal, setShowPMModal] = useState(false);
@@ -210,12 +240,37 @@ function SubmissionTable({
 
       <div className="flex flex-col">
         <TableHeaderFormatting columnCount={6}>
-          <p className="dark:text-white">Project Name</p>
+          <SortableTableColumnHeader
+            columnName="Project Name"
+            currentSort={sortColumn}
+            sortColumn="projectName"
+            setSortColumn={setSortColumn}
+          />
           <p className="dark:text-white">Project Description</p>
-          <p className="dark:text-white">Media Maker</p>
-          <p className="dark:text-white">Date submitted</p>
-          <p className="dark:text-white">Deadline</p>
-          <p className="dark:text-white">Assignee</p>
+          <SortableTableColumnHeader
+            columnName="Media Maker"
+            currentSort={sortColumn}
+            sortColumn="mediaMaker"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Date submitted"
+            currentSort={sortColumn}
+            sortColumn="dateSubmitted"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Deadline"
+            currentSort={sortColumn}
+            sortColumn="deadline"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Assignee"
+            currentSort={sortColumn}
+            sortColumn="assignee"
+            setSortColumn={setSortColumn}
+          />
         </TableHeaderFormatting>
 
         {data.map((project: ProjectType, key) => {
@@ -227,10 +282,10 @@ function SubmissionTable({
                   scroll: false,
                 })
               }
-              key={key}
+              key={project.projectId}
             >
               <TableRowFormatting
-                key={key}
+                key={project.projectId}
                 isLast={key === data.length - 1}
                 columnCount={6}
               >
@@ -259,7 +314,7 @@ function SubmissionTable({
                     year: "numeric",
                   })}
                 </p>
-                <div className="flex items-center justify-center pr-[30px]">
+                <div className="flex pl-[15px]">
                   <button
                     type="button"
                     className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 hover:bg-dark-gray-100 dark:border-gray-300 dark:text-white"
