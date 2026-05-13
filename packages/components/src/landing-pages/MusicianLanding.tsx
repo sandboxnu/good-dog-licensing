@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Music, UsersRound } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
 
@@ -10,8 +10,6 @@ import { formatAllCapsList } from "../../utils/allCapsListFormatter";
 import Card from "../base/Card";
 import StatusIndicator from "../base/StatusIndicator";
 import EmptyMusicNote from "../svg/homepage/EmptyMusicNote";
-import MusicNoteIcon from "../svg/MusicNoteIcon";
-import People from "../svg/People";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
 
@@ -52,12 +50,17 @@ export default function MusicianLanding() {
                 children={
                   <div className="flex h-full flex-col justify-between gap-[24px] pt-[16px]">
                     <div className="flex flex-col gap-[8px]">
-                      <Line text={song.performerName} icon={<People />} />
+                      <Line
+                        text={song.performerName}
+                        icon={
+                          <UsersRound className="text-black dark:text-mint-100 h-5 w-5" />
+                        }
+                      />
                       <Line
                         text={formatAllCapsList(song.genres)}
                         icon={
-                          <div className="flex-shrink-0">
-                            <MusicNoteIcon />
+                          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-400 text-mint-100 dark:bg-green-300 dark:text-mint-300">
+                            <Music className="w-5 h-5" />
                           </div>
                         }
                       />

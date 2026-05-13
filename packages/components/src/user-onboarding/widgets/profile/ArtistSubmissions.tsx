@@ -1,20 +1,22 @@
 "use client";
 
-import { LinkIcon } from "lucide-react";
+import {
+  CalendarCheck,
+  CircleCheck,
+  File,
+  Hourglass,
+  Info,
+  LinkIcon,
+  Music,
+  UsersRound,
+  Video,
+} from "lucide-react";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 
 import { formatAllCapsWord } from "../../../../utils/allCapsListFormatter";
-import FileIcon from "../../../svg/FileIcon";
-import Group from "../../../svg/Group";
 import ProfileSection from "./ProfileSection";
 import SubmissionCard, { TruncatedText } from "./SubmissionCard";
-import MusicNote from "../../../svg/GreyMusicNote";
-import Information from "../../../svg/Information";
-import FilmCamera from "../../../svg/FilmCamera";
-import Deadline from "../../../svg/Deadline";
-import HourglassIcon from "../../../svg/HourglassIcon";
-import CircleCheck from "../../../svg/CircleCheck";
 
 type UserByIdOutput = GetProcedureOutput<"userById">;
 
@@ -56,8 +58,10 @@ function MusicSubmissionContent({
         </div>
         <div className="flex flex-1 flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
-            <MusicNote />
-            <p className="text-sm text-cream-600 dark:text-gray-200">Genre</p>
+            <Music className="text-gray-400 h-4 w-4" />
+            <p className="text-sm text-cream-600 dark:text-gray-200">
+              Genre(s)
+            </p>
           </div>
           <div className="flex flex-row flex-wrap gap-1">
             {song.genres.map((genre, index) => (
@@ -74,7 +78,7 @@ function MusicSubmissionContent({
 
       <div className="flex flex-col gap-2">
         <div className="flex flex-row items-center gap-2">
-          <Group />
+          <UsersRound className="text-gray-400 h-4 w-4" />
           <p className="text-sm text-dark-gray-300 dark:text-cream-400">
             Songwriters
           </p>
@@ -89,7 +93,7 @@ function MusicSubmissionContent({
       {song.additionalInfo.length > 0 && (
         <div className="flex flex-col gap-1">
           <div className="flex flex-row items-center gap-1">
-            <Information />
+            <Info className="w-4 h-4 text-gray-400" />
             <p className="text-sm text-dark-gray-300 dark:text-cream-400">
               Additional Information
             </p>
@@ -114,7 +118,7 @@ function ProjectSubmissionContent({
         <div className="flex flex-row gap-x-8">
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <FilmCamera />
+              <Video className="w-4 h-4 text-gray-400" />
               <p className="text-sm text-dark-gray-300 dark:text-cream-400">
                 Media
               </p>
@@ -125,7 +129,7 @@ function ProjectSubmissionContent({
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <Deadline />
+              <CalendarCheck className="w-4 h-4 text-gray-400" />
               <p className="text-sm text-dark-gray-300 dark:text-cream-400">
                 Deadline
               </p>
@@ -141,7 +145,7 @@ function ProjectSubmissionContent({
         <div className="flex flex-row gap-x-8">
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <HourglassIcon />
+              <Hourglass className="w-4 h-4 text-gray-400" />
               <p className="text-sm text-dark-gray-300 dark:text-cream-400">
                 Active song requests
               </p>
@@ -152,7 +156,7 @@ function ProjectSubmissionContent({
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <CircleCheck />
+              <CircleCheck className="w-4 h-4 text-gray-400" />
               <p className="text-sm text-dark-gray-300 dark:text-cream-400">
                 Total song requests
               </p>
@@ -166,7 +170,7 @@ function ProjectSubmissionContent({
       {project.description && (
         <div className="flex flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
-            <FileIcon />
+            <File className="w-4 h-4 text-gray-400" />
             <p className="text-sm text-dark-gray-300 dark:text-cream-400">
               Description
             </p>
@@ -177,7 +181,7 @@ function ProjectSubmissionContent({
       {project.additionalInfo && project.additionalInfo.length > 0 && (
         <div className="flex flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
-            <Information />
+            <Info className="w-4 h-4 text-gray-400" />
             <p className="text-sm text-dark-gray-300 dark:text-cream-400">
               Additional Information
             </p>
