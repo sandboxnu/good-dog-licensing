@@ -10,31 +10,81 @@ import {
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
+import { useState } from "react";
+import SortableTableColumnHeader from "./SortableTableColumnHeader";
 
 type MusicSubmission = GetProcedureOutput<"allMusic">[number];
+
+type SortColumn = "songName" | "musicianName" | "dateSubmitted";
+
+const sortSongs = (songs: MusicSubmission[], sortColumn: SortColumn) => {
+  return songs.sort((a, b) => {
+    switch (sortColumn) {
+      case "songName":
+        return a.songName
+          .toLocaleLowerCase()
+          .localeCompare(b.songName.toLocaleLowerCase());
+      case "musicianName":
+        return a.performerName
+          .toLocaleLowerCase()
+          .localeCompare(b.performerName.toLocaleLowerCase());
+      case "dateSubmitted":
+        return a.createdAt.getTime() - b.createdAt.getTime();
+    }
+  });
+};
 
 /**
  * Song sub-page of admin dashboard.
  */
 export default function SongsSubpage() {
   const [data] = trpc.allMusic.useSuspenseQuery();
+  const [sortColumn, setSortColumn] = useState<SortColumn>("songName");
+
   return (
     <div className="flex flex-col gap-[32px]">
       <Header title={"Songs"} subtitle={"Song submissions"} />
-      <SongTable data={data} />
+      <SongTable
+        data={sortSongs(data, sortColumn)}
+        sortColumn={sortColumn}
+        setSortColumn={setSortColumn}
+      />
     </div>
   );
 }
 
-function SongTable({ data }: { data: MusicSubmission[] }) {
+function SongTable({
+  data,
+  sortColumn,
+  setSortColumn,
+}: {
+  data: MusicSubmission[];
+  sortColumn: SortColumn;
+  setSortColumn: (newSort: SortColumn) => void;
+}) {
   return (
     <TableOuterFormatting>
       <div className="flex flex-col">
         <TableHeaderFormatting columnCount={6}>
-          <p className="dark:text-white">Song Name</p>
-          <p className="dark:text-white">Musician</p>
+          <SortableTableColumnHeader
+            columnName="Song Name"
+            currentSort={sortColumn}
+            sortColumn="songName"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Musician"
+            currentSort={sortColumn}
+            sortColumn="musicianName"
+            setSortColumn={setSortColumn}
+          />
           <p className="dark:text-white">Genre</p>
-          <p className="dark:text-white">Date Submitted</p>
+          <SortableTableColumnHeader
+            columnName="Date Submitted"
+            currentSort={sortColumn}
+            sortColumn="dateSubmitted"
+            setSortColumn={setSortColumn}
+          />
           <p className="dark:text-white">Song Link</p>
         </TableHeaderFormatting>
 

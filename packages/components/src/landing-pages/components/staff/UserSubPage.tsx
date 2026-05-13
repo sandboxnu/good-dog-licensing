@@ -15,8 +15,34 @@ import {
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
+import SortableTableColumnHeader from "./SortableTableColumnHeader";
 
 type UserType = GetProcedureOutput<"allUsers">["users"][number];
+
+type SortColumn = "firstName" | "lastName" | "email" | "role" | "status";
+
+const sortUsers = (users: UserType[], sortColumn: SortColumn) => {
+  return users.sort((a, b) => {
+    switch (sortColumn) {
+      case "firstName":
+        return a.firstName
+          .toLocaleLowerCase()
+          .localeCompare(b.firstName.toLocaleLowerCase());
+      case "lastName":
+        return a.lastName
+          .toLocaleLowerCase()
+          .localeCompare(b.lastName.toLocaleLowerCase());
+      case "email":
+        return a.email
+          .toLocaleLowerCase()
+          .localeCompare(b.email.toLocaleLowerCase());
+      case "role":
+        return a.role.localeCompare(b.role);
+      case "status":
+        return a.active === b.active ? 0 : a.active ? -1 : 1;
+    }
+  });
+};
 
 /**
  * User sub-page of admin dashboard.
@@ -24,6 +50,7 @@ type UserType = GetProcedureOutput<"allUsers">["users"][number];
 export default function UserSubPage() {
   const [data] = trpc.allUsers.useSuspenseQuery();
   const [inviteModalOpen, setInviteModalOpen] = useState<boolean>(false);
+  const [sortColumn, setSortColumn] = useState<SortColumn>("role");
 
   return (
     <div className="flex flex-col gap-[32px]">
@@ -46,21 +73,58 @@ export default function UserSubPage() {
         setInviteModalOpen={setInviteModalOpen}
       />
 
-      <UserTable data={data.users} />
+      <UserTable
+        data={sortUsers(data.users, sortColumn)}
+        sortColumn={sortColumn}
+        setSortColumn={setSortColumn}
+      />
     </div>
   );
 }
 
-function UserTable({ data }: { data: UserType[] }) {
+function UserTable({
+  data,
+  sortColumn,
+  setSortColumn,
+}: {
+  data: UserType[];
+  sortColumn: SortColumn;
+  setSortColumn: (newSort: SortColumn) => void;
+}) {
   return (
     <TableOuterFormatting>
       <div className="flex flex-col">
         <TableHeaderFormatting columnCount={5}>
-          <p className="dark:text-white">First Name</p>
-          <p className="dark:text-white">Last Name</p>
-          <p className="dark:text-white">Email Address</p>
-          <p className="dark:text-white">Role</p>
-          <p className="dark:text-white">Status</p>
+          <SortableTableColumnHeader
+            columnName="First Name"
+            currentSort={sortColumn}
+            sortColumn="firstName"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Last Name"
+            currentSort={sortColumn}
+            sortColumn="lastName"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Email Address"
+            currentSort={sortColumn}
+            sortColumn="email"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Role"
+            currentSort={sortColumn}
+            sortColumn="role"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Status"
+            currentSort={sortColumn}
+            sortColumn="status"
+            setSortColumn={setSortColumn}
+          />
         </TableHeaderFormatting>
 
         {data.map((user: UserType, key) => {

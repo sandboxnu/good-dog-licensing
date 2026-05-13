@@ -23,7 +23,7 @@ import {
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import TableColumnHeader from "./TableColumnHeader";
+import SortableTableColumnHeader from "./SortableTableColumnHeader";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
@@ -41,7 +41,6 @@ const admModProjectStatusOrder: AdmModProjectStatus[] = [
 
 type SortColumn =
   | "projectName"
-  | "projectDescription"
   | "mediaMaker"
   | "dateSubmitted"
   | "deadline"
@@ -60,10 +59,6 @@ const filterProjects = (
             return a.projectTitle
               .toLocaleLowerCase()
               .localeCompare(b.projectTitle.toLocaleLowerCase());
-          case "projectDescription":
-            return a.description
-              .toLocaleLowerCase()
-              .localeCompare(b.description.toLocaleLowerCase());
           case "mediaMaker":
             return a.projectOwner.firstName
               .toLocaleLowerCase()
@@ -248,37 +243,32 @@ function SubmissionTable({
 
       <div className="flex flex-col">
         <TableHeaderFormatting columnCount={6}>
-          <TableColumnHeader
+          <SortableTableColumnHeader
             columnName="Project Name"
             currentSort={sortColumn}
             sortColumn="projectName"
             setSortColumn={setSortColumn}
           />
-          <TableColumnHeader
-            columnName="Project Description"
-            currentSort={sortColumn}
-            sortColumn="projectDescription"
-            setSortColumn={setSortColumn}
-          />
-          <TableColumnHeader
+          <p className="dark:text-white">Project Description</p>
+          <SortableTableColumnHeader
             columnName="Media Maker"
             currentSort={sortColumn}
             sortColumn="mediaMaker"
             setSortColumn={setSortColumn}
           />
-          <TableColumnHeader
+          <SortableTableColumnHeader
             columnName="Date submitted"
             currentSort={sortColumn}
             sortColumn="dateSubmitted"
             setSortColumn={setSortColumn}
           />
-          <TableColumnHeader
+          <SortableTableColumnHeader
             columnName="Deadline"
             currentSort={sortColumn}
             sortColumn="deadline"
             setSortColumn={setSortColumn}
           />
-          <TableColumnHeader
+          <SortableTableColumnHeader
             columnName="Assignee"
             currentSort={sortColumn}
             sortColumn="assignee"

@@ -1,18 +1,18 @@
 import SortingUpArrow from "../../../svg/admin/dashboard/SortingUpArrow";
 
-interface TableColumnHeaderProps<T> {
+interface SortableTableColumnHeaderProps<T> {
   columnName: string;
   currentSort: T;
   sortColumn: T;
   setSortColumn: (newSort: T) => void;
 }
 
-export default function TableColumnHeader<T>({
+export default function SortableTableColumnHeader<T>({
   columnName,
   currentSort,
   sortColumn,
   setSortColumn,
-}: TableColumnHeaderProps<T>) {
+}: SortableTableColumnHeaderProps<T>) {
   const isCurrentSort = currentSort === sortColumn;
 
   return (
