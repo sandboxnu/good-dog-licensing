@@ -49,9 +49,7 @@ export function Match({
       showActions={state === "INCOMING" && !!contract}
       contract={contract}
       selected={selected}
-      onClick={() =>
-        setSelectedMatchId(selected ? null : match.matchId)
-      }
+      onClick={() => setSelectedMatchId(selected ? null : match.matchId)}
       onApprove={() => {
         if (contract) {
           signContractLicensee.mutate({ contractId: contract.contractId });

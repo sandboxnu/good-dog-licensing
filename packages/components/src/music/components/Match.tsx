@@ -35,17 +35,13 @@ export function Match({
 
   return (
     <MatchCard
-      title={
-        match.songRequest.songRequestTitle
-      }
+      title={match.songRequest.songRequestTitle}
       subtitle={match.songRequest.description}
       actionable={state === "INCOMING"}
       showActions={state === "INCOMING" && !!contract}
       contract={contract}
       selected={selected}
-      onClick={() =>
-        setSelectedMatchId(selected ? null : match.matchId)
-      }
+      onClick={() => setSelectedMatchId(selected ? null : match.matchId)}
       onApprove={() => {
         if (contract) {
           signContractLicensor.mutate({ contractId: contract.contractId });
