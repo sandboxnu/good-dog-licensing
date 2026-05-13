@@ -8,7 +8,7 @@ import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
 import Button from "../../base/Button";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
-import Trash from "../../svg/TrashIcon";
+import { Trash } from "lucide-react";
 
 interface SongRequestsInfoProps {
   onSubmit: () => void;
@@ -51,7 +51,7 @@ export default function SongRequestsInfo({
               </p>
               {fields.length > 1 && (
                 <button type="button" onClick={() => remove(index)}>
-                  <Trash />
+                  <Trash className="text-error" />
                 </button>
               )}
             </div>

@@ -9,10 +9,8 @@ import {
 } from "@good-dog/ui/sheet";
 
 import User from "../../../matching/components/User";
-import Camera from "../../../svg/Camera";
-import Deadline from "../../../svg/Deadline";
-import FileIcon from "../../../svg/FileIcon";
 import SongRequest from "./SongRequest";
+import { CalendarCheck, Camera, File } from "lucide-react";
 
 export default function ProjectDrawer({
   projectSubmissionId,
@@ -69,7 +67,7 @@ export default function ProjectDrawer({
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-6">
               <div className="flex flex-row items-center gap-1">
-                <Camera />
+                <Camera className="w-4 h-4 text-gray-400" />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Media Maker
                 </p>
@@ -87,7 +85,7 @@ export default function ProjectDrawer({
 
             <div className="flex flex-row gap-6">
               <div className="flex flex-row items-center gap-1">
-                <Deadline />
+                <CalendarCheck className="w-4 h-4 text-gray-400" />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Deadline
                 </p>
@@ -103,7 +101,7 @@ export default function ProjectDrawer({
 
             <div className="flex flex-col gap-1">
               <div className="flex flex-row items-center gap-1">
-                <FileIcon />
+                <File className="w-4 h-4 text-gray-400" />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Project information
                 </p>
@@ -116,7 +114,7 @@ export default function ProjectDrawer({
             {projectSubmission.additionalInfo.length > 0 && (
               <div className="flex flex-col gap-1">
                 <div className="flex flex-row items-center gap-1">
-                  <FileIcon />
+                  <File className="w-4 h-4 text-gray-400" />
                   <p className="text-sm text-cream-600 dark:text-gray-200">
                     Additional information
                   </p>

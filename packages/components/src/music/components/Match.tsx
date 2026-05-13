@@ -1,6 +1,5 @@
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
-import MusicNoteIcon from "../../svg/MusicNoteIcon";
-import { Check, FileText, X } from "lucide-react";
+import { Check, FileText, Music, X } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 import { useState } from "react";
 
@@ -89,7 +88,9 @@ export function Match({
       onClick={handleClick}
     >
       <div className="flex min-w-0 flex-1 flex-row items-center gap-4">
-        <MusicNoteIcon />
+        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-400 text-mint-100 dark:bg-green-300 dark:text-mint-300">
+          <Music className="w-5 h-5" />
+        </div>
         <div className="flex min-w-0 flex-1 flex-col gap-2">
           <p className="truncate text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
             {match.songRequest.songRequestTitle}
