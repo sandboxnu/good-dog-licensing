@@ -14,8 +14,10 @@ export default function DarkModeSwitch() {
   const toggleDarkMode = () => {
     if (isDark) {
       document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
     } else {
       document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
     }
     setIsDark(!isDark);
   };
