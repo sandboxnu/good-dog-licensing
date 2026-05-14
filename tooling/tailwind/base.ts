@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         righteous: ["Righteous"],
+        signature: ["Homemade Apple", "cursive"],
       },
       fontSize: {
         h1: "50px",

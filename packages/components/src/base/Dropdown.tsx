@@ -10,7 +10,7 @@ import {
 import { Label } from "@good-dog/ui/label";
 
 interface DropdownProps {
-  label: string;
+  label?: string;
   value: string;
   options: {
     label: string;
@@ -51,17 +51,21 @@ export default function Dropdown({
 
   return (
     <div className="flex w-full flex-col gap-[4px]">
-      <div className="flex flex-row gap-[2px]">
-        <Label
-          htmlFor={id}
-          className="text-body3 font-normal text-dark-gray-600 dark:text-gray-100"
-        >
-          {label}
-        </Label>
-        {required && (
-          <Label className="text-body3 font-normal text-required-star">*</Label>
-        )}
-      </div>
+      {label && (
+        <div className="flex flex-row gap-[2px]">
+          <Label
+            htmlFor={id}
+            className="text-body3 font-normal text-dark-gray-600 dark:text-gray-100"
+          >
+            {label}
+          </Label>
+          {required && (
+            <Label className="text-body3 font-normal text-required-star">
+              *
+            </Label>
+          )}
+        </div>
+      )}
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
           asChild
