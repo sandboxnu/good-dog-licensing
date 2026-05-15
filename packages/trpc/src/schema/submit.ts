@@ -82,6 +82,7 @@ export const zMusicSubmissionValues = z
     songLink: z.url().min(1, "Song link is required"),
     genres: z.array(z.enum(Genre)).min(1, "At least one genre is required"),
     additionalInfo: z.string().optional(),
+    songLyrics: z.string().optional(),
     performerName: z.string().min(1, "Artist/Band name is required"),
     contributors: z.array(zMusicContributor),
     submitterRoles: z

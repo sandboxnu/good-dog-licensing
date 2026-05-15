@@ -2,6 +2,7 @@ import { Link } from "lucide-react";
 
 import type { MusicSubmission } from ".prisma/client";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
+import SongLyrics from "../../music/components/SongLyrics";
 
 export default function MusicInformation({
   musicSubmission,
@@ -76,6 +77,9 @@ export default function MusicInformation({
           {submitter ? submitter.firstName + " " + submitter.lastName : "..."}
         </p>
       </div>
+      {musicSubmission && (
+        <SongLyrics lyrics={musicSubmission.songLyrics} variant="detail" />
+      )}
       {musicSubmission && musicSubmission.additionalInfo.length > 0 && (
         <div className="flex flex-col gap-1">
           <p className="text-dark-gray-200 dark:text-dark-gray-100">

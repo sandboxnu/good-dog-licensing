@@ -44,6 +44,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
           songLink: input.songLink,
           genres: input.genres,
           additionalInfo: input.additionalInfo ?? "",
+          songLyrics: input.songLyrics ?? "",
           performerName: input.performerName,
           contributors: {
             create: [...input.contributors, submitterAsContributor],

@@ -53,6 +53,7 @@ export const getUserByIdProcedure = authenticatedAndActiveProcedureBuilder
             songLink: true,
             genres: true,
             additionalInfo: true,
+            songLyrics: true,
             contributors: true,
             createdAt: true,
           },

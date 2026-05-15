@@ -3,6 +3,7 @@ import { Link } from "lucide-react";
 import { trpc } from "@good-dog/trpc/client";
 
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
+import SongLyrics from "./SongLyrics";
 
 export default function MusicInformation({
   musicSubmissionId,
@@ -70,6 +71,7 @@ export default function MusicInformation({
               </a>
             </div>
           </div>
+          <SongLyrics lyrics={musicSubmission.songLyrics} variant="detail" />
           {musicSubmission.additionalInfo.length > 0 && (
             <div className="flex flex-col gap-1">
               <p className="text-dark-gray-200 dark:text-dark-gray-100">

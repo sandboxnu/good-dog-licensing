@@ -15,6 +15,7 @@ import {
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 
 import { formatAllCapsWord } from "../../../../utils/allCapsListFormatter";
+import SongLyrics from "../../../music/components/SongLyrics";
 import ProfileSection from "./ProfileSection";
 import SubmissionCard, { TruncatedText } from "./SubmissionCard";
 
@@ -89,6 +90,8 @@ function MusicSubmissionContent({
             .join(", ")}
         </p>
       </div>
+
+      <SongLyrics lyrics={song.songLyrics} />
 
       {song.additionalInfo.length > 0 && (
         <div className="flex flex-col gap-1">

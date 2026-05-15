@@ -33,6 +33,7 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
       songLink: undefined,
       genres: [],
       additionalInfo: "",
+      songLyrics: "",
       performerName: undefined,
       contributors: currentContributors,
       submitterRoles: [],
@@ -92,6 +93,14 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
           id="songLink"
           errorText={errors.songLink?.message}
           required={true}
+        />
+        <RHFTextArea<MusicSubmissionFormFields>
+          rhfName="songLyrics"
+          label="Song lyrics (optional)"
+          placeholder="Paste the lyrics of your song here"
+          id="songLyrics"
+          errorText={errors.songLyrics?.message}
+          required={false}
         />
         <RHFTextArea<MusicSubmissionFormFields>
           rhfName="additionalInfo"
