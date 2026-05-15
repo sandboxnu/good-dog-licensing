@@ -96,11 +96,11 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
         />
         <RHFTextArea<MusicSubmissionFormFields>
           rhfName="songLyrics"
-          label="Song lyrics (optional)"
+          label="Song lyrics"
           placeholder="Paste the lyrics of your song here"
           id="songLyrics"
           errorText={errors.songLyrics?.message}
-          required={false}
+          required={true}
         />
         <RHFTextArea<MusicSubmissionFormFields>
           rhfName="additionalInfo"

@@ -200,7 +200,7 @@ model MusicSubmission {
   songLink           String
   genres             Genre[]
   additionalInfo     String             @default("")
-  songLyrics         String             @default("")
+  songLyrics         String
   matches            Match[]
   contributors       MusicContributor[]
   musicianSongStatus MusicianSongStatus @default(SONG_SUBMITTED)
