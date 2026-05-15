@@ -65,7 +65,7 @@ export function MusicSubmissionCard({
                 </p>
               ))}
               {musicSubmission.genres.length > 3 && (
-                <p className="rounded-2xl bg-gray-300 p-1.5">
+                <p className="rounded-2xl border-[0.5px] border-gray-400 bg-gray-300 p-1.5 text-gray-500 dark:border-dark-gray-200 dark:bg-gray-500 dark:text-gray-300">
                   +{musicSubmission.genres.length - 3} more
                 </p>
               )}
@@ -127,7 +127,7 @@ export function MusicSubmissionCard({
                   </p>
                 ))}
                 {musicSubmission.genres.length > 3 && (
-                  <p className="rounded-2xl bg-gray-300 px-2">
+                  <p className="rounded-2xl border-[0.5px] border-gray-400 bg-gray-300 p-1.5 text-gray-500 dark:border-dark-gray-200 dark:bg-gray-500 dark:text-gray-300">
                     +{musicSubmission.genres.length - 3} more
                   </p>
                 )}
