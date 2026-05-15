@@ -83,6 +83,7 @@ async function createData() {
       genres: [Genre.HIP_HOP],
       submitterId: musician.userId,
       performerName: "Twinsies",
+      songLyrics: "",
     },
   });
 

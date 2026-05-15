@@ -86,6 +86,7 @@ describe("get-music", () => {
           songLink: "https://www.youtube.com/1",
           genres: [Genre.BLUES],
           performerName: "The Beatles",
+          songLyrics: "",
         },
       }),
       prisma.musicSubmission.create({
@@ -106,6 +107,7 @@ describe("get-music", () => {
           songLink: "https://www.youtube.com/2",
           genres: [Genre.CLASSICAL],
           performerName: "Grateful Dead",
+          songLyrics: "",
         },
       }),
       prisma.musicSubmission.create({
@@ -126,6 +128,7 @@ describe("get-music", () => {
           songLink: "https://www.youtube.com/3",
           genres: [Genre.COUNTRY],
           performerName: "Taylor Swift",
+          songLyrics: "",
         },
       }),
       prisma.user.create({
@@ -157,6 +160,7 @@ describe("get-music", () => {
           songLink: "https://www.youtube.com/song1",
           genres: [Genre.COUNTRY],
           performerName: "The Rolling Stones",
+          songLyrics: "",
         },
       }),
       prisma.musicSubmission.create({
@@ -171,6 +175,7 @@ describe("get-music", () => {
           songLink: "https://www.youtube.com/song2",
           genres: [Genre.COUNTRY],
           performerName: "JP's Band",
+          songLyrics: "",
         },
       }),
     ]);

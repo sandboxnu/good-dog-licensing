@@ -90,6 +90,7 @@ function generateSongs(userId: string, userName: string, count: number) {
       songLink: randomFromArray(links),
       genres: [primaryGenre, secondaryGenre],
       additionalInfo: randomFromArray(additionalInfo),
+      songLyrics: "",
     };
   });
 }
@@ -191,6 +192,7 @@ async function main() {
         songLink: song.songLink,
         genres: song.genres,
         additionalInfo: song.additionalInfo,
+        songLyrics: song.songLyrics,
         contributors: {
           create: Array.from({ length: 3 }, () => ({
             firstName: "Test",
