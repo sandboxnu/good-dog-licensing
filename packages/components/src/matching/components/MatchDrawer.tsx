@@ -21,6 +21,7 @@ import {
 
 import { formatAllCapsWord } from "../../../utils/allCapsListFormatter";
 import StatusIndicator from "../../base/StatusIndicator";
+import SongLyrics from "../../music/components/SongLyrics";
 import User from "./User";
 
 type MatchType = GetProcedureOutput<"getSongRequestById">["matches"][number];
@@ -210,6 +211,7 @@ export default function MatchDrawer({
                     </div>
                   </div>
                 </div>
+                <SongLyrics lyrics={match.musicSubmission.songLyrics} />
                 {match.musicSubmission.additionalInfo.length > 0 && (
                   <div className="flex flex-col gap-1">
                     <div className="flex flex-row items-center gap-1">

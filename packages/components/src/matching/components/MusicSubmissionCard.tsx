@@ -5,6 +5,7 @@ import type { GetProcedureOutput } from "@good-dog/trpc/types";
 
 import { formatAllCapsWord } from "../../../utils/allCapsListFormatter";
 import Button from "../../base/Button";
+import SongLyrics from "../../music/components/SongLyrics";
 
 type MusicSubmissionType = GetProcedureOutput<"allMusic">[number];
 
@@ -151,6 +152,8 @@ export function MusicSubmissionCard({
                 .join(", ")}
             </p>
           </div>
+
+          <SongLyrics lyrics={musicSubmission.songLyrics} />
 
           {musicSubmission.additionalInfo.length > 0 && (
             <div className="flex flex-col gap-2">
