@@ -19,4 +19,5 @@ export {
   MediaMakerSongRequestStatus,
   MusicianMatchStatus,
   MusicianSongStatus,
+  type GalleryProject,
 } from "@prisma/client";
