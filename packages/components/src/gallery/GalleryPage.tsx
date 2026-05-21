@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { GalleryProject } from "@good-dog/db";
 
 import Button from "../base/Button";
+import AddProjectModal from "./AddProjectModal";
 import FeaturedCard from "./FeaturedCard";
 import ProjectCard from "./ProjectCard";
 import ProjectModal from "./ProjectModal";
@@ -19,6 +20,7 @@ export default function GalleryPage({
   projects: GalleryProject[];
 }) {
   const [openProject, setOpenProject] = useState<GalleryProject | null>(null);
+  const [addProjectOpen, setAddProjectOpen] = useState(false);
 
   return (
     <div className="flex w-3/4 flex-col gap-[48px] pb-[100px]">
@@ -33,6 +35,7 @@ export default function GalleryPage({
               variant={"contained"}
               displayIcon="plus"
               label="Add project"
+              onClick={() => setAddProjectOpen(true)}
             />
           )}
         </div>
@@ -69,6 +72,11 @@ export default function GalleryPage({
       <ProjectModal
         project={openProject}
         onClose={() => setOpenProject(null)}
+      />
+
+      <AddProjectModal
+        open={addProjectOpen}
+        onClose={() => setAddProjectOpen(false)}
       />
     </div>
   );
