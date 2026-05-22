@@ -13,6 +13,7 @@ export const createGalleryProjectProcedure = rolePermissionsProcedureBuilder(
       projectName: z.string().min(1, "Project name is required"),
       mediaMakerName: z.string().min(1, "Media maker name is required"),
       description: z.string().min(1, "Description is required"),
+      imageUrl: z.string().url("Image URL is required"),
     }),
   )
   .mutation(async ({ ctx, input }) => {
@@ -21,7 +22,7 @@ export const createGalleryProjectProcedure = rolePermissionsProcedureBuilder(
         projectName: input.projectName,
         mediaMakerName: input.mediaMakerName,
         description: input.description,
-        imageUrl: "",
+        imageUrl: input.imageUrl,
       },
     });
   });

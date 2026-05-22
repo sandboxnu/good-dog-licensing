@@ -37,7 +37,9 @@ import {
   signContractLicensorProcedure,
   signContractLicenseeProcedure,
 } from "../procedures/contracts/sign-contract";
+import { createGalleryImageUploadUrlProcedure } from "../procedures/gallery/create-gallery-image-upload-url";
 import { createGalleryProjectProcedure } from "../procedures/gallery/create-gallery-project";
+import { getGalleryProjectsProcedure } from "../procedures/gallery/get-gallery-projects";
 import { createMatchProcedure } from "../procedures/matches/create-match";
 import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
@@ -104,6 +106,8 @@ export const appRouter = createTRPCRouter({
   signContractLicensor: signContractLicensorProcedure,
   signContractLicensee: signContractLicenseeProcedure,
   createGalleryProject: createGalleryProjectProcedure,
+  createGalleryImageUploadUrl: createGalleryImageUploadUrlProcedure,
+  galleryProjects: getGalleryProjectsProcedure,
 });
 
 export type AppRouter = typeof appRouter;
