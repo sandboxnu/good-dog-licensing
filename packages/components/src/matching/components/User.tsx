@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import ProfileIcon from "../../svg/ProfileIcon";
 import { trpc } from "@good-dog/trpc/client";
-import { Role } from "@good-dog/db";
+import type { Role } from "@good-dog/db";
 
 export default function User({
   name,

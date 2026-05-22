@@ -32,6 +32,12 @@ export default function Nav() {
           >
             Home
           </Link>
+          <Link
+            href="/gallery"
+            className={`underline-offset-[6px] hover:underline ${pathname === "/gallery" ? "underline" : ""}`}
+          >
+            Gallery
+          </Link>
           {user ? (
             <ProfileDropdown />
           ) : (

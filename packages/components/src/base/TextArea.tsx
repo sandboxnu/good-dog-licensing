@@ -59,7 +59,7 @@ export default function TextInput({
         <Label className="text-caption text-dark-gray-600">{helperText}</Label>
       )}
       {errorText && (
-        <div className="flex flex-row items-center gap-[2px]">
+        <div className="flex flex-row items-center gap-[2px] text-red-300 dark:text-red-400">
           <ErrorExclamation size="small" />
           <Label className="text-caption text-red-400 dark:text-red-300">
             {errorText}

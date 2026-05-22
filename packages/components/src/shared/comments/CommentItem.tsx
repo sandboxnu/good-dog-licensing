@@ -1,4 +1,4 @@
-import { GetProcedureOutput } from "@good-dog/trpc/types";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import ProfileIcon from "../../svg/ProfileIcon";
 import CommentText from "./CommentText";
 

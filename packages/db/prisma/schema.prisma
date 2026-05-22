@@ -305,6 +305,16 @@ model Contract {
   contractMusicContributors ContractMusicContributor[]
 }
 
+model GalleryProject {
+  galleryProjectId String   @id @default(uuid())
+  projectName      String
+  mediaMakerName   String
+  imageUrl         String
+  description      String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
 model ContractMusicContributor {
   contractMusicContributorId String            @id @default(uuid())
   createdAt                  DateTime          @default(now())
