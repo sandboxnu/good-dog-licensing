@@ -177,8 +177,7 @@ export default function AddProjectModal({
               htmlFor="add-project-image"
               className="text-body3 font-normal text-dark-gray-600 dark:text-gray-100"
             >
-              Image (max 50 MB){" "}
-              <span className="text-required-star">*</span>
+              Image (max 50 MB) <span className="text-required-star">*</span>
             </label>
             <input
               id="add-project-image"
@@ -189,11 +188,13 @@ export default function AddProjectModal({
             />
             {imageFile && (
               <p className="truncate text-caption text-dark-gray-400 dark:text-gray-300">
-                <span className="truncate">{imageFile.name}</span>
-                {" "}({(imageFile.size / (1024 * 1024)).toFixed(1)} MB)
+                <span className="truncate">{imageFile.name}</span> (
+                {(imageFile.size / (1024 * 1024)).toFixed(1)} MB)
               </p>
             )}
-            {fileError && <p className="text-caption text-error">{fileError}</p>}
+            {fileError && (
+              <p className="text-caption text-error">{fileError}</p>
+            )}
             {!fileError && submitAttempted && !imageFile && (
               <p className="text-caption text-error">Image is required</p>
             )}

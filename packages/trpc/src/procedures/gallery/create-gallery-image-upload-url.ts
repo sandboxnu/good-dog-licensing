@@ -24,11 +24,20 @@ export const createGalleryImageUploadUrlProcedure =
   rolePermissionsProcedureBuilder(adminPagePermissions, "submit")
     .input(
       z.object({
-        contentType: z.enum(Object.keys(EXTENSION_BY_MIME) as [string, ...string[]]),
+        contentType: z.enum(
+          Object.keys(EXTENSION_BY_MIME) as [string, ...string[]],
+        ),
         contentLength: z.number().int().positive().max(MAX_FILE_SIZE_BYTES),
       }),
     )
     .mutation(async ({ input }) => {
+      if (!env.SUPABASE_GALLERY_STORAGE_BUCKET) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "SUPABASE_GALLERY_STORAGE_BUCKET is not set.",
+        });
+      }
+
       const extension = EXTENSION_BY_MIME[input.contentType];
       const path = `${randomUUID()}.${extension}`;
 
@@ -37,10 +46,10 @@ export const createGalleryImageUploadUrlProcedure =
         .from(env.SUPABASE_GALLERY_STORAGE_BUCKET)
         .createSignedUploadUrl(path);
 
-      if (error || !data) {
+      if (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: `Failed to create signed upload URL: ${error?.message ?? "unknown error"}`,
+          message: `Failed to create signed upload URL: ${error.message}`,
         });
       }
 
