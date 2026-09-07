@@ -1,5 +1,7 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
+import { zMessageOutput } from "../../dto";
 import { notAuthenticatedProcedureBuilder } from "../../middleware/not-authenticated";
 import { zSignUpValues } from "../../schema";
 import { sendEmailHelper } from "../../utils";
@@ -11,8 +13,18 @@ const getNewSessionExpirationDate = () =>
 export const getEmailVerificationCodeExpirationDate = () =>
   new Date(Date.now() + 60_000 * 15);
 
+const zSignUpOutput = z.union([
+  z.object({
+    status: z.literal("RESENT"),
+    email: z.string(),
+    message: z.string(),
+  }),
+  zMessageOutput,
+]);
+
 export const signUpProcedure = notAuthenticatedProcedureBuilder
   .input(zSignUpValues)
+  .output(zSignUpOutput)
   .mutation(async ({ ctx, input }) => {
     // Check is user already exists with given email
     const existingUserWithEmail = await ctx.prisma.user.findUnique({

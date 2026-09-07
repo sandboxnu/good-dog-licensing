@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { zMessageOutput } from "../dto";
 import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
 export const changePasswordProcedure = authenticatedAndActiveProcedureBuilder
@@ -8,6 +9,7 @@ export const changePasswordProcedure = authenticatedAndActiveProcedureBuilder
       newPassword: z.string(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     await ctx.prisma.user.update({
       where: {

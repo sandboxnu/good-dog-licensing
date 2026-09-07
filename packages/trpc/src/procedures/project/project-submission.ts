@@ -1,5 +1,6 @@
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zProjectSubmissionValues } from "../../schema";
 import { sendEmailHelper } from "../../utils";
@@ -9,6 +10,7 @@ export const projectSubmissionProcedure = rolePermissionsProcedureBuilder(
   "submit",
 )
   .input(zProjectSubmissionValues)
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     // Create the project submission
     const newProjectSubmission = await ctx.prisma.projectSubmission.create({

@@ -1,39 +1,44 @@
 import { z } from "zod";
 
 import type { UserWithSession } from "../types";
+import { zSessionUserOutput, zUserProfileOutput } from "../dto";
 import { baseProcedureBuilder } from "../internal/init";
 import { getSessionMemoized } from "../internal/prisma-abstraction";
 import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
-export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
-  const sessionId = ctx.cookiesService.getSessionCookie();
+export const getUserProcedure = baseProcedureBuilder
+  .output(zSessionUserOutput.nullable())
+  .query(async ({ ctx }) => {
+    const sessionId = ctx.cookiesService.getSessionCookie();
 
-  if (!sessionId?.value) {
-    return null;
-  }
+    if (!sessionId?.value) {
+      return null;
+    }
 
-  const sessionOrNull = await getSessionMemoized(ctx.prisma, sessionId.value);
+    const sessionOrNull = await getSessionMemoized(ctx.prisma, sessionId.value);
 
-  if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
-    // Session expired or not found
-    return null;
-  }
+    if (!sessionOrNull || sessionOrNull.expiresAt < new Date()) {
+      // Session expired or not found
+      return null;
+    }
 
-  const result: UserWithSession = {
-    ...sessionOrNull.user,
-    session: {
-      expiresAt: sessionOrNull.expiresAt,
-      refreshRequired:
-        // Refresh session if it expires in less than 29 days
-        sessionOrNull.expiresAt.getTime() - Date.now() < 60_000 * 60 * 24 * 29,
-    },
-  };
+    const result: UserWithSession = {
+      ...sessionOrNull.user,
+      session: {
+        expiresAt: sessionOrNull.expiresAt,
+        refreshRequired:
+          // Refresh session if it expires in less than 29 days
+          sessionOrNull.expiresAt.getTime() - Date.now() <
+          60_000 * 60 * 24 * 29,
+      },
+    };
 
-  return result;
-});
+    return result;
+  });
 
 export const getUserByIdProcedure = authenticatedAndActiveProcedureBuilder
   .input(z.object({ userId: z.string() }))
+  .output(zUserProfileOutput)
   .query(async ({ ctx, input }) => {
     const user = await ctx.prisma.user.findUniqueOrThrow({
       where: { userId: input.userId },

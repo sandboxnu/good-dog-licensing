@@ -3,8 +3,14 @@ import { z } from "zod";
 
 import { baseProcedureBuilder } from "../../internal/init";
 
+const zVerifyEmailCodeOutput = z.object({
+  status: z.literal("VALID"),
+  message: z.string(),
+});
+
 export const verifyEmailCodeProcedure = baseProcedureBuilder
   .input(z.object({ email: z.email(), emailCode: z.string() }))
+  .output(zVerifyEmailCodeOutput)
   .mutation(async ({ ctx, input }) => {
     const emailVerificationCode =
       await ctx.prisma.emailVerificationCode.findUnique({

@@ -94,7 +94,7 @@ describe("sign-up", () => {
       },
     );
 
-    expect(result.status).toBe("RESENT");
+    expect(result).toMatchObject({ status: "RESENT" });
     expect(mockEmails.send).toBeCalled();
     expect(mockEmails.generateSixDigitCode).toBeCalled();
 

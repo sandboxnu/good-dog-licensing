@@ -3,6 +3,7 @@ import z from "zod";
 
 import { adminPagePermissions } from "@good-dog/auth/permissions";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { sendEmailHelper } from "../../utils";
 
@@ -16,6 +17,7 @@ export const assignProjectManagerProcedure = rolePermissionsProcedureBuilder(
       projectManagerId: z.string(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     const projectManager = await ctx.prisma.user.findUnique({
       where: { userId: input.projectManagerId },

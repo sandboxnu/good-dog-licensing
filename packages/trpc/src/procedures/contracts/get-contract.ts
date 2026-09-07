@@ -4,6 +4,7 @@ import { z } from "zod";
 import { allUsersPermissions } from "@good-dog/auth/permissions";
 import { Role } from "@good-dog/db";
 
+import { zContractDetailOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 export const getContractByIdProcedure = rolePermissionsProcedureBuilder(
@@ -11,6 +12,7 @@ export const getContractByIdProcedure = rolePermissionsProcedureBuilder(
   "read",
 )
   .input(z.object({ contractId: z.string() }))
+  .output(zContractDetailOutput)
   .query(async ({ ctx, input }) => {
     const contract = await ctx.prisma.contract.findUnique({
       where: { contractId: input.contractId },

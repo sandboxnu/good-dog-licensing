@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { env } from "@good-dog/env";
 
+import { zMessageOutput } from "../dto";
 import { baseProcedureBuilder } from "../internal/init";
 
 // click forgot passwd -> enter email -> receive unique link -> enter new passwd at given link
@@ -16,6 +17,7 @@ export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
       email: z.email(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     // Find user with the given email
     const user = await ctx.prisma.user.findUnique({
@@ -83,6 +85,7 @@ export const confirmPasswordResetProcedure = baseProcedureBuilder
       newPassword: z.string(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     // Find password reset request for given passwordResetId
     const passwordResetReq = await ctx.prisma.passwordResetReq.findUnique({

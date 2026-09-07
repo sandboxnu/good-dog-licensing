@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { projectAndRepertoirePagePermissions } from "@good-dog/auth/permissions";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { updateStatuses } from "../../utils/status/update-status";
 
@@ -14,6 +15,7 @@ export const deleteMatchProcedure = rolePermissionsProcedureBuilder(
       matchId: z.string(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     // delete the match
     const deletedMatch = await ctx.prisma.match.delete({

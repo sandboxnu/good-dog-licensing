@@ -1,37 +1,72 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
+import z from "zod";
 
 import {
   mediaMakerOnlyPermissions,
   projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
 
+import {
+  zMatchWithMusicContextOutput,
+  zMediaMakerProjectRowOutput,
+  zProjectSubmissionOutput,
+  zProjectWithSongRequestsRowOutput,
+  zSongRequestOutput,
+  zUserNameOutput,
+  zUserSummaryOutput,
+} from "../dto";
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const getProjectSongRequestsProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
-).query(async ({ ctx }) => {
-  const projectsRaw = await ctx.prisma.projectSubmission.findMany({
-    include: {
-      songRequests: true,
-      projectOwner: {
-        select: {
-          firstName: true,
-          lastName: true,
+)
+  .output(z.object({ projects: z.array(zProjectWithSongRequestsRowOutput) }))
+  .query(async ({ ctx }) => {
+    const projectsRaw = await ctx.prisma.projectSubmission.findMany({
+      include: {
+        songRequests: true,
+        projectOwner: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
         },
       },
-    },
+    });
+
+    const projects = projectsRaw.map((project) => {
+      return {
+        ...project,
+        createdAtDateString: project.createdAt.toDateString(),
+      };
+    });
+
+    return { projects };
   });
 
-  const projects = projectsRaw.map((project) => {
-    return {
-      ...project,
-      createdAtDateString: project.createdAt.toDateString(),
-    };
-  });
-
-  return { projects };
+// The detail view for a single song request: the request itself, its
+// project's owner/manager (name only - never the full User record), every
+// match suggested for it, and its comment thread.
+const zSongRequestDetailOutput = zSongRequestOutput.extend({
+  projectSubmission: zProjectSubmissionOutput.extend({
+    // Both link out to the user's profile (id() below), so these need the
+    // id as well as the name.
+    projectManager: zUserSummaryOutput.nullable(),
+    projectOwner: zUserSummaryOutput,
+  }),
+  matches: z.array(zMatchWithMusicContextOutput),
+  comments: z.array(
+    z.object({
+      commentId: z.string(),
+      createdAt: z.date(),
+      updatedAt: z.date(),
+      commentText: z.string(),
+      userId: z.string(),
+      songRequestId: z.string().nullable(),
+      user: zUserNameOutput,
+    }),
+  ),
 });
 
 // TODO - Test this api route. Ticket #149
@@ -42,6 +77,7 @@ export const getProjectSongRequestByIdProcedure =
         songRequestId: z.string(),
       }),
     )
+    .output(zSongRequestDetailOutput)
     .query(async ({ ctx, input }) => {
       const songRequest = await ctx.prisma.songRequest.findUnique({
         where: {
@@ -113,18 +149,29 @@ export const getProjectSongRequestByIdProcedure =
 export const getUserSongRequestsProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
   "read",
-).query(async ({ ctx }) => {
-  const projects = await ctx.prisma.projectSubmission.findMany({
-    where: {
-      projectOwnerId: ctx.session.user.userId,
-    },
-    include: {
-      songRequests: true,
-      projectOwner: true,
-    },
+)
+  .output(
+    z.object({
+      projects: z.array(
+        zProjectSubmissionOutput.extend({
+          songRequests: z.array(zSongRequestOutput),
+          projectOwner: zUserNameOutput,
+        }),
+      ),
+    }),
+  )
+  .query(async ({ ctx }) => {
+    const projects = await ctx.prisma.projectSubmission.findMany({
+      where: {
+        projectOwnerId: ctx.session.user.userId,
+      },
+      include: {
+        songRequests: true,
+        projectOwner: true,
+      },
+    });
+    return { projects };
   });
-  return { projects };
-});
 
 // TODO: test these procedures as mentioned in #152
 
@@ -132,22 +179,24 @@ export const getUserSongRequestsProcedure = rolePermissionsProcedureBuilder(
 export const mediamakerProjectsProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,
   "read",
-).query(async ({ ctx }) => {
-  const projects = await ctx.prisma.projectSubmission.findMany({
-    where: {
-      projectOwnerId: ctx.session.user.userId,
-    },
-    select: {
-      projectId: true,
-      projectTitle: true,
-      createdAt: true,
-      description: true,
-      mediaMakerStatus: true,
-    },
-  });
+)
+  .output(z.object({ projects: z.array(zMediaMakerProjectRowOutput) }))
+  .query(async ({ ctx }) => {
+    const projects = await ctx.prisma.projectSubmission.findMany({
+      where: {
+        projectOwnerId: ctx.session.user.userId,
+      },
+      select: {
+        projectId: true,
+        projectTitle: true,
+        createdAt: true,
+        description: true,
+        mediaMakerStatus: true,
+      },
+    });
 
-  return { projects };
-});
+    return { projects };
+  });
 
 //gets all of the song requests belonging to a project for a mediamaker
 export const mediamakerSongRequestsProcedure = rolePermissionsProcedureBuilder(
@@ -159,6 +208,7 @@ export const mediamakerSongRequestsProcedure = rolePermissionsProcedureBuilder(
       projectId: z.string(),
     }),
   )
+  .output(z.object({ songRequests: z.array(zSongRequestOutput) }))
   .query(async ({ ctx, input }) => {
     const project = await ctx.prisma.projectSubmission.findFirst({
       where: {
@@ -193,6 +243,11 @@ export const songRequestProcedure = rolePermissionsProcedureBuilder(
     z.object({
       projectId: z.string(),
       songRequestId: z.string(),
+    }),
+  )
+  .output(
+    zSongRequestOutput.extend({
+      projectSubmission: z.object({ projectOwnerId: z.string() }),
     }),
   )
   .query(async ({ ctx, input }) => {

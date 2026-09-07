@@ -4,6 +4,7 @@ import { z } from "zod";
 import { adminPagePermissions } from "@good-dog/auth/permissions";
 import { env } from "@good-dog/env";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 // Expiration date for Moderator Invite is one week
@@ -17,6 +18,7 @@ export const sendModeratorInviteEmailProcedure =
         moderatorEmail: z.email(),
       }),
     )
+    .output(zMessageOutput)
     .mutation(async ({ ctx, input }) => {
       // Delete any exisiting moderator invites and create a new one
       const [, createdModeratorInvite] = await ctx.prisma.$transaction([

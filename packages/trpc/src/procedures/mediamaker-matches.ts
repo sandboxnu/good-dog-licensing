@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
+import { zMatchWithMusicAndSubmitterOutput } from "../dto";
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 // gets all the matches for this song request, along with their music, and ratings
@@ -17,6 +18,7 @@ export const mediamakerMatchesProcedure = rolePermissionsProcedureBuilder(
       songRequestId: z.string(),
     }),
   )
+  .output(z.object({ matches: z.array(zMatchWithMusicAndSubmitterOutput) }))
   .query(async ({ ctx, input }) => {
     const songRequest = await ctx.prisma.songRequest.findFirst({
       where: {

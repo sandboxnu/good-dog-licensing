@@ -9,6 +9,7 @@ import {
   MusicianMatchStatus,
 } from "@good-dog/db";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { sendEmailHelper } from "../../utils";
 import { updateStatuses } from "../../utils/status/update-status";
@@ -23,6 +24,7 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
       musicId: z.string(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     // Create match
     const createdMatch = await ctx.prisma.match.create({

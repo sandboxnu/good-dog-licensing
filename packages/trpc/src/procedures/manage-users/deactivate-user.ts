@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { adminPagePermissions } from "@good-dog/auth/permissions";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 export const deactivateUserProcedure = rolePermissionsProcedureBuilder(
@@ -14,6 +15,7 @@ export const deactivateUserProcedure = rolePermissionsProcedureBuilder(
       userId: z.string(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     const user = await ctx.prisma.user.findUnique({
       where: {

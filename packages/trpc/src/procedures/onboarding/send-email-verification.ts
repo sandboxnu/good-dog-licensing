@@ -8,8 +8,15 @@ import { sendEmailHelper } from "../../utils";
 export const getEmailVerificationCodeExpirationDate = () =>
   new Date(Date.now() + 60_000 * 15);
 
+const zSendEmailVerificationOutput = z.object({
+  email: z.string(),
+  status: z.literal("EMAIL_SENT"),
+  message: z.string(),
+});
+
 export const sendEmailVerificationProcedure = baseProcedureBuilder
   .input(z.object({ email: z.email() }))
+  .output(zSendEmailVerificationOutput)
   .mutation(async ({ ctx, input }) => {
     // Check if there is an existing user with the given email
     const existingUserWithEmail = await ctx.prisma.user.findUnique({

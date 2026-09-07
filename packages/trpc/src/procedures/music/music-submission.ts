@@ -1,14 +1,20 @@
 import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
+import { zMessageOutput, zMusicSubmissionOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zMusicSubmissionValues } from "../../schema";
 import { sendEmailHelper } from "../../utils";
+
+const zSubmitMusicOutput = zMessageOutput.extend({
+  musicSubmission: zMusicSubmissionOutput,
+});
 
 export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,
   "submit",
 )
   .input(zMusicSubmissionValues)
+  .output(zSubmitMusicOutput)
   .mutation(async ({ ctx, input }) => {
     // Creates a contributor for the submitter to be added to the music submission's list of contributors
     const submitterAsContributor = {

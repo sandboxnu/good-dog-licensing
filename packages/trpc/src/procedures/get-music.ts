@@ -6,44 +6,65 @@ import {
   projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
 
+import {
+  zMatchWithProjectContextOutput,
+  zMusicContributorOutput,
+  zMusicSubmissionAdminRowOutput,
+  zMusicSubmissionOutput,
+  zUserMusicSubmissionRowOutput,
+  zUserNameOutput,
+} from "../dto";
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
 
 export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
-).query(async ({ ctx }) => {
-  const music = await ctx.prisma.musicSubmission.findMany({
-    include: {
-      submitter: {
-        select: {
-          firstName: true,
-          lastName: true,
+)
+  .output(z.array(zMusicSubmissionAdminRowOutput))
+  .query(async ({ ctx }) => {
+    const music = await ctx.prisma.musicSubmission.findMany({
+      include: {
+        submitter: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
         },
+        contributors: true,
       },
-      contributors: true,
-    },
+    });
+    return music;
   });
-  return music;
-});
 
 export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
   musicianOnlyPermissions,
   "read",
-).query(async ({ ctx }) => {
-  const music = await ctx.prisma.musicSubmission.findMany({
-    where: {
-      submitterId: ctx.session.user.userId,
-    },
-    select: {
-      musicId: true,
-      songName: true,
-      createdAt: true,
-      performerName: true,
-      genres: true,
-      musicianSongStatus: true,
-    },
+)
+  .output(z.object({ music: z.array(zUserMusicSubmissionRowOutput) }))
+  .query(async ({ ctx }) => {
+    const music = await ctx.prisma.musicSubmission.findMany({
+      where: {
+        submitterId: ctx.session.user.userId,
+      },
+      select: {
+        musicId: true,
+        songName: true,
+        createdAt: true,
+        performerName: true,
+        genres: true,
+        musicianSongStatus: true,
+      },
+    });
+    return { music };
   });
-  return { music };
+
+// The detail view for a single music submission: the submission itself,
+// plus every match it's involved in and enough of that match's project
+// context (song request/project/owner name) to render it.
+const zMusicSubmissionDetailOutput = zMusicSubmissionOutput.extend({
+  submitter: zUserNameOutput,
+  contributors: z.array(zMusicContributorOutput),
+  matches: z.array(zMatchWithProjectContextOutput),
 });
 
 export const getMusicSubmissionByIdProcedure = rolePermissionsProcedureBuilder(
@@ -55,6 +76,7 @@ export const getMusicSubmissionByIdProcedure = rolePermissionsProcedureBuilder(
       musicId: z.string(),
     }),
   )
+  .output(zMusicSubmissionDetailOutput)
   .query(async ({ ctx, input }) => {
     const musicSubmission = await ctx.prisma.musicSubmission.findUnique({
       where: {

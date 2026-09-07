@@ -4,6 +4,7 @@ import { z } from "zod";
 import { allUsersPermissions } from "@good-dog/auth/permissions";
 import { Role } from "@good-dog/db";
 
+import { zContractOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 export const signContractLicensorProcedure = rolePermissionsProcedureBuilder(
@@ -11,6 +12,7 @@ export const signContractLicensorProcedure = rolePermissionsProcedureBuilder(
   "read",
 )
   .input(z.object({ contractId: z.string() }))
+  .output(zContractOutput)
   .mutation(async ({ ctx, input }) => {
     const contract = await ctx.prisma.contract.findUnique({
       where: { contractId: input.contractId },
@@ -62,6 +64,7 @@ export const signContractLicenseeProcedure = rolePermissionsProcedureBuilder(
   "read",
 )
   .input(z.object({ contractId: z.string() }))
+  .output(zContractOutput)
   .mutation(async ({ ctx, input }) => {
     const contract = await ctx.prisma.contract.findUnique({
       where: { contractId: input.contractId },
