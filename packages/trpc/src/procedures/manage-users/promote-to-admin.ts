@@ -4,6 +4,7 @@ import { z } from "zod";
 import { adminPagePermissions } from "@good-dog/auth/permissions";
 import { Role } from "@good-dog/db";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 export const promoteToAdminProcedure = rolePermissionsProcedureBuilder(
@@ -15,6 +16,7 @@ export const promoteToAdminProcedure = rolePermissionsProcedureBuilder(
       userId: z.string(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     const user = await ctx.prisma.user.findUnique({
       where: {

@@ -64,7 +64,7 @@ export default function SignUpWidget({
 
   const signUpMutation = trpc.signUp.useMutation({
     onSuccess: (data) => {
-      if (data.status === "RESENT") {
+      if ("status" in data) {
         setDisplayEmailCodeModal(true);
       } else {
         window.location.href = "/home";

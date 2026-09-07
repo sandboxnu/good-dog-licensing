@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 
+import { zMessageOutput } from "../dto";
 import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 import { authenticatedOnlyProcedureBuilder } from "../middleware/authenticated-only";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
@@ -12,6 +13,7 @@ const getNewSessionExpirationDate = (rememberMe: boolean) =>
 
 export const signInProcedure = notAuthenticatedProcedureBuilder
   .input(zSignInValues)
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     const user = await ctx.prisma.user.findUnique({
       where: {
@@ -57,8 +59,9 @@ export const signInProcedure = notAuthenticatedProcedureBuilder
     };
   });
 
-export const signOutProcedure = authenticatedOnlyProcedureBuilder.mutation(
-  async ({ ctx }) => {
+export const signOutProcedure = authenticatedOnlyProcedureBuilder
+  .output(zMessageOutput)
+  .mutation(async ({ ctx }) => {
     await ctx.prisma.session.delete({
       where: {
         sessionId: ctx.session.sessionId,
@@ -70,11 +73,11 @@ export const signOutProcedure = authenticatedOnlyProcedureBuilder.mutation(
     return {
       message: "Successfully logged out",
     };
-  },
-);
+  });
 
-export const deactivateSelfProcedure =
-  authenticatedAndActiveProcedureBuilder.mutation(async ({ ctx }) => {
+export const deactivateSelfProcedure = authenticatedAndActiveProcedureBuilder
+  .output(zMessageOutput)
+  .mutation(async ({ ctx }) => {
     await ctx.prisma.user.update({
       where: {
         userId: ctx.session.user.userId,

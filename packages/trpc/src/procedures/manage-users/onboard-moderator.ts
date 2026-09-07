@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 import { env } from "@good-dog/env";
 
@@ -12,8 +13,14 @@ const getModeratorInviteExpirationDate = () =>
 const getNewSessionExpirationDate = () =>
   new Date(Date.now() + 60_000 * 60 * 24 * 30);
 
+const zOnboardModeratorOutput = z.discriminatedUnion("status", [
+  z.object({ status: z.literal("RESENT"), message: z.string() }),
+  z.object({ status: z.literal("SUCCESS"), message: z.string() }),
+]);
+
 export const onboardModeratorProcedure = notAuthenticatedProcedureBuilder
   .input(zModeratorSignUpValues)
+  .output(zOnboardModeratorOutput)
   .mutation(async ({ ctx, input }) => {
     // Get the moderator invite
     const moderatorInvite = await ctx.prisma.moderatorInvite.findUnique({

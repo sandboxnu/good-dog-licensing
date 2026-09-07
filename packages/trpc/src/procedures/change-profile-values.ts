@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { MusicAffiliation } from "@good-dog/db";
 
+import { zMessageOutput } from "../dto";
 import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
 export const changeProfileValuesProcedure =
@@ -14,6 +15,7 @@ export const changeProfileValuesProcedure =
         ipi: z.string().optional().nullable(),
       }),
     )
+    .output(zMessageOutput)
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.user.update({
         where: {

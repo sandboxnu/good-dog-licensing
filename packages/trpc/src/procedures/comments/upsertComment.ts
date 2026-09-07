@@ -3,6 +3,7 @@ import z from "zod";
 
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { sendEmailHelper } from "../../utils";
 
@@ -17,6 +18,7 @@ export const upsertCommentsProcedure = rolePermissionsProcedureBuilder(
       commentId: z.string().optional(),
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     const userId = ctx.session.user.userId;
 

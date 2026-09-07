@@ -148,9 +148,17 @@ describe("get-pnrs-and-admins", () => {
       const users = await $api.getPNRAndAdmins();
 
       const expectedResult = [
-        { role: "MODERATOR", status: "ACTIVE", email: "gavin@test.org" },
-        { role: "ADMIN", status: "ACTIVE", email: "owen@test.org" },
-        { role: "MODERATOR", status: "PENDING", email: "sanjana@test.org" },
+        {
+          role: "MODERATOR",
+          status: "ACTIVE" as const,
+          email: "gavin@test.org",
+        },
+        { role: "ADMIN", status: "ACTIVE" as const, email: "owen@test.org" },
+        {
+          role: "MODERATOR",
+          status: "PENDING" as const,
+          email: "sanjana@test.org",
+        },
       ];
 
       expect(users).toEqual(expectedResult);
@@ -171,7 +179,7 @@ describe("get-pnrs-and-admins", () => {
       const users = await $api.getPNRAndAdmins();
 
       const expectedResult = [
-        { role: "ADMIN", status: "ACTIVE", email: "owen@test.org" },
+        { role: "ADMIN", status: "ACTIVE" as const, email: "owen@test.org" },
       ];
 
       expect(users).toEqual(expectedResult);

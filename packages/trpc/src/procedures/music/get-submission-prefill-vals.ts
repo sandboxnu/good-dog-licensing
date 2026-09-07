@@ -1,6 +1,7 @@
 import type { MusicAffiliation } from "@good-dog/db";
 import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
 
+import { zMusicSubmissionPrefillOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 interface ContributorPrefillType {
@@ -14,8 +15,9 @@ interface ContributorPrefillType {
 }
 
 export const getMusicSubmissionPrefillValuesProcedure =
-  rolePermissionsProcedureBuilder(musicianOnlyPermissions, "read").query(
-    async ({ ctx }) => {
+  rolePermissionsProcedureBuilder(musicianOnlyPermissions, "read")
+    .output(zMusicSubmissionPrefillOutput)
+    .query(async ({ ctx }) => {
       const previousContributors = await ctx.prisma.musicContributor.findMany({
         where: {
           MusicSubmission: { submitterId: ctx.session.user.userId },
@@ -60,5 +62,4 @@ export const getMusicSubmissionPrefillValuesProcedure =
         userPublisher: ctx.session.user.publisher,
         userPublisherIpi: ctx.session.user.publisherIpi,
       };
-    },
-  );
+    });

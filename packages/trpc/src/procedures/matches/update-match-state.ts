@@ -3,9 +3,14 @@ import z from "zod";
 
 import { MatchState, Role } from "@good-dog/db";
 
+import { zMatchWithSongRequestAndMusicOutput, zMessageOutput } from "../../dto";
 import { authenticatedAndActiveProcedureBuilder } from "../../middleware/authenticated-active";
 import { sendEmailHelper } from "../../utils";
 import { updateStatuses } from "../../utils/status/update-status";
+
+const zUpdateMatchStateOutput = zMessageOutput.extend({
+  match: zMatchWithSongRequestAndMusicOutput,
+});
 
 const allowedStartingStatesByRole: Record<Role, MatchState[]> = {
   [Role.MEDIA_MAKER]: [MatchState.SENT_TO_MEDIA_MAKER],
@@ -35,6 +40,7 @@ const allowedEndingStatesByRole: Record<Role, MatchState[]> = {
 
 export const updateMatchStateProcedure = authenticatedAndActiveProcedureBuilder
   .input(z.object({ matchId: z.string(), state: z.enum(MatchState) }))
+  .output(zUpdateMatchStateOutput)
   .mutation(async ({ ctx, input }) => {
     const match = await ctx.prisma.match.findUnique({
       where: { matchId: input.matchId },

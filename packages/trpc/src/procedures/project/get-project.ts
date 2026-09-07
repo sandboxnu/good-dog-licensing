@@ -5,7 +5,17 @@ import {
   mediaMakerOnlyPermissions,
   projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
+import {
+  AdmModProjectStatus,
+  AdmModSongRequestStatus,
+  MediaMakerSongRequestStatus,
+} from "@good-dog/db";
 
+import {
+  zUserDirectoryRowOutput,
+  zUserNameOutput,
+  zUserSummaryOutput,
+} from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { CREATED_DATE_QUERY, zQueryProjectsRequest } from "../../schema/query";
 
@@ -31,11 +41,26 @@ const getCreatedDate = (query: CREATED_DATE_QUERY) => {
   }
 };
 
+// Row in the admin/PNR "all projects" list.
+const zProjectDirectoryRowOutput = z.object({
+  projectId: z.string(),
+  projectTitle: z.string(),
+  description: z.string(),
+  admModStatus: z.enum(AdmModProjectStatus),
+  projectOwner: zUserNameOutput,
+  createdAt: z.date(),
+  deadline: z.date(),
+  // Candidates eligible to be assigned as project manager - same shape as
+  // the admin/PNR directory row since that's exactly what this is.
+  projectManager: zUserDirectoryRowOutput.nullable(),
+});
+
 export const queryAllProjectsProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,
   "read",
 )
   .input(zQueryProjectsRequest)
+  .output(z.object({ projects: z.array(zProjectDirectoryRowOutput) }))
   .query(async ({ ctx, input }) => {
     const createdAtDate = getCreatedDate(input.createdDateQuery);
     const projects = await ctx.prisma.projectSubmission.findMany({
@@ -74,6 +99,26 @@ export const queryAllProjectsProcedure = rolePermissionsProcedureBuilder(
     return { projects };
   });
 
+const zProjectSubmissionDetailOutput = z.object({
+  projectId: z.string(),
+  projectTitle: z.string(),
+  description: z.string(),
+  additionalInfo: z.string(),
+  projectOwnerId: z.string(),
+  deadline: z.date(),
+  projectOwner: zUserNameOutput,
+  projectManager: zUserSummaryOutput.nullable(),
+  songRequests: z.array(
+    z.object({
+      songRequestId: z.string(),
+      songRequestTitle: z.string(),
+      description: z.string(),
+      admModStatus: z.enum(AdmModSongRequestStatus),
+      mediaMakerStatus: z.enum(MediaMakerSongRequestStatus),
+    }),
+  ),
+});
+
 export const getProjectSubmissionByIdProcedure =
   rolePermissionsProcedureBuilder(mediaMakerOnlyPermissions, "read")
     .input(
@@ -81,6 +126,7 @@ export const getProjectSubmissionByIdProcedure =
         projectId: z.string(),
       }),
     )
+    .output(zProjectSubmissionDetailOutput)
     .query(async ({ ctx, input }) => {
       const projectSubmission = await ctx.prisma.projectSubmission.findUnique({
         where: {

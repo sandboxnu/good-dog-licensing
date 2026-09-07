@@ -3,6 +3,7 @@ import z from "zod";
 
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
+import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zSongRequest } from "../../schema";
 
@@ -16,6 +17,7 @@ export const songRequestSubmissionProcedure = rolePermissionsProcedureBuilder(
       songRequest: zSongRequest,
     }),
   )
+  .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
     const project = await ctx.prisma.projectSubmission.findFirst({
       where: {

@@ -1,12 +1,24 @@
-import type { ProjectSubmission, User } from ".prisma/client";
 import { formatAllCapsList } from "../../../utils/allCapsListFormatter";
+
+interface ProjectInformationSubmission {
+  projectTitle: string;
+  deadline: Date;
+  projectType: string;
+  description: string;
+  additionalInfo: string;
+}
+
+interface ProjectInformationOwner {
+  firstName: string;
+  lastName: string;
+}
 
 export default function ProjectInformation({
   projectSubmission,
   projectOwner,
 }: {
-  projectSubmission: ProjectSubmission | undefined;
-  projectOwner: User | undefined;
+  projectSubmission: ProjectInformationSubmission | undefined;
+  projectOwner: ProjectInformationOwner | undefined;
 }) {
   return (
     <div className="flex flex-col gap-4 rounded-2xl border-[0.5px] border-light-gray bg-cream-100 p-6 shadow-md dark:bg-dark-gray-600">
