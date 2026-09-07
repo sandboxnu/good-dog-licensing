@@ -1,5 +1,7 @@
 "use client";
 
+import { CalendarCheck, Camera, File } from "lucide-react";
+
 import { trpc } from "@good-dog/trpc/client";
 import {
   Sheet,
@@ -10,7 +12,6 @@ import {
 
 import User from "../../../matching/components/User";
 import SongRequest from "./SongRequest";
-import { CalendarCheck, Camera, File } from "lucide-react";
 
 export default function ProjectDrawer({
   projectSubmissionId,
@@ -67,7 +68,7 @@ export default function ProjectDrawer({
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-6">
               <div className="flex flex-row items-center gap-1">
-                <Camera className="w-4 h-4 text-gray-400" />
+                <Camera className="h-4 w-4 text-gray-400" />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Media Maker
                 </p>
@@ -85,7 +86,7 @@ export default function ProjectDrawer({
 
             <div className="flex flex-row gap-6">
               <div className="flex flex-row items-center gap-1">
-                <CalendarCheck className="w-4 h-4 text-gray-400" />
+                <CalendarCheck className="h-4 w-4 text-gray-400" />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Deadline
                 </p>
@@ -101,7 +102,7 @@ export default function ProjectDrawer({
 
             <div className="flex flex-col gap-1">
               <div className="flex flex-row items-center gap-1">
-                <File className="w-4 h-4 text-gray-400" />
+                <File className="h-4 w-4 text-gray-400" />
                 <p className="text-sm text-cream-600 dark:text-gray-200">
                   Project information
                 </p>
@@ -114,7 +115,7 @@ export default function ProjectDrawer({
             {projectSubmission.additionalInfo.length > 0 && (
               <div className="flex flex-col gap-1">
                 <div className="flex flex-row items-center gap-1">
-                  <File className="w-4 h-4 text-gray-400" />
+                  <File className="h-4 w-4 text-gray-400" />
                   <p className="text-sm text-cream-600 dark:text-gray-200">
                     Additional information
                   </p>

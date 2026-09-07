@@ -50,8 +50,8 @@ export default function MatchDrawer({
       >
         {/* Header */}
         <SheetHeader>
-          <SheetTitle className="flex flex-row justify-between items-center">
-            <p className="text-[40px] text-dark-gray-500 dark:text-gray-300 font-semibold leading-[1.28]">
+          <SheetTitle className="flex flex-row items-center justify-between">
+            <p className="text-[40px] font-semibold leading-[1.28] text-dark-gray-500 dark:text-gray-300">
               {match.musicSubmission.songName}
             </p>
           </SheetTitle>
@@ -67,7 +67,7 @@ export default function MatchDrawer({
             <div className="grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6">
               <div className="contents">
                 <div className="flex flex-row items-center gap-1">
-                  <Calendar className="w-4 h-4 text-gray-400" />
+                  <Calendar className="h-4 w-4 text-gray-400" />
                   <p className="text-sm text-cream-600 dark:text-gray-200">
                     Date updated
                   </p>
@@ -82,7 +82,7 @@ export default function MatchDrawer({
               </div>
               <div className="contents">
                 <div className="flex flex-row items-center gap-1">
-                  <CalendarCheck className="w-4 h-4 text-gray-400" />
+                  <CalendarCheck className="h-4 w-4 text-gray-400" />
                   <p className="text-sm text-cream-600 dark:text-gray-200">
                     Date matched
                   </p>
@@ -97,7 +97,7 @@ export default function MatchDrawer({
               </div>
               <div className="contents">
                 <div className="flex flex-row items-center gap-1">
-                  <CircleCheck className="w-4 h-4 text-gray-400" />
+                  <CircleCheck className="h-4 w-4 text-gray-400" />
                   <p className="text-base text-cream-600 dark:text-gray-200">
                     Status
                   </p>
@@ -120,7 +120,7 @@ export default function MatchDrawer({
               <div className="inline-grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6">
                 <div className="contents">
                   <div className="flex flex-row items-center gap-1">
-                    <Camera className="w-4 h-4 text-gray-400" />
+                    <Camera className="h-4 w-4 text-gray-400" />
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Musician
                     </p>
@@ -137,7 +137,7 @@ export default function MatchDrawer({
                 </div>
                 <div className="contents">
                   <div className="flex flex-row items-center gap-1">
-                    <UsersRound className="text-gray-400 h-4 w-4" />
+                    <UsersRound className="h-4 w-4 text-gray-400" />
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Songwriters
                     </p>
@@ -156,7 +156,7 @@ export default function MatchDrawer({
                 </div>
                 <div className="contents">
                   <div className="flex flex-row items-center gap-1">
-                    <CalendarCheck className="w-4 h-4 text-gray-400" />
+                    <CalendarCheck className="h-4 w-4 text-gray-400" />
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Date Submitted
                     </p>
@@ -193,7 +193,7 @@ export default function MatchDrawer({
               <div className="mt-6 space-y-6">
                 <div className="col-span-2 flex flex-col">
                   <div className="flex flex-row items-center gap-1">
-                    <Music className="text-gray-400 h-4 w-4" />
+                    <Music className="h-4 w-4 text-gray-400" />
                     <p className="text-sm text-cream-600 dark:text-gray-200">
                       Genre(s)
                     </p>
@@ -203,7 +203,7 @@ export default function MatchDrawer({
                       {match.musicSubmission.genres.map((genre) => (
                         <span
                           key={genre}
-                          className="rounded-full border border-gray-400 dark:border-dark-gray-200 px-2 py-0.5 text-base text-gray-500 dark:text-gray-300 bg-gray-300 dark:bg-gray-500"
+                          className="rounded-full border border-gray-400 bg-gray-300 px-2 py-0.5 text-base text-gray-500 dark:border-dark-gray-200 dark:bg-gray-500 dark:text-gray-300"
                         >
                           {formatAllCapsWord(genre)}
                         </span>
@@ -215,7 +215,7 @@ export default function MatchDrawer({
                 {match.musicSubmission.additionalInfo.length > 0 && (
                   <div className="flex flex-col gap-1">
                     <div className="flex flex-row items-center gap-1">
-                      <File className="w-4 h-4 text-gray-400" />
+                      <File className="h-4 w-4 text-gray-400" />
                       <p className="text-sm text-gray-500 dark:text-gray-200">
                         Additional information
                       </p>

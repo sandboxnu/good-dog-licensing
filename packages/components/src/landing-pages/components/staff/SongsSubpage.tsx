@@ -1,17 +1,18 @@
 "use client";
 
+import { useState } from "react";
+
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { trpc } from "@good-dog/trpc/client";
 
 import Header from "../Header";
+import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import { useState } from "react";
-import SortableTableColumnHeader from "./SortableTableColumnHeader";
 
 type MusicSubmission = GetProcedureOutput<"allMusic">[number];
 

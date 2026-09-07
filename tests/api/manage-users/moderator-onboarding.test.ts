@@ -5,10 +5,10 @@ import { prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
+import { pnrInviteTemplate } from "../../../packages/email/src/templates/pnrInvite";
 import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
-import { pnrInviteTemplate } from "../../../packages/email/src/templates/pnrInvite";
 
 describe("moderator-onboarding", () => {
   const mockEmails = new MockEmailService();

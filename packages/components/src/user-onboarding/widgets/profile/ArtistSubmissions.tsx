@@ -59,7 +59,7 @@ function MusicSubmissionContent({
         </div>
         <div className="flex flex-1 flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
-            <Music className="text-gray-400 h-4 w-4" />
+            <Music className="h-4 w-4 text-gray-400" />
             <p className="text-sm text-cream-600 dark:text-gray-200">
               Genre(s)
             </p>
@@ -79,7 +79,7 @@ function MusicSubmissionContent({
 
       <div className="flex flex-col gap-2">
         <div className="flex flex-row items-center gap-2">
-          <UsersRound className="text-gray-400 h-4 w-4" />
+          <UsersRound className="h-4 w-4 text-gray-400" />
           <p className="text-sm text-dark-gray-300 dark:text-cream-400">
             Songwriters
           </p>
@@ -96,7 +96,7 @@ function MusicSubmissionContent({
       {song.additionalInfo.length > 0 && (
         <div className="flex flex-col gap-1">
           <div className="flex flex-row items-center gap-1">
-            <Info className="w-4 h-4 text-gray-400" />
+            <Info className="h-4 w-4 text-gray-400" />
             <p className="text-sm text-dark-gray-300 dark:text-cream-400">
               Additional Information
             </p>
@@ -121,7 +121,7 @@ function ProjectSubmissionContent({
         <div className="flex flex-row gap-x-8">
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <Video className="w-4 h-4 text-gray-400" />
+              <Video className="h-4 w-4 text-gray-400" />
               <p className="text-sm text-dark-gray-300 dark:text-cream-400">
                 Media
               </p>
@@ -132,7 +132,7 @@ function ProjectSubmissionContent({
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <CalendarCheck className="w-4 h-4 text-gray-400" />
+              <CalendarCheck className="h-4 w-4 text-gray-400" />
               <p className="text-sm text-dark-gray-300 dark:text-cream-400">
                 Deadline
               </p>
@@ -148,7 +148,7 @@ function ProjectSubmissionContent({
         <div className="flex flex-row gap-x-8">
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <Hourglass className="w-4 h-4 text-gray-400" />
+              <Hourglass className="h-4 w-4 text-gray-400" />
               <p className="text-sm text-dark-gray-300 dark:text-cream-400">
                 Active song requests
               </p>
@@ -159,7 +159,7 @@ function ProjectSubmissionContent({
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
-              <CircleCheck className="w-4 h-4 text-gray-400" />
+              <CircleCheck className="h-4 w-4 text-gray-400" />
               <p className="text-sm text-dark-gray-300 dark:text-cream-400">
                 Total song requests
               </p>
@@ -173,7 +173,7 @@ function ProjectSubmissionContent({
       {project.description && (
         <div className="flex flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
-            <File className="w-4 h-4 text-gray-400" />
+            <File className="h-4 w-4 text-gray-400" />
             <p className="text-sm text-dark-gray-300 dark:text-cream-400">
               Description
             </p>
@@ -184,7 +184,7 @@ function ProjectSubmissionContent({
       {project.additionalInfo && project.additionalInfo.length > 0 && (
         <div className="flex flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
-            <Info className="w-4 h-4 text-gray-400" />
+            <Info className="h-4 w-4 text-gray-400" />
             <p className="text-sm text-dark-gray-300 dark:text-cream-400">
               Additional Information
             </p>

@@ -1,11 +1,12 @@
+import { TRPCError } from "@trpc/server";
+import z from "zod";
+
 import {
   mediaMakerOnlyPermissions,
   projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
-import z from "zod";
-import { TRPCError } from "@trpc/server";
 import { CREATED_DATE_QUERY, zQueryProjectsRequest } from "../../schema/query";
 
 const getCreatedDate = (query: CREATED_DATE_QUERY) => {

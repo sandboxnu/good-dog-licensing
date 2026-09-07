@@ -1,8 +1,9 @@
+import { z } from "zod";
+
 import type { UserWithSession } from "../types";
 import { baseProcedureBuilder } from "../internal/init";
 import { getSessionMemoized } from "../internal/prisma-abstraction";
 import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
-import { z } from "zod";
 
 export const getUserProcedure = baseProcedureBuilder.query(async ({ ctx }) => {
   const sessionId = ctx.cookiesService.getSessionCookie();

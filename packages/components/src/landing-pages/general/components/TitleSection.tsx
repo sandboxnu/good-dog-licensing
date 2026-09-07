@@ -14,7 +14,7 @@ export default function TitleSection() {
         Say "Yes" to Licensing!
       </h2>
       <div className="mt-[16px] flex items-center justify-center">
-        <MoveDown className="text-green-400 dark:text-mint-300 h-20 w-20" />
+        <MoveDown className="h-20 w-20 text-green-400 dark:text-mint-300" />
       </div>
     </div>
   );

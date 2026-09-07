@@ -16,7 +16,7 @@ export default function CommentText({ text }: { text: string }) {
   }
 
   return (
-    <p className="text-sm text-dark-gray-400 dark:text-gray-200 break-words">
+    <p className="break-words text-sm text-dark-gray-400 dark:text-gray-200">
       {parts.map((part, i) =>
         part.isLink ? (
           <a
@@ -24,7 +24,7 @@ export default function CommentText({ text }: { text: string }) {
             href={part.text}
             target="_blank"
             rel="noreferrer"
-            className="underline underline-offset-2 text-green-500 dark:text-mint-300"
+            className="text-green-500 underline underline-offset-2 dark:text-mint-300"
           >
             {part.text}
           </a>

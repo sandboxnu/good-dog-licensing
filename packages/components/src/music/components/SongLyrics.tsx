@@ -47,7 +47,7 @@ export default function SongLyrics({
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex flex-row items-center gap-1 self-start group"
+        className="group flex flex-row items-center gap-1 self-start"
       >
         <ScrollText className="h-4 w-4 text-gray-400 group-hover:text-cream-600 dark:text-gray-400 dark:group-hover:text-gray-200" />
         <p className="text-sm text-dark-gray-300 dark:text-gray-200">Lyrics</p>

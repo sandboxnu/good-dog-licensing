@@ -1,11 +1,10 @@
+import type { z } from "zod";
 import { afterEach, describe, expect, test } from "bun:test";
 
+import type { zSignUpValues } from "@good-dog/trpc/schema";
 import { passwordService } from "@good-dog/auth/password";
 import { prisma, Role } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
-
-import type { z } from "zod";
-import type { zSignUpValues } from "@good-dog/trpc/schema";
 
 import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";

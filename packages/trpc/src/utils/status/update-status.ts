@@ -1,4 +1,11 @@
 import { prisma } from "@good-dog/db";
+
+import {
+  getAdmModMatchStatus,
+  getMediaMakerMatchStatus,
+  getMusicianMatchStatus,
+} from "./match-status";
+import { getMusicianSongStatus } from "./music-status";
 import {
   getAdmModProjectStatus,
   getMediaMakerProjectStatus,
@@ -7,12 +14,6 @@ import {
   getAdmModSongRequestStatus,
   getMediaMakerSongRequestStatus,
 } from "./song-request-status";
-import {
-  getAdmModMatchStatus,
-  getMediaMakerMatchStatus,
-  getMusicianMatchStatus,
-} from "./match-status";
-import { getMusicianSongStatus } from "./music-status";
 
 export async function updateStatuses(
   projectId: string,

@@ -1,6 +1,7 @@
 "use client";
 
 import type z from "zod";
+import { Trash } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
 import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
@@ -8,7 +9,6 @@ import type { zProjectSubmissionValues } from "@good-dog/trpc/schema";
 import Button from "../../base/Button";
 import RHFTextArea from "../../rhf-base/RHFTextArea";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
-import { Trash } from "lucide-react";
 
 interface SongRequestsInfoProps {
   onSubmit: () => void;

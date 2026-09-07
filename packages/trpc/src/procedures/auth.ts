@@ -1,9 +1,9 @@
 import { TRPCError } from "@trpc/server";
 
+import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
+import { authenticatedOnlyProcedureBuilder } from "../middleware/authenticated-only";
 import { notAuthenticatedProcedureBuilder } from "../middleware/not-authenticated";
 import { zSignInValues } from "../schema";
-import { authenticatedOnlyProcedureBuilder } from "../middleware/authenticated-only";
-import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
 const getNewSessionExpirationDate = (rememberMe: boolean) =>
   rememberMe

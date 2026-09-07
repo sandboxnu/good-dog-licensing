@@ -12,8 +12,7 @@ export default function Deactivated() {
           Account inactive
         </h1>
         <p className="text-body2 font-normal text-dark-gray-500 dark:text-gray-300">
-          Your account has been deactivated, please email Good Dog Licensing
-          at{" "}
+          Your account has been deactivated, please email Good Dog Licensing at{" "}
           <a
             href={`mailto:${SUPPORT_EMAIL}`}
             className="font-semibold text-green-500 underline dark:text-mint-200"

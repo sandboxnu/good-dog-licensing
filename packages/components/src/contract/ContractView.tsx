@@ -1,7 +1,8 @@
 "use client";
 
-import { trpc } from "@good-dog/trpc/client";
 import { MusicAffiliation, MusicRole } from "@good-dog/db";
+import { trpc } from "@good-dog/trpc/client";
+
 import Button from "../base/Button";
 
 const LOCATION_LABELS: Record<string, string> = {
@@ -34,7 +35,7 @@ const COMPOSITION_ROLES: MusicRole[] = [
 function CheckItem({ checked, label }: { checked: boolean; label: string }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="w-4 h-4 border border-black flex items-center justify-center flex-shrink-0">
+      <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center border border-black">
         {checked && <span className="text-xs leading-none">✓</span>}
       </div>
       <span>{label}</span>
@@ -65,7 +66,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
   const handlePrint = () => window.print();
 
   return (
-    <div className="flex flex-col items-center w-full my-4">
+    <div className="my-4 flex w-full flex-col items-center">
       <div className="print:hidden">
         <Button
           size={"medium"}
@@ -76,9 +77,9 @@ export default function ContractView({ contractId }: { contractId: string }) {
         />
       </div>
 
-      <div className="bg-white text-black w-full max-w-[850px] px-16 py-14 text-sm leading-relaxed font-serif">
+      <div className="w-full max-w-[850px] bg-white px-16 py-14 font-serif text-sm leading-relaxed text-black">
         {/* Title */}
-        <h1 className="text-center font-bold text-base uppercase mb-6 tracking-wide">
+        <h1 className="mb-6 text-center text-base font-bold uppercase tracking-wide">
           Synchronization and Master Use License Agreement
         </h1>
 
@@ -116,14 +117,14 @@ export default function ContractView({ contractId }: { contractId: string }) {
           <span className="underline">Schedule B</span>.
         </p>
 
-        <p className="font-bold mb-4 uppercase">
+        <p className="mb-4 font-bold uppercase">
           Accordingly, the parties agree as follows:
         </p>
 
         {/* Section 1 */}
         <div className="mb-4">
-          <p className="font-bold mb-2">1. Definitions.</p>
-          <div className="pl-6 space-y-2">
+          <p className="mb-2 font-bold">1. Definitions.</p>
+          <div className="space-y-2 pl-6">
             <p className="text-justify">
               a. <SectionLabel>&ldquo;Song&rdquo;</SectionLabel> means the
               musical composition and sound recording collectively, to which
@@ -175,18 +176,18 @@ export default function ContractView({ contractId }: { contractId: string }) {
 
         {/* Section 3 */}
         <div className="mb-4">
-          <p className="font-bold mb-2">
+          <p className="mb-2 font-bold">
             3. Grant of License &amp; Limitations.
           </p>
-          <div className="pl-6 space-y-3">
+          <div className="space-y-3 pl-6">
             <div>
-              <p className="font-bold mb-1">a. Grant of License.</p>
-              <p className="pl-4 mb-1 text-justify">
+              <p className="mb-1 font-bold">a. Grant of License.</p>
+              <p className="mb-1 pl-4 text-justify">
                 In consideration of the conditions of this License, subject to
                 the terms and conditions hereof, Licensor hereby grants to
                 Licensee:
               </p>
-              <div className="pl-8 space-y-2">
+              <div className="space-y-2 pl-8">
                 <p className="text-justify">
                   i. <span className="underline">Synch License</span>: an
                   irrevocable, non-exclusive, non-sublicensable license to
@@ -221,12 +222,12 @@ export default function ContractView({ contractId }: { contractId: string }) {
               </div>
             </div>
             <div>
-              <p className="font-bold mb-1">b. Limitations.</p>
-              <p className="pl-4 mb-1 text-justify">
+              <p className="mb-1 font-bold">b. Limitations.</p>
+              <p className="mb-1 pl-4 text-justify">
                 The Licensee may only use the Song under this License subject to
                 the following conditions and limitations:
               </p>
-              <div className="pl-8 space-y-2">
+              <div className="space-y-2 pl-8">
                 <p className="text-justify">
                   i. <SectionLabel>Attribution.</SectionLabel> Licensee shall
                   provide a written on-screen credit to Licensor, as set forth
@@ -247,11 +248,11 @@ export default function ContractView({ contractId }: { contractId: string }) {
 
         {/* Section 4 */}
         <div className="mb-4">
-          <p className="font-bold mb-2">4. Representations &amp; Warranties.</p>
-          <p className="pl-6 mb-2 text-justify">
+          <p className="mb-2 font-bold">4. Representations &amp; Warranties.</p>
+          <p className="mb-2 pl-6 text-justify">
             Licensor represents and warrants that:
           </p>
-          <div className="pl-6 space-y-2">
+          <div className="space-y-2 pl-6">
             <p className="text-justify">
               a. Licensor has the full legal right, power and authority to grant
               this License on behalf of All Owners. Licensor has provided
@@ -299,18 +300,18 @@ export default function ContractView({ contractId }: { contractId: string }) {
           </p>
         </div>
 
-        <p className="font-bold mb-8 text-justify">
+        <p className="mb-8 text-justify font-bold">
           Therefore, the parties agree to be bound by the terms and conditions
           of this License as of the Effective Date.
         </p>
 
         {/* Signature blocks */}
-        <div className="flex gap-16 mb-2">
+        <div className="mb-2 flex gap-16">
           <div className="flex-1">
-            <p className="font-bold mb-6">Licensor (on behalf of All Owners)</p>
+            <p className="mb-6 font-bold">Licensor (on behalf of All Owners)</p>
             <p className="mb-1">
               <span className="font-bold">By:</span>{" "}
-              <span className="border-b border-black inline-block w-56 align-bottom leading-none">
+              <span className="inline-block w-56 border-b border-black align-bottom leading-none">
                 {contract.licensorSigned ? (
                   <span className="font-signature text-lg">
                     {contract.licensorFullName}
@@ -322,10 +323,10 @@ export default function ContractView({ contractId }: { contractId: string }) {
             </p>
           </div>
           <div className="flex-1">
-            <p className="font-bold mb-6">Licensee</p>
+            <p className="mb-6 font-bold">Licensee</p>
             <p className="mb-1">
               <span className="font-bold">By:</span>{" "}
-              <span className="border-b border-black inline-block w-56 align-bottom leading-none">
+              <span className="inline-block w-56 border-b border-black align-bottom leading-none">
                 {contract.licenseeSigned ? (
                   <span className="font-signature text-lg">
                     {contract.licenseeFullName}
@@ -342,12 +343,12 @@ export default function ContractView({ contractId }: { contractId: string }) {
 
         {/* Schedule A */}
         <div className="mb-10">
-          <h2 className="text-center font-bold uppercase mb-1">Schedule A</h2>
-          <p className="text-center mb-6">Licensee Information</p>
+          <h2 className="mb-1 text-center font-bold uppercase">Schedule A</h2>
+          <p className="mb-6 text-center">Licensee Information</p>
 
           <div className="mb-5">
-            <p className="font-bold mb-2">A. Licensee Information</p>
-            <div className="pl-4 space-y-1">
+            <p className="mb-2 font-bold">A. Licensee Information</p>
+            <div className="space-y-1 pl-4">
               <p>
                 <span className="font-semibold">Name:</span>{" "}
                 {contract.licenseeFullName}
@@ -364,7 +365,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
           </div>
 
           <div className="mb-5">
-            <p className="font-bold mb-2">
+            <p className="mb-2 font-bold">
               B. Title of the audiovisual production (the{" "}
               <span className="font-bold">&ldquo;Production&rdquo;</span>):
             </p>
@@ -372,7 +373,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
           </div>
 
           <div className="mb-5">
-            <p className="font-bold mb-2">
+            <p className="mb-2 font-bold">
               C. Description/synopsis of the Production:
             </p>
             <p className="pl-4 text-justify">
@@ -381,21 +382,21 @@ export default function ContractView({ contractId }: { contractId: string }) {
           </div>
 
           <div className="mb-5">
-            <p className="font-bold mb-2">
+            <p className="mb-2 font-bold">
               D. The usage of the Song in the Production (the{" "}
               <span className="font-bold">&ldquo;Scope of Use&rdquo;</span>):
             </p>
-            <p className="pl-4 mb-3 text-justify">
+            <p className="mb-3 pl-4 text-justify">
               {contract.songRequestDescription}
             </p>
           </div>
 
           <div className="mb-5">
-            <p className="font-bold mb-2">
+            <p className="mb-2 font-bold">
               E. Where will the Production be performed, displayed, distributed,
               exhibited, or otherwise shared?
             </p>
-            <div className="pl-4 space-y-2">
+            <div className="space-y-2 pl-4">
               {Object.entries(LOCATION_LABELS).map(([key, label]) => (
                 <CheckItem
                   key={key}
@@ -411,12 +412,12 @@ export default function ContractView({ contractId }: { contractId: string }) {
 
         {/* Schedule B */}
         <div>
-          <h2 className="text-center font-bold uppercase mb-1">Schedule B</h2>
-          <p className="text-center mb-6">Licensor Information</p>
+          <h2 className="mb-1 text-center font-bold uppercase">Schedule B</h2>
+          <p className="mb-6 text-center">Licensor Information</p>
 
           <div className="mb-5">
-            <p className="font-bold mb-2">A. Licensor Information</p>
-            <div className="pl-4 space-y-1">
+            <p className="mb-2 font-bold">A. Licensor Information</p>
+            <div className="space-y-1 pl-4">
               <p>
                 <span className="font-semibold">Name:</span>{" "}
                 {contract.licensorFullName}
@@ -433,7 +434,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
           </div>
 
           <div className="mb-6">
-            <p className="font-bold mb-2">
+            <p className="mb-2 font-bold">
               B. Title of the musical composition/sound recording (the{" "}
               <span className="font-bold">&ldquo;Song&rdquo;</span>):
             </p>
@@ -442,7 +443,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
 
           {contract.contractMusicContributors.length > 0 && (
             <div>
-              <p className="font-bold mb-3">
+              <p className="mb-3 font-bold">
                 C. &ldquo;All Owner&rdquo; information, including contact
                 information if available:
               </p>
@@ -450,7 +451,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
               {/* Master Recording Table */}
               {masterContributors.length > 0 && (
                 <div className="mb-6">
-                  <p className="text-center underline mb-2">
+                  <p className="mb-2 text-center underline">
                     Master Recording Information
                   </p>
                   <table className="w-full border-collapse border border-black text-xs">
@@ -489,7 +490,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
               {/* Composition Table */}
               {compositionContributors.length > 0 && (
                 <div className="mb-4">
-                  <p className="text-center underline mb-2">
+                  <p className="mb-2 text-center underline">
                     Composition Information
                   </p>
                   <table className="w-full border-collapse border border-black text-xs">
