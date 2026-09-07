@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "./base/Button";
 import DeactivatedUser from "./svg/DeactivatedUser";
 
