@@ -1,8 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { sendEmailHelper } from "../../utils";
 import { baseProcedureBuilder } from "../../internal/init";
+import { sendEmailHelper } from "../../utils";
 
 // Expiration date for email verification codes is 15 minutes
 export const getEmailVerificationCodeExpirationDate = () =>

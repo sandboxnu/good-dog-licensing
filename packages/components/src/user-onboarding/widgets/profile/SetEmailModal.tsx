@@ -1,12 +1,13 @@
 "use client";
 
 import type z from "zod";
-import Modal from "../../../base/Modal";
+import { useFormContext } from "react-hook-form";
 
 import type { zSetEmailValues } from "@good-dog/trpc/schema";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
-import { useFormContext } from "react-hook-form";
+
 import Button from "../../../base/Button";
+import Modal from "../../../base/Modal";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 
 interface SetEmailModalProps {

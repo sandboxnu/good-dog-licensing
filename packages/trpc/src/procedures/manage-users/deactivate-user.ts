@@ -1,6 +1,8 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { adminPagePermissions } from "@good-dog/auth/permissions";
+
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { TRPCError } from "@trpc/server";
 import { privateUserSelect } from "../../dtos";

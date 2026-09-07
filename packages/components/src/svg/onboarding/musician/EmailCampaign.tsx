@@ -3,6 +3,7 @@ export default function EmailCampaign() {
     <svg
       width="372"
       height="382"
+      className="h-auto w-full max-w-full"
       viewBox="0 0 372 382"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -6,9 +6,9 @@ import MediaMakerSection from "./MediaMakerSection";
 import MusicianSection from "./MusicianSection";
 import ForgotPasswordWidget from "./widgets/forgot-password-widget/ForgotPasswordWidget";
 import LoginWidget from "./widgets/login-widget/LoginWidget";
+import PnrSignUpWidget from "./widgets/pnr-sign-up-widget/PnrSignUpWidget";
 import ResetPasswordWidget from "./widgets/reset-password-widget/ResetPasswordWidget";
 import SignUpWidget from "./widgets/sign-up-widget/SignUpWidget";
-import PnrSignUpWidget from "./widgets/pnr-sign-up-widget/PnrSignUpWidget";
 
 interface UserOnboardingProps {
   initialRole: "MUSICIAN" | "MEDIA_MAKER" | undefined;

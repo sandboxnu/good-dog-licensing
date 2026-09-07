@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import SideBar, { SidebarTab } from "./components/staff/SideBar";
+
 import ProjectsSubpage from "./components/staff/ProjectsSubpage";
+import SideBar, { SidebarTab } from "./components/staff/SideBar";
 import SongsSubpage from "./components/staff/SongsSubpage";
 
 export default function ModeratorLanding() {
@@ -10,7 +11,7 @@ export default function ModeratorLanding() {
     SidebarTab.SUBMISSIONS,
   );
   return (
-    <div className="flex flex-row gap-[24px] w-[1360px]">
+    <div className="flex w-full flex-col gap-[24px] lg:flex-row">
       <SideBar
         activeTab={activeTab}
         setActiveTab={(newTab: SidebarTab) => {
@@ -22,11 +23,13 @@ export default function ModeratorLanding() {
         }}
         isAdminView={false}
       />
-      {activeTab === SidebarTab.SUBMISSIONS ? (
-        <ProjectsSubpage />
-      ) : (
-        <SongsSubpage />
-      )}
+      <div className="w-full">
+        {activeTab === SidebarTab.SUBMISSIONS ? (
+          <ProjectsSubpage />
+        ) : (
+          <SongsSubpage />
+        )}
+      </div>
     </div>
   );
 }

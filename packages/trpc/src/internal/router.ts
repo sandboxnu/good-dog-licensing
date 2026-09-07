@@ -3,13 +3,18 @@ import {
   getAllUsers,
 } from "../procedures/admin-view";
 import {
+  deactivateSelfProcedure,
   signInProcedure,
   signOutProcedure,
-  deactivateSelfProcedure,
 } from "../procedures/auth";
 import { changePasswordProcedure } from "../procedures/change-password";
 import { changeProfileValuesProcedure } from "../procedures/change-profile-values";
 import { upsertCommentsProcedure } from "../procedures/comments/upsertComment";
+import { getContractByIdProcedure } from "../procedures/contracts/get-contract";
+import {
+  signContractLicenseeProcedure,
+  signContractLicensorProcedure,
+} from "../procedures/contracts/sign-contract";
 import {
   confirmPasswordResetProcedure,
   sendForgotPasswordEmailProcedure,
@@ -21,10 +26,6 @@ import {
 } from "../procedures/get-music";
 import { getPNRandAdminsProcedure } from "../procedures/get-pnr-and-admins";
 import {
-  getProjectSubmissionByIdProcedure,
-  queryAllProjectsProcedure,
-} from "../procedures/project/get-project";
-import {
   getProjectSongRequestByIdProcedure,
   getProjectSongRequestsProcedure,
   getUserSongRequestsProcedure,
@@ -32,25 +33,29 @@ import {
   mediamakerSongRequestsProcedure,
   songRequestProcedure,
 } from "../procedures/get-song-requests";
+import { activateUserProcedure } from "../procedures/manage-users/activate-user";
+import { deactivateUserProcedure } from "../procedures/manage-users/deactivate-user";
+import { onboardModeratorProcedure } from "../procedures/manage-users/onboard-moderator";
+import { promoteToAdminProcedure } from "../procedures/manage-users/promote-to-admin";
+import { sendModeratorInviteEmailProcedure } from "../procedures/manage-users/send-moderator-invite";
 import { createMatchProcedure } from "../procedures/matches/create-match";
 import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
 import { submitMusicProcedure } from "../procedures/music/music-submission";
-import { onboardModeratorProcedure } from "../procedures/manage-users/onboard-moderator";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
 import { assignProjectManagerProcedure } from "../procedures/project/assign-project-manager";
+import {
+  getProjectSubmissionByIdProcedure,
+  queryAllProjectsProcedure,
+} from "../procedures/project/get-project";
 import { projectSubmissionProcedure } from "../procedures/project/project-submission";
 import { songRequestSubmissionProcedure } from "../procedures/project/song-request-submission";
-import { sendModeratorInviteEmailProcedure } from "../procedures/manage-users/send-moderator-invite";
-import { getUserProcedure } from "../procedures/user";
+import { getUserByIdProcedure, getUserProcedure } from "../procedures/user";
 import { createTRPCRouter } from "./init";
-import { promoteToAdminProcedure } from "../procedures/manage-users/promote-to-admin";
-import { deactivateUserProcedure } from "../procedures/manage-users/deactivate-user";
-import { activateUserProcedure } from "../procedures/manage-users/activate-user";
 
 export const appRouter = createTRPCRouter({
   sendEmailVerification: sendEmailVerificationProcedure,
@@ -60,6 +65,7 @@ export const appRouter = createTRPCRouter({
   signUp: signUpProcedure,
   deactivateSelf: deactivateSelfProcedure,
   user: getUserProcedure,
+  userById: getUserByIdProcedure,
   sendForgotPasswordEmail: sendForgotPasswordEmailProcedure,
   confirmPasswordReset: confirmPasswordResetProcedure,
   adminAndModeratorUsers: getAdminAndModeratorUsers,
@@ -93,6 +99,9 @@ export const appRouter = createTRPCRouter({
   changePassword: changePasswordProcedure,
   changeProfileValues: changeProfileValuesProcedure,
   assignProjectManager: assignProjectManagerProcedure,
+  getContractById: getContractByIdProcedure,
+  signContractLicensor: signContractLicensorProcedure,
+  signContractLicensee: signContractLicenseeProcedure,
 });
 
 export type AppRouter = typeof appRouter;

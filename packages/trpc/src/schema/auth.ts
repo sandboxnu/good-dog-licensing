@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { HowHeardAboutUsLabel } from "@good-dog/db";
+
 import { zRequiredEmail, zRequiredString } from "./base";
 
 export const zPasswordValidation = zRequiredString
@@ -44,6 +46,10 @@ export const zSignUpValues = z
     lastName: zRequiredString,
     role: z.enum(["MUSICIAN", "MEDIA_MAKER"], { error: "This is required" }),
     emailCode: zRequiredString,
+    howHeardAboutUs: z
+      .array(z.enum(HowHeardAboutUsLabel))
+      .min(1, "At least one option is required"),
+    termsOfService: z.literal(true),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",

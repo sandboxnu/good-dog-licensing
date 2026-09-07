@@ -1,12 +1,14 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-import SongRequestComponent from "./MediaMakerSongRequest";
-import Hourglass from "../../svg/Hourglass";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { ChevronDown } from "lucide-react";
+
 import type { MediaMakerSongRequestStatus } from "@good-dog/db";
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
 import { getStatusLabel } from "../../../utils/enumLabelMapper";
+import Hourglass from "../../svg/Hourglass";
+import SongRequestComponent from "./MediaMakerSongRequest";
 
 type SongRequestType =
   GetProcedureOutput<"getProjectSubmissionById">["songRequests"][number];
@@ -28,12 +30,12 @@ export default function MediaMakerSongRequests({
 
   return (
     <div
-      className="bg-gray-100 dark:bg-dark-gray-600 border-[.5px] border-cream-500 rounded-2xl p-6 shadow-md flex flex-col gap-4 cursor-pointer"
+      className="flex cursor-pointer flex-col gap-4 rounded-2xl border-[.5px] border-cream-500 bg-gray-100 p-6 shadow-md dark:bg-dark-gray-600"
       onClick={() => setDropdownOpen(!dropdownOpen)}
     >
-      <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-row items-center justify-between">
         <div className="flex flex-col gap-2">
-          <p className="font-semibold text-xl text-dark-gray-500 dark:text-mint-300">
+          <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
             {getStatusLabel(status)}
           </p>
           <p className="text-dark-gray-500 dark:text-mint-300">
@@ -41,7 +43,7 @@ export default function MediaMakerSongRequests({
           </p>
         </div>
         <ChevronDown
-          className={`h-6 w-6 ${dropdownOpen ? "rotate-0" : "-rotate-90"} transition-all text-green-500 dark:text-mint-200`}
+          className={`h-6 w-6 ${dropdownOpen ? "rotate-0" : "-rotate-90"} text-green-500 transition-all dark:text-mint-200`}
         />
       </div>
       {dropdownOpen &&

@@ -3,7 +3,7 @@ import UserOnboarding from "@good-dog/components/user-onboarding/UserOnboarding"
 
 export default function Page() {
   return (
-    <PageContainer background="gradient">
+    <PageContainer background="gradient" widthType="small">
       <UserOnboarding type="PNR_SIGN_UP" initialRole={undefined} />
     </PageContainer>
   );

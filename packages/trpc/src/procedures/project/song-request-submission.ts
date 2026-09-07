@@ -1,9 +1,10 @@
+import { TRPCError } from "@trpc/server";
+import z from "zod";
+
 import { mediaMakerOnlyPermissions } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zSongRequest } from "../../schema";
-import z from "zod";
-import { TRPCError } from "@trpc/server";
 
 export const songRequestSubmissionProcedure = rolePermissionsProcedureBuilder(
   mediaMakerOnlyPermissions,

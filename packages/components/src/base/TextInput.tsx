@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
+import { useState } from "react";
 import clsx from "clsx";
+import { Eye, EyeOff } from "lucide-react";
 
 import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
@@ -33,9 +35,12 @@ export default function TextInput({
   icon,
   onClear,
 }: TextInputProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const inputType = type === "password" && !showPassword ? "password" : "text";
+
   return (
-    <div className="flex w-full flex-col gap-[4px] ">
-      <div className="flex flex-row gap-[2px] ">
+    <div className="flex w-full flex-col gap-[4px]">
+      <div className="flex flex-row gap-[2px]">
         <Label
           htmlFor={id}
           className="text-body3 font-normal text-dark-gray-600 dark:text-gray-100"
@@ -46,25 +51,39 @@ export default function TextInput({
           <Label className="text-body3 font-normal text-required-star">*</Label>
         )}
       </div>
-      <Input
-        className={clsx(
-          "h-[32px] w-full rounded-[8px] border-dark-gray-100 dark:border-dark-gray-300 pl-[8px] text-body3 text-dark-gray-500 dark:text-gray-200 dark:bg-dark-gray-500",
-          "placeholder:text-dark-gray-100",
-          "hover:border-gray-600",
-          "focus:border-green-300 dark:focus:border-grass-green-100 focus:outline-none",
-          {
-            "!border-red-400 !shadow-red-400 !dark:border-red-400 !dark:shadow-red-400":
-              errorText,
-          },
+      <div className="relative w-full">
+        <Input
+          className={clsx(
+            "h-[32px] w-full rounded-[8px] border-dark-gray-200 pl-[8px] text-body3 text-dark-gray-500 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200",
+            "placeholder:text-dark-gray-100",
+            "hover:border-gray-600",
+            "focus:border-bg-green-300 focus:shadow-active focus:outline-none",
+            {
+              "!dark:border-red-400 !dark:shadow-red-400 !border-red-400 !shadow-red-400":
+                errorText,
+            },
+          )}
+          placeholder={placeholder}
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          type={inputType}
+          icon={icon}
+          onClear={onClear}
+        />
+        {type === "password" && (
+          <span
+            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+            onClick={() => setShowPassword((value) => !value)}
+          >
+            {showPassword ? (
+              <Eye className="h-5 w-5 text-green-500 dark:text-mint-200" />
+            ) : (
+              <EyeOff className="h-5 w-5 text-green-500 dark:text-mint-200" />
+            )}
+          </span>
         )}
-        placeholder={placeholder}
-        id={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        type={type}
-        icon={icon}
-        onClear={onClear}
-      />
+      </div>
       {helperText && !errorText && (
         <Label className="text-caption text-dark-gray-600">{helperText}</Label>
       )}

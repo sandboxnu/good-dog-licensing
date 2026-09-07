@@ -110,7 +110,7 @@ describe("assignProjectManager", () => {
         deadline: new Date(),
         videoLink: "https://test.com/video",
         additionalInfo: "Test info",
-        projectType: ProjectType.MOTION_PICTURE,
+        projectType: ProjectType.OTHER,
         projectOwnerId: projectOwnerUserId,
       },
     });

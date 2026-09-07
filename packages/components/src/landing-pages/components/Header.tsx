@@ -12,8 +12,8 @@ export default function Header({
 }: {
   title: string;
   subtitle: string;
-  requestPath: string;
-  buttonContent: string;
+  requestPath?: string;
+  buttonContent?: string;
 }) {
   const router = useRouter();
 
@@ -24,13 +24,15 @@ export default function Header({
         <p className="text-body3 dark:text-gray-200">{subtitle}</p>
       </div>
       <div className="flex flex-row items-center gap-[16px]">
-        <Button
-          onClick={() => router.push(requestPath)}
-          size={"medium"}
-          variant={"contained"}
-          label={buttonContent}
-          displayIcon={"plus"}
-        />
+        {requestPath && buttonContent && (
+          <Button
+            onClick={() => router.push(requestPath)}
+            size={"medium"}
+            variant={"contained"}
+            label={buttonContent}
+            displayIcon={"plus"}
+          />
+        )}
       </div>
     </div>
   );

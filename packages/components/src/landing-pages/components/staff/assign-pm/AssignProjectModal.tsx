@@ -1,15 +1,17 @@
+import { useState } from "react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
 import {
   Dialog,
-  DialogContent,
   DialogClose,
+  DialogContent,
   DialogTitle,
 } from "@good-dog/ui/dialog";
-import { useState } from "react";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
 import { AssignProjectSearchBar } from "./AssignProjectSearchBar";
 import { StaffUserCard } from "./StaffUserCard";
-import { trpc } from "@good-dog/trpc/client";
 
 type UserType = GetProcedureOutput<"adminAndModeratorUsers">["users"][number];
 
@@ -46,15 +48,15 @@ export function AssignProjectModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTitle></DialogTitle>
       <DialogContent
-        className="w-[500px] h-[391px] rounded-2xl p-6 bg-white flex flex-col"
+        className="flex h-[391px] w-[500px] flex-col rounded-2xl bg-white p-6"
         hideCloseButton
       >
-        <div className="flex flex-col gap-4 w-full flex-1">
+        <div className="flex w-full flex-1 flex-col gap-4">
           <AssignProjectSearchBar setSearchedUsers={setSearchedUsers} />
           <div className="h-[250px] overflow-y-auto">
             {initialAssignedPM && (
               <>
-                <div className="text-body3 font-semibold pt-[10px]">
+                <div className="pt-[10px] text-body3 font-semibold">
                   Assigned
                 </div>
                 <StaffUserCard
@@ -65,7 +67,7 @@ export function AssignProjectModal({
                 />
               </>
             )}
-            <div className="text-body3 font-semibold pt-[10px]">Users</div>
+            <div className="pt-[10px] text-body3 font-semibold">Users</div>
             <div className="flex-1">
               {searchedUsers.length > 0 ? (
                 <div className="flex flex-col">
@@ -81,7 +83,7 @@ export function AssignProjectModal({
                     ))}
                 </div>
               ) : (
-                <p className="text-center p-32">
+                <p className="p-32 text-center">
                   Search for a project manager above!
                 </p>
               )}
@@ -89,7 +91,7 @@ export function AssignProjectModal({
           </div>
         </div>
 
-        <div className="flex flex-row gap-2 justify-end mt-4">
+        <div className="mt-4 flex flex-row justify-end gap-2">
           <DialogClose asChild>
             <Button variant="outlined" className="px-6">
               Cancel

@@ -4,7 +4,7 @@ import { Label } from "@good-dog/ui/label";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 
 interface CheckboxProps {
-  label: string;
+  label: string | React.ReactNode;
   id: string;
   required?: boolean;
   errorText?: string;
@@ -28,7 +28,7 @@ export default function Checkbox({
           id={id}
           checked={checked}
           onCheckedChange={onCheckedChange}
-          className={`border-green-400 dark:border-green-100 text-white dark:text-green-600 data-[state=checked]:bg-green-400 dark:data-[state=checked]:bg-mint-300 ${errorText ? "border-red-400 shadow-red-400" : ""}`}
+          className={`border-green-400 text-white data-[state=checked]:bg-green-400 dark:border-green-100 dark:text-green-600 dark:data-[state=checked]:bg-mint-300 ${errorText ? "border-red-400 shadow-red-400" : ""}`}
         />
         <div className="flex flex-row items-center gap-[2px]">
           <Label className="text-body3" htmlFor={id}>

@@ -64,6 +64,7 @@ async function createData() {
       performerName: "Humpty Dumpty",
       songLink: "www.felloffthewall.com",
       genres: [Genre.ROCK],
+      songLyrics: "",
     },
   });
 }
@@ -116,6 +117,7 @@ async function createMoreData() {
       performerName: "Humpty Dumpty",
       songLink: "www.felloffthewall.com",
       genres: [Genre.ROCK],
+      songLyrics: "",
     },
   });
 }
@@ -171,18 +173,26 @@ describe("get-submission-vals", () => {
         {
           firstName: "Humpty",
           lastName: "Dumpty",
+          email: null,
           affiliation: MusicAffiliation.BMI,
           ipi: null,
+          publisher: null,
+          publisherIpi: null,
         },
         {
           firstName: "Wesley",
           lastName: "Tran",
+          email: null,
           ipi: null,
           affiliation: MusicAffiliation.NONE,
+          publisher: null,
+          publisherIpi: null,
         },
       ],
       userAffiliation: MusicAffiliation.ASCAP,
       userIpi: null,
+      userPublisher: null,
+      userPublisherIpi: null,
     };
 
     expect(contributors).toEqual(expectedResult);
@@ -198,24 +208,35 @@ describe("get-submission-vals", () => {
         {
           firstName: "Fighter",
           lastName: "Jet",
+          email: null,
           affiliation: MusicAffiliation.ASCAP,
           ipi: null,
+          publisher: null,
+          publisherIpi: null,
         },
         {
           firstName: "Humpty",
           lastName: "Dumpty",
+          email: null,
           affiliation: MusicAffiliation.BMI,
           ipi: null,
+          publisher: null,
+          publisherIpi: null,
         },
         {
           firstName: "Wesley",
           lastName: "Tran",
+          email: null,
           ipi: "1234",
           affiliation: MusicAffiliation.NONE,
+          publisher: null,
+          publisherIpi: null,
         },
       ],
       userAffiliation: MusicAffiliation.ASCAP,
       userIpi: null,
+      userPublisher: null,
+      userPublisherIpi: null,
     };
 
     expect(contributors).toEqual(expectedResult);

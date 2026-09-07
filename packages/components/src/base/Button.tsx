@@ -1,16 +1,15 @@
-import { Check, ChevronUp } from "lucide-react";
+import { Check, ChevronUp, Pencil, Printer, X } from "lucide-react";
 
 import { Button as ButtonShad } from "@good-dog/ui/button";
 
 import AddIcon from "../svg/AddIcon";
-import PencilIcon from "../svg/PencilIcon";
 
 interface ButtonProps {
   label?: string;
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | "flex";
   variant: "contained" | "outlined" | "text";
   onClick?: () => void;
-  displayIcon?: "plus" | "arrow" | "pencil" | "check";
+  displayIcon?: "plus" | "arrow" | "pencil" | "check" | "close" | "print";
   shadow?: boolean;
   fullWidth?: boolean;
   type?: "submit" | "button";
@@ -22,12 +21,15 @@ type sizeOptions =
   | "small-text"
   | "medium-text"
   | "large-text"
+  | "flex-text"
   | "medium-text-with-icon"
   | "small-text-with-icon"
   | "large-text-with-icon"
+  | "flex-text-with-icon"
   | "small-icon"
   | "medium-icon"
-  | "large-icon";
+  | "large-icon"
+  | "flex-icon";
 
 export default function Button({
   label,
@@ -49,9 +51,7 @@ export default function Button({
         : `${size}-icon`;
 
   const widthClassName = fullWidth ? "!w-full" : "";
-  const shadowClassName = shadow
-    ? "shadow-button dark:shadow-grass-green-200"
-    : "";
+  const shadowClassName = shadow ? "shadow-button dark:shadow-mint-300" : "";
 
   const errorContained = error && variant === "contained";
   const errorOutlined = error && variant !== "contained";
@@ -65,16 +65,16 @@ export default function Button({
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName} group ${
         errorContained
-          ? "!bg-red-400 dark:active:bg-red-600 hover:!bg-red-500"
+          ? "!bg-red-400 hover:!bg-red-500 dark:active:bg-red-600"
           : ""
-      } ${errorOutlined ? "border-red-400 active:bg-500 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
+      } ${errorOutlined ? "active:bg-500 border-red-400 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
     >
       <div
         className={`flex flex-row items-center justify-center gap-[8px] ${
           errorContained ? "text-white" : ""
         } ${
           errorOutlined
-            ? "text-red-400 dark:text-red-300 group-hover:text-red-600 group-active:text-white"
+            ? "text-red-400 group-hover:text-red-600 group-active:text-white dark:text-red-300"
             : ""
         }`}
       >
@@ -83,9 +83,13 @@ export default function Button({
         ) : displayIcon === "arrow" ? (
           <ChevronUp />
         ) : displayIcon === "pencil" ? (
-          <PencilIcon />
+          <Pencil className="h-4 w-4" />
         ) : displayIcon === "check" ? (
           <Check />
+        ) : displayIcon === "close" ? (
+          <X className="h-4 w-4" />
+        ) : displayIcon === "print" ? (
+          <Printer className="h-4 w-4" />
         ) : null}
         {label}
       </div>

@@ -131,7 +131,7 @@ describe("forgot-password", () => {
       });
       const passwordResetReq = await prisma.passwordResetReq.findMany({
         where: {
-          user: user ?? {},
+          user: user ? { email: user.email } : undefined,
         },
       });
 
@@ -158,7 +158,7 @@ describe("forgot-password", () => {
       });
       let passwordResetReqs = await prisma.passwordResetReq.findMany({
         where: {
-          user: user ?? {},
+          user: user ? { email: user.email } : undefined,
         },
       });
       expect(passwordResetReqs.length).toBe(1);
@@ -183,7 +183,7 @@ describe("forgot-password", () => {
       });
       passwordResetReqs = await prisma.passwordResetReq.findMany({
         where: {
-          user: userUpdated ?? {},
+          user: userUpdated ? { email: userUpdated.email } : undefined,
         },
       });
 

@@ -1,9 +1,9 @@
+import * as Sentry from "@sentry/node";
 import { initTRPC } from "@trpc/server";
 import SuperJSON from "superjson";
 import { ZodError } from "zod";
 
 import { env } from "@good-dog/env";
-import * as Sentry from "@sentry/node";
 
 import type { createTRPCContext } from "./context";
 

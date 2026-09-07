@@ -1,5 +1,5 @@
 interface AddIconProps {
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | "flex";
 }
 
 export default function AddIcon({ size }: AddIconProps) {
@@ -16,7 +16,7 @@ export default function AddIcon({ size }: AddIconProps) {
         fill="currentColor"
       />
     </svg>
-  ) : size === "medium" ? (
+  ) : size === "medium" || size === "flex" ? (
     <svg
       width="16"
       height="16"

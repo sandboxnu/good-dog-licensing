@@ -72,6 +72,7 @@ export const getProjectSongRequestByIdProcedure =
                   submitter: { select: publicUserSummarySelect },
                 },
               },
+              contract: true,
             },
           },
           comments: {

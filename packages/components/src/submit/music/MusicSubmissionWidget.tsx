@@ -46,6 +46,7 @@ export default function MusicSubmissionWidget() {
       "songLink",
       "genres",
       "additionalInfo",
+      "songLyrics",
       "performerName",
     ]);
     if (initialMusicInfoIsValid) {

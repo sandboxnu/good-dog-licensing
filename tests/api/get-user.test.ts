@@ -167,4 +167,76 @@ describe("get user", () => {
       expect(user.phoneNumber).toEqual("4173843849");
     }
   });
+
+  describe("get user by id", () => {
+    const cookies = new MockNextCookies();
+
+    const $api = $createTrpcCaller({
+      cookiesService: createMockCookieService(cookies),
+      prisma: prisma,
+    });
+
+    afterEach(() => {
+      cookies.clear();
+    });
+
+    test("Throws when the user is not authenticated", () => {
+      expect($api.userById({ userId: "owen-user-id" })).rejects.toThrow(
+        "UNAUTHORIZED",
+      );
+    });
+
+    test("Throws when the session has expired", () => {
+      cookies.set("sessionId", "isabelle-session-id");
+      expect($api.userById({ userId: "owen-user-id" })).rejects.toThrow();
+    });
+
+    test("Throws when the target user does not exist", () => {
+      cookies.set("sessionId", "owen-session-id");
+      expect(
+        $api.userById({ userId: "nonexistent-user-id" }),
+      ).rejects.toThrow();
+    });
+
+    test("Returns correct user data when fetching by id", async () => {
+      cookies.set("sessionId", "owen-session-id");
+      const user = await $api.userById({ userId: "gavin-user-id" });
+
+      expect(user.userId).toBe("gavin-user-id");
+      expect(user.firstName).toBe("Gavin");
+      expect(user.lastName).toBe("Normand");
+      expect(user.email).toBe("gavin@test.org");
+      expect(user.role).toBe("MEDIA_MAKER");
+      expect(user.affiliation).toBe("NONE");
+      expect(user.ipi).toBeNull();
+      expect(user.createdAt).toBeDefined();
+    });
+
+    test("Returns empty submissions for user with no submissions", async () => {
+      cookies.set("sessionId", "owen-session-id");
+      const user = await $api.userById({ userId: "gavin-user-id" });
+
+      expect(user.musicSubmissions).toHaveLength(0);
+      expect(user.projectSubmissionsAsOwner).toHaveLength(0);
+      expect(user.projectSubmissionsAsManager).toHaveLength(0);
+    });
+
+    test("User can fetch their own profile by id", async () => {
+      cookies.set("sessionId", "owen-session-id");
+      const user = await $api.userById({ userId: "owen-user-id" });
+
+      expect(user.userId).toBe("owen-user-id");
+      expect(user.firstName).toBe("Owen");
+      expect(user.affiliation).toBe("ASCAP");
+      expect(user.ipi).toBe("has");
+    });
+
+    test("Non-admin user can fetch another user by id", async () => {
+      cookies.set("sessionId", "gavin-session-id");
+      const user = await $api.userById({ userId: "owen-user-id" });
+
+      expect(user.userId).toBe("owen-user-id");
+      expect(user.firstName).toBe("Owen");
+    });
+  });
 });

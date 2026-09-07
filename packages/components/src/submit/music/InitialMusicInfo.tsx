@@ -33,6 +33,7 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
       songLink: undefined,
       genres: [],
       additionalInfo: "",
+      songLyrics: "",
       performerName: undefined,
       contributors: currentContributors,
       submitterRoles: [],
@@ -54,7 +55,7 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
         onNext();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 dark:bg-dark-gray-600 p-10 text-black">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
         <p className="text-xl font-semibold text-green-500 dark:text-mint-200">
           Song information
         </p>
@@ -91,6 +92,14 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
           placeholder="Enter link to song"
           id="songLink"
           errorText={errors.songLink?.message}
+          required={true}
+        />
+        <RHFTextArea<MusicSubmissionFormFields>
+          rhfName="songLyrics"
+          label="Song lyrics"
+          placeholder="Paste the lyrics of your song here"
+          id="songLyrics"
+          errorText={errors.songLyrics?.message}
           required={true}
         />
         <RHFTextArea<MusicSubmissionFormFields>

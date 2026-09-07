@@ -1,19 +1,17 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { ChevronRight, Music, UsersRound } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
 
+import { formatAllCapsList } from "../../utils/allCapsListFormatter";
 import Card from "../base/Card";
 import StatusIndicator from "../base/StatusIndicator";
 import EmptyMusicNote from "../svg/homepage/EmptyMusicNote";
-import MusicNoteIcon from "../svg/MusicNoteIcon";
-import People from "../svg/People";
 import EmptyMessage from "./components/EmptyMessage";
 import Header from "./components/Header";
-import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { formatAllCapsList } from "../../utils/allCapsListFormatter";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
@@ -36,7 +34,7 @@ export default function MusicianLanding() {
         />
       )}
       {data.music.length > 0 && (
-        <div className="mx-auto flex max-w-fit flex-wrap justify-start gap-4 pb-[36px]">
+        <div className="mx-auto flex w-full max-w-[992px] flex-wrap justify-center gap-4 pb-[36px]">
           {data.music.map((song, key) => {
             return (
               <Card
@@ -50,24 +48,29 @@ export default function MusicianLanding() {
                   })
                 }
                 children={
-                  <div className="flex flex-col gap-[24px] pt-[16px] h-full justify-between">
+                  <div className="flex h-full flex-col justify-between gap-[24px] pt-[16px]">
                     <div className="flex flex-col gap-[8px]">
-                      <Line text={song.performerName} icon={<People />} />
+                      <Line
+                        text={song.performerName}
+                        icon={
+                          <UsersRound className="h-5 w-5 text-black dark:text-mint-100" />
+                        }
+                      />
                       <Line
                         text={formatAllCapsList(song.genres)}
                         icon={
-                          <div className="flex-shrink-0">
-                            <MusicNoteIcon />
+                          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-400 text-mint-100 dark:bg-green-300 dark:text-mint-300">
+                            <Music className="h-5 w-5" />
                           </div>
                         }
                       />
                     </div>
 
-                    <div className="w-full flex flex-row justify-between">
+                    <div className="flex w-full flex-row justify-between">
                       <StatusIndicator status={song.musicianSongStatus} />
                       <ChevronRight
                         onClick={() => router.push("/song/" + song.musicId)}
-                        className="hover:cursor-pointer text-black dark:text-mint-100"
+                        className="text-black hover:cursor-pointer dark:text-mint-100"
                       />
                     </div>
                   </div>

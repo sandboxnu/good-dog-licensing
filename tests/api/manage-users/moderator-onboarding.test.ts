@@ -5,10 +5,10 @@ import { prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 
+import { pnrInviteTemplate } from "../../../packages/email/src/templates/pnrInvite";
 import { MockEmailService } from "../../mocks/MockEmailService";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
-import { pnrInviteTemplate } from "../../../packages/email/src/templates/pnrInvite";
 
 describe("moderator-onboarding", () => {
   const mockEmails = new MockEmailService();
@@ -121,7 +121,7 @@ describe("moderator-onboarding", () => {
         }),
       };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(params);
+      expect(mockEmails.send).toHaveBeenCalledWith(params, true);
 
       expect(moderatorInvite?.email).toEqual("testing@gmail.com");
 
@@ -158,7 +158,7 @@ describe("moderator-onboarding", () => {
         }),
       };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(params);
+      expect(mockEmails.send).toHaveBeenCalledWith(params, true);
 
       expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
       expect(newModeratorInvite?.email).toEqual(oldModeratorInvite.email);
@@ -208,7 +208,7 @@ describe("moderator-onboarding", () => {
         }),
       };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(params);
+      expect(mockEmails.send).toHaveBeenCalledWith(params, true);
     });
   });
 
@@ -256,7 +256,7 @@ describe("moderator-onboarding", () => {
         }),
       };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(params);
+      expect(mockEmails.send).toHaveBeenCalledWith(params, true);
 
       expect(newModeratorInvite?.email).toEqual("testing@gmail.com");
       expect(newModeratorInvite?.email).toEqual(expiredInvite.email);
@@ -317,7 +317,7 @@ describe("moderator-onboarding", () => {
         }),
       };
 
-      expect(mockEmails.send).toHaveBeenCalledWith(params);
+      expect(mockEmails.send).toHaveBeenCalledWith(params, true);
     });
 
     test("Moderator invite is valid.", async () => {

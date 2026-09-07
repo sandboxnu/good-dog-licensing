@@ -1,8 +1,10 @@
 "use client";
+
+import { useState } from "react";
+
+import ProjectsSubpage from "./components/staff/ProjectsSubpage";
 import SideBar, { SidebarTab } from "./components/staff/SideBar";
 import SongsSubpage from "./components/staff/SongsSubpage";
-import { useState } from "react";
-import ProjectsSubpage from "./components/staff/ProjectsSubpage";
 import UserSubPage from "./components/staff/UserSubPage";
 
 export default function AdminLanding() {
@@ -10,19 +12,21 @@ export default function AdminLanding() {
     SidebarTab.SUBMISSIONS,
   );
   return (
-    <div className="flex flex-row gap-[24px] w-[1360px]">
+    <div className="flex w-full flex-col gap-[24px] lg:flex-row">
       <SideBar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         isAdminView={true}
       />
-      {activeTab === SidebarTab.SUBMISSIONS ? (
-        <ProjectsSubpage />
-      ) : activeTab === SidebarTab.SONGS ? (
-        <SongsSubpage />
-      ) : (
-        <UserSubPage />
-      )}
+      <div className="w-full">
+        {activeTab === SidebarTab.SUBMISSIONS ? (
+          <ProjectsSubpage />
+        ) : activeTab === SidebarTab.SONGS ? (
+          <SongsSubpage />
+        ) : (
+          <UserSubPage />
+        )}
+      </div>
     </div>
   );
 }

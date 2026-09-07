@@ -1,6 +1,6 @@
 import React from "react";
+import { X } from "lucide-react";
 
-import CloseX from "../svg/CloseX";
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
 
 interface ModalProps {
@@ -29,7 +29,7 @@ export default function Modal({
   return (
     <div className={`absolute inset-0 z-50 flex items-center justify-center`}>
       <div
-        className={`rounded-[16px] border border-dark-gray-500 bg-gray-100 dark:bg-dark-gray-600 shadow-modal`}
+        className={`rounded-[16px] border border-dark-gray-500 bg-gray-100 shadow-modal dark:bg-dark-gray-600`}
         style={{
           width: `${width}px`,
           height: `${height}px`,
@@ -37,7 +37,7 @@ export default function Modal({
       >
         <div className="flex justify-end px-[21px] pt-[24px]">
           <button onClick={onClose}>
-            <CloseX />
+            <X className="text-dark-gray-500 dark:text-gray-200" />
           </button>
         </div>
         {danger && (

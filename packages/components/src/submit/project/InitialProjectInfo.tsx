@@ -46,8 +46,8 @@ export default function InitialProjectInfo({
         onNext();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 dark:bg-dark-gray-600 p-10 text-black">
-        <p className="text-xl font-semibold text-semibold text-dark-gray-500 dark:text-mint-300">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
+        <p className="text-semibold text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
           Project information
         </p>
         <div className="flex flex-row gap-6">

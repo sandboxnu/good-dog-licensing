@@ -1,5 +1,7 @@
+import type { z } from "zod";
 import { afterEach, describe, expect, test } from "bun:test";
 
+import type { zSignUpValues } from "@good-dog/trpc/schema";
 import { passwordService } from "@good-dog/auth/password";
 import { prisma, Role } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
@@ -19,7 +21,7 @@ describe("sign-up", () => {
     passwordService: passwordService,
   });
 
-  const signUpInput = {
+  const signUpInput: z.infer<typeof zSignUpValues> = {
     firstName: "Jordan",
     lastName: "Smith",
     role: Role.MUSICIAN,
@@ -28,6 +30,8 @@ describe("sign-up", () => {
     password: "Mypassword1!",
     confirmPassword: "Mypassword1!",
     emailCode: "019821",
+    termsOfService: true,
+    howHeardAboutUs: ["FRIEND", "SOCIAL_MEDIA"],
   };
 
   afterEach(async () => {

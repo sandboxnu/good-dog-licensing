@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test } from "bun:test";
 
-import { passwordService } from "@good-dog/auth/password";
 import type { Role } from "@good-dog/db";
+import { passwordService } from "@good-dog/auth/password";
 import { prisma } from "@good-dog/db";
 import { $createTrpcCaller } from "@good-dog/trpc/server";
 

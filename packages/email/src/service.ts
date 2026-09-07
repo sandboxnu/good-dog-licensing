@@ -2,34 +2,35 @@ import { Resend } from "resend";
 
 import { prisma } from "@good-dog/db";
 import { env } from "@good-dog/env";
-import { passwordResetTemplate } from "./templates/passwordReset";
-import { emailVerificationTemplate } from "./templates/emailVerification";
-import { pnrInviteTemplate } from "./templates/pnrInvite";
+
 import {
   artistJoiningConfirmationTemplate,
+  artistLicenseCompleteTemplate,
   artistMusicSubmissionConfirmationTemplate,
   artistSongRequestedForBriefTemplate,
-  artistLicenseCompleteTemplate,
 } from "./templates/artistNotifications";
+import { emailVerificationTemplate } from "./templates/emailVerification";
 import {
-  adminAndPNRBriefAvailableTemplate,
-  adminProjectManagerAssignedTemplate,
-  adminAndPMChatMessageTemplate,
-  adminSongSuggestionSentToMMTemplate,
-  adminAndPMSongSuggestionApprovedByMMTemplate,
-  adminAndPMMaterialsDeliveredTemplate,
-  pmSongSuggestionAddedToBriefTemplate,
-  adminAndPMLicenseSignedTemplate,
-} from "./templates/staffNotifications";
-import {
-  mediaMakerJoiningConfirmationTemplate,
   mediaMakerBriefSubmissionConfirmationTemplate,
-  mediaMakerProjectManagerAssignedTemplate,
   mediaMakerChatMessageTemplate,
-  mediaMakerSongSuggestionByPMTemplate,
+  mediaMakerJoiningConfirmationTemplate,
   mediaMakerLicenseCompleteTemplate,
   mediaMakerMaterialRequestTemplate,
+  mediaMakerProjectManagerAssignedTemplate,
+  mediaMakerSongSuggestionByPMTemplate,
 } from "./templates/mediaMakerNotifications";
+import { passwordResetTemplate } from "./templates/passwordReset";
+import { pnrInviteTemplate } from "./templates/pnrInvite";
+import {
+  adminAndPMChatMessageTemplate,
+  adminAndPMLicenseSignedTemplate,
+  adminAndPMMaterialsDeliveredTemplate,
+  adminAndPMSongSuggestionApprovedByMMTemplate,
+  adminAndPNRBriefAvailableTemplate,
+  adminProjectManagerAssignedTemplate,
+  adminSongSuggestionSentToMMTemplate,
+  pmSongSuggestionAddedToBriefTemplate,
+} from "./templates/staffNotifications";
 
 export interface EmailMessage {
   from: string;
@@ -115,13 +116,20 @@ export class EmailService {
     );
   }
 
-  async send(params: EmailMessage) {
+  async send(params: EmailMessage, alwaysSend: boolean) {
     if (!this.apiKey) {
       throw new TypeError("Failed to send email: No api key provided.");
     }
 
     if (params.to.length === 0) {
       console.error("There are no internal users to notify of new submission.");
+      return;
+    }
+
+    if (!alwaysSend && env.VERCEL_ENV !== "production") {
+      console.log(
+        `Skipping emails in ${env.VERCEL_ENV ?? "development"} environment`,
+      );
       return;
     }
 
@@ -144,7 +152,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, true);
   }
 
   async sendPasswordResetEmail(toEmail: string, cuid: string) {
@@ -160,7 +168,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, true);
   }
 
   async sendPRInviteEmail(toEmail: string, cuid: string) {
@@ -176,7 +184,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, true);
   }
 
   //Artist Notifications
@@ -189,7 +197,7 @@ export class EmailService {
       html: artistJoiningConfirmationTemplate(),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendArtistMusicSubmissionConfirmation(toEmail: string) {
@@ -200,7 +208,7 @@ export class EmailService {
       html: artistMusicSubmissionConfirmationTemplate(),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendArtistSongRequestedForBrief(
@@ -223,7 +231,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendArtistLicenseComplete(
@@ -242,7 +250,7 @@ export class EmailService {
       html: artistLicenseCompleteTemplate({ songName, projectName, link }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   //Media Maker Notifications
@@ -255,7 +263,7 @@ export class EmailService {
       html: mediaMakerJoiningConfirmationTemplate(),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendMediaMakerBriefSubmissionConfirmation(toEmail: string) {
@@ -266,7 +274,7 @@ export class EmailService {
       html: mediaMakerBriefSubmissionConfirmationTemplate(),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendMediaMakerProjectManagerAssigned(
@@ -284,7 +292,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendMediaMakerChatMessage(
@@ -302,7 +310,7 @@ export class EmailService {
       html: mediaMakerChatMessageTemplate({ projectName, link }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendMediaMakerSongSuggestionByPM(
@@ -326,7 +334,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendMediaMakerLicenseComplete(
@@ -345,7 +353,7 @@ export class EmailService {
       html: mediaMakerLicenseCompleteTemplate({ songName, projectName, link }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   //TODO
@@ -360,7 +368,7 @@ export class EmailService {
       html: mediaMakerMaterialRequestTemplate({ link }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   // Staff Notifications
@@ -374,6 +382,13 @@ export class EmailService {
     const link = `${baseURL}/home?projectId=${projectId}`;
     const toEmails = await this.getAllAdminAndPNREmails();
 
+    if (toEmails.length == 0) {
+      console.log(
+        "There are no internal users to notify of new music submission.",
+      );
+      return;
+    }
+
     const params: EmailMessage = {
       from: this.sentFrom,
       to: toEmails,
@@ -386,7 +401,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendAdminProjectManagerAssigned(
@@ -398,6 +413,13 @@ export class EmailService {
     const baseURL = this.getBaseUrl();
     const link = `${baseURL}/home?projectId=${projectId}`;
     const toEmails = await this.getAllAdminEmails();
+
+    if (toEmails.length == 0) {
+      console.log(
+        "There are no internal users to notify of new project submission.",
+      );
+      return;
+    }
 
     const params: EmailMessage = {
       from: this.sentFrom,
@@ -411,7 +433,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendAdminAndPMChatMessage(
@@ -433,7 +455,7 @@ export class EmailService {
       html: adminAndPMChatMessageTemplate({ projectName, link }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendAdminAndPMSongSuggestionSentToMM(
@@ -464,7 +486,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendAdminAndPMSongSuggestionApprovedByMM(
@@ -495,7 +517,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendAdminAndPMLicenseSigned(
@@ -524,7 +546,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   //TODO
@@ -547,7 +569,7 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 
   async sendPMSongSuggestionAddedToBrief(
@@ -574,6 +596,6 @@ export class EmailService {
       }),
     };
 
-    return this.send(params);
+    return this.send(params, false);
   }
 }

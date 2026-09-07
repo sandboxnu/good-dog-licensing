@@ -2,6 +2,7 @@
 
 import type z from "zod";
 import { useCallback, useEffect, useState } from "react";
+import { Trash } from "lucide-react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 
 import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
@@ -17,7 +18,6 @@ import RadioGroup from "../../base/RadioGroup";
 import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
 import RHFRadioGroup from "../../rhf-base/RHFRadioGroup";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
-import Trash from "../../svg/TrashIcon";
 
 interface ContributorsInfoProps {
   onSubmit: () => void;
@@ -53,12 +53,12 @@ export default function ContributorsInfo({
     name: "contributors",
   });
 
-  const { data: previousContributors } =
-    trpc.getMusicSubmissionPrefillVals.useQuery();
+  const [previousContributors] =
+    trpc.getMusicSubmissionPrefillVals.useSuspenseQuery();
 
   const getOtherContributorPrefillInfo = useCallback(
     (firstName: string, lastName: string) => {
-      return previousContributors?.contributors.find(
+      return previousContributors.contributors.find(
         (contributor) =>
           contributor.firstName === firstName &&
           contributor.lastName === lastName,
@@ -77,6 +77,11 @@ export default function ContributorsInfo({
     name: "submitterAffiliation",
   });
 
+  const watchedSubmitterPublisher = useWatch({
+    control,
+    name: "submitterPublisher",
+  });
+
   const watchedContributors = useWatch({
     control,
     name: "contributors",
@@ -92,9 +97,12 @@ export default function ContributorsInfo({
         {
           firstName: "",
           lastName: "",
+          email: undefined,
           roles: [],
           affiliation: undefined,
           ipi: undefined,
+          publisher: undefined,
+          publisherIpi: undefined,
         },
       ]);
     } else {
@@ -111,15 +119,25 @@ export default function ContributorsInfo({
     if (!shouldShowFields) {
       setValue(
         `submitterAffiliation`,
-        previousContributors?.userAffiliation ?? undefined,
+        previousContributors.userAffiliation ?? undefined,
       );
-      setValue(`submitterIpi`, previousContributors?.userIpi ?? undefined);
+      setValue(`submitterIpi`, previousContributors.userIpi ?? undefined);
+      setValue(
+        `submitterPublisher`,
+        previousContributors.userPublisher ?? undefined,
+      );
+      setValue(
+        `submitterPublisherIpi`,
+        previousContributors.userPublisherIpi ?? undefined,
+      );
     }
   }, [
     watchedSubmitterRoles,
     setValue,
-    previousContributors?.userAffiliation,
-    previousContributors?.userIpi,
+    previousContributors.userAffiliation,
+    previousContributors.userIpi,
+    previousContributors.userPublisher,
+    previousContributors.userPublisherIpi,
   ]);
 
   useEffect(() => {
@@ -129,9 +147,17 @@ export default function ContributorsInfo({
         Array.isArray(roles) &&
         (roles.includes("SONGWRITER") || roles.includes("LYRICIST"));
 
-      if (!shouldShowFields && (contributor.affiliation || contributor.ipi)) {
+      if (
+        !shouldShowFields &&
+        (contributor.affiliation ||
+          contributor.ipi ||
+          contributor.publisher ||
+          contributor.publisherIpi)
+      ) {
         setValue(`contributors.${index}.affiliation`, undefined);
         setValue(`contributors.${index}.ipi`, undefined);
+        setValue(`contributors.${index}.publisher`, undefined);
+        setValue(`contributors.${index}.publisherIpi`, undefined);
       }
     });
   }, [watchedContributors, setValue, getOtherContributorPrefillInfo]);
@@ -147,11 +173,20 @@ export default function ContributorsInfo({
   ) => {
     const prefill = getOtherContributorPrefillInfo(firstName, lastName);
 
+    setValue(`contributors.${index}.email`, prefill?.email ?? undefined);
     setValue(
       `contributors.${index}.affiliation`,
       prefill?.affiliation ?? undefined,
     );
     setValue(`contributors.${index}.ipi`, prefill?.ipi ?? undefined);
+    setValue(
+      `contributors.${index}.publisher`,
+      prefill?.publisher ?? undefined,
+    );
+    setValue(
+      `contributors.${index}.publisherIpi`,
+      prefill?.publisherIpi ?? undefined,
+    );
   };
 
   return (
@@ -162,7 +197,7 @@ export default function ContributorsInfo({
         onSubmit();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-white p-10 text-black bg-gray-100 dark:bg-dark-gray-600">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 bg-white p-10 text-black dark:bg-dark-gray-600">
         <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
           Your Contributions
         </p>
@@ -206,10 +241,26 @@ export default function ContributorsInfo({
                 watchedSubmitterAffiliation === "BMI"
               }
             />
+            <RHFTextInput<MusicSubmissionFormFields>
+              rhfName={`submitterPublisher`}
+              label="Who is your publisher?"
+              placeholder="Enter your publisher"
+              id={`submitterPublisher`}
+              errorText={errors.submitterPublisher?.message}
+              required={false}
+            />
+            <RHFTextInput<MusicSubmissionFormFields>
+              rhfName={`submitterPublisherIpi`}
+              label="What is your publisher's IPI?"
+              placeholder="Enter the publisher IPI"
+              id={`submitterPublisherIpi`}
+              errorText={errors.submitterPublisherIpi?.message}
+              required={!!watchedSubmitterPublisher}
+            />
           </>
         )}
       </div>
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-white p-10 text-black bg-gray-100 dark:bg-dark-gray-600">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 bg-white p-10 text-black dark:bg-dark-gray-600">
         <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
           Other contributors
         </p>
@@ -236,7 +287,7 @@ export default function ContributorsInfo({
           return (
             <div
               key={compoundKey}
-              className="flex w-full border-gray-500 flex-col gap-6 rounded-2xl border-[.5px] border-black bg-white p-10 text-black bg-gray-100 dark:bg-dark-gray-600"
+              className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black border-gray-500 bg-gray-100 bg-white p-10 text-black dark:bg-dark-gray-600"
             >
               <div className="flex flex-row items-center justify-between">
                 <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
@@ -244,7 +295,7 @@ export default function ContributorsInfo({
                 </p>
                 {fields.length > 1 && (
                   <button type="button" onClick={() => remove(index)}>
-                    <Trash />
+                    <Trash className="text-error" />
                   </button>
                 )}
               </div>
@@ -265,6 +316,15 @@ export default function ContributorsInfo({
                 id={`lastName-${index}`}
                 errorText={errors.contributors?.[index]?.lastName?.message}
                 required={true}
+              />
+
+              <RHFTextInput<MusicSubmissionFormFields>
+                rhfName={`contributors.${index}.email`}
+                label="Contributor email"
+                placeholder="Enter email"
+                id={`email-${index}`}
+                errorText={errors.contributors?.[index]?.email?.message}
+                required={false}
               />
 
               <RHFMultiselectDropdown<MusicSubmissionFormFields>
@@ -310,6 +370,26 @@ export default function ContributorsInfo({
                           watchedContributors[index]?.affiliation === "ASCAP" ||
                           watchedContributors[index]?.affiliation === "BMI"
                         }
+                      />
+                      <RHFTextInput<MusicSubmissionFormFields>
+                        rhfName={`contributors.${index}.publisher`}
+                        label="Who is their publisher?"
+                        placeholder="Enter their publisher"
+                        id={`publisher-${index}`}
+                        errorText={
+                          errors.contributors?.[index]?.publisher?.message
+                        }
+                        required={false}
+                      />
+                      <RHFTextInput<MusicSubmissionFormFields>
+                        rhfName={`contributors.${index}.publisherIpi`}
+                        label="What is their publisher's IPI?"
+                        placeholder="Enter the publisher IPI"
+                        id={`publisherIpi-${index}`}
+                        errorText={
+                          errors.contributors?.[index]?.publisherIpi?.message
+                        }
+                        required={!!watchedContributors[index]?.publisher}
                       />
                     </div>
                     <Button
@@ -359,9 +439,12 @@ export default function ContributorsInfo({
               append({
                 firstName: "",
                 lastName: "",
+                email: undefined,
                 roles: [],
                 affiliation: undefined,
                 ipi: undefined,
+                publisher: undefined,
+                publisherIpi: undefined,
               })
             }
           />

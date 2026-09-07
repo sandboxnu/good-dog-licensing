@@ -1,6 +1,7 @@
-import { trpc } from "@good-dog/trpc/server";
-import { redirect } from "next/navigation";
 import React from "react";
+import { redirect } from "next/navigation";
+
+import { trpc } from "@good-dog/trpc/server";
 
 export default async function RedirectLoggedInUsersHome({
   children,

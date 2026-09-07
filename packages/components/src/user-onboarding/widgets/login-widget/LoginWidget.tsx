@@ -11,8 +11,8 @@ import { trpc } from "@good-dog/trpc/client";
 import { zSignInValues } from "@good-dog/trpc/schema";
 
 import Button from "../../../base/Button";
-import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import RHFCheckbox from "../../../rhf-base/RHFCheckbox";
+import RHFTextInput from "../../../rhf-base/RHFTextInput";
 import TeamworkLogin from "../../../svg/onboarding/TeamworkLogin";
 import ErrorExclamation from "../../../svg/status-icons/ErrorExclamation";
 import UserOnboardingWidgetContainer from "../UserOnboardingWidgetContainer";
@@ -61,8 +61,8 @@ export default function LoginWidget() {
         <FormProvider {...formMethods}>
           <form className="pr-[40px]" onSubmit={handleLogin}>
             <h3 className="text-green-400 dark:text-mint-200">Welcome back!</h3>
-            <p className="text-dark-gray-600 dark:text-gray-100">
-              All fields below are required
+            <p className="text-error dark:text-red-300">
+              *Indicates a required field
             </p>
             {loginMutation.isError && (
               <div className="flex flex-row items-center gap-[2px]">
@@ -99,7 +99,7 @@ export default function LoginWidget() {
                 />
                 <Link
                   href="/forgot-password"
-                  className="whitespace-nowrap text-body3 font-medium text-secondary underline text-green-500 dark:text-mint-200"
+                  className="whitespace-nowrap text-body3 font-medium text-green-500 text-secondary underline dark:text-mint-200"
                 >
                   Forgot password?
                 </Link>
@@ -121,7 +121,7 @@ export default function LoginWidget() {
               </span>
               <Link
                 href="/signup"
-                className="font-medium text-secondary underline text-green-500 dark:text-mint-200"
+                className="font-medium text-green-500 text-secondary underline dark:text-mint-200"
               >
                 Sign up
               </Link>
@@ -129,8 +129,10 @@ export default function LoginWidget() {
           </form>
         </FormProvider>
       </div>
-      <div className="flex h-full w-1/2 items-center justify-center">
-        <TeamworkLogin />
+      <div className="flex w-1/2 pl-[20px]">
+        <div className="flex w-full flex-col justify-center">
+          <TeamworkLogin />
+        </div>
       </div>
     </UserOnboardingWidgetContainer>
   );

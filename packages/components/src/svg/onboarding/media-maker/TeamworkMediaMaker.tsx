@@ -3,6 +3,7 @@ export default function TeamworkMediaMaker() {
     <svg
       width="397"
       height="382"
+      className="h-auto w-full max-w-full"
       viewBox="0 0 397 382"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

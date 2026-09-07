@@ -3,6 +3,7 @@ export default function SignupIdea() {
     <svg
       width="448"
       height="401"
+      className="h-auto w-full max-w-full"
       viewBox="0 0 448 401"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

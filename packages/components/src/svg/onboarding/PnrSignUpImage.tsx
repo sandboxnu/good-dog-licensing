@@ -3,6 +3,7 @@ export default function PnrSignUpImage() {
     <svg
       width="386"
       height="323"
+      className="h-auto w-full max-w-full"
       viewBox="0 0 386 323"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

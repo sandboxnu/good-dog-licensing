@@ -1,16 +1,18 @@
 import { PrismaClient } from "@prisma/client";
+
 import type { Role } from "@good-dog/db";
+
 import {
+  additionalInfo,
+  adjectives,
   allGenres,
+  allProjectTypes,
   firstNames,
   lastNames,
-  realUsers,
-  adjectives,
   links,
   nouns,
   projectDescriptions,
-  allProjectTypes,
-  additionalInfo,
+  realUsers,
 } from "./utils/seedData";
 
 const prisma = new PrismaClient();
@@ -88,6 +90,7 @@ function generateSongs(userId: string, userName: string, count: number) {
       songLink: randomFromArray(links),
       genres: [primaryGenre, secondaryGenre],
       additionalInfo: randomFromArray(additionalInfo),
+      songLyrics: "",
     };
   });
 }
@@ -120,7 +123,7 @@ async function main() {
     "$2a$10$ghWIDof5gMFi7D2Deea.C.HptdD0nvsYIqEFpWuQVvoyJ8HdhPtR2";
 
   // Generate users
-  const generatedModerators = generateUsers("moderator", "MODERATOR", 100, 20);
+  const generatedModerators = generateUsers("moderator", "MODERATOR", 10, 2);
   const generatedMediamakers = generateUsers(
     "mediamaker",
     "MEDIA_MAKER",
@@ -189,6 +192,7 @@ async function main() {
         songLink: song.songLink,
         genres: song.genres,
         additionalInfo: song.additionalInfo,
+        songLyrics: song.songLyrics,
         contributors: {
           create: Array.from({ length: 3 }, () => ({
             firstName: "Test",
@@ -236,7 +240,7 @@ async function main() {
   // Generate song requests
 
   const songRequestCreations = createdProjects.flatMap((project) => {
-    const requestCount = Math.floor(Math.random() * 21);
+    const requestCount = Math.floor(Math.random() * 5);
     return generateSongRequests(project.projectId, requestCount).map(
       (songRequest) =>
         prisma.songRequest.create({

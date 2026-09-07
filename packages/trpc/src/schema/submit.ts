@@ -25,8 +25,11 @@ const zMusicContributor = z
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
     roles: z.array(z.enum(MusicRole)).min(1, "At least one role is required"),
+    email: z.string().optional(),
     affiliation: z.enum(MusicAffiliation).optional(),
     ipi: z.string().optional(),
+    publisher: z.string().optional(),
+    publisherIpi: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     const requiresAffiliation = data.roles.some(
@@ -55,6 +58,22 @@ const zMusicContributor = z
         path: ["ipi"],
       });
     }
+
+    if (data.publisher && !data.publisherIpi) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Publisher IPI is required when a publisher is specified",
+        path: ["publisherIpi"],
+      });
+    }
+
+    if (data.publisherIpi && !data.publisher) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Publisher is required when a publisher IPI is specified",
+        path: ["publisher"],
+      });
+    }
   });
 
 export const zMusicSubmissionValues = z
@@ -63,6 +82,7 @@ export const zMusicSubmissionValues = z
     songLink: z.url().min(1, "Song link is required"),
     genres: z.array(z.enum(Genre)).min(1, "At least one genre is required"),
     additionalInfo: z.string().optional(),
+    songLyrics: z.string().min(1, "Song lyrics are required"),
     performerName: z.string().min(1, "Artist/Band name is required"),
     contributors: z.array(zMusicContributor),
     submitterRoles: z
@@ -70,6 +90,8 @@ export const zMusicSubmissionValues = z
       .min(1, "At least one role is required"),
     submitterAffiliation: z.enum(MusicAffiliation).optional(),
     submitterIpi: z.string().optional(),
+    submitterPublisher: z.string().optional(),
+    submitterPublisherIpi: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     const requiresAffiliation = data.submitterRoles.some(
@@ -97,6 +119,22 @@ export const zMusicSubmissionValues = z
         message:
           "IPI is required for songwriters and lyricists affiliated with ASCAP or BMI",
         path: ["submitterIpi"],
+      });
+    }
+
+    if (data.submitterPublisher && !data.submitterPublisherIpi) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Publisher IPI is required when a publisher is specified",
+        path: ["submitterPublisherIpi"],
+      });
+    }
+
+    if (data.submitterPublisherIpi && !data.submitterPublisher) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Publisher is required when a publisher IPI is specified",
+        path: ["submitterPublisher"],
       });
     }
   });

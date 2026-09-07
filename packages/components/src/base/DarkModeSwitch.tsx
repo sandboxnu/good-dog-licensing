@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Sun, Moon } from "lucide-react";
+
+import DarkModeOffToggle from "../svg/nav/DarkModeOffToggle";
+import DarkModeOnToggle from "../svg/nav/DarkModeOnToggle";
 
 export default function DarkModeSwitch() {
   const [isDark, setIsDark] = useState(
@@ -12,23 +14,17 @@ export default function DarkModeSwitch() {
   const toggleDarkMode = () => {
     if (isDark) {
       document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
     } else {
       document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
     }
     setIsDark(!isDark);
   };
 
   return (
-    <button
-      onClick={toggleDarkMode}
-      className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-      aria-label="Toggle Dark Mode"
-    >
-      {isDark ? (
-        <Sun className="text-yellow-400" />
-      ) : (
-        <Moon className="text-gray-800" />
-      )}
+    <button onClick={toggleDarkMode} aria-label="Toggle Dark Mode">
+      {isDark ? <DarkModeOnToggle /> : <DarkModeOffToggle />}
     </button>
   );
 }

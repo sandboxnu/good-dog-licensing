@@ -60,7 +60,7 @@ export default function ForgotPasswordForm() {
                 We sent a link to{" "}
                 <strong>{forgotPasswordForm.getValues().email}</strong>
               </p>
-              <p>
+              <p className="text-black dark:text-white">
                 Didn't receive the email?{" "}
                 <strong onClick={onSubmit}>
                   <u>Resend</u>

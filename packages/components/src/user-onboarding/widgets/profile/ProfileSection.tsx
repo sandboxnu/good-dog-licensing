@@ -1,5 +1,6 @@
-import clsx from "clsx";
 import type { ReactNode } from "react";
+import clsx from "clsx";
+
 import Button from "../../../base/Button";
 
 interface ProfileSectionProps {
@@ -24,10 +25,10 @@ export default function ProfileSection({
   children,
 }: ProfileSectionProps) {
   return (
-    <div className="rounded-2xl bg-gray-100 dark:bg-green-600 border border-cream-400 dark:border-dark-gray-400">
+    <div className="rounded-2xl border border-cream-400 bg-gray-100 dark:border-dark-gray-400 dark:bg-green-600">
       <header
         className={clsx(
-          "rounded-t-2xl py-2.5 px-[23.5px] font-medium text-lg font-medium flex items-center justify-between bg-gray-200 dark:bg-mint-600 text-green-400 dark:text-mint-200",
+          "flex items-center justify-between rounded-t-2xl bg-gray-200 px-[23.5px] py-2.5 text-lg font-medium text-green-400 dark:bg-mint-600 dark:text-mint-200",
         )}
       >
         {header}

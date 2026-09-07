@@ -1,10 +1,11 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { adminPagePermissions } from "@good-dog/auth/permissions";
-import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
-import { TRPCError } from "@trpc/server";
 import { Role } from "@good-dog/db";
 import { privateUserSelect } from "../../dtos";
+
+import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 
 export const promoteToAdminProcedure = rolePermissionsProcedureBuilder(
   adminPagePermissions,

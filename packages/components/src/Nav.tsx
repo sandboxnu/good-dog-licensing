@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { trpc } from "@good-dog/trpc/client";
 
-import ProfileDropdown from "./base/ProfileDropdown";
 import DarkModeSwitch from "./base/DarkModeSwitch";
+import ProfileDropdown from "./base/ProfileDropdown";
 import NavLogo from "./svg/NavLogo";
 
 export default function Nav() {
   const [user] = trpc.user.useSuspenseQuery();
+  const pathname = usePathname();
 
   const homeLink = user ? "/home" : "/";
 
@@ -18,13 +20,16 @@ export default function Nav() {
       <div className="flex items-center justify-between bg-transparent">
         <Link href={homeLink} className="flex items-center gap-3">
           <NavLogo />
-          <p className="font-righteous text-green-400 dark:text-mint-300 text-2xl">
+          <p className="font-righteous text-2xl text-green-400 dark:text-mint-300">
             GOOD DOG LICENSING
           </p>
         </Link>
 
-        <nav className="flex items-center gap-8 text-lg text-green-500 dark:text-mint-200">
-          <Link href={homeLink} className="underline-offset-4 hover:underline">
+        <nav className="flex items-center gap-[32px] text-lg text-green-500 dark:text-mint-200 lg:gap-[50px]">
+          <Link
+            href={homeLink}
+            className={`underline-offset-[6px] hover:underline ${pathname === homeLink ? "underline" : ""}`}
+          >
             Home
           </Link>
           {user ? (
@@ -33,13 +38,13 @@ export default function Nav() {
             <>
               <Link
                 href="/login"
-                className="underline-offset-4 hover:underline"
+                className={`underline-offset-[6px] hover:underline ${pathname === "/login" ? "underline" : ""}`}
               >
                 Login
               </Link>
               <Link
                 href="/signup"
-                className="underline-offset-4 hover:underline"
+                className={`underline-offset-[6px] hover:underline ${pathname === "/signup" ? "underline" : ""}`}
               >
                 Sign up
               </Link>

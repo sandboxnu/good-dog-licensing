@@ -3,6 +3,7 @@ export default function VideoCall() {
     <svg
       width="533"
       height="343"
+      className="h-auto w-full max-w-full"
       viewBox="0 0 533 343"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
