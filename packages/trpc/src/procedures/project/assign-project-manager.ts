@@ -1,7 +1,9 @@
-import { adminPagePermissions } from "@good-dog/auth/permissions";
-import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
-import z from "zod";
 import { TRPCError } from "@trpc/server";
+import z from "zod";
+
+import { adminPagePermissions } from "@good-dog/auth/permissions";
+
+import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { sendEmailHelper } from "../../utils";
 
 export const assignProjectManagerProcedure = rolePermissionsProcedureBuilder(

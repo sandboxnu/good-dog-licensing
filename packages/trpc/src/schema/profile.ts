@@ -1,8 +1,9 @@
 import { z } from "zod";
 
-import { zRequiredEmail, zRequiredString } from "./base";
 import { MusicAffiliation } from "@good-dog/db";
+
 import { zPasswordValidation } from "./auth";
+import { zRequiredEmail, zRequiredString } from "./base";
 
 export const zAffiliationValidation = z.enum(MusicAffiliation);
 

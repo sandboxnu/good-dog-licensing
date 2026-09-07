@@ -17,13 +17,13 @@ import ProfileIcon from "../../../svg/ProfileIcon";
 import Header from "../Header";
 import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
 import ProjectDrawer from "./ProjectDrawer";
+import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import SortableTableColumnHeader from "./SortableTableColumnHeader";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 

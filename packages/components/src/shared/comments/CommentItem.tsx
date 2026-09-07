@@ -1,4 +1,5 @@
 import { GetProcedureOutput } from "@good-dog/trpc/types";
+
 import ProfileIcon from "../../svg/ProfileIcon";
 import CommentText from "./CommentText";
 
@@ -30,14 +31,14 @@ export default function CommentItem({ comment }: { comment: Comment }) {
   const name = `${comment.user.firstName} ${comment.user.lastName}`;
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-row gap-3 items-start">
+      <div className="flex flex-row items-start gap-3">
         <ProfileIcon color="light" size={32} name={name} />
-        <div className="flex flex-col gap-1 min-w-0">
-          <div className="flex flex-row items-center gap-1 flex-wrap">
+        <div className="flex min-w-0 flex-col gap-1">
+          <div className="flex flex-row flex-wrap items-center gap-1">
             <span className="text-sm font-medium dark:text-gray-200">
               {name}
             </span>
-            <span className="text-xs text-cream-600 dark:text-gray-400 mx-1">
+            <span className="mx-1 text-xs text-cream-600 dark:text-gray-400">
               ·
             </span>
             <span className="text-xs text-cream-600 dark:text-gray-400">

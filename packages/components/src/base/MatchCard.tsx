@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { Check, FileText, X } from "lucide-react";
 import { useState } from "react";
+import { Check, FileText, X } from "lucide-react";
 
 import { ConfirmationModal } from "../matching/ConfirmationModal";
 
@@ -98,10 +98,10 @@ export function MatchCard({
         {showActions && (
           <>
             <button type="button" onClick={handleCheck}>
-              <Check className="hover:text-green-300 hover:bg-green-100 rounded-md dark:text-gray-200 dark:hover:bg-green-300" />
+              <Check className="rounded-md hover:bg-green-100 hover:text-green-300 dark:text-gray-200 dark:hover:bg-green-300" />
             </button>
             <button type="button" onClick={handleX}>
-              <X className="hover:text-required-star hover:bg-required-star/25 rounded-md dark:text-gray-200 dark:hover:bg-required-star/75" />
+              <X className="rounded-md hover:bg-required-star/25 hover:text-required-star dark:text-gray-200 dark:hover:bg-required-star/75" />
             </button>
             <div onClick={(e) => e.stopPropagation()}>
               <ConfirmationModal

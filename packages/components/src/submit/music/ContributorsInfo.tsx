@@ -2,6 +2,7 @@
 
 import type z from "zod";
 import { useCallback, useEffect, useState } from "react";
+import { Trash } from "lucide-react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 
 import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
@@ -17,7 +18,6 @@ import RadioGroup from "../../base/RadioGroup";
 import RHFMultiselectDropdown from "../../rhf-base/RFHMultiselectDropdown";
 import RHFRadioGroup from "../../rhf-base/RHFRadioGroup";
 import RHFTextInput from "../../rhf-base/RHFTextInput";
-import { Trash } from "lucide-react";
 
 interface ContributorsInfoProps {
   onSubmit: () => void;

@@ -10,8 +10,8 @@ import Button from "../../base/Button";
 import { MatchesList } from "../../base/MatchesList";
 import { MatchStatusTabs } from "../../base/MatchStatusTabs";
 import CommentsSheet from "../../shared/comments/CommentsSheet";
-import MatchDrawer from "./MatchDrawer";
 import { Match } from "./Match";
+import MatchDrawer from "./MatchDrawer";
 import { MusicSearchModal } from "./MusicSearchModal";
 
 type SongRequestType = GetProcedureOutput<"getSongRequestById">;
@@ -68,7 +68,7 @@ export default function MatchingInformation({
               variant="outlined"
               size="small-text-with-icon"
               onClick={() => setCommentsOpen(true)}
-              className="flex flex-row items-center gap-1 !w-auto px-3 !bg-cream-100 !text-green-500 !border-dark-gray-500 hover:!bg-cream-100 active:!bg-cream-100 dark:!bg-green-700 dark:!text-green-100 dark:!border-dark-gray-300 dark:hover:!bg-green-700 dark:active:!bg-green-700"
+              className="flex !w-auto flex-row items-center gap-1 !border-dark-gray-500 !bg-cream-100 px-3 !text-green-500 hover:!bg-cream-100 active:!bg-cream-100 dark:!border-dark-gray-300 dark:!bg-green-700 dark:!text-green-100 dark:hover:!bg-green-700 dark:active:!bg-green-700"
             >
               <MessageSquare className="h-3.5 w-3.5" />
               Comment

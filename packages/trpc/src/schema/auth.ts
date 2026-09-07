@@ -1,6 +1,8 @@
 import { z } from "zod";
-import { zRequiredEmail, zRequiredString } from "./base";
+
 import { HowHeardAboutUsLabel } from "@good-dog/db";
+
+import { zRequiredEmail, zRequiredString } from "./base";
 
 export const zPasswordValidation = zRequiredString
   .min(8, "Password must be at least 8 characters")

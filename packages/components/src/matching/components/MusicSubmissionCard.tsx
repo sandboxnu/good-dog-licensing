@@ -98,7 +98,7 @@ export function MusicSubmissionCard({
           <div className="flex flex-row items-center">
             <div className="flex w-1/2 flex-col gap-2">
               <div className="flex flex-row gap-2">
-                <UsersRound className="text-gray-400 h-4 w-4" />
+                <UsersRound className="h-4 w-4 text-gray-400" />
                 <p className="text-dark-gray-300 dark:text-dark-gray-200">
                   Artist
                 </p>
@@ -109,7 +109,7 @@ export function MusicSubmissionCard({
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex flex-row gap-2">
-                <Music className="text-gray-400 h-4 w-4" />
+                <Music className="h-4 w-4 text-gray-400" />
                 <p className="text-dark-gray-300 dark:text-dark-gray-200">
                   Genre(s)
                 </p>
@@ -138,7 +138,7 @@ export function MusicSubmissionCard({
 
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2">
-              <UsersRound className="text-gray-400 h-4 w-4" />
+              <UsersRound className="h-4 w-4 text-gray-400" />
               <p className="text-dark-gray-300 dark:text-dark-gray-200">
                 Contributors
               </p>
@@ -158,7 +158,7 @@ export function MusicSubmissionCard({
           {musicSubmission.additionalInfo.length > 0 && (
             <div className="flex flex-col gap-2">
               <div className="flex flex-row gap-2">
-                <File className="w-4 h-4 text-gray-400" />
+                <File className="h-4 w-4 text-gray-400" />
                 <p className="text-dark-gray-300 dark:text-dark-gray-200">
                   Additional information
                 </p>

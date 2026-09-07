@@ -29,7 +29,7 @@ export default function MediaMakerSongRequest({
     >
       <div className="flex flex-row items-center gap-4">
         <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-400 text-mint-100 dark:bg-green-300 dark:text-mint-300">
-          <Music className="w-5 h-5" />
+          <Music className="h-5 w-5" />
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex flex-row gap-4">

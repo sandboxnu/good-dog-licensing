@@ -1,7 +1,7 @@
 import React from "react";
+import { X } from "lucide-react";
 
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
-import { X } from "lucide-react";
 
 interface ModalProps {
   open: boolean;

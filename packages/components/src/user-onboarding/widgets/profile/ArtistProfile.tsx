@@ -1,10 +1,11 @@
 "use client";
 
 import { trpc } from "@good-dog/trpc/client";
-import ProfileIcon from "../../../svg/ProfileIcon";
-import ProfileDetails from "./ProfileDetails";
+
 import { getRoleLabel } from "../../../../utils/enumLabelMapper";
+import ProfileIcon from "../../../svg/ProfileIcon";
 import ArtistSubmissions from "./ArtistSubmissions";
+import ProfileDetails from "./ProfileDetails";
 
 export default function AristProfile({ userId }: { userId: string }) {
   const [user] = trpc.userById.useSuspenseQuery({ userId });

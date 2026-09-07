@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import ProfileIcon from "../../svg/ProfileIcon";
-import { trpc } from "@good-dog/trpc/client";
+
 import { Role } from "@good-dog/db";
+import { trpc } from "@good-dog/trpc/client";
+
+import ProfileIcon from "../../svg/ProfileIcon";
 
 export default function User({
   name,

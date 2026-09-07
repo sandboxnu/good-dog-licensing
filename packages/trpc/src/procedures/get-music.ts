@@ -1,11 +1,12 @@
+import { TRPCError } from "@trpc/server";
+import z from "zod";
+
 import {
   musicianOnlyPermissions,
   projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
 
 import { rolePermissionsProcedureBuilder } from "../middleware/role-check";
-import z from "zod";
-import { TRPCError } from "@trpc/server";
 
 export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
   projectAndRepertoirePagePermissions,

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { MusicAffiliation } from "@good-dog/db";
+
 import { authenticatedAndActiveProcedureBuilder } from "../middleware/authenticated-active";
 
 export const changeProfileValuesProcedure =

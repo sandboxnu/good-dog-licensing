@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { UserPlus } from "lucide-react";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { Role } from "@good-dog/db";
@@ -8,14 +9,13 @@ import { Button } from "@good-dog/ui/button";
 import { Switch } from "../../../base/Switch";
 import Header from "../Header";
 import InviteModal from "./InviteModal";
+import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
   TableRowFormatting,
 } from "./TableFormatting";
-import SortableTableColumnHeader from "./SortableTableColumnHeader";
-import { UserPlus } from "lucide-react";
 
 type UserType = GetProcedureOutput<"allUsers">["users"][number];
 
@@ -62,7 +62,7 @@ export default function UserSubPage() {
           onClick={() => setInviteModalOpen(true)}
         >
           <div className="flex flex-row items-center justify-center gap-2">
-            <UserPlus className="text-mint-100 dark:text-mint-300 w-5 h-5" />
+            <UserPlus className="h-5 w-5 text-mint-100 dark:text-mint-300" />
             Invite
           </div>
         </Button>

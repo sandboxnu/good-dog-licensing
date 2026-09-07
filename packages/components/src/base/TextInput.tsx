@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import { useState } from "react";
 import clsx from "clsx";
+import { Eye, EyeOff } from "lucide-react";
 
 import { Input } from "@good-dog/ui/input";
 import { Label } from "@good-dog/ui/label";
 
 import ErrorExclamation from "../svg/status-icons/ErrorExclamation";
-import { Eye, EyeOff } from "lucide-react";
 
 interface TextInputProps {
   label: string;
@@ -77,9 +77,9 @@ export default function TextInput({
             onClick={() => setShowPassword((value) => !value)}
           >
             {showPassword ? (
-              <Eye className="text-green-500 dark:text-mint-200 h-5 w-5" />
+              <Eye className="h-5 w-5 text-green-500 dark:text-mint-200" />
             ) : (
-              <EyeOff className="text-green-500 dark:text-mint-200 h-5 w-5" />
+              <EyeOff className="h-5 w-5 text-green-500 dark:text-mint-200" />
             )}
           </span>
         )}

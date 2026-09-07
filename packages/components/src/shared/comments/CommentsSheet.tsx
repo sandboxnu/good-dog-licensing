@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
+
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
+import { trpc } from "@good-dog/trpc/client";
 import {
   Sheet,
   SheetContent,
-  SheetTitle,
   SheetDescription,
+  SheetTitle,
 } from "@good-dog/ui/sheet";
-import { trpc } from "@good-dog/trpc/client";
-import type { GetProcedureOutput } from "@good-dog/trpc/types";
+
 import CommentItem from "../../shared/comments/CommentItem";
 
 type Comment = GetProcedureOutput<"getSongRequestById">["comments"][number];
@@ -78,11 +80,11 @@ export default function CommentsSheet({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="w-[400px] p-0 flex flex-col bg-white dark:bg-dark-gray-600 border-l border-cream-300 dark:border-dark-gray-600"
+        className="flex w-[400px] flex-col border-l border-cream-300 bg-white p-0 dark:border-dark-gray-600 dark:bg-dark-gray-600"
       >
         {/* Header */}
-        <div className="flex flex-col gap-1 px-6 pt-6 pb-4">
-          <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-col gap-1 px-6 pb-4 pt-6">
+          <div className="flex flex-row items-center justify-between">
             <SheetTitle className="text-lg font-medium dark:text-gray-200">
               Comments
             </SheetTitle>
@@ -90,16 +92,16 @@ export default function CommentsSheet({
           <SheetDescription className="text-sm text-cream-600 dark:text-cream-500">
             {subtitle}
           </SheetDescription>
-          <hr className="border-cream-400 dark:border-dark-gray-400 mt-2" />
+          <hr className="mt-2 border-cream-400 dark:border-dark-gray-400" />
         </div>
 
         {/* Scrollable comment list */}
         <div
           ref={scrollRef}
-          className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-5"
+          className="flex flex-1 flex-col gap-5 overflow-y-auto px-6 py-4"
         >
           {comments.length === 0 && (
-            <p className="text-sm text-cream-600 dark:text-gray-400 italic">
+            <p className="text-sm italic text-cream-600 dark:text-gray-400">
               No comments yet.
             </p>
           )}
@@ -115,7 +117,7 @@ export default function CommentsSheet({
 
         {/* Input area */}
         <div className="px-6 pb-6 pt-2">
-          <div className="relative rounded-lg border border-cream-400 dark:border-dark-gray-400 bg-white dark:bg-dark-gray-500">
+          <div className="relative rounded-lg border border-cream-400 bg-white dark:border-dark-gray-400 dark:bg-dark-gray-500">
             <textarea
               ref={textareaRef}
               value={text}
@@ -123,13 +125,13 @@ export default function CommentsSheet({
               onKeyDown={handleKeyDown}
               placeholder="Add a comment"
               rows={1}
-              className="block w-full resize-none bg-white dark:bg-dark-gray-500 text-sm dark:text-gray-200 placeholder:text-cream-600 dark:placeholder:text-dark-gray-200 focus:outline-none leading-5 px-3 pt-3 pb-8"
+              className="block w-full resize-none bg-white px-3 pb-8 pt-3 text-sm leading-5 placeholder:text-cream-600 focus:outline-none dark:bg-dark-gray-500 dark:text-gray-200 dark:placeholder:text-dark-gray-200"
             />
             <button
               onClick={handleSubmit}
               disabled={!canSubmit}
               aria-label="Send comment"
-              className="absolute bottom-2 right-2 p-1 rounded-md transition-opacity disabled:opacity-30"
+              className="absolute bottom-2 right-2 rounded-md p-1 transition-opacity disabled:opacity-30"
             >
               <ArrowUp
                 className={`h-4 w-4 ${canSubmit ? "text-green-500 dark:text-mint-300" : "text-cream-600 dark:text-gray-500"}`}
