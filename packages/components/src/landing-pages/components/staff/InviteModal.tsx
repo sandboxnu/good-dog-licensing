@@ -68,7 +68,7 @@ export default function InviteModal({
       <DialogContent className="border-1 max-w-md rounded-2xl border border-cream-500 bg-white p-[24px] dark:border-grass-green-100 dark:bg-dark-gray-600">
         <DialogHeader className="flex flex-col gap-[16px] space-y-2 text-left">
           <DialogTitle className="pt-[24px] text-[35px] font-medium text-gray-500 dark:text-gray-200">
-            Invite new PnR
+            Invite new P&R
           </DialogTitle>
           <p className="text-dark-gray-500 dark:text-mint-300">
             Enter the email address of the person you would like to invite.
@@ -91,7 +91,7 @@ export default function InviteModal({
         <DialogFooter className="flex w-full items-end gap-2">
           <Button
             variant="contained"
-            className="ml-auto px-4 py-1"
+            className="ml-auto px-4 py-1 disabled:cursor-not-allowed disabled:border-dark-gray-100 disabled:bg-dark-gray-100 disabled:text-dark-gray-300 disabled:hover:bg-dark-gray-100 dark:disabled:border-dark-gray-300 dark:disabled:bg-dark-gray-400 dark:disabled:text-dark-gray-200 dark:disabled:hover:bg-dark-gray-400"
             onClick={onInvite}
             disabled={!canSendInvite}
           >
