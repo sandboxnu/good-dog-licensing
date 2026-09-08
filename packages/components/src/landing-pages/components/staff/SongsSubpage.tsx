@@ -104,7 +104,7 @@ function SongTable({
                 ))}
                 {song.genres.length > 1 && (
                   <div className="flex h-6 w-fit items-center justify-center gap-1 rounded bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
-                    +{song.genres.length - 2}
+                    +{song.genres.length - 1}
                   </div>
                 )}
               </div>
