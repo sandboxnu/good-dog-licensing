@@ -173,7 +173,7 @@ export class EmailService {
 
   async sendPRInviteEmail(toEmail: string, cuid: string) {
     const baseURL = this.getBaseUrl();
-    const link = `${baseURL}/pnr-invite/?id=${cuid}`;
+    const link = `${baseURL}/signup/pnr/?invite_id=${cuid}`;
 
     const params: EmailMessage = {
       from: this.sentFrom,
