@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { trpc } from "@good-dog/trpc/client";
 
+import Pagination, { usePagination } from "../../../base/Pagination";
 import Header from "../Header";
 import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
@@ -42,13 +43,19 @@ export default function SongsSubpage() {
   const [data] = trpc.allMusic.useSuspenseQuery();
   const [sortColumn, setSortColumn] = useState<SortColumn>("songName");
 
+  const { pageItems, paginationProps } = usePagination(
+    sortSongs(data, sortColumn),
+    sortColumn,
+  );
+
   return (
     <div className="flex flex-col gap-[32px]">
       <Header title={"Songs"} subtitle={"Song submissions"} />
       <SongTable
-        data={sortSongs(data, sortColumn)}
+        data={pageItems}
         sortColumn={sortColumn}
         setSortColumn={setSortColumn}
+        paginationProps={paginationProps}
       />
     </div>
   );
@@ -58,10 +65,12 @@ function SongTable({
   data,
   sortColumn,
   setSortColumn,
+  paginationProps,
 }: {
   data: MusicSubmission[];
   sortColumn: SortColumn;
   setSortColumn: (newSort: SortColumn) => void;
+  paginationProps: React.ComponentProps<typeof Pagination>;
 }) {
   return (
     <TableOuterFormatting>
@@ -127,6 +136,7 @@ function SongTable({
         })}
         {data.length == 0 && <TableEmptyMessage />}
       </div>
+      <Pagination {...paginationProps} />
     </TableOuterFormatting>
   );
 }
