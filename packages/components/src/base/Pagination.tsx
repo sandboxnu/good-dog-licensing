@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import { Button } from "@good-dog/ui/button";
+
 /**
  * Client-side pagination over an already-fetched list. Returns the rows for the
  * current page plus the props to spread onto `<Pagination />`.
@@ -47,6 +49,10 @@ function pageNumbers(page: number, pageCount: number) {
   return withGaps;
 }
 
+/** Centres the icon and dims the arrow once there is nowhere left to go. */
+const ARROW_CLASSES =
+  "flex items-center justify-center disabled:opacity-40 disabled:hover:bg-transparent";
+
 export default function Pagination({
   page,
   pageCount,
@@ -63,67 +69,51 @@ export default function Pagination({
       aria-label="Pagination"
       className="flex flex-row items-center justify-center gap-[8px]"
     >
-      <ArrowButton
-        label="Previous page"
+      <Button
+        variant="text"
+        size="small-icon"
+        type="button"
+        aria-label="Previous page"
         disabled={page === 1}
         onClick={() => onPageChange(page - 1)}
+        className={ARROW_CLASSES}
       >
         <ChevronLeft className="h-[16px] w-[16px]" />
-      </ArrowButton>
+      </Button>
 
       {pageNumbers(page, pageCount).map((p, key) =>
         p === "…" ? (
-          <span key={key} className="text-caption text-dark-gray-300">
+          <span
+            key={key}
+            className="text-caption text-dark-gray-300 dark:text-dark-gray-100"
+          >
             …
           </span>
         ) : (
-          <button
+          <Button
             key={key}
+            variant={p === page ? "contained" : "text"}
+            size="small-icon"
             type="button"
             aria-current={p === page ? "page" : undefined}
             onClick={() => onPageChange(p)}
-            className={`h-[32px] min-w-[32px] rounded-[8px] px-[8px] text-caption font-medium ${
-              p === page
-                ? "bg-green-400 text-gray-100"
-                : "text-dark-gray-500 hover:bg-cream-100 dark:text-white dark:hover:bg-dark-gray-500"
-            }`}
           >
             {p}
-          </button>
+          </Button>
         ),
       )}
 
-      <ArrowButton
-        label="Next page"
+      <Button
+        variant="text"
+        size="small-icon"
+        type="button"
+        aria-label="Next page"
         disabled={page === pageCount}
         onClick={() => onPageChange(page + 1)}
+        className={ARROW_CLASSES}
       >
         <ChevronRight className="h-[16px] w-[16px]" />
-      </ArrowButton>
+      </Button>
     </nav>
-  );
-}
-
-function ArrowButton({
-  label,
-  disabled,
-  onClick,
-  children,
-}: {
-  label: string;
-  disabled: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      disabled={disabled}
-      onClick={onClick}
-      className="flex h-[32px] w-[32px] items-center justify-center rounded-[8px] text-dark-gray-500 hover:bg-cream-100 disabled:opacity-40 disabled:hover:bg-transparent dark:text-white dark:hover:bg-dark-gray-500"
-    >
-      {children}
-    </button>
   );
 }
