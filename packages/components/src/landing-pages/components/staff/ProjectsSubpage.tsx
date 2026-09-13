@@ -28,6 +28,8 @@ import {
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
 
+const PAGE_SIZE = 10;
+
 const AdmModProjectStatusToSubtitle: Record<AdmModProjectStatus, string> = {
   [AdmModProjectStatus.COMPLETED]: "Matched projects",
   [AdmModProjectStatus.IN_PROGRESS]: "Projects currently being worked on",
@@ -118,6 +120,7 @@ export default function ProjectsSubpage() {
 
   const { pageItems, paginationProps } = usePagination(
     filterProjects(allProjects.projects, searchQuery, activeStatus, sortColumn),
+    PAGE_SIZE,
     `${activeStatus}-${searchQuery}-${sortColumn}-${createdDateQuery}-${assignedToMe}`,
   );
 

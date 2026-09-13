@@ -22,6 +22,8 @@ type UserType = GetProcedureOutput<"allUsers">["users"][number];
 
 type SortColumn = "firstName" | "lastName" | "email" | "role" | "status";
 
+const PAGE_SIZE = 10;
+
 const sortUsers = (users: UserType[], sortColumn: SortColumn) => {
   return users.sort((a, b) => {
     switch (sortColumn) {
@@ -55,6 +57,7 @@ export default function UserSubPage() {
 
   const { pageItems, paginationProps } = usePagination(
     sortUsers(data.users, sortColumn),
+    PAGE_SIZE,
     sortColumn,
   );
 

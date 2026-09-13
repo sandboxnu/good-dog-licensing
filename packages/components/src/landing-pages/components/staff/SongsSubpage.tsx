@@ -19,6 +19,8 @@ type MusicSubmission = GetProcedureOutput<"allMusic">[number];
 
 type SortColumn = "songName" | "musicianName" | "dateSubmitted";
 
+const PAGE_SIZE = 10;
+
 const sortSongs = (songs: MusicSubmission[], sortColumn: SortColumn) => {
   return songs.sort((a, b) => {
     switch (sortColumn) {
@@ -45,6 +47,7 @@ export default function SongsSubpage() {
 
   const { pageItems, paginationProps } = usePagination(
     sortSongs(data, sortColumn),
+    PAGE_SIZE,
     sortColumn,
   );
 

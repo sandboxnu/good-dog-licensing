@@ -3,17 +3,15 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const DEFAULT_PAGE_SIZE = 10;
-
 /**
  * Client-side pagination over an already-fetched list. Returns the rows for the
  * current page plus the props to spread onto `<Pagination />`.
  */
 export function usePagination<T>(
   items: T[],
+  pageSize: number,
   /** Changing this (e.g. the active filter or sort) sends the user back to page one. */
   resetKey?: string,
-  pageSize = DEFAULT_PAGE_SIZE,
 ) {
   const [requestedPage, setRequestedPage] = useState(1);
   const [lastResetKey, setLastResetKey] = useState(resetKey);
