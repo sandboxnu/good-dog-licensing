@@ -100,6 +100,7 @@ model User {
   role                        Role
   active                      Boolean                @default(true)
   affiliation                 MusicAffiliation?
+  otherAffiliationName        String?
   ipi                         String?
   publisher                   String?
   publisherIpi                String?
@@ -231,22 +232,24 @@ enum MusicRole {
 enum MusicAffiliation {
   ASCAP
   BMI
+  OTHER
   NONE
 }
 
 model MusicContributor {
-  contributorId     String            @id @default(uuid())
-  firstName         String
-  lastName          String
-  roles             MusicRole[]
-  affiliation       MusicAffiliation?
-  ipi               String?
-  MusicSubmission   MusicSubmission   @relation(fields: [musicSubmissionId], references: [musicId], onDelete: Cascade)
-  musicSubmissionId String
-  isSubmitter       Boolean           @default(false)
-  email             String?
-  publisher         String?
-  publisherIpi      String?
+  contributorId        String            @id @default(uuid())
+  firstName            String
+  lastName             String
+  roles                MusicRole[]
+  affiliation          MusicAffiliation?
+  otherAffiliationName String?
+  ipi                  String?
+  MusicSubmission      MusicSubmission   @relation(fields: [musicSubmissionId], references: [musicId], onDelete: Cascade)
+  musicSubmissionId    String
+  isSubmitter          Boolean           @default(false)
+  email                String?
+  publisher            String?
+  publisherIpi         String?
 }
 
 model Match {

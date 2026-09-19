@@ -30,6 +30,7 @@ export const getSessionMemoized = React.cache(
               phoneNumber: true,
               role: true,
               affiliation: true,
+              otherAffiliationName: true,
               ipi: true,
               publisher: true,
               publisherIpi: true,

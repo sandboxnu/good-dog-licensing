@@ -58,6 +58,7 @@ export const zSessionUserOutput = z.object({
   phoneNumber: z.string(),
   role: z.enum(Role),
   affiliation: z.enum(MusicAffiliation).nullable(),
+  otherAffiliationName: z.string().nullable(),
   ipi: z.string().nullable(),
   active: z.boolean(),
   createdAt: z.date(),
@@ -79,6 +80,7 @@ export const zUserProfileOutput = z.object({
   email: z.string(),
   role: z.enum(Role),
   affiliation: z.enum(MusicAffiliation).nullable(),
+  otherAffiliationName: z.string().nullable(),
   ipi: z.string().nullable(),
   createdAt: z.date(),
   musicSubmissions: z.array(
@@ -96,6 +98,7 @@ export const zUserProfileOutput = z.object({
           lastName: z.string(),
           roles: z.array(z.enum(MusicRole)),
           affiliation: z.enum(MusicAffiliation).nullable(),
+          otherAffiliationName: z.string().nullable(),
           ipi: z.string().nullable(),
           isSubmitter: z.boolean(),
           email: z.string().nullable(),

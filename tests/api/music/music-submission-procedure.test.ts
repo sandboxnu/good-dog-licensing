@@ -97,6 +97,15 @@ const musicContributor3 = {
   ipi: "0918",
 };
 
+const musicContributorOther = {
+  firstName: "Contributor",
+  lastName: "Other",
+  roles: [MusicRole.SONGWRITER],
+  affiliation: MusicAffiliation.OTHER,
+  otherAffiliationName: "GMR",
+  ipi: "7777",
+};
+
 describe("music-submission-procedure", () => {
   test("A Musician can submit music", async () => {
     // Set the cookies
@@ -277,6 +286,79 @@ describe("music-submission-procedure", () => {
     });
     expect(userAfterSubmission?.ipi).toBe("1234");
     expect(userAfterSubmission?.ipi).not.toBe("1111");
+  });
+
+  test("A Musician can submit music with an OTHER affiliation and free-text PRO name", async () => {
+    mockCookies.set("sessionId", "500");
+
+    const response = await $api.submitMusic({
+      songName: "Other Affiliation Test Song",
+      songLink: "https://example.com/other-affiliation",
+      genres: [Genre.FOLK],
+      additionalInfo: "",
+      songLyrics: "Other affiliation test lyrics",
+      performerName: "Indie Band",
+      contributors: [musicContributorOther],
+      submitterRoles: [MusicRole.SONGWRITER],
+      submitterAffiliation: MusicAffiliation.OTHER,
+      submitterOtherAffiliationName: "SoundExchange",
+      submitterIpi: "9999",
+    });
+
+    expect(response.message).toEqual("Music submitted successfully");
+
+    const musicSubmission = await prisma.musicSubmission.findFirst({
+      where: { songName: "Other Affiliation Test Song" },
+    });
+
+    const [submitter, contributor] = await prisma.$transaction([
+      prisma.musicContributor.findFirst({
+        where: {
+          musicSubmissionId: musicSubmission?.musicId,
+          isSubmitter: true,
+        },
+      }),
+      prisma.musicContributor.findFirst({
+        where: {
+          musicSubmissionId: musicSubmission?.musicId,
+          firstName: "Contributor",
+          lastName: "Other",
+        },
+      }),
+    ]);
+
+    expect(submitter?.affiliation).toEqual("OTHER");
+    expect(submitter?.otherAffiliationName).toEqual("SoundExchange");
+    expect(submitter?.ipi).toEqual("9999");
+
+    expect(contributor?.affiliation).toEqual("OTHER");
+    expect(contributor?.otherAffiliationName).toEqual("GMR");
+    expect(contributor?.ipi).toEqual("7777");
+
+    const updatedUser = await prisma.user.findUnique({
+      where: { userId: "musician-id-1" },
+    });
+    expect(updatedUser?.affiliation).toEqual("OTHER");
+    expect(updatedUser?.otherAffiliationName).toEqual("SoundExchange");
+  });
+
+  test("Submitting with OTHER affiliation but no PRO name is rejected", () => {
+    mockCookies.set("sessionId", "500");
+
+    expect(
+      $api.submitMusic({
+        songName: "Missing Other Name Song",
+        songLink: "https://example.com/missing-other-name",
+        genres: [Genre.FOLK],
+        additionalInfo: "",
+        songLyrics: "Some lyrics",
+        performerName: "Indie Band",
+        contributors: [],
+        submitterRoles: [MusicRole.SONGWRITER],
+        submitterAffiliation: MusicAffiliation.OTHER,
+        submitterIpi: "9999",
+      }),
+    ).rejects.toThrow();
   });
 
   test("User's IPI stays the same if they don't submit new one", async () => {

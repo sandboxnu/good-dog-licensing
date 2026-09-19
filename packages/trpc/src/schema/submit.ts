@@ -27,6 +27,7 @@ const zMusicContributor = z
     roles: z.array(z.enum(MusicRole)).min(1, "At least one role is required"),
     email: z.string().optional(),
     affiliation: z.enum(MusicAffiliation).optional(),
+    otherAffiliationName: z.string().optional(),
     ipi: z.string().optional(),
     publisher: z.string().optional(),
     publisherIpi: z.string().optional(),
@@ -54,8 +55,16 @@ const zMusicContributor = z
       ctx.addIssue({
         code: "custom",
         message:
-          "IPI is required for songwriters and lyricists affiliated with ASCAP or BMI",
+          "IPI is required for songwriters and lyricists affiliated with ASCAP, BMI, or Other",
         path: ["ipi"],
+      });
+    }
+
+    if (data.affiliation === "OTHER" && !data.otherAffiliationName) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please specify the name of your affiliation",
+        path: ["otherAffiliationName"],
       });
     }
 
@@ -89,6 +98,7 @@ export const zMusicSubmissionValues = z
       .array(z.enum(MusicRole))
       .min(1, "At least one role is required"),
     submitterAffiliation: z.enum(MusicAffiliation).optional(),
+    submitterOtherAffiliationName: z.string().optional(),
     submitterIpi: z.string().optional(),
     submitterPublisher: z.string().optional(),
     submitterPublisherIpi: z.string().optional(),
@@ -117,8 +127,19 @@ export const zMusicSubmissionValues = z
       ctx.addIssue({
         code: "custom",
         message:
-          "IPI is required for songwriters and lyricists affiliated with ASCAP or BMI",
+          "IPI is required for songwriters and lyricists affiliated with ASCAP, BMI, or Other",
         path: ["submitterIpi"],
+      });
+    }
+
+    if (
+      data.submitterAffiliation === "OTHER" &&
+      !data.submitterOtherAffiliationName
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please specify the name of your affiliation",
+        path: ["submitterOtherAffiliationName"],
       });
     }
 

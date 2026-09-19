@@ -49,6 +49,7 @@ export const getUserByIdProcedure = authenticatedAndActiveProcedureBuilder
         email: true,
         role: true,
         affiliation: true,
+        otherAffiliationName: true,
         ipi: true,
         createdAt: true,
 
