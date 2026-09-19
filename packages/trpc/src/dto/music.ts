@@ -37,7 +37,10 @@ export const zMusicSubmissionOutput = z.object({
   updatedAt: z.date(),
   submitterId: z.string(),
   songLink: z.string(),
-  genres: z.array(z.enum(Genre)),
+  genres: z
+    .array(z.enum(Genre))
+    .nullable()
+    .transform((genres) => genres ?? []),
   additionalInfo: z.string(),
   songLyrics: z.string(),
   musicianSongStatus: z.enum(MusicianSongStatus),
@@ -55,7 +58,12 @@ export const zUserMusicSubmissionRowOutput = z.object({
   songName: z.string(),
   createdAt: z.date(),
   performerName: z.string(),
-  genres: z.array(z.enum(Genre)),
+  // Legacy rows predate the `genres` column getting a NOT NULL constraint,
+  // so it can still come back null from the DB - normalize it to [].
+  genres: z
+    .array(z.enum(Genre))
+    .nullable()
+    .transform((genres) => genres ?? []),
   musicianSongStatus: z.enum(MusicianSongStatus),
 });
 
