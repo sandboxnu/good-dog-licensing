@@ -44,6 +44,7 @@ import { updateMatchStateProcedure } from "../procedures/matches/update-match-st
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
 import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
 import { submitMusicProcedure } from "../procedures/music/music-submission";
+import { updateMusicSubmissionProcedure } from "../procedures/music/update-music-submission";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
 import { signUpProcedure } from "../procedures/onboarding/sign-up";
 import { verifyEmailCodeProcedure } from "../procedures/onboarding/verify-email-code";
@@ -90,6 +91,7 @@ export const appRouter = createTRPCRouter({
   projectSubmission: projectSubmissionProcedure,
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
+  updateMusicSubmission: updateMusicSubmissionProcedure,
   getSongRequestById: getProjectSongRequestByIdProcedure,
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValuesProcedure,
   deleteMatch: deleteMatchProcedure,

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import { trpc } from "@good-dog/trpc/client";
 
+import Button from "../../../base/Button";
 import Pagination, { usePagination } from "../../../base/Pagination";
 import Header from "../Header";
 import SortableTableColumnHeader from "./SortableTableColumnHeader";
@@ -75,6 +77,8 @@ function SongTable({
   setSortColumn: (newSort: SortColumn) => void;
   paginationProps: React.ComponentProps<typeof Pagination>;
 }) {
+  const router = useRouter();
+
   return (
     <TableOuterFormatting>
       <div className="flex flex-col">
@@ -99,6 +103,7 @@ function SongTable({
             setSortColumn={setSortColumn}
           />
           <p className="dark:text-white">Song Link</p>
+          <p className="sr-only">Edit</p>
         </TableHeaderFormatting>
 
         {data.map((song: MusicSubmission, key) => {
@@ -134,6 +139,14 @@ function SongTable({
               >
                 <u>{song.songLink}</u>
               </a>
+              <div className="flex justify-end">
+                <Button
+                  size="small"
+                  variant="text"
+                  displayIcon="pencil"
+                  onClick={() => router.push(`/song/${song.musicId}/edit`)}
+                />
+              </div>
             </TableRowFormatting>
           );
         })}
