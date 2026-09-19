@@ -5,6 +5,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@good-dog/ui/button";
 
+/** Page slots shown at once, gaps included. Odd, so the current page sits in the middle. */
+const SLOT_COUNT = 7;
+
 /**
  * Client-side pagination over an already-fetched list. Returns the rows for the
  * current page plus the props to spread onto `<Pagination />`.
@@ -33,20 +36,22 @@ export function usePagination<T>(
   };
 }
 
-/** The first page, the last page and the pages around the current one: [1, "…", 4, 5, 6, "…", 20] */
-function pageNumbers(page: number, pageCount: number) {
-  const pages = [...new Set([1, page - 1, page, page + 1, pageCount])]
-    .filter((p) => p >= 1 && p <= pageCount)
-    .sort((a, b) => a - b);
+const range = (start: number, end: number) =>
+  Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
-  const withGaps: (number | "…")[] = [];
-  let previous = 0;
-  for (const p of pages) {
-    if (previous > 0 && p - previous > 1) withGaps.push("…");
-    withGaps.push(p);
-    previous = p;
-  }
-  return withGaps;
+/**
+ * The first page, the last page and the pages around the current one, with "…"
+ * standing in for the gaps: [1, "…", 4, 5, 6, "…", 20]
+ *
+ * Always exactly SLOT_COUNT entries (once there are that many pages) so the bar
+ * keeps one width as the user clicks through it.
+ */
+function pageNumbers(page: number, pageCount: number): (number | "…")[] {
+  if (pageCount <= SLOT_COUNT) return range(1, pageCount);
+  if (page <= 4) return [...range(1, 5), "…", pageCount];
+  if (page >= pageCount - 3)
+    return [1, "…", ...range(pageCount - 4, pageCount)];
+  return [1, "…", page - 1, page, page + 1, "…", pageCount];
 }
 
 /** Centres the icon and dims the arrow once there is nowhere left to go. */
@@ -85,7 +90,8 @@ export default function Pagination({
         p === "…" ? (
           <span
             key={key}
-            className="text-caption text-dark-gray-300 dark:text-dark-gray-100"
+            // Same footprint as a page button, so swapping one for the other never shifts the bar.
+            className="flex h-[32px] w-[32px] items-center justify-center text-caption text-dark-gray-300 dark:text-dark-gray-100"
           >
             …
           </span>
