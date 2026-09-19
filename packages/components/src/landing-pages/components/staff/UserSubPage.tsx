@@ -6,6 +6,7 @@ import { Role } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
 import { Button } from "@good-dog/ui/button";
 
+import Pagination, { usePagination } from "../../../base/Pagination";
 import { Switch } from "../../../base/Switch";
 import Header from "../Header";
 import InviteModal from "./InviteModal";
@@ -20,6 +21,8 @@ import {
 type UserType = GetProcedureOutput<"allUsers">["users"][number];
 
 type SortColumn = "firstName" | "lastName" | "email" | "role" | "status";
+
+const PAGE_SIZE = 10;
 
 const sortUsers = (users: UserType[], sortColumn: SortColumn) => {
   return users.sort((a, b) => {
@@ -52,6 +55,12 @@ export default function UserSubPage() {
   const [inviteModalOpen, setInviteModalOpen] = useState<boolean>(false);
   const [sortColumn, setSortColumn] = useState<SortColumn>("role");
 
+  const { pageItems, paginationProps } = usePagination(
+    sortUsers(data.users, sortColumn),
+    PAGE_SIZE,
+    sortColumn,
+  );
+
   return (
     <div className="flex flex-col gap-[32px]">
       <div className="flex flex-row items-center">
@@ -74,9 +83,10 @@ export default function UserSubPage() {
       />
 
       <UserTable
-        data={sortUsers(data.users, sortColumn)}
+        data={pageItems}
         sortColumn={sortColumn}
         setSortColumn={setSortColumn}
+        paginationProps={paginationProps}
       />
     </div>
   );
@@ -86,10 +96,12 @@ function UserTable({
   data,
   sortColumn,
   setSortColumn,
+  paginationProps,
 }: {
   data: UserType[];
   sortColumn: SortColumn;
   setSortColumn: (newSort: SortColumn) => void;
+  paginationProps: React.ComponentProps<typeof Pagination>;
 }) {
   return (
     <TableOuterFormatting>
@@ -152,6 +164,7 @@ function UserTable({
         })}
         {data.length == 0 && <TableEmptyMessage />}
       </div>
+      <Pagination {...paginationProps} />
     </TableOuterFormatting>
   );
 }

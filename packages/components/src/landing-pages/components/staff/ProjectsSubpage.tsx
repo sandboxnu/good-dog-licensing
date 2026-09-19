@@ -12,6 +12,7 @@ import { getStatusLabel } from "../../../../utils/enumLabelMapper";
 import { search } from "../../../../utils/search";
 import Checkbox from "../../../base/Checkbox";
 import Dropdown from "../../../base/Dropdown";
+import Pagination, { usePagination } from "../../../base/Pagination";
 import SearchBar from "../../../base/SearchBar";
 import ProfileIcon from "../../../svg/ProfileIcon";
 import Header from "../Header";
@@ -26,6 +27,8 @@ import {
 } from "./TableFormatting";
 
 type ProjectType = GetProcedureOutput<"queryAllProjects">["projects"][number];
+
+const PAGE_SIZE = 10;
 
 const AdmModProjectStatusToSubtitle: Record<AdmModProjectStatus, string> = {
   [AdmModProjectStatus.COMPLETED]: "Matched projects",
@@ -115,6 +118,12 @@ export default function ProjectsSubpage() {
       (project) => project.projectId === projectIdFromUrl,
     ) ?? null;
 
+  const { pageItems, paginationProps } = usePagination(
+    filterProjects(allProjects.projects, searchQuery, activeStatus, sortColumn),
+    PAGE_SIZE,
+    `${activeStatus}-${searchQuery}-${sortColumn}-${createdDateQuery}-${assignedToMe}`,
+  );
+
   return (
     <div className="flex flex-col gap-[32px]">
       <Header title={"Submissions"} subtitle={"Pending project submissions"} />
@@ -179,16 +188,12 @@ export default function ProjectsSubpage() {
           </div>
         </div>
         <SubmissionTable
-          data={filterProjects(
-            allProjects.projects,
-            searchQuery,
-            activeStatus,
-            sortColumn,
-          )}
+          data={pageItems}
           selectedProject={selectedProject}
           sortColumn={sortColumn}
           setSortColumn={setSortColumn}
         />
+        <Pagination {...paginationProps} />
       </TableOuterFormatting>
     </div>
   );
