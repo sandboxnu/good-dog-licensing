@@ -19,11 +19,7 @@ interface InitialMusicInfoProps {
 type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
 
 export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
-  const {
-    formState: { errors },
-    reset,
-    getValues,
-  } = useFormContext<MusicSubmissionFormFields>();
+  const { reset, getValues } = useFormContext<MusicSubmissionFormFields>();
 
   const handleClear = () => {
     const currentContributors = getValues("contributors");
@@ -42,11 +38,6 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
     });
   };
 
-  const genres = Object.values(Genre).map((genre) => ({
-    label: getGenreLabel(genre),
-    value: genre,
-  }));
-
   return (
     <form
       className="flex w-full flex-col gap-8"
@@ -55,62 +46,7 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
         onNext();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
-        <p className="text-xl font-semibold text-green-500 dark:text-mint-200">
-          Song information
-        </p>
-        <div className="flex flex-row gap-6">
-          <RHFTextInput<MusicSubmissionFormFields>
-            rhfName="songName"
-            label="Song title"
-            placeholder="Enter song title"
-            id="songName"
-            errorText={errors.songName?.message}
-            required={true}
-          />
-          <RHFTextInput<MusicSubmissionFormFields>
-            rhfName="performerName"
-            label="Artist/Band name"
-            placeholder="Enter artist or band name"
-            id="performerName"
-            errorText={errors.performerName?.message}
-            required={true}
-          />
-        </div>
-        <RHFMultiselectDropdown<MusicSubmissionFormFields>
-          rhfName="genres"
-          label="Song genres"
-          placeholder="Select song genre(s)"
-          id="genres"
-          errorText={errors.genres?.message}
-          options={genres}
-          required={true}
-        />
-        <RHFTextInput<MusicSubmissionFormFields>
-          rhfName="songLink"
-          label="Song link"
-          placeholder="Enter link to song"
-          id="songLink"
-          errorText={errors.songLink?.message}
-          required={true}
-        />
-        <RHFTextArea<MusicSubmissionFormFields>
-          rhfName="songLyrics"
-          label="Song lyrics"
-          placeholder="Paste the lyrics of your song here"
-          id="songLyrics"
-          errorText={errors.songLyrics?.message}
-          required={true}
-        />
-        <RHFTextArea<MusicSubmissionFormFields>
-          rhfName="additionalInfo"
-          label="Additional information (optional)"
-          placeholder="Anything else we should know?"
-          id="additionalInfo"
-          errorText={errors.additionalInfo?.message}
-          required={false}
-        />
-      </div>
+      <MusicInfoFields />
       <div className="flex flex-row gap-4">
         <Button label="Next" type="submit" variant="contained" size="medium" />
         <Button
@@ -122,5 +58,79 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
         />
       </div>
     </form>
+  );
+}
+
+/**
+ * The song information card on its own, shared by the submission flow and the
+ * staff-only edit page.
+ */
+export function MusicInfoFields() {
+  const {
+    formState: { errors },
+  } = useFormContext<MusicSubmissionFormFields>();
+
+  const genres = Object.values(Genre).map((genre) => ({
+    label: getGenreLabel(genre),
+    value: genre,
+  }));
+
+  return (
+    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
+      <p className="text-xl font-semibold text-green-500 dark:text-mint-200">
+        Song information
+      </p>
+      <div className="flex flex-row gap-6">
+        <RHFTextInput<MusicSubmissionFormFields>
+          rhfName="songName"
+          label="Song title"
+          placeholder="Enter song title"
+          id="songName"
+          errorText={errors.songName?.message}
+          required={true}
+        />
+        <RHFTextInput<MusicSubmissionFormFields>
+          rhfName="performerName"
+          label="Artist/Band name"
+          placeholder="Enter artist or band name"
+          id="performerName"
+          errorText={errors.performerName?.message}
+          required={true}
+        />
+      </div>
+      <RHFMultiselectDropdown<MusicSubmissionFormFields>
+        rhfName="genres"
+        label="Song genres"
+        placeholder="Select song genre(s)"
+        id="genres"
+        errorText={errors.genres?.message}
+        options={genres}
+        required={true}
+      />
+      <RHFTextInput<MusicSubmissionFormFields>
+        rhfName="songLink"
+        label="Song link"
+        placeholder="Enter link to song"
+        id="songLink"
+        errorText={errors.songLink?.message}
+        required={true}
+      />
+      <RHFTextArea<MusicSubmissionFormFields>
+        rhfName="songLyrics"
+        label="Song lyrics"
+        placeholder="Paste the lyrics of your song here"
+        id="songLyrics"
+        errorText={errors.songLyrics?.message}
+        required={true}
+      />
+      <RHFTextArea<MusicSubmissionFormFields>
+        rhfName="additionalInfo"
+        label="Additional information (optional)"
+        placeholder="Anything else we should know?"
+        id="additionalInfo"
+        errorText={errors.additionalInfo?.message}
+        required={false}
+      />
+    </div>
   );
 }

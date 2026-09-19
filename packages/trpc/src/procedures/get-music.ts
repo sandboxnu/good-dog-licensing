@@ -109,7 +109,12 @@ export const getMusicSubmissionByIdProcedure = rolePermissionsProcedureBuilder(
       });
     }
 
-    if (musicSubmission.submitterId !== ctx.session.user.userId) {
+    // Musicians only see their own songs; admins and P&R reps see any of them.
+    const isStaff = projectAndRepertoirePagePermissions.canRead(
+      ctx.session.user.role,
+    );
+
+    if (musicSubmission.submitterId !== ctx.session.user.userId && !isStaff) {
       throw new TRPCError({
         code: "UNAUTHORIZED",
         message: `You do not have permission to view this song request.`,

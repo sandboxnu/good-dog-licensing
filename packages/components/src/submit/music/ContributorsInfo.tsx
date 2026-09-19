@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Trash } from "lucide-react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 
+import type { GetProcedureOutput } from "@good-dog/trpc/types";
 import type { zMusicSubmissionValues } from "@good-dog/trpc/schema";
 import { MusicAffiliation, MusicRole } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
@@ -26,10 +27,80 @@ interface ContributorsInfoProps {
 
 type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
 
+type ContributorPrefill = GetProcedureOutput<"getMusicSubmissionPrefillVals">;
+
 export default function ContributorsInfo({
   onSubmit,
   onBack,
 }: ContributorsInfoProps) {
+  const [previousContributors] =
+    trpc.getMusicSubmissionPrefillVals.useSuspenseQuery();
+
+  return (
+    <form
+      className="flex w-full flex-col gap-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
+    >
+      <ContributorsFields
+        prefill={previousContributors}
+        submitterSectionTitle="Your Contributions"
+        actions={
+          <>
+            <Button
+              label="Submit"
+              type="submit"
+              variant="contained"
+              size="medium"
+            />
+            <Button
+              type="button"
+              label="Back"
+              size="medium"
+              variant="text"
+              onClick={() => onBack()}
+            />
+          </>
+        }
+      />
+    </form>
+  );
+}
+
+interface ContributorsFieldsProps {
+  /**
+   * The signed-in user's own past contributor details, used to auto-fill their
+   * section and to power the "Pre-fill Info" button. Null on the staff edit
+   * page, where those details belong to the musician who submitted the song
+   * rather than to whoever is editing it.
+   */
+  prefill: ContributorPrefill | null;
+  submitterSectionTitle: string;
+  submitterQuestions?: {
+    roles: string;
+    affiliation: string;
+    ipi: string;
+  };
+  /** Form-level buttons, rendered next to "Add contributor". */
+  actions: React.ReactNode;
+}
+
+/**
+ * The contributor cards on their own, shared by the submission flow and the
+ * staff-only edit page.
+ */
+export function ContributorsFields({
+  prefill,
+  submitterSectionTitle,
+  submitterQuestions = {
+    roles: "What was your role in the song?",
+    affiliation: "Are you affiliated with ASCAP or BMI?",
+    ipi: "What is your Interested Party Information (IPI)?",
+  },
+  actions,
+}: ContributorsFieldsProps) {
   const roleOptions = Object.values(MusicRole).map((role) => ({
     label: getMusicRoleLabel(role),
     value: role,
@@ -53,18 +124,15 @@ export default function ContributorsInfo({
     name: "contributors",
   });
 
-  const [previousContributors] =
-    trpc.getMusicSubmissionPrefillVals.useSuspenseQuery();
-
   const getOtherContributorPrefillInfo = useCallback(
     (firstName: string, lastName: string) => {
-      return previousContributors.contributors.find(
+      return prefill?.contributors.find(
         (contributor) =>
           contributor.firstName === firstName &&
           contributor.lastName === lastName,
       );
     },
-    [previousContributors],
+    [prefill],
   );
 
   const watchedSubmitterRoles = useWatch({
@@ -112,33 +180,20 @@ export default function ContributorsInfo({
   };
 
   useEffect(() => {
+    // Only the submitter's own form falls back to their saved profile values.
+    if (!prefill) return;
+
     const shouldShowFields =
       Array.isArray(watchedSubmitterRoles) &&
       (watchedSubmitterRoles.includes("SONGWRITER") ||
         watchedSubmitterRoles.includes("LYRICIST"));
     if (!shouldShowFields) {
-      setValue(
-        `submitterAffiliation`,
-        previousContributors.userAffiliation ?? undefined,
-      );
-      setValue(`submitterIpi`, previousContributors.userIpi ?? undefined);
-      setValue(
-        `submitterPublisher`,
-        previousContributors.userPublisher ?? undefined,
-      );
-      setValue(
-        `submitterPublisherIpi`,
-        previousContributors.userPublisherIpi ?? undefined,
-      );
+      setValue(`submitterAffiliation`, prefill.userAffiliation ?? undefined);
+      setValue(`submitterIpi`, prefill.userIpi ?? undefined);
+      setValue(`submitterPublisher`, prefill.userPublisher ?? undefined);
+      setValue(`submitterPublisherIpi`, prefill.userPublisherIpi ?? undefined);
     }
-  }, [
-    watchedSubmitterRoles,
-    setValue,
-    previousContributors.userAffiliation,
-    previousContributors.userIpi,
-    previousContributors.userPublisher,
-    previousContributors.userPublisherIpi,
-  ]);
+  }, [watchedSubmitterRoles, setValue, prefill]);
 
   useEffect(() => {
     watchedContributors.forEach((contributor, index) => {
@@ -171,40 +226,31 @@ export default function ContributorsInfo({
     lastName: string,
     index: number,
   ) => {
-    const prefill = getOtherContributorPrefillInfo(firstName, lastName);
+    const match = getOtherContributorPrefillInfo(firstName, lastName);
 
-    setValue(`contributors.${index}.email`, prefill?.email ?? undefined);
+    setValue(`contributors.${index}.email`, match?.email ?? undefined);
     setValue(
       `contributors.${index}.affiliation`,
-      prefill?.affiliation ?? undefined,
+      match?.affiliation ?? undefined,
     );
-    setValue(`contributors.${index}.ipi`, prefill?.ipi ?? undefined);
-    setValue(
-      `contributors.${index}.publisher`,
-      prefill?.publisher ?? undefined,
-    );
+    setValue(`contributors.${index}.ipi`, match?.ipi ?? undefined);
+    setValue(`contributors.${index}.publisher`, match?.publisher ?? undefined);
     setValue(
       `contributors.${index}.publisherIpi`,
-      prefill?.publisherIpi ?? undefined,
+      match?.publisherIpi ?? undefined,
     );
   };
 
   return (
-    <form
-      className="flex w-full flex-col gap-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit();
-      }}
-    >
+    <>
       <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 bg-white p-10 text-black dark:bg-dark-gray-600">
         <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
-          Your Contributions
+          {submitterSectionTitle}
         </p>
 
         <RHFMultiselectDropdown<MusicSubmissionFormFields>
           rhfName={`submitterRoles`}
-          label={"What was your role in the song?"}
+          label={submitterQuestions.roles}
           placeholder={"Select your role"}
           options={roleOptions}
           id={`submitterRoles`}
@@ -217,7 +263,7 @@ export default function ContributorsInfo({
             <div>
               <RHFRadioGroup<MusicSubmissionFormFields>
                 rhfName={`submitterAffiliation`}
-                label="Are you affiliated with ASCAP or BMI?"
+                label={submitterQuestions.affiliation}
                 id={`submitterAffiliation`}
                 errorText={errors.submitterAffiliation?.message}
                 required={true}
@@ -232,7 +278,7 @@ export default function ContributorsInfo({
             </div>
             <RHFTextInput<MusicSubmissionFormFields>
               rhfName={`submitterIpi`}
-              label="What is your Interested Party Information (IPI)?"
+              label={submitterQuestions.ipi}
               placeholder="Enter the IPI"
               id={`submitterIpi`}
               errorText={errors.submitterIpi?.message}
@@ -392,19 +438,21 @@ export default function ContributorsInfo({
                         required={!!watchedContributors[index]?.publisher}
                       />
                     </div>
-                    <Button
-                      size={"medium"}
-                      variant={"contained"}
-                      label="Pre-fill Info"
-                      type="button"
-                      onClick={() =>
-                        handlePrefill(
-                          watchedContributors[index]?.firstName ?? "",
-                          watchedContributors[index]?.lastName ?? "",
-                          index,
-                        )
-                      }
-                    />
+                    {prefill && (
+                      <Button
+                        size={"medium"}
+                        variant={"contained"}
+                        label="Pre-fill Info"
+                        type="button"
+                        onClick={() =>
+                          handlePrefill(
+                            watchedContributors[index]?.firstName ?? "",
+                            watchedContributors[index]?.lastName ?? "",
+                            index,
+                          )
+                        }
+                      />
+                    )}
                   </div>
                 </>
               )}
@@ -413,21 +461,7 @@ export default function ContributorsInfo({
         })}
 
       <div className="flex flex-row justify-between">
-        <div className="flex flex-row gap-4">
-          <Button
-            label="Submit"
-            type="submit"
-            variant="contained"
-            size="medium"
-          />
-          <Button
-            type="button"
-            label="Back"
-            size="medium"
-            variant="text"
-            onClick={() => onBack()}
-          />
-        </div>
+        <div className="flex flex-row gap-4">{actions}</div>
         {isOtherContributors === "yes" && (
           <Button
             type="button"
@@ -450,6 +484,6 @@ export default function ContributorsInfo({
           />
         )}
       </div>
-    </form>
+    </>
   );
 }

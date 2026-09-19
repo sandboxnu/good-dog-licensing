@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { ChevronRight, File, LinkIcon, Music, UsersRound } from "lucide-react";
+import {
+  ChevronRight,
+  File,
+  LinkIcon,
+  Music,
+  Pencil,
+  UsersRound,
+} from "lucide-react";
 
 import type { GetProcedureOutput } from "@good-dog/trpc/types";
 
@@ -73,25 +80,36 @@ export function MusicSubmissionCard({
             </div>
           )}
         </div>
-        {isMatched ? (
-          <Button label="Matched" size={"medium"} variant={"contained"} />
-        ) : isSuggested ? (
-          <Button
-            label="Suggested"
-            size={"medium"}
-            variant={"contained"}
-            displayIcon="check"
-            onClick={() => onUnSuggest(musicSubmission)}
-          />
-        ) : (
-          <Button
-            label={"Suggest"}
-            size={"medium"}
-            variant={"outlined"}
-            displayIcon={"plus"}
-            onClick={() => onSuggest(musicSubmission)}
-          />
-        )}
+        <div className="flex flex-row items-center gap-2">
+          <a
+            href={`/song/${musicSubmission.musicId}/edit`}
+            target="_blank"
+            aria-label={`Edit ${musicSubmission.songName}`}
+            title="Edit song"
+            className="p-2 text-dark-gray-500 hover:text-green-500 dark:text-gray-300 dark:hover:text-mint-200"
+          >
+            <Pencil className="h-4 w-4" />
+          </a>
+          {isMatched ? (
+            <Button label="Matched" size={"medium"} variant={"contained"} />
+          ) : isSuggested ? (
+            <Button
+              label="Suggested"
+              size={"medium"}
+              variant={"contained"}
+              displayIcon="check"
+              onClick={() => onUnSuggest(musicSubmission)}
+            />
+          ) : (
+            <Button
+              label={"Suggest"}
+              size={"medium"}
+              variant={"outlined"}
+              displayIcon={"plus"}
+              onClick={() => onSuggest(musicSubmission)}
+            />
+          )}
+        </div>
       </div>
       {open && (
         <div className="flex flex-col gap-5 px-6 pb-6">
