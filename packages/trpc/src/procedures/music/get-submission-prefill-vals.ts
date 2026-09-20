@@ -9,6 +9,7 @@ interface ContributorPrefillType {
   lastName: string;
   email: string | null;
   affiliation: MusicAffiliation | null;
+  otherAffiliationName: string | null;
   ipi: string | null;
   publisher: string | null;
   publisherIpi: string | null;
@@ -43,6 +44,7 @@ export const getMusicSubmissionPrefillValuesProcedure =
                 lastName: contributor.lastName,
                 email: contributor.email,
                 affiliation: contributor.affiliation,
+                otherAffiliationName: contributor.otherAffiliationName,
                 ipi: contributor.ipi,
                 publisher: contributor.publisher,
                 publisherIpi: contributor.publisherIpi,
@@ -58,6 +60,7 @@ export const getMusicSubmissionPrefillValuesProcedure =
       return {
         contributors: uniqueContributors,
         userAffiliation: ctx.session.user.affiliation,
+        userOtherAffiliationName: ctx.session.user.otherAffiliationName,
         userIpi: ctx.session.user.ipi,
         userPublisher: ctx.session.user.publisher,
         userPublisherIpi: ctx.session.user.publisherIpi,

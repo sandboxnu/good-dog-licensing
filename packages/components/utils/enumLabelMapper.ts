@@ -83,6 +83,8 @@ export function getMusicAffiliationLabel(value: MusicAffiliation): string {
       return "ASCAP";
     case MusicAffiliation.BMI:
       return "BMI";
+    case MusicAffiliation.OTHER:
+      return "Other";
     case MusicAffiliation.NONE:
       return "Neither";
   }

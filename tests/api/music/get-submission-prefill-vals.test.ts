@@ -175,6 +175,7 @@ describe("get-submission-vals", () => {
           lastName: "Dumpty",
           email: null,
           affiliation: MusicAffiliation.BMI,
+          otherAffiliationName: null,
           ipi: null,
           publisher: null,
           publisherIpi: null,
@@ -185,11 +186,13 @@ describe("get-submission-vals", () => {
           email: null,
           ipi: null,
           affiliation: MusicAffiliation.NONE,
+          otherAffiliationName: null,
           publisher: null,
           publisherIpi: null,
         },
       ],
       userAffiliation: MusicAffiliation.ASCAP,
+      userOtherAffiliationName: null,
       userIpi: null,
       userPublisher: null,
       userPublisherIpi: null,
@@ -210,6 +213,7 @@ describe("get-submission-vals", () => {
           lastName: "Jet",
           email: null,
           affiliation: MusicAffiliation.ASCAP,
+          otherAffiliationName: null,
           ipi: null,
           publisher: null,
           publisherIpi: null,
@@ -219,6 +223,7 @@ describe("get-submission-vals", () => {
           lastName: "Dumpty",
           email: null,
           affiliation: MusicAffiliation.BMI,
+          otherAffiliationName: null,
           ipi: null,
           publisher: null,
           publisherIpi: null,
@@ -229,16 +234,59 @@ describe("get-submission-vals", () => {
           email: null,
           ipi: "1234",
           affiliation: MusicAffiliation.NONE,
+          otherAffiliationName: null,
           publisher: null,
           publisherIpi: null,
         },
       ],
       userAffiliation: MusicAffiliation.ASCAP,
+      userOtherAffiliationName: null,
       userIpi: null,
       userPublisher: null,
       userPublisherIpi: null,
     };
 
     expect(contributors).toEqual(expectedResult);
+  });
+
+  test("OTHER affiliation round-trips with its free-text PRO name", async () => {
+    cookies.set("sessionId", "jp-session-id");
+
+    await prisma.user.update({
+      where: { userId: "jp-musician-id" },
+      data: {
+        affiliation: "OTHER",
+        otherAffiliationName: "SoundExchange",
+      },
+    });
+
+    await prisma.musicContributor.create({
+      data: {
+        contributorId: "contributor-id-other",
+        firstName: "Other",
+        lastName: "Contributor",
+        roles: ["SONGWRITER"],
+        affiliation: "OTHER",
+        otherAffiliationName: "GMR",
+        ipi: "4242",
+        MusicSubmission: { connect: { musicId: "music-id-1" } },
+      },
+    });
+
+    const contributors = await $api.getMusicSubmissionPrefillVals();
+
+    expect(contributors.userAffiliation).toBe(MusicAffiliation.OTHER);
+    expect(contributors.userOtherAffiliationName).toBe("SoundExchange");
+
+    const otherContributor = contributors.contributors.find(
+      (c) => c.firstName === "Other" && c.lastName === "Contributor",
+    );
+    expect(otherContributor?.affiliation).toBe(MusicAffiliation.OTHER);
+    expect(otherContributor?.otherAffiliationName).toBe("GMR");
+    expect(otherContributor?.ipi).toBe("4242");
+
+    await prisma.musicContributor.delete({
+      where: { contributorId: "contributor-id-other" },
+    });
   });
 });

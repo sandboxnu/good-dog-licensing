@@ -22,6 +22,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
       lastName: ctx.session.user.lastName,
       roles: input.submitterRoles,
       affiliation: input.submitterAffiliation,
+      otherAffiliationName: input.submitterOtherAffiliationName,
       ipi: input.submitterIpi,
       isSubmitter: true,
       email: ctx.session.user.email,
@@ -37,6 +38,9 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
           ipi: input.submitterIpi ? input.submitterIpi : undefined,
           affiliation: input.submitterAffiliation
             ? input.submitterAffiliation
+            : undefined,
+          otherAffiliationName: input.submitterOtherAffiliationName
+            ? input.submitterOtherAffiliationName
             : undefined,
         },
       }),

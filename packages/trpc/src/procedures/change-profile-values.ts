@@ -12,6 +12,7 @@ export const changeProfileValuesProcedure =
         firstName: z.string(),
         lastName: z.string(),
         affiliation: z.enum(MusicAffiliation).optional().nullable(),
+        otherAffiliationName: z.string().optional().nullable(),
         ipi: z.string().optional().nullable(),
       }),
     )
@@ -25,6 +26,7 @@ export const changeProfileValuesProcedure =
           firstName: input.firstName,
           lastName: input.lastName,
           affiliation: input.affiliation,
+          otherAffiliationName: input.otherAffiliationName,
           ipi: input.ipi,
         },
       });

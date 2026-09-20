@@ -165,6 +165,26 @@ describe("change profile values", () => {
     expect(updatedUser?.ipi).toBe("wowza");
   });
 
+  test("Changing affiliation to OTHER with a free-text PRO name", async () => {
+    cookies.set("sessionId", "wesley-session-id");
+
+    const message = await $api.changeProfileValues({
+      firstName: "Wesley",
+      lastName: "Tran",
+      affiliation: MusicAffiliation.OTHER,
+      otherAffiliationName: "SoundExchange",
+      ipi: "wowza",
+    });
+
+    expect(message.message).toBe("Profile values updated.");
+    const updatedUser = await prisma.user.findUnique({
+      where: { userId: "wesley-user-id" },
+    });
+    expect(updatedUser?.affiliation).toBe(MusicAffiliation.OTHER);
+    expect(updatedUser?.otherAffiliationName).toBe("SoundExchange");
+    expect(updatedUser?.ipi).toBe("wowza");
+  });
+
   test("Changing firstName, lastName + removing affiliation and ipi", async () => {
     cookies.set("sessionId", "owen-session-id");
 

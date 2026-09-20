@@ -7,12 +7,23 @@ import { zRequiredEmail, zRequiredString } from "./base";
 
 export const zAffiliationValidation = z.enum(MusicAffiliation);
 
-export const zProfileValues = z.object({
-  firstName: zRequiredString,
-  lastName: zRequiredString,
-  ipi: z.string().optional().nullable(),
-  affiliation: zAffiliationValidation.optional().nullable(),
-});
+export const zProfileValues = z
+  .object({
+    firstName: zRequiredString,
+    lastName: zRequiredString,
+    ipi: z.string().optional().nullable(),
+    affiliation: zAffiliationValidation.optional().nullable(),
+    otherAffiliationName: z.string().optional().nullable(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.affiliation === "OTHER" && !data.otherAffiliationName) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Please specify the name of your affiliation",
+        path: ["otherAffiliationName"],
+      });
+    }
+  });
 
 export const zSetEmailValues = z.object({
   email: zRequiredEmail,

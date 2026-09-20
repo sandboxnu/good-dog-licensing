@@ -155,6 +155,35 @@ describe("get user", () => {
     }
   });
 
+  test("User with OTHER affiliation includes their PRO name", async () => {
+    cookies.set("sessionId", "owen-session-id");
+
+    await prisma.user.update({
+      where: { userId: "owen-user-id" },
+      data: {
+        affiliation: MusicAffiliation.OTHER,
+        otherAffiliationName: "SoundExchange",
+      },
+    });
+
+    const user = await $api.user();
+
+    expect(user).not.toBeNull();
+    if (user) {
+      expect(user.affiliation).toEqual("OTHER");
+      expect(user.otherAffiliationName).toEqual("SoundExchange");
+    }
+
+    // Reset back to what other tests expect
+    await prisma.user.update({
+      where: { userId: "owen-user-id" },
+      data: {
+        affiliation: MusicAffiliation.ASCAP,
+        otherAffiliationName: null,
+      },
+    });
+  });
+
   test("User with session.refreshRequired", async () => {
     cookies.set("sessionId", "gavin-session-id");
 

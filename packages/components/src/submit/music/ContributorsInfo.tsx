@@ -77,6 +77,11 @@ export default function ContributorsInfo({
     name: "submitterAffiliation",
   });
 
+  const watchedSubmitterOtherAffiliationName = useWatch({
+    control,
+    name: "submitterOtherAffiliationName",
+  });
+
   const watchedSubmitterPublisher = useWatch({
     control,
     name: "submitterPublisher",
@@ -100,6 +105,7 @@ export default function ContributorsInfo({
           email: undefined,
           roles: [],
           affiliation: undefined,
+          otherAffiliationName: undefined,
           ipi: undefined,
           publisher: undefined,
           publisherIpi: undefined,
@@ -121,6 +127,10 @@ export default function ContributorsInfo({
         `submitterAffiliation`,
         previousContributors.userAffiliation ?? undefined,
       );
+      setValue(
+        `submitterOtherAffiliationName`,
+        previousContributors.userOtherAffiliationName ?? undefined,
+      );
       setValue(`submitterIpi`, previousContributors.userIpi ?? undefined);
       setValue(
         `submitterPublisher`,
@@ -135,6 +145,7 @@ export default function ContributorsInfo({
     watchedSubmitterRoles,
     setValue,
     previousContributors.userAffiliation,
+    previousContributors.userOtherAffiliationName,
     previousContributors.userIpi,
     previousContributors.userPublisher,
     previousContributors.userPublisherIpi,
@@ -150,17 +161,37 @@ export default function ContributorsInfo({
       if (
         !shouldShowFields &&
         (contributor.affiliation ||
+          contributor.otherAffiliationName ||
           contributor.ipi ||
           contributor.publisher ||
           contributor.publisherIpi)
       ) {
         setValue(`contributors.${index}.affiliation`, undefined);
+        setValue(`contributors.${index}.otherAffiliationName`, undefined);
         setValue(`contributors.${index}.ipi`, undefined);
         setValue(`contributors.${index}.publisher`, undefined);
         setValue(`contributors.${index}.publisherIpi`, undefined);
+      } else if (
+        contributor.affiliation !== "OTHER" &&
+        contributor.otherAffiliationName
+      ) {
+        setValue(`contributors.${index}.otherAffiliationName`, undefined);
       }
     });
   }, [watchedContributors, setValue, getOtherContributorPrefillInfo]);
+
+  useEffect(() => {
+    if (
+      watchedSubmitterAffiliation !== "OTHER" &&
+      watchedSubmitterOtherAffiliationName
+    ) {
+      setValue(`submitterOtherAffiliationName`, undefined);
+    }
+  }, [
+    watchedSubmitterAffiliation,
+    watchedSubmitterOtherAffiliationName,
+    setValue,
+  ]);
 
   const showAffiliationFields =
     watchedSubmitterRoles.includes("SONGWRITER") ||
@@ -177,6 +208,10 @@ export default function ContributorsInfo({
     setValue(
       `contributors.${index}.affiliation`,
       prefill?.affiliation ?? undefined,
+    );
+    setValue(
+      `contributors.${index}.otherAffiliationName`,
+      prefill?.otherAffiliationName ?? undefined,
     );
     setValue(`contributors.${index}.ipi`, prefill?.ipi ?? undefined);
     setValue(
@@ -217,7 +252,7 @@ export default function ContributorsInfo({
             <div>
               <RHFRadioGroup<MusicSubmissionFormFields>
                 rhfName={`submitterAffiliation`}
-                label="Are you affiliated with ASCAP or BMI?"
+                label="Are you affiliated with ASCAP, BMI, or another PRO?"
                 id={`submitterAffiliation`}
                 errorText={errors.submitterAffiliation?.message}
                 required={true}
@@ -230,6 +265,16 @@ export default function ContributorsInfo({
                 for those who use your music.
               </p>
             </div>
+            {watchedSubmitterAffiliation === "OTHER" && (
+              <RHFTextInput<MusicSubmissionFormFields>
+                rhfName={`submitterOtherAffiliationName`}
+                label="What is the name of your performing rights organization?"
+                placeholder="Enter the name of your PRO"
+                id={`submitterOtherAffiliationName`}
+                errorText={errors.submitterOtherAffiliationName?.message}
+                required={true}
+              />
+            )}
             <RHFTextInput<MusicSubmissionFormFields>
               rhfName={`submitterIpi`}
               label="What is your Interested Party Information (IPI)?"
@@ -238,7 +283,8 @@ export default function ContributorsInfo({
               errorText={errors.submitterIpi?.message}
               required={
                 watchedSubmitterAffiliation === "ASCAP" ||
-                watchedSubmitterAffiliation === "BMI"
+                watchedSubmitterAffiliation === "BMI" ||
+                watchedSubmitterAffiliation === "OTHER"
               }
             />
             <RHFTextInput<MusicSubmissionFormFields>
@@ -344,7 +390,7 @@ export default function ContributorsInfo({
                       <div>
                         <RHFRadioGroup<MusicSubmissionFormFields>
                           rhfName={`contributors.${index}.affiliation`}
-                          label="Are they affiliated with ASCAP or BMI?"
+                          label="Are they affiliated with ASCAP, BMI, or another PRO?"
                           id={`affiliation-${index}`}
                           errorText={
                             errors.contributors?.[index]?.affiliation?.message
@@ -360,6 +406,20 @@ export default function ContributorsInfo({
                         </p>
                       </div>
 
+                      {watchedContributors[index]?.affiliation === "OTHER" && (
+                        <RHFTextInput<MusicSubmissionFormFields>
+                          rhfName={`contributors.${index}.otherAffiliationName`}
+                          label="What is the name of their performing rights organization?"
+                          placeholder="Enter the name of their PRO"
+                          id={`otherAffiliationName-${index}`}
+                          errorText={
+                            errors.contributors?.[index]?.otherAffiliationName
+                              ?.message
+                          }
+                          required={true}
+                        />
+                      )}
+
                       <RHFTextInput<MusicSubmissionFormFields>
                         rhfName={`contributors.${index}.ipi`}
                         label="What is their Interested Party Information (IPI)?"
@@ -368,7 +428,8 @@ export default function ContributorsInfo({
                         errorText={errors.contributors?.[index]?.ipi?.message}
                         required={
                           watchedContributors[index]?.affiliation === "ASCAP" ||
-                          watchedContributors[index]?.affiliation === "BMI"
+                          watchedContributors[index]?.affiliation === "BMI" ||
+                          watchedContributors[index]?.affiliation === "OTHER"
                         }
                       />
                       <RHFTextInput<MusicSubmissionFormFields>
@@ -442,6 +503,7 @@ export default function ContributorsInfo({
                 email: undefined,
                 roles: [],
                 affiliation: undefined,
+                otherAffiliationName: undefined,
                 ipi: undefined,
                 publisher: undefined,
                 publisherIpi: undefined,

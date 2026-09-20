@@ -1,5 +1,5 @@
 import type z from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 
@@ -20,6 +20,7 @@ interface UserDetails {
   lastName: string;
   email: string;
   affiliation: MusicAffiliation | null;
+  otherAffiliationName: string | null;
   ipi: string | null;
   role: string;
 }
@@ -41,6 +42,7 @@ export default function ProfileDetails({
       lastName: user?.lastName,
       ipi: user?.ipi ?? "",
       affiliation: user?.affiliation ?? MusicAffiliation.NONE,
+      otherAffiliationName: user?.otherAffiliationName ?? "",
     },
   });
 
@@ -49,6 +51,15 @@ export default function ProfileDetails({
     name: "affiliation",
   });
   const showIpiField = affiliation && affiliation !== MusicAffiliation.NONE;
+  const showOtherAffiliationNameField = affiliation === MusicAffiliation.OTHER;
+
+  const { setValue } = profileFormMethods;
+
+  useEffect(() => {
+    if (affiliation !== MusicAffiliation.OTHER) {
+      setValue("otherAffiliationName", "");
+    }
+  }, [affiliation, setValue]);
 
   const [editingPersonalDetails, setEditingPersonalDetails] = useState(false);
 
@@ -64,6 +75,7 @@ export default function ProfileDetails({
       firstName: data.firstName,
       lastName: data.lastName,
       affiliation: data.affiliation,
+      otherAffiliationName: data.otherAffiliationName,
       ipi: data.ipi,
     });
   });
@@ -93,7 +105,11 @@ export default function ProfileDetails({
               <div className="flex-1">
                 <InfoField
                   header="Affiliation"
-                  content={user.affiliation ?? "NONE"}
+                  content={
+                    user.affiliation === MusicAffiliation.OTHER
+                      ? `Other (${user.otherAffiliationName ?? ""})`
+                      : user.affiliation ?? "NONE"
+                  }
                 />
               </div>
             ) : (
@@ -176,6 +192,23 @@ export default function ProfileDetails({
                   )}
                 </div>
               </div>
+              {showOtherAffiliationNameField && (
+                <div className="flex flex-row gap-16">
+                  <div className="flex-1">
+                    <RHFTextInput<ProfileValuesFields>
+                      rhfName={"otherAffiliationName"}
+                      label={"Name of your PRO"}
+                      placeholder={""}
+                      id={"otherAffiliationName"}
+                      errorText={
+                        profileFormMethods.formState.errors.otherAffiliationName
+                          ?.message
+                      }
+                      clearIcon
+                    />
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -206,6 +239,16 @@ export default function ProfileDetails({
                   )}
                 </div>
               </div>
+              {showOtherAffiliationNameField && (
+                <div className="flex flex-row gap-16">
+                  <div className="flex-1">
+                    <InfoField
+                      header="Name of your PRO"
+                      content={user?.otherAffiliationName ?? ""}
+                    />
+                  </div>
+                </div>
+              )}
             </>
           )}
         </div>
