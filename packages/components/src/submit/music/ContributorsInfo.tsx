@@ -77,6 +77,11 @@ export default function ContributorsInfo({
     name: "submitterAffiliation",
   });
 
+  const watchedSubmitterOtherAffiliationName = useWatch({
+    control,
+    name: "submitterOtherAffiliationName",
+  });
+
   const watchedSubmitterPublisher = useWatch({
     control,
     name: "submitterPublisher",
@@ -166,9 +171,27 @@ export default function ContributorsInfo({
         setValue(`contributors.${index}.ipi`, undefined);
         setValue(`contributors.${index}.publisher`, undefined);
         setValue(`contributors.${index}.publisherIpi`, undefined);
+      } else if (
+        contributor.affiliation !== "OTHER" &&
+        contributor.otherAffiliationName
+      ) {
+        setValue(`contributors.${index}.otherAffiliationName`, undefined);
       }
     });
   }, [watchedContributors, setValue, getOtherContributorPrefillInfo]);
+
+  useEffect(() => {
+    if (
+      watchedSubmitterAffiliation !== "OTHER" &&
+      watchedSubmitterOtherAffiliationName
+    ) {
+      setValue(`submitterOtherAffiliationName`, undefined);
+    }
+  }, [
+    watchedSubmitterAffiliation,
+    watchedSubmitterOtherAffiliationName,
+    setValue,
+  ]);
 
   const showAffiliationFields =
     watchedSubmitterRoles.includes("SONGWRITER") ||

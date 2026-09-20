@@ -1,5 +1,5 @@
 import type z from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 
@@ -52,6 +52,14 @@ export default function ProfileDetails({
   });
   const showIpiField = affiliation && affiliation !== MusicAffiliation.NONE;
   const showOtherAffiliationNameField = affiliation === MusicAffiliation.OTHER;
+
+  const { setValue } = profileFormMethods;
+
+  useEffect(() => {
+    if (affiliation !== MusicAffiliation.OTHER) {
+      setValue("otherAffiliationName", "");
+    }
+  }, [affiliation, setValue]);
 
   const [editingPersonalDetails, setEditingPersonalDetails] = useState(false);
 
