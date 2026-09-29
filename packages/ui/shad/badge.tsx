@@ -5,16 +5,16 @@ import { cva } from "class-variance-authority";
 import { cn } from "@good-dog/ui";
 
 const badgeVariants = cva(
-  "focus:ring-ring inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2",
+  "focus:ring-ring inline-flex items-center rounded-md border px-2.5 py-0.5 font-semibold transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-hidden",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-primary/80 border-transparent shadow",
+          "bg-primary text-primary-foreground hover:bg-primary/80 border-transparent shadow-sm",
         secondary:
           "text-secondary-foreground border-transparent bg-secondary hover:bg-secondary/80",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/80 border-transparent shadow",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/80 border-transparent shadow-sm",
         outline: "text-foreground",
       },
     },
@@ -25,7 +25,8 @@ const badgeVariants = cva(
 );
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
 function Badge({ className, variant, ...props }: BadgeProps) {

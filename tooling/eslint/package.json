@@ -14,20 +14,20 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "@next/eslint-plugin-next": "15.1.6",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-jsx-a11y": "^6.9.0",
-    "eslint-plugin-react": "^7.34.3",
-    "eslint-plugin-react-hooks": "rc",
-    "eslint-plugin-turbo": "^2.0.6",
-    "typescript-eslint": "rc-v8"
+    "@next/eslint-plugin-next": "16.3.6",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-turbo": "^2.11.5",
+    "typescript-eslint": "^8.71.0"
   },
   "devDependencies": {
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "eslint": "9.10.0",
-    "prettier": "3.2.5",
-    "typescript": "5.4.5"
+    "eslint": "9.39.5",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3"
   },
   "prettier": "@good-dog/prettier"
 }

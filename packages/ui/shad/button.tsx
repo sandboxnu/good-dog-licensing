@@ -16,13 +16,13 @@ const buttonVariants = cva("rounded-lg", {
     },
     size: {
       "small-text": "!text-body4 h-[32px] px-[16px]",
-      "medium-text": "h-[40px] w-[104px] !text-body3",
-      "large-text": "h-[48px] w-[128px] !text-body2",
+      "medium-text": "h-[40px] w-[104px] text-body3!",
+      "large-text": "h-[48px] w-[128px] text-body2!",
       "flex-text": "!text-body4 h-[24px] w-fit px-2",
       "small-text-with-icon": "!text-body4 h-[32px] w-[80px]",
-      "medium-text-with-icon": "h-[40px] w-[120px] !text-body3",
-      "large-text-with-icon": "h-[48px] w-[136px] !text-body2",
-      "flex-text-with-icon": "h-[24px] w-fit px-2 !text-base",
+      "medium-text-with-icon": "h-[40px] w-[120px] text-body3!",
+      "large-text-with-icon": "h-[48px] w-[136px] text-body2!",
+      "flex-text-with-icon": "h-[24px] w-fit px-2 text-base!",
       "small-icon": "h-[32px] w-[32px]",
       "medium-icon": "h-[40px] w-[40px]",
       "large-icon": "h-[48px] w-[48px]",
@@ -32,7 +32,8 @@ const buttonVariants = cva("rounded-lg", {
 });
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }

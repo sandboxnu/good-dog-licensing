@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-
 import type { Role } from "@good-dog/db";
+import { prisma } from "@good-dog/db";
 
 import {
   additionalInfo,
@@ -14,8 +13,6 @@ import {
   projectDescriptions,
   realUsers,
 } from "./utils/seedData";
-
-const prisma = new PrismaClient();
 
 function randomFromArray<T>(items: readonly T[]): T {
   if (items.length === 0) {

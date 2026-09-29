@@ -108,7 +108,7 @@ export default function ProfileDetails({
                   content={
                     user.affiliation === MusicAffiliation.OTHER
                       ? `Other (${user.otherAffiliationName ?? ""})`
-                      : user.affiliation ?? "NONE"
+                      : (user.affiliation ?? "NONE")
                   }
                 />
               </div>

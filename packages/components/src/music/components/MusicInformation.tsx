@@ -77,7 +77,7 @@ export default function MusicInformation({
               <p className="text-dark-gray-200 dark:text-dark-gray-100">
                 Additional Information
               </p>
-              <p className="break-words text-dark-gray-500 dark:text-gray-200">
+              <p className="wrap-break-word text-dark-gray-500 dark:text-gray-200">
                 {musicSubmission.additionalInfo}
               </p>
             </div>

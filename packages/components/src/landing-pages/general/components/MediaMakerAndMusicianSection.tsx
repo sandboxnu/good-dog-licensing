@@ -17,13 +17,13 @@ export default function MediaMakerAndMusicianSection({
   return (
     <div className="flex w-full flex-col items-center">
       <div className="text-left">
-        <h3 className="text-[35px] font-medium leading-[96%] dark:text-mint-300 md:text-[48px]">
+        <h3 className="text-[35px] leading-[96%] font-medium md:text-[48px] dark:text-mint-300">
           Our mission and vision.{" "}
           <span className="text-green-400 dark:text-mint-200">
             Connecting Creatives.
           </span>
         </h3>
-        <h3 className="mt-[8px] text-[18px] font-normal leading-[128%] text-green-500 dark:text-mint-200 md:text-[20px]">
+        <h3 className="mt-[8px] text-[18px] leading-[128%] font-normal text-green-500 md:text-[20px] dark:text-mint-200">
           Discover how our platform connects creators, simplifies licensing, and
           ensures fair collaboration for everyone involved.
         </h3>
@@ -34,10 +34,10 @@ export default function MediaMakerAndMusicianSection({
           <div className="flex h-[200px] items-center justify-center">
             <WomanInComputer />
           </div>
-          <h3 className="mt-[8px] text-center text-[28px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
+          <h3 className="mt-[8px] text-center text-[28px] leading-[104%] font-medium text-green-400 not-italic md:text-[40px] dark:text-mint-200">
             {isAbout ? "For Media Makers" : "Sign up as a Media Maker"}
           </h3>
-          <p className="mt-[16px] w-full break-words text-center text-[16px] font-normal not-italic leading-[128%] text-green-500 dark:text-mint-200 md:text-[20px]">
+          <p className="mt-[16px] w-full text-center text-[16px] leading-[128%] font-normal wrap-break-word text-green-500 not-italic md:text-[20px] dark:text-mint-200">
             {isAbout
               ? "We aspire to connect media makers who need great music to enhance their storytelling and independent musicians who seek a wider audience for their music."
               : "Submit a description of your project and the type of music you're looking for. Good Dog takes care of everything and at no cost to you."}
@@ -59,10 +59,10 @@ export default function MediaMakerAndMusicianSection({
           <div className="flex h-[200px] items-center justify-center">
             <ManWithSax />
           </div>
-          <h3 className="mt-[8px] text-center text-[28px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
+          <h3 className="mt-[8px] text-center text-[28px] leading-[104%] font-medium text-green-400 not-italic md:text-[40px] dark:text-mint-200">
             {isAbout ? "For Musicians" : "Sign up as a Musician"}
           </h3>
-          <p className="mt-[16px] w-full break-words text-center text-[16px] font-normal not-italic leading-[128%] text-green-500 dark:text-mint-200 md:text-[20px]">
+          <p className="mt-[16px] w-full text-center text-[16px] leading-[128%] font-normal wrap-break-word text-green-500 not-italic md:text-[20px] dark:text-mint-200">
             {isAbout ? (
               "Good Dog Licensing is currently working directly with media producers and independent musicians to license music into media projects."
             ) : (

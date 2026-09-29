@@ -69,7 +69,7 @@ export default function Dropdown({
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger
           asChild
-          className="h-[32px] w-full rounded-[8px] border border-dark-gray-200 px-2 text-body3 text-dark-gray-500 placeholder:text-dark-gray-100 hover:border-gray-600 focus:border-green-300 focus:shadow-active focus:outline-none dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200"
+          className="h-[32px] w-full rounded-[8px] border border-dark-gray-200 px-2 text-body3 text-dark-gray-500 placeholder:text-dark-gray-100 hover:border-gray-600 focus:border-green-300 focus:shadow-active focus:outline-hidden dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200"
         >
           <div className="flex items-center justify-between">
             <span>{currentLabel}</span>
@@ -82,7 +82,7 @@ export default function Dropdown({
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-[var(--radix-dropdown-menu-trigger-width)] space-y-1 rounded-lg border border-dark-gray-200 bg-white py-2 text-body3 text-dark-gray-500 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200"
+          className="w-(--radix-dropdown-menu-trigger-width) space-y-1 rounded-lg border border-dark-gray-200 bg-white py-2 text-body3 text-dark-gray-500 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200"
           align="start"
           sideOffset={4}
         >

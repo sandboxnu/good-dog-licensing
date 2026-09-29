@@ -15,8 +15,8 @@ export const CONTENT_MAX_WIDTH_CLASSES = {
 };
 
 const BACKGROUND_CLASSES = {
-  gradient: "!bg-main-bg-gradient-light dark:!bg-main-bg-gradient-dark",
-  solid: "!bg-main-bg-solid-light dark:!bg-main-bg-solid-dark",
+  gradient: "bg-main-bg-gradient-light! dark:bg-main-bg-gradient-dark!",
+  solid: "bg-main-bg-solid-light! dark:bg-main-bg-solid-dark!",
 };
 
 function MobileBlocker() {
@@ -92,7 +92,7 @@ export default function PageContainer({
 
             <div
               className={clsx(
-                "flex w-full items-center justify-center pb-[50px] pt-[32px]",
+                "flex w-full items-center justify-center pt-[32px] pb-[50px]",
               )}
             >
               {children}

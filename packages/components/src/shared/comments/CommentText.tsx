@@ -16,7 +16,7 @@ export default function CommentText({ text }: { text: string }) {
   }
 
   return (
-    <p className="break-words text-sm text-dark-gray-400 dark:text-gray-200">
+    <p className="text-sm wrap-break-word text-dark-gray-400 dark:text-gray-200">
       {parts.map((part, i) =>
         part.isLink ? (
           <a

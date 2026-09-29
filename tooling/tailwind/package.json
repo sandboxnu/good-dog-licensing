@@ -16,17 +16,17 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
-    "postcss": "^8.4.39",
-    "tailwindcss": "3.4.12",
+    "postcss": "^8.5.28",
+    "tailwindcss": "4.3.3",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "eslint": "9.10.0",
-    "prettier": "3.2.5",
-    "typescript": "5.4.5"
+    "eslint": "9.39.5",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3"
   },
   "prettier": "@good-dog/prettier"
 }

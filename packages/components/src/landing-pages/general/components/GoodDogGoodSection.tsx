@@ -8,11 +8,11 @@ export default function GoodDogGoodSection() {
   return (
     <div className="flex flex-col">
       <div className="text-left">
-        <h3 className="text-[35px] font-medium not-italic leading-[96%] text-dark-gray-500 dark:text-mint-300 md:text-[48px]">
+        <h3 className="text-[35px] leading-[96%] font-medium text-dark-gray-500 not-italic md:text-[48px] dark:text-mint-300">
           What makes Good Dog{" "}
           <span className="text-green-400 dark:text-mint-200">"Good"?</span>
         </h3>
-        <p className="mt-[8px] text-[18px] font-normal not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300 md:text-[20px]">
+        <p className="mt-[8px] text-[18px] leading-[128%] font-normal text-dark-gray-500 not-italic md:text-[20px] dark:text-gray-300">
           We are not in it for the money. REALLY.
         </p>
       </div>
@@ -59,10 +59,10 @@ export default function GoodDogGoodSection() {
 function ReasonCard({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-[10px] rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] py-[16px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark">
-      <div className="h-[24px] w-[24px] flex-shrink-0">
+      <div className="h-[24px] w-[24px] shrink-0">
         <Check />
       </div>
-      <div className="min-w-0 flex-1 break-words text-left text-[16px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-mint-200 md:text-[18px]">
+      <div className="min-w-0 flex-1 text-left text-[16px] leading-[128%] font-medium wrap-break-word text-dark-gray-500 not-italic md:text-[18px] dark:text-mint-200">
         {children}
       </div>
     </div>

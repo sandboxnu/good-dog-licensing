@@ -49,7 +49,7 @@ export default function ProjectInformation({
             </p>
           )}
         </div>
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <Button
             variant="contained"
             displayIcon="plus"

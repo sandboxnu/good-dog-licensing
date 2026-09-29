@@ -50,7 +50,7 @@ export default function Button({
         ? `${size}-text`
         : `${size}-icon`;
 
-  const widthClassName = fullWidth ? "!w-full" : "";
+  const widthClassName = fullWidth ? "w-full!" : "";
   const shadowClassName = shadow ? "shadow-button dark:shadow-mint-300" : "";
 
   const errorContained = error && variant === "contained";
@@ -65,7 +65,7 @@ export default function Button({
       onClick={onClick}
       className={`${widthClassName} ${shadowClassName} group ${
         errorContained
-          ? "!bg-red-400 hover:!bg-red-500 dark:active:bg-red-600"
+          ? "bg-red-400! hover:bg-red-500! dark:active:bg-red-600"
           : ""
       } ${errorOutlined ? "active:bg-500 border-red-400 hover:bg-red-200 dark:bg-dark-gray-600" : ""}`}
     >

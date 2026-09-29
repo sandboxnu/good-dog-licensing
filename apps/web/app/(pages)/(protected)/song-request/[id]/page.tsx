@@ -20,7 +20,7 @@ export default async function SongRequestPage({ params }: PageProps) {
   return (
     <PageContainer background="solid" widthType="large">
       <HydrateClient>
-        {user && user.role === Role.MEDIA_MAKER && (
+        {user?.role === Role.MEDIA_MAKER && (
           <MediaMakerSongRequestDashboard songRequestId={songRequestId} />
         )}
         {user && (user.role === Role.ADMIN || user.role === Role.MODERATOR) && (

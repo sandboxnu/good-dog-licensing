@@ -43,11 +43,7 @@ const admModProjectStatusOrder: AdmModProjectStatus[] = [
 ];
 
 type SortColumn =
-  | "projectName"
-  | "mediaMaker"
-  | "dateSubmitted"
-  | "deadline"
-  | "assignee";
+  "projectName" | "mediaMaker" | "dateSubmitted" | "deadline" | "assignee";
 
 const filterProjects = (
   projects: ProjectType[],
@@ -384,7 +380,7 @@ function SubmissionStatusTab({
     >
       <div className="flex flex-row items-center gap-[8px]">
         <p
-          className={`text-body1 font-medium leading-[128%] ${active ? "text-gray-100" : "text-dark-gray-500"}`}
+          className={`text-body1 leading-[128%] font-medium ${active ? "text-gray-100" : "text-dark-gray-500"}`}
         >
           {title}
         </p>
@@ -392,7 +388,7 @@ function SubmissionStatusTab({
           className={`flex h-[16px] w-[23px] items-center justify-center rounded-[4px] ${active ? "bg-grass-green-50" : "bg-gray-500"}`}
         >
           <p
-            className={`${active ? "text-dark-gray-500" : "text-gray-100"} text-[14px] font-medium leading-none`}
+            className={`${active ? "text-dark-gray-500" : "text-gray-100"} text-[14px] leading-none font-medium`}
           >
             {number}
           </p>

@@ -44,7 +44,7 @@ export default function MatchInformation({
           variant="outlined"
           size="small-text-with-icon"
           onClick={() => setCommentsOpen(true)}
-          className="flex !w-auto flex-row items-center gap-1 !border-dark-gray-500 !bg-cream-100 px-3 !text-green-500 hover:!bg-cream-100 active:!bg-cream-100 dark:!border-dark-gray-300 dark:!bg-green-700 dark:!text-green-100 dark:hover:!bg-green-700 dark:active:!bg-green-700"
+          className="flex w-auto! flex-row items-center gap-1 border-dark-gray-500! bg-cream-100! px-3 text-green-500! hover:bg-cream-100! active:bg-cream-100! dark:border-dark-gray-300! dark:bg-green-700! dark:text-green-100! dark:hover:bg-green-700! dark:active:bg-green-700!"
         >
           <MessageSquare className="h-3.5 w-3.5" />
           Comment

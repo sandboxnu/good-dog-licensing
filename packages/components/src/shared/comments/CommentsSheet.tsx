@@ -83,7 +83,7 @@ export default function CommentsSheet({
         className="flex w-[400px] flex-col border-l border-cream-300 bg-white p-0 dark:border-dark-gray-600 dark:bg-dark-gray-600"
       >
         {/* Header */}
-        <div className="flex flex-col gap-1 px-6 pb-4 pt-6">
+        <div className="flex flex-col gap-1 px-6 pt-6 pb-4">
           <div className="flex flex-row items-center justify-between">
             <SheetTitle className="text-lg font-medium dark:text-gray-200">
               Comments
@@ -101,7 +101,7 @@ export default function CommentsSheet({
           className="flex flex-1 flex-col gap-5 overflow-y-auto px-6 py-4"
         >
           {comments.length === 0 && (
-            <p className="text-sm italic text-cream-600 dark:text-gray-400">
+            <p className="text-sm text-cream-600 italic dark:text-gray-400">
               No comments yet.
             </p>
           )}
@@ -116,7 +116,7 @@ export default function CommentsSheet({
         </div>
 
         {/* Input area */}
-        <div className="px-6 pb-6 pt-2">
+        <div className="px-6 pt-2 pb-6">
           <div className="relative rounded-lg border border-cream-400 bg-white dark:border-dark-gray-400 dark:bg-dark-gray-500">
             <textarea
               ref={textareaRef}
@@ -125,13 +125,13 @@ export default function CommentsSheet({
               onKeyDown={handleKeyDown}
               placeholder="Add a comment"
               rows={1}
-              className="block w-full resize-none bg-white px-3 pb-8 pt-3 text-sm leading-5 placeholder:text-cream-600 focus:outline-none dark:bg-dark-gray-500 dark:text-gray-200 dark:placeholder:text-dark-gray-200"
+              className="block w-full resize-none bg-white px-3 pt-3 pb-8 text-sm leading-5 placeholder:text-cream-600 focus:outline-hidden dark:bg-dark-gray-500 dark:text-gray-200 dark:placeholder:text-dark-gray-200"
             />
             <button
               onClick={handleSubmit}
               disabled={!canSubmit}
               aria-label="Send comment"
-              className="absolute bottom-2 right-2 rounded-md p-1 transition-opacity disabled:opacity-30"
+              className="absolute right-2 bottom-2 rounded-md p-1 transition-opacity disabled:opacity-30"
             >
               <ArrowUp
                 className={`h-4 w-4 ${canSubmit ? "text-green-500 dark:text-mint-300" : "text-cream-600 dark:text-gray-500"}`}

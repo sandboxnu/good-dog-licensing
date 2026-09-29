@@ -4,9 +4,9 @@ description: "Setup and install Bun"
 runs:
   using: composite
   steps:
-    - uses: oven-sh/setup-bun@v1
+    - uses: oven-sh/setup-bun@v2
       with:
-        bun-version: 1.1.27
+        bun-version: 1.4.2
 
     - shell: bash
       run: bun install --frozen-lockfile

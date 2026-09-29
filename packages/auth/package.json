@@ -20,15 +20,15 @@
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "@types/bcryptjs": "^2.4.6",
-    "eslint": "9.10.0",
-    "prettier": "3.2.5",
-    "typescript": "5.4.5"
+    "@types/bcryptjs": "^3.0.0",
+    "eslint": "9.39.5",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3"
   },
   "prettier": "@good-dog/prettier",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "next": "15.1.9",
-    "react": "18.3.1"
+    "bcryptjs": "^3.0.3",
+    "next": "16.3.6",
+    "react": "19.3.0"
   }
 }

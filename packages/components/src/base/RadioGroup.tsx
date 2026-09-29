@@ -29,7 +29,7 @@ export default function RadioGroup({
   errorText,
 }: RadioGroupProps) {
   return (
-    <div className="flex w-full flex-col gap-[0px] text-black">
+    <div className="flex w-full flex-col gap-0 text-black">
       <div className="flex flex-row gap-[2px]">
         <Label className="text-body3 text-dark-gray-600 dark:text-gray-100">
           {label}
@@ -38,7 +38,7 @@ export default function RadioGroup({
       </div>
       <RadioGroupShad
         required={required}
-        className="flex w-full flex-col gap-[0px]"
+        className="flex w-full flex-col gap-0"
         value={value}
         onValueChange={onValueChange}
       >

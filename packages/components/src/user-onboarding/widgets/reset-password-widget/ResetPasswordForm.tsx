@@ -52,7 +52,7 @@ export default function ResetPasswordForm() {
   return (
     <FormProvider {...resetPasswordForm}>
       {resetPasswordMutation.isSuccess ? (
-        <div className="relative mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
+        <div className="relative mb-4 rounded-sm border border-green-400 bg-green-100 px-4 py-3 text-green-700">
           <span className="block sm:inline">
             {resetPasswordMutation.data.message}
           </span>

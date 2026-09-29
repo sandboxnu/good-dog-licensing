@@ -42,7 +42,7 @@ The repository is organized as follows:
 Install all these tools before you start:
 
 - [Node.js](https://nodejs.org/) >= 20
-- [Bun](https://bun.sh/) >= 1.1.27
+- [Bun](https://bun.sh/) >= 1.4.2
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
