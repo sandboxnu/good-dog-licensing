@@ -9,7 +9,7 @@ interface ProfileIconProps {
 }
 
 export default function ProfileIcon({ color, size, name }: ProfileIconProps) {
-  const circleSize = size ? size : 48;
+  const circleSize = size ?? 48;
   const gradientId = useId();
   const userQuery = trpc.user.useSuspenseQuery();
   const user = userQuery[0];

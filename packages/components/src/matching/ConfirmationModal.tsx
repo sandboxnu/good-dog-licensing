@@ -41,7 +41,7 @@ export function ConfirmationModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       {" "}
       <DialogOverlay className="bg-gray-400 opacity-25" />{" "}
-      <DialogContent className="border-1 max-w-md rounded-2xl border border-cream-500 bg-white px-[16px] pb-[56px] pt-[36px] dark:bg-dark-gray-600">
+      <DialogContent className="max-w-md rounded-2xl border border-cream-500 bg-white px-[16px] pt-[36px] pb-[56px] dark:bg-dark-gray-600">
         <DialogHeader className="flex flex-col items-center space-y-2">
           <DialogTitle className="pt-[12px] text-center text-[35px] font-medium text-gray-500 dark:text-gray-200">
             {title}

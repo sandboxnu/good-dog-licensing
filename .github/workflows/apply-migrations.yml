@@ -13,9 +13,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-bun
 
       - name: Apply Migrations
-        run: bun prisma migrate deploy --schema=./packages/db/prisma/schema.prisma
+        run: bun prisma migrate deploy --config ./packages/db/prisma.config.ts

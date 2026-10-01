@@ -25,7 +25,7 @@ export default function SideBar({
   isAdminView: boolean;
 }) {
   return (
-    <div className="lg:h-screen-full flex w-full flex-row items-center rounded-[24px] bg-gray-100 px-[16px] py-[12px] shadow-card-light dark:bg-dark-gray-600 lg:w-auto lg:max-w-[207px] lg:flex-1 lg:flex-col lg:items-start lg:pb-[32px] lg:pt-[32px]">
+    <div className="lg:h-screen-full flex w-full flex-row items-center rounded-[24px] bg-gray-100 px-[16px] py-[12px] shadow-card-light lg:w-auto lg:max-w-[207px] lg:flex-1 lg:flex-col lg:items-start lg:pt-[32px] lg:pb-[32px] dark:bg-dark-gray-600">
       <div className="flex flex-row gap-[8px] lg:flex-col lg:gap-[4px]">
         <SideBarEntry
           active={activeTab === SidebarTab.SUBMISSIONS}
@@ -70,7 +70,7 @@ function SideBarEntry({
 }) {
   return (
     <div
-      className={`${active ? "bg-green-400 text-white" : "bg-white text-dark-gray-500 dark:bg-dark-gray-600 dark:text-gray-200"} items-center rounded-[8px] pb-[8px] pl-[8px] pr-[8px] pt-[8px] hover:cursor-pointer lg:w-[175px] lg:pr-[32px]`}
+      className={`${active ? "bg-green-400 text-white" : "bg-white text-dark-gray-500 dark:bg-dark-gray-600 dark:text-gray-200"} items-center rounded-[8px] pt-[8px] pr-[8px] pb-[8px] pl-[8px] hover:cursor-pointer lg:w-[175px] lg:pr-[32px]`}
       onClick={onClick}
     >
       <div className="flex flex-row gap-[8px]">

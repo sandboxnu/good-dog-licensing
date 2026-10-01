@@ -68,7 +68,7 @@ export default function SubmissionCard({
         )}
       </div>
       {open && (
-        <div className="flex flex-col gap-5 px-10 pb-6 pt-2">{children}</div>
+        <div className="flex flex-col gap-5 px-10 pt-2 pb-6">{children}</div>
       )}
     </div>
   );

@@ -1,10 +1,31 @@
-@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Afacad&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap")
+layer(base);
+@import url("https://fonts.googleapis.com/css2?family=Afacad&display=swap")
+layer(base);
+@import url("https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap")
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@config "../../apps/web/tailwind.config.ts";
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @layer base {
   @media (prefers-color-scheme: dark) {
@@ -75,8 +96,9 @@
     --overlay: #454545;
 
     --yellow-500-yellow-100: var(--yellow-500);
-    --grass-green-500-grass-green-50: var(--grass-green-500):
-      var(--grass-green-500);
+    --grass-green-500-grass-green-50: var(--grass-green-500): var(
+        --grass-green-500
+      );
     --red-400-red-50: var(--red-400);
     @media (prefers-color-scheme: dark) {
       --yellow-500-yellow-100: var(--yellow-100);
@@ -86,7 +108,7 @@
   }
 
   body {
-    @apply font-['Afacad',sans-serif] text-[var(--body-text)];
+    @apply font-['Afacad',sans-serif] text-(--body-text);
     font-feature-settings:
       "rlig" 1,
       "calt" 1;

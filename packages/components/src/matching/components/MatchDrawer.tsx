@@ -51,7 +51,7 @@ export default function MatchDrawer({
         {/* Header */}
         <SheetHeader>
           <SheetTitle className="flex flex-row items-center justify-between">
-            <p className="text-[40px] font-semibold leading-[1.28] text-dark-gray-500 dark:text-gray-300">
+            <p className="text-[40px] leading-[1.28] font-semibold text-dark-gray-500 dark:text-gray-300">
               {match.musicSubmission.songName}
             </p>
           </SheetTitle>
@@ -61,7 +61,7 @@ export default function MatchDrawer({
         <div className="flex-1 space-y-6 overflow-y-auto">
           {/* Match Information */}
           <div className="space-y-4">
-            <p className="text-xl font-semibold leading-[1.28] text-dark-gray-500 dark:text-gray-300">
+            <p className="text-xl leading-[1.28] font-semibold text-dark-gray-500 dark:text-gray-300">
               Match Information
             </p>
             <div className="grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6">
@@ -112,7 +112,7 @@ export default function MatchDrawer({
           {/* border is arbitrarily add in the div below */}
           {/* Song Information */}
           <div className="border-t-[0.5px] border-cream-400 pt-6 dark:border-dark-gray-400">
-            <p className="mb-4 text-xl font-semibold leading-[1.28] text-dark-gray-500 dark:text-gray-300">
+            <p className="mb-4 text-xl leading-[1.28] font-semibold text-dark-gray-500 dark:text-gray-300">
               Song Information
             </p>
             <div className="pr-[40px]">

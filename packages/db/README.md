@@ -68,7 +68,7 @@ This will open a web interface where you can view and edit your database records
 3. Run the following command to resolve the migration
 
 ```sh
-bun prisma migrate resolve --rolled-back <migration name> --schema=./packages/db/prisma/schema.prisma
+bun prisma migrate resolve --rolled-back <migration name> --config ./packages/db/prisma.config.ts
 ```
 
 4. Change the DATABASE_PRISMA_URL in your .env file back to the development database URL

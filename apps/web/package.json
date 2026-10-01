@@ -20,25 +20,26 @@
     "@good-dog/tailwind": "workspace:*",
     "@good-dog/trpc": "workspace:*",
     "@good-dog/ui": "workspace:*",
-    "lucide-react": "^0.484.0",
-    "next": "15.1.9",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "lucide-react": "^1.48.0",
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
     "server-only": "^0.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^4"
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/tailwind": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "eslint": "9.10.0",
-    "prettier": "3.2.5",
-    "tailwindcss": "3.4.12",
-    "typescript": "5.4.5"
+    "@tailwindcss/postcss": "4.3.3",
+    "eslint": "9.39.5",
+    "prettier": "3.9.9",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3"
   },
   "overrides": {
-    "eslint": "9.10.0"
+    "eslint": "9.39.5"
   }
 }

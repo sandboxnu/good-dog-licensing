@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { Role } from "@good-dog/db";
+import type { Role } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
 
 import ProfileIcon from "../../svg/ProfileIcon";

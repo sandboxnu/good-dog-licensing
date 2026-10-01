@@ -99,7 +99,7 @@ export default function LoginWidget() {
                 />
                 <Link
                   href="/forgot-password"
-                  className="whitespace-nowrap text-body3 font-medium text-green-500 text-secondary underline dark:text-mint-200"
+                  className="text-body3 font-medium whitespace-nowrap text-green-500 text-secondary underline dark:text-mint-200"
                 >
                   Forgot password?
                 </Link>

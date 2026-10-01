@@ -35,7 +35,7 @@ const COMPOSITION_ROLES: MusicRole[] = [
 function CheckItem({ checked, label }: { checked: boolean; label: string }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center border border-black">
+      <div className="flex h-4 w-4 shrink-0 items-center justify-center border border-black">
         {checked && <span className="text-xs leading-none">✓</span>}
       </div>
       <span>{label}</span>
@@ -79,7 +79,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
 
       <div className="w-full max-w-[850px] bg-white px-16 py-14 font-serif text-sm leading-relaxed text-black">
         {/* Title */}
-        <h1 className="mb-6 text-center text-base font-bold uppercase tracking-wide">
+        <h1 className="mb-6 text-center text-base font-bold tracking-wide uppercase">
           Synchronization and Master Use License Agreement
         </h1>
 

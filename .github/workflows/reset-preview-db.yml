@@ -9,12 +9,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-bun
 
       - name: Reset Preview Database (No Seeding)
-        run: bun prisma migrate reset --skip-seed --force
+        run: bun prisma migrate reset --force
         working-directory: packages/db
         env:
           DATABASE_PRISMA_URL: ${{ secrets.PREVIEW_DATABASE_PRISMA_URL }}

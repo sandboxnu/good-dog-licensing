@@ -75,10 +75,7 @@ export const signUpProcedure = notAuthenticatedProcedureBuilder
       };
     }
 
-    if (
-      !emailVerificationCode ||
-      emailVerificationCode.code !== input.emailCode
-    ) {
+    if (emailVerificationCode?.code !== input.emailCode) {
       throw new TRPCError({
         code: "FORBIDDEN",
         message: `Email ${input.email} has not been verified`,

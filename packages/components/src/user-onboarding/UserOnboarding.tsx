@@ -13,11 +13,7 @@ import SignUpWidget from "./widgets/sign-up-widget/SignUpWidget";
 interface UserOnboardingProps {
   initialRole: "MUSICIAN" | "MEDIA_MAKER" | undefined;
   type:
-    | "SIGN_UP"
-    | "LOG_IN"
-    | "FORGOT_PASSWORD"
-    | "RESET_PASSWORD"
-    | "PNR_SIGN_UP";
+    "SIGN_UP" | "LOG_IN" | "FORGOT_PASSWORD" | "RESET_PASSWORD" | "PNR_SIGN_UP";
 }
 
 export default function UserOnboarding({

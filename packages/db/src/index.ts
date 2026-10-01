@@ -1,22 +1,11 @@
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
 
-export const prisma = new PrismaClient();
+import { env } from "@good-dog/env";
+
+export const prisma = new PrismaClient({
+  adapter: new PrismaPg({ connectionString: env.DATABASE_PRISMA_URL }),
+});
 
 // Re-export prisma types and enums here if needed for other packages
-export {
-  Role,
-  MatchState,
-  MusicAffiliation,
-  MusicRole,
-  Genre,
-  ProjectType,
-  HowHeardAboutUsLabel,
-  AdmModMatchStatus,
-  AdmModProjectStatus,
-  AdmModSongRequestStatus,
-  MediaMakerMatchStatus,
-  MediaMakerProjectStatus,
-  MediaMakerSongRequestStatus,
-  MusicianMatchStatus,
-  MusicianSongStatus,
-} from "@prisma/client";
+export * from "./enums";

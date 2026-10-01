@@ -3,13 +3,12 @@
   "compilerOptions": {
     "lib": ["es2022", "dom", "dom.iterable"],
     "jsx": "preserve",
-    "baseUrl": ".",
     "paths": {
-      "~/*": ["app/*"]
+      "~/*": ["./app/*"]
     },
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
     "module": "esnext",
-    "types": ["react/canary"],
+    "types": ["node", "react/canary"],
     "plugins": [
       {
         "name": "next"

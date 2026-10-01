@@ -48,7 +48,7 @@ export default function MediaMakerLanding() {
                 }
                 children={
                   <div className="flex h-full flex-col justify-between gap-[24px] pt-[16px]">
-                    <p className="body3 line-clamp-[2] break-words text-base font-normal leading-tight text-dark-gray-200 dark:text-dark-gray-100">
+                    <p className="body3 line-clamp-2 text-base leading-tight font-normal wrap-break-word text-dark-gray-200 dark:text-dark-gray-100">
                       {project.description}
                     </p>
                     <div className="flex w-full flex-row justify-between">

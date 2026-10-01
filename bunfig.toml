@@ -1,2 +1,5 @@
 [test]
 preload = ["./tests/runtime.ts", "./tests/happydom.ts", "./tests/testing-library.ts"]
+
+[install]
+linker = "hoisted"

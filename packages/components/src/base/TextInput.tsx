@@ -57,9 +57,9 @@ export default function TextInput({
             "h-[32px] w-full rounded-[8px] border-dark-gray-200 pl-[8px] text-body3 text-dark-gray-500 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-200",
             "placeholder:text-dark-gray-100",
             "hover:border-gray-600",
-            "focus:border-bg-green-300 focus:shadow-active focus:outline-none",
+            "focus:border-bg-green-300 focus:shadow-active focus:outline-hidden",
             {
-              "!dark:border-red-400 !dark:shadow-red-400 !border-red-400 !shadow-red-400":
+              "!dark:border-red-400 !dark:shadow-red-400 border-red-400! shadow-red-400!":
                 errorText,
             },
           )}
@@ -73,7 +73,7 @@ export default function TextInput({
         />
         {type === "password" && (
           <span
-            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+            className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
             onClick={() => setShowPassword((value) => !value)}
           >
             {showPassword ? (

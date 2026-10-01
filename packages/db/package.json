@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "browser": "./src/enums.ts",
+      "default": "./src/index.ts"
+    }
   },
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
@@ -16,22 +19,21 @@
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "migrate:create": "prisma migrate dev --create-only",
-    "reset:no-seed": "prisma migrate reset --skip-seed",
-    "reset:seed": "prisma migrate reset"
+    "reset:no-seed": "prisma migrate reset",
+    "reset:seed": "prisma migrate reset && prisma db seed"
   },
   "dependencies": {
-    "@prisma/client": "6.3.0"
+    "@good-dog/env": "workspace:*",
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0"
   },
   "devDependencies": {
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "eslint": "9.10.0",
-    "prettier": "3.2.5",
-    "prisma": "6.3.0",
-    "typescript": "5.4.5"
-  },
-  "prisma": {
-    "seed": "bun prisma/seed.ts"
+    "eslint": "9.39.5",
+    "prettier": "3.9.9",
+    "prisma": "7.10.0",
+    "typescript": "6.0.3"
   }
 }

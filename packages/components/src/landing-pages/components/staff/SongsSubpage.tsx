@@ -115,7 +115,7 @@ function SongTable({
                   <GenreCard genre={genre} key={index} />
                 ))}
                 {song.genres.length > 1 && (
-                  <div className="flex h-6 w-fit items-center justify-center gap-1 rounded bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
+                  <div className="flex h-6 w-fit items-center justify-center gap-1 rounded-sm bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
                     +{song.genres.length - 1}
                   </div>
                 )}
@@ -146,7 +146,7 @@ function SongTable({
 
 function GenreCard({ genre }: { genre: string }) {
   return (
-    <div className="flex h-6 w-fit items-center justify-center gap-1 rounded bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
+    <div className="flex h-6 w-fit items-center justify-center gap-1 rounded-sm bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
       {genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase()}
     </div>
   );

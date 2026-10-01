@@ -8,12 +8,12 @@ export default function ContributorsSection() {
   return (
     <GreenOval className="flex items-center justify-center">
       <div className={clsx(CONTENT_MAX_WIDTH_CLASSES.small)}>
-        <div className="relative pb-[120px] pt-[120px]">
-          <div className="py-[50px] md:py-[0px]">
-            <h2 className="text-left text-[35px] font-medium not-italic leading-[96%] text-mint-200 md:text-[48px]">
+        <div className="relative pt-[120px] pb-[120px]">
+          <div className="py-[50px] md:py-0">
+            <h2 className="text-left text-[35px] leading-[96%] font-medium text-mint-200 not-italic md:text-[48px]">
               Our contributors
             </h2>
-            <p className="text-left text-[18px] font-normal not-italic leading-normal text-gray-100 md:text-[20px]">
+            <p className="text-left text-[18px] leading-normal font-normal text-gray-100 not-italic md:text-[20px]">
               Discover the people driving our platform, uniting strategy,
               creativity, and music.
             </p>
@@ -27,10 +27,10 @@ export default function ContributorsSection() {
                     className="h-[250px] w-[250px] shadow-[0_2px_6px_0_#BFBCB8]"
                   />
                 </div>
-                <div className="mt-[8px] text-center text-[35px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
+                <div className="mt-[8px] text-center text-[35px] leading-[104%] font-medium text-green-400 not-italic md:text-[40px] dark:text-mint-200">
                   Founder
                 </div>
-                <div className="mt-[16px] break-words text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300 md:text-[18px]">
+                <div className="mt-[16px] text-left text-[18px] leading-[128%] font-medium wrap-break-word text-dark-gray-500 not-italic md:text-[18px] dark:text-gray-300">
                   Professor Herlihy is a professor in both the College of Arts,
                   Media, and Design at Northeastern, and at the Law School, runs
                   his own entertainment law practice, and frequently writes and
@@ -53,10 +53,10 @@ export default function ContributorsSection() {
                     className="h-[178.6px] w-[224px]"
                   />
                 </div>
-                <div className="mt-[8px] text-center text-[35px] font-medium not-italic leading-[104%] text-green-400 dark:text-mint-200 md:text-[40px]">
+                <div className="mt-[8px] text-center text-[35px] leading-[104%] font-medium text-green-400 not-italic md:text-[40px] dark:text-mint-200">
                   Green Line Records
                 </div>
-                <div className="mt-[16px] break-words text-left text-[18px] font-medium not-italic leading-[128%] text-dark-gray-500 dark:text-gray-300 md:text-[20px]">
+                <div className="mt-[16px] text-left text-[18px] leading-[128%] font-medium wrap-break-word text-dark-gray-500 not-italic md:text-[20px] dark:text-gray-300">
                   Green Line Records is Northeastern University's student-run
                   record label. Green Line Records aims to showcase Boston's
                   music scene by offering their artists a full range of services

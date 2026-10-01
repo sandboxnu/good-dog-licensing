@@ -63,7 +63,7 @@ export default function StatusIndicator({
   return (
     <div className="flex flex-row items-center gap-2">
       <div
-        className={`align-center flex min-h-[24px] w-fit flex-shrink-0 items-center justify-center gap-[4px] rounded pb-[4px] pl-[8px] pr-[8px] pt-[4px] ${getColorFromVariant(variant)}`}
+        className={`align-center flex min-h-[24px] w-fit shrink-0 items-center justify-center gap-[4px] rounded-sm pt-[4px] pr-[8px] pb-[4px] pl-[8px] ${getColorFromVariant(variant)}`}
       >
         <div className="flex flex-row items-center gap-[4px]">
           {variant === "success" ? (
@@ -83,7 +83,9 @@ export default function StatusIndicator({
         </div>
       </div>
       {details && (
-        <div className={`rounded px-2 ${getColorFromVariant(variant, true)}`}>
+        <div
+          className={`rounded-sm px-2 ${getColorFromVariant(variant, true)}`}
+        >
           {toSentenceCase(details)}
         </div>
       )}

@@ -17,19 +17,19 @@ import { Popover, PopoverContent, PopoverTrigger } from "@good-dog/ui/popover";
 import X from "./X";
 
 const multiSelectVariants = cva(
-  "my-0.5 flex h-6 flex-row gap-1 border-[1px] text-body3",
+  "my-0.5 flex h-6 flex-row gap-1 border text-body3",
   {
     variants: {
       variant: {
-        standard: "rounded-lg border-green-400 bg-mint-300 !text-green-400",
-        hover: "rounded-lg border-green-400 bg-green-400 !text-mint-300",
+        standard: "rounded-lg border-green-400 bg-mint-300 text-green-400!",
+        hover: "rounded-lg border-green-400 bg-green-400 text-mint-300!",
         inactive:
-          "rounded-lg border-dark-gray-300 bg-white !text-dark-gray-300",
+          "rounded-lg border-dark-gray-300 bg-white text-dark-gray-300!",
         round_standard:
-          "rounded-2xl border-green-400 bg-mint-300 !text-green-400",
-        round_hover: "rounded-2xl border-green-400 bg-green-400 !text-mint-300",
+          "rounded-2xl border-green-400 bg-mint-300 text-green-400!",
+        round_hover: "rounded-2xl border-green-400 bg-green-400 text-mint-300!",
         round_inactive:
-          "rounded-2xl border-dark-gray-300 bg-white !text-dark-gray-300",
+          "rounded-2xl border-dark-gray-300 bg-white text-dark-gray-300!",
       },
     },
     defaultVariants: {
@@ -39,7 +39,8 @@ const multiSelectVariants = cva(
 );
 
 interface MultiSelectProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof multiSelectVariants> {
   options: {
     label: string;
@@ -149,7 +150,7 @@ export const MultiSelect = React.forwardRef<
                     <p>{`+ ${selectedValues.length - maxCount} more`}</p>
                   )}
                 </div>
-                <div className="ml-2 flex-shrink-0">
+                <div className="ml-2 shrink-0">
                   <ChevronDown
                     className={`h-4 w-4 cursor-pointer text-green-500 transition-all dark:text-mint-200 ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
                   />
@@ -160,7 +161,7 @@ export const MultiSelect = React.forwardRef<
                 <span className="mx-2 truncate text-dark-gray-100">
                   {placeholder}
                 </span>
-                <div className="ml-2 flex-shrink-0">
+                <div className="ml-2 shrink-0">
                   <ChevronDown
                     className={`h-4 w-4 cursor-pointer text-green-500 transition-all dark:text-mint-200 ${isPopoverOpen ? "rotate-270" : "rotate-90"}`}
                   />
@@ -170,7 +171,7 @@ export const MultiSelect = React.forwardRef<
           </button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-auto min-w-[var(--radix-popover-trigger-width)] border-[1px] border-green-300 bg-white p-0 dark:bg-dark-gray-500"
+          className="w-auto min-w-(--radix-popover-trigger-width) border border-green-300 bg-white p-0 dark:bg-dark-gray-500"
           align="start"
           onEscapeKeyDown={() => setIsPopoverOpen(false)}
         >

@@ -78,7 +78,7 @@ export function MatchCard({
 
   return (
     <div
-      className={`flex w-full cursor-pointer flex-row items-center justify-between rounded-2xl border-[1px] px-6 py-4 shadow-md ${borderClass} ${bgClass}`}
+      className={`flex w-full cursor-pointer flex-row items-center justify-between rounded-2xl border px-6 py-4 shadow-md ${borderClass} ${bgClass}`}
       onClick={onClick}
     >
       <div className="flex min-w-0 flex-1 flex-row items-center gap-4">

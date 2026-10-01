@@ -10,7 +10,7 @@ interface CookieItem {
 export class MockNextCookies implements ReadonlyRequestCookies {
   private cookieJar: Map<string, CookieItem>;
 
-  [Symbol.iterator](): IterableIterator<[string, CookieItem]> {
+  [Symbol.iterator](): MapIterator<[string, CookieItem]> {
     return this.cookieJar.entries();
   }
 

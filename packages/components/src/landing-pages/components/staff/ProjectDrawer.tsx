@@ -53,7 +53,7 @@ export default function ProjectDrawer({
                   role={"MODERATOR"}
                 />
               ) : (
-                <p className="italic text-cream-600 dark:text-gray-200">
+                <p className="text-cream-600 italic dark:text-gray-200">
                   No Assignment Yet
                 </p>
               )}

@@ -19,7 +19,7 @@ export default function OverviewAndLogoSection({
         className={`flex w-full max-w-[450px] flex-col-reverse items-center gap-[20px] rounded-[24px] md:max-w-none md:flex-row md:gap-[40px] ${
           isAbout
             ? ""
-            : "border border-cream-400 bg-cream-100 p-[24px] shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark md:px-[32px] lg:px-[48px]"
+            : "border border-cream-400 bg-cream-100 p-[24px] shadow-card-light md:px-[32px] lg:px-[48px] dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark"
         }`}
       >
         <div
@@ -27,10 +27,10 @@ export default function OverviewAndLogoSection({
             isAbout ? "w-2/3" : "w-full lg:w-1/2"
           }`}
         >
-          <h3 className="w-full text-[35px] font-normal dark:text-mint-300 md:text-[48px]">
+          <h3 className="w-full text-[35px] font-normal md:text-[48px] dark:text-mint-300">
             Good Dog Licensing
           </h3>
-          <p className="mt-[8px] w-full break-words text-[18px] font-medium leading-[128%] dark:text-gray-300 md:text-[20px]">
+          <p className="mt-[8px] w-full text-[18px] leading-[128%] font-medium wrap-break-word md:text-[20px] dark:text-gray-300">
             Good Dog Licensing connects creatives by providing a legal framework
             for media producers to source high quality music from independent
             artists
@@ -61,7 +61,7 @@ export default function OverviewAndLogoSection({
           )}
         </div>
         <div
-          className={`flex flex-shrink-0 items-center justify-center ${
+          className={`flex shrink-0 items-center justify-center ${
             isAbout ? "w-1/3" : "w-1/2"
           }`}
         >

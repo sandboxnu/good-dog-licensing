@@ -2,16 +2,17 @@
   "name": "good-dog",
   "devDependencies": {
     "@good-dog/prettier": "workspace:*",
-    "@turbo/gen": "2.1.2",
-    "@types/react": "^18.3.26",
-    "dotenv-cli": "^7.4.4",
-    "turbo": "2.1.2",
-    "typescript": "5.4.5"
+    "@turbo/gen": "2.11.5",
+    "@types/node": "^24.19.0",
+    "@types/react": "^19.3.0",
+    "dotenv-cli": "^11.0.0",
+    "turbo": "2.11.5",
+    "typescript": "6.0.3"
   },
   "engines": {
-    "node": ">=20"
+    "node": "24.x"
   },
-  "packageManager": "bun@1.1.27",
+  "packageManager": "bun@1.4.2",
   "prettier": "@good-dog/prettier",
   "private": true,
   "scripts": {

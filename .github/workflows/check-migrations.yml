@@ -20,14 +20,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-bun
 
       - name: Check migrations
+        env:
+          SHADOW_DATABASE_PRISMA_URL: postgres://user:password@localhost:5432/shadow_db
         run: |
           bun prisma migrate diff \
+          --config ./packages/db/prisma.config.ts \
           --exit-code \
           --from-migrations ./packages/db/prisma/migrations \
-          --to-schema-datamodel ./packages/db/prisma/schema.prisma \
-          --shadow-database-url postgres://user:password@localhost:5432/shadow_db
+          --to-schema ./packages/db/prisma/schema.prisma

@@ -34,7 +34,7 @@ export default function SongLyrics({
           )}
         </button>
         {open && (
-          <p className="whitespace-pre-wrap break-words text-dark-gray-500 dark:text-gray-200">
+          <p className="wrap-break-word whitespace-pre-wrap text-dark-gray-500 dark:text-gray-200">
             {lyrics}
           </p>
         )}
@@ -58,7 +58,7 @@ export default function SongLyrics({
         )}
       </button>
       {open && (
-        <p className="whitespace-pre-wrap break-words text-dark-gray-500 dark:text-gray-200">
+        <p className="wrap-break-word whitespace-pre-wrap text-dark-gray-500 dark:text-gray-200">
           {lyrics}
         </p>
       )}

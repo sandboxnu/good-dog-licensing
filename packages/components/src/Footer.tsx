@@ -97,7 +97,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="flex h-full flex-col items-end justify-between">
-          <div className="mb-auto mt-[10px] text-xl font-bold">
+          <div className="mt-[10px] mb-auto text-xl font-bold">
             Made by students at{" "}
             <a
               target="_blank"

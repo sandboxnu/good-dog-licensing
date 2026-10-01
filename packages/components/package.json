@@ -21,31 +21,31 @@
     "@good-dog/hooks": "workspace:*",
     "@good-dog/trpc": "workspace:*",
     "@good-dog/ui": "workspace:*",
-    "@hookform/resolvers": "^5.2.2",
+    "@hookform/resolvers": "^5.9.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.23.24",
-    "lucide": "^0.484.0",
-    "lucide-react": "^0.484.0",
-    "next": "15.1.9",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-hook-form": "7.55.0",
-    "react-icons": "^5.5.0",
-    "react-intersection-observer": "^10.0.0"
+    "framer-motion": "^13.4.5",
+    "lucide": "^1.48.0",
+    "lucide-react": "^1.48.0",
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-hook-form": "7.89.0",
+    "react-icons": "^5.7.0",
+    "react-intersection-observer": "^11.0.1"
   },
   "devDependencies": {
     "@good-dog/eslint": "workspace:*",
     "@good-dog/prettier": "workspace:*",
     "@good-dog/typescript": "workspace:*",
-    "eslint": "9.10.0",
-    "prettier": "3.2.5",
-    "tailwindcss": "3.4.12",
-    "typescript": "5.4.5",
-    "zod": "^4"
+    "eslint": "9.39.5",
+    "prettier": "3.9.9",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3",
+    "zod": "^4.6.5"
   },
   "peerDependencies": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
   },
   "prettier": "@good-dog/prettier"
 }

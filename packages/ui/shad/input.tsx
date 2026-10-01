@@ -31,7 +31,7 @@ const Input = React.forwardRef<
   return (
     <div className="relative w-full">
       {icon && (
-        <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
+        <div className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2">
           {icon}
         </div>
       )}
@@ -46,7 +46,7 @@ const Input = React.forwardRef<
         <button
           type="button"
           onClick={onClear}
-          className="absolute right-0 top-0 flex h-full items-center px-2 text-dark-gray-200 hover:text-gray-600"
+          className="absolute top-0 right-0 flex h-full items-center px-2 text-dark-gray-200 hover:text-gray-600"
           aria-label="Clear input"
         >
           <X variant={"inactive"} />

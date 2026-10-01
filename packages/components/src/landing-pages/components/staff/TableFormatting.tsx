@@ -50,7 +50,7 @@ export function TableOuterFormatting({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 pb-[48px] pl-[24px] pr-[24px] pt-[32px] shadow-card-light dark:bg-dark-gray-600">
+    <div className="flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 pt-[32px] pr-[24px] pb-[48px] pl-[24px] shadow-card-light dark:bg-dark-gray-600">
       {children}
     </div>
   );
@@ -62,10 +62,10 @@ export function TableEmptyMessage() {
       <div className="flex flex-col gap-[16px]">
         <SearchingMan />
         <div className="flex flex-col gap-[8px]">
-          <p className="text-lg font-medium leading-[128%] text-dark-gray-300 dark:text-dark-gray-200">
+          <p className="text-lg leading-[128%] font-medium text-dark-gray-300 dark:text-dark-gray-200">
             No data available
           </p>
-          <p className="pb-[32px] text-center font-normal leading-[96%] text-dark-gray-200 dark:text-dark-gray-100">
+          <p className="pb-[32px] text-center leading-[96%] font-normal text-dark-gray-200 dark:text-dark-gray-100">
             There is no available data to show.
             <br />
             Please choose different filters and try again.{" "}

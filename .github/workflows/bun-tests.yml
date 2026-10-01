@@ -22,14 +22,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - uses: ./.github/actions/setup-bun
 
       - name: Apply database schema
         run: |
           bun prisma db push \
-          --schema=./packages/db/prisma/schema.prisma
+          --config ./packages/db/prisma.config.ts
 
       - name: Run tests
         run: bun test

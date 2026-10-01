@@ -65,7 +65,7 @@ export default function InviteModal({
     <Dialog open={inviteModalOpen} onOpenChange={closeModal}>
       {" "}
       <DialogOverlay className="bg-gray-400 opacity-25" />{" "}
-      <DialogContent className="border-1 max-w-md rounded-2xl border border-cream-500 bg-white p-[24px] dark:border-grass-green-100 dark:bg-dark-gray-600">
+      <DialogContent className="max-w-md rounded-2xl border border-cream-500 bg-white p-[24px] dark:border-grass-green-100 dark:bg-dark-gray-600">
         <DialogHeader className="flex flex-col gap-[16px] space-y-2 text-left">
           <DialogTitle className="pt-[24px] text-[35px] font-medium text-gray-500 dark:text-gray-200">
             Invite new P&R
@@ -78,7 +78,7 @@ export default function InviteModal({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="example@email.com"
-            className="text-gray-900 min-h-[40px] rounded-md border-[0.5px] border-dark-gray-100 bg-white p-2 placeholder-gray-500 outline-none focus:border-green-300 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-100 dark:placeholder-gray-400 focus:dark:border-grass-green-100"
+            className="min-h-[40px] rounded-md border-[0.5px] border-dark-gray-100 bg-white p-2 text-gray-900 placeholder-gray-500 outline-hidden focus:border-green-300 dark:border-dark-gray-300 dark:bg-dark-gray-500 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:border-grass-green-100"
           />
           {existingUser && (
             <p className="mt-1 text-sm text-red-500">
