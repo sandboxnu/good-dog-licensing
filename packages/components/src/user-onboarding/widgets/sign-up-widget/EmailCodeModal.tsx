@@ -15,6 +15,7 @@ interface EmailCodeModalProps {
   verifyCode: (code: string) => void;
   resendEmail: () => void;
   codeIsWrong: boolean;
+  notice?: string;
 }
 
 export default function EmailCodeModal({
@@ -24,6 +25,7 @@ export default function EmailCodeModal({
   verifyCode,
   resendEmail,
   codeIsWrong = true,
+  notice,
 }: EmailCodeModalProps) {
   const [emailCode, setEmailCode] = useState<string>("");
 
@@ -43,6 +45,11 @@ export default function EmailCodeModal({
       <p className="pt-[4px] text-body2 text-dark-gray-500 dark:text-gray-200">
         We sent a link to <strong>{email}</strong>
       </p>
+      {notice && (
+        <p className="pt-[8px] text-body2 text-dark-gray-500 dark:text-gray-200">
+          {notice}
+        </p>
+      )}
       {codeIsWrong && (
         <div className="flex flex-row items-center justify-center gap-x-1 pt-[16px]">
           <ErrorExclamation size="medium" />

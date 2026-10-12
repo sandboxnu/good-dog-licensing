@@ -5,6 +5,7 @@ import { env } from "@good-dog/env";
 
 import { zMessageOutput } from "../dto";
 import { baseProcedureBuilder } from "../internal/init";
+import { zRequiredEmail } from "../schema/base";
 
 // click forgot passwd -> enter email -> receive unique link -> enter new passwd at given link
 
@@ -14,7 +15,7 @@ const getNewPasswordResetExpirationDate = () =>
 export const sendForgotPasswordEmailProcedure = baseProcedureBuilder
   .input(
     z.object({
-      email: z.email(),
+      email: zRequiredEmail,
     }),
   )
   .output(zMessageOutput)
