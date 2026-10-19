@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { baseProcedureBuilder } from "../../internal/init";
+import { zRequiredEmail } from "../../schema/base";
 import { sendEmailHelper } from "../../utils";
 
 // Expiration date for email verification codes is 15 minutes
@@ -15,7 +16,7 @@ const zSendEmailVerificationOutput = z.object({
 });
 
 export const sendEmailVerificationProcedure = baseProcedureBuilder
-  .input(z.object({ email: z.email() }))
+  .input(z.object({ email: zRequiredEmail }))
   .output(zSendEmailVerificationOutput)
   .mutation(async ({ ctx, input }) => {
     // Check if there is an existing user with the given email

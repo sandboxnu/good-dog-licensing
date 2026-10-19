@@ -44,10 +44,18 @@ export default function SignUpWidget({
   const [displayEmailCodeModal, setDisplayEmailCodeModal] = useState(false);
   const [step, setStep] = useState(1);
   const [emailCodeError, setEmailCodeError] = useState(false);
+  const [emailCodeNotice, setEmailCodeNotice] = useState<string>();
+  // Remounts the code modal each time it opens so it never shows a stale code
+  const [emailCodeModalKey, setEmailCodeModalKey] = useState(0);
+
+  const openEmailCodeModal = () => {
+    setEmailCodeModalKey((key) => key + 1);
+    setDisplayEmailCodeModal(true);
+  };
 
   const sendEmailVerificationMutation = trpc.sendEmailVerification.useMutation({
     onSuccess: () => {
-      setDisplayEmailCodeModal(true);
+      openEmailCodeModal();
     },
   });
 
@@ -65,12 +73,41 @@ export default function SignUpWidget({
   const signUpMutation = trpc.signUp.useMutation({
     onSuccess: (data) => {
       if ("status" in data) {
-        setDisplayEmailCodeModal(true);
+        // The code expired, so the server sent a new one
+        setEmailCodeNotice(data.message);
+        openEmailCodeModal();
       } else {
         window.location.href = "/home";
       }
     },
+    onError: (error) => {
+      if (error.data?.code === "FORBIDDEN") {
+        // The verified code is no longer valid, so send a fresh one
+        setEmailCodeNotice(
+          "Please verify your email again. We sent you a new code.",
+        );
+        sendEmailVerificationMutation.mutate({
+          email: formMethods.getValues("email"),
+        });
+      }
+    },
   });
+
+  const getSignUpErrorMessage = () => {
+    switch (signUpMutation.error?.data?.code) {
+      case undefined:
+        return undefined;
+      case "FORBIDDEN":
+        // Handled by re-sending the code, unless that also failed
+        return sendEmailVerificationMutation.error
+          ? "Internal Error. Please try again."
+          : undefined;
+      case "CONFLICT":
+        return "An account with this email already exists. Please log in instead.";
+      default:
+        return "Internal Error. Please try again.";
+    }
+  };
 
   const verifyEmailCode = (code: string) => {
     formMethods.setValue("emailCode", code);
@@ -81,6 +118,7 @@ export default function SignUpWidget({
   };
 
   const handleVerifyEmail = async () => {
+    setEmailCodeNotice(undefined);
     sendEmailVerificationMutation.reset();
     const initialSignUpInfoIsValid = await formMethods.trigger([
       "firstName",
@@ -102,6 +140,7 @@ export default function SignUpWidget({
   return (
     <UserOnboardingWidgetContainer>
       <EmailCodeModal
+        key={emailCodeModalKey}
         isOpen={displayEmailCodeModal}
         close={() => {
           setDisplayEmailCodeModal(false);
@@ -111,6 +150,7 @@ export default function SignUpWidget({
         verifyCode={verifyEmailCode}
         resendEmail={handleVerifyEmail}
         codeIsWrong={emailCodeError}
+        notice={emailCodeNotice}
       />
       <div className="flex w-1/2 flex-col justify-center">
         <FormProvider {...formMethods}>
@@ -133,11 +173,7 @@ export default function SignUpWidget({
             <FinalSignUpInfo
               role={role}
               onSubmit={handleSubmit}
-              errorMessage={
-                signUpMutation.error
-                  ? "Internal Error. Please try again."
-                  : undefined
-              }
+              errorMessage={getSignUpErrorMessage()}
             />
           )}
         </FormProvider>

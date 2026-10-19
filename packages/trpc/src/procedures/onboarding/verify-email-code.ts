@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { baseProcedureBuilder } from "../../internal/init";
+import { zRequiredEmail } from "../../schema/base";
 
 const zVerifyEmailCodeOutput = z.object({
   status: z.literal("VALID"),
@@ -9,7 +10,7 @@ const zVerifyEmailCodeOutput = z.object({
 });
 
 export const verifyEmailCodeProcedure = baseProcedureBuilder
-  .input(z.object({ email: z.email(), emailCode: z.string() }))
+  .input(z.object({ email: zRequiredEmail, emailCode: z.string() }))
   .output(zVerifyEmailCodeOutput)
   .mutation(async ({ ctx, input }) => {
     const emailVerificationCode =

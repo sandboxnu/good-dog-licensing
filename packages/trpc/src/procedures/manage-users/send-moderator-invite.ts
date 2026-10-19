@@ -6,6 +6,7 @@ import { env } from "@good-dog/env";
 
 import { zMessageOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
+import { zRequiredEmail } from "../../schema/base";
 
 // Expiration date for Moderator Invite is one week
 const getModeratorInviteExpirationDate = () =>
@@ -15,7 +16,7 @@ export const sendModeratorInviteEmailProcedure =
   rolePermissionsProcedureBuilder(adminPagePermissions, "modify")
     .input(
       z.object({
-        moderatorEmail: z.email(),
+        moderatorEmail: zRequiredEmail,
       }),
     )
     .output(zMessageOutput)
