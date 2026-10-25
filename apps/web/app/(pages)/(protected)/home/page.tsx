@@ -1,9 +1,9 @@
 import React from "react";
 
-import AdminLanding from "@good-dog/components/landing-pages/AdminLanding";
+import { SidebarTab } from "@good-dog/components/landing-pages/components/staff/SideBar";
 import MediaMakerLanding from "@good-dog/components/landing-pages/MediaMakerLanding";
-import ModeratorLanding from "@good-dog/components/landing-pages/ModeratorLanding";
 import MusicianLanding from "@good-dog/components/landing-pages/MusicianLanding";
+import StaffLanding from "@good-dog/components/landing-pages/StaffLanding";
 import PageContainer from "@good-dog/components/PageContainer";
 import { Role } from "@good-dog/db";
 import { CREATED_DATE_QUERY } from "@good-dog/trpc/schema";
@@ -23,20 +23,12 @@ export default async function Home() {
   if (user.role === Role.MEDIA_MAKER) {
     void trpc.mediamakerProjects.prefetch();
   }
-  if (user.role === Role.ADMIN) {
+  const isStaff = user.role === Role.ADMIN || user.role === Role.MODERATOR;
+  if (isStaff) {
     void trpc.queryAllProjects.prefetch({
       createdDateQuery: CREATED_DATE_QUERY.LAST_365_DAYS,
       assignedToMe: false,
     });
-    void trpc.allMusic.prefetch();
-    void trpc.allUsers.prefetch();
-  }
-  if (user.role === Role.MODERATOR) {
-    void trpc.queryAllProjects.prefetch({
-      createdDateQuery: CREATED_DATE_QUERY.LAST_365_DAYS,
-      assignedToMe: false,
-    });
-    void trpc.allMusic.prefetch();
   }
 
   return (
@@ -44,8 +36,12 @@ export default async function Home() {
       <HydrateClient>
         {user.role === Role.MUSICIAN && <MusicianLanding />}
         {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
-        {user.role === Role.ADMIN && <AdminLanding />}
-        {user.role === Role.MODERATOR && <ModeratorLanding />}
+        {isStaff && (
+          <StaffLanding
+            activeTab={SidebarTab.SUBMISSIONS}
+            isAdminView={user.role === Role.ADMIN}
+          />
+        )}
       </HydrateClient>
     </PageContainer>
   );
