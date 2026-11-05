@@ -1,7 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
-import DeviceTooSmallModal from "./DeviceTooSmallModal";
+import DesktopOnlyNotice from "./DesktopOnlyNotice";
 import Footer from "./Footer";
 import MobileNav from "./MobileNav";
 import Nav from "./Nav";
@@ -20,21 +20,24 @@ const BACKGROUND_CLASSES = {
   solid: "bg-main-bg-solid-light! dark:bg-main-bg-solid-dark!",
 };
 
-function MobileBlocker() {
+function MobileBlocker({
+  background,
+}: {
+  background: keyof typeof BACKGROUND_CLASSES;
+}) {
   return (
-    // Only display mobile blocker if screen is small enough
+    // Only shown on small screens for pages that don't support mobile.
+    // Keeps the mobile nav so users can still reach their profile or log out.
     <div
       className={clsx(
         DISPLAY_ON_MOBILE_CLASS,
-        "relative flex min-h-screen w-full items-center justify-center",
-        BACKGROUND_CLASSES.gradient,
+        "flex min-h-screen w-full flex-col px-[16px] pt-[16px] pb-[48px]",
+        BACKGROUND_CLASSES[background],
       )}
     >
-      <div className="absolute inset-0 bg-overlay opacity-25" />
-      <div className="relative z-10">
-        <div className="max-w-[600px] px-[40px]">
-          <DeviceTooSmallModal />
-        </div>
+      <MobileNav />
+      <div className="flex flex-1 items-center justify-center pt-[32px]">
+        <DesktopOnlyNotice />
       </div>
     </div>
   );
@@ -58,7 +61,7 @@ export default function PageContainer({
   return (
     <>
       {/* Show mobile blocker when mobile isn't allowed and screen is too small*/}
-      {!allowMobile && <MobileBlocker />}
+      {!allowMobile && <MobileBlocker background={background} />}
 
       {/* Don't show main content if not allowing mobile and screen size is too small */}
       <div
