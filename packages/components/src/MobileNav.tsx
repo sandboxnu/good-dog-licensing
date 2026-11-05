@@ -39,7 +39,14 @@ export default function MobileNav() {
           onClick={closeMenu}
         >
           <NavLogo size={28} />
-          <p className="truncate font-righteous text-xl text-green-400 dark:text-mint-300">
+          {/* Hide the wordmark on narrow screens rather than truncating it.
+              Logged-in users also have the profile icon, so they need more room. */}
+          <p
+            className={clsx(
+              "hidden font-righteous text-xl whitespace-nowrap text-green-400 dark:text-mint-300",
+              user ? "min-[400px]:block" : "min-[360px]:block",
+            )}
+          >
             GOOD DOG LICENSING
           </p>
         </Link>
