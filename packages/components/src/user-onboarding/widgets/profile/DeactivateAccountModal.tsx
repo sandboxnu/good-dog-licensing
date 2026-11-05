@@ -24,7 +24,7 @@ export default function DeactivateAccountModal({
       height={308}
       danger={true}
     >
-      <div className="flex w-3/4 flex-col gap-4 pt-4">
+      <div className="flex w-full flex-col gap-4 pt-4 md:w-3/4">
         <div className="flex flex-col gap-[8px] text-dark-gray-500 dark:text-gray-300">
           Your entire account will be deactivated until you choose to reactivate
           it.

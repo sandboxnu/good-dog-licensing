@@ -15,7 +15,6 @@ import {
 } from "@good-dog/ui/sheet";
 
 import DarkModeSwitch from "./base/DarkModeSwitch";
-import ProfileDropdown from "./base/ProfileDropdown";
 import NavLogo from "./svg/NavLogo";
 
 export default function MobileNav() {
@@ -26,15 +25,22 @@ export default function MobileNav() {
   const homeLink = user ? "/home" : "/";
   const closeMenu = () => setIsOpen(false);
 
-  const links = [
-    { href: homeLink, label: "Home" },
-    ...(user
-      ? []
-      : [
-          { href: "/login", label: "Login" },
-          { href: "/signup", label: "Sign up" },
-        ]),
-  ];
+  const signOutMutation = trpc.signOut.useMutation({
+    onSuccess: () => {
+      window.location.replace("/");
+    },
+  });
+
+  const links = user
+    ? [
+        { href: homeLink, label: "Home" },
+        { href: "/profile", label: "Profile" },
+      ]
+    : [
+        { href: homeLink, label: "Home" },
+        { href: "/login", label: "Login" },
+        { href: "/signup", label: "Sign up" },
+      ];
 
   return (
     <header className="w-full">
@@ -45,19 +51,12 @@ export default function MobileNav() {
           onClick={closeMenu}
         >
           <NavLogo size={28} />
-          {/* Hide the wordmark on narrow screens rather than truncating it.
-              Logged-in users also have the profile icon, so they need more room. */}
-          <p
-            className={clsx(
-              "hidden font-righteous text-xl whitespace-nowrap text-green-400 dark:text-mint-300",
-              user ? "min-[400px]:block" : "min-[360px]:block",
-            )}
-          >
+          {/* Hide the wordmark on narrow screens rather than truncating it */}
+          <p className="hidden font-righteous text-xl whitespace-nowrap text-green-400 min-[360px]:block dark:text-mint-300">
             GOOD DOG LICENSING
           </p>
         </Link>
         <div className="flex shrink-0 items-center gap-[12px]">
-          {user && <ProfileDropdown />}
           <button
             type="button"
             onClick={() => setIsOpen(true)}
@@ -108,6 +107,19 @@ export default function MobileNav() {
               );
             })}
           </nav>
+
+          {user && (
+            <div className="px-[24px] pt-[16px]">
+              <button
+                type="button"
+                onClick={() => signOutMutation.mutate()}
+                disabled={signOutMutation.isPending}
+                className="py-[8px] text-xl text-red-400 dark:text-red-300"
+              >
+                Log out
+              </button>
+            </div>
+          )}
 
           <div className="mt-auto flex items-center justify-between border-t border-solid border-gray-600/30 px-[24px] py-[20px] text-lg text-green-500 dark:border-gray-200/30 dark:text-mint-200">
             <span>Dark mode</span>

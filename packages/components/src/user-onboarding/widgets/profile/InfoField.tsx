@@ -9,7 +9,9 @@ export default function InfoField({ header, content }: InfoFieldProps) {
       <header className="text-dark-gray-200 dark:text-dark-gray-100">
         {header}
       </header>
-      <div className="text-dark-gray-600 dark:text-white">{content}</div>
+      <div className="wrap-anywhere text-dark-gray-600 dark:text-white">
+        {content}
+      </div>
     </div>
   );
 }
