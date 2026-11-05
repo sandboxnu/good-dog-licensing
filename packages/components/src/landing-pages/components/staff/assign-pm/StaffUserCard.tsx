@@ -29,23 +29,29 @@ export function StaffUserCard({
     >
       <StaffUserCardInfo user={user} />
 
-      {isHovered && !isAssigned && (
-        <Button
-          size="small"
-          label="Assign"
-          variant="outlined"
-          onClick={() => onAssign(user)}
-        />
+      {/* Desktop shows "Assign" on hover; touch screens have no hover, so
+          it's always visible on phones */}
+      {!isAssigned && (
+        <div className={`shrink-0 ${isHovered ? "" : "md:hidden"}`}>
+          <Button
+            size="small"
+            label="Assign"
+            variant="outlined"
+            onClick={() => onAssign(user)}
+          />
+        </div>
       )}
 
       {isAssigned && (
-        <Button
-          size="small"
-          label="Assigned"
-          variant="contained"
-          onClick={() => onAssign(user)}
-          disabled
-        />
+        <div className="shrink-0">
+          <Button
+            size="small"
+            label="Assigned"
+            variant="contained"
+            onClick={() => onAssign(user)}
+            disabled
+          />
+        </div>
       )}
     </div>
   );
@@ -59,10 +65,10 @@ export function StaffUserCardInfo({
   showRole?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex min-w-0 items-center gap-3">
       <ProfileIcon size={40} color="light" name={user.firstName.charAt(0)} />
-      <div className="flex flex-col">
-        <div className="flex items-baseline gap-2">
+      <div className="flex min-w-0 flex-col">
+        <div className="flex flex-wrap items-baseline gap-x-2">
           <span className="font-semibold text-dark-gray-500 dark:text-gray-300">
             {user.firstName} {user.lastName}
           </span>
@@ -72,7 +78,7 @@ export function StaffUserCardInfo({
             </span>
           )}
         </div>
-        <span className="text-sm text-dark-gray-200 dark:text-dark-gray-100">
+        <span className="truncate text-sm text-dark-gray-200 dark:text-dark-gray-100">
           {user.email}
         </span>
       </div>

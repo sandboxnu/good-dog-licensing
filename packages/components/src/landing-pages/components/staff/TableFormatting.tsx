@@ -1,6 +1,60 @@
 "use client";
 
+import Dropdown from "../../../base/Dropdown";
 import SearchingMan from "../../../svg/homepage/admin/SearchingMan";
+
+/**
+ * Mobile layout for staff tables: on phones each row renders as a card and
+ * sorting moves into a "Sort by" dropdown. Desktop keeps the grid table.
+ */
+export const TABLE_DESKTOP_ONLY_CLASS = "max-md:hidden";
+
+export function MobileSortSelect<T extends string>({
+  id,
+  value,
+  options,
+  onChange,
+}: {
+  id: string;
+  value: T;
+  options: { value: T; label: string }[];
+  onChange: (newValue: T) => void;
+}) {
+  return (
+    <div className="md:hidden">
+      <Dropdown
+        id={id}
+        label="Sort by"
+        placeholder="Sort by"
+        value={value}
+        options={options}
+        arrow
+        onChange={(newValue) => onChange(newValue as T)}
+      />
+    </div>
+  );
+}
+
+export function MobileCardList({ children }: { children: React.ReactNode }) {
+  return <div className="flex flex-col gap-3 md:hidden">{children}</div>;
+}
+
+export function MobileCard({
+  onClick,
+  children,
+}: {
+  onClick?: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`flex flex-col gap-2 rounded-[16px] border-[0.5px] border-cream-400 bg-white p-4 dark:bg-dark-gray-600 ${onClick ? "cursor-pointer" : ""}`}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
+}
 
 export function TableRowFormatting({
   isLast,
@@ -50,7 +104,7 @@ export function TableOuterFormatting({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 pt-[32px] pr-[24px] pb-[48px] pl-[24px] shadow-card-light dark:bg-dark-gray-600">
+    <div className="flex flex-col gap-[24px] self-stretch rounded-[24px] bg-gray-100 pt-[32px] pr-[24px] pb-[48px] pl-[24px] shadow-card-light max-md:gap-[16px] max-md:px-[12px] max-md:pt-[16px] max-md:pb-[24px] dark:bg-dark-gray-600">
       {children}
     </div>
   );

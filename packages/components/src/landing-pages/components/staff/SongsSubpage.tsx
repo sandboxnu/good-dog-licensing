@@ -9,6 +9,10 @@ import Pagination, { usePagination } from "../../../base/Pagination";
 import Header from "../Header";
 import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
+  MobileCard,
+  MobileCardList,
+  MobileSortSelect,
+  TABLE_DESKTOP_ONLY_CLASS,
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
@@ -20,6 +24,12 @@ type MusicSubmission = GetProcedureOutput<"allMusic">[number];
 type SortColumn = "songName" | "musicianName" | "dateSubmitted";
 
 const PAGE_SIZE = 10;
+
+const SORT_OPTIONS: { value: SortColumn; label: string }[] = [
+  { value: "songName", label: "Song name" },
+  { value: "musicianName", label: "Musician" },
+  { value: "dateSubmitted", label: "Date submitted" },
+];
 
 const sortSongs = (songs: MusicSubmission[], sortColumn: SortColumn) => {
   return songs.sort((a, b) => {
@@ -77,7 +87,52 @@ function SongTable({
 }) {
   return (
     <TableOuterFormatting>
-      <div className="flex flex-col">
+      <MobileSortSelect
+        id="songsSort"
+        value={sortColumn}
+        options={SORT_OPTIONS}
+        onChange={setSortColumn}
+      />
+      <MobileCardList>
+        {data.map((song) => (
+          <MobileCard key={song.musicId}>
+            <div className="flex min-w-0 flex-col gap-1">
+              <p className="truncate text-body1 font-semibold text-dark-gray-500 dark:text-mint-300">
+                {song.songName}
+              </p>
+              <p className="truncate text-body3 text-dark-gray-300 dark:text-gray-200">
+                {song.performerName}
+              </p>
+            </div>
+            <div className="flex flex-row flex-wrap gap-1">
+              {song.genres.map((genre, index) => (
+                <GenreCard genre={genre} key={index} />
+              ))}
+            </div>
+            <div className="flex flex-row items-center justify-between gap-3 text-caption text-dark-gray-300 dark:text-gray-300">
+              <span>
+                Submitted{" "}
+                {song.createdAt.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+              <a
+                href={song.songLink}
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-green-500 underline dark:text-mint-200"
+              >
+                Open song
+              </a>
+            </div>
+          </MobileCard>
+        ))}
+        {data.length == 0 && <TableEmptyMessage />}
+      </MobileCardList>
+
+      <div className={`flex flex-col ${TABLE_DESKTOP_ONLY_CLASS}`}>
         <TableHeaderFormatting columnCount={6}>
           <SortableTableColumnHeader
             columnName="Song Name"

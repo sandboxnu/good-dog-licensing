@@ -65,7 +65,7 @@ export default function InviteModal({
     <Dialog open={inviteModalOpen} onOpenChange={closeModal}>
       {" "}
       <DialogOverlay className="bg-gray-400 opacity-25" />{" "}
-      <DialogContent className="max-w-md rounded-2xl border border-cream-500 bg-white p-[24px] dark:border-grass-green-100 dark:bg-dark-gray-600">
+      <DialogContent className="max-w-md rounded-2xl border border-cream-500 bg-white p-[24px] max-md:w-[calc(100%-32px)] dark:border-grass-green-100 dark:bg-dark-gray-600">
         <DialogHeader className="flex flex-col gap-[16px] space-y-2 text-left">
           <DialogTitle className="pt-[24px] text-[35px] font-medium text-gray-500 dark:text-gray-200">
             Invite new P&R

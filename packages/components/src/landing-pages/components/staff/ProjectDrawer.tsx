@@ -30,12 +30,12 @@ export default function ProjectDrawer({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="flex w-[50vw] min-w-[600px] flex-col rounded-l-2xl bg-white px-9 py-12 dark:bg-main-bg-solid-dark"
+        className="flex w-[50vw] min-w-[600px] flex-col rounded-l-2xl bg-white px-9 py-12 max-md:w-full max-md:min-w-0 max-md:rounded-none max-md:px-5 max-md:py-10 dark:bg-main-bg-solid-dark"
       >
         {/* Header */}
         <SheetHeader>
-          <SheetTitle className="flex flex-row items-center justify-between">
-            <p className="text-4xl dark:text-mint-300">
+          <SheetTitle className="flex flex-row items-center justify-between max-md:flex-col max-md:items-start max-md:gap-2">
+            <p className="text-4xl max-md:text-2xl dark:text-mint-300">
               {projectSubmission.projectTitle}
             </p>
             <div className="flex flex-row items-center gap-1">
