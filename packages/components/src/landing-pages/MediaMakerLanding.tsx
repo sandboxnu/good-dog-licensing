@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
@@ -13,8 +12,6 @@ import Header from "./components/Header";
 
 export default function MediaMakerLanding() {
   const [data] = trpc.mediamakerProjects.useSuspenseQuery();
-
-  const router = useRouter();
 
   return (
     <div className="align-start flex w-full flex-col gap-[32px]">
@@ -37,6 +34,7 @@ export default function MediaMakerLanding() {
             return (
               <Card
                 size="small"
+                href={`/project/${project.projectId}`}
                 title={project.projectTitle}
                 subheader={
                   "Submitted " +
@@ -54,10 +52,7 @@ export default function MediaMakerLanding() {
                     <div className="flex w-full flex-row justify-between">
                       <StatusIndicator status={project.mediaMakerStatus} />
                       <ChevronRight
-                        onClick={() =>
-                          router.push(`/project/${project.projectId}`)
-                        }
-                        className="text-black hover:cursor-pointer dark:text-mint-100"
+                        className="text-black dark:text-mint-100"
                         fill="none"
                       />
                     </div>

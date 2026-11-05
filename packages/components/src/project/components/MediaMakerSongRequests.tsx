@@ -30,10 +30,10 @@ export default function MediaMakerSongRequests({
 
   return (
     <div
-      className="flex cursor-pointer flex-col gap-4 rounded-2xl border-[.5px] border-cream-500 bg-gray-100 p-6 shadow-md dark:bg-dark-gray-600"
+      className="flex cursor-pointer flex-col gap-4 rounded-2xl border-[.5px] border-cream-500 bg-gray-100 p-4 shadow-md md:p-6 dark:bg-dark-gray-600"
       onClick={() => setDropdownOpen(!dropdownOpen)}
     >
-      <div className="flex flex-row items-center justify-between">
+      <div className="flex flex-row items-center justify-between gap-2">
         <div className="flex flex-col gap-2">
           <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
             {getStatusLabel(status)}
@@ -43,7 +43,7 @@ export default function MediaMakerSongRequests({
           </p>
         </div>
         <ChevronDown
-          className={`h-6 w-6 ${dropdownOpen ? "rotate-0" : "-rotate-90"} text-green-500 transition-all dark:text-mint-200`}
+          className={`h-6 w-6 shrink-0 ${dropdownOpen ? "rotate-0" : "-rotate-90"} text-green-500 transition-all dark:text-mint-200`}
         />
       </div>
       {dropdownOpen &&

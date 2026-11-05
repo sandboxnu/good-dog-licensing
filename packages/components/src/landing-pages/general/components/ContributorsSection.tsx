@@ -6,7 +6,7 @@ import Footnote from "./Footnote";
 
 export default function ContributorsSection() {
   return (
-    <GreenOval className="flex items-center justify-center">
+    <GreenOval className="flex items-center justify-center overflow-x-clip">
       <div className={clsx(CONTENT_MAX_WIDTH_CLASSES.small)}>
         <div className="relative pt-[120px] pb-[120px]">
           <div className="py-[50px] md:py-0">

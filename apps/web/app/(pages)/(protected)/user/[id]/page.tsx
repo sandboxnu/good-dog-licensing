@@ -31,7 +31,7 @@ export default async function Page({ params }: PageProps) {
   void trpc.userById.prefetch({ userId });
 
   return (
-    <PageContainer background="solid" widthType="large">
+    <PageContainer background="solid" widthType="large" allowMobile>
       <AristProfile userId={userId} />
     </PageContainer>
   );
