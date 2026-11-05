@@ -37,6 +37,9 @@ export default function SongDrawer({
   open: boolean;
   onClose: () => void;
 }) {
+  // Genres can be stored more than once on a submission; show each one once.
+  const genres = [...new Set(song.genres)];
+
   // Show the submitter first, then everyone else alphabetically.
   const contributors = [...song.contributors].sort((a, b) =>
     a.isSubmitter !== b.isSubmitter
@@ -52,12 +55,14 @@ export default function SongDrawer({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="flex w-[50vw] min-w-[600px] flex-col rounded-l-2xl bg-white px-9 py-12 dark:bg-main-bg-solid-dark"
+        className="flex w-[50vw] min-w-[600px] flex-col rounded-l-2xl bg-white px-9 py-12 max-md:w-full max-md:min-w-0 max-md:rounded-none max-md:px-5 max-md:py-10 dark:bg-main-bg-solid-dark"
       >
         {/* Header */}
         <SheetHeader>
-          <SheetTitle className="flex flex-row items-center justify-between gap-4">
-            <p className="text-4xl dark:text-mint-300">{song.songName}</p>
+          <SheetTitle className="flex flex-row items-center justify-between gap-4 max-md:flex-col max-md:items-start max-md:gap-2">
+            <p className="text-4xl wrap-break-word max-md:text-2xl dark:text-mint-300">
+              {song.songName}
+            </p>
             <div className="flex shrink-0 flex-row items-center gap-1">
               <p className="text-xs text-cream-600 dark:text-gray-200">
                 Submitted by{" "}
@@ -92,8 +97,8 @@ export default function SongDrawer({
 
             <DetailRow icon={<Music />} label="Genre(s)">
               <div className="flex flex-row flex-wrap gap-1">
-                {song.genres.length > 0 ? (
-                  song.genres.map((genre) => (
+                {genres.length > 0 ? (
+                  genres.map((genre) => (
                     <p
                       key={genre}
                       className="rounded-2xl border-[0.5px] border-gray-400 bg-gray-300 px-2 py-1 text-sm text-gray-500 dark:border-dark-gray-200 dark:bg-gray-500 dark:text-gray-300"
@@ -114,7 +119,7 @@ export default function SongDrawer({
                 href={song.songLink}
                 target="_blank"
                 rel="noreferrer"
-                className="truncate text-sm text-green-500 underline underline-offset-4 dark:text-mint-200"
+                className="min-w-0 truncate text-sm text-green-500 underline underline-offset-4 dark:text-mint-200"
               >
                 {song.songLink}
               </a>
@@ -178,7 +183,7 @@ function DetailRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-w-0 flex-row items-center gap-6">
+    <div className="flex min-w-0 flex-row items-center gap-6 max-sm:gap-4">
       <DetailLabel icon={icon} label={label} />
       {children}
     </div>
@@ -209,8 +214,8 @@ function ContributorCard({ contributor }: { contributor: Contributor }) {
   ];
 
   return (
-    <div className="dark:border-cream-700 flex flex-col gap-3 rounded-2xl border-[0.5px] border-cream-500 px-6 py-4">
-      <div className="flex flex-row items-center gap-2">
+    <div className="dark:border-cream-700 flex flex-col gap-3 rounded-2xl border-[0.5px] border-cream-500 px-4 py-4 sm:px-6">
+      <div className="flex flex-row flex-wrap items-center gap-2">
         <UserRound className="h-4 w-4 text-gray-400" />
         <p className="text-dark-gray-500 dark:text-gray-200">
           {contributor.firstName + " " + contributor.lastName}
@@ -221,7 +226,7 @@ function ContributorCard({ contributor }: { contributor: Contributor }) {
           </p>
         )}
       </div>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-2">
+      <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
         {fields.map(({ label, value }) => (
           <div key={label} className="flex min-w-0 flex-col">
             <p className="text-xs text-cream-600 dark:text-gray-200">{label}</p>

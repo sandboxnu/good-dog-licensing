@@ -45,17 +45,17 @@ export default function SubmissionCard({
   return (
     <div className="flex flex-col rounded-2xl border-[0.5px] border-cream-400 dark:border-cream-600">
       <div
-        className={`flex cursor-pointer flex-row items-center gap-4 px-6 ${open ? "pt-4" : "py-4"}`}
+        className={`flex cursor-pointer flex-row flex-wrap items-center gap-x-4 gap-y-2 px-4 sm:px-6 ${open ? "pt-4" : "py-4"}`}
         onClick={() => setOpen(!open)}
       >
         <ChevronRight
-          className={`h-5 w-5 text-dark-gray-500 transition-all dark:text-gray-300 ${open && "rotate-90"}`}
+          className={`h-5 w-5 shrink-0 text-dark-gray-500 transition-all dark:text-gray-300 ${open && "rotate-90"}`}
         />
         <p className="text-base font-semibold text-green-400 dark:text-mint-200">
           {title}
         </p>
         {!open && tags && tags.length > 0 && (
-          <div className="flex flex-row gap-1">
+          <div className="flex flex-row flex-wrap gap-1">
             {tags.map((tag, index) => (
               <span
                 key={`${tag}-${index}`}
@@ -68,7 +68,9 @@ export default function SubmissionCard({
         )}
       </div>
       {open && (
-        <div className="flex flex-col gap-5 px-10 pt-2 pb-6">{children}</div>
+        <div className="flex flex-col gap-5 px-4 pt-2 pb-6 sm:px-10">
+          {children}
+        </div>
       )}
     </div>
   );

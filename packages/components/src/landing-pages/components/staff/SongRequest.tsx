@@ -24,12 +24,12 @@ export default function SongRequest({
 
   return (
     <div
-      className="flex flex-row items-center justify-between rounded-2xl border-[0.5px] border-cream-500 bg-cream-100 p-4 hover:cursor-pointer dark:bg-green-500"
+      className="flex flex-row items-center justify-between gap-2 rounded-2xl border-[0.5px] border-cream-500 bg-cream-100 p-4 hover:cursor-pointer dark:bg-green-500"
       onClick={handleClick}
     >
-      <div className="flex flex-row items-center gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-row gap-4">
+      <div className="flex min-w-0 flex-row items-center gap-4">
+        <div className="flex min-w-0 flex-col gap-2">
+          <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-2">
             <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
               {songRequest.songRequestTitle}
             </p>
@@ -40,7 +40,7 @@ export default function SongRequest({
           </p>
         </div>
       </div>
-      <ChevronRight className="text-green-500 dark:text-mint-200" />
+      <ChevronRight className="shrink-0 text-green-500 dark:text-mint-200" />
     </div>
   );
 }

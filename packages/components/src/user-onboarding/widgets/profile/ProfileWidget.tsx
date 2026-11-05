@@ -122,7 +122,7 @@ export default function ProfileWidget() {
   };
 
   return (
-    <div className="flex w-[752px] flex-col gap-6">
+    <div className="flex w-full max-w-[752px] flex-col gap-6">
       <FormProvider {...emailFormMethods}>
         <SetEmailModal
           isOpen={displaySetEmailModal}
@@ -179,8 +179,8 @@ export default function ProfileWidget() {
       <div className="flex flex-col gap-y-[16px]">
         <ProfileDetails />
         <ProfileSection header="Security">
-          <div className="flex flex-col gap-y-6 rounded-2xl p-6">
-            <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-col gap-y-6 rounded-2xl p-4 sm:p-6">
+            <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
               <InfoField header="Email" content={user ? user.email : ""} />
               <Button
                 label="Change email"
@@ -189,7 +189,7 @@ export default function ProfileWidget() {
                 onClick={() => setDisplaySetEmailModal(true)}
               />
             </div>
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
               <InfoField header="Password" content="**********" />
               <Button
                 label="Change password"
@@ -201,9 +201,9 @@ export default function ProfileWidget() {
           </div>
         </ProfileSection>
         <ProfileSection header="Deactivate account" transparentHeader danger>
-          <div className="flex flex-col gap-y-[16px] rounded-2xl p-[24px] pt-4">
-            <div className="justify-left flex flex-row items-center gap-1 text-dark-gray-500 dark:text-gray-300">
-              <div className="text-red-400 dark:text-red-300">
+          <div className="flex flex-col gap-y-[16px] rounded-2xl p-4 sm:p-[24px] sm:pt-4">
+            <div className="justify-left flex flex-row items-start gap-1 text-dark-gray-500 sm:items-center dark:text-gray-300">
+              <div className="shrink-0 text-red-400 dark:text-red-300">
                 <ErrorExclamation size="medium" />
               </div>
               This will deactivate your account until you choose to reactivate

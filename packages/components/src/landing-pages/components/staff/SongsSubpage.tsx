@@ -18,6 +18,10 @@ import Header from "../Header";
 import SongDrawer from "./SongDrawer";
 import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
+  MobileCard,
+  MobileCardList,
+  MobileSortSelect,
+  TABLE_DESKTOP_ONLY_CLASS,
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
@@ -29,6 +33,12 @@ type MusicSubmission = GetProcedureOutput<"allMusic">[number];
 type SortColumn = "songName" | "musicianName" | "dateSubmitted";
 
 const PAGE_SIZE = 10;
+
+const SORT_OPTIONS: { value: SortColumn; label: string }[] = [
+  { value: "songName", label: "Song name" },
+  { value: "musicianName", label: "Musician" },
+  { value: "dateSubmitted", label: "Date submitted" },
+];
 
 const sortSongs = (songs: MusicSubmission[], sortColumn: SortColumn) => {
   return [...songs].sort((a, b) => {
@@ -46,6 +56,9 @@ const sortSongs = (songs: MusicSubmission[], sortColumn: SortColumn) => {
     }
   });
 };
+
+// Genres can be stored more than once on a submission; show each one once.
+const uniqueGenres = (song: MusicSubmission) => [...new Set(song.genres)];
 
 const matchesSearch = (song: MusicSubmission, query: string) =>
   search(song.songName, query) ||
@@ -111,14 +124,14 @@ export default function SongsSubpage() {
       <Header title={"Songs"} subtitle={"Song submissions"} />
       <TableOuterFormatting>
         <div className="flex flex-col gap-2">
-          <div className="flex flex-row flex-wrap items-center gap-[16px]">
-            <div className="w-[300px]">
+          <div className="flex flex-col items-stretch gap-[12px] md:flex-row md:flex-wrap md:items-center md:gap-[16px]">
+            <div className="w-full md:w-[300px]">
               <SearchBar
                 onChange={setSearchQuery}
                 placeholder="Search songs, artists, genres, or contributors"
               />
             </div>
-            <div className="ml-auto flex flex-row gap-2">
+            <div className="flex flex-row flex-wrap gap-2 md:ml-auto">
               <MultiselectDropdownFilter
                 label="Artists"
                 value={selectedArtists}
@@ -217,75 +230,125 @@ function SongTable({
   onSelectSong: (song: MusicSubmission) => void;
 }) {
   return (
-    <div className="flex flex-col">
-      <TableHeaderFormatting columnCount={6}>
-        <SortableTableColumnHeader
-          columnName="Song Name"
-          currentSort={sortColumn}
-          sortColumn="songName"
-          setSortColumn={setSortColumn}
-        />
-        <SortableTableColumnHeader
-          columnName="Musician"
-          currentSort={sortColumn}
-          sortColumn="musicianName"
-          setSortColumn={setSortColumn}
-        />
-        <p className="dark:text-white">Genre</p>
-        <SortableTableColumnHeader
-          columnName="Date Submitted"
-          currentSort={sortColumn}
-          sortColumn="dateSubmitted"
-          setSortColumn={setSortColumn}
-        />
-        <p className="dark:text-white">Song Link</p>
-      </TableHeaderFormatting>
-
-      {data.map((song: MusicSubmission, key) => {
-        return (
-          <div
-            className="cursor-pointer"
-            onClick={() => onSelectSong(song)}
-            key={song.musicId}
-          >
-            <TableRowFormatting
-              isLast={key === data.length - 1}
-              columnCount={6}
-            >
-              <p className="truncate dark:text-white">{song.songName}</p>
-              <p className="truncate dark:text-white">{song.performerName}</p>
-              <div className="flex gap-1 overflow-hidden dark:text-white">
-                {song.genres.slice(0, 1).map((genre) => (
-                  <GenreCard genre={genre} key={genre} />
-                ))}
-                {song.genres.length > 1 && (
-                  <div className="flex h-6 w-fit items-center justify-center gap-1 rounded-sm bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
-                    +{song.genres.length - 1}
-                  </div>
-                )}
-              </div>
-              <p className="dark:text-white">
+    <>
+      <MobileSortSelect
+        id="songsSort"
+        value={sortColumn}
+        options={SORT_OPTIONS}
+        onChange={setSortColumn}
+      />
+      <MobileCardList>
+        {data.map((song) => (
+          <MobileCard key={song.musicId} onClick={() => onSelectSong(song)}>
+            <div className="flex min-w-0 flex-col gap-1">
+              <p className="truncate text-body1 font-semibold text-dark-gray-500 dark:text-mint-300">
+                {song.songName}
+              </p>
+              <p className="truncate text-body3 text-dark-gray-300 dark:text-gray-200">
+                {song.performerName}
+              </p>
+            </div>
+            <div className="flex flex-row flex-wrap gap-1">
+              {uniqueGenres(song).map((genre) => (
+                <GenreCard genre={genre} key={genre} />
+              ))}
+            </div>
+            <div className="flex flex-row items-center justify-between gap-3 text-caption text-dark-gray-300 dark:text-gray-300">
+              <span>
+                Submitted{" "}
                 {song.createdAt.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
                 })}
-              </p>
+              </span>
               <a
                 href={song.songLink}
                 target="_blank"
                 rel="noreferrer"
-                className="truncate dark:text-white"
+                className="font-medium text-green-500 underline dark:text-mint-200"
                 onClick={(e) => e.stopPropagation()}
               >
-                <u>{song.songLink}</u>
+                Open song
               </a>
-            </TableRowFormatting>
-          </div>
-        );
-      })}
-      {data.length == 0 && <TableEmptyMessage />}
-    </div>
+            </div>
+          </MobileCard>
+        ))}
+        {data.length == 0 && <TableEmptyMessage />}
+      </MobileCardList>
+
+      <div className={`flex flex-col ${TABLE_DESKTOP_ONLY_CLASS}`}>
+        <TableHeaderFormatting columnCount={6}>
+          <SortableTableColumnHeader
+            columnName="Song Name"
+            currentSort={sortColumn}
+            sortColumn="songName"
+            setSortColumn={setSortColumn}
+          />
+          <SortableTableColumnHeader
+            columnName="Musician"
+            currentSort={sortColumn}
+            sortColumn="musicianName"
+            setSortColumn={setSortColumn}
+          />
+          <p className="dark:text-white">Genre</p>
+          <SortableTableColumnHeader
+            columnName="Date Submitted"
+            currentSort={sortColumn}
+            sortColumn="dateSubmitted"
+            setSortColumn={setSortColumn}
+          />
+          <p className="dark:text-white">Song Link</p>
+        </TableHeaderFormatting>
+
+        {data.map((song: MusicSubmission, key) => {
+          return (
+            <div
+              className="cursor-pointer"
+              onClick={() => onSelectSong(song)}
+              key={song.musicId}
+            >
+              <TableRowFormatting
+                isLast={key === data.length - 1}
+                columnCount={6}
+              >
+                <p className="truncate dark:text-white">{song.songName}</p>
+                <p className="truncate dark:text-white">{song.performerName}</p>
+                <div className="flex gap-1 overflow-hidden dark:text-white">
+                  {uniqueGenres(song)
+                    .slice(0, 1)
+                    .map((genre) => (
+                      <GenreCard genre={genre} key={genre} />
+                    ))}
+                  {uniqueGenres(song).length > 1 && (
+                    <div className="flex h-6 w-fit items-center justify-center gap-1 rounded-sm bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
+                      +{uniqueGenres(song).length - 1}
+                    </div>
+                  )}
+                </div>
+                <p className="dark:text-white">
+                  {song.createdAt.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </p>
+                <a
+                  href={song.songLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="truncate dark:text-white"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <u>{song.songLink}</u>
+                </a>
+              </TableRowFormatting>
+            </div>
+          );
+        })}
+        {data.length == 0 && <TableEmptyMessage />}
+      </div>
+    </>
   );
 }
 

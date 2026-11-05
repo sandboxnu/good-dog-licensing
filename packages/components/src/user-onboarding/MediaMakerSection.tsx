@@ -5,8 +5,8 @@ import SectionRow from "./SectionRow";
 
 export default function MediaMakerSection() {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-[140px] pt-[100px] pb-[200px] text-center">
-      <h1 className="text-green-500 dark:text-mint-200">
+    <div className="flex w-full flex-col items-center justify-center gap-[64px] pt-[64px] pb-[96px] text-center md:gap-[140px] md:pt-[100px] md:pb-[200px]">
+      <h1 className="text-[32px] text-green-500 md:text-[50px] dark:text-mint-200">
         Tell us about your project and we’ll find music that matches!
       </h1>
       <SectionRow

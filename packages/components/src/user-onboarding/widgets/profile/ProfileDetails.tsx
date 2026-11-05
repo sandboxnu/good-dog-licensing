@@ -91,8 +91,8 @@ export default function ProfileDetails({
   if (!editable) {
     return (
       <ProfileSection header="Personal Details">
-        <div className="flex flex-col gap-y-6 rounded-2xl p-[24px] pt-6">
-          <div className="flex flex-row gap-16">
+        <div className="flex flex-col gap-y-6 rounded-2xl p-4 sm:p-[24px] sm:pt-6">
+          <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
             <div className="flex-1">
               <InfoField header="First name" content={user?.firstName ?? ""} />
             </div>
@@ -100,7 +100,7 @@ export default function ProfileDetails({
               <InfoField header="Last name" content={user?.lastName ?? ""} />
             </div>
           </div>
-          <div className="flex flex-row gap-16">
+          <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
             {user?.role === "MUSICIAN" ? (
               <div className="flex-1">
                 <InfoField
@@ -134,10 +134,10 @@ export default function ProfileDetails({
         onCancel={() => setEditingPersonalDetails(false)}
         onEdit={() => setEditingPersonalDetails(true)}
       >
-        <div className="flex flex-col gap-y-6 rounded-2xl p-[24px] pt-6">
+        <div className="flex flex-col gap-y-6 rounded-2xl p-4 sm:p-[24px] sm:pt-6">
           {editingPersonalDetails ? (
             <>
-              <div className="flex flex-row gap-16">
+              <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
                 <div className="flex-1">
                   <RHFTextInput<ProfileValuesFields>
                     rhfName={"firstName"}
@@ -163,7 +163,7 @@ export default function ProfileDetails({
                   />
                 </div>
               </div>
-              <div className="flex flex-row gap-16">
+              <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
                 <div className="flex-1">
                   <RHFDropdown<ProfileValuesFields>
                     rhfName={"affiliation"}
@@ -193,7 +193,7 @@ export default function ProfileDetails({
                 </div>
               </div>
               {showOtherAffiliationNameField && (
-                <div className="flex flex-row gap-16">
+                <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
                   <div className="flex-1">
                     <RHFTextInput<ProfileValuesFields>
                       rhfName={"otherAffiliationName"}
@@ -212,7 +212,7 @@ export default function ProfileDetails({
             </>
           ) : (
             <>
-              <div className="flex flex-row gap-16">
+              <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
                 <div className="flex-1">
                   <InfoField
                     header="First name"
@@ -226,7 +226,7 @@ export default function ProfileDetails({
                   />
                 </div>
               </div>
-              <div className="flex flex-row gap-16">
+              <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
                 <div className="flex-1">
                   <InfoField
                     header="Group"
@@ -240,7 +240,7 @@ export default function ProfileDetails({
                 </div>
               </div>
               {showOtherAffiliationNameField && (
-                <div className="flex flex-row gap-16">
+                <div className="flex flex-col gap-6 sm:flex-row sm:gap-16">
                   <div className="flex-1">
                     <InfoField
                       header="Name of your PRO"

@@ -48,7 +48,7 @@ export function AssignProjectModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTitle></DialogTitle>
       <DialogContent
-        className="flex h-[391px] w-[500px] flex-col rounded-2xl bg-white p-6"
+        className="flex h-[391px] w-[500px] flex-col rounded-2xl bg-white p-6 max-md:w-[calc(100vw-32px)]"
         hideCloseButton
       >
         <div className="flex w-full flex-1 flex-col gap-4">

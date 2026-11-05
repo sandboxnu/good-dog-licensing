@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useState } from "react";
 import { MessageSquare } from "lucide-react";
 
@@ -34,10 +35,29 @@ export default function MatchInformation({
     (m) => m.matchState === MatchState.SENT_TO_MEDIA_MAKER,
   ).length;
 
+  // On phones there's no room for the side panel, so the selected match's
+  // details expand directly under its card instead.
+  const withMobileDetails = (
+    match: SongRequestMatchesType[number],
+    card: ReactNode,
+  ) => (
+    <div className="flex flex-col gap-3">
+      {card}
+      {match.matchId === selectedMatchId && (
+        <div className="md:hidden">
+          <MusicInformation
+            musicSubmission={match.musicSubmission}
+            submitter={match.musicSubmission.submitter}
+          />
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex flex-row items-center justify-between">
-        <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
+      <div className="flex flex-row items-center justify-between gap-4">
+        <p className="text-2xl text-dark-gray-500 md:text-4xl dark:text-mint-300">
           Match Information
         </p>
         <ButtonShad
@@ -51,13 +71,16 @@ export default function MatchInformation({
         </ButtonShad>
       </div>
       <div className="flex w-full flex-row gap-6">
-        <div className="w-1/3 shrink-0">
+        <div className="hidden w-1/3 shrink-0 md:block">
           <MusicInformation
             musicSubmission={selectedMatch?.musicSubmission}
             submitter={selectedMatch?.musicSubmission.submitter}
           />
         </div>
         <div className="min-w-0 flex-1">
+          <p className="pb-3 text-dark-gray-500 md:hidden dark:text-gray-200">
+            Tap a match to see its details.
+          </p>
           <MatchStatusTabs
             tabs={[
               {
@@ -69,14 +92,17 @@ export default function MatchInformation({
                     matches={matches}
                     matchStates={[MatchState.SENT_TO_MEDIA_MAKER]}
                     headerHint="Review and approve/deny the songs matched below"
-                    renderMatch={(match) => (
-                      <Match
-                        state="INCOMING"
-                        match={match}
-                        selectedMatchId={selectedMatchId}
-                        setSelectedMatchId={setSelectedMatchId}
-                      />
-                    )}
+                    renderMatch={(match) =>
+                      withMobileDetails(
+                        match,
+                        <Match
+                          state="INCOMING"
+                          match={match}
+                          selectedMatchId={selectedMatchId}
+                          setSelectedMatchId={setSelectedMatchId}
+                        />,
+                      )
+                    }
                   />
                 ),
               },
@@ -87,14 +113,17 @@ export default function MatchInformation({
                   <MatchesList
                     matches={matches}
                     matchStates={[MatchState.SENT_TO_MUSICIAN]}
-                    renderMatch={(match) => (
-                      <Match
-                        state="PENDING_APPROVAL"
-                        match={match}
-                        selectedMatchId={selectedMatchId}
-                        setSelectedMatchId={setSelectedMatchId}
-                      />
-                    )}
+                    renderMatch={(match) =>
+                      withMobileDetails(
+                        match,
+                        <Match
+                          state="PENDING_APPROVAL"
+                          match={match}
+                          selectedMatchId={selectedMatchId}
+                          setSelectedMatchId={setSelectedMatchId}
+                        />,
+                      )
+                    }
                   />
                 ),
               },
@@ -105,14 +134,17 @@ export default function MatchInformation({
                   <MatchesList
                     matches={matches}
                     matchStates={[MatchState.APPROVED_BY_MUSICIAN]}
-                    renderMatch={(match) => (
-                      <Match
-                        state="MATCHED"
-                        match={match}
-                        selectedMatchId={selectedMatchId}
-                        setSelectedMatchId={setSelectedMatchId}
-                      />
-                    )}
+                    renderMatch={(match) =>
+                      withMobileDetails(
+                        match,
+                        <Match
+                          state="MATCHED"
+                          match={match}
+                          selectedMatchId={selectedMatchId}
+                          setSelectedMatchId={setSelectedMatchId}
+                        />,
+                      )
+                    }
                   />
                 ),
               },
@@ -126,14 +158,17 @@ export default function MatchInformation({
                       MatchState.REJECTED_BY_MEDIA_MAKER,
                       MatchState.REJECTED_BY_MUSICIAN,
                     ]}
-                    renderMatch={(match) => (
-                      <Match
-                        state="REJECTED"
-                        match={match}
-                        selectedMatchId={selectedMatchId}
-                        setSelectedMatchId={setSelectedMatchId}
-                      />
-                    )}
+                    renderMatch={(match) =>
+                      withMobileDetails(
+                        match,
+                        <Match
+                          state="REJECTED"
+                          match={match}
+                          selectedMatchId={selectedMatchId}
+                          setSelectedMatchId={setSelectedMatchId}
+                        />,
+                      )
+                    }
                   />
                 ),
               },

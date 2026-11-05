@@ -20,6 +20,10 @@ import { AssignProjectModal } from "./assign-pm/AssignProjectModal";
 import ProjectDrawer from "./ProjectDrawer";
 import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
+  MobileCard,
+  MobileCardList,
+  MobileSortSelect,
+  TABLE_DESKTOP_ONLY_CLASS,
   TableEmptyMessage,
   TableHeaderFormatting,
   TableOuterFormatting,
@@ -44,6 +48,21 @@ const admModProjectStatusOrder: AdmModProjectStatus[] = [
 
 type SortColumn =
   "projectName" | "mediaMaker" | "dateSubmitted" | "deadline" | "assignee";
+
+const SORT_OPTIONS: { value: SortColumn; label: string }[] = [
+  { value: "dateSubmitted", label: "Date submitted" },
+  { value: "deadline", label: "Deadline" },
+  { value: "projectName", label: "Project name" },
+  { value: "mediaMaker", label: "Media maker" },
+  { value: "assignee", label: "Assignee" },
+];
+
+const formatShortDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 
 const filterProjects = (
   projects: ProjectType[],
@@ -124,7 +143,7 @@ export default function ProjectsSubpage() {
     <div className="flex flex-col gap-[32px]">
       <Header title={"Submissions"} subtitle={"Pending project submissions"} />
 
-      <div className="flex flex-row gap-[24px]">
+      <div className="flex flex-col gap-[8px] md:flex-row md:gap-[24px]">
         {admModProjectStatusOrder.map((status) => (
           <SubmissionStatusTab
             key={status}
@@ -139,15 +158,15 @@ export default function ProjectsSubpage() {
         ))}
       </div>
       <TableOuterFormatting>
-        <div className="flex flex-row items-center gap-[16px]">
-          <div className="w-[300px]">
+        <div className="flex flex-col items-stretch gap-[12px] md:flex-row md:items-center md:gap-[16px]">
+          <div className="w-full md:w-[300px]">
             <SearchBar
               onChange={setSearchQuery}
               placeholder="Search projects or media makers"
             />
           </div>
 
-          <div className="ml-auto flex flex-row items-center gap-[30px]">
+          <div className="flex flex-row items-center justify-between gap-[16px] md:ml-auto md:gap-[30px]">
             <Checkbox
               label="Assigned to me"
               id="assignedToMe"
@@ -220,6 +239,38 @@ function SubmissionTable({
     },
   });
 
+  const openProject = (project: ProjectType) =>
+    router.replace(`?projectId=${project.projectId}`, { scroll: false });
+
+  const renderAssignButton = (project: ProjectType) => (
+    <button
+      type="button"
+      className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 hover:bg-dark-gray-100 dark:border-gray-300 dark:text-white"
+      aria-label="Assign project"
+      onClick={(e) => {
+        e.stopPropagation();
+        if (user?.role === "ADMIN") {
+          setShowPMModal(true);
+          setProjectBeingAssigned(project);
+        } else {
+          alert(
+            "You are not allowed to change the project manager for this project.",
+          );
+        }
+      }}
+    >
+      {project.projectManager?.firstName ? (
+        <ProfileIcon
+          color="light"
+          size={32}
+          name={project.projectManager.firstName.charAt(0)}
+        />
+      ) : (
+        "+"
+      )}
+    </button>
+  );
+
   return (
     <>
       {showPMModal && (
@@ -239,7 +290,44 @@ function SubmissionTable({
         />
       )}
 
-      <div className="flex flex-col">
+      <MobileSortSelect
+        id="projectsSort"
+        value={sortColumn}
+        options={SORT_OPTIONS}
+        onChange={setSortColumn}
+      />
+      <MobileCardList>
+        {data.map((project) => (
+          <MobileCard
+            key={project.projectId}
+            onClick={() => openProject(project)}
+          >
+            <div className="flex flex-row items-start justify-between gap-3">
+              <div className="flex min-w-0 flex-col gap-1">
+                <p className="truncate text-body1 font-semibold text-dark-gray-500 dark:text-mint-300">
+                  {project.projectTitle}
+                </p>
+                <p className="truncate text-body3 text-dark-gray-300 dark:text-gray-200">
+                  {project.projectOwner.firstName +
+                    " " +
+                    project.projectOwner.lastName}
+                </p>
+              </div>
+              <div className="shrink-0">{renderAssignButton(project)}</div>
+            </div>
+            <p className="line-clamp-2 text-body3 text-dark-gray-500 dark:text-gray-200">
+              {project.description}
+            </p>
+            <div className="flex flex-row flex-wrap gap-x-4 gap-y-1 text-caption text-dark-gray-300 dark:text-gray-300">
+              <span>Submitted {formatShortDate(project.createdAt)}</span>
+              <span>Deadline {formatShortDate(project.deadline)}</span>
+            </div>
+          </MobileCard>
+        ))}
+        {data.length == 0 && <TableEmptyMessage />}
+      </MobileCardList>
+
+      <div className={`flex flex-col ${TABLE_DESKTOP_ONLY_CLASS}`}>
         <TableHeaderFormatting columnCount={6}>
           <SortableTableColumnHeader
             columnName="Project Name"
@@ -278,11 +366,7 @@ function SubmissionTable({
           return (
             <div
               className="cursor-pointer"
-              onClick={() =>
-                router.replace(`?projectId=${project.projectId}`, {
-                  scroll: false,
-                })
-              }
+              onClick={() => openProject(project)}
               key={project.projectId}
             >
               <TableRowFormatting
@@ -316,32 +400,7 @@ function SubmissionTable({
                   })}
                 </p>
                 <div className="flex pl-[15px]">
-                  <button
-                    type="button"
-                    className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-dotted border-gray-400 text-gray-400 hover:bg-dark-gray-100 dark:border-gray-300 dark:text-white"
-                    aria-label="Assign project"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (user?.role === "ADMIN") {
-                        setShowPMModal(true);
-                        setProjectBeingAssigned(project);
-                      } else {
-                        alert(
-                          "You are not allowed to change the project manager for this project.",
-                        );
-                      }
-                    }}
-                  >
-                    {project.projectManager?.firstName ? (
-                      <ProfileIcon
-                        color="light"
-                        size={32}
-                        name={project.projectManager.firstName.charAt(0)}
-                      />
-                    ) : (
-                      "+"
-                    )}
-                  </button>
+                  {renderAssignButton(project)}
                 </div>
               </TableRowFormatting>
             </div>

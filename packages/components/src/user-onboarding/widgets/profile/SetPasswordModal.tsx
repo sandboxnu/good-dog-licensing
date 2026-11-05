@@ -43,7 +43,7 @@ export default function SetPasswordModal({
       width={500}
       height={404}
     >
-      <div className="flex w-3/4 flex-col gap-4 pt-4">
+      <div className="flex w-full flex-col gap-4 pt-4 md:w-3/4">
         <div className="flex flex-col gap-[8px]">
           {errorMessage && (
             <div className="flex flex-row items-center gap-[4px] pt-[12px]">

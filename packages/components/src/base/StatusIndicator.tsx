@@ -61,7 +61,7 @@ export default function StatusIndicator({
   };
 
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className="flex flex-row flex-wrap items-center gap-2">
       <div
         className={`align-center flex min-h-[24px] w-fit shrink-0 items-center justify-center gap-[4px] rounded-sm pt-[4px] pr-[8px] pb-[4px] pl-[8px] ${getColorFromVariant(variant)}`}
       >

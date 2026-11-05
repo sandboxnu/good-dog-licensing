@@ -27,7 +27,7 @@ export default function ForgotPasswordForm() {
 
   return (
     <FormProvider {...forgotPasswordForm}>
-      <div className="pr-[40px]">
+      <div className="md:pr-[40px]">
         <RHFTextInput<FormValues>
           rhfName={"email"}
           label={"Email"}

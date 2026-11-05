@@ -12,13 +12,13 @@ export default function SongRequestSubmissionHeader({
   projectId,
 }: SongRequestSubmissionHeaderProps) {
   return (
-    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
-      <p className="text-5xl font-medium text-dark-gray-500 dark:text-mint-300">
+    <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-400 bg-gray-100 p-6 text-black md:p-10 dark:bg-dark-gray-600">
+      <p className="text-3xl font-medium text-dark-gray-500 md:text-5xl dark:text-mint-300">
         Song request submission form
       </p>
       {step != SubmissionStep.SUBMITTED && (
         <div className="flex flex-col gap-[10px]">
-          <p className="text-lg font-medium text-dark-gray-500 dark:text-gray-200">
+          <p className="text-base font-medium text-dark-gray-500 md:text-lg dark:text-gray-200">
             Getting the rights to music can be an extremely expensive and
             cumbersome process. Even finding the right music can be a struggle.
             Good Dog takes care of everything and at no cost to you. Tell us
@@ -33,7 +33,7 @@ export default function SongRequestSubmissionHeader({
       )}
       {step == SubmissionStep.SUBMITTED && (
         <div className="flex flex-col gap-6">
-          <p className="text-lg font-medium text-dark-gray-500 dark:text-gray-200">
+          <p className="text-base font-medium text-dark-gray-500 md:text-lg dark:text-gray-200">
             Your response has been recorded!
           </p>
           <a

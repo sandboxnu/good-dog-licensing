@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useRouter } from "next/navigation";
 import { ChevronRight, Music, UsersRound } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
@@ -15,7 +14,6 @@ import Header from "./components/Header";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
-  const router = useRouter();
   return (
     <div className="align-start flex w-full flex-col gap-[32px]">
       <Header
@@ -68,14 +66,12 @@ export default function MusicianLanding() {
 
                     <div className="flex w-full flex-row justify-between">
                       <StatusIndicator status={song.musicianSongStatus} />
-                      <ChevronRight
-                        onClick={() => router.push("/song/" + song.musicId)}
-                        className="text-black hover:cursor-pointer dark:text-mint-100"
-                      />
+                      <ChevronRight className="text-black dark:text-mint-100" />
                     </div>
                   </div>
                 }
                 size="small"
+                href={"/song/" + song.musicId}
                 key={key}
               />
             );

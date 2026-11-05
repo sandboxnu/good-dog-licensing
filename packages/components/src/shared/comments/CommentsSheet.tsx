@@ -80,7 +80,7 @@ export default function CommentsSheet({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="flex w-[400px] flex-col border-l border-cream-300 bg-white p-0 dark:border-dark-gray-600 dark:bg-dark-gray-600"
+        className="flex w-[400px] max-w-full flex-col border-l border-cream-300 bg-white p-0 dark:border-dark-gray-600 dark:bg-dark-gray-600"
       >
         {/* Header */}
         <div className="flex flex-col gap-1 px-6 pt-6 pb-4">

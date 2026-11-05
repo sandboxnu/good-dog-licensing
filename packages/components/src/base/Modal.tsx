@@ -27,13 +27,19 @@ export default function Modal({
   if (!open) return null;
 
   return (
-    <div className={`absolute inset-0 z-50 flex items-center justify-center`}>
+    <div
+      className={`absolute inset-0 z-50 flex items-center justify-center max-md:fixed max-md:bg-black/40 max-md:px-[16px]`}
+    >
       <div
-        className={`rounded-[16px] border border-dark-gray-500 bg-gray-100 shadow-modal dark:bg-dark-gray-600`}
-        style={{
-          width: `${width}px`,
-          height: `${height}px`,
-        }}
+        // On phones, cap the width to the screen and let the height grow to fit
+        // wrapped content. Desktop keeps the fixed width and height.
+        className={`h-(--modal-height) max-w-[calc(100vw-32px)] rounded-[16px] border border-dark-gray-500 bg-gray-100 shadow-modal max-md:h-auto max-md:min-h-(--modal-height) max-md:pb-[24px] dark:bg-dark-gray-600`}
+        style={
+          {
+            width: `${width}px`,
+            "--modal-height": `${height}px`,
+          } as React.CSSProperties
+        }
       >
         <div className="flex justify-end px-[21px] pt-[24px]">
           <button onClick={onClose}>
@@ -52,7 +58,9 @@ export default function Modal({
             {headerText}
           </h3>
         </div>
-        <div className="flex flex-col items-center text-center">{children}</div>
+        <div className="flex flex-col items-center text-center max-md:px-[16px]">
+          {children}
+        </div>
       </div>
     </div>
   );

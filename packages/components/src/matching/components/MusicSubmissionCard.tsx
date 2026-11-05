@@ -27,11 +27,11 @@ export function MusicSubmissionCard({
   return (
     <div className="dark:border-cream-700 flex flex-col gap-2 rounded-2xl border-[0.5px] border-cream-500">
       <div
-        className={`flex flex-row justify-between px-6 ${open ? "pt-4" : "py-4"}`}
+        className={`flex flex-row flex-wrap items-center justify-between gap-2 px-4 sm:px-6 ${open ? "pt-4" : "py-4"}`}
       >
-        <div className="flex flex-row items-center gap-4">
+        <div className="flex min-w-0 flex-row flex-wrap items-center gap-x-4 gap-y-2">
           <ChevronRight
-            className={`h-6 w-6 text-dark-gray-500 transition-all hover:cursor-pointer dark:text-gray-300 ${open && "rotate-90"}`}
+            className={`h-6 w-6 shrink-0 text-dark-gray-500 transition-all hover:cursor-pointer dark:text-gray-300 ${open && "rotate-90"}`}
             onClick={() => setOpen(!open)}
           />
           <div className="flex flex-col gap-1">
@@ -52,7 +52,7 @@ export function MusicSubmissionCard({
             )}
           </div>
           {!open && (
-            <div className="flex flex-row items-center gap-1">
+            <div className="flex flex-row flex-wrap items-center gap-1">
               {musicSubmission.genres.slice(0, 3).map((genre, index) => (
                 <p
                   key={`${musicSubmission.musicId}-${genre}-${index}`}

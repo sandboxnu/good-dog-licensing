@@ -65,7 +65,7 @@ export default function MusicSubmissionWidget() {
   };
 
   return (
-    <div className="flex w-[752px] flex-col items-center gap-4">
+    <div className="flex w-full max-w-[752px] flex-col items-center gap-4">
       <MusicSubmissionHeader step={step} />
       <div className="flex w-full">
         <FormProvider {...formMethods}>

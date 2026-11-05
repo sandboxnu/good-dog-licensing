@@ -17,7 +17,7 @@ export default function AristProfile({ userId }: { userId: string }) {
   });
 
   return (
-    <div className="flex w-[752px] flex-col gap-6">
+    <div className="flex w-full max-w-[752px] flex-col gap-6">
       <div className="flex flex-row items-center gap-4">
         <ProfileIcon color="light" size={56} name={user.firstName} />
         <div className="flex flex-col">

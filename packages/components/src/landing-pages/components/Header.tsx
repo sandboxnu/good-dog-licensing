@@ -18,12 +18,14 @@ export default function Header({
   const router = useRouter();
 
   return (
-    <div className="flex w-full flex-row justify-between gap-[32px]">
+    <div className="flex w-full flex-row items-start justify-between gap-[16px] md:gap-[32px]">
       <div className="flex flex-col gap-[8px]">
-        <h3 className="dark:text-mint-300">{title}</h3>
+        <h3 className="text-[28px] md:text-[35px] dark:text-mint-300">
+          {title}
+        </h3>
         <p className="text-body3 dark:text-gray-200">{subtitle}</p>
       </div>
-      <div className="flex flex-row items-center gap-[16px]">
+      <div className="flex shrink-0 flex-row items-center gap-[16px]">
         {requestPath && buttonContent && (
           <Button
             onClick={() => router.push(requestPath)}
