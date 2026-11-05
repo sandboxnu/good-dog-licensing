@@ -3,12 +3,7 @@ import PageContainer from "@good-dog/components/PageContainer";
 
 export default function About() {
   return (
-    <PageContainer
-      background="gradient"
-      widthType="full"
-      allowMobile={true}
-      smallHeader={true}
-    >
+    <PageContainer background="gradient" widthType="full" smallHeader={true}>
       <AboutPage />
     </PageContainer>
   );
