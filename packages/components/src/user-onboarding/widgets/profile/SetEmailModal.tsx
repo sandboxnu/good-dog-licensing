@@ -41,7 +41,7 @@ export default function SetEmailModal({
       width={500}
       height={283}
     >
-      <div className="w-3/4 py-4">
+      <div className="w-full py-4 md:w-3/4">
         {errorMessage && (
           <div className="flex flex-row items-center gap-[4px] pt-[12px] text-red-400 dark:text-red-300">
             <div>

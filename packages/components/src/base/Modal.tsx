@@ -27,7 +27,9 @@ export default function Modal({
   if (!open) return null;
 
   return (
-    <div className={`absolute inset-0 z-50 flex items-center justify-center`}>
+    <div
+      className={`absolute inset-0 z-50 flex items-center justify-center max-md:fixed max-md:bg-black/40 max-md:px-[16px]`}
+    >
       <div
         // On phones, cap the width to the screen and let the height grow to fit
         // wrapped content. Desktop keeps the fixed width and height.

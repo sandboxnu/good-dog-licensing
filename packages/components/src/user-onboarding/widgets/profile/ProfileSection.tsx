@@ -28,7 +28,7 @@ export default function ProfileSection({
     <div className="rounded-2xl border border-cream-400 bg-gray-100 dark:border-dark-gray-400 dark:bg-green-600">
       <header
         className={clsx(
-          "flex items-center justify-between rounded-t-2xl bg-gray-200 px-[23.5px] py-2.5 text-lg font-medium text-green-400 dark:bg-mint-600 dark:text-mint-200",
+          "flex items-center justify-between gap-2 rounded-t-2xl bg-gray-200 px-4 py-2.5 text-lg font-medium text-green-400 sm:px-[23.5px] dark:bg-mint-600 dark:text-mint-200",
         )}
       >
         {header}
