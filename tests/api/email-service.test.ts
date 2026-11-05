@@ -13,7 +13,7 @@ describe("email service tests", () => {
       }));
 
       const baseUrl = emailService.getBaseUrl();
-      expect(baseUrl).toBe("https://good-dog-licensing.vercel.app");
+      expect(baseUrl).toBe("https://gooddoglicensing.com");
     });
 
     it("gets the correct preview deployment url", async () => {

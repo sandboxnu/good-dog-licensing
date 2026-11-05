@@ -17,7 +17,7 @@ export function emailLayout(options: { title: string; content: string }) {
                       <tr>
                         <td width="96" valign="middle" style="padding-right:4px;">
                             <img 
-                                src="https://good-dog-licensing.vercel.app/images/email_header_logo.png"
+                                src="https://gooddoglicensing.com/images/email_header_logo.png"
                                 width="96"
                                 height="96"
                                 alt="Logo"
