@@ -82,7 +82,7 @@ export function MusicSearchModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="dark:border-cream-700 flex min-h-[432px] min-w-[800px] flex-col rounded-2xl border border-cream-500 bg-white p-6 dark:bg-dark-gray-600"
+        className="dark:border-cream-700 flex min-h-[432px] min-w-[800px] flex-col rounded-2xl border border-cream-500 bg-white p-6 max-md:max-h-[90dvh] max-md:w-[calc(100%-16px)] max-md:min-w-0 max-md:overflow-y-auto max-md:p-4 dark:bg-dark-gray-600"
         hideCloseButton
       >
         <DialogTitle></DialogTitle>

@@ -22,7 +22,7 @@ export default function AdmModMatchingDashboard({
   return (
     <div className="flex max-w-full flex-col gap-6">
       <button
-        className="flex flex-row items-center gap-[4px]"
+        className="flex flex-row items-center gap-[4px] self-start text-left"
         onClick={() =>
           router.push(
             `/home?projectId=${songRequest.projectSubmission.projectId}`,
@@ -34,11 +34,11 @@ export default function AdmModMatchingDashboard({
           {songRequest.projectSubmission.projectTitle}
         </p>
       </button>
-      <div className="flex flex-row gap-10">
-        <div className="w-2/5 shrink-0">
+      <div className="flex flex-col gap-6 md:flex-row md:gap-10">
+        <div className="w-full md:w-2/5 md:shrink-0">
           <AdmModSongRequestInformation songRequest={songRequest} />
         </div>
-        <div className="w-3/5 min-w-0">
+        <div className="w-full min-w-0 md:w-3/5">
           <MatchingInformation songRequest={songRequest} />
         </div>
       </div>
