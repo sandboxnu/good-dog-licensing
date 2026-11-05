@@ -7,6 +7,12 @@ import clsx from "clsx";
 import { Menu, X } from "lucide-react";
 
 import { trpc } from "@good-dog/trpc/client";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTitle,
+} from "@good-dog/ui/sheet";
 
 import DarkModeSwitch from "./base/DarkModeSwitch";
 import ProfileDropdown from "./base/ProfileDropdown";
@@ -54,41 +60,61 @@ export default function MobileNav() {
           {user && <ProfileDropdown />}
           <button
             type="button"
-            onClick={() => setIsOpen((open) => !open)}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            aria-expanded={isOpen}
-            aria-controls="mobile-nav-menu"
+            onClick={() => setIsOpen(true)}
+            aria-label="Open menu"
             className="flex h-[40px] w-[40px] items-center justify-center rounded-[8px] text-green-500 dark:text-mint-200"
           >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+            <Menu size={28} />
           </button>
         </div>
       </div>
 
-      {isOpen && (
-        <nav
-          id="mobile-nav-menu"
-          className="mt-[12px] flex flex-col rounded-[16px] border border-solid border-gray-600 bg-cream-300 px-[16px] py-[8px] text-lg text-green-500 dark:border-gray-200 dark:bg-green-600 dark:text-mint-200"
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent
+          side="right"
+          aria-describedby={undefined}
+          // Hide the sheet's built-in close icon; we render a larger one below
+          className="flex w-[280px] max-w-[85vw] flex-col gap-0 border-l border-gray-600 bg-cream-300 p-0 dark:border-gray-200 dark:bg-green-600 [&>button:first-child]:hidden"
         >
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={closeMenu}
-              className={clsx(
-                "py-[10px] underline-offset-[6px]",
-                pathname === link.href && "underline",
-              )}
+          <div className="flex items-center justify-between px-[24px] pt-[24px] pb-[16px]">
+            <SheetTitle className="font-righteous text-xl font-normal text-green-400 dark:text-mint-300">
+              MENU
+            </SheetTitle>
+            <SheetClose
+              aria-label="Close menu"
+              className="flex h-[40px] w-[40px] items-center justify-center rounded-[8px] text-green-500 dark:text-mint-200"
             >
-              {link.label}
-            </Link>
-          ))}
-          <div className="flex items-center justify-between py-[10px]">
+              <X size={28} />
+            </SheetClose>
+          </div>
+
+          <nav className="flex flex-col px-[24px]">
+            {links.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMenu}
+                  aria-current={isActive ? "page" : undefined}
+                  className={clsx(
+                    "border-b border-solid border-gray-600/30 py-[16px] text-xl text-green-500 dark:border-gray-200/30 dark:text-mint-200",
+                    isActive &&
+                      "font-semibold underline underline-offset-[6px]",
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="mt-auto flex items-center justify-between border-t border-solid border-gray-600/30 px-[24px] py-[20px] text-lg text-green-500 dark:border-gray-200/30 dark:text-mint-200">
             <span>Dark mode</span>
             <DarkModeSwitch />
           </div>
-        </nav>
-      )}
+        </SheetContent>
+      </Sheet>
     </header>
   );
 }
