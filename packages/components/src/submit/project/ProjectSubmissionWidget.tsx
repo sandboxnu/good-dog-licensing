@@ -70,7 +70,7 @@ export default function ProjectSubmissionWidget() {
   };
 
   return (
-    <div className="flex w-[752px] flex-col items-center gap-4">
+    <div className="flex w-full max-w-[752px] flex-col items-center gap-4">
       <ProjectSubmissionHeader step={step} />
       <div className="flex w-full">
         <FormProvider {...formMethods}>

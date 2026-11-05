@@ -31,12 +31,21 @@ export default function MobileNav() {
     },
   });
 
+  // Role-specific shortcut to start a new submission
+  const submitLink =
+    user?.role === "MUSICIAN"
+      ? { href: "/music-submission", label: "Submit a song" }
+      : user?.role === "MEDIA_MAKER"
+        ? { href: "/project-submission", label: "New project request" }
+        : null;
+
   // Deactivated users see the "Account inactive" screen on every page,
   // so only offer Log out (rendered below)
   const links = user
     ? user.active
       ? [
           { href: homeLink, label: "Home" },
+          ...(submitLink ? [submitLink] : []),
           { href: "/profile", label: "Profile" },
         ]
       : []
