@@ -1,7 +1,6 @@
 import React from "react";
 import clsx from "clsx";
 
-import DeviceTooSmallModal from "./DeviceTooSmallModal";
 import Footer from "./Footer";
 import MobileNav from "./MobileNav";
 import Nav from "./Nav";
@@ -20,30 +19,9 @@ const BACKGROUND_CLASSES = {
   solid: "bg-main-bg-solid-light! dark:bg-main-bg-solid-dark!",
 };
 
-function MobileBlocker() {
-  return (
-    // Only display mobile blocker if screen is small enough
-    <div
-      className={clsx(
-        DISPLAY_ON_MOBILE_CLASS,
-        "relative flex min-h-screen w-full items-center justify-center",
-        BACKGROUND_CLASSES.gradient,
-      )}
-    >
-      <div className="absolute inset-0 bg-overlay opacity-25" />
-      <div className="relative z-10">
-        <div className="max-w-[600px] px-[40px]">
-          <DeviceTooSmallModal />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 interface PageContainerProps {
   background: keyof typeof BACKGROUND_CLASSES;
   widthType: keyof typeof CONTENT_MAX_WIDTH_CLASSES;
-  allowMobile?: boolean;
   smallHeader?: boolean;
   children: React.ReactNode;
 }
@@ -51,74 +29,52 @@ interface PageContainerProps {
 export default function PageContainer({
   background,
   widthType,
-  allowMobile = false,
   smallHeader = false,
   children,
 }: PageContainerProps) {
   return (
-    <>
-      {/* Show mobile blocker when mobile isn't allowed and screen is too small*/}
-      {!allowMobile && <MobileBlocker />}
-
-      {/* Don't show main content if not allowing mobile and screen size is too small */}
+    <div className="flex w-full flex-col">
       <div
-        className={clsx(
-          "flex w-full flex-col",
-          !allowMobile && DISPLAY_ON_DESKTOP_CLASS,
-        )}
+        className={clsx("min-h-screen w-full", BACKGROUND_CLASSES[background])}
       >
         <div
           className={clsx(
-            "min-h-screen w-full",
-            BACKGROUND_CLASSES[background],
+            "mx-auto flex flex-col pt-[32px]",
+            CONTENT_MAX_WIDTH_CLASSES[widthType],
+            // Tighter gutters on phones
+            widthType !== "full" && "max-md:px-[16px]",
+            "max-md:pt-[16px]",
           )}
         >
+          {/* Compact nav bar on phones */}
           <div
             className={clsx(
-              "mx-auto flex flex-col pt-[32px]",
-              CONTENT_MAX_WIDTH_CLASSES[widthType],
-              // Tighter gutters on phones for pages that support mobile
-              allowMobile && widthType !== "full" && "max-md:px-[16px]",
-              allowMobile && "max-md:pt-[16px]",
+              DISPLAY_ON_MOBILE_CLASS,
+              widthType === "full" && "px-[16px]",
             )}
           >
-            {/* Compact nav bar for pages that support mobile */}
-            {allowMobile && (
-              <div
-                className={clsx(
-                  DISPLAY_ON_MOBILE_CLASS,
-                  widthType === "full" && "px-[16px]",
-                )}
-              >
-                <MobileNav />
-              </div>
-            )}
+            <MobileNav />
+          </div>
 
-            {/* Full nav bar on desktop */}
-            <div className={clsx(DISPLAY_ON_DESKTOP_CLASS)}>
-              <div
-                className={clsx(
-                  "mx-auto",
-                  smallHeader && CONTENT_MAX_WIDTH_CLASSES.small,
-                )}
-              >
-                <Nav />
-              </div>
-            </div>
-
+          {/* Full nav bar on desktop */}
+          <div className={clsx(DISPLAY_ON_DESKTOP_CLASS)}>
             <div
               className={clsx(
-                "flex w-full items-center justify-center pt-[32px] pb-[50px]",
-                allowMobile && "max-md:pt-[16px] max-md:pb-[32px]",
+                "mx-auto",
+                smallHeader && CONTENT_MAX_WIDTH_CLASSES.small,
               )}
             >
-              {children}
+              <Nav />
             </div>
           </div>
-        </div>
 
-        <Footer />
+          <div className="flex w-full items-center justify-center pt-[32px] pb-[50px] max-md:pt-[16px] max-md:pb-[32px]">
+            {children}
+          </div>
+        </div>
       </div>
-    </>
+
+      <Footer />
+    </div>
   );
 }
