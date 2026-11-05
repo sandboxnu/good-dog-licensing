@@ -60,6 +60,9 @@ const sortSongs = (songs: MusicSubmission[], sortColumn: SortColumn) => {
 // Genres can be stored more than once on a submission; show each one once.
 const uniqueGenres = (song: MusicSubmission) => [...new Set(song.genres)];
 
+// How many genre chips the desktop table shows before collapsing to "+N"
+const MAX_GENRES_SHOWN = 3;
+
 const matchesSearch = (song: MusicSubmission, query: string) =>
   search(song.songName, query) ||
   search(song.performerName, query) ||
@@ -291,7 +294,8 @@ function SongTable({
             sortColumn="musicianName"
             setSortColumn={setSortColumn}
           />
-          <p className="dark:text-white">Genre</p>
+          {/* Genre spans two columns so up to three genre chips fit */}
+          <p className="col-span-2 dark:text-white">Genre</p>
           <SortableTableColumnHeader
             columnName="Date Submitted"
             currentSort={sortColumn}
@@ -314,15 +318,15 @@ function SongTable({
               >
                 <p className="truncate dark:text-white">{song.songName}</p>
                 <p className="truncate dark:text-white">{song.performerName}</p>
-                <div className="flex gap-1 overflow-hidden dark:text-white">
+                <div className="col-span-2 flex min-w-0 flex-wrap gap-1 dark:text-white">
                   {uniqueGenres(song)
-                    .slice(0, 1)
+                    .slice(0, MAX_GENRES_SHOWN)
                     .map((genre) => (
                       <GenreCard genre={genre} key={genre} />
                     ))}
-                  {uniqueGenres(song).length > 1 && (
+                  {uniqueGenres(song).length > MAX_GENRES_SHOWN && (
                     <div className="flex h-6 w-fit items-center justify-center gap-1 rounded-sm bg-gray-300 px-2 py-1 text-gray-500 dark:bg-gray-400">
-                      +{uniqueGenres(song).length - 1}
+                      +{uniqueGenres(song).length - MAX_GENRES_SHOWN}
                     </div>
                   )}
                 </div>
