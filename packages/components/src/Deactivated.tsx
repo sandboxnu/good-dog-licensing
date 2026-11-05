@@ -7,7 +7,7 @@ const SUPPORT_EMAIL = "gooddoglicensing@gmail.com";
 
 export default function Deactivated() {
   return (
-    <div className="mx-auto flex w-full max-w-[650px] flex-col items-center gap-[24px] rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] py-[48px] text-center shadow-card-light dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark">
+    <div className="mx-auto flex w-full max-w-[650px] flex-col items-center gap-[24px] rounded-[24px] border border-cream-400 bg-cream-100 px-[24px] py-[32px] text-center shadow-card-light md:py-[48px] dark:border-cream-600 dark:bg-green-600 dark:shadow-card-dark">
       <DeactivatedUser />
       <div className="flex flex-col gap-[8px]">
         <h1 className="text-h3 font-semibold text-green-500 dark:text-mint-200">

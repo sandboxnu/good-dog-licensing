@@ -3,11 +3,12 @@ export default function DeactivatedUser() {
     <svg
       width="341"
       height="256"
+      className="h-auto w-full max-w-[341px]"
       viewBox="0 0 341 256"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_5917_14942)">
+      <g clipPath="url(#clip0_5917_14942)">
         <path
           d="M268.095 35.4409C303.677 46.9257 331.274 79.2192 338.435 119.616C344.479 153.671 334.461 195.5 275.997 214.923C216.322 234.757 49.4551 244.281 18.4829 189.088C-12.4893 133.895 -6.05736 63.1194 57.6156 38.0126C102.169 20.4214 198.601 12.9998 268.095 35.4409Z"
           fill="#99E3AC"
