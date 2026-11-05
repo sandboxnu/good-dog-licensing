@@ -1,6 +1,8 @@
-"use client";
-
+// Deliberately not a "use client" module: the route pages (server components)
+// import SidebarTab, and enums exported from client modules don't survive
+// that boundary.
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 import SongTabIcon from "../../../svg/homepage/admin/SongTabIcon";
 import SubmissionTabIcon from "../../../svg/homepage/admin/SubmissionTabIcon";
@@ -12,16 +14,21 @@ export enum SidebarTab {
   USERS = "users",
 }
 
+/** Each tab is its own route so a refresh keeps you on the same page. */
+const sidebarTabHref: Record<SidebarTab, string> = {
+  [SidebarTab.SUBMISSIONS]: "/home",
+  [SidebarTab.SONGS]: "/home/songs",
+  [SidebarTab.USERS]: "/home/users",
+};
+
 /**
  * Bar that contains navigation to different pages on the right
  */
 export default function SideBar({
   activeTab,
-  setActiveTab,
   isAdminView,
 }: {
   activeTab: SidebarTab;
-  setActiveTab: (tab: SidebarTab) => void;
   isAdminView: boolean;
 }) {
   return (
@@ -33,20 +40,20 @@ export default function SideBar({
           icon={
             <SubmissionTabIcon active={activeTab === SidebarTab.SUBMISSIONS} />
           }
-          onClick={() => setActiveTab(SidebarTab.SUBMISSIONS)}
+          href={sidebarTabHref[SidebarTab.SUBMISSIONS]}
         />
         <SideBarEntry
           active={activeTab === SidebarTab.SONGS}
           text={"Songs"}
           icon={<SongTabIcon active={activeTab === SidebarTab.SONGS} />}
-          onClick={() => setActiveTab(SidebarTab.SONGS)}
+          href={sidebarTabHref[SidebarTab.SONGS]}
         />
         {isAdminView && (
           <SideBarEntry
             active={activeTab === SidebarTab.USERS}
             text={"Users"}
             icon={<UsersTabIcon active={activeTab === SidebarTab.USERS} />}
-            onClick={() => setActiveTab(SidebarTab.USERS)}
+            href={sidebarTabHref[SidebarTab.USERS]}
           />
         )}
       </div>
@@ -61,17 +68,17 @@ function SideBarEntry({
   active,
   text,
   icon,
-  onClick,
+  href,
 }: {
   active: boolean;
   text: string;
   icon: ReactNode;
-  onClick: () => void;
+  href: string;
 }) {
   return (
-    <div
+    <Link
+      href={href}
       className={`${active ? "bg-green-400 text-white" : "bg-white text-dark-gray-500 dark:bg-dark-gray-600 dark:text-gray-200"} items-center rounded-[8px] pt-[8px] pr-[8px] pb-[8px] pl-[8px] hover:cursor-pointer max-lg:flex-1 lg:w-[175px] lg:pr-[32px]`}
-      onClick={onClick}
     >
       <div className="flex flex-row gap-[8px] max-lg:justify-center">
         {/* Icons are dropped on phones so all tabs fit on one row */}
@@ -82,6 +89,6 @@ function SideBarEntry({
           {text}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

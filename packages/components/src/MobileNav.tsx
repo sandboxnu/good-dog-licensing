@@ -102,7 +102,10 @@ export default function MobileNav() {
 
           <nav className="flex flex-col px-[24px]">
             {links.map((link) => {
-              const isActive = pathname === link.href;
+              // Nested routes (e.g. /home/songs) keep their section highlighted
+              const isActive =
+                pathname === link.href ||
+                (link.href !== "/" && pathname.startsWith(`${link.href}/`));
               return (
                 <Link
                   key={link.href}
