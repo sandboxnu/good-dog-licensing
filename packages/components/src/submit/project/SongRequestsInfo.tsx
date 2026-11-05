@@ -102,37 +102,36 @@ export default function SongRequestsInfo({
           </div>
         );
       })}
-      <div className="flex flex-row flex-wrap justify-between gap-4">
-        <div className="flex flex-row gap-4">
-          <Button
-            label="Submit"
-            type="submit"
-            variant="contained"
-            size="medium"
-          />
-          <Button
-            type="button"
-            label="Back"
-            size="medium"
-            variant="text"
-            onClick={() => onBack()}
-          />
-        </div>
+      <Button
+        type="button"
+        label="Add Song Request"
+        size="medium"
+        variant="outlined"
+        displayIcon="plus"
+        fullWidth
+        onClick={() =>
+          append({
+            songRequestTitle: "",
+            description: "",
+            feelingsConveyed: "",
+            similarSongs: "",
+            additionalInfo: "",
+          })
+        }
+      />
+      <div className="flex flex-row gap-4">
+        <Button
+          label="Submit"
+          type="submit"
+          variant="contained"
+          size="medium"
+        />
         <Button
           type="button"
-          label="Song request"
+          label="Back"
           size="medium"
           variant="text"
-          displayIcon="plus"
-          onClick={() =>
-            append({
-              songRequestTitle: "",
-              description: "",
-              feelingsConveyed: "",
-              similarSongs: "",
-              additionalInfo: "",
-            })
-          }
+          onClick={() => onBack()}
         />
       </div>
     </form>
