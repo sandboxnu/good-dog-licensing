@@ -26,8 +26,8 @@ export default function MediaMakerProjectDashboard({
   const router = useRouter();
 
   return (
-    <div className="flex w-[992px] flex-col gap-6">
-      <div className="flex flex-col gap-10">
+    <div className="flex w-full max-w-[992px] flex-col gap-6">
+      <div className="flex flex-col gap-6 md:gap-10">
         <div
           className="flex flex-row items-center text-secondary hover:cursor-pointer"
           onClick={() => router.push("/home")}

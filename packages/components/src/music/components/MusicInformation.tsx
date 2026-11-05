@@ -16,11 +16,11 @@ export default function MusicInformation({
 
   return (
     <div className="flex w-full flex-col gap-3">
-      <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
+      <p className="text-2xl text-dark-gray-500 md:text-4xl dark:text-mint-300">
         Music Information
       </p>
-      <div className="grid w-full grid-cols-2 rounded-2xl border-[0.5px] border-light-gray bg-cream-100 p-6 shadow-md dark:bg-dark-gray-600">
-        <div className="flex min-w-0 flex-col justify-start gap-4 pr-6">
+      <div className="grid w-full grid-cols-1 rounded-2xl border-[0.5px] border-light-gray bg-cream-100 p-6 shadow-md md:grid-cols-2 dark:bg-dark-gray-600">
+        <div className="flex min-w-0 flex-col justify-start gap-4 pb-4 md:pr-6 md:pb-0">
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">Song</p>
             <p className="text-dark-gray-500 dark:text-gray-200">
@@ -44,7 +44,7 @@ export default function MusicInformation({
             </p>
           </div>
         </div>
-        <div className="flex min-w-0 flex-col justify-start gap-4 border-l border-light-gray px-6">
+        <div className="flex min-w-0 flex-col justify-start gap-4 border-t border-light-gray pt-4 md:border-t-0 md:border-l md:px-6 md:pt-0">
           <div className="flex flex-col gap-1">
             <p className="text-dark-gray-200 dark:text-dark-gray-100">
               Date Submitted

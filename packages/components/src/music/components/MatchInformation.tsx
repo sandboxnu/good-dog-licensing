@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useState } from "react";
 
 import { MatchState } from "@good-dog/db";
@@ -26,13 +27,33 @@ export default function MatchInformation({
     (m) => m.matchState === MatchState.SENT_TO_MUSICIAN,
   ).length;
 
+  // On phones there's no room for the side panel, so the selected match's
+  // details expand directly under its card instead.
+  const withMobileDetails = (
+    match: (typeof matches)[number],
+    card: ReactNode,
+  ) => (
+    <div className="flex flex-col gap-3">
+      {card}
+      {match.matchId === selectedMatchId && (
+        <div className="flex flex-col gap-3 md:hidden">
+          <ProjectInformation
+            projectSubmission={match.songRequest.projectSubmission}
+            projectOwner={match.songRequest.projectSubmission.projectOwner}
+          />
+          <SongRequestInformation songRequest={match.songRequest} />
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-4xl text-dark-gray-500 dark:text-mint-300">
+      <p className="text-2xl text-dark-gray-500 md:text-4xl dark:text-mint-300">
         Match Information
       </p>
       <div className="flex w-full flex-row gap-6">
-        <div className="flex w-2/5 shrink-0 flex-col gap-3">
+        <div className="hidden w-2/5 shrink-0 flex-col gap-3 md:flex">
           <ProjectInformation
             projectSubmission={selectedMatch?.songRequest.projectSubmission}
             projectOwner={
@@ -41,7 +62,10 @@ export default function MatchInformation({
           />
           <SongRequestInformation songRequest={selectedMatch?.songRequest} />
         </div>
-        <div className="w-3/5 min-w-0">
+        <div className="w-full min-w-0 md:w-3/5">
+          <p className="pb-3 text-dark-gray-500 md:hidden dark:text-gray-200">
+            Tap a match to see its details.
+          </p>
           <MatchStatusTabs
             tabs={[
               {
@@ -53,14 +77,17 @@ export default function MatchInformation({
                     matches={matches}
                     matchStates={[MatchState.SENT_TO_MUSICIAN]}
                     headerHint="Review and approve/deny the songs matched below"
-                    renderMatch={(match) => (
-                      <Match
-                        state="INCOMING"
-                        match={match}
-                        selectedMatchId={selectedMatchId}
-                        setSelectedMatchId={setSelectedMatchId}
-                      />
-                    )}
+                    renderMatch={(match) =>
+                      withMobileDetails(
+                        match,
+                        <Match
+                          state="INCOMING"
+                          match={match}
+                          selectedMatchId={selectedMatchId}
+                          setSelectedMatchId={setSelectedMatchId}
+                        />,
+                      )
+                    }
                   />
                 ),
               },
@@ -71,14 +98,17 @@ export default function MatchInformation({
                   <MatchesList
                     matches={matches}
                     matchStates={[MatchState.APPROVED_BY_MUSICIAN]}
-                    renderMatch={(match) => (
-                      <Match
-                        state="MATCHED"
-                        match={match}
-                        selectedMatchId={selectedMatchId}
-                        setSelectedMatchId={setSelectedMatchId}
-                      />
-                    )}
+                    renderMatch={(match) =>
+                      withMobileDetails(
+                        match,
+                        <Match
+                          state="MATCHED"
+                          match={match}
+                          selectedMatchId={selectedMatchId}
+                          setSelectedMatchId={setSelectedMatchId}
+                        />,
+                      )
+                    }
                   />
                 ),
               },
@@ -89,14 +119,17 @@ export default function MatchInformation({
                   <MatchesList
                     matches={matches}
                     matchStates={[MatchState.REJECTED_BY_MUSICIAN]}
-                    renderMatch={(match) => (
-                      <Match
-                        state="REJECTED"
-                        match={match}
-                        selectedMatchId={selectedMatchId}
-                        setSelectedMatchId={setSelectedMatchId}
-                      />
-                    )}
+                    renderMatch={(match) =>
+                      withMobileDetails(
+                        match,
+                        <Match
+                          state="REJECTED"
+                          match={match}
+                          selectedMatchId={selectedMatchId}
+                          setSelectedMatchId={setSelectedMatchId}
+                        />,
+                      )
+                    }
                   />
                 ),
               },

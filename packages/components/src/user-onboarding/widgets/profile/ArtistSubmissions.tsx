@@ -40,7 +40,7 @@ function MusicSubmissionContent({
 }) {
   return (
     <>
-      <div className="flex flex-row gap-x-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:gap-x-8">
         <div className="flex flex-1 flex-col gap-2">
           <div className="flex flex-row items-center gap-2">
             <LinkIcon className="h-4 w-4 text-gray-400" />
@@ -118,7 +118,7 @@ function ProjectSubmissionContent({
   return (
     <>
       <div className="flex flex-col gap-y-4">
-        <div className="flex flex-row gap-x-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-x-8">
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
               <Video className="h-4 w-4 text-gray-400" />
@@ -145,7 +145,7 @@ function ProjectSubmissionContent({
             </p>
           </div>
         </div>
-        <div className="flex flex-row gap-x-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-x-8">
           <div className="flex flex-1 flex-col gap-2">
             <div className="flex flex-row items-center gap-2">
               <Hourglass className="h-4 w-4 text-gray-400" />
@@ -200,7 +200,7 @@ export default function ArtistSubmissions({ user }: { user: UserByIdOutput }) {
   if (user.role === "MUSICIAN") {
     return (
       <ProfileSection header="Song submissions">
-        <div className="flex flex-col gap-4 p-6">
+        <div className="flex flex-col gap-4 p-4 sm:p-6">
           {user.musicSubmissions.map((song) => (
             <SubmissionCard
               key={song.musicId}
@@ -223,7 +223,7 @@ export default function ArtistSubmissions({ user }: { user: UserByIdOutput }) {
   if (user.role === "ADMIN" || user.role === "MODERATOR") {
     return (
       <ProfileSection header="Project submissions assigned to">
-        <div className="flex flex-col gap-4 p-6">
+        <div className="flex flex-col gap-4 p-4 sm:p-6">
           {allProjects.map((project) => (
             <SubmissionCard
               key={project.projectId}
@@ -239,7 +239,7 @@ export default function ArtistSubmissions({ user }: { user: UserByIdOutput }) {
 
   return (
     <ProfileSection header="Project submissions">
-      <div className="flex flex-col gap-4 p-6">
+      <div className="flex flex-col gap-4 p-4 sm:p-6">
         {allProjects.map((project) => (
           <SubmissionCard key={project.projectId} title={project.projectTitle}>
             <ProjectSubmissionContent project={project} />

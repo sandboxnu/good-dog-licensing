@@ -20,7 +20,7 @@ export default function MediaMakerSongRequestDashboard({
   });
 
   return (
-    <div className="flex w-3/4 flex-col gap-6">
+    <div className="flex w-full flex-col gap-6 md:w-3/4">
       <button
         className="flex max-w-[130px] flex-row items-center gap-[4px]"
         onClick={() => router.push(`/project/${songRequest.projectId}`)}

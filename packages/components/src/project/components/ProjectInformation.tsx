@@ -18,14 +18,14 @@ export default function ProjectInformation({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <p className="text-4xl font-medium text-dark-gray-500 dark:text-mint-300">
+        <p className="text-2xl font-medium text-dark-gray-500 md:text-4xl dark:text-mint-300">
           Song requests
         </p>
         <p className="text-dark-gray-500 dark:text-gray-200">
           This is where you view and manage your song requests
         </p>
       </div>
-      <div className="flex flex-row items-end justify-between gap-[100px]">
+      <div className="flex flex-col items-start gap-4 md:flex-row md:items-end md:justify-between md:gap-[100px]">
         <div className="flex flex-col gap-2">
           <p className="font-medium text-dark-gray-500 dark:text-gray-200">
             <strong>Project Title: </strong> {project.projectTitle}

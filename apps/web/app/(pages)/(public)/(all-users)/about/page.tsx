@@ -6,7 +6,7 @@ export default function About() {
     <PageContainer
       background="gradient"
       widthType="full"
-      allowMobile={false}
+      allowMobile={true}
       smallHeader={true}
     >
       <AboutPage />

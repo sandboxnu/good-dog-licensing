@@ -77,7 +77,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
         />
       </div>
 
-      <div className="w-full max-w-[850px] bg-white px-16 py-14 font-serif text-sm leading-relaxed text-black">
+      <div className="w-full max-w-[850px] bg-white px-5 py-8 font-serif text-sm leading-relaxed text-black md:px-16 md:py-14">
         {/* Title */}
         <h1 className="mb-6 text-center text-base font-bold tracking-wide uppercase">
           Synchronization and Master Use License Agreement
@@ -306,7 +306,7 @@ export default function ContractView({ contractId }: { contractId: string }) {
         </p>
 
         {/* Signature blocks */}
-        <div className="mb-2 flex gap-16">
+        <div className="mb-2 flex flex-col gap-10 md:flex-row md:gap-16">
           <div className="flex-1">
             <p className="mb-6 font-bold">Licensor (on behalf of All Owners)</p>
             <p className="mb-1">

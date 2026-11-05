@@ -20,12 +20,12 @@ export function MatchStatusTabs({
 }) {
   return (
     <Tabs defaultValue={defaultValue ?? tabs[0]?.value}>
-      <TabsList className="flex h-auto flex-row rounded-full bg-green-400 dark:bg-green-300">
+      <TabsList className="flex h-auto flex-row rounded-full bg-green-400 max-md:flex-wrap max-md:gap-1 max-md:rounded-2xl max-md:p-1 dark:bg-green-300">
         {tabs.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className="box-content flex w-full flex-row gap-1 rounded-full px-4 py-3 text-white data-[state=active]:bg-white data-[state=active]:text-black lg:flex-1"
+            className="box-content flex w-full flex-row gap-1 rounded-full px-4 py-3 text-white data-[state=active]:bg-white data-[state=active]:text-black max-md:box-border max-md:w-auto max-md:min-w-[40%] max-md:flex-1 max-md:px-3 max-md:py-2 lg:flex-1"
           >
             {tab.label}
             {tab.badgeCount !== undefined && tab.badgeCount > 0 && (
