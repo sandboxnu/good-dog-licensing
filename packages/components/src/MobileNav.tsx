@@ -31,11 +31,15 @@ export default function MobileNav() {
     },
   });
 
+  // Deactivated users see the "Account inactive" screen on every page,
+  // so only offer Log out (rendered below)
   const links = user
-    ? [
-        { href: homeLink, label: "Home" },
-        { href: "/profile", label: "Profile" },
-      ]
+    ? user.active
+      ? [
+          { href: homeLink, label: "Home" },
+          { href: "/profile", label: "Profile" },
+        ]
+      : []
     : [
         { href: homeLink, label: "Home" },
         { href: "/login", label: "Login" },
