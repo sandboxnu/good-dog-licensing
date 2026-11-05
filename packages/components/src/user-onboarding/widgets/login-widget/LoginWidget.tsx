@@ -57,9 +57,9 @@ export default function LoginWidget() {
 
   return (
     <UserOnboardingWidgetContainer>
-      <div className="flex h-full w-1/2 flex-col justify-center">
+      <div className="flex h-full w-full flex-col justify-center md:w-1/2">
         <FormProvider {...formMethods}>
-          <form className="pr-[40px]" onSubmit={handleLogin}>
+          <form className="md:pr-[40px]" onSubmit={handleLogin}>
             <h3 className="text-green-400 dark:text-mint-200">Welcome back!</h3>
             <p className="text-error dark:text-red-300">
               *Indicates a required field
@@ -90,7 +90,7 @@ export default function LoginWidget() {
                 type="password"
                 errorText={formMethods.formState.errors.password?.message}
               />
-              <div className="flex flex-row justify-between pt-[24px]">
+              <div className="flex flex-row flex-wrap items-center justify-between gap-[12px] pt-[24px]">
                 <RHFCheckbox<LoginFormFields>
                   rhfName={"rememberMe"}
                   label="Remember me"
@@ -129,7 +129,7 @@ export default function LoginWidget() {
           </form>
         </FormProvider>
       </div>
-      <div className="flex w-1/2 pl-[20px]">
+      <div className="hidden w-1/2 pl-[20px] md:flex">
         <div className="flex w-full flex-col justify-center">
           <TeamworkLogin />
         </div>

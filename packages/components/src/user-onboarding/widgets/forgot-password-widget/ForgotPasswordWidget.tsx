@@ -8,7 +8,7 @@ export default function ForgotPasswordWidget() {
   return (
     <UserOnboardingWidgetContainer>
       <div className="flex w-full flex-row items-center justify-between">
-        <div className="flex w-1/2 flex-row items-center">
+        <div className="flex w-full flex-row items-center md:w-1/2">
           <div className="flex w-full flex-col gap-[32px]">
             <div className="flex flex-col gap-[8px]">
               <h3 className="text-green-400 dark:text-mint-200">
@@ -29,7 +29,9 @@ export default function ForgotPasswordWidget() {
             </div>
           </div>
         </div>
-        <ForgotPassword />
+        <div className="hidden md:block">
+          <ForgotPassword />
+        </div>
       </div>
     </UserOnboardingWidgetContainer>
   );

@@ -61,7 +61,7 @@ export default function ResetPasswordForm() {
           </span>
         </div>
       ) : null}
-      <div className="flex w-full flex-col pr-[40px]">
+      <div className="flex w-full flex-col md:pr-[40px]">
         <div className="flex flex-col gap-[12px]">
           <div className="gap-[8px]">
             <RHFTextInput<FormValues>

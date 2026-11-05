@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 import DeviceTooSmallModal from "./DeviceTooSmallModal";
 import Footer from "./Footer";
+import MobileNav from "./MobileNav";
 import Nav from "./Nav";
 
 const DISPLAY_ON_DESKTOP_CLASS = "max-md:hidden";
@@ -76,9 +77,24 @@ export default function PageContainer({
             className={clsx(
               "mx-auto flex flex-col pt-[32px]",
               CONTENT_MAX_WIDTH_CLASSES[widthType],
+              // Tighter gutters on phones for pages that support mobile
+              allowMobile && widthType !== "full" && "max-md:px-[16px]",
+              allowMobile && "max-md:pt-[16px]",
             )}
           >
-            {/* Only show nav bar when on desktop */}
+            {/* Compact nav bar for pages that support mobile */}
+            {allowMobile && (
+              <div
+                className={clsx(
+                  DISPLAY_ON_MOBILE_CLASS,
+                  widthType === "full" && "px-[16px]",
+                )}
+              >
+                <MobileNav />
+              </div>
+            )}
+
+            {/* Full nav bar on desktop */}
             <div className={clsx(DISPLAY_ON_DESKTOP_CLASS)}>
               <div
                 className={clsx(
@@ -93,6 +109,7 @@ export default function PageContainer({
             <div
               className={clsx(
                 "flex w-full items-center justify-center pt-[32px] pb-[50px]",
+                allowMobile && "max-md:pt-[16px] max-md:pb-[32px]",
               )}
             >
               {children}

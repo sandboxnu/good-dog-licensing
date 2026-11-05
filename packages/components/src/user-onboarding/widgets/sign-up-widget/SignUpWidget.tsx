@@ -152,7 +152,7 @@ export default function SignUpWidget({
         codeIsWrong={emailCodeError}
         notice={emailCodeNotice}
       />
-      <div className="flex w-1/2 flex-col justify-center">
+      <div className="flex w-full flex-col justify-center md:w-1/2">
         <FormProvider {...formMethods}>
           {step === 1 && (
             <InitialSignUpInfo
@@ -178,7 +178,7 @@ export default function SignUpWidget({
           )}
         </FormProvider>
       </div>
-      <div className="flex w-1/2 pl-[20px]">
+      <div className="hidden w-1/2 pl-[20px] md:flex">
         <div className="flex w-full flex-col justify-center">
           {role === "MUSICIAN" && <MusicianOnRecord />}
           {role === "MEDIA_MAKER" && <Camera />}

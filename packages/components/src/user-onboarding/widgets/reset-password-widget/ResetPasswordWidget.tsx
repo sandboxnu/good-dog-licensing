@@ -8,7 +8,7 @@ export default function ResetPasswordWidget() {
   return (
     <UserOnboardingWidgetContainer>
       <div className="flex w-full flex-row items-center">
-        <div className="flex w-1/2 flex-row items-center">
+        <div className="flex w-full flex-row items-center md:w-1/2">
           <div className="flex w-full flex-col gap-[32px]">
             <div className="flex flex-col gap-[8px]">
               <h3>Reset password</h3>
@@ -17,7 +17,9 @@ export default function ResetPasswordWidget() {
             <ResetPasswordForm />
           </div>
         </div>
-        <ResetPassword />
+        <div className="hidden md:block md:w-1/2">
+          <ResetPassword />
+        </div>
       </div>
     </UserOnboardingWidgetContainer>
   );
