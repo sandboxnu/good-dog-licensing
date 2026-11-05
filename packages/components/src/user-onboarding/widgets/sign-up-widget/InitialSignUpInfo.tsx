@@ -42,7 +42,7 @@ export default function InitialSignUpInfo({
 
   return (
     <form
-      className="pr-[40px]"
+      className="md:pr-[40px]"
       onSubmit={(e) => {
         e.preventDefault();
         onVerifyEmail();
@@ -58,7 +58,7 @@ export default function InitialSignUpInfo({
           <p className="text-red-400 dark:text-red-300">{errorMessage}</p>
         </div>
       )}
-      <div className="flex flex-row gap-[24px] pt-[32px]">
+      <div className="flex flex-col gap-[24px] pt-[32px] sm:flex-row">
         <RHFTextInput<SignUpFormFields>
           rhfName="firstName"
           label="First name"

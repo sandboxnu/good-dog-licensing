@@ -42,7 +42,7 @@ export default function EmailCodeModal({
       width={500}
       height={300}
     >
-      <p className="pt-[4px] text-body2 text-dark-gray-500 dark:text-gray-200">
+      <p className="pt-[4px] text-body2 break-words text-dark-gray-500 dark:text-gray-200">
         We sent a link to <strong>{email}</strong>
       </p>
       {notice && (
@@ -69,7 +69,7 @@ export default function EmailCodeModal({
             }
           }}
         >
-          <InputOTPGroup className="flex flex-row gap-[16px]">
+          <InputOTPGroup className="flex flex-row gap-[8px] sm:gap-[16px]">
             <OPTSlot index={0} error={codeIsWrong} />
             <OPTSlot index={1} error={codeIsWrong} />
             <OPTSlot index={2} error={codeIsWrong} />
@@ -79,7 +79,7 @@ export default function EmailCodeModal({
           </InputOTPGroup>
         </InputOTP>
       </div>
-      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px] pb-[56px]">
+      <div className="flex flex-row flex-wrap items-center justify-center space-x-1 pt-[16px] pb-[24px] md:pb-[56px]">
         <p className="text-body2 text-dark-gray-500 dark:text-gray-200">
           Didn't get an email?
         </p>
@@ -103,7 +103,7 @@ function OPTSlot({ index, error }: { index: number; error: boolean }) {
     <InputOTPSlot
       index={index}
       className={clsx(
-        "h-[64px] w-[48px] rounded-[4px] border border-solid border-green-400 text-h1! dark:border-mint-200 dark:text-mint-200",
+        "h-[56px] w-[40px] rounded-[4px] border border-solid border-green-400 text-h1! sm:h-[64px] sm:w-[48px] dark:border-mint-200 dark:text-mint-200",
         {
           "border-red-400 shadow-red-400 dark:border-red-300 dark:shadow-red-300":
             error,

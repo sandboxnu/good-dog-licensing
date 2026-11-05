@@ -65,12 +65,12 @@ export default function PnrSignUpWidget() {
 
   return (
     <UserOnboardingWidgetContainer>
-      <div className="flex h-full w-1/2 flex-col justify-center">
+      <div className="flex h-full w-full flex-col justify-center md:w-1/2">
         <FormProvider {...formMethods}>
           <PnrSignUpForm onSubmit={handleSubmit} errorMessage={errorMessage} />
         </FormProvider>
       </div>
-      <div className="flex h-full w-1/2 items-center justify-center">
+      <div className="hidden h-full w-1/2 items-center justify-center md:flex">
         <PnrSignUpImage />
       </div>
     </UserOnboardingWidgetContainer>

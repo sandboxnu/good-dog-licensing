@@ -25,7 +25,7 @@ export default function PnrSignUpForm({
   } = useFormContext<PnrSignUpFormFields>();
 
   return (
-    <form className="pr-[40px]" onSubmit={onSubmit}>
+    <form className="md:pr-[40px]" onSubmit={onSubmit}>
       <h3 className="text-green-500 dark:text-mint-200">Sign up as a P&R</h3>
       <p className="pt-[8px] text-dark-gray-500 dark:text-gray-200">
         All fields below are required
@@ -37,7 +37,7 @@ export default function PnrSignUpForm({
         </div>
       )}
       <div className="flex flex-col gap-[12px] pt-[20px]">
-        <div className="flex flex-row gap-[24px]">
+        <div className="flex flex-col gap-[24px] sm:flex-row">
           <RHFTextInput<PnrSignUpFormFields>
             rhfName="firstName"
             label="First name"
