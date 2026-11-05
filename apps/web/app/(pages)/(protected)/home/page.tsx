@@ -39,16 +39,8 @@ export default async function Home() {
     void trpc.allMusic.prefetch();
   }
 
-  // Staff dashboards (tables, sidebars) are desktop-only for now
-  const allowMobile =
-    user.role === Role.MUSICIAN || user.role === Role.MEDIA_MAKER;
-
   return (
-    <PageContainer
-      background="solid"
-      widthType="large"
-      allowMobile={allowMobile}
-    >
+    <PageContainer background="solid" widthType="large" allowMobile>
       <HydrateClient>
         {user.role === Role.MUSICIAN && <MusicianLanding />}
         {user.role === Role.MEDIA_MAKER && <MediaMakerLanding />}
