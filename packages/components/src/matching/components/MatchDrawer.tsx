@@ -46,12 +46,12 @@ export default function MatchDrawer({
     <Sheet open={open} onOpenChange={(val) => !val && onClose()}>
       <SheetContent
         side="right"
-        className="flex w-[600px] flex-col rounded-l-2xl border border-cream-400 bg-white px-9 py-12 dark:border-dark-gray-400 dark:bg-dark-gray-600"
+        className="flex w-[600px] flex-col rounded-l-2xl border border-cream-400 bg-white px-9 py-12 max-md:w-full max-md:rounded-none max-md:px-5 max-md:py-10 dark:border-dark-gray-400 dark:bg-dark-gray-600"
       >
         {/* Header */}
         <SheetHeader>
           <SheetTitle className="flex flex-row items-center justify-between">
-            <p className="text-[40px] leading-[1.28] font-semibold text-dark-gray-500 dark:text-gray-300">
+            <p className="text-[40px] leading-[1.28] font-semibold text-dark-gray-500 max-md:text-2xl dark:text-gray-300">
               {match.musicSubmission.songName}
             </p>
           </SheetTitle>
@@ -115,7 +115,7 @@ export default function MatchDrawer({
             <p className="mb-4 text-xl leading-[1.28] font-semibold text-dark-gray-500 dark:text-gray-300">
               Song Information
             </p>
-            <div className="pr-[40px]">
+            <div className="md:pr-[40px]">
               {/* Song Information Grid Information */}
               <div className="inline-grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-6">
                 <div className="contents">
