@@ -72,7 +72,7 @@ export class EmailService {
    */
   getBaseUrl() {
     if (env.VERCEL_ENV === "production") {
-      return "https://good-dog-licensing.vercel.app";
+      return "https://gooddoglicensing.com";
     } else if (env.VERCEL_URL) {
       return `https://${env.VERCEL_URL}`;
     }
