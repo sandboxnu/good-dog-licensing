@@ -232,7 +232,7 @@ export default function ContributorsInfo({
         onSubmit();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 bg-white p-10 text-black dark:bg-dark-gray-600">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 bg-white p-6 text-black md:p-10 dark:bg-dark-gray-600">
         <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
           Your Contributions
         </p>
@@ -306,7 +306,7 @@ export default function ContributorsInfo({
           </>
         )}
       </div>
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 bg-white p-10 text-black dark:bg-dark-gray-600">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 bg-white p-6 text-black md:p-10 dark:bg-dark-gray-600">
         <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
           Other contributors
         </p>
@@ -333,7 +333,7 @@ export default function ContributorsInfo({
           return (
             <div
               key={compoundKey}
-              className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black border-gray-500 bg-gray-100 bg-white p-10 text-black dark:bg-dark-gray-600"
+              className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-black border-gray-500 bg-gray-100 bg-white p-6 text-black md:p-10 dark:bg-dark-gray-600"
             >
               <div className="flex flex-row items-center justify-between">
                 <p className="text-xl font-semibold text-dark-gray-500 dark:text-mint-300">
@@ -385,8 +385,8 @@ export default function ContributorsInfo({
 
               {showAffiliationFields && (
                 <>
-                  <div className="flex flex-row justify-between">
-                    <div>
+                  <div className="flex flex-col-reverse gap-6 md:flex-row md:justify-between md:gap-0">
+                    <div className="flex flex-col gap-6 md:block">
                       <div>
                         <RHFRadioGroup<MusicSubmissionFormFields>
                           rhfName={`contributors.${index}.affiliation`}
@@ -453,19 +453,21 @@ export default function ContributorsInfo({
                         required={!!watchedContributors[index]?.publisher}
                       />
                     </div>
-                    <Button
-                      size={"medium"}
-                      variant={"contained"}
-                      label="Pre-fill Info"
-                      type="button"
-                      onClick={() =>
-                        handlePrefill(
-                          watchedContributors[index]?.firstName ?? "",
-                          watchedContributors[index]?.lastName ?? "",
-                          index,
-                        )
-                      }
-                    />
+                    <div className="self-start md:self-auto">
+                      <Button
+                        size={"medium"}
+                        variant={"contained"}
+                        label="Pre-fill Info"
+                        type="button"
+                        onClick={() =>
+                          handlePrefill(
+                            watchedContributors[index]?.firstName ?? "",
+                            watchedContributors[index]?.lastName ?? "",
+                            index,
+                          )
+                        }
+                      />
+                    </div>
                   </div>
                 </>
               )}
@@ -473,7 +475,7 @@ export default function ContributorsInfo({
           );
         })}
 
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row flex-wrap justify-between gap-4">
         <div className="flex flex-row gap-4">
           <Button
             label="Submit"

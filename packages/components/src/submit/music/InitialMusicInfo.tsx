@@ -55,11 +55,11 @@ export default function InitialMusicInfo({ onNext }: InitialMusicInfoProps) {
         onNext();
       }}
     >
-      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 p-10 text-black dark:bg-dark-gray-600">
+      <div className="flex w-full flex-col gap-6 rounded-2xl border-[.5px] border-gray-500 bg-gray-100 p-6 text-black md:p-10 dark:bg-dark-gray-600">
         <p className="text-xl font-semibold text-green-500 dark:text-mint-200">
           Song information
         </p>
-        <div className="flex flex-row gap-6">
+        <div className="flex flex-col gap-6 sm:flex-row">
           <RHFTextInput<MusicSubmissionFormFields>
             rhfName="songName"
             label="Song title"
