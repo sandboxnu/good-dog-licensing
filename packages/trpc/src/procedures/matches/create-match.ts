@@ -6,6 +6,7 @@ import {
   AdmModMatchStatus,
   MatchState,
   MediaMakerMatchStatus,
+  MusicApprovalStatus,
   MusicianMatchStatus,
 } from "@good-dog/db";
 
@@ -26,6 +27,26 @@ export const createMatchProcedure = rolePermissionsProcedureBuilder(
   )
   .output(zMessageOutput)
   .mutation(async ({ ctx, input }) => {
+    const songToMatch = await ctx.prisma.musicSubmission.findUnique({
+      where: { musicId: input.musicId },
+      select: { approvalStatus: true },
+    });
+
+    if (!songToMatch) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Music not found.",
+      });
+    }
+
+    if (songToMatch.approvalStatus !== MusicApprovalStatus.APPROVED) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message:
+          "This song is waiting for the musician's review and can't be matched yet.",
+      });
+    }
+
     // Create match
     const createdMatch = await ctx.prisma.match.create({
       data: {

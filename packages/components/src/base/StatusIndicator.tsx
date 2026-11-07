@@ -27,6 +27,10 @@ const getVariant = (status: Status): Variant => {
       return "gray";
     case "HIDDEN":
       return "gray";
+    case "WAITING_FOR_MUSICIAN_REVIEW":
+      return "error";
+    case "APPROVED":
+      return "success";
   }
 };
 

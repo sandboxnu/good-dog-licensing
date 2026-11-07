@@ -33,6 +33,7 @@ export default function Header({
             variant={"contained"}
             label={buttonContent}
             displayIcon={"plus"}
+            autoWidth
           />
         )}
       </div>

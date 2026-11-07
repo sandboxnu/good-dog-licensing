@@ -16,6 +16,16 @@ import { MockNextCache } from "../../mocks/MockNextCache";
 import { MockNextCookies } from "../../mocks/MockNextCookies";
 import { createMockCookieService } from "../../mocks/util";
 
+/** Awaits `promise` and asserts it rejected with a message containing `message`. */
+async function expectRejection(promise: Promise<unknown>, message: string) {
+  const error = await promise.then(
+    () => null,
+    (e: unknown) => e,
+  );
+  expect(error).toBeInstanceOf(Error);
+  expect((error as Error).message).toContain(message);
+}
+
 async function createData() {
   await prisma.user.create({
     data: {
@@ -247,6 +257,37 @@ describe("match procedure", () => {
     expect(match?.matcherUserId).toBe("sanjana");
   });
 
+  it("should not allow matching a song still waiting for musician review", async () => {
+    cookies.set("sessionId", "sanjana-session-id");
+
+    await prisma.musicSubmission.create({
+      data: {
+        musicId: "pendingMusicSubmission",
+        songName: "Pending Song",
+        songLink: "https://example.com/pending",
+        genres: [Genre.POP],
+        submitterId: "musician",
+        postedByAdminId: "sanjana",
+        performerName: "Pending Artist",
+        songLyrics: "",
+        approvalStatus: "WAITING_FOR_MUSICIAN_REVIEW",
+      },
+    });
+
+    await expectRejection(
+      $api.createMatch({
+        songRequestId: "songRequestOneSubmission",
+        musicId: "pendingMusicSubmission",
+      }),
+      "waiting for the musician's review",
+    );
+
+    const match = await prisma.match.findFirst({
+      where: { musicId: "pendingMusicSubmission" },
+    });
+    expect(match).toBeNull();
+  });
+
   it("should throw error when given invalid songRequestId", () => {
     cookies.set("sessionId", "sanjana-session-id");
 
@@ -255,7 +296,7 @@ describe("match procedure", () => {
         songRequestId: "songRequestOneSubmission",
         musicId: "invalid",
       }),
-    ).rejects.toThrow("Foreign key constraint violated");
+    ).rejects.toThrow("Music not found.");
   });
 
   it("should throw error when given invalid musicId", () => {

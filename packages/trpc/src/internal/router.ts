@@ -42,6 +42,14 @@ import { createMatchProcedure } from "../procedures/matches/create-match";
 import { deleteMatchProcedure } from "../procedures/matches/delete-match";
 import { updateMatchStateProcedure } from "../procedures/matches/update-match-state";
 import { mediamakerMatchesProcedure } from "../procedures/mediamaker-matches";
+import {
+  adminSubmitMusicForMusicianProcedure,
+  approvePendingMusicSubmissionProcedure,
+  declinePendingMusicSubmissionProcedure,
+  getMusiciansProcedure,
+  getPendingMusicForMusiciansProcedure,
+  getPendingMusicSubmissionForReviewProcedure,
+} from "../procedures/music/admin-posted-music";
 import { getMusicSubmissionPrefillValuesProcedure } from "../procedures/music/get-submission-prefill-vals";
 import { submitMusicProcedure } from "../procedures/music/music-submission";
 import { sendEmailVerificationProcedure } from "../procedures/onboarding/send-email-verification";
@@ -90,6 +98,12 @@ export const appRouter = createTRPCRouter({
   projectSubmission: projectSubmissionProcedure,
   getPNRAndAdmins: getPNRandAdminsProcedure,
   submitMusic: submitMusicProcedure,
+  musicians: getMusiciansProcedure,
+  adminSubmitMusicForMusician: adminSubmitMusicForMusicianProcedure,
+  pendingMusicForMusicians: getPendingMusicForMusiciansProcedure,
+  pendingMusicSubmissionForReview: getPendingMusicSubmissionForReviewProcedure,
+  approvePendingMusicSubmission: approvePendingMusicSubmissionProcedure,
+  declinePendingMusicSubmission: declinePendingMusicSubmissionProcedure,
   getSongRequestById: getProjectSongRequestByIdProcedure,
   getMusicSubmissionPrefillVals: getMusicSubmissionPrefillValuesProcedure,
   deleteMatch: deleteMatchProcedure,

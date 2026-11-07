@@ -22,6 +22,17 @@ import RHFTextInput from "../../rhf-base/RHFTextInput";
 interface ContributorsInfoProps {
   onSubmit: () => void;
   onBack: () => void;
+  /** Set when an admin is filling out the form on a musician's behalf. */
+  musicianId?: string;
+  submitLabel?: string;
+  submitDisabled?: boolean;
+  /** Set when a musician is reviewing a song an admin posted for them. */
+  onDecline?: () => void;
+  /**
+   * True when the form was prefilled from an existing submission, so "No"
+   * should be preselected for other contributors if there are none.
+   */
+  prefilled?: boolean;
 }
 
 type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
@@ -29,6 +40,11 @@ type MusicSubmissionFormFields = z.input<typeof zMusicSubmissionValues>;
 export default function ContributorsInfo({
   onSubmit,
   onBack,
+  musicianId,
+  submitLabel = "Submit",
+  submitDisabled = false,
+  onDecline,
+  prefilled = false,
 }: ContributorsInfoProps) {
   const roleOptions = Object.values(MusicRole).map((role) => ({
     label: getMusicRoleLabel(role),
@@ -54,7 +70,9 @@ export default function ContributorsInfo({
   });
 
   const [previousContributors] =
-    trpc.getMusicSubmissionPrefillVals.useSuspenseQuery();
+    trpc.getMusicSubmissionPrefillVals.useSuspenseQuery(
+      musicianId ? { musicianId } : undefined,
+    );
 
   const getOtherContributorPrefillInfo = useCallback(
     (firstName: string, lastName: string) => {
@@ -93,7 +111,7 @@ export default function ContributorsInfo({
   });
 
   const [isOtherContributors, setIsOtherContributors] = useState<string>(
-    fields.length > 0 ? "yes" : "",
+    fields.length > 0 ? "yes" : prefilled ? "no" : "",
   );
 
   const toggleIsOtherContributors = (newState: string) => {
@@ -478,10 +496,12 @@ export default function ContributorsInfo({
       <div className="flex flex-row flex-wrap justify-between gap-4">
         <div className="flex flex-row gap-4">
           <Button
-            label="Submit"
+            label={submitLabel}
             type="submit"
             variant="contained"
             size="medium"
+            disabled={submitDisabled}
+            autoWidth
           />
           <Button
             type="button"
@@ -490,6 +510,16 @@ export default function ContributorsInfo({
             variant="text"
             onClick={() => onBack()}
           />
+          {onDecline && (
+            <Button
+              type="button"
+              label="Decline Song"
+              size="medium"
+              variant="outlined"
+              error
+              onClick={() => onDecline()}
+            />
+          )}
         </div>
         {isOtherContributors === "yes" && (
           <Button

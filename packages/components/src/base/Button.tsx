@@ -12,6 +12,8 @@ interface ButtonProps {
   displayIcon?: "plus" | "arrow" | "pencil" | "check" | "close" | "print";
   shadow?: boolean;
   fullWidth?: boolean;
+  /** Grow to fit longer labels instead of the size's fixed width. */
+  autoWidth?: boolean;
   type?: "submit" | "button";
   error?: boolean;
   disabled?: boolean;
@@ -40,6 +42,7 @@ export default function Button({
   displayIcon,
   shadow = false,
   fullWidth = false,
+  autoWidth = false,
   error,
   disabled = false,
 }: ButtonProps) {
@@ -50,7 +53,11 @@ export default function Button({
         ? `${size}-text`
         : `${size}-icon`;
 
-  const widthClassName = fullWidth ? "w-full!" : "";
+  const widthClassName = fullWidth
+    ? "w-full!"
+    : autoWidth
+      ? `w-auto! whitespace-nowrap px-[16px] ${displayIcon ? "min-w-[120px]" : "min-w-[104px]"}`
+      : "";
   const shadowClassName = shadow ? "shadow-button dark:shadow-mint-300" : "";
 
   const errorContained = error && variant === "contained";

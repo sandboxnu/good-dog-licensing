@@ -1,5 +1,9 @@
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+
 import type { MusicAffiliation } from "@good-dog/db";
 import { musicianOnlyPermissions } from "@good-dog/auth/permissions";
+import { Role } from "@good-dog/db";
 
 import { zMusicSubmissionPrefillOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
@@ -17,11 +21,34 @@ interface ContributorPrefillType {
 
 export const getMusicSubmissionPrefillValuesProcedure =
   rolePermissionsProcedureBuilder(musicianOnlyPermissions, "read")
+    // Admins posting a song for a musician pass `musicianId` to get that
+    // musician's prefill values instead of their own.
+    .input(z.object({ musicianId: z.string().optional() }).optional())
     .output(zMusicSubmissionPrefillOutput)
-    .query(async ({ ctx }) => {
+    .query(async ({ ctx, input }) => {
+      let submitter = ctx.session.user;
+      if (input?.musicianId) {
+        if (ctx.session.user.role !== Role.ADMIN) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "Only admins can submit music for another musician.",
+          });
+        }
+        const musician = await ctx.prisma.user.findUnique({
+          where: { userId: input.musicianId },
+        });
+        if (musician?.role !== Role.MUSICIAN) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Musician not found.",
+          });
+        }
+        submitter = musician;
+      }
+
       const previousContributors = await ctx.prisma.musicContributor.findMany({
         where: {
-          MusicSubmission: { submitterId: ctx.session.user.userId },
+          MusicSubmission: { submitterId: submitter.userId },
         },
       });
 
@@ -59,10 +86,10 @@ export const getMusicSubmissionPrefillValuesProcedure =
 
       return {
         contributors: uniqueContributors,
-        userAffiliation: ctx.session.user.affiliation,
-        userOtherAffiliationName: ctx.session.user.otherAffiliationName,
-        userIpi: ctx.session.user.ipi,
-        userPublisher: ctx.session.user.publisher,
-        userPublisherIpi: ctx.session.user.publisherIpi,
+        userAffiliation: submitter.affiliation,
+        userOtherAffiliationName: submitter.otherAffiliationName,
+        userIpi: submitter.ipi,
+        userPublisher: submitter.publisher,
+        userPublisherIpi: submitter.publisherIpi,
       };
     });

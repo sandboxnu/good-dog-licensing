@@ -23,7 +23,7 @@ export default function StaffLanding({
         {activeTab === SidebarTab.SUBMISSIONS ? (
           <ProjectsSubpage />
         ) : activeTab === SidebarTab.SONGS ? (
-          <SongsSubpage />
+          <SongsSubpage isAdminView={isAdminView} />
         ) : (
           isAdminView && <UserSubPage />
         )}

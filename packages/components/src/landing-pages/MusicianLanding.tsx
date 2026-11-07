@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { ChevronRight, Music, UsersRound } from "lucide-react";
 
+import { MusicApprovalStatus } from "@good-dog/db";
 import { trpc } from "@good-dog/trpc/client";
 
 import { formatAllCapsList } from "../../utils/allCapsListFormatter";
@@ -14,6 +15,11 @@ import Header from "./components/Header";
 
 export default function MusicianLanding() {
   const [data] = trpc.userMusic.useSuspenseQuery();
+  // Songs an admin posted for this musician need their review, so list
+  // them first.
+  const songs = [...data.music].sort(
+    (a, b) => Number(isPendingReview(b)) - Number(isPendingReview(a)),
+  );
   return (
     <div className="align-start flex w-full flex-col gap-[32px]">
       <Header
@@ -33,12 +39,13 @@ export default function MusicianLanding() {
       )}
       {data.music.length > 0 && (
         <div className="mx-auto flex w-full max-w-[992px] flex-wrap justify-center gap-4 pb-[36px]">
-          {data.music.map((song, key) => {
+          {songs.map((song, key) => {
+            const pendingReview = isPendingReview(song);
             return (
               <Card
                 title={song.songName}
                 subheader={
-                  "Submitted " +
+                  (pendingReview ? "Added for you " : "Submitted ") +
                   song.createdAt.toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -65,13 +72,21 @@ export default function MusicianLanding() {
                     </div>
 
                     <div className="flex w-full flex-row justify-between">
-                      <StatusIndicator status={song.musicianSongStatus} />
+                      <StatusIndicator
+                        status={
+                          pendingReview
+                            ? song.approvalStatus
+                            : song.musicianSongStatus
+                        }
+                      />
                       <ChevronRight className="text-black dark:text-mint-100" />
                     </div>
                   </div>
                 }
                 size="small"
-                href={"/song/" + song.musicId}
+                href={
+                  "/song/" + song.musicId + (pendingReview ? "/review" : "")
+                }
                 key={key}
               />
             );
@@ -79,6 +94,12 @@ export default function MusicianLanding() {
         </div>
       )}
     </div>
+  );
+}
+
+function isPendingReview(song: { approvalStatus: MusicApprovalStatus }) {
+  return (
+    song.approvalStatus === MusicApprovalStatus.WAITING_FOR_MUSICIAN_REVIEW
   );
 }
 

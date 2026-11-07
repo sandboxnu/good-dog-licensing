@@ -15,6 +15,7 @@ import MultiselectDropdownFilter from "../../../base/MultiSelectDropdownFilter";
 import Pagination, { usePagination } from "../../../base/Pagination";
 import SearchBar from "../../../base/SearchBar";
 import Header from "../Header";
+import PendingMusicianReviewSection from "./PendingMusicianReviewSection";
 import SongDrawer from "./SongDrawer";
 import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
@@ -95,7 +96,11 @@ const genreOptions = Object.values(Genre).map((genre) => ({
 /**
  * Song sub-page of admin dashboard.
  */
-export default function SongsSubpage() {
+export default function SongsSubpage({
+  isAdminView,
+}: {
+  isAdminView: boolean;
+}) {
   const [data] = trpc.allMusic.useSuspenseQuery();
   const [sortColumn, setSortColumn] = useState<SortColumn>("songName");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -124,7 +129,12 @@ export default function SongsSubpage() {
 
   return (
     <div className="flex flex-col gap-[32px]">
-      <Header title={"Songs"} subtitle={"Song submissions"} />
+      <Header
+        title={"Songs"}
+        subtitle={"Song submissions"}
+        requestPath={isAdminView ? "/home/songs/add-for-musician" : undefined}
+        buttonContent={isAdminView ? "Song for Musician" : undefined}
+      />
       <TableOuterFormatting>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col items-stretch gap-[12px] md:flex-row md:flex-wrap md:items-center md:gap-[16px]">
@@ -188,6 +198,7 @@ export default function SongsSubpage() {
         />
         <Pagination {...paginationProps} />
       </TableOuterFormatting>
+      {isAdminView && <PendingMusicianReviewSection />}
       {selectedSong && (
         <SongDrawer
           song={selectedSong}

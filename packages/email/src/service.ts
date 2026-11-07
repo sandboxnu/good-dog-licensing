@@ -7,6 +7,7 @@ import {
   artistJoiningConfirmationTemplate,
   artistLicenseCompleteTemplate,
   artistMusicSubmissionConfirmationTemplate,
+  artistSongPostedForReviewTemplate,
   artistSongRequestedForBriefTemplate,
 } from "./templates/artistNotifications";
 import { emailVerificationTemplate } from "./templates/emailVerification";
@@ -27,6 +28,7 @@ import {
   adminAndPMMaterialsDeliveredTemplate,
   adminAndPMSongSuggestionApprovedByMMTemplate,
   adminAndPNRBriefAvailableTemplate,
+  adminMusicianReviewedSongTemplate,
   adminProjectManagerAssignedTemplate,
   adminSongSuggestionSentToMMTemplate,
   pmSongSuggestionAddedToBriefTemplate,
@@ -234,6 +236,24 @@ export class EmailService {
     return this.send(params, false);
   }
 
+  async sendArtistSongPostedForReview(
+    toEmail: string,
+    songName: string,
+    songId: string,
+  ) {
+    const baseURL = this.getBaseUrl();
+    const link = `${baseURL}/song/${songId}/review`;
+
+    const params: EmailMessage = {
+      from: this.sentFrom,
+      to: [toEmail],
+      subject: "Review Your Song Submission - Good Dog Licensing",
+      html: artistSongPostedForReviewTemplate({ songName, link }),
+    };
+
+    return this.send(params, false);
+  }
+
   async sendArtistLicenseComplete(
     toEmail: string,
     songName: string,
@@ -397,6 +417,36 @@ export class EmailService {
         mediaMakerName,
         songCount,
         projectName,
+        link,
+      }),
+    };
+
+    return this.send(params, false);
+  }
+
+  /**
+   * Notifies the admin who posted a song on a musician's behalf that the
+   * musician approved or declined it. Falls back to every admin if the
+   * posting admin's account no longer exists.
+   */
+  async sendAdminMusicianReviewedSong(
+    adminEmail: string | null,
+    musicianName: string,
+    songName: string,
+    approved: boolean,
+  ) {
+    const baseURL = this.getBaseUrl();
+    const link = `${baseURL}/home/songs`;
+    const toEmails = adminEmail ? [adminEmail] : await this.getAllAdminEmails();
+
+    const params: EmailMessage = {
+      from: this.sentFrom,
+      to: toEmails,
+      subject: `Musician ${approved ? "Approved" : "Declined"} Song - Good Dog Licensing`,
+      html: adminMusicianReviewedSongTemplate({
+        musicianName,
+        songName,
+        approved,
         link,
       }),
     };
