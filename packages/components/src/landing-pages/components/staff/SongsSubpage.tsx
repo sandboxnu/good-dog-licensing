@@ -231,6 +231,7 @@ function AdminSongTabs({ allSongs }: { allSongs: React.ReactNode }) {
 
   return (
     <MatchStatusTabs
+      size="large"
       defaultValue={startOnPending ? "pending" : "all"}
       tabs={[
         {
