@@ -5,6 +5,7 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
 import { createTRPCContext } from "./internal/context";
 import { appRouter } from "./internal/router";
+import { logTrpcError } from "./utils/log-trpc-error";
 
 // Ensure to call this before importing any other modules!
 Sentry.init({
@@ -19,4 +20,10 @@ export default (req: Request) =>
     req,
     router: appRouter,
     createContext: createTRPCContext,
+    onError: (opts) => {
+      logTrpcError(opts);
+      if (opts.error.code === "INTERNAL_SERVER_ERROR") {
+        Sentry.captureException(opts.error.cause ?? opts.error);
+      }
+    },
   });
