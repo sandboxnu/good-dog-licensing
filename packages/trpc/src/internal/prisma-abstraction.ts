@@ -40,9 +40,15 @@ export const getSessionMemoized = React.cache(
           },
         },
       });
-    } catch {
+    } catch (error) {
       // TODO: handle this error properly, but we don't want the site to
-      // crash if sessions are not available
+      // crash if sessions are not available.
+      // Returning null makes the request look logged out, so log the real
+      // database error; otherwise these failures are invisible.
+      console.error(
+        "[auth] Session lookup failed; treating request as logged out",
+        error,
+      );
       return null;
     }
   },
