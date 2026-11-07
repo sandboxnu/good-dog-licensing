@@ -141,29 +141,38 @@ async function main() {
     ...generatedMusicians,
   ];
 
-  const userUpserts = usersToUpsert.map((user) =>
-    prisma.user.upsert({
-      where: { email: user.email },
-      update: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        userId: user.userId,
-        phoneNumber: "1231231234",
-        hashedPassword: hashedPassword,
-        role: user.role,
-        active: user.active,
-      },
-      create: {
-        email: user.email,
-        userId: user.userId,
-        phoneNumber: "1231231234",
-        hashedPassword: hashedPassword,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-        active: user.active,
-      },
-    }),
+  // The seed used to run every write inside a few large `$transaction([...])`
+  // batches. With the Prisma 7 driver adapter those run as interactive
+  // transactions with a 5s timeout, which the remote preview database
+  // exceeded (one round trip per statement). Bulk inserts keep the whole seed
+  // to a handful of queries plus the user upserts.
+
+  // Upsert users so the seed can be re-run without a reset
+  await Promise.all(
+    usersToUpsert.map((user) =>
+      prisma.user.upsert({
+        where: { email: user.email },
+        update: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userId: user.userId,
+          phoneNumber: "1231231234",
+          hashedPassword: hashedPassword,
+          role: user.role,
+          active: user.active,
+        },
+        create: {
+          email: user.email,
+          userId: user.userId,
+          phoneNumber: "1231231234",
+          hashedPassword: hashedPassword,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
+          active: user.active,
+        },
+      }),
+    ),
   );
 
   // Generate songs
@@ -180,26 +189,40 @@ async function main() {
     );
   });
 
-  const songCreations = generatedSongs.map((song) =>
-    prisma.musicSubmission.create({
-      data: {
-        songName: song.songName,
-        performerName: song.performerName,
-        submitterId: song.submitterId,
-        songLink: song.songLink,
-        genres: song.genres,
-        additionalInfo: song.additionalInfo,
-        songLyrics: song.songLyrics,
-        contributors: {
-          create: Array.from({ length: 3 }, () => ({
-            firstName: "Test",
-            lastName: "User",
-            roles: ["SONGWRITER"],
-          })),
-        },
-      },
-    }),
-  );
+  // A few of the first musician's songs were "posted by an admin" and are
+  // still waiting on the musician's review, so the pending flow has data.
+  const postingAdminId = usersToUpsert.find((u) => u.role === "ADMIN")?.userId;
+  const PENDING_REVIEW_SONG_COUNT = 3;
+
+  const createdSongs = await prisma.musicSubmission.createManyAndReturn({
+    data: generatedSongs.map((song, index) => ({
+      songName: song.songName,
+      performerName: song.performerName,
+      submitterId: song.submitterId,
+      songLink: song.songLink,
+      genres: song.genres,
+      additionalInfo: song.additionalInfo,
+      songLyrics: song.songLyrics,
+      ...(postingAdminId && index < PENDING_REVIEW_SONG_COUNT
+        ? {
+            approvalStatus: "WAITING_FOR_MUSICIAN_REVIEW" as const,
+            postedByAdminId: postingAdminId,
+          }
+        : {}),
+    })),
+    select: { musicId: true },
+  });
+
+  await prisma.musicContributor.createMany({
+    data: createdSongs.flatMap((song) =>
+      Array.from({ length: 3 }, () => ({
+        musicSubmissionId: song.musicId,
+        firstName: "Test",
+        lastName: "User",
+        roles: ["SONGWRITER" as const],
+      })),
+    ),
+  });
 
   // Generate projects
   const projectCounts = [30, 40, 10, 10, 10, 102, 2, 2, 2, 1, 1, 1];
@@ -215,46 +238,18 @@ async function main() {
     );
   });
 
-  const projectCreations = generatedProjects.map((project) =>
-    prisma.projectSubmission.create({
-      data: {
-        projectTitle: project.projectTitle,
-        description: project.description,
-        projectOwnerId: project.projectOwnerId,
-        projectManagerId: project.projectManagerId,
-        createdAt: project.createdAt,
-        deadline: project.deadline,
-        projectType: project.projectType,
-        additionalInfo: project.additionalInfo,
-        videoLink: project.videoLink,
-      },
-    }),
-  );
-
-  await prisma.$transaction([...userUpserts, ...songCreations]);
-  const createdProjects = await prisma.$transaction(projectCreations);
-
-  // Generate song requests
-
-  const songRequestCreations = createdProjects.flatMap((project) => {
-    const requestCount = Math.floor(Math.random() * 5);
-    return generateSongRequests(project.projectId, requestCount).map(
-      (songRequest) =>
-        prisma.songRequest.create({
-          data: {
-            projectId: songRequest.projectId,
-            songRequestTitle: songRequest.songRequestTitle,
-            description: songRequest.description,
-            feelingsConveyed: songRequest.feelingsConveyed,
-            similarSongs: songRequest.similarSongs,
-            additionalInfo: songRequest.additionalInfo,
-          },
-        }),
-    );
+  const createdProjects = await prisma.projectSubmission.createManyAndReturn({
+    data: generatedProjects,
+    select: { projectId: true },
   });
 
-  if (songRequestCreations.length > 0) {
-    await prisma.$transaction(songRequestCreations);
+  // Generate song requests
+  const songRequests = createdProjects.flatMap((project) =>
+    generateSongRequests(project.projectId, Math.floor(Math.random() * 5)),
+  );
+
+  if (songRequests.length > 0) {
+    await prisma.songRequest.createMany({ data: songRequests });
   }
 }
 

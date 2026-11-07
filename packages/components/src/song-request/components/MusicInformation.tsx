@@ -8,7 +8,8 @@ export default function MusicInformation({
   musicSubmission,
   submitter,
 }: {
-  musicSubmission: MusicSubmission | undefined;
+  musicSubmission:
+    Omit<MusicSubmission, "approvalStatus" | "postedByAdminId"> | undefined;
   submitter: { firstName: string; lastName: string } | undefined;
 }) {
   return (

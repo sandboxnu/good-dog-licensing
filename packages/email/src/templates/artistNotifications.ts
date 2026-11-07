@@ -120,3 +120,39 @@ export function artistLicenseCompleteTemplate(options: {
     content,
   });
 }
+
+export function artistSongPostedForReviewTemplate(options: {
+  songName: string;
+  link: string;
+}) {
+  const { songName, link } = options;
+
+  const content = `
+    <p>Hi,</p>
+
+    <p>
+      A member of the Good Dog Licensing team has added your song <strong>${songName}</strong> to Good Dog on your behalf.
+    </p>
+
+    <p>
+      Before it can be pitched to briefs, please review the song information, make any edits needed, and approve it. If you don't want this song on Good Dog, you can decline it.
+    </p>
+
+    ${buttonCard({
+      text: "Click below to review your song.",
+      buttonText: "Review Song",
+      buttonHref: link,
+    })}
+
+    <p style="margin-top:32px;">
+      <strong>Thank you,</strong><br/>
+      The Good Dog Licensing Team<br />
+      <a href="gooddoglicensing.com">gooddoglicensing.com</a>
+    </p>
+  `;
+
+  return emailLayout({
+    title: "Review Your Song Submission",
+    content,
+  });
+}

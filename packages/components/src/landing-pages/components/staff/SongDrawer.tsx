@@ -32,10 +32,16 @@ export default function SongDrawer({
   song,
   open,
   onClose,
+  pendingReview,
 }: {
   song: MusicSubmission;
   open: boolean;
   onClose: () => void;
+  /**
+   * Set for a song an admin posted that is still waiting on the musician's
+   * review. `postedBy` is null if the posting admin's account was deleted.
+   */
+  pendingReview?: { postedBy: { firstName: string; lastName: string } | null };
 }) {
   // Genres can be stored more than once on a submission; show each one once.
   const genres = [...new Set(song.genres)];
@@ -65,7 +71,7 @@ export default function SongDrawer({
             </p>
             <div className="flex shrink-0 flex-row items-center gap-1">
               <p className="text-xs text-cream-600 dark:text-gray-200">
-                Submitted by{" "}
+                {pendingReview ? "Posted for" : "Submitted by"}{" "}
               </p>
               <User
                 name={song.submitter.firstName + " " + song.submitter.lastName}
@@ -76,6 +82,17 @@ export default function SongDrawer({
           </SheetTitle>
         </SheetHeader>
 
+        {pendingReview && (
+          <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-400 dark:bg-red-400 dark:text-red-50">
+            Posted
+            {pendingReview.postedBy
+              ? ` by ${pendingReview.postedBy.firstName} ${pendingReview.postedBy.lastName}`
+              : " by an admin"}{" "}
+            on the musician&apos;s behalf. It is waiting for the musician to
+            review and approve it, and can&apos;t be matched until then.
+          </p>
+        )}
+
         {/* Scrollable Body */}
         <div className="flex-1 space-y-6 overflow-y-auto">
           <div className="flex flex-col gap-4">
@@ -85,7 +102,10 @@ export default function SongDrawer({
               </p>
             </DetailRow>
 
-            <DetailRow icon={<CalendarCheck />} label="Date submitted">
+            <DetailRow
+              icon={<CalendarCheck />}
+              label={pendingReview ? "Date posted" : "Date submitted"}
+            >
               <p className="text-sm text-dark-gray-400 dark:text-gray-200">
                 {song.createdAt.toLocaleDateString("en-US", {
                   year: "numeric",

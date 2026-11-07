@@ -5,6 +5,7 @@ import type {
   MediaMakerMatchStatus,
   MediaMakerProjectStatus,
   MediaMakerSongRequestStatus,
+  MusicApprovalStatus,
   MusicianMatchStatus,
   MusicianSongStatus,
 } from "@good-dog/db";
@@ -17,4 +18,5 @@ export type Status =
   | MediaMakerSongRequestStatus
   | MediaMakerMatchStatus
   | MusicianMatchStatus
-  | MusicianSongStatus;
+  | MusicianSongStatus
+  | MusicApprovalStatus;

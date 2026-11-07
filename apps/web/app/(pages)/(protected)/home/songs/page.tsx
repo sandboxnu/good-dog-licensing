@@ -8,6 +8,9 @@ export default async function SongsPage() {
   const user = await trpc.user();
 
   void trpc.allMusic.prefetch();
+  if (user?.role === Role.ADMIN) {
+    void trpc.pendingMusicForMusicians.prefetch();
+  }
 
   return (
     <PageContainer background="solid" widthType="large">

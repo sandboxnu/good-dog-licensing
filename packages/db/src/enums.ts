@@ -16,4 +16,5 @@ export {
   MediaMakerSongRequestStatus,
   MusicianMatchStatus,
   MusicianSongStatus,
+  MusicApprovalStatus,
 } from "@prisma/client";

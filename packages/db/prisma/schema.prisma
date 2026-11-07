@@ -108,7 +108,8 @@ model User {
   updatedAt                   DateTime               @updatedAt
   projectSubmissionsAsOwner   ProjectSubmission[]    @relation("ProjectOwner")
   projectSubmissionsAsManager ProjectSubmission[]    @relation("ProjectManager")
-  musicSubmissions            MusicSubmission[]
+  musicSubmissions            MusicSubmission[]      @relation("MusicSubmitter")
+  musicSubmissionsPostedFor   MusicSubmission[]      @relation("MusicPostedByAdmin")
   matches                     Match[]                @relation("Matcher")
   comments                    Comments[]
   howHeardAboutUs             HowHeardAboutUsLabel[]
@@ -189,20 +190,31 @@ enum ProjectType {
 }
 
 model MusicSubmission {
-  musicId            String             @id @default(uuid())
+  musicId            String              @id @default(uuid())
   songName           String
   performerName      String
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
-  submitter          User               @relation(fields: [submitterId], references: [userId], onDelete: Cascade)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  submitter          User                @relation("MusicSubmitter", fields: [submitterId], references: [userId], onDelete: Cascade)
   submitterId        String
+  // Set when an admin posted this song on the musician's behalf.
+  postedByAdmin      User?               @relation("MusicPostedByAdmin", fields: [postedByAdminId], references: [userId], onDelete: SetNull)
+  postedByAdminId    String?
   songLink           String
   genres             Genre[]
-  additionalInfo     String             @default("")
+  additionalInfo     String              @default("")
   songLyrics         String
   matches            Match[]
   contributors       MusicContributor[]
-  musicianSongStatus MusicianSongStatus @default(SONG_SUBMITTED)
+  musicianSongStatus MusicianSongStatus  @default(SONG_SUBMITTED)
+  // Songs posted by an admin stay WAITING_FOR_MUSICIAN_REVIEW (and cannot be
+  // matched) until the musician reviews and approves them.
+  approvalStatus     MusicApprovalStatus @default(APPROVED)
+}
+
+enum MusicApprovalStatus {
+  WAITING_FOR_MUSICIAN_REVIEW
+  APPROVED
 }
 
 enum Genre {

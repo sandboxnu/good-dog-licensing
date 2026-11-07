@@ -272,3 +272,51 @@ export function pmSongSuggestionAddedToBriefTemplate(options: {
     content,
   });
 }
+
+export function adminMusicianReviewedSongTemplate(options: {
+  musicianName: string;
+  songName: string;
+  approved: boolean;
+  link: string;
+}) {
+  const { musicianName, songName, approved, link } = options;
+
+  const content = approved
+    ? `
+    <p>Hi,</p>
+
+    <p>
+      <strong>${musicianName}</strong> has reviewed and approved <strong>${songName}</strong>, which you posted on their behalf. The song is now available for matching.
+    </p>
+
+    ${buttonCard({
+      text: "Click below to view all songs.",
+      buttonText: "View Songs",
+      buttonHref: link,
+    })}
+
+    <p style="margin-top:32px;">
+      <strong>Thank you,</strong><br/>
+      The Good Dog Licensing Team<br />
+      <a href="gooddoglicensing.com">gooddoglicensing.com</a>
+    </p>
+  `
+    : `
+    <p>Hi,</p>
+
+    <p>
+      <strong>${musicianName}</strong> has declined <strong>${songName}</strong>, which you posted on their behalf. The song has been removed from Good Dog.
+    </p>
+
+    <p style="margin-top:32px;">
+      <strong>Thank you,</strong><br/>
+      The Good Dog Licensing Team<br />
+      <a href="gooddoglicensing.com">gooddoglicensing.com</a>
+    </p>
+  `;
+
+  return emailLayout({
+    title: approved ? "Musician Approved Song" : "Musician Declined Song",
+    content,
+  });
+}

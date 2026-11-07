@@ -4,6 +4,11 @@ import { zMessageOutput, zMusicSubmissionOutput } from "../../dto";
 import { rolePermissionsProcedureBuilder } from "../../middleware/role-check";
 import { zMusicSubmissionValues } from "../../schema";
 import { sendEmailHelper } from "../../utils";
+import {
+  buildSongFields,
+  buildSubmitterContributor,
+  buildSubmitterProfileUpdate,
+} from "./submission-helpers";
 
 const zSubmitMusicOutput = zMessageOutput.extend({
   musicSubmission: zMusicSubmissionOutput,
@@ -16,17 +21,10 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
   .input(zMusicSubmissionValues)
   .output(zSubmitMusicOutput)
   .mutation(async ({ ctx, input }) => {
-    // Creates a contributor for the submitter to be added to the music submission's list of contributors
-    const submitterAsContributor = {
-      firstName: ctx.session.user.firstName,
-      lastName: ctx.session.user.lastName,
-      roles: input.submitterRoles,
-      affiliation: input.submitterAffiliation,
-      otherAffiliationName: input.submitterOtherAffiliationName,
-      ipi: input.submitterIpi,
-      isSubmitter: true,
-      email: ctx.session.user.email,
-    };
+    const submitterAsContributor = buildSubmitterContributor(
+      ctx.session.user,
+      input,
+    );
 
     const [_, musicSubmission] = await ctx.prisma.$transaction([
       // Update the user
@@ -34,14 +32,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
         where: {
           userId: ctx.session.user.userId,
         },
-        data: {
-          ipi: input.submitterIpi === "" ? undefined : input.submitterIpi,
-          affiliation: input.submitterAffiliation,
-          otherAffiliationName:
-            input.submitterOtherAffiliationName === ""
-              ? undefined
-              : input.submitterOtherAffiliationName,
-        },
+        data: buildSubmitterProfileUpdate(input),
       }),
       // Create the music submission
       ctx.prisma.musicSubmission.create({
@@ -49,12 +40,7 @@ export const submitMusicProcedure = rolePermissionsProcedureBuilder(
           submitter: {
             connect: { userId: ctx.session.user.userId },
           },
-          songName: input.songName,
-          songLink: input.songLink,
-          genres: input.genres,
-          additionalInfo: input.additionalInfo ?? "",
-          songLyrics: input.songLyrics,
-          performerName: input.performerName,
+          ...buildSongFields(input),
           contributors: {
             create: [...input.contributors, submitterAsContributor],
           },

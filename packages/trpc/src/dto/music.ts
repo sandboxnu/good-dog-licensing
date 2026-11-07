@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   Genre,
   MusicAffiliation,
+  MusicApprovalStatus,
   MusicianSongStatus,
   MusicRole,
 } from "@good-dog/db";
@@ -66,6 +67,7 @@ export const zUserMusicSubmissionRowOutput = z.object({
     .nullable()
     .transform((genres) => genres ?? []),
   musicianSongStatus: z.enum(MusicianSongStatus),
+  approvalStatus: z.enum(MusicApprovalStatus),
 });
 
 /** Prefill values shown when a musician starts a new submission. */

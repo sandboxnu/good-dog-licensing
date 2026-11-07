@@ -5,6 +5,7 @@ import {
   musicianOnlyPermissions,
   projectAndRepertoirePagePermissions,
 } from "@good-dog/auth/permissions";
+import { MusicApprovalStatus } from "@good-dog/db";
 
 import {
   zMatchWithProjectContextOutput,
@@ -22,7 +23,10 @@ export const getMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
 )
   .output(z.array(zMusicSubmissionAdminRowOutput))
   .query(async ({ ctx }) => {
+    // Songs an admin posted for a musician can't be matched (or show up in
+    // the song list) until the musician approves them.
     const music = await ctx.prisma.musicSubmission.findMany({
+      where: { approvalStatus: MusicApprovalStatus.APPROVED },
       include: {
         submitter: {
           select: {
@@ -53,6 +57,7 @@ export const getUserMusicSubmissionsProcedure = rolePermissionsProcedureBuilder(
         performerName: true,
         genres: true,
         musicianSongStatus: true,
+        approvalStatus: true,
       },
     });
     return { music };

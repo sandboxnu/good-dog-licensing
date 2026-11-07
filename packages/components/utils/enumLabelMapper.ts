@@ -123,6 +123,10 @@ export function getStatusLabel(value: Status): string {
       return "Hidden";
     case "SONG_SUBMITTED":
       return "Song Submitted";
+    case "WAITING_FOR_MUSICIAN_REVIEW":
+      return "Review Needed";
+    case "APPROVED":
+      return "Approved";
   }
 }
 
