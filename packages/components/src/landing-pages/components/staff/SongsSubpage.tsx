@@ -11,11 +11,14 @@ import { Button } from "@good-dog/ui/button";
 
 import { getGenreLabel } from "../../../../utils/enumLabelMapper";
 import { search } from "../../../../utils/search";
+import { MatchStatusTabs } from "../../../base/MatchStatusTabs";
 import MultiselectDropdownFilter from "../../../base/MultiSelectDropdownFilter";
 import Pagination, { usePagination } from "../../../base/Pagination";
 import SearchBar from "../../../base/SearchBar";
 import Header from "../Header";
-import PendingMusicianReviewSection from "./PendingMusicianReviewSection";
+import PendingMusicianReviewSection, {
+  PENDING_SONG_ID_PARAM,
+} from "./PendingMusicianReviewSection";
 import SongDrawer from "./SongDrawer";
 import SortableTableColumnHeader from "./SortableTableColumnHeader";
 import {
@@ -33,7 +36,7 @@ type MusicSubmission = GetProcedureOutput<"allMusic">[number];
 
 type SortColumn = "songName" | "musicianName" | "dateSubmitted";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 25;
 
 const SORT_OPTIONS: { value: SortColumn; label: string }[] = [
   { value: "songName", label: "Song name" },
@@ -127,14 +130,8 @@ export default function SongsSubpage({
     `${sortColumn}-${searchQuery}-${selectedArtists.join()}-${selectedGenres.join()}`,
   );
 
-  return (
-    <div className="flex flex-col gap-[32px]">
-      <Header
-        title={"Songs"}
-        subtitle={"Song submissions"}
-        requestPath={isAdminView ? "/home/songs/add-for-musician" : undefined}
-        buttonContent={isAdminView ? "Song for Musician" : undefined}
-      />
+  const allSongs = (
+    <>
       <TableOuterFormatting>
         <div className="flex flex-col gap-2">
           <div className="flex flex-col items-stretch gap-[12px] md:flex-row md:flex-wrap md:items-center md:gap-[16px]">
@@ -198,7 +195,6 @@ export default function SongsSubpage({
         />
         <Pagination {...paginationProps} />
       </TableOuterFormatting>
-      {isAdminView && <PendingMusicianReviewSection />}
       {selectedSong && (
         <SongDrawer
           song={selectedSong}
@@ -206,7 +202,50 @@ export default function SongsSubpage({
           onClose={() => router.replace(pathname, { scroll: false })}
         />
       )}
+    </>
+  );
+
+  return (
+    <div className="flex flex-col gap-[32px]">
+      <Header
+        title={"Songs"}
+        subtitle={"Song submissions"}
+        requestPath={isAdminView ? "/home/songs/add-for-musician" : undefined}
+        buttonContent={isAdminView ? "Song for Musician" : undefined}
+      />
+      {isAdminView ? <AdminSongTabs allSongs={allSongs} /> : allSongs}
     </div>
+  );
+}
+
+/**
+ * Admins see the song list and the songs waiting on musician review as two
+ * separate tabs.
+ */
+function AdminSongTabs({ allSongs }: { allSongs: React.ReactNode }) {
+  const [pendingSongs] = trpc.pendingMusicForMusicians.useSuspenseQuery();
+  const searchParams = useSearchParams();
+  const startOnPending =
+    searchParams.get("tab") === "pending" ||
+    searchParams.has(PENDING_SONG_ID_PARAM);
+
+  return (
+    <MatchStatusTabs
+      defaultValue={startOnPending ? "pending" : "all"}
+      tabs={[
+        {
+          value: "all",
+          label: "All Songs",
+          content: <div className="flex flex-col pt-[16px]">{allSongs}</div>,
+        },
+        {
+          value: "pending",
+          label: "Pending Musician Review",
+          content: <PendingMusicianReviewSection />,
+          badgeCount: pendingSongs.length,
+        },
+      ]}
+    />
   );
 }
 

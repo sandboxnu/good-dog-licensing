@@ -82,12 +82,12 @@ export default function SongSubmissionHeader({
               mode.type === "musician"
                 ? "/music-submission"
                 : mode.type === "admin"
-                  ? "/home/songs"
+                  ? "/home/songs?tab=pending"
                   : "/home"
             }
           >
             {mode.type === "admin"
-              ? "Back to songs"
+              ? "View pending songs"
               : mode.type === "review"
                 ? "Back to my songs"
                 : "Submit another music submission form"}

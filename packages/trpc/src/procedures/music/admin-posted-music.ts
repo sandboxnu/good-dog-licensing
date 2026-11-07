@@ -11,6 +11,7 @@ import { MusicApprovalStatus, Role } from "@good-dog/db";
 import {
   zMessageOutput,
   zMusicContributorOutput,
+  zMusicSubmissionAdminRowOutput,
   zMusicSubmissionOutput,
   zUserNameOutput,
 } from "../../dto";
@@ -109,9 +110,10 @@ export const adminSubmitMusicForMusicianProcedure =
 export const getPendingMusicForMusiciansProcedure =
   rolePermissionsProcedureBuilder(adminPagePermissions, "read")
     .output(
+      // Same shape as `allMusic` rows (so the staff song drawer can show
+      // them), plus the admin who posted the song.
       z.array(
-        zMusicSubmissionOutput.extend({
-          submitter: zUserNameOutput,
+        zMusicSubmissionAdminRowOutput.extend({
           postedByAdmin: zUserNameOutput.nullable(),
         }),
       ),
@@ -124,6 +126,7 @@ export const getPendingMusicForMusiciansProcedure =
         include: {
           submitter: { select: { firstName: true, lastName: true } },
           postedByAdmin: { select: { firstName: true, lastName: true } },
+          contributors: true,
         },
         orderBy: { createdAt: "desc" },
       });
