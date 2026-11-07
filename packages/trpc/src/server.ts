@@ -8,18 +8,13 @@ import { createTRPCContext } from "./internal/context";
 import { createCallerFactory } from "./internal/init";
 import { QueryClientFactory } from "./internal/query-client-factory";
 import { appRouter } from "./internal/router";
-import { logTrpcError } from "./utils/log-trpc-error";
 
 /**
  * This caller is not intended to be used directly.
  * Use `exclusively` for testing purposes with the `$trpcCaller` export.
  */
 const callerFactory = createCallerFactory(appRouter);
-const caller = callerFactory(createTRPCContext, {
-  // Server-side calls (e.g. page prefetches) are otherwise only logged as
-  // "Error: redacted" in production.
-  onError: logTrpcError,
-});
+const caller = callerFactory(createTRPCContext);
 
 export const getServerQueryClient = () => QueryClientFactory.stable();
 
